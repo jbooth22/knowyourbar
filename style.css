@@ -527,51 +527,147 @@ tr.expanded td { background: #eceae3; }
 .expand-detail:hover td { background: #e8e5de !important; }
 
 .expand-content {
-  padding: 12px 14px;
+  padding: 16px 14px;
   white-space: normal;
 }
 
-.macro-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 10px;
-}
-
-.macro-pill {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 100px;
-  background: white;
-  border: 1px solid var(--border);
+.expand-meta {
   font-family: var(--font-mono);
   font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+
+.expand-columns {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Nutrition Facts panel */
+.nutr-panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+}
+
+.nutr-panel-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  border-bottom: 8px solid var(--black);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.nutr-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 3px 0;
+  border-bottom: 0.5px solid #e8e5de;
+  font-size: 12px;
+}
+
+.nutr-row:last-child { border-bottom: none; }
+
+.nutr-highlight {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.nutr-highlight .nutr-val {
+  background: var(--accent);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.nutr-label { color: var(--black); }
+.nutr-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--black);
 }
 
-.macro-pill.highlight {
-  background: var(--accent);
-  border-color: var(--accent);
-  font-weight: 500;
+.nutr-section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 10px 0 6px;
+  border-top: 0.5px solid var(--border);
+  padding-top: 8px;
+}
+
+.micro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 8px;
+}
+
+.micro-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  padding: 2px 0;
+  border-bottom: 0.5px solid #f0ede6;
+}
+
+.micro-label { color: var(--black); }
+.micro-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* Right column */
+.expand-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .cert-strip {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-bottom: 10px;
 }
 
 .cert-pill {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: 100px;
   background: var(--success-bg);
   border: 1px solid #c8efb8;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--success-text);
 }
+
+.visit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
+  background: var(--black);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-family: var(--font-body);
+  align-self: flex-start;
+  transition: opacity 0.1s;
+}
+.visit-link:hover { opacity: 0.8; }
+
+.ingr-block { }
 
 .ingr-label {
   font-family: var(--font-mono);
@@ -585,14 +681,19 @@ tr.expanded td { background: #eceae3; }
 .ingr-text {
   font-size: 12px;
   color: #555;
-  line-height: 1.6;
-  max-width: 900px;
+  line-height: 1.7;
 }
 
 .ingr-missing {
   font-style: italic;
   color: var(--muted);
   font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .expand-columns {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* No results */

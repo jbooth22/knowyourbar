@@ -302,6 +302,11 @@ function closeExpand() {
   }
 }
 
+function nf(v, unit) {
+  if (v === null || v === undefined) return null;
+  return `${v}${unit}`;
+}
+
 function toggleExpand(bar, row) {
   const isOpen = row.classList.contains('expanded');
   closeExpand();
@@ -310,43 +315,80 @@ function toggleExpand(bar, row) {
   row.classList.add('expanded');
   expandedRow = row;
 
-  // Full cert list
+  // Certs
   const certFull = [];
-  const certMap2 = [
-    ['Vegan',      'Vegan (Y/N)'],
-    ['Gluten Free','Gluten Free (Y/N)'],
-    ['Dairy Free', 'Dairy Free (Y/N)'],
-    ['Soy Free',   'Soy Free (Y/N)'],
-    ['Non-GMO',    'Non-GMO (Y/N)'],
-    ['Nut Free',   'Nut Free (Y/N)'],
-    ['Kosher',     'Kosher (Y/N)'],
-  ];
-  certMap2.forEach(([label, col]) => {
+  [['Vegan','Vegan (Y/N)'],['Gluten Free','Gluten Free (Y/N)'],['Dairy Free','Dairy Free (Y/N)'],
+   ['Soy Free','Soy Free (Y/N)'],['Non-GMO','Non-GMO (Y/N)'],['Nut Free','Nut Free (Y/N)'],['Kosher','Kosher (Y/N)']
+  ].forEach(([label, col]) => {
     if (bar[col]?.trim().toLowerCase() === 'yes') certFull.push(label);
   });
 
-  // Macro pills
-  const macros = [
-    ['Protein',       bar['Protein (g)'],       'g'],
-    ['Calories',      bar['Calories'],           ''],
-    ['Total Fat',     bar['Total Fat (g)'],      'g'],
-    ['Sat Fat',       bar['Saturated Fat (g)'],  'g'],
-    ['Carbs',         bar['Total Carbohydrates (g)'], 'g'],
-    ['Fiber',         bar['Dietary Fiber (g)'],  'g'],
-    ['Sugars',        bar['Sugars (g)'],         'g'],
-    ['Sugar Alcohol', bar['Sugar Alcohol (g)'],  'g'],
-    ['Sodium',        bar['Sodium (mg)'],        'mg'],
-    ['Cholesterol',   bar['Cholesterol (mg)'],   'mg'],
-    ['Potassium',     bar['Potassium (mg)'],     'mg'],
-    ['Caffeine',      bar['Caffeine (mg)'],      'mg'],
-  ].filter(([, v]) => v !== null && v !== undefined);
+  // ── Nutrition label sections ──────────────────────
+  const primary = [
+    { label: 'Calories',        value: bar['Calories'],                    unit: '',    highlight: true },
+    { label: 'Protein',         value: bar['Protein (g)'],                 unit: 'g',   highlight: true },
+    { label: 'Total Fat',       value: bar['Total Fat (g)'],               unit: 'g',   highlight: false },
+    { label: 'Saturated Fat',   value: bar['Saturated Fat (g)'],           unit: 'g',   highlight: false },
+    { label: 'Trans Fat',       value: bar['Trans Fat (g)'],               unit: 'g',   highlight: false },
+    { label: 'Cholesterol',     value: bar['Cholesterol (mg)'],            unit: 'mg',  highlight: false },
+    { label: 'Sodium',          value: bar['Sodium (mg)'],                 unit: 'mg',  highlight: false },
+    { label: 'Total Carbs',     value: bar['Total Carbohydrates (g)'],     unit: 'g',   highlight: false },
+    { label: 'Dietary Fiber',   value: bar['Dietary Fiber (g)'],           unit: 'g',   highlight: true },
+    { label: 'Sugars',          value: bar['Sugars (g)'],                  unit: 'g',   highlight: true },
+    { label: 'Sugar Alcohol',   value: bar['Sugar Alcohol (g)'],           unit: 'g',   highlight: true },
+    { label: 'Potassium',       value: bar['Potassium (mg)'],              unit: 'mg',  highlight: false },
+    { label: 'Calcium',         value: bar['Calcium (mg)'],                unit: 'mg',  highlight: false },
+    { label: 'Iron',            value: bar['Iron (mg)'],                   unit: 'mg',  highlight: false },
+    { label: 'Caffeine',        value: bar['Caffeine (mg)'],               unit: 'mg',  highlight: false },
+  ].filter(r => r.value !== null && r.value !== undefined);
 
-  const highlightKeys = new Set(['Protein', 'Calories', 'Sugars', 'Sugar Alcohol', 'Fiber']);
+  const vitamins = [
+    { label: 'Vitamin A',       value: bar['Vitamin A (% DV)'],           unit: '% DV' },
+    { label: 'Vitamin C',       value: bar['Vitamin C (% DV)'],           unit: '% DV' },
+    { label: 'Vitamin D',       value: bar['Vitamin D (% DV)'],           unit: '% DV' },
+    { label: 'Vitamin E',       value: bar['Vitamin E (% DV)'],           unit: '% DV' },
+    { label: 'Vitamin K',       value: bar['Vitamin K (% DV)'],           unit: '% DV' },
+    { label: 'Thiamin (B1)',    value: bar['Thiamin / B1 (% DV)'],        unit: '% DV' },
+    { label: 'Riboflavin (B2)', value: bar['Riboflavin / B2 (% DV)'],     unit: '% DV' },
+    { label: 'Niacin (B3)',     value: bar['Niacin / B3 (% DV)'],         unit: '% DV' },
+    { label: 'Vitamin B6',      value: bar['Vitamin B6 (% DV)'],          unit: '% DV' },
+    { label: 'Vitamin B12',     value: bar['Vitamin B12 (% DV)'],         unit: '% DV' },
+    { label: 'Folic Acid',      value: bar['Folic Acid (% DV)'],          unit: '% DV' },
+    { label: 'Biotin',          value: bar['Biotin (% DV)'],              unit: '% DV' },
+    { label: 'Pantothenic Acid',value: bar['Pantothenic Acid (% DV)'],    unit: '% DV' },
+  ].filter(r => r.value !== null && r.value !== undefined);
 
-  const macroPills = macros.map(([k, v, u]) => {
-    const cls = highlightKeys.has(k) ? 'macro-pill highlight' : 'macro-pill';
-    return `<span class="${cls}">${k}: ${v}${u}</span>`;
-  }).join('');
+  const minerals = [
+    { label: 'Phosphorus',      value: bar['Phosphorus (% DV)'],          unit: '% DV' },
+    { label: 'Iodine',          value: bar['Iodine (% DV)'],              unit: '% DV' },
+    { label: 'Magnesium',       value: bar['Magnesium (% DV)'],           unit: '% DV' },
+    { label: 'Zinc',            value: bar['Zinc (% DV)'],                unit: '% DV' },
+    { label: 'Selenium',        value: bar['Selenium (% DV)'],            unit: '% DV' },
+    { label: 'Copper',          value: bar['Copper (% DV)'],              unit: '% DV' },
+    { label: 'Manganese',       value: bar['Manganese (% DV)'],           unit: '% DV' },
+    { label: 'Chromium',        value: bar['Chromium (% DV)'],            unit: '% DV' },
+    { label: 'Molybdenum',      value: bar['Molybdenum (% DV)'],          unit: '% DV' },
+  ].filter(r => r.value !== null && r.value !== undefined);
+
+  // ── Build HTML ────────────────────────────────────
+  const sizeServing = [bar['Size'], bar['Type'], bar['Serving Size (g)'] ? bar['Serving Size (g)'] + 'g serving' : null]
+    .filter(Boolean).join(' · ');
+
+  function renderNutritionRows(items) {
+    return items.map(r => `
+      <div class="nutr-row${r.highlight ? ' nutr-highlight' : ''}">
+        <span class="nutr-label">${r.label}</span>
+        <span class="nutr-val">${r.value}${r.unit}</span>
+      </div>`).join('');
+  }
+
+  function renderMicroGrid(items) {
+    return items.map(r => `
+      <div class="micro-item">
+        <span class="micro-label">${r.label}</span>
+        <span class="micro-val">${r.value}${r.unit}</span>
+      </div>`).join('');
+  }
 
   const certPills = certFull.map(c => `<span class="cert-pill">${c}</span>`).join('');
 
@@ -354,17 +396,36 @@ function toggleExpand(bar, row) {
     ? `<div class="ingr-label">Ingredients</div><div class="ingr-text">${bar['Ingredients']}</div>`
     : `<div class="ingr-missing">Ingredient list not available for this bar.</div>`;
 
-  const sizeServing = [bar['Size'], bar['Type'], bar['Serving Size (g)'] ? bar['Serving Size (g)'] + 'g serving' : null]
-    .filter(Boolean).join(' · ');
+  const vitMinSection = (vitamins.length > 0 || minerals.length > 0) ? `
+    <div class="nutr-section-label">Vitamins &amp; Minerals</div>
+    <div class="micro-grid">
+      ${renderMicroGrid([...vitamins, ...minerals])}
+    </div>` : '';
 
   const expandRow = document.createElement('tr');
   expandRow.className = 'expand-detail';
   expandRow.innerHTML = `<td colspan="11">
     <div class="expand-content">
-      <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:10px;letter-spacing:0.05em;">${sizeServing}</div>
-      <div class="macro-strip">${macroPills}</div>
-      ${certPills ? `<div class="cert-strip">${certPills}</div>` : ''}
-      ${ingrSection}
+
+      <div class="expand-meta">${sizeServing}</div>
+
+      <div class="expand-columns">
+
+        <div class="nutr-panel">
+          <div class="nutr-panel-title">Nutrition Facts</div>
+          ${renderNutritionRows(primary)}
+          ${vitMinSection}
+        </div>
+
+        <div class="expand-right">
+          ${certPills ? `<div class="cert-strip">${certPills}</div>` : ''}
+          ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Visit product page ↗</a>` : ''}
+          <div class="ingr-block">
+            ${ingrSection}
+          </div>
+        </div>
+
+      </div>
     </div>
   </td>`;
 
