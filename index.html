@@ -45,10 +45,25 @@
     <aside class="filter-panel" id="filter-panel">
 
       <div class="panel-section">
-        <div class="panel-label">Search</div>
+        <div class="panel-label">Brand <span class="label-note">— select one or more</span></div>
+        <div class="brand-filter-wrap">
+          <div class="brand-search-wrap">
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <input type="text" id="brand-search" placeholder="Filter brands…" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="brand-list" id="brand-list"></div>
+          <div class="brand-actions">
+            <button class="brand-clear-btn" id="brand-clear-btn" onclick="clearBrands()">Clear</button>
+            <span class="brand-selected-count" id="brand-selected-count"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Flavor keyword</div>
         <div class="search-wrap">
           <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          <input type="text" id="search-input" placeholder="Brand or flavor…" autocomplete="off" spellcheck="false">
+          <input type="text" id="search-input" placeholder="e.g. chocolate, peanut butter…" autocomplete="off" spellcheck="false">
         </div>
       </div>
 
@@ -107,15 +122,15 @@
           <thead>
             <tr>
               <th class="col-bar">Bar</th>
-              <th class="col-num" title="Calories">CAL</th>
+              <th class="col-num col-hide-mobile" title="Calories">CAL</th>
               <th class="col-num" title="Protein (g)">PROT</th>
-              <th class="col-num col-hide-mobile" title="Total Fat (g)">FAT</th>
+              <th class="col-num" title="Total Fat (g)">FAT</th>
               <th class="col-num col-hide-mobile" title="Total Carbohydrates (g)">CARB</th>
-              <th class="col-num col-hide-mobile" title="Dietary Fiber (g)">FIBR</th>
+              <th class="col-num" title="Dietary Fiber (g)">FIBR</th>
               <th class="col-num" title="Sugars (g)">SGR</th>
               <th class="col-num col-hide-mobile" title="Sugar Alcohol (g)">SGR ALC</th>
               <th class="col-num col-hide-mobile" title="Cholesterol (mg)">CHOL</th>
-              <th class="col-num" title="Sodium (mg)">SODM</th>
+              <th class="col-num col-hide-mobile" title="Sodium (mg)">SODM</th>
               <th class="col-certs col-hide-mobile">CERTS</th>
               <th class="col-link"></th>
             </tr>

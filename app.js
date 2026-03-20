@@ -25,23 +25,78 @@ const SLIDERS_CFG = [
   { key: 'Sodium (mg)',       label: 'Max Sodium',        min: 0,  max: 760, step: 10, dir: 'max', unit: 'mg',  default: 760 },
 ];
 
+const BRAND_LIST = ["Aloha","Anabar","Atlas","Barebells","Bob's Red Mill","Built","CLIF Bar","Clif Builders","Clif ZBar","Daryl's Bars","David","Epic","FITCRUNCH","Fiber One","Fulfil","Gatorade","Honey Stinger","IQ Bar","Jambar","Kize","Laird","Mezcla","Mosh","Munk Pack","Nick's","No Cow","NuGo","One","PROBar","Prima","Quest","RXBAR","Raw Rev","Rise","Send","Simply Protein","The Gluten Free Brothers","Trubar","Zing","gomacro","think!"];
+
 // ─── State ───────────────────────────────────────────
 let activeCerts   = {};
 let sliderValues  = {};
 let exclusions    = [];
+let selectedBrands = new Set();
 let expandedRow   = null;
 let currentFiltered = [];
 
-// ─── Init ────────────────────────────────────────────
 function init() {
+  buildBrandList();
   buildCertChips();
   buildSliders();
   bindSearch();
   bindSort();
   bindExclInput();
+  bindBrandSearch();
   document.getElementById('bar-count').textContent  = BARS.length;
   document.getElementById('footer-count').textContent = BARS.length;
   applyFilters();
+}
+
+function buildBrandList() {
+  const list = document.getElementById('brand-list');
+  BRAND_LIST.forEach(brand => {
+    const item = document.createElement('label');
+    item.className = 'brand-item';
+    item.innerHTML = `<input type="checkbox" value="${brand}" onchange="toggleBrand('${brand}', this.checked)"><span>${brand}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function toggleBrand(brand, checked) {
+  if (checked) selectedBrands.add(brand);
+  else selectedBrands.delete(brand);
+  updateBrandCount();
+  applyFilters();
+}
+
+function clearBrands() {
+  selectedBrands.clear();
+  document.querySelectorAll('#brand-list input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('brand-search').value = '';
+  filterBrandList('');
+  updateBrandCount();
+  applyFilters();
+}
+
+function updateBrandCount() {
+  const el = document.getElementById('brand-selected-count');
+  const clearBtn = document.getElementById('brand-clear-btn');
+  if (selectedBrands.size > 0) {
+    el.textContent = selectedBrands.size + ' selected';
+    clearBtn.style.display = 'inline-block';
+  } else {
+    el.textContent = '';
+    clearBtn.style.display = 'none';
+  }
+}
+
+function bindBrandSearch() {
+  const input = document.getElementById('brand-search');
+  input.addEventListener('input', e => filterBrandList(e.target.value));
+}
+
+function filterBrandList(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('#brand-list .brand-item').forEach(item => {
+    const brand = item.querySelector('span').textContent.toLowerCase();
+    item.style.display = brand.includes(q) ? '' : 'none';
+  });
 }
 
 function buildCertChips() {
@@ -135,6 +190,11 @@ function renderExclTags() {
 // ─── Reset ───────────────────────────────────────────
 function resetAll() {
   document.getElementById('search-input').value = '';
+  document.getElementById('brand-search').value = '';
+  selectedBrands.clear();
+  document.querySelectorAll('#brand-list input[type=checkbox]').forEach(cb => cb.checked = false);
+  filterBrandList('');
+  updateBrandCount();
   Object.keys(activeCerts).forEach(k => {
     activeCerts[k] = false;
     const chip = document.getElementById('cert-' + k);
@@ -160,9 +220,12 @@ function applyFilters() {
 
   // Filter
   let filtered = BARS.filter(bar => {
-    // Text search
+    // Brand filter
+    if (selectedBrands.size > 0 && !selectedBrands.has(bar['Brand Name'])) return false;
+
+    // Flavor keyword search
     if (q) {
-      const haystack = ((bar['Brand Name'] || '') + ' ' + (bar['Flavor Name'] || '')).toLowerCase();
+      const haystack = (bar['Flavor Name'] || '').toLowerCase();
       if (!haystack.includes(q)) return false;
     }
 
@@ -264,15 +327,15 @@ function renderTable(bars) {
         <div class="bar-brand">${bar['Brand Name'] || ''}</div>
         <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
       </td>
-      <td class="col-num">${fmt(bar['Calories'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
       <td class="col-num">${fmt(bar['Protein (g)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Total Fat (g)'])}</td>
+      <td class="col-num">${fmt(bar['Total Fat (g)'])}</td>
       <td class="col-num col-hide-mobile">${fmt(bar['Total Carbohydrates (g)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Dietary Fiber (g)'])}</td>
+      <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
       <td class="col-num">${fmt(bar['Sugars (g)'])}</td>
       <td class="col-num col-hide-mobile">${fmt(bar['Sugar Alcohol (g)'])}</td>
       <td class="col-num col-hide-mobile">${fmt(bar['Cholesterol (mg)'])}</td>
-      <td class="col-num">${fmt(bar['Sodium (mg)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Sodium (mg)'])}</td>
       <td class="col-certs col-hide-mobile">${badgeHTML}</td>
       <td class="col-link">${linkHTML}</td>`;
 

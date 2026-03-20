@@ -197,7 +197,88 @@ body {
   outline: none;
 }
 
-/* Cert chips */
+/* Brand filter */
+.brand-filter-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 10px;
+  transition: border-color 0.15s;
+}
+.brand-search-wrap:focus-within { border-color: var(--black); }
+.brand-search-wrap input {
+  width: 100%;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--black);
+  outline: none;
+}
+
+.brand-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: white;
+}
+
+.brand-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 0.5px solid var(--border-dark);
+  transition: background 0.08s;
+}
+.brand-item:last-child { border-bottom: none; }
+.brand-item:hover { background: var(--off-white); }
+.brand-item input[type=checkbox] { cursor: pointer; accent-color: var(--black); width: 14px; height: 14px; flex-shrink: 0; }
+.brand-item span { color: var(--black); }
+
+.brand-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 20px;
+}
+
+.brand-clear-btn {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px 10px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.12s;
+}
+.brand-clear-btn:hover { border-color: var(--black); color: var(--black); }
+
+.brand-selected-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--black);
+  font-weight: 500;
+  margin-left: auto;
+}
+
+
 .cert-grid {
   display: flex;
   flex-wrap: wrap;
