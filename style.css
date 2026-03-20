@@ -471,7 +471,6 @@ tr.expanded td { background: #eceae3; }
 
 .col-bar { min-width: 200px; }
 .col-num { width: 52px; text-align: right; font-family: var(--font-mono); font-size: 12px; }
-.col-size { width: 70px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 .col-certs { width: 80px; }
 .col-link { width: 40px; text-align: center; }
 
@@ -539,6 +538,7 @@ tr.expanded td { background: #eceae3; }
   letter-spacing: 0.05em;
 }
 
+/* Desktop: side by side */
 .expand-columns {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -552,6 +552,7 @@ tr.expanded td { background: #eceae3; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 12px;
+  min-width: 0;
 }
 
 .nutr-panel-title {
@@ -571,6 +572,7 @@ tr.expanded td { background: #eceae3; }
   padding: 3px 0;
   border-bottom: 0.5px solid #e8e5de;
   font-size: 12px;
+  gap: 8px;
 }
 
 .nutr-row:last-child { border-bottom: none; }
@@ -586,13 +588,19 @@ tr.expanded td { background: #eceae3; }
   border-radius: 3px;
   font-family: var(--font-mono);
   font-size: 12px;
+  white-space: nowrap;
 }
 
-.nutr-label { color: var(--black); }
+.nutr-label {
+  color: var(--black);
+  flex: 1;
+  min-width: 0;
+}
 .nutr-val {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--black);
+  white-space: nowrap;
 }
 
 .nutr-section-label {
@@ -618,13 +626,15 @@ tr.expanded td { background: #eceae3; }
   font-size: 11px;
   padding: 2px 0;
   border-bottom: 0.5px solid #f0ede6;
+  gap: 4px;
 }
 
-.micro-label { color: var(--black); }
+.micro-label { color: var(--black); flex: 1; min-width: 0; }
 .micro-val {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 /* Right column */
@@ -632,6 +642,7 @@ tr.expanded td { background: #eceae3; }
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
 }
 
 .cert-strip {
@@ -667,7 +678,7 @@ tr.expanded td { background: #eceae3; }
 }
 .visit-link:hover { opacity: 0.8; }
 
-.ingr-block { }
+.ingr-block { min-width: 0; }
 
 .ingr-label {
   font-family: var(--font-mono);
@@ -682,18 +693,15 @@ tr.expanded td { background: #eceae3; }
   font-size: 12px;
   color: #555;
   line-height: 1.7;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .ingr-missing {
   font-style: italic;
   color: var(--muted);
   font-size: 12px;
-}
-
-@media (max-width: 700px) {
-  .expand-columns {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* No results */
@@ -766,6 +774,43 @@ tr.expanded td { background: #eceae3; }
 
   .hero { padding: 2.5rem 1.25rem 0; }
   .hero-headline { font-size: 3rem; }
+}
+
+@media (max-width: 700px) {
+  /* Stack expand vertically */
+  .expand-columns {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Compact the nutrition panel on mobile */
+  .nutr-panel { padding: 10px; }
+  .nutr-panel-title { font-size: 14px; }
+  .nutr-row { font-size: 11px; }
+  .nutr-highlight { font-size: 12px; }
+  .nutr-highlight .nutr-val { font-size: 11px; }
+
+  /* Single column vitamins/minerals on small screens */
+  .micro-grid { grid-template-columns: 1fr; }
+
+  /* Tighter expand padding */
+  .expand-content { padding: 12px 10px; }
+
+  /* Hide less critical columns in the table on mobile */
+  .col-hide-mobile { display: none; }
+
+  /* Make bar name column narrower */
+  .col-bar { min-width: 130px; }
+  .bar-flavor { max-width: 130px; font-size: 12px; }
+  .bar-brand { font-size: 9px; }
+
+  /* Tighter number columns */
+  .col-num { width: 40px; font-size: 11px; padding: 8px 5px; }
+  th { padding: 8px 5px; font-size: 8px; }
+  td { padding: 8px 5px; }
+
+  /* Full width visit button on mobile */
+  .visit-link { align-self: stretch; justify-content: center; }
 }
 
 @media (max-width: 600px) {

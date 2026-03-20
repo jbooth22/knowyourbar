@@ -264,15 +264,16 @@ function renderTable(bars) {
         <div class="bar-brand">${bar['Brand Name'] || ''}</div>
         <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
       </td>
-      <td class="col-num">${fmt(bar['Protein (g)'])}</td>
       <td class="col-num">${fmt(bar['Calories'])}</td>
+      <td class="col-num">${fmt(bar['Protein (g)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Total Fat (g)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Total Carbohydrates (g)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Dietary Fiber (g)'])}</td>
       <td class="col-num">${fmt(bar['Sugars (g)'])}</td>
-      <td class="col-num">${fmt(bar['Sugar Alcohol (g)'])}</td>
-      <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
-      <td class="col-num">${fmt(bar['Total Fat (g)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Sugar Alcohol (g)'])}</td>
+      <td class="col-num col-hide-mobile">${fmt(bar['Cholesterol (mg)'])}</td>
       <td class="col-num">${fmt(bar['Sodium (mg)'])}</td>
-      <td class="col-size">${bar['Size'] || ''}</td>
-      <td class="col-certs">${badgeHTML}</td>
+      <td class="col-certs col-hide-mobile">${badgeHTML}</td>
       <td class="col-link">${linkHTML}</td>`;
 
     row.addEventListener('click', () => toggleExpand(bar, row));
@@ -404,7 +405,7 @@ function toggleExpand(bar, row) {
 
   const expandRow = document.createElement('tr');
   expandRow.className = 'expand-detail';
-  expandRow.innerHTML = `<td colspan="11">
+  expandRow.innerHTML = `<td colspan="12">
     <div class="expand-content">
 
       <div class="expand-meta">${sizeServing}</div>
