@@ -44,9 +44,16 @@ function init() {
   bindSort();
   bindExclInput();
   bindBrandSearch();
+  bindPresets();
   document.getElementById('bar-count').textContent  = BARS.length;
   document.getElementById('footer-count').textContent = BARS.length;
   applyFilters();
+}
+
+function bindPresets() {
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+  });
 }
 
 function buildBrandList() {

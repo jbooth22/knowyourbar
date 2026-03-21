@@ -203,17 +203,19 @@ body {
 .preset-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .preset-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 8px;
   padding: 10px 12px;
   background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius);
   cursor: pointer;
   text-align: left;
   transition: all 0.12s;
@@ -222,31 +224,26 @@ body {
 
 .preset-btn:hover {
   border-color: var(--black);
+  border-left-color: var(--black);
   background: var(--off-white);
 }
 
 .preset-btn.active {
   background: var(--black);
   border-color: var(--black);
+  border-left-color: var(--accent);
 }
 
-.preset-btn.active .preset-name { color: var(--accent); }
-.preset-btn.active .preset-desc { color: #ffffff88; }
-.preset-btn.active .preset-icon { color: var(--accent); }
-
-.preset-icon {
-  font-size: 14px;
-  color: var(--muted);
-  flex-shrink: 0;
-  width: 16px;
-  text-align: center;
-}
+.preset-btn.active .preset-name { color: var(--white); }
+.preset-btn.active .preset-desc { color: #ffffff66; }
+.preset-btn.active .preset-arrow { color: var(--accent); }
 
 .preset-text {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
+  flex: 1;
 }
 
 .preset-name {
@@ -257,9 +254,22 @@ body {
 }
 
 .preset-desc {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
   font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.preset-arrow {
+  font-size: 14px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.12s;
+}
+
+.preset-btn:hover .preset-arrow {
+  transform: translateX(2px);
+  color: var(--black);
 }
 
 /* Brand filter */
