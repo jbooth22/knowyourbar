@@ -17,13 +17,14 @@ A protein bar search and filter tool at **knowyourbar.com**. Users can search, f
 
 | File | Purpose |
 |---|---|
-| `index.html` | Page structure, table headers, filter panel HTML |
+| `index.html` | Page structure, table headers, filter panel HTML, GA tag |
 | `style.css` | All design and layout, including mobile responsive rules |
-| `app.js` | All filter/search/sort logic, table rendering, expand row |
+| `app.js` | All filter/search/sort/preset logic, table rendering, expand row |
 | `bars.js` | The full bar database exported from Excel as a JS constant |
 | `sitemap.xml` | Submitted to Google Search Console for indexing |
 | `robots.txt` | Allows all crawlers, points to sitemap |
 | `export_bars.py` | Python script to regenerate bars.js from updated Excel file |
+| `README.md` | This file — project docs and Claude briefing document |
 
 ---
 
@@ -43,8 +44,8 @@ python3 export_bars.py
 Place `export_bars.py` in the same folder as the Excel file. It outputs a fresh `bars.js`.
 
 ### After updating bars.js, also check:
-- Did any **new brands** get added? If yes, update `BRAND_LIST` in `app.js`
-- Did the **bar count** change? If yes, update the two hardcoded counts in `index.html` (hero and footer). Note: the JS also sets this dynamically from `BARS.length` so it self-corrects at runtime, but the HTML fallback should match.
+- Did any **new brands** get added? If yes, update `BRAND_LIST` array in `app.js`
+- Did the **bar count** change? If yes, update the two hardcoded counts in `index.html` (hero and footer). Note: JS also sets this dynamically from `BARS.length` at runtime, but the HTML fallback should match.
 
 ### Excel file details
 - Sheet name: `BarDB`
@@ -60,43 +61,60 @@ Place `export_bars.py` in the same folder as the Excel file. It outputs a fresh 
 4. Cloudflare Pages auto-deploys in ~60 seconds
 5. Verify at knowyourbar.com
 
+**Important:** If files don't appear updated after uploading, delete them from GitHub first, then re-upload. This clears a GitHub caching quirk that occasionally holds onto old file metadata.
+
 **Never need to touch Cloudflare directly** — just push to GitHub and it deploys automatically.
 
 ---
 
 ## Filter Panel (Left Sidebar)
 
+### Quick Filters (Presets)
+Four preset buttons at the top of the filter panel. Each applies a curated set of criteria in one tap and overrides the sort order. Only one preset can be active at a time. Presets stack with other filters (brand, certs, sliders, exclusions).
+
+When active, a black banner appears above the results table showing the preset name, criteria description, and bar count.
+
+| Preset | Logic | Sort |
+|---|---|---|
+| High Protein Low Calorie | Protein calories ≥ 40% of total calories | Efficiency ↓ |
+| High Protein, No Artificial Sweeteners | Protein ≥ 15g, no sucralose/maltitol/acesulfame in ingredients | Protein ↓ |
+| High Protein, Least Sugar | Protein ≥ 15g, sugar alcohol = 0 | Sugars ↑ |
+| High Fiber, Low Sugar | Fiber ≥ 8g, sugars ≤ 5g | Fiber ↓ |
+
+Presets are defined in the `PRESETS` object in `app.js`. Each has `label`, `description`, `apply()` function, and `sort` config. Presets do NOT move the macro sliders — they filter independently.
+
 ### Brand Filter
 - Scrollable checklist of all 43 brands (alphabetical)
-- Has a "Filter brands…" search box to quickly narrow the list
+- Has a "Filter brands…" search box to quickly narrow the list on mobile
 - Multi-select — users can pick one or more brands
 - Shows selected count and a Clear button when active
 - `BRAND_LIST` array is hardcoded in `app.js` — must be updated manually when new brands are added
 
-**Current brand list:**
+**Current brand list (43 brands):**
 Alani, Aloha, Anabar, Atlas, Barebells, Bob's Red Mill, Built, CLIF Bar, Clif Builders, Clif ZBar, Daryl's Bars, David, Epic, FITCRUNCH, Fiber One, Fulfil, Gatorade, Honey Stinger, IQ Bar, Jambar, Kize, Laird, Mezcla, Mosh, Munk Pack, Nick's, No Cow, NuGo, One, PROBar, Prima, Pure Protein, Quest, RXBAR, Raw Rev, Rise, Send, Simply Protein, The Gluten Free Brothers, Trubar, Zing, gomacro, think!
 
 ### Flavor Keyword Search
 - Text input, matches against flavor name only (not brand name)
-- Works in combination with brand filter
+- Works in combination with brand filter and all other filters
 
 ### Certifications
 - Toggle chips: Vegan, GF, Dairy Free, Soy Free, Non-GMO, Nut Free, Kosher
 - Must match ALL selected certs (AND logic)
 
 ### Macro Sliders
-- Min Protein (g)
-- Max Calories
-- Max Sugars (g)
-- Max Sugar Alcohol (g)
-- Min Fiber (g)
-- Max Sodium (mg)
+- Min Protein (g) — default 0
+- Max Calories — default 410
+- Max Sugars (g) — default 29
+- Max Sugar Alcohol (g) — default 20
+- Min Fiber (g) — default 0
+- Max Sodium (mg) — default 760
 
 ### Ingredient Exclusion
 - Text input — type an ingredient (e.g. "Glycerin", "Peanuts")
 - Text-matches against the full ingredient list
 - Multiple exclusions can be added as tags
 - Bars containing ANY excluded ingredient are removed
+- Press Enter or click "Exclude" to add
 
 ---
 
@@ -108,7 +126,7 @@ CAL · PROT · FAT · CARB · FIBR · SGR · SGR ALC · CHOL · SODM · CERTS ·
 ### Mobile column order (4 visible, rest hidden):
 PROT · FAT · FIBR · SGR
 
-Hidden on mobile via `.col-hide-mobile` CSS class applied to both `<th>` and `<td>` elements. The hidden columns are: CAL, CARB, SGR ALC, CHOL, SODM, CERTS.
+Hidden on mobile via `.col-hide-mobile` CSS class applied to both `<th>` and `<td>` elements. The hidden columns on mobile are: CAL, CARB, SGR ALC, CHOL, SODM, CERTS.
 
 ### Column key:
 | Header | Field | Unit |
@@ -127,17 +145,17 @@ Hidden on mobile via `.col-hide-mobile` CSS class applied to both `<th>` and `<t
 ---
 
 ## Expand Row (click any bar to open)
-Clicking a row expands it to show a full nutrition label. Layout is two-column on desktop, single column on mobile.
+Clicking a row expands it to show a full nutrition label. Clicking again collapses it. Only one row can be expanded at a time. Layout is two-column on desktop, single column on mobile.
 
 **Left column — Nutrition Facts panel:**
-- All primary macros (Calories, Protein, Fat, Sat Fat, Trans Fat, Cholesterol, Sodium, Carbs, Fiber, Sugars, Sugar Alcohol, Potassium, Calcium, Iron, Caffeine)
-- Highlighted in accent color: Calories, Protein, Fiber, Sugars, Sugar Alcohol
-- Vitamins and minerals shown in a 2-column grid if data exists (many bars have nulls here)
+- All primary macros: Calories, Protein, Total Fat, Sat Fat, Trans Fat, Cholesterol, Sodium, Carbs, Fiber, Sugars, Sugar Alcohol, Potassium, Calcium, Iron, Caffeine
+- Highlighted in accent color (yellow-green): Calories, Protein, Fiber, Sugars, Sugar Alcohol
+- Vitamins and minerals shown in a 2-column grid if data exists (most bars have nulls — data is genuinely absent, not a gap)
 
 **Right column:**
 - Dietary cert badges (Vegan, Gluten Free, Dairy Free, etc.)
 - "Visit product page ↗" button linking to brand website
-- Full ingredient list (word-wrapped, no horizontal scroll)
+- Full ingredient list (word-wrapped, no horizontal scroll on mobile)
 
 ---
 
@@ -161,7 +179,21 @@ Clicking a row expands it to show a full nutrition label. Layout is two-column o
 
 ### Responsive breakpoints
 - **900px** — filter panel moves from sidebar to top, hero shrinks
-- **700px** — expand row stacks vertically, mobile column hiding activates
+- **700px** — expand row stacks vertically, mobile column hiding activates, micro-grid goes single column
+
+---
+
+## Analytics & SEO
+
+### Google Analytics
+- GA4 tag installed in `index.html` (Measurement ID: G-SW4MNP5W7J)
+- Tracks pageviews and basic engagement automatically
+- Future: add event tracking for preset usage, row expansion, product link clicks
+
+### Google Search Console
+- Verified and sitemap submitted
+- Sitemap: https://knowyourbar.com/sitemap.xml
+- Indexing: in progress
 
 ---
 
@@ -169,30 +201,27 @@ Clicking a row expands it to show a full nutrition label. Layout is two-column o
 
 | Decision | Rationale |
 |---|---|
-| Plain HTML/JS, no framework | Owner has no dev experience, simple = maintainable, no build process needed |
-| Client-side filtering | All 446 bars load in bars.js, filtering happens in browser — no server needed, instant results |
-| Brand multi-select checklist | Better mobile UX than autocomplete, native OS behavior on phones |
-| Flavor keyword search separate from brand | Lets users find "chocolate" across all brands without conflating brand/flavor search |
-| Mobile shows PROT/FAT/FIBR/SGR | Most nutrition-relevant for protein bar decisions; full data available in expand |
-| No flavor category filter | Flavor names are combination flavors, categories would be too complex for limited value |
-| Comparison feature deferred | Significant build; current expand row solves single-bar detail; comparison is Phase 2 |
-| Ingredient exclusion over inclusion | More useful for dietary restrictions (exclude Glycerin, exclude Peanuts) |
+| Plain HTML/JS, no framework | Owner has no dev experience; simple = maintainable; no build process needed |
+| Client-side filtering | All bars load in bars.js, filtering happens in browser — no server needed, instant results |
+| Brand multi-select checklist | Better mobile UX than autocomplete; native OS picker behavior on phones |
+| Flavor keyword search separate from brand | Lets users find "chocolate" across all brands without conflating brand/flavor |
+| Mobile shows PROT/FAT/FIBR/SGR | Most nutrition-relevant for protein bar decisions; full data in expand |
+| No flavor category filter | Combination flavor names make categories too complex for limited value |
+| Presets don't move sliders | Cleaner mental model — presets and sliders are independent control layers |
+| Comparison feature deferred | Significant build; expand row solves single-bar detail; comparison is Phase 2 |
+| Ingredient exclusion over inclusion | More useful for dietary restrictions (exclude Glycerin, Peanuts, etc.) |
+| Vitamins not filterable | Coverage too low and % DV values too small to be meaningful filters |
+| Iron/Potassium/Calcium noted for future | Better real-world coverage — worth revisiting as filter options later |
 
 ---
 
 ## Planned Future Features
-- **Comparison feature** — select 3–5 bars, view side by side in a full-screen grid. Triggered by a "+" button on each row, sticky tray at bottom, swipeable comparison view on mobile.
-- **Per-bar SEO pages** — auto-generate individual pages for each bar (e.g. `/bars/quest-chocolate-chip-cookie-dough`) using Astro or similar. High SEO value.
-- **Metrics** — owner plans to add calculated columns (e.g. protein per calorie) to the Excel database directly
+- **Comparison feature** — select 3–5 bars, view side by side. "+" button on each row, sticky tray at bottom, swipeable comparison view on mobile. This is the next major build.
+- **Per-bar SEO pages** — auto-generate individual pages for each bar (e.g. `/bars/quest-chocolate-chip-cookie-dough`) using Astro or similar. High SEO value, deferred to Phase 2.
+- **Calculated metrics** — owner plans to add columns (e.g. protein per calorie ratio) to the Excel database directly
+- **Iron/Potassium/Calcium filters** — revisit when comparison feature is built
 - **Monetization** — Amazon affiliate links, brand affiliate programs, eventually sponsored placements
-- **Google Analytics** — not yet installed, Search Console is set up
-
----
-
-## Google / SEO Status
-- Google Search Console: verified and sitemap submitted
-- Sitemap: https://knowyourbar.com/sitemap.xml
-- Indexing: in progress (site is new)
+- **Event tracking** — GA4 custom events for preset activation, row expansion, product link clicks
 
 ---
 
@@ -202,4 +231,4 @@ Paste this README and say something like:
 
 > "I'm working on knowyourbar.com — a protein bar finder site. Here's the README with full context. I need to [describe what you need]."
 
-Then attach any relevant files (index.html, app.js, style.css) if you need code changes. Claude can read and edit them directly.
+Then attach any relevant files (`index.html`, `app.js`, `style.css`) if you need code changes. Claude can read and edit them directly. Always upload changed files to GitHub immediately after Claude produces them — don't accumulate multiple sessions of changes before deploying.
