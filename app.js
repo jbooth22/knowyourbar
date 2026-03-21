@@ -32,6 +32,7 @@ let activeCerts   = {};
 let sliderValues  = {};
 let exclusions    = [];
 let selectedBrands = new Set();
+let activePreset  = null;
 let expandedRow   = null;
 let currentFiltered = [];
 
@@ -156,7 +157,65 @@ function bindExclInput() {
   });
 }
 
-// ─── Exclusions ──────────────────────────────────────
+// ─── Presets ─────────────────────────────────────────
+const PRESETS = {
+  efficiency: {
+    label: 'High Protein Low Calorie',
+    apply: (bar) => {
+      if (!bar['Calories'] || !bar['Protein (g)']) return false;
+      const efficiency = (bar['Protein (g)'] * 4) / bar['Calories'];
+      return efficiency >= 0.40;
+    },
+    sort: { col: 'efficiency', dir: 'desc' }
+  },
+  clean: {
+    label: 'High Protein, No Artificial Sweeteners',
+    apply: (bar) => {
+      if (!bar['Protein (g)'] || bar['Protein (g)'] < 15) return false;
+      const ingr = (bar['Ingredients'] || '').toLowerCase();
+      const artificial = ['sucralose', 'maltitol', 'acesulfame'];
+      return !artificial.some(s => ingr.includes(s));
+    },
+    sort: { col: 'Protein (g)', dir: 'desc' }
+  },
+  lowsugar: {
+    label: 'High Protein, Least Sugar',
+    apply: (bar) => {
+      if (!bar['Protein (g)'] || bar['Protein (g)'] < 15) return false;
+      if (bar['Sugar Alcohol (g)'] === null || bar['Sugar Alcohol (g)'] === undefined) return false;
+      return bar['Sugar Alcohol (g)'] === 0;
+    },
+    sort: { col: 'Sugars (g)', dir: 'asc' }
+  },
+  fiber: {
+    label: 'High Fiber, Low Sugar',
+    apply: (bar) => {
+      const fiber = bar['Dietary Fiber (g)'];
+      const sugar = bar['Sugars (g)'];
+      if (fiber === null || fiber === undefined) return false;
+      if (sugar === null || sugar === undefined) return false;
+      return fiber >= 8 && sugar <= 5;
+    },
+    sort: { col: 'Dietary Fiber (g)', dir: 'desc' }
+  }
+};
+
+function applyPreset(presetKey) {
+  const btn = document.querySelector(`[data-preset="${presetKey}"]`);
+  if (activePreset === presetKey) {
+    // Toggle off
+    activePreset = null;
+    btn.classList.remove('active');
+  } else {
+    // Deactivate any other active preset
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    activePreset = presetKey;
+    btn.classList.add('active');
+  }
+  applyFilters();
+}
+
+
 function addExclusion() {
   const inp = document.getElementById('excl-input');
   const raw = inp.value.trim();
@@ -195,6 +254,8 @@ function resetAll() {
   document.querySelectorAll('#brand-list input[type=checkbox]').forEach(cb => cb.checked = false);
   filterBrandList('');
   updateBrandCount();
+  activePreset = null;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
   Object.keys(activeCerts).forEach(k => {
     activeCerts[k] = false;
     const chip = document.getElementById('cert-' + k);
@@ -214,12 +275,13 @@ function resetAll() {
 
 // ─── Core filter + render ────────────────────────────
 function applyFilters() {
-  const q        = document.getElementById('search-input').value.toLowerCase();
-  const sortCol  = document.getElementById('sort-col').value;
-  const sortDir  = document.getElementById('sort-dir').value;
+  const q = document.getElementById('search-input').value.toLowerCase();
 
   // Filter
   let filtered = BARS.filter(bar => {
+    // Preset filter
+    if (activePreset && !PRESETS[activePreset].apply(bar)) return false;
+
     // Brand filter
     if (selectedBrands.size > 0 && !selectedBrands.has(bar['Brand Name'])) return false;
 
@@ -255,12 +317,23 @@ function applyFilters() {
     return true;
   });
 
-  // Sort
+  // Sort — preset overrides manual sort when active
+  let sortCol = document.getElementById('sort-col').value;
+  let sortDir = document.getElementById('sort-dir').value;
+
+  if (activePreset && PRESETS[activePreset].sort) {
+    sortCol = PRESETS[activePreset].sort.col;
+    sortDir = PRESETS[activePreset].sort.dir;
+  }
+
   filtered.sort((a, b) => {
     let av, bv;
     if (sortCol === 'brand') {
       av = (a['Brand Name'] || '').toLowerCase();
       bv = (b['Brand Name'] || '').toLowerCase();
+    } else if (sortCol === 'efficiency') {
+      av = a['Calories'] ? (a['Protein (g)'] * 4) / a['Calories'] : 0;
+      bv = b['Calories'] ? (b['Protein (g)'] * 4) / b['Calories'] : 0;
     } else {
       av = a[sortCol] ?? -Infinity;
       bv = b[sortCol] ?? -Infinity;
