@@ -25,7 +25,7 @@ const SLIDERS_CFG = [
   { key: 'Sodium (mg)',       label: 'Max Sodium',        min: 0,  max: 760, step: 10, dir: 'max', unit: 'mg',  default: 760 },
 ];
 
-const BRAND_LIST = ["88 Acres","Alani","Aloha","Anabar","Atlas","Barebells","Bob's Red Mill","Bobo's","Built","CLIF Bar","Clif Builders","Clif ZBar","Daryl's Bars","David","Epic","Equate","FITCRUNCH","Fiber One","Fulfil","GNC Total Lean","Gatorade","Ghost","Honey Stinger","IQ Bar","Jambar","Kize","Laird","Larabar","Mezcla","Mosh","Munk Pack","Nick's","No Cow","NuGo","One","PEAK Protein","PROBar","Perfect Bar","Prima","Pure Protein","Quest","RXBAR","Raw Rev","Redefine","Rise","Send","Simply Protein","The Gluten Free Brothers","Trubar","Zing","gomacro","think!"];
+const BRAND_LIST = ["88 Acres","Alani","Aloha","Anabar","Atlas","Barebells","Bob's Red Mill","Bobo's","Built","CLIF Bar","Clif Builders","Clif ZBar","Daryl's Bars","David","Epic","Equate","FITCRUNCH","Fiber One","Fulfil","GNC Total Lean","Gatorade","Ghost","Honey Stinger","IQ Bar","Jambar","Kize","Laird","Larabar","Luna","Mezcla","Mosh","Munk Pack","Nick's","No Cow","NuGo","One","PEAK Protein","PROBar","Perfect Bar","Prima","Pure Protein","Quest","RXBAR","Raw Rev","Redefine","Rise","Send","Simply Protein","The Gluten Free Brothers","Trubar","Zing","gomacro","think!"];
 
 // ─── State ───────────────────────────────────────────
 let activeCerts   = {};
