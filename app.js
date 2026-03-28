@@ -569,6 +569,22 @@ function toggleExpand(bar, row) {
       ${renderMicroGrid([...vitamins, ...minerals])}
     </div>` : '';
 
+  // Score tile
+  const band = bar['score_band'];
+  const bandLabel = bar['score_band_label'];
+  const score = bar['ingredient_score'];
+  const explanation = bar['score_explanation'];
+
+  const scoreSection = band ? `
+    <div class="score-tile score-band-${band}">
+      <div class="score-tile-top">
+        <span class="score-band-badge">${band}</span>
+        <span class="score-band-label">${bandLabel}</span>
+        <span class="score-number">${score}</span>
+      </div>
+      ${explanation ? `<div class="score-explanation">${explanation}</div>` : ''}
+    </div>` : '';
+
   const expandRow = document.createElement('tr');
   expandRow.className = 'expand-detail';
   expandRow.innerHTML = `<td colspan="12">
@@ -585,6 +601,7 @@ function toggleExpand(bar, row) {
         </div>
 
         <div class="expand-right">
+          ${scoreSection}
           ${certPills ? `<div class="cert-strip">${certPills}</div>` : ''}
           ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Visit product page ↗</a>` : ''}
           <div class="ingr-block">

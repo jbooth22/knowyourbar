@@ -903,6 +903,88 @@ tr.expanded td { background: #eceae3; }
   font-size: 12px;
 }
 
+/* Score tile */
+.score-tile {
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+}
+
+.score-tile-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.score-band-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.score-band-label {
+  font-weight: 600;
+  font-size: 14px;
+  flex: 1;
+}
+
+.score-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.score-explanation {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Band color themes */
+.score-band-A {
+  background: #edfce4;
+  border-color: #b8eaa0;
+}
+.score-band-A .score-band-badge { background: #2a7a1f; color: white; }
+.score-band-A .score-band-label { color: #1a5412; }
+
+.score-band-B {
+  background: #f0f9e8;
+  border-color: #c8dfa8;
+}
+.score-band-B .score-band-badge { background: #5a8a2f; color: white; }
+.score-band-B .score-band-label { color: #3a6a1a; }
+
+.score-band-C {
+  background: #fefae8;
+  border-color: #e8d888;
+}
+.score-band-C .score-band-badge { background: #b89a00; color: white; }
+.score-band-C .score-band-label { color: #8a7000; }
+
+.score-band-D {
+  background: #fff3e8;
+  border-color: #f0c888;
+}
+.score-band-D .score-band-badge { background: #c87020; color: white; }
+.score-band-D .score-band-label { color: #a05010; }
+
+.score-band-F {
+  background: #ffeee8;
+  border-color: #f0a888;
+}
+.score-band-F .score-band-badge { background: #c83020; color: white; }
+.score-band-F .score-band-label { color: #a01810; }
+
 /* No results */
 .no-results {
   display: flex;
