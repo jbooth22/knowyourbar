@@ -962,42 +962,40 @@ tr.expanded td { background: #eceae3; }
   margin-top: 2px;
 }
 
-/* Flag chips */
-.score-flags {
+/* Insight chips */
+.score-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 6px;
+  gap: 5px;
+  margin-bottom: 12px;
 }
 
-.score-flag-chip {
+.insight-chip {
   display: inline-block;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 100px;
   font-family: var(--font-mono);
   font-size: 10px;
-  background: rgba(0,0,0,0.08);
-  color: inherit;
-  opacity: 0.75;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
-/* Token chips */
-.score-tokens {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 10px;
+.chip-positive {
+  background: #edfce4;
+  border: 1px solid #b8eaa0;
+  color: #1a5412;
 }
 
-.score-token-chip {
-  display: inline-block;
-  padding: 3px 9px;
-  border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  background: rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.1);
-  color: inherit;
+.chip-concern {
+  background: #fff3e8;
+  border: 1px solid #f0c888;
+  color: #a05010;
+}
+
+.chip-neutral {
+  background: #f0ede6;
+  border: 1px solid var(--border);
+  color: var(--muted);
 }
 
 /* Positives / Concerns two-column layout */

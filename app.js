@@ -580,57 +580,47 @@ function toggleExpand(bar, row) {
   const band        = bar['score_band'];
   const bandLabel   = bar['score_band_label'];
   const score       = bar['ingredient_score'];
-  const explanation = bar['score_explanation'] || '';
-  const flags       = bar['score_flags'] || '';
+  const posIngr     = bar['positive_ingredients'] || '';
+  const negIngr     = bar['concern_ingredients'] || '';
+  const insightsRaw = bar['score_insights'] || '';
 
-  // Parse flags into chips
-  const flagChips = flags
-    ? flags.split(';').map(f => f.trim()).filter(Boolean)
-        .map(f => `<span class="score-flag-chip">${f}</span>`).join('')
-    : '';
+  // Parse insight chips: "Name:type|Name:type|..."
+  const insightChips = insightsRaw
+    ? insightsRaw.split('|').filter(Boolean).map(item => {
+        const [name, type] = item.split(':');
+        return { name: name.trim(), type: type ? type.trim() : 'neutral' };
+      })
+    : [];
 
-  // Parse explanation into token chips + positives/concerns columns
-  let tokenChips = '';
-  let positivesHTML = '';
-  let concernsHTML = '';
+  const positiveChips = insightChips.filter(c => c.type === 'positive');
+  const concernChips  = insightChips.filter(c => c.type === 'concern');
+  const neutralChips  = insightChips.filter(c => c.type === 'neutral');
 
-  if (explanation) {
-    const parts = explanation.split(' · ').map(p => p.trim()).filter(Boolean);
-    const tokenParts = [];
-    let posStr = '';
-    let negStr = '';
-
-    parts.forEach(part => {
-      if (part.startsWith('Positives:')) {
-        posStr = part.replace('Positives:', '').trim();
-      } else if (part.startsWith('Concerns:')) {
-        negStr = part.replace('Concerns:', '').trim();
-      } else {
-        tokenParts.push(part);
-      }
-    });
-
-    tokenChips = tokenParts
-      .map(t => `<span class="score-token-chip">${t}</span>`).join('');
-
-    if (posStr) {
-      const items = posStr.split(',').map(i => toTitleCase(i.trim())).filter(Boolean);
-      positivesHTML = `
-        <div class="ingr-col">
-          <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
-          ${items.map(i => `<div class="ingr-col-item">${i}</div>`).join('')}
-        </div>`;
-    }
-
-    if (negStr) {
-      const items = negStr.split(',').map(i => toTitleCase(i.trim())).filter(Boolean);
-      concernsHTML = `
-        <div class="ingr-col">
-          <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
-          ${items.map(i => `<div class="ingr-col-item">${i}</div>`).join('')}
-        </div>`;
-    }
+  function renderChips(chips, cssClass) {
+    return chips.map(c => `<span class="insight-chip ${cssClass}">${c.name}</span>`).join('');
   }
+
+  const allChipsHTML = [
+    renderChips(positiveChips, 'chip-positive'),
+    renderChips(concernChips,  'chip-concern'),
+    renderChips(neutralChips,  'chip-neutral'),
+  ].join('');
+
+  // Positives / Concerns two-column ingredient breakdown
+  const posItems = posIngr ? posIngr.split(',').map(i => toTitleCase(i.trim())).filter(Boolean) : [];
+  const negItems = negIngr ? negIngr.split(',').map(i => toTitleCase(i.trim())).filter(Boolean) : [];
+
+  const positivesHTML = posItems.length ? `
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      ${posItems.map(i => `<div class="ingr-col-item">${i}</div>`).join('')}
+    </div>` : '';
+
+  const concernsHTML = negItems.length ? `
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      ${negItems.map(i => `<div class="ingr-col-item">${i}</div>`).join('')}
+    </div>` : '';
 
   const scoreSection = band ? `
     <div class="score-tile score-band-${band}">
@@ -647,8 +637,7 @@ function toggleExpand(bar, row) {
           <div class="score-number">${score}</div>
         </div>
       </div>
-      ${flagChips ? `<div class="score-flags">${flagChips}</div>` : ''}
-      ${tokenChips ? `<div class="score-tokens">${tokenChips}</div>` : ''}
+      ${allChipsHTML ? `<div class="score-chips">${allChipsHTML}</div>` : ''}
       ${(positivesHTML || concernsHTML) ? `<div class="score-ingr-cols">${positivesHTML}${concernsHTML}</div>` : ''}
     </div>` : '';
 
