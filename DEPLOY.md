@@ -1,99 +1,99 @@
 # Know Your Bar — Deployment Guide
-## knowyourbar.com via GitHub + Cloudflare Pages
 
 ---
 
-## Your Files
+## Your Site Files
 
-After downloading, you should have:
+Files that live on GitHub and are served live:
+
 ```
-kyb-site/
-├── index.html    ← The webpage
-├── style.css     ← All the design/styling
-├── app.js        ← All the filter/search logic
-└── bars.js       ← Your full database (424 bars)
+index.html              The main page
+style.css               All design and layout
+app.js                  All filter/search/scoring logic
+bars.js                 Full bar database (541 bars, ~1MB)
+ingredient_scoring.html Scoring methodology page
+bar_hero.png            Product bar image used in both page heroes
+sitemap.xml             For Google Search Console
+robots.txt              Crawler instructions
+README.md               Project docs and Claude briefing
+DEPLOY.md               This file
+```
+
+Files that stay on your computer only (never upload to GitHub):
+
+```
+knowyourbar_scoring_schema.xlsx    Master ingredient scoring schema
+score_and_export.py                Scoring pipeline script
+Your bar database Excel            Source of truth for all bar data
 ```
 
 ---
 
-## Step 1 — Create a GitHub Repository
+## Routine Update Workflow (Adding New Bars)
 
-1. Go to **github.com** and sign in (or create a free account)
-2. Click the **"+"** icon in the top right → **"New repository"**
-3. Name it `knowyourbar` (or anything you like)
-4. Leave it **Public** (required for free Cloudflare Pages)
-5. Do NOT check "Add a README" — leave everything empty
-6. Click **"Create repository"**
+1. Add new bars to your Excel database (`BarDB` sheet)
+2. Upload your Excel + `knowyourbar_scoring_schema.xlsx` to Claude
+3. Say "run score_and_export"
+4. Claude returns a new `bars.js`
+5. If new brands were added, tell Claude — it will update `BRAND_LIST` in `app.js`
+6. Upload `bars.js` (and `app.js` if changed) to GitHub
+7. Cloudflare auto-deploys in ~60 seconds
+8. Verify at knowyourbar.com
 
----
-
-## Step 2 — Upload Your Files to GitHub
-
-On the empty repo page, you'll see a prompt. Click **"uploading an existing file"**.
-
-1. Drag all 4 files (`index.html`, `style.css`, `app.js`, `bars.js`) into the upload area
-2. Scroll down to the "Commit changes" section
-3. Leave the message as-is or write "Initial launch"
-4. Click **"Commit changes"**
-
-Your files are now on GitHub. ✓
+**If files don't update after uploading:** Delete the file from GitHub first, then re-upload. This clears a GitHub caching quirk.
 
 ---
 
-## Step 3 — Connect to Cloudflare Pages
+## Uploading Files to GitHub
 
-1. Go to **dash.cloudflare.com** and sign in
-2. In the left sidebar, click **"Workers & Pages"**
-3. Click **"Create application"** → **"Pages"** tab → **"Connect to Git"**
-4. Click **"Connect GitHub"** and authorize Cloudflare
-5. Find your `knowyourbar` repo and click **"Begin setup"**
+1. Go to your GitHub repo
+2. Click **Add file** > **Upload files**
+3. Drag files in
+4. Click **Commit changes**
 
-**Build settings** (on the next screen):
-- **Framework preset**: None
-- **Build command**: *(leave blank)*
-- **Build output directory**: *(leave blank)*
-
-Click **"Save and Deploy"**
-
-Cloudflare deploys in ~60 seconds. You'll get a temporary URL like `knowyourbar.pages.dev`.
+For large files like `bars.js` that GitHub may resist: click the existing file, then the pencil icon to edit, select all, paste new content, commit.
 
 ---
 
-## Step 4 — Connect knowyourbar.com
+## Deployment Infrastructure
 
-Since you already have experience with Cloudflare, this part should be familiar:
+| Layer | Provider | Cost |
+|---|---|---|
+| Hosting | Cloudflare Pages | Free |
+| CDN + SSL | Cloudflare | Free |
+| Git source | GitHub (public repo) | Free |
+| Domain | GoDaddy / Cloudflare DNS | ~$12/year |
 
-1. In your Cloudflare Pages project → **"Custom domains"**
-2. Click **"Set up a custom domain"**
-3. Enter `knowyourbar.com`
-4. If your domain is already managed by Cloudflare, it connects automatically
-5. Also add `www.knowyourbar.com` as a second custom domain pointing to the same project
-
-HTTPS is automatic and free via Cloudflare. ✓
-
----
-
-## Step 5 — Updating the Database (Adding Bars)
-
-When you add bars to your Excel file and want to push them live:
-
-1. Run the Python export script (provided separately) to regenerate `bars.js`
-2. Go to your GitHub repo → click `bars.js` → click the ✏️ pencil icon
-3. Select all the text, paste the new content
-4. Scroll down → click **"Commit changes"**
-5. Cloudflare auto-deploys in ~60 seconds
-
-No servers. No build process. Just paste and commit.
+GitHub push triggers Cloudflare Pages build automatically. No build command needed — plain HTML/JS deploys as-is.
 
 ---
 
-## Costs
+## DNS Setup (already live, for reference)
 
-| Item | Cost |
-|---|---|
-| GitHub (public repo) | Free |
-| Cloudflare Pages hosting | Free |
-| Cloudflare SSL + CDN | Free |
-| knowyourbar.com domain | ~$10–15/year |
+- Domain registered on GoDaddy
+- Nameservers pointing to Cloudflare
+- Cloudflare Pages custom domain: knowyourbar.com
+- www.knowyourbar.com redirects to root domain
+- HTTPS automatic via Cloudflare
 
-**Total: ~$10–15/year** — just the domain.
+---
+
+## Analytics
+
+- GA4 tag in `index.html` (Measurement ID: G-SW4MNP5W7J)
+- Google Search Console verified, sitemap submitted
+- No additional configuration needed
+
+---
+
+## Making Code Changes
+
+For any changes to `index.html`, `style.css`, or `app.js`:
+
+1. Attach the relevant file(s) to a Claude conversation
+2. Paste the README for context
+3. Describe the change
+4. Claude edits the file and returns it
+5. Upload to GitHub
+
+Always work from the latest version of the file from GitHub — not from a previous Claude session, which may be stale.
