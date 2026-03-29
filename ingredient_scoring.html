@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How We Score Bars — Know Your Bar</title>
+  <meta name="description" content="Learn how Know Your Bar scores protein bars by ingredient quality. Our transparent, rule-based scoring system explained in full.">
+  <link rel="canonical" href="https://knowyourbar.com/ingredient_scoring.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0e0e0e;
+      --white: #f7f5f0;
+      --off-white: #efece6;
+      --accent: #d4f000;
+      --muted: #888880;
+      --border: #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius: 6px;
+      --radius-lg: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--white);
+      color: var(--black);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    .site-nav {
+      background: var(--black);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #ffffff66;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.1s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 4rem 2rem 3rem;
+    }
+
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: #aaa89e;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ── LIVE GRADES ─────────────────────────────────── */
+    .grades-section {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem 2rem;
+    }
+
+    .grades-inner { max-width: 760px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .grades-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .grade-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .grade-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .grade-label {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .grade-range {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grade-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .grade-pct {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Band colors */
+    .band-A .grade-letter { background: #2a7a1f; color: white; }
+    .band-A .grade-label  { color: #1a5412; }
+    .band-A .grade-count  { color: #1a5412; }
+
+    .band-B .grade-letter { background: #5a8a2f; color: white; }
+    .band-B .grade-label  { color: #3a6a1a; }
+    .band-B .grade-count  { color: #3a6a1a; }
+
+    .band-C .grade-letter { background: #b89a00; color: white; }
+    .band-C .grade-label  { color: #8a7000; }
+    .band-C .grade-count  { color: #8a7000; }
+
+    .band-D .grade-letter { background: #c87020; color: white; }
+    .band-D .grade-label  { color: #a05010; }
+    .band-D .grade-count  { color: #a05010; }
+
+    .band-F .grade-letter { background: #c83020; color: white; }
+    .band-F .grade-label  { color: #a01810; }
+    .band-F .grade-count  { color: #a01810; }
+
+    /* ── CONTENT ─────────────────────────────────────── */
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .content-section { margin-bottom: 3.5rem; }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    p {
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    /* ── SCORE TABLE ─────────────────────────────────── */
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 1.5rem 0;
+    }
+
+    .score-table th {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .score-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .score-table tr:last-child td { border-bottom: none; }
+
+    .band-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .band-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* ── INSIGHT CHIPS TABLE ─────────────────────────── */
+    .chips-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .chip-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .chip-sample {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    .chip-sample.chip-positive { background: #edfce4; border: 1px solid #b8eaa0; color: #1a5412; }
+    .chip-sample.chip-concern  { background: #fff3e8; border: 1px solid #f0c888; color: #a05010; }
+    .chip-sample.chip-neutral  { background: #f0ede6; border: 1px solid var(--border); color: var(--muted); }
+
+    .chip-desc {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .chip-rule {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ── CALLOUT ─────────────────────────────────────── */
+    .callout {
+      background: #0e0e0e08;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 1.5rem 0;
+    }
+
+    .callout p { margin: 0; color: var(--black); font-size: 14px; }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    .site-footer {
+      background: var(--black);
+      color: #ffffff44;
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 600px) {
+      .grades-grid { grid-template-columns: repeat(3, 1fr); }
+      .grades-grid .band-D,
+      .grades-grid .band-F { grid-column: span 1; }
+      .chip-row { flex-direction: column; }
+      .chip-sample { min-width: unset; width: 100%; }
+      .hero { padding: 2.5rem 1.25rem 2rem; }
+      .content { padding: 2.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="/" class="nav-logo">knowyourbar.com</a>
+    <a href="/" class="nav-back">← Back to finder</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Scoring Methodology</div>
+      <h1 class="hero-title">How We Score Bars.</h1>
+      <p class="hero-sub">Every bar on KnowYourBar.com receives an ingredient quality score based on a transparent, rule-based system. No sponsorships. No bias. Just the ingredients.</p>
+    </div>
+  </header>
+
+  <!-- Live grade distribution (populated by bars.js) -->
+  <section class="grades-section">
+    <div class="grades-inner">
+      <div class="section-label">Live grade distribution — <span id="total-count">—</span> bars scored</div>
+      <div class="grades-grid" id="grades-grid">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <main class="content">
+
+    <!-- How it works -->
+    <section class="content-section">
+      <h2>How the score is calculated</h2>
+      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>-4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position — ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
+      <p>A final adjustment is applied based on the total number of ingredients. Bars with short, focused lists receive a small bonus. Bars with highly complex formulations receive a small penalty.</p>
+
+      <div class="callout">
+        <p><strong>Final Score</strong> = Sum of (base_score × position_weight) for each ingredient + ingredient count adjustment</p>
+      </div>
+
+      <h3>Position weights</h3>
+      <p>The first ingredient carries full weight (1.0). Each subsequent ingredient carries progressively less weight, reflecting the fact that ingredients are listed in descending order by quantity.</p>
+
+      <table class="score-table">
+        <thead>
+          <tr><th>Position</th><th>Weight</th><th>Position</th><th>Weight</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st</td><td>1.00</td><td>9th</td><td>0.26</td></tr>
+          <tr><td>2nd</td><td>0.85</td><td>10th</td><td>0.22</td></tr>
+          <tr><td>3rd</td><td>0.72</td><td>11th</td><td>0.20</td></tr>
+          <tr><td>4th</td><td>0.61</td><td>12th</td><td>0.18</td></tr>
+          <tr><td>5th</td><td>0.52</td><td>13th</td><td>0.17</td></tr>
+          <tr><td>6th</td><td>0.44</td><td>14th</td><td>0.16</td></tr>
+          <tr><td>7th</td><td>0.37</td><td>15th+</td><td>0.15 and below</td></tr>
+          <tr><td>8th</td><td>0.31</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Ingredient count adjustment</h3>
+      <table class="score-table">
+        <thead>
+          <tr><th>Ingredient count</th><th>Adjustment</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8 or fewer</td><td>+0.05</td><td>Short, clean list bonus</td></tr>
+          <tr><td>9 – 12</td><td>0.00</td><td>Neutral</td></tr>
+          <tr><td>13 – 16</td><td>–0.05</td><td>Slightly complex</td></tr>
+          <tr><td>17 – 20</td><td>–0.10</td><td>Complex formulation</td></tr>
+          <tr><td>21 or more</td><td>–0.15</td><td>Highly processed penalty</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Grade bands -->
+    <section class="content-section">
+      <h2>Grade bands</h2>
+      <p>The numeric score is converted into a letter grade. The thresholds are designed so roughly the top quarter of bars score A, and the bottom ~10% score F — reflecting the real distribution of protein bar quality.</p>
+
+      <table class="score-table">
+        <thead>
+          <tr><th>Grade</th><th>Label</th><th>Score range</th><th>What it means</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="band-pill"><span class="band-dot" style="background:#2a7a1f">A</span> <strong>Clean</strong></div></td>
+            <td>Clean</td>
+            <td>≥ 8.0</td>
+            <td>Predominantly whole foods, quality proteins, minimal additives. The best ingredient profiles in the database.</td>
+          </tr>
+          <tr>
+            <td><div class="band-pill"><span class="band-dot" style="background:#5a8a2f">B</span></div></td>
+            <td>Good</td>
+            <td>4.0 – 7.9</td>
+            <td>Solid ingredients with minor concerns. A well-formulated bar that makes reasonable trade-offs.</td>
+          </tr>
+          <tr>
+            <td><div class="band-pill"><span class="band-dot" style="background:#b89a00">C</span></div></td>
+            <td>Okay</td>
+            <td>0.0 – 3.9</td>
+            <td>Mixed profile. Some good ingredients, some processed. Acceptable but not exceptional.</td>
+          </tr>
+          <tr>
+            <td><div class="band-pill"><span class="band-dot" style="background:#c87020">D</span></div></td>
+            <td>Poor</td>
+            <td>–3.0 to –0.1</td>
+            <td>Mostly processed ingredients with limited redeeming qualities. Heavy use of sweeteners or additives.</td>
+          </tr>
+          <tr>
+            <td><div class="band-pill"><span class="band-dot" style="background:#c83020">F</span></div></td>
+            <td>Avoid</td>
+            <td>Below –3.0</td>
+            <td>Heavy artificial sweeteners, low-quality processed oils, or minimal real nutrition. We include these bars so you can make informed decisions — not because we recommend them.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Insight chips -->
+    <section class="content-section">
+      <h2>Insight chips</h2>
+      <p>When you expand a bar, you'll see colored chips that highlight specific characteristics of the ingredient list. Every chip has an exact, documented rule — nothing is subjective.</p>
+
+      <h3>Positive signals</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-positive">Protein Leads</span>
+          <div>
+            <div class="chip-desc">The first ingredient listed is a protein source. Since ingredients are listed by quantity, this means protein is the dominant ingredient by weight.</div>
+            <div class="chip-rule">Rule: first top-level ingredient has category = protein</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive">Quality Protein Source</span>
+          <div>
+            <div class="chip-desc">A high-quality, complete protein (such as whey isolate, pea protein, or brown rice protein) appears within the first five ingredients.</div>
+            <div class="chip-rule">Rule: protein with base_score ≥ 3 in top 5 ingredient positions</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive">Whole Food Forward</span>
+          <div>
+            <div class="chip-desc">Two or more of the first three ingredient positions are whole food ingredients — real, minimally processed foods like nuts, seeds, oats, or fruit.</div>
+            <div class="chip-rule">Rule: whole_food category in 2+ unique positions among positions 1–3</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive">Short Clean List</span>
+          <div>
+            <div class="chip-desc">The bar has 8 or fewer ingredients. Short lists typically indicate less processing and fewer additives.</div>
+            <div class="chip-rule">Rule: 8 or fewer scored ingredient positions</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Concern signals</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Artificial Sweeteners</span>
+          <div>
+            <div class="chip-desc">The bar contains sucralose, acesulfame potassium (ace-K), aspartame, or saccharin. These zero-calorie synthetic sweeteners are linked to gut microbiome changes and metabolic effects in some research.</div>
+            <div class="chip-rule">Rule: ingredient text contains sucralose, acesulfame, aspartame, or saccharin</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Sugar Alcohols</span>
+          <div>
+            <div class="chip-desc">The bar contains sugar alcohols such as erythritol, maltitol, xylitol, or sorbitol. Can cause digestive discomfort in some people; maltitol in particular has a notable effect on blood sugar.</div>
+            <div class="chip-rule">Rule: sugar alcohol canonical present in any ingredient position</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Sugar Alcohol Early</span>
+          <div>
+            <div class="chip-desc">A sugar alcohol is present in the first five ingredients — meaning it's a primary ingredient, present in significant quantity.</div>
+            <div class="chip-rule">Rule: sugar alcohol canonical in top 5 ingredient positions</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Processed Oils</span>
+          <div>
+            <div class="chip-desc">The bar contains palm oil, palm kernel oil, canola oil, soybean oil, or hydrogenated oils. These are lower-quality industrial fat sources compared to whole food fats like nuts, seeds, or cocoa butter.</div>
+            <div class="chip-rule">Rule: ingredient text contains palm oil, palm kernel oil, canola oil, soybean oil, hydrogenated, or partially hydrogenated (high-oleic variants excluded)</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Sweetener Heavy</span>
+          <div>
+            <div class="chip-desc">A sweetener (added sugar or sugar alcohol) appears among the first three ingredients by weight. This means sweeteners are a primary component of the bar.</div>
+            <div class="chip-rule">Rule: sweetener category ingredient in top 3 positions</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern">Collagen Protein</span>
+          <div>
+            <div class="chip-desc">The primary protein source is collagen. Collagen is an incomplete protein — it lacks several essential amino acids required for muscle protein synthesis. It has benefits for joints and skin but is not equivalent to whey, pea, or other complete proteins for athletic purposes.</div>
+            <div class="chip-rule">Rule: first protein-category ingredient is collagen</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Context signals</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-neutral">Fortified</span>
+          <div>
+            <div class="chip-desc">The bar contains added vitamins or minerals. Common in meal-replacement style bars. Not inherently good or bad — just context.</div>
+            <div class="chip-rule">Rule: vitamin_mineral category ingredient present</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-neutral">Long Ingredient List</span>
+          <div>
+            <div class="chip-desc">The bar has 18 or more ingredients. Complex formulations aren't automatically bad, but length often correlates with more additives, fillers, and processing aids.</div>
+            <div class="chip-rule">Rule: 18 or more scored ingredient positions</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What we don't score -->
+    <section class="content-section">
+      <h2>What the score doesn't cover</h2>
+      <p>The ingredient score is one signal, not the full picture. Here's what it doesn't account for:</p>
+      <p><strong>Macros and calories</strong> — a bar can score A on ingredients and still be high in sugar or low in protein. Use the macro filters alongside the grade for the full picture.</p>
+      <p><strong>Taste and texture</strong> — no opinion here. That's your department.</p>
+      <p><strong>Bioavailability and processing methods</strong> — some ingredients score neutrally because the research is mixed or context-dependent. We err toward caution and transparency rather than overclaiming.</p>
+      <p><strong>Dietary needs</strong> — use the certification filters (Vegan, Gluten Free, etc.) alongside scores for your specific requirements.</p>
+    </section>
+
+    <!-- Data and updates -->
+    <section class="content-section">
+      <h2>Data and updates</h2>
+      <p>Our database of <strong id="total-count-2">—</strong> bars is hand-researched and updated regularly. Ingredient lists are sourced from product packaging and brand websites. Scores are recalculated whenever the database is updated.</p>
+      <p>The scoring schema — including all canonical ingredient definitions, base scores, and rules — is versioned and documented. If you believe a score is incorrect or an ingredient is miscategorized, we'd love to hear from you.</p>
+      <div class="callout">
+        <p>No brand pays to be included in this database. No brand pays to improve their score. The methodology applies equally to every bar.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>knowyourbar.com &nbsp;·&nbsp; <a href="/" style="color:#ffffff44;text-decoration:none">← Back to bar finder</a></p>
+  </footer>
+
+  <script src="bars.js"></script>
+  <script>
+    // Populate live grade counts from bars.js
+    (function() {
+      if (typeof BARS === 'undefined') return;
+
+      const bands = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+      const labels = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Poor', F: 'Avoid' };
+      const ranges = { A: '≥ 8.0', B: '4.0 – 7.9', C: '0.0 – 3.9', D: '–3.0 to –0.1', F: '< –3.0' };
+      let total = 0;
+
+      BARS.forEach(bar => {
+        if (bar.score_band && bands[bar.score_band] !== undefined) {
+          bands[bar.score_band]++;
+          total++;
+        }
+      });
+
+      // Update total count displays
+      document.querySelectorAll('#total-count, #total-count-2').forEach(el => {
+        el.textContent = total.toLocaleString();
+      });
+
+      // Build grade cards
+      const grid = document.getElementById('grades-grid');
+      if (!grid) return;
+
+      ['A','B','C','D','F'].forEach(band => {
+        const count = bands[band];
+        const pct = total > 0 ? Math.round(count / total * 100) : 0;
+        const card = document.createElement('div');
+        card.className = `grade-card band-${band}`;
+        card.innerHTML = `
+          <div class="grade-letter">${band}</div>
+          <div class="grade-label">${labels[band]}</div>
+          <div class="grade-range">${ranges[band]}</div>
+          <div class="grade-count">${count} bars</div>
+          <div class="grade-pct">${pct}% of total</div>
+        `;
+        grid.appendChild(card);
+      });
+    })();
+  </script>
+</body>
+</html>
