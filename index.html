@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Know Your Bar: Protein Bar Finder & Database</title>
+  <meta name="description" content="Search, filter, and compare 424+ protein bars by macros, ingredients, and dietary needs. Find your perfect bar at KnowYourBar.com.">
+  <link rel="canonical" href="https://knowyourbar.com">
+
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://knowyourbar.com">
+  <meta property="og:title" content="Know Your Bar: Protein Bar Finder">
+  <meta property="og:description" content="Search and filter 424+ protein bars by macros, ingredients, and dietary certifications. Hand-researched. No ads.">
+  <meta property="og:site_name" content="Know Your Bar">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Know Your Bar: Protein Bar Finder">
+  <meta name="twitter:description" content="Search and filter 424+ protein bars by macros, ingredients, and certifications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="wordmark">knowyourbar.com</div>
+        <h1 class="hero-headline">Know Your Bar.</h1>
+        <p class="hero-sub">Search, filter, and compare <strong id="bar-count">543</strong> protein bars by macros, ingredients, and dietary needs. Built from a hand-researched database. No BS.</p>
+      </div>
+      <div class="hero-image">
+        <img src="bar_hero.png" alt="Know Your Bar packaging" />
+      </div>
+    </div>
+    <div class="hero-ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Protein</span><span>·</span><span>Sugar Alcohol</span><span>·</span><span>Dietary Fiber</span><span>·</span><span>Sodium</span><span>·</span><span>Calories</span><span>·</span><span>Ingredients</span><span>·</span><span>Vegan</span><span>·</span><span>Gluten Free</span><span>·</span><span>Soy Free</span><span>·</span><span>Dairy Free</span><span>·</span><span>Non-GMO</span><span>·</span><span>Nut Free</span><span>·</span><span>Protein</span><span>·</span><span>Sugar Alcohol</span><span>·</span><span>Dietary Fiber</span><span>·</span><span>Sodium</span><span>·</span><span>Calories</span><span>·</span><span>Ingredients</span><span>·</span><span>Vegan</span><span>·</span><span>Gluten Free</span><span>·</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FINDER -->
+  <main class="finder">
+
+    <!-- FILTER PANEL -->
+    <aside class="filter-panel" id="filter-panel">
+
+      <div class="panel-section panel-section--presets">
+        <div class="panel-label">Quick filters</div>
+        <div class="preset-list" id="preset-list">
+          <button class="preset-btn" data-preset="efficiency">
+            <span class="preset-text">
+              <span class="preset-name">High Protein Low Calorie</span>
+              <span class="preset-desc">Best protein efficiency</span>
+            </span>
+            <span class="preset-arrow">→</span>
+          </button>
+          <button class="preset-btn" data-preset="clean">
+            <span class="preset-text">
+              <span class="preset-name">High Protein, No Artificial Sweeteners</span>
+              <span class="preset-desc">No sucralose, acesulfame, aspartame, saccharin, or maltitol</span>
+            </span>
+            <span class="preset-arrow">→</span>
+          </button>
+          <button class="preset-btn" data-preset="lowsugar">
+            <span class="preset-text">
+              <span class="preset-name">High Protein, Least Sugar</span>
+              <span class="preset-desc">No sugar alcohol, lowest sugars</span>
+            </span>
+            <span class="preset-arrow">→</span>
+          </button>
+          <button class="preset-btn" data-preset="fiber">
+            <span class="preset-text">
+              <span class="preset-name">High Fiber, Low Sugar</span>
+              <span class="preset-desc">8g+ fiber, 5g or less sugar</span>
+            </span>
+            <span class="preset-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Ingredient grade</div>
+        <div class="grade-filter-btns" id="grade-filter-btns"></div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Brand <span class="label-note">(select one or more)</span></div>
+        <div class="brand-filter-wrap">
+          <div class="brand-search-wrap">
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <input type="text" id="brand-search" placeholder="Filter brands…" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="brand-list" id="brand-list"></div>
+          <div class="brand-actions">
+            <button class="brand-clear-btn" id="brand-clear-btn" onclick="clearBrands()">Clear</button>
+            <span class="brand-selected-count" id="brand-selected-count"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Flavor keyword</div>
+        <div class="search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <input type="text" id="search-input" placeholder="e.g. chocolate, peanut butter…" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Certifications <span class="label-note">(must match all selected)</span></div>
+        <div class="cert-grid" id="cert-grid"></div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Macros</div>
+        <div class="sliders-list" id="sliders-list"></div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Exclude ingredients <span class="label-note">(text match on ingredient list)</span></div>
+        <div class="excl-input-row">
+          <input type="text" id="excl-input" placeholder="e.g. Glycerin, Peanuts…" autocomplete="off" spellcheck="false">
+          <button id="excl-add-btn" onclick="addExclusion()">Exclude</button>
+        </div>
+        <div id="excl-tags"></div>
+      </div>
+
+      <div class="panel-section panel-section--actions">
+        <button class="reset-btn" onclick="resetAll()">↺ Reset all</button>
+        <div class="result-count" id="result-count">424 bars</div>
+      </div>
+
+    </aside>
+
+    <!-- RESULTS -->
+    <section class="results-panel">
+
+      <div class="results-toolbar">
+        <div class="toolbar-left" id="toolbar-info"></div>
+        <div class="toolbar-right">
+          <label class="sort-label" for="sort-col">Sort</label>
+          <select id="sort-col">
+            <option value="Protein (g)">Protein</option>
+            <option value="Calories">Calories</option>
+            <option value="Sugars (g)">Sugars</option>
+            <option value="Sugar Alcohol (g)">Sugar Alcohol</option>
+            <option value="Dietary Fiber (g)">Fiber</option>
+            <option value="Total Fat (g)">Fat</option>
+            <option value="Sodium (mg)">Sodium</option>
+            <option value="brand">Brand A–Z</option>
+          </select>
+          <select id="sort-dir">
+            <option value="desc">High → Low</option>
+            <option value="asc">Low → High</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="preset-banner" class="preset-banner hidden"></div>
+
+      <div class="table-scroll">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th class="col-bar">Bar</th>
+              <th class="col-num col-hide-mobile" title="Calories">CAL</th>
+              <th class="col-num" title="Protein (g)">PROT</th>
+              <th class="col-num" title="Total Fat (g)">FAT</th>
+              <th class="col-num col-hide-mobile" title="Total Carbohydrates (g)">CARB</th>
+              <th class="col-num" title="Dietary Fiber (g)">FIBR</th>
+              <th class="col-num" title="Sugars (g)">SGR</th>
+              <th class="col-num col-hide-mobile" title="Sugar Alcohol (g)">SGR ALC</th>
+              <th class="col-num col-hide-mobile" title="Cholesterol (mg)">CHOL</th>
+              <th class="col-num col-hide-mobile" title="Sodium (mg)">SODM</th>
+              <th class="col-certs col-hide-mobile">CERTS</th>
+              <th class="col-grade" title="Ingredient Grade">GRADE</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+        <div id="no-results" class="no-results hidden">
+          <div class="no-results-icon">⌀</div>
+          <div class="no-results-text">No bars match your filters.</div>
+          <div class="no-results-sub">Try loosening a macro slider or removing an exclusion.</div>
+          <button onclick="resetAll()">Reset filters</button>
+        </div>
+        <div id="truncation-note" class="truncation-note hidden"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>knowyourbar.com &nbsp;·&nbsp; Hand-researched database of <span id="footer-count">543</span> bars &nbsp;·&nbsp; No BS &nbsp;·&nbsp; <a href="/ingredient_scoring.html" style="color:#ffffff66;text-decoration:none;">How we score</a> &nbsp;&middot;&nbsp; <a href="/quest-bars.html" style="color:#ffffff66;text-decoration:none;">Quest bar review</a></p>
+  </footer>
+
+  <script src="bars.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
