@@ -1,99 +1,86 @@
-# Know Your Bar — Deployment Guide
+# knowyourbar.com — Deployment Guide
 
 ---
 
-## Your Site Files
+## Standard Update (New Bars or Affiliate Links)
 
-Files that live on GitHub and are served live:
-
-```
-index.html              The main page
-style.css               All design and layout
-app.js                  All filter/search/scoring logic
-bars.js                 Full bar database (541 bars, ~1MB)
-ingredient_scoring.html Scoring methodology page
-bar_hero.png            Product bar image used in both page heroes
-sitemap.xml             For Google Search Console
-robots.txt              Crawler instructions
-README.md               Project docs and Claude briefing
-DEPLOY.md               This file
-```
-
-Files that stay on your computer only (never upload to GitHub):
-
-```
-knowyourbar_scoring_schema.xlsx    Master ingredient scoring schema
-score_and_export.py                Scoring pipeline script
-Your bar database Excel            Source of truth for all bar data
-```
-
----
-
-## Routine Update Workflow (Adding New Bars)
-
-1. Add new bars to your Excel database (`BarDB` sheet)
-2. Upload your Excel + `knowyourbar_scoring_schema.xlsx` to Claude
+1. Update your bar database Excel (add bars, affiliate links, ingredient data)
+2. Upload bar database Excel + `knowyourbar_scoring_schema.xlsx` to Claude
 3. Say "run score_and_export"
-4. Claude returns a new `bars.js`
-5. If new brands were added, tell Claude — it will update `BRAND_LIST` in `app.js`
-6. Upload `bars.js` (and `app.js` if changed) to GitHub
-7. Cloudflare auto-deploys in ~60 seconds
-8. Verify at knowyourbar.com
-
-**If files don't update after uploading:** Delete the file from GitHub first, then re-upload. This clears a GitHub caching quirk.
+4. Download `bars.js` from Claude's output
+5. If new brands were added, also download updated `app.js`
+6. If the bar count changed significantly, also download updated `index.html` (meta description)
+7. Upload files to GitHub — Cloudflare deploys in ~60 seconds
 
 ---
 
-## Uploading Files to GitHub
+## Brand Page Update
 
-1. Go to your GitHub repo
-2. Click **Add file** > **Upload files**
-3. Drag files in
-4. Click **Commit changes**
+Brand pages should be regenerated any time bars.js is significantly updated.
 
-For large files like `bars.js` that GitHub may resist: click the existing file, then the pencil icon to edit, select all, paste new content, commit.
+1. Complete the standard update above first (get fresh bars.js)
+2. Tell Claude "regenerate brand pages"
+3. Download the four HTML files: `quest-bars.html`, `rxbar-review.html`, `clif-bar-review.html`, `barebells-review.html`
+4. Download updated `sitemap.xml` if new pages were added
+5. Upload all files to GitHub
+6. In Google Search Console, re-request indexing for updated pages
 
 ---
 
-## Deployment Infrastructure
+## Adding a New Brand Review Page
 
-| Layer | Provider | Cost |
+1. Complete the standard update to get fresh bars.js
+2. Tell Claude "generate a brand page for [Brand Name]" — provide the brand's exact name as it appears in the database
+3. Add the page config to `BRAND_CONFIGS` in the generator (Claude will do this)
+4. Download the new HTML file
+5. Update `sitemap.xml` with the new URL
+6. Add a footer link in `index.html` pointing to the new page
+7. Upload all changed files to GitHub
+8. Request indexing in Google Search Console
+
+---
+
+## Deployment Stack
+
+| Component | Service | Notes |
 |---|---|---|
-| Hosting | Cloudflare Pages | Free |
-| CDN + SSL | Cloudflare | Free |
-| Git source | GitHub (public repo) | Free |
-| Domain | GoDaddy / Cloudflare DNS | ~$12/year |
-
-GitHub push triggers Cloudflare Pages build automatically. No build command needed — plain HTML/JS deploys as-is.
-
----
-
-## DNS Setup (already live, for reference)
-
-- Domain registered on GoDaddy
-- Nameservers pointing to Cloudflare
-- Cloudflare Pages custom domain: knowyourbar.com
-- www.knowyourbar.com redirects to root domain
-- HTTPS automatic via Cloudflare
+| Hosting | Cloudflare Pages | Free tier, auto-deploys from GitHub |
+| Repo | GitHub | Push files directly via web UI |
+| Domain | GoDaddy | DNS nameservers pointed to Cloudflare |
+| Analytics | GA4 | Tag G-SW4MNP5W7J in index.html |
+| SEO | Google Search Console | Sitemap at /sitemap.xml |
 
 ---
 
-## Analytics
+## Files That Change Together
 
-- GA4 tag in `index.html` (Measurement ID: G-SW4MNP5W7J)
-- Google Search Console verified, sitemap submitted
-- No additional configuration needed
+When you update `bars.js`, check if these also need updating:
+
+| Changed | Also update |
+|---|---|
+| Bar count increased significantly | `index.html` meta description count |
+| New brands added | `app.js` BRAND_LIST array |
+| New brand pages added | `sitemap.xml`, `index.html` footer links |
+| Scoring logic changed | All brand review pages (regenerate) |
 
 ---
 
-## Making Code Changes
+## GitHub Upload Tips
 
-For any changes to `index.html`, `style.css`, or `app.js`:
+- You can upload multiple files at once by dragging them into the GitHub file browser
+- If a file does not appear updated after uploading, delete it from GitHub first then re-upload (clears a caching quirk)
+- Cloudflare typically deploys within 60 seconds of a GitHub push
+- Check deployment status at cloudflare.com dashboard under Pages
 
-1. Attach the relevant file(s) to a Claude conversation
-2. Paste the README for context
-3. Describe the change
-4. Claude edits the file and returns it
-5. Upload to GitHub
+---
 
-Always work from the latest version of the file from GitHub — not from a previous Claude session, which may be stale.
+## Google Search Console
+
+After uploading new or significantly changed pages:
+
+1. Go to Search Console for knowyourbar.com
+2. Paste the full URL into the inspection bar at the top
+3. Click "Request Indexing"
+4. Re-submit sitemap.xml if new pages were added (Sitemaps section in left nav)
+
+Pages typically get indexed within a few days to a week after requesting.
