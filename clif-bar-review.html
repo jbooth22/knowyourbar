@@ -80,7 +80,8 @@
     .verdict-footer strong { color: var(--white); }
 
     /* Authority line */
-    .authority-line { margin-top: 1.25rem; font-family: var(--font-mono); font-size: 10px; color: #ffffff44; letter-spacing: 0.04em; max-width: 660px; }
+    .authority-line { display: inline-flex; align-items: center; gap: 8px; margin-top: 1.25rem; padding: 8px 14px; background: rgba(212,240,0,0.1); border: 1px solid rgba(212,240,0,0.25); border-radius: 100px; font-family: var(--font-mono); font-size: 11px; color: #ffffffaa; letter-spacing: 0.03em; max-width: 660px; }
+    .authority-icon { color: var(--accent); font-size: 13px; flex-shrink: 0; }
 
     .snapshot { background: var(--off-white); border-bottom: 1px solid var(--border); padding: 1.75rem 2rem; }
     .snapshot-inner { max-width: 820px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.25rem; }
@@ -203,8 +204,8 @@
 
     <div class="verdict-card">
       <div class="verdict-header">
-        <div class="verdict-question">Are Clif Bars Healthy?</div>
-        <div class="verdict-answer">⚠️ Verdict: Depends on your goal</div>
+        <div class="verdict-question">Our Verdict</div>
+        <div class="verdict-answer">⚠️ Depends on your goal</div>
       </div>
       <div class="verdict-body">
         <p>Clif Bars are energy bars, not protein bars, and the ingredient quality scores reflect that. Most flavors land in C (Okay) or D (Poor) territory, pulled down by significant added sugar from cane syrup and brown rice syrup.</p>
@@ -213,7 +214,10 @@
       <div class="verdict-footer">Bottom line: <strong>Good for sustained energy. Not ideal for protein or low-sugar goals.</strong></div>
     </div>
 
-    <p class="authority-line">Based on analysis of 649+ protein bars using the Know Your Bar ingredient quality scoring system.</p>
+    <div class="authority-line">
+        <span class="authority-icon">&#x2713;</span>
+        Based on analysis of 672+ protein bars using the <a href="/ingredient_scoring.html" style="color:var(--accent);text-decoration:none;">Know Your Bar ingredient quality scoring system</a>
+      </div>
   </div>
 </header>
 
@@ -244,7 +248,7 @@
 
   <section class="section">
     <h2>Why reviewing every flavor matters</h2>
-    <p>Most protein bar reviews pick one or two flavors and call the brand done. That misses the point. Within a single brand, ingredient quality can vary significantly by flavor based on protein source choices, sweetener systems, oil selections, and coating ingredients. We scored every CLIF Bar flavor using the same objective ingredient quality scoring system we apply across our entire 649-bar database.</p>
+    <p>Most protein bar reviews pick one or two flavors and call the brand done. That misses the point. Within a single brand, ingredient quality can vary significantly by flavor based on protein source choices, sweetener systems, oil selections, and coating ingredients. We scored every CLIF Bar flavor using the same objective ingredient quality scoring system we apply across our entire 672-bar database.</p>
     <p>Clif was built for endurance athletes who need sustained energy output, not protein optimization. Their whole grain oat base is a genuine positive on ingredient quality scoring. But the significant added sugar load from cane syrup and brown rice syrup - by design for an energy product - creates a meaningful drag on scores that places most flavors in C to D territory.</p>
   </section>
 
@@ -277,7 +281,7 @@
 
   <section class="section">
     <h2>How CLIF Bar bars rank on macros</h2>
-    <p>Macros are personal. What is optimal depends entirely on your goals. We rank CLIF Bar against all 649 bars in our database so you can judge relative to the full market.</p>
+    <p>Macros are personal. What is optimal depends entirely on your goals. We rank CLIF Bar against all 672 bars in our database so you can judge relative to the full market.</p>
     <div class="macro-grid"><div class="macro-card">
       <div class="macro-label">Protein</div>
       <div class="macro-range">9-11g</div>
@@ -756,7 +760,7 @@
   </section>
 
   <div class="cta-box">
-    <h3>Compare across all 649 bars</h3>
+    <h3>Compare across all 672 bars</h3>
     <p>Filter by protein, sugar, fiber, certifications, and ingredient quality grade across every brand we track.</p>
     <a href="/" class="cta-link">Open the bar finder</a>
     <a href="/ingredient_scoring.html" class="cta-link">How we score</a>
