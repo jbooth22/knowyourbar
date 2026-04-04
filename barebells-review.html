@@ -107,16 +107,6 @@
 
     body { font-family: 'DM Sans', sans-serif; }
     h1, h2, h3, .snap-value, .grade-badge, .grade-seg { font-family: var(--font-display); }
-  
-    .faq-section { margin-top: 3rem; margin-bottom: 2rem; }
-    .faq-section h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-    .faq-item { border-bottom: 1px solid var(--border, #d6d3cc); padding: 1.1rem 0; }
-    .faq-item:first-of-type { border-top: 1px solid var(--border, #d6d3cc); }
-    .faq-q { font-family: var(--font-display, 'Syne', sans-serif); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.45rem; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .faq-q::after { content: '+'; font-size: 1.2rem; font-weight: 400; color: var(--muted, #888); flex-shrink: 0; transition: transform 0.2s; }
-    .faq-item.open .faq-q::after { content: '+'; transform: rotate(45deg); }
-    .faq-a { font-size: 0.9rem; color: #555; line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
 
   </style>
 <script type="application/ld+json">
@@ -620,9 +610,11 @@
     <a href="/?grade=A" class="cta-link">Browse A-grade bars</a>
     <a href="/?grade=B" class="cta-link">Browse B-grade bars</a>
   </div>
-<section class="faq-section content" style="max-width:820px;margin-left:auto;margin-right:auto;padding:0 2rem 3rem;">
+<section class="faq-section">
+  <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
   <div class="faq-item"><div class="faq-q">Are Barebells bars healthy?</div><div class="faq-a"><p>Barebells score B (Good) overall with several A (Clean) flavors. They deliver 20g of protein at around 200 calories with minimal sugar (0 to 2g). Every flavor contains artificial sweeteners and sugar alcohols, which is the main consideration for health-conscious consumers.</p></div></div><div class="faq-item"><div class="faq-q">Do Barebells have artificial sweeteners?</div><div class="faq-a"><p>Yes. Every Barebells flavor contains acesulfame potassium and most contain sucralose or other sweeteners. These keep the sugar content extremely low but are a concern for consumers avoiding synthetic sweeteners.</p></div></div><div class="faq-item"><div class="faq-q">How much protein is in Barebells?</div><div class="faq-a"><p>Barebells contain 20g of protein per bar, sourced primarily from milk protein. This puts them in the top tier for protein density across all 775+ bars we track, which is their strongest macro attribute.</p></div></div><div class="faq-item"><div class="faq-q">Are Barebells good for weight loss?</div><div class="faq-a"><p>Barebells score well for weight loss macros: 20g protein at 200 calories with minimal sugar puts them among the most protein-efficient bars we track. The tradeoff is artificial sweeteners and sugar alcohols in every flavor.</p></div></div><div class="faq-item"><div class="faq-q">Why do Barebells taste like candy bars?</div><div class="faq-a"><p>Barebells use coatings, fillings, and caramel layers similar to candy bar construction, with the sugar replaced by erythritol and acesulfame. The result is a bar that closely mimics candy bar texture and sweetness while staying very low in actual sugar.</p></div></div>
+  </div>
 </section>
 </main>
 <footer class="site-footer">
@@ -637,10 +629,7 @@ function toggleIngr(idx, row) {
 </script>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-item').classList.toggle('open');
-  });
+document.querySelectorAll(');
 });
 </script>
 

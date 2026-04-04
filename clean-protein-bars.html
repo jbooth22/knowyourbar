@@ -126,11 +126,6 @@
     .cta-primary { display: inline-block; padding: 12px 28px; background: var(--accent); color: var(--black); font-family: var(--font-mono); font-size: 12px; font-weight: 700; border-radius: var(--radius); text-decoration: none; letter-spacing: 0.04em; }
     .cta-primary:hover { opacity: 0.9; }
 
-    .faq-item { border-bottom: 1px solid var(--border); padding: 1.25rem 0; }
-    .faq-item:first-child { border-top: 1px solid var(--border); }
-    .faq-q { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
-    .faq-a { color: #555; font-size: 0.9rem; line-height: 1.65; }
-
     .site-footer { background: var(--black); color: #ffffff44; text-align: center; padding: 1.5rem; font-family: var(--font-mono); font-size: 11px; margin-top: 4rem; }
     .site-footer a { color: #ffffff44; text-decoration: none; }
 
@@ -142,12 +137,6 @@
       .hero-stats { gap: 1.25rem; }
       .bar-macros { gap: 14px; }
     }
-  
-    .faq-q { cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .faq-q::after { content: '+'; font-size: 1.2rem; font-weight: 400; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
-    .faq-item.open .faq-q::after { transform: rotate(45deg); }
-    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
   </style>
 </head>
 <body>
@@ -868,9 +857,7 @@
 </footer>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
-});
+document.querySelectorAll(');
 </script>
 </body>
 </html>

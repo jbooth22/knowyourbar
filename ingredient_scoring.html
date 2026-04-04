@@ -366,16 +366,6 @@
       .hero { padding: 2.5rem 1.25rem 2rem; }
       .content { padding: 2.5rem 1.25rem; }
     }
-  
-    .faq-section { margin-top: 3rem; margin-bottom: 2rem; }
-    .faq-section h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-    .faq-item { border-bottom: 1px solid var(--border, #d6d3cc); padding: 1.1rem 0; }
-    .faq-item:first-of-type { border-top: 1px solid var(--border, #d6d3cc); }
-    .faq-q { font-family: var(--font-display, 'Syne', sans-serif); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.45rem; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .faq-q::after { content: '+'; font-size: 1.2rem; font-weight: 400; color: var(--muted, #888); flex-shrink: 0; transition: transform 0.2s; }
-    .faq-item.open .faq-q::after { content: '+'; transform: rotate(45deg); }
-    .faq-a { font-size: 0.9rem; color: #555; line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
 
   </style>
 <script type="application/ld+json">
@@ -628,9 +618,11 @@
       </div>
     </section>
 
-  <section class="faq-section content" style="max-width:820px;margin-left:auto;margin-right:auto;padding:0 2rem 3rem;">
+  <section class="faq-section">
+  <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
   <div class="faq-item"><div class="faq-q">How does the Know Your Bar ingredient scoring system work?</div><div class="faq-a"><p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,000+ canonicals, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. The total becomes the bar's ingredient quality score.</p></div></div><div class="faq-item"><div class="faq-q">What do the letter grades mean?</div><div class="faq-a"><p>Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities.</p></div></div><div class="faq-item"><div class="faq-q">Are you nutritionists or dieticians?</div><div class="faq-a"><p>No. We are not nutritionists, registered dieticians, or medical professionals. We are people who eat a lot of protein bars, got frustrated by vague health claims, and built a data-driven scoring system to make sense of ingredient lists. The system is our best effort at an objective framework, not medical advice.</p></div></div><div class="faq-item"><div class="faq-q">How often is the scoring system updated?</div><div class="faq-a"><p>We update the scoring schema regularly as we add new bars and refine our understanding of specific ingredients. The current schema covers 1,000+ canonical ingredients. If you think an ingredient is scored incorrectly, we genuinely want to hear about it.</p></div></div><div class="faq-item"><div class="faq-q">Does ingredient quality score reflect taste or nutrition facts?</div><div class="faq-a"><p>No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall nutritional value. A bar could score high on ingredient quality but be high in calories. We recommend looking at both the ingredient grade and the macro profile when choosing a bar.</p></div></div>
+  </div>
 </section>
 </main>
 
@@ -684,10 +676,7 @@
   </script>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-item').classList.toggle('open');
-  });
+document.querySelectorAll(');
 });
 </script>
 

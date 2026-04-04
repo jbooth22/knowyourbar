@@ -435,18 +435,19 @@ const PRESETS = {
     sort: { col: 'Sugars (g)', dir: 'asc' }
   },
   high_protein: {
-    label: 'High Protein',
+    label: 'Most Protein Per Calorie',
     emoji: '💪',
-    tagline: '22g or more protein per bar',
-    why: 'If hitting your protein target is the priority, these are the bars that actually deliver. Every result here has at least 22g of protein per bar. We excluded F-grade bars so you are not just getting a list of the most processed options. Sorted by protein content.',
-    criteria: '22g+ protein &middot; A, B, or C ingredient grade',
+    tagline: 'Highest protein efficiency — most protein for your calorie budget',
+    why: 'Raw protein grams can be misleading. A bar with 30g protein at 400 calories is less efficient than one with 22g at 180 calories. This filter ranks by protein efficiency: grams of protein divided by total calories. Every result here has at least 15g protein and earns A, B, or C on ingredient quality.',
+    criteria: 'Protein efficiency ranked &middot; 15g+ protein &middot; A, B, or C ingredient grade',
     apply: (bar) => {
       const prot = bar['Protein (g)'];
+      const cal  = bar['Calories'];
       const band = bar['score_band'];
-      if (!prot) return false;
-      return prot >= 22 && (band === 'A' || band === 'B' || band === 'C');
+      if (!prot || !cal) return false;
+      return prot >= 15 && (band === 'A' || band === 'B' || band === 'C');
     },
-    sort: { col: 'Protein (g)', dir: 'desc' }
+    sort: { col: 'efficiency', dir: 'desc' }
   },
   keto: {
     label: 'Keto Friendly',

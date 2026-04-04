@@ -107,16 +107,6 @@
 
     body { font-family: 'DM Sans', sans-serif; }
     h1, h2, h3, .snap-value, .grade-badge, .grade-seg { font-family: var(--font-display); }
-  
-    .faq-section { margin-top: 3rem; margin-bottom: 2rem; }
-    .faq-section h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-    .faq-item { border-bottom: 1px solid var(--border, #d6d3cc); padding: 1.1rem 0; }
-    .faq-item:first-of-type { border-top: 1px solid var(--border, #d6d3cc); }
-    .faq-q { font-family: var(--font-display, 'Syne', sans-serif); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.45rem; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .faq-q::after { content: '+'; font-size: 1.2rem; font-weight: 400; color: var(--muted, #888); flex-shrink: 0; transition: transform 0.2s; }
-    .faq-item.open .faq-q::after { content: '+'; transform: rotate(45deg); }
-    .faq-a { font-size: 0.9rem; color: #555; line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
 
   </style>
 <script type="application/ld+json">
@@ -467,9 +457,11 @@
     <a href="/?grade=A" class="cta-link">Browse A-grade bars</a>
     <a href="/?grade=B" class="cta-link">Browse B-grade bars</a>
   </div>
-<section class="faq-section content" style="max-width:820px;margin-left:auto;margin-right:auto;padding:0 2rem 3rem;">
+<section class="faq-section">
+  <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
   <div class="faq-item"><div class="faq-q">Are Clif Bars healthy?</div><div class="faq-a"><p>Clif Bars score in the C (Okay) range for ingredient quality. They have genuine positives including organic whole grains and oats, but high sugar content and processed sweeteners like brown rice syrup pull scores down. They are better suited as energy fuel during endurance activity than as everyday snacks.</p></div></div><div class="faq-item"><div class="faq-q">How much sugar is in a Clif Bar?</div><div class="faq-a"><p>Clif Bars typically contain 17 to 25g of sugar per bar, averaging around 20g. This comes primarily from brown rice syrup and cane syrup, making them one of the higher-sugar bars in our 775+ bar database. The sugar is designed to provide sustained energy during exercise.</p></div></div><div class="faq-item"><div class="faq-q">Are Clif Bars good for the gym?</div><div class="faq-a"><p>Clif Bars are designed as endurance energy bars, not protein bars. With 9 to 11g of protein and 240 to 270 calories, they are better suited to fueling a long run or bike ride than post-workout recovery. For gym use, bars with higher protein-to-calorie ratios would serve better.</p></div></div><div class="faq-item"><div class="faq-q">Do Clif Bars have artificial ingredients?</div><div class="faq-a"><p>Clif Bars do not contain artificial sweeteners like sucralose or acesulfame. However, they do use processed sweeteners like brown rice syrup and cane sugar, and some flavors contain palm kernel oil and natural flavors. They use organic ingredients throughout, which contributes positively to scores.</p></div></div><div class="faq-item"><div class="faq-q">What is the best Clif Bar flavor?</div><div class="faq-a"><p>White Chocolate Macadamia Nut and Oatmeal Raisin Walnut score highest in our ingredient quality system due to whole grain oats leading the ingredient list and lower additive complexity. The lowest-scoring flavors tend to have more coating and filling complexity.</p></div></div>
+  </div>
 </section>
 </main>
 <footer class="site-footer">
@@ -484,10 +476,7 @@ function toggleIngr(idx, row) {
 </script>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-item').classList.toggle('open');
-  });
+document.querySelectorAll(');
 });
 </script>
 

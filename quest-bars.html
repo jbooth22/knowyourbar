@@ -107,16 +107,6 @@
 
     body { font-family: 'DM Sans', sans-serif; }
     h1, h2, h3, .snap-value, .grade-badge, .grade-seg { font-family: var(--font-display); }
-  
-    .faq-section { margin-top: 3rem; margin-bottom: 2rem; }
-    .faq-section h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
-    .faq-item { border-bottom: 1px solid var(--border, #d6d3cc); padding: 1.1rem 0; }
-    .faq-item:first-of-type { border-top: 1px solid var(--border, #d6d3cc); }
-    .faq-q { font-family: var(--font-display, 'Syne', sans-serif); font-weight: 700; font-size: 0.98rem; margin-bottom: 0.45rem; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .faq-q::after { content: '+'; font-size: 1.2rem; font-weight: 400; color: var(--muted, #888); flex-shrink: 0; transition: transform 0.2s; }
-    .faq-item.open .faq-q::after { content: '+'; transform: rotate(45deg); }
-    .faq-a { font-size: 0.9rem; color: #555; line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
-    .faq-item.open .faq-a { max-height: 400px; }
 
   </style>
 <script type="application/ld+json">
@@ -503,9 +493,11 @@
     <a href="/?grade=A" class="cta-link">Browse A-grade bars</a>
     <a href="/?grade=B" class="cta-link">Browse B-grade bars</a>
   </div>
-<section class="faq-section content" style="max-width:820px;margin-left:auto;margin-right:auto;padding:0 2rem 3rem;">
+<section class="faq-section">
+  <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
   <div class="faq-item"><div class="faq-q">Are Quest bars healthy?</div><div class="faq-a"><p>Quest bars score B (Good) or A (Clean) on ingredient quality across all flavors, with scores ranging from 4.4 to 9.3. They rank in the top 5% for fiber and top 27% for protein across the 775+ bars we track. Every flavor contains artificial sweeteners (sucralose and acesulfame potassium) and sugar alcohols, which are considerations for some consumers.</p></div></div><div class="faq-item"><div class="faq-q">Which Quest bar flavor is the healthiest?</div><div class="faq-a"><p>Oatmeal Chocolate Chip scores highest at 9.3 (A, Clean), followed by Double Chocolate Chunk and Chocolate Peanut Butter. These flavors have fewer processed additives than the lower-scoring flavors like Birthday Cake which scores 4.4.</p></div></div><div class="faq-item"><div class="faq-q">Do all Quest bars have artificial sweeteners?</div><div class="faq-a"><p>Yes. Every Quest bar flavor contains sucralose and acesulfame potassium. This is consistent across the entire product line and is the primary reason some consumers avoid Quest bars despite their strong protein and fiber numbers.</p></div></div><div class="faq-item"><div class="faq-q">How much protein do Quest bars have?</div><div class="faq-a"><p>Quest bars contain 18 to 21g of protein per bar, with an average of around 20g. This puts them in the top quarter for protein content across all bars in our database. The protein source is primarily milk protein isolate.</p></div></div><div class="faq-item"><div class="faq-q">Do Quest bars have sugar alcohols?</div><div class="faq-a"><p>Yes. Quest bars contain erythritol and in some flavors maltitol, contributing 5 to 9g of sugar alcohol per bar. This is what keeps the sugar count very low (1 to 2g) but may cause digestive discomfort for some people.</p></div></div>
+  </div>
 </section>
 </main>
 <footer class="site-footer">
@@ -520,10 +512,7 @@ function toggleIngr(idx, row) {
 </script>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-item').classList.toggle('open');
-  });
+document.querySelectorAll(');
 });
 </script>
 
