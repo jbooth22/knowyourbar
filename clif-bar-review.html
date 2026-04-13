@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Are Clif Bars Healthy? Whole Grains But High Sugar — Every Flavor Scored | Know Your Bar</title>
@@ -627,5 +635,37 @@ document.querySelectorAll('.faq-q').forEach(function(q) {
   });
 });
 </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Track Amazon affiliate clicks
+      document.querySelectorAll('a[href*="amazon.com"]').forEach(function(link) {
+        link.addEventListener('click', function() {
+          gtag('event', 'affiliate_click', {
+            'event_category': 'Amazon',
+            'event_label': window.location.pathname
+          });
+        });
+      });
+      // Track product page clicks
+      document.querySelectorAll('a[href*="visit"], a.visit-link').forEach(function(link) {
+        link.addEventListener('click', function() {
+          gtag('event', 'product_page_click', {
+            'event_category': 'Outbound',
+            'event_label': link.href
+          });
+        });
+      });
+      // Track internal navigation from brand pages to main tool
+      document.querySelectorAll('a[href="/"], a[href*="knowyourbar.com/"]').forEach(function(link) {
+        link.addEventListener('click', function() {
+          gtag('event', 'internal_nav', {
+            'event_category': 'Internal',
+            'event_label': link.href,
+            'event_source': window.location.pathname
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>
