@@ -160,7 +160,24 @@
       .big-stat-num{font-size:3.5rem;}
       .site-nav-links{display:none;}
     }
-</style>
+
+    .top-picks{background:var(--off-white);border-bottom:1px solid var(--border);padding:2.5rem 2rem;}
+    .top-picks-inner{max-width:820px;margin:0 auto;}
+    .top-picks-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+    .top-picks-title{font-family:var(--font-display);font-size:1.2rem;font-weight:800;margin-bottom:1.25rem;}
+    .top-picks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .pick-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;}
+    .pick-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;border-bottom:1px solid var(--border);padding-bottom:.5rem;}
+    .pick-brand{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;margin-top:.6rem;}
+    .pick-flavor{font-family:var(--font-display);font-weight:700;font-size:.93rem;line-height:1.25;margin-bottom:.6rem;}
+    .pick-grade{width:24px;height:24px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:700;color:white;margin-bottom:.5rem;}
+    .pick-macros{display:flex;gap:5px;}
+    .pick-macro{flex:1;text-align:center;background:var(--off-white);border-radius:4px;padding:3px 2px;}
+    .pick-macro-val{font-family:var(--font-mono);font-size:.75rem;font-weight:500;display:block;}
+    .pick-macro-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;}
+    .pick-link{display:inline-flex;align-items:center;gap:4px;margin-top:.65rem;font-family:var(--font-mono);font-size:10px;color:var(--black);text-decoration:none;border-bottom:1px solid var(--border);}
+    @media(max-width:640px){.top-picks-grid{grid-template-columns:1fr;}}
+  </style>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
   <meta property="og:title" content="Clean Protein Bars: 278 Options Ranked by Ingredient Quality">
@@ -194,8 +211,13 @@
   <a href="/" class="site-nav-logo">knowyourbar.com</a>
   <div class="site-nav-links">
     <div class="site-nav-group"><span class="site-nav-group-label">Brand Reviews</span><div class="site-nav-dropdown"><a href="/quest-bars.html">Quest</a><a href="/rxbar-review.html">RXBAR</a><a href="/clif-bar-review.html">Clif Bar</a><a href="/barebells-review.html">Barebells</a></div></div>
-    <div class="site-nav-group"><span class="site-nav-group-label">Guides</span><div class="site-nav-dropdown"><a href="/clean-protein-bars.html">Clean Protein Bars</a>
-        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a></div></div>
+    <div class="site-nav-group"><span class="site-nav-group-label">Guides</span>      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+      </div></div>
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
   </div>
 </nav>
@@ -220,6 +242,50 @@
     <div class="def-item"><div class="def-icon">&#10003;</div><div class="def-title">A or B ingredient grade</div><div class="def-desc">Scored A (Clean) or B (Good) on our ingredient quality system, which weights each ingredient by position and quality across the full list.</div></div>
   </div>
 </section>
+<section class="top-picks">
+  <div class="top-picks-inner">
+    <div class="top-picks-eyebrow">Top picks</div>
+    <div class="top-picks-title">Best options at a glance</div>
+    <div class="top-picks-grid"><div class="pick-card">
+  <div class="pick-label">Best overall</div>
+  <div class="pick-grade" style="background:#2a7a1f">A</div>
+  <div class="pick-brand">Healthy Eating on the Go</div>
+  <div class="pick-flavor">Coffee Mocha</div>
+  <div class="pick-macros">
+    <div class="pick-macro"><span class="pick-macro-val">11g</span><span class="pick-macro-lbl">Protein</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">200</span><span class="pick-macro-lbl">Cal</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">4g</span><span class="pick-macro-lbl">Sugar</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">4.0g</span><span class="pick-macro-lbl">Fiber</span></div>
+  </div>
+  <a href="https://www.healthy-onthego.com/product-page/coffee-mocha" target="_blank" rel="noopener" class="pick-link">Product page ↗</a>
+</div><div class="pick-card">
+  <div class="pick-label">High protein</div>
+  <div class="pick-grade" style="background:#2a7a1f">A</div>
+  <div class="pick-brand">PEAK Protein</div>
+  <div class="pick-flavor">Dark Chocolate Mint</div>
+  <div class="pick-macros">
+    <div class="pick-macro"><span class="pick-macro-val">20g</span><span class="pick-macro-lbl">Protein</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">290</span><span class="pick-macro-lbl">Cal</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">7g</span><span class="pick-macro-lbl">Sugar</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">9.0g</span><span class="pick-macro-lbl">Fiber</span></div>
+  </div>
+  <a href="https://www.amazon.com/dp/B0DJTX2KP8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="pick-link">Buy on Amazon ↗</a>
+</div><div class="pick-card">
+  <div class="pick-label">Low sugar + clean</div>
+  <div class="pick-grade" style="background:#2a7a1f">A</div>
+  <div class="pick-brand">Linear</div>
+  <div class="pick-flavor">Sweet Pecan Tortoise</div>
+  <div class="pick-macros">
+    <div class="pick-macro"><span class="pick-macro-val">20g</span><span class="pick-macro-lbl">Protein</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">240</span><span class="pick-macro-lbl">Cal</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">3g</span><span class="pick-macro-lbl">Sugar</span></div>
+    <div class="pick-macro"><span class="pick-macro-val">7.0g</span><span class="pick-macro-lbl">Fiber</span></div>
+  </div>
+  <a href="https://www.linearbar.com/pages/shop" target="_blank" rel="noopener" class="pick-link">Product page ↗</a>
+</div></div>
+  </div>
+</section>
+
 
 <section class="findings">
   <div class="findings-inner">
