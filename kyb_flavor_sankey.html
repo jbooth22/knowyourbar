@@ -1,0 +1,302 @@
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+#sankey-wrap { width: 100%; padding: 1rem 0 2rem; font-family: var(--font-sans); }
+#sankey-svg { width: 100%; display: block; }
+.node-label { font-size: 13px; fill: var(--color-text-primary); }
+.node-label-right { font-size: 12px; fill: var(--color-text-secondary); }
+.node-count { font-size: 11px; fill: var(--color-text-tertiary); }
+.tooltip {
+  position: absolute;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+</style>
+
+<div id="sankey-wrap">
+  <div class="tooltip" id="tt"></div>
+  <svg id="sankey-svg" role="img" aria-label="Sankey diagram showing protein bar flavor distribution across 908 bars, flowing from primary flavors to secondary flavor combinations">
+    <title>Protein bar flavor distribution — 908 bars</title>
+    <desc>Flow diagram showing how 908 protein bars break down by primary flavor category (Chocolate 316, Peanut Butter 157, Fruit 148, Vanilla 67, Other 110, Caramel 41, Cinnamon 24) and then into secondary flavor combinations</desc>
+  </svg>
+</div>
+
+<script>
+(function() {
+  const svg = document.getElementById('sankey-svg');
+  const wrap = document.getElementById('sankey-wrap');
+  const tt = document.getElementById('tt');
+
+  const W = wrap.offsetWidth || 700;
+  const H = 620;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('height', H);
+
+  const PAD = { top: 20, bottom: 20, left: 10, right: 10 };
+  const COL1_X = PAD.left + 120;
+  const COL2_X = W * 0.42;
+  const COL3_X = W - PAD.right - 120;
+  const NODE_W = 14;
+  const GAP = 6;
+
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const PRIMARY_COLORS = {
+    'Chocolate':     '#7B4F2E',
+    'Peanut Butter': '#C4842A',
+    'Fruit':         '#2E7B4F',
+    'Vanilla':       '#7B6B2E',
+    'Other':         '#5E5E5E',
+    'Caramel':       '#A06020',
+    'Cinnamon':      '#8B4513',
+  };
+
+  const nodes_L1 = [
+    { id: 'choc',   label: 'Chocolate',     n: 316, color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'pb',     label: 'Peanut Butter', n: 157, color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'fruit',  label: 'Fruit',         n: 148, color: PRIMARY_COLORS['Fruit'] },
+    { id: 'other',  label: 'Other',         n: 110, color: PRIMARY_COLORS['Other'] },
+    { id: 'van',    label: 'Vanilla',       n: 67,  color: PRIMARY_COLORS['Vanilla'] },
+    { id: 'car',    label: 'Caramel',       n: 41,  color: PRIMARY_COLORS['Caramel'] },
+    { id: 'cin',    label: 'Cinnamon',      n: 24,  color: PRIMARY_COLORS['Cinnamon'] },
+  ];
+
+  const nodes_L2 = [
+    { id: 'choc_chip',   label: 'Choc Chip',       n: 83,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'choc_other',  label: 'Choc Other',       n: 59,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'brownie',     label: 'Brownie',          n: 33,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'choc_almond', label: 'Choc Almond',      n: 29,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'choc_mint',   label: 'Choc Mint',        n: 21,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'choc_car',    label: 'Choc Caramel',     n: 15,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'choc_crunch', label: 'Choc Crunch',      n: 15,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+    { id: 'dark_choc',   label: 'Dark Choc',        n: 16,  parent: 'choc', color: PRIMARY_COLORS['Chocolate'] },
+
+    { id: 'pb_choc',     label: 'PB Chocolate',     n: 75,  parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_other',    label: 'PB Other',         n: 46,  parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_crunch',   label: 'PB Crunch',        n: 11,  parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_jelly',    label: 'PB & Jelly',       n: 8,   parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_cup',      label: 'PB Cup',           n: 7,   parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_honey',    label: 'PB Honey',         n: 4,   parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_banana',   label: 'PB Banana',        n: 3,   parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+    { id: 'pb_cookie',   label: 'PB Cookie',        n: 3,   parent: 'pb',   color: PRIMARY_COLORS['Peanut Butter'] },
+
+    { id: 'fruit_other', label: 'Single fruit',     n: 108, parent: 'fruit', color: PRIMARY_COLORS['Fruit'] },
+    { id: 'fruit_coco',  label: 'Fruit + Coconut',  n: 19,  parent: 'fruit', color: PRIMARY_COLORS['Fruit'] },
+    { id: 'fruit_alm',   label: 'Fruit + Almond',   n: 13,  parent: 'fruit', color: PRIMARY_COLORS['Fruit'] },
+    { id: 'fruit_rest',  label: 'Fruit + Other',    n: 8,   parent: 'fruit', color: PRIMARY_COLORS['Fruit'] },
+
+    { id: 'van_other',   label: 'Plain Vanilla',    n: 49,  parent: 'van',  color: PRIMARY_COLORS['Vanilla'] },
+    { id: 'van_alm',     label: 'Vanilla Almond',   n: 6,   parent: 'van',  color: PRIMARY_COLORS['Vanilla'] },
+    { id: 'van_cream',   label: 'Cookies & Cream',  n: 11,  parent: 'van',  color: PRIMARY_COLORS['Vanilla'] },
+    { id: 'van_chai',    label: 'Vanilla Chai',     n: 1,   parent: 'van',  color: PRIMARY_COLORS['Vanilla'] },
+
+    { id: 'car_other',   label: 'Plain Caramel',    n: 23,  parent: 'car',  color: PRIMARY_COLORS['Caramel'] },
+    { id: 'car_peanut',  label: 'Caramel Peanut',   n: 7,   parent: 'car',  color: PRIMARY_COLORS['Caramel'] },
+    { id: 'car_salt',    label: 'Salted Caramel',   n: 5,   parent: 'car',  color: PRIMARY_COLORS['Caramel'] },
+    { id: 'car_alm',     label: 'Caramel Almond',   n: 4,   parent: 'car',  color: PRIMARY_COLORS['Caramel'] },
+    { id: 'car_coco',    label: 'Caramel Coconut',  n: 2,   parent: 'car',  color: PRIMARY_COLORS['Caramel'] },
+
+    { id: 'other_all',   label: 'Other flavors',    n: 110, parent: 'other', color: PRIMARY_COLORS['Other'] },
+    { id: 'cin_all',     label: 'Cinnamon',         n: 24,  parent: 'cin',  color: PRIMARY_COLORS['Cinnamon'] },
+  ];
+
+  const TOTAL = nodes_L1.reduce((s, n) => s + n.n, 0);
+  const USABLE_H = H - PAD.top - PAD.bottom;
+
+  function layoutNodes(nodes, cx) {
+    const totalN = nodes.reduce((s, n) => s + n.n, 0);
+    const totalGap = GAP * (nodes.length - 1);
+    const totalBarH = USABLE_H - totalGap;
+    let y = PAD.top;
+    nodes.forEach(node => {
+      node.h = Math.max(4, (node.n / totalN) * totalBarH);
+      node.x = cx;
+      node.y = y;
+      node.cx = cx + NODE_W / 2;
+      node.cy = y + node.h / 2;
+      y += node.h + GAP;
+    });
+  }
+
+  function layoutCol2(nodes) {
+    const byParent = {};
+    nodes_L1.forEach(p => { byParent[p.id] = []; });
+    nodes.forEach(n => { if (byParent[n.parent]) byParent[n.parent].push(n); });
+
+    const totalGap = GAP * (nodes.length - 1);
+    const totalBarH = USABLE_H - totalGap;
+
+    let y = PAD.top;
+    nodes_L1.forEach(parent => {
+      const children = byParent[parent.id] || [];
+      const parentTotal = children.reduce((s, c) => s + c.n, 0);
+      children.forEach(child => {
+        child.h = Math.max(3, (child.n / TOTAL) * totalBarH);
+        child.x = COL2_X;
+        child.y = y;
+        child.cx = COL2_X + NODE_W / 2;
+        child.cy = y + child.h / 2;
+        y += child.h + GAP;
+      });
+    });
+  }
+
+  layoutNodes(nodes_L1, COL1_X);
+  layoutCol2(nodes_L2);
+
+  function makePath(x1, y1, h1, x2, y2, h2, color, opacity) {
+    const mx = (x1 + x2) / 2;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}
+               L${x2},${y2+h2} C${mx},${y2+h2} ${mx},${y1+h1} ${x1},${y1+h1} Z`;
+    path.setAttribute('d', d);
+    path.setAttribute('fill', color);
+    path.setAttribute('opacity', opacity);
+    return path;
+  }
+
+  function makeRect(node) {
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', node.x);
+    rect.setAttribute('y', node.y);
+    rect.setAttribute('width', NODE_W);
+    rect.setAttribute('height', node.h);
+    rect.setAttribute('fill', node.color);
+    rect.setAttribute('rx', 2);
+    return rect;
+  }
+
+  function makeText(x, y, text, cls, anchor) {
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', x);
+    t.setAttribute('y', y);
+    t.setAttribute('text-anchor', anchor || 'start');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('class', cls);
+    t.textContent = text;
+    return t;
+  }
+
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  svg.appendChild(defs);
+
+  const flowsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  flowsGroup.setAttribute('class', 'flows');
+  svg.appendChild(flowsGroup);
+
+  const nodesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  nodesGroup.setAttribute('class', 'nodes');
+  svg.appendChild(nodesGroup);
+
+  const labelsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  labelsGroup.setAttribute('class', 'labels');
+  svg.appendChild(labelsGroup);
+
+  // Track y offsets per L1 node for flow stacking
+  const l1Offsets = {};
+  nodes_L1.forEach(n => { l1Offsets[n.id] = 0; });
+
+  nodes_L2.forEach(child => {
+    const parent = nodes_L1.find(n => n.id === child.parent);
+    if (!parent) return;
+
+    const parentY = parent.y + l1Offsets[parent.id];
+    const parentH = (child.n / parent.n) * parent.h;
+    l1Offsets[parent.id] += parentH;
+
+    const path = makePath(
+      parent.x + NODE_W, parentY, parentH,
+      child.x, child.y, child.h,
+      child.color, 0.18
+    );
+
+    path.addEventListener('mouseenter', (e) => {
+      path.setAttribute('opacity', 0.35);
+      tt.style.opacity = 1;
+      tt.textContent = `${parent.label} → ${child.label}: ${child.n} bars`;
+    });
+    path.addEventListener('mousemove', (e) => {
+      const r = wrap.getBoundingClientRect();
+      tt.style.left = (e.clientX - r.left + 12) + 'px';
+      tt.style.top = (e.clientY - r.top - 32) + 'px';
+    });
+    path.addEventListener('mouseleave', () => {
+      path.setAttribute('opacity', 0.18);
+      tt.style.opacity = 0;
+    });
+
+    flowsGroup.appendChild(path);
+  });
+
+  // Draw L1 nodes + labels
+  nodes_L1.forEach(node => {
+    nodesGroup.appendChild(makeRect(node));
+    const pct = Math.round(node.n / TOTAL * 100);
+    labelsGroup.appendChild(makeText(
+      node.x - 8, node.cy,
+      `${node.label}`, 'node-label', 'end'
+    ));
+    labelsGroup.appendChild(makeText(
+      node.x - 8, node.cy + 14,
+      `${node.n} bars · ${pct}%`, 'node-count', 'end'
+    ));
+  });
+
+  // Draw L2 nodes + labels
+  nodes_L2.forEach(node => {
+    if (node.h < 3) return;
+    nodesGroup.appendChild(makeRect(node));
+    if (node.h >= 10) {
+      labelsGroup.appendChild(makeText(
+        node.x + NODE_W + 8, node.cy - (node.h >= 18 ? 6 : 0),
+        node.label, 'node-label-right', 'start'
+      ));
+      if (node.h >= 18) {
+        labelsGroup.appendChild(makeText(
+          node.x + NODE_W + 8, node.cy + 8,
+          `${node.n}`, 'node-count', 'start'
+        ));
+      }
+    }
+  });
+
+  // Column labels
+  const colLabelY = PAD.top - 8;
+  const colLabel = (x, text, anchor) => {
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', x);
+    t.setAttribute('y', colLabel.y || PAD.top / 2 + 2);
+    t.setAttribute('text-anchor', anchor);
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('fill', isDark ? '#888' : '#aaa');
+    t.setAttribute('font-size', '10');
+    t.setAttribute('letter-spacing', '0.08em');
+    t.textContent = text.toUpperCase();
+    labelsGroup.appendChild(t);
+  };
+
+  const hdr = (x, text, anchor) => {
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', x);
+    t.setAttribute('y', 10);
+    t.setAttribute('text-anchor', anchor);
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('fill', isDark ? '#888780' : '#888780');
+    t.setAttribute('font-size', '10');
+    t.setAttribute('letter-spacing', '0.1em');
+    t.textContent = text;
+    labelsGroup.appendChild(t);
+  };
+
+  hdr(COL1_X + NODE_W / 2, 'PRIMARY FLAVOR', 'middle');
+  hdr(COL2_X + NODE_W / 2, 'VARIATION', 'middle');
+
+})();
+</script>
