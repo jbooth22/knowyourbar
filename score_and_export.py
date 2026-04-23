@@ -367,11 +367,49 @@ def generate_insights(matched, full_lower, top_level_count):
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
+def audit_schema_gaps(df, al, cl):
+    """
+    Scan all bar ingredient lists for ingredients not found in the schema.
+    Prints the top unmatched ingredients by frequency so they can be reviewed
+    and added to the schema if appropriate.
+
+    Run this before scoring so gaps are visible before results are finalized.
+    """
+    unmatched = Counter()
+    total_parts = 0
+
+    for _, row in df.iterrows():
+        raw = str(row.get('Ingredients', ''))
+        if not raw or raw == 'nan':
+            continue
+        parsed = parse_ingredients(raw)
+        for ing_text, top_pos, weight_mult in parsed:
+            norm = normalize(ing_text)
+            if not norm or len(norm) < 2:
+                continue
+            total_parts += 1
+            if lookup_ingredient(norm, al, cl) is None:
+                clean = ing_text.strip()
+                if 2 < len(clean) < 60:
+                    unmatched[clean] += 1
+
+    if not unmatched:
+        print('  Schema audit: all ingredients matched — no gaps found.')
+        return
+
+    print(f'  Schema audit: {len(unmatched)} unique unmatched ingredients '
+          f'across {total_parts} total ingredient parts.')
+    print('  Top unmatched (review and add to schema if significant):')
+    for ing, count in unmatched.most_common(20):
+        print(f'    {count:3d}x  {ing}')
+
+
 def main():
     parser = argparse.ArgumentParser(description='Score protein bars and export bars.js')
     parser.add_argument('--db',     required=True, help='Bar database Excel file')
     parser.add_argument('--schema', required=True, help='Scoring schema Excel file (v3)')
     parser.add_argument('--out',    default='bars.js', help='Output file (default: bars.js)')
+    parser.add_argument('--no-audit', action='store_true', help='Skip schema gap audit')
     args = parser.parse_args()
 
     # Load database
@@ -396,8 +434,15 @@ def main():
     # Build lookup tables
     al, cl = build_lookup(alias_map, canonical)
 
+    # ── Schema gap audit ─────────────────────────────────────────────────────
+    # Run before scoring so gaps are visible. Add missing ingredients to the
+    # schema before re-running if any significant ones appear.
+    if not args.no_audit:
+        print('\nAuditing schema coverage...')
+        audit_schema_gaps(df, al, cl)
+
     # Score all bars
-    print('Scoring...')
+    print('\nScoring...')
     scored_count = unscored_count = 0
     for idx, row in df.iterrows():
         ingr = str(row.get('Ingredients', ''))

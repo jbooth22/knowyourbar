@@ -17,7 +17,7 @@ A static website hosted on Cloudflare Pages via GitHub. Users can search, filter
 ├── index.html              — Main bar finder tool
 ├── style.css               — All shared styles
 ├── app.js                  — All filter, sort, preset, comparison, URL state, and similar bars logic
-├── bars.js                 — Full bar database (817 bars, ~1.6MB)
+├── bars.js                 — Full bar database (900+ bars, ~1.6MB)
 ├── bar_hero.png            — Hero image
 ├── score_and_export.py     — Scoring pipeline script
 ├── sitemap.xml
@@ -41,9 +41,9 @@ Note on file naming: Brand pages use inconsistent naming (quest-bars.html vs rxb
 
 File: bars.js
 Source: KYB - New Protein Bar Database (2026).xlsx (maintained locally, not in repo)
-Current count: 817 bars across 95+ brands
+Current count: 900+ bars across 95+ brands
 Affiliate tag: knowyourbar0f-20
-Affiliate coverage: ~554 of 817 bars (~68%)
+Affiliate coverage: ~554 of 900+ bars (~68%)
 
 ### Known unscored bars (missing ingredient data in spreadsheet)
 - Power Crunch | Chocolate Strawberry
@@ -106,8 +106,8 @@ Final Score = sum of (base_score x position_weight x sub_multiplier) + count adj
 | D | Poor | -3.0 to -0.1 |
 | F | Avoid | Below -3.0 |
 
-### Current grade distribution (817 bars)
-A=86, B=282, C=266, D=158, F=21, Unscored=4
+### Current grade distribution (900+ bars)
+A=117, B=305, C=287, D=173, F=22, Unscored=4
 
 ---
 
@@ -135,7 +135,7 @@ Requires: pip install pandas openpyxl
 - 5 goal-oriented presets: Lose Weight, Clean Ingredients, Skip the Sugar, Most Protein Per Calorie, Keto Friendly
 - Core filters always visible: Presets, Ingredient Grade, Brand, Flavor keyword
 - Advanced filters collapsed by default: Macro sliders, Certifications, Exclude ingredients
-- Macro rank grid in expanded row: each of 5 macros shows rank (e.g. "#47 highest protein of 817 bars")
+- Macro rank grid in expanded row: each of 5 macros shows rank (e.g. "#47 highest protein of 900+ bars")
 - Similar bars section in expanded row: 3 cross-brand bars with comparable macro profiles
 - Comparison feature: add up to 4 bars, shareable comparison URL
 - URL state serialization (all filter state in URL params)

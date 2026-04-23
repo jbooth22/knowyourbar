@@ -112,7 +112,7 @@ When adding new canonical ingredients or fixing scores:
    - Add rows to Alias_Map
 2. Upload updated schema + bar database to Claude
 3. Say "run score_and_export"
-4. Compare grade distribution to current (A=86 B=282 C=266 D=158 F=21)
+4. Compare grade distribution to current (A=117 B=305 C=287 D=173 F=22)
 5. Upload bars.js
 
 ---
