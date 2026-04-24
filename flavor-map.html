@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protein Bar Flavor Map — 900+ Bars Visualized | Know Your Bar</title>
+  <meta name="description" content="How do 900+ protein bars break down by flavor? Chocolate leads at 35%. Explore every primary flavor and variation.">
+  <link rel="canonical" href="https://knowyourbar.com/flavor-map.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black:#0e0e0e; --surface:#141414; --surface2:#1c1c1c;
+      --white:#f7f5f0; --muted:#888780; --border:#ffffff12; --accent:#d4f000;
+      --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
+
+    /* Nav */
+    .nav{height:52px;display:flex;align-items:center;padding:0 1.25rem;border-bottom:1px solid var(--border);position:relative;z-index:50;}
+    .nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.08em;}
+    .nav-links{display:flex;align-items:center;margin-left:auto;}
+    .nav-link{font-family:'DM Mono',monospace;font-size:11px;color:#ffffff66;text-decoration:none;padding:0 10px;height:52px;display:flex;align-items:center;}
+    .nav-link:hover{color:var(--white);}
+    .nav-group{position:relative;height:52px;display:flex;align-items:center;}
+    .nav-group-label{font-family:'DM Mono',monospace;font-size:11px;color:#ffffff66;padding:0 10px;height:52px;display:flex;align-items:center;gap:4px;cursor:default;}
+    .nav-group-label::after{content:'&#9662';font-size:9px;color:#ffffff33;}
+    .nav-group:hover .nav-group-label{color:var(--white);}
+    .nav-dd{display:none;position:absolute;top:52px;left:0;background:#1a1a1a;border:1px solid #ffffff18;border-radius:0 0 6px 6px;min-width:180px;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,.5);}
+    .nav-group:hover .nav-dd{display:block;}
+    .nav-dd a{display:block;font-family:'DM Mono',monospace;font-size:11px;color:#ffffff66;text-decoration:none;padding:8px 16px;}
+    .nav-dd a:hover{background:#ffffff08;color:var(--white);}
+
+    /* Hero */
+    .hero{max-width:860px;margin:0 auto;padding:3rem 1.25rem 2rem;}
+    .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
+    .hero-title{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:1rem;}
+    .hero-title em{font-style:normal;color:var(--accent);}
+    .hero-sub{font-size:.95rem;color:#aaa89e;max-width:540px;line-height:1.7;}
+
+    /* Stats */
+    .stats{max-width:860px;margin:0 auto;padding:0 1.25rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
+    .stat-n{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;display:block;margin-bottom:3px;}
+    .stat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff30;}
+
+    /* Desktop Sankey */
+    .sankey-wrap{max-width:980px;margin:0 auto;padding:0 1.25rem 1.5rem;}
+    .sankey-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem 1.5rem 1.5rem;position:relative;}
+    #sankey{width:100%;display:block;}
+    .tip{position:absolute;background:var(--surface2);border:1px solid #ffffff22;border-radius:6px;padding:6px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--white);pointer-events:none;opacity:0;transition:opacity .1s;white-space:nowrap;z-index:20;}
+
+    /* Mobile bar chart */
+    .mobile-chart{max-width:860px;margin:0 auto;padding:0 1.25rem 1.5rem;display:none;}
+    .flavor-group{margin-bottom:1.5rem;}
+    .flavor-group-header{display:flex;align-items:center;gap:10px;margin-bottom:.6rem;}
+    .flavor-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+    .flavor-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.97rem;}
+    .flavor-total{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
+    .flavor-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+    .flavor-bar-label{font-family:'DM Sans',sans-serif;font-size:12px;color:#c0bcb4;width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .flavor-bar-track{flex:1;background:#ffffff08;border-radius:3px;height:7px;overflow:hidden;}
+    .flavor-bar-fill{height:100%;border-radius:3px;transition:width .3s;}
+    .flavor-bar-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:28px;text-align:right;flex-shrink:0;}
+
+    /* Legend */
+    .legend{max-width:980px;margin:0 auto;padding:0 1.25rem 1rem;display:flex;gap:14px;flex-wrap:wrap;}
+    .legend-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+    .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+    .footnote{max-width:980px;margin:0 auto;padding:0 1.25rem 3rem;font-family:'DM Mono',monospace;font-size:10px;color:#ffffff20;}
+    .footnote a{color:#ffffff30;text-decoration:none;}
+    footer{border-top:1px solid var(--border);padding:1.5rem 1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:#ffffff20;text-align:center;}
+    footer a{color:#ffffff20;text-decoration:none;}
+
+    @media(max-width:640px){
+      .sankey-wrap{display:none;}
+      .mobile-chart{display:block;}
+      .legend{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">KNOW YOUR BAR</a>
+  <div class="nav-links">
+    <div class="nav-group">
+      <span class="nav-group-label">Brands</span>
+      <div class="nav-dd">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="nav-group">
+      <span class="nav-group-label">Guides</span>
+      <div class="nav-dd">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+      </div>
+    </div>
+    <a href="/" class="nav-link">Tool</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Data visualization &middot; 908 bars</div>
+  <h1 class="hero-title">The protein bar <em>flavor map</em></h1>
+  <p class="hero-sub">How 908 protein bars break down by flavor &mdash; from primary category into specific variations. Hover any flow to see the exact count.</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="stat-n">316</span><span class="stat-l">Chocolate</span></div>
+  <div class="stat"><span class="stat-n">157</span><span class="stat-l">Peanut Butter</span></div>
+  <div class="stat"><span class="stat-n">148</span><span class="stat-l">Fruit</span></div>
+  <div class="stat"><span class="stat-n">83</span><span class="stat-l">Choc Chip &mdash; #1 variation</span></div>
+  <div class="stat"><span class="stat-n">75</span><span class="stat-l">PB Choc &mdash; #1 combo</span></div>
+</div>
+
+<!-- Desktop: Sankey -->
+<div class="sankey-wrap">
+  <div class="sankey-inner" id="wrap">
+    <div class="tip" id="tip"></div>
+    <svg id="sankey" role="img" aria-label="Sankey diagram: 908 protein bars by flavor. Chocolate 316, Peanut Butter 157, Fruit 148, Other 110, Vanilla 67, Caramel 41, Cinnamon 24.">
+      <title>Protein bar flavor map</title>
+    </svg>
+  </div>
+</div>
+
+<!-- Mobile: stacked bar chart per category -->
+<div class="mobile-chart" id="mobile-chart"></div>
+
+<div class="legend" id="legend"></div>
+
+<p class="footnote">Flavors parsed from bar names across 908 bars. &mdash; <a href="/">Search all 900+ bars &rarr;</a></p>
+<footer><a href="/">knowyourbar.com</a> &nbsp;&middot;&nbsp; 908 bars &middot; 95+ brands &nbsp;&middot;&nbsp; Updated April 2026</footer>
+
+<script>
+(function(){
+  const COLORS={
+    'Chocolate':'#b07040','Peanut Butter':'#c48c28','Fruit':'#4a9e68',
+    'Other':'#5a6678','Vanilla':'#9a8c3a','Caramel':'#b87230','Cinnamon':'#9a5428',
+  };
+
+  const L1=[
+    {id:'choc', label:'Chocolate',     n:316},
+    {id:'pb',   label:'Peanut Butter', n:157},
+    {id:'fruit',label:'Fruit',         n:148},
+    {id:'other',label:'Other',         n:110},
+    {id:'van',  label:'Vanilla',       n:67},
+    {id:'car',  label:'Caramel',       n:41},
+    {id:'cin',  label:'Cinnamon',      n:24},
+  ];
+
+  const L2=[
+    {p:'choc', label:'Chocolate Chip',  n:83},
+    {p:'choc', label:'Other Chocolate', n:59},
+    {p:'choc', label:'Brownie',         n:33},
+    {p:'choc', label:'Choc Almond',     n:29},
+    {p:'choc', label:'Choc Mint',       n:21},
+    {p:'choc', label:'Dark Chocolate',  n:16},
+    {p:'choc', label:'Choc Caramel',    n:15},
+    {p:'choc', label:'Choc Crunch',     n:15},
+    {p:'pb',   label:'PB Chocolate',    n:75},
+    {p:'pb',   label:'Other PB',        n:46},
+    {p:'pb',   label:'PB Crunch',       n:11},
+    {p:'pb',   label:'PB + Jelly',      n:8},
+    {p:'pb',   label:'PB Cup',          n:7},
+    {p:'pb',   label:'PB Honey',        n:4},
+    {p:'pb',   label:'PB Banana',       n:3},
+    {p:'pb',   label:'PB Cookie',       n:3},
+    {p:'fruit',label:'Single Fruit',    n:108},
+    {p:'fruit',label:'Fruit + Coconut', n:19},
+    {p:'fruit',label:'Fruit + Almond',  n:13},
+    {p:'fruit',label:'Fruit + Other',   n:8},
+    {p:'van',  label:'Plain Vanilla',   n:49},
+    {p:'van',  label:'Cookies & Cream', n:11},
+    {p:'van',  label:'Vanilla Almond',  n:6},
+    {p:'van',  label:'Vanilla Chai',    n:1},
+    {p:'car',  label:'Plain Caramel',   n:23},
+    {p:'car',  label:'Caramel Peanut',  n:7},
+    {p:'car',  label:'Salted Caramel',  n:5},
+    {p:'car',  label:'Caramel Almond',  n:4},
+    {p:'car',  label:'Caramel Coconut', n:2},
+    {p:'other',label:'Other flavors',   n:110},
+    {p:'cin',  label:'Cinnamon',        n:24},
+  ];
+
+  const TOTAL=L1.reduce((s,n)=>s+n.n,0);
+  L1.forEach(n=>{n.color=COLORS[n.label]||'#666';});
+  L2.forEach(n=>{const p=L1.find(x=>x.id===n.p);n.color=p?p.color:'#666';});
+
+  // ── Legend ────────────────────────────────────────────────────────────────
+  const legendEl=document.getElementById('legend');
+  L1.forEach(n=>{
+    const item=document.createElement('div');item.className='legend-item';
+    const dot=document.createElement('div');dot.className='legend-dot';dot.style.background=n.color;
+    const lbl=document.createElement('span');lbl.textContent=n.label+' ('+n.n+')';
+    item.appendChild(dot);item.appendChild(lbl);legendEl.appendChild(item);
+  });
+
+  // ── Mobile bar chart ──────────────────────────────────────────────────────
+  const mobileEl=document.getElementById('mobile-chart');
+  const maxN=Math.max(...L2.map(x=>x.n));
+  L1.forEach(par=>{
+    const children=L2.filter(c=>c.p===par.id);
+    if(!children.length)return;
+    const group=document.createElement('div');group.className='flavor-group';
+
+    const hdr=document.createElement('div');hdr.className='flavor-group-header';
+    const sw=document.createElement('div');sw.className='flavor-swatch';sw.style.background=par.color;
+    const nm=document.createElement('span');nm.className='flavor-name';nm.textContent=par.label;
+    const tot=document.createElement('span');tot.className='flavor-total';tot.textContent=par.n+' bars';
+    hdr.appendChild(sw);hdr.appendChild(nm);hdr.appendChild(tot);
+    group.appendChild(hdr);
+
+    children.forEach(child=>{
+      const row=document.createElement('div');row.className='flavor-bar-row';
+      const lbl=document.createElement('span');lbl.className='flavor-bar-label';lbl.textContent=child.label;
+      const track=document.createElement('div');track.className='flavor-bar-track';
+      const fill=document.createElement('div');fill.className='flavor-bar-fill';
+      fill.style.width=Math.round(child.n/maxN*100)+'%';
+      fill.style.background=par.color+'99';
+      track.appendChild(fill);
+      const cnt=document.createElement('span');cnt.className='flavor-bar-count';cnt.textContent=child.n;
+      row.appendChild(lbl);row.appendChild(track);row.appendChild(cnt);
+      group.appendChild(row);
+    });
+    mobileEl.appendChild(group);
+  });
+
+  // ── Desktop Sankey ────────────────────────────────────────────────────────
+  const svg=document.getElementById('sankey');
+  const wrap=document.getElementById('wrap');
+  const tip=document.getElementById('tip');
+  const NS='http://www.w3.org/2000/svg';
+
+  function mk(tag,attrs){
+    const e=document.createElementNS(NS,tag);
+    for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);
+    return e;
+  }
+  function mktxt(x,y,text,attrs){
+    const t=mk('text',{x,y,...attrs});t.textContent=text;return t;
+  }
+
+  function draw(){
+    if(window.innerWidth<=640)return;
+    svg.innerHTML='';
+    const W=wrap.offsetWidth-48;
+    const H=Math.max(600,Math.round(window.innerHeight*0.80));
+    const PAD={t:32,b:16};
+    const NW=15,GAP=5;
+    const USABLE=H-PAD.t-PAD.b;
+    const COL1=178,COL2=W-196;
+
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    svg.setAttribute('height',H);
+
+    const gaps1=GAP*(L1.length-1);
+    let y=PAD.t;
+    L1.forEach(n=>{n.h=Math.max(4,n.n/TOTAL*(USABLE-gaps1));n.x=COL1;n.y=y;y+=n.h+GAP;});
+
+    const gaps2=GAP*(L2.length-1);
+    y=PAD.t;
+    L1.forEach(par=>{
+      L2.filter(c=>c.p===par.id).forEach(child=>{
+        child.h=Math.max(2,child.n/TOTAL*(USABLE-gaps2));
+        child.x=COL2;child.y=y;y+=child.h+GAP;
+      });
+    });
+
+    const gF=mk('g',{});svg.appendChild(gF);
+    const gN=mk('g',{});svg.appendChild(gN);
+    const gL=mk('g',{});svg.appendChild(gL);
+
+    const off={};L1.forEach(n=>{off[n.id]=0;});
+
+    L2.forEach(child=>{
+      const par=L1.find(n=>n.id===child.p);if(!par)return;
+      const sy=par.y+off[par.id];
+      const sh=(child.n/par.n)*par.h;
+      off[par.id]+=sh;
+      const x1=par.x+NW,x2=child.x;
+      const mx=x1+(x2-x1)*0.52;
+      const d=[
+        `M${x1},${sy}`,`C${mx},${sy} ${mx},${child.y} ${x2},${child.y}`,
+        `L${x2},${child.y+child.h}`,
+        `C${mx},${child.y+child.h} ${mx},${sy+sh} ${x1},${sy+sh}Z`
+      ].join(' ');
+      const path=mk('path',{d,fill:child.color,opacity:'0.2',cursor:'default'});
+      gF.appendChild(path);
+      path.addEventListener('mouseenter',()=>{
+        path.setAttribute('opacity','0.44');
+        tip.style.opacity='1';
+        tip.textContent=par.label+' \u2192 '+child.label+': '+child.n+' bars';
+      });
+      path.addEventListener('mousemove',e=>{
+        const r=wrap.getBoundingClientRect();
+        tip.style.left=(e.clientX-r.left+14)+'px';
+        tip.style.top=(e.clientY-r.top-38)+'px';
+      });
+      path.addEventListener('mouseleave',()=>{path.setAttribute('opacity','0.2');tip.style.opacity='0';});
+    });
+
+    L1.forEach(n=>{
+      gN.appendChild(mk('rect',{x:n.x,y:n.y,width:NW,height:n.h,fill:n.color,rx:3}));
+      const mid=n.y+n.h/2;
+      const pct=Math.round(n.n/TOTAL*100);
+      const big=n.h>22;
+      gL.appendChild(mktxt(n.x-14,mid-(big?8:0),n.label,{
+        'text-anchor':'end','dominant-baseline':'middle',
+        'font-family':'Syne,sans-serif','font-weight':'800',
+        'font-size':'14','letter-spacing':'-0.3','fill':'#f0ede6',
+      }));
+      if(big){gL.appendChild(mktxt(n.x-14,mid+9,n.n+' bars \u00b7 '+pct+'%',{
+        'text-anchor':'end','dominant-baseline':'middle',
+        'font-family':'DM Mono,monospace','font-size':'10','fill':'#5e5e58',
+      }));}
+    });
+
+    L2.forEach(n=>{
+      if(n.h<2)return;
+      gN.appendChild(mk('rect',{x:n.x,y:n.y,width:NW,height:n.h,fill:n.color,rx:2}));
+      if(n.h>=8){
+        const mid=n.y+n.h/2;const big=n.h>=18;
+        gL.appendChild(mktxt(n.x+NW+10,mid-(big?7:0),n.label,{
+          'text-anchor':'start','dominant-baseline':'middle',
+          'font-family':'DM Sans,sans-serif','font-weight':'500',
+          'font-size':'12','fill':'#c0bcb4',
+        }));
+        if(big){gL.appendChild(mktxt(n.x+NW+10,mid+8,n.n+' bars',{
+          'text-anchor':'start','dominant-baseline':'middle',
+          'font-family':'DM Mono,monospace','font-size':'10','fill':'#424240',
+        }));}
+      }
+    });
+
+    function hdr(x,lbl,anchor){
+      gL.appendChild(mktxt(x,PAD.t-14,lbl,{
+        'text-anchor':anchor,'font-family':'DM Mono,monospace',
+        'font-size':'9','letter-spacing':'2','fill':'#ffffff18',
+      }));
+    }
+    hdr(COL1+NW/2,'PRIMARY FLAVOR','middle');
+    hdr(COL2+NW/2,'VARIATION','middle');
+    gL.appendChild(mk('line',{x1:COL1-92,y1:PAD.t-4,x2:COL1+92,y2:PAD.t-4,stroke:'#ffffff08','stroke-width':'1'}));
+    gL.appendChild(mk('line',{x1:COL2-60,y1:PAD.t-4,x2:COL2+190,y2:PAD.t-4,stroke:'#ffffff08','stroke-width':'1'}));
+  }
+
+  draw();
+  let t;
+  window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(draw,100);});
+})();
+</script>
+</body>
+</html>
