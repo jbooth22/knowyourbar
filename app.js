@@ -832,20 +832,29 @@ function renderExclTags() {
   const div = document.getElementById('excl-tags');
   div.innerHTML = '';
   exclusions.forEach(term => {
-    const tag = document.createElement('span');
-    tag.className = 'excl-tag';
-    tag.innerHTML = `${term} <button aria-label="Remove ${term}" onclick="removeExclusion('${term}')">×</button>`;
-    div.appendChild(tag);
+    div.appendChild(_buildExclTag(term));
   });
 }
 
 function renderExclusionTag(term) {
   const div = document.getElementById('excl-tags');
   if (!div) return;
+  div.appendChild(_buildExclTag(term));
+}
+
+// Build exclusion tag using DOM methods only — never innerHTML with user input
+function _buildExclTag(term) {
   const tag = document.createElement('span');
   tag.className = 'excl-tag';
-  tag.innerHTML = `${term} <button aria-label="Remove ${term}" onclick="removeExclusion('${term}')">×</button>`;
-  div.appendChild(tag);
+  // textContent safely sets text without interpreting HTML
+  const label = document.createTextNode(term + ' ');
+  const btn = document.createElement('button');
+  btn.setAttribute('aria-label', 'Remove ' + term);
+  btn.textContent = '×';
+  btn.addEventListener('click', function() { removeExclusion(term); });
+  tag.appendChild(label);
+  tag.appendChild(btn);
+  return tag;
 }
 
 // ─── Reset ───────────────────────────────────────────

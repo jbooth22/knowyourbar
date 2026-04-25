@@ -152,6 +152,31 @@
       .brand-cols{grid-template-columns:1fr;}
       .hero-stats{gap:1.5rem;}
     }
+  
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
   </style>
 </head>
 <body>
@@ -186,14 +211,14 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Data-backed guide · 900+ bars checked</div>
     <h1 class="hero-title">Protein bars with <em>no seed oils</em></h1>
-    <p>We checked every ingredient list in our database of 900+ protein bars for four seed oils: sunflower oil, soybean oil, canola oil, and safflower oil. 617 bars (69%) contain none of them. Sunflower oil is the one to watch — it appears in 181 bars, more than the other three combined. FITCRUNCH, Legendary, and Clif Builders put it in every single flavor. RXBAR, Perfect Bar, and Larabar have never used it. Here's what we found.</p>
+    <p>We checked every ingredient list in our database of 900+ protein bars for four seed oils: sunflower oil, soybean oil, canola oil, and safflower oil. 617 bars (69%) contain none of them. Sunflower oil is the one to watch. It appears in 181 bars, more than the other three combined. FITCRUNCH, Legendary, and Clif Builders put it in every single flavor. RXBAR, Perfect Bar, and Larabar have never used it. Here's what we found.</p>
     <div class="hero-stats"><div><span class="hero-stat-val">617</span><span class="hero-stat-lbl">Bars with no seed oils</span></div><div><span class="hero-stat-val">69%</span><span class="hero-stat-lbl">Of all 900+ bars scored</span></div><div><span class="hero-stat-val">181</span><span class="hero-stat-lbl">Bars that contain sunflower oil</span></div></div>
   </div>
 </section>
 <section class="top-picks">
   <div class="top-picks-inner">
     <div class="top-picks-eyebrow">Top picks</div>
-    <div class="top-picks-title">The ones worth buying — decided for you</div>
+    <div class="top-picks-title">Our top picks for each goal</div>
     <div class="top-picks-grid"><div class="pick-card">
   <div class="pick-label">If you want the highest ingredient score</div>
   <div class="pick-grade" style="background:#2a7a1f">A</div>
@@ -264,12 +289,12 @@
       </div>
     </div>
     <div class="insights-grid">
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Sunflower oil dominates.</strong> 181 bars contain sunflower oil — more than soybean and canola combined. It is the most common fat source in bar coatings and chocolate layers. If you scan one ingredient to watch for, it is sunflower oil.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Sunflower oil dominates.</strong> 181 bars contain sunflower oil   more than soybean and canola combined. It is the most common fat source in bar coatings and chocolate layers. If you scan one ingredient to watch for, it is sunflower oil.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Some whole brands are entirely clean.</strong> RXBAR, Perfect Bar, Larabar, Kize, Linear, and Transparent Labs have zero seed oils across every flavor in our database. You do not need to check flavors individually for these brands.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>FITCRUNCH and Legendary always contain them.</strong> Every flavor from FITCRUNCH, Legendary, Clif Builders, Luna, and Simply Protein contains at least one seed oil. If you are avoiding them, avoid these brands entirely.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>High protein does not require seed oils.</strong> Gryp hits 25g protein with no seed oils. PEAK Protein hits 20g. Linear hits 20g. The top-ranked bars on this page average over 14g of protein without any seed oils.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>A-grade bars largely avoid them.</strong> Of the 113 A-grade bars in our database, 84 contain no seed oils. Clean ingredient profiles and seed oil avoidance tend to go together.</div></div>
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>High oleic sunflower oil is different.</strong> Some bars list "high oleic sunflower oil" — this has a fatty acid profile closer to olive oil and is not the same as standard sunflower oil. Our filter does not flag high oleic varieties.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>High oleic sunflower oil is different.</strong> Some bars list "high oleic sunflower oil"   this has a fatty acid profile closer to olive oil and is not the same as standard sunflower oil. Our filter does not flag high oleic varieties.</div></div>
     </div>
   </div>
 </section>
@@ -279,16 +304,16 @@
     <h2 class="section-title">Which brands always avoid seed oils?</h2>
     <p class="section-body">These brands have zero seed oils across every flavor in our database.</p>
     <div class="brand-cols">
-      <div><h3>Buy any flavor — no seed oils ever</h3><ul class="brand-list"><li>Larabar <span class="brand-note">all flavors clean</span></li><li>Perfect Bar <span class="brand-note">all flavors clean</span></li><li>RXBAR <span class="brand-note">all flavors clean</span></li><li>Kize <span class="brand-note">all flavors clean</span></li><li>Linear <span class="brand-note">all flavors clean</span></li><li>Transparent Labs <span class="brand-note">all flavors clean</span></li><li>1st Phorm <span class="brand-note">all flavors clean</span></li><li>Gryp <span class="brand-note">all flavors clean</span></li></ul></div>
-      <div><h3>Avoid these — seed oils in every flavor</h3><ul class="brand-list"><li>FITCRUNCH <span class="brand-note">all flavors contain seed oils</span></li><li>Legendary <span class="brand-note">all flavors contain seed oils</span></li><li>Clif Builders <span class="brand-note">all flavors contain seed oils</span></li><li>Luna <span class="brand-note">all flavors contain seed oils</span></li><li>Simply Protein <span class="brand-note">all flavors contain seed oils</span></li><li>Ready <span class="brand-note">all flavors contain seed oils</span></li><li>Misfits <span class="brand-note">all flavors contain seed oils</span></li><li>Clif ZBar <span class="brand-note">all flavors contain seed oils</span></li></ul></div>
+      <div><h3>Buy any flavor, with no seed oils ever</h3><ul class="brand-list"><li>Larabar <span class="brand-note">all flavors clean</span></li><li>Perfect Bar <span class="brand-note">all flavors clean</span></li><li>RXBAR <span class="brand-note">all flavors clean</span></li><li>Kize <span class="brand-note">all flavors clean</span></li><li>Linear <span class="brand-note">all flavors clean</span></li><li>Transparent Labs <span class="brand-note">all flavors clean</span></li><li>1st Phorm <span class="brand-note">all flavors clean</span></li><li>Gryp <span class="brand-note">all flavors clean</span></li></ul></div>
+      <div><h3>Avoid these   seed oils in every flavor</h3><ul class="brand-list"><li>FITCRUNCH <span class="brand-note">all flavors contain seed oils</span></li><li>Legendary <span class="brand-note">all flavors contain seed oils</span></li><li>Clif Builders <span class="brand-note">all flavors contain seed oils</span></li><li>Luna <span class="brand-note">all flavors contain seed oils</span></li><li>Simply Protein <span class="brand-note">all flavors contain seed oils</span></li><li>Ready <span class="brand-note">all flavors contain seed oils</span></li><li>Misfits <span class="brand-note">all flavors contain seed oils</span></li><li>Clif ZBar <span class="brand-note">all flavors contain seed oils</span></li></ul></div>
     </div>
   </div>
 </section>
 <section class="bars-section">
   <div class="bars-section-inner">
     <div class="section-eyebrow">Full ranked list</div>
-    <h2 class="section-title">Top 15 bars — ranked by ingredient quality</h2>
-    <p class="section-body" style="margin-bottom:1.5rem;">Every bar here passed the filter criteria and is ranked by our ingredient quality score. Bars with warnings still meet the page's primary filter — they may have other ingredients worth knowing about.</p>
+    <h2 class="section-title">Top 15 bars, ranked by ingredient quality</h2>
+    <p class="section-body" style="margin-bottom:1.5rem;">Every bar here passed the filter criteria and is ranked by our ingredient quality score. Bars with warnings still meet the page's primary filter. They may have other ingredients worth knowing about.</p>
     <div id="seed-bar-list"></div>
     <p style="margin-top:1.5rem;font-size:.85rem;color:var(--muted);text-align:center;">Showing top 15. <a href="/?excl=sunflower oil,soybean oil,canola oil,safflower oil" style="color:var(--black);font-weight:600;">Search all 617 qualifying bars in the tool →</a></p>
   </div>
@@ -304,8 +329,8 @@
   <div class="faq-section-inner">
     <div class="section-eyebrow">Common questions</div>
     <h2 class="section-title">Frequently asked questions</h2>
-    <div class="faq-items"><div class="faq-item"><div class="faq-q">What are seed oils in protein bars?</div><div class="faq-a">Seed oils are vegetable oils extracted from the seeds of plants, primarily through industrial processing. The seed oils most commonly found in protein bars are sunflower oil (181 bars), soybean oil (64 bars), canola oil (58 bars), and safflower oil (11 bars). They are used as fat sources in coatings, fillings, and to improve texture. Some people prefer to avoid them due to their high omega-6 fatty acid content and the processing methods involved in their production.</div></div><div class="faq-item"><div class="faq-q">Which protein bars have no seed oils?</div><div class="faq-a">Protein bars without seed oils include RXBAR, Larabar, Perfect Bar, Kize, Linear, Gryp, Transparent Labs, 1st Phorm, and Healthy Eating on the Go, among many others. Of the 900+ bars we scored, 617 (69%) contain no seed oils. Brands like RXBAR, Perfect Bar, and Larabar avoid seed oils across their entire lineup.</div></div><div class="faq-item"><div class="faq-q">Are seed oils in protein bars bad for you?</div><div class="faq-a">The health effects of seed oils are genuinely debated. They are high in omega-6 fatty acids, and some researchers argue that excessive omega-6 consumption relative to omega-3 may promote inflammation. Others point out that the amounts in a single protein bar are small and that refined seed oils have a long safety record. Our scoring system does not penalize seed oils as heavily as artificial sweeteners — we mark their presence so you can make your own call. 69% of bars in our database skip them entirely.</div></div><div class="faq-item"><div class="faq-q">What is the difference between seed oils and other vegetable oils?</div><div class="faq-a">Seed oils specifically come from seeds: sunflower seeds, soybeans, canola (rapeseed), safflower seeds, corn kernels. Other plant oils like coconut oil, olive oil, and palm oil come from the fruit flesh rather than seeds and have a different fatty acid profile. Coconut oil and olive oil are not seed oils. High oleic sunflower oil is a modified version of sunflower oil with a different fatty acid composition — our scoring treats it as separate from standard sunflower oil.</div></div><div class="faq-item"><div class="faq-q">Do Quest bars have seed oils?</div><div class="faq-a">Quest bars do not contain sunflower, canola, or soybean oil in most flavors. They do contain palm kernel oil in many flavors, which is not a seed oil — it comes from the palm fruit. Quest bars also contain sucralose and other artificial sweeteners in every flavor. If avoiding seed oils specifically is your goal, many Quest flavors qualify, but if you're also avoiding artificial sweeteners, Quest is not a match.</div></div></div>
-    <div class="internal-links"><div class="internal-links-label">Explore more</div><p><a href="/">← Search all 900+ bars</a> — use the ingredient exclude filter to search by what's not in the bar</p><p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a> — bars free of sucralose and other synthetic sweeteners</p><p><a href="/clean-protein-bars.html">Clean protein bars guide</a> — the strictest definition — no sweeteners, no sugar alcohols, A or B grade</p><p><a href="/ingredient_scoring.html">How we score ingredients</a> — the methodology behind every grade on this page</p></div>
+    <div class="faq-items"><div class="faq-item"><div class="faq-q">What are seed oils in protein bars?</div><div class="faq-a">Seed oils are vegetable oils extracted from the seeds of plants, primarily through industrial processing. The seed oils most commonly found in protein bars are sunflower oil (181 bars), soybean oil (64 bars), canola oil (58 bars), and safflower oil (11 bars). They are used as fat sources in coatings, fillings, and to improve texture. Some people prefer to avoid them due to their high omega-6 fatty acid content and the processing methods involved in their production.</div></div><div class="faq-item"><div class="faq-q">Which protein bars have no seed oils?</div><div class="faq-a">Protein bars without seed oils include RXBAR, Larabar, Perfect Bar, Kize, Linear, Gryp, Transparent Labs, 1st Phorm, and Healthy Eating on the Go, among many others. Of the 900+ bars we scored, 617 (69%) contain no seed oils. Brands like RXBAR, Perfect Bar, and Larabar avoid seed oils across their entire lineup.</div></div><div class="faq-item"><div class="faq-q">Are seed oils in protein bars bad for you?</div><div class="faq-a">The health effects of seed oils are genuinely debated. They are high in omega-6 fatty acids, and some researchers argue that excessive omega-6 consumption relative to omega-3 may promote inflammation. Others point out that the amounts in a single protein bar are small and that refined seed oils have a long safety record. Our scoring system does not penalize seed oils as heavily as artificial sweeteners   we mark their presence so you can make your own call. 69% of bars in our database skip them entirely.</div></div><div class="faq-item"><div class="faq-q">What is the difference between seed oils and other vegetable oils?</div><div class="faq-a">Seed oils specifically come from seeds: sunflower seeds, soybeans, canola (rapeseed), safflower seeds, corn kernels. Other plant oils like coconut oil, olive oil, and palm oil come from the fruit flesh rather than seeds and have a different fatty acid profile. Coconut oil and olive oil are not seed oils. High oleic sunflower oil is a modified version of sunflower oil with a different fatty acid composition   our scoring treats it as separate from standard sunflower oil.</div></div><div class="faq-item"><div class="faq-q">Do Quest bars have seed oils?</div><div class="faq-a">Quest bars do not contain sunflower, canola, or soybean oil in most flavors. They do contain palm kernel oil in many flavors, which is not a seed oil. It comes from the palm fruit. Quest bars also contain sucralose and other artificial sweeteners in every flavor. If avoiding seed oils specifically is your goal, many Quest flavors qualify, but if you're also avoiding artificial sweeteners, Quest is not a match.</div></div></div>
+    <div class="internal-links"><div class="internal-links-label">Explore more</div><p><a href="/">← Search all 900+ bars</a>   use the ingredient exclude filter to search by what's not in the bar</p><p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a>   bars free of sucralose and other synthetic sweeteners</p><p><a href="/clean-protein-bars.html">Clean protein bars guide</a>, the strictest definition, with no sweeteners, no sugar alcohols, A or B grade</p><p><a href="/ingredient_scoring.html">How we score ingredients</a>, the methodology behind every grade on this page</p></div>
   </div>
 </section>
 <footer>
@@ -326,7 +351,7 @@ function renderBars(bars, listId) {
     if (!b.hasSA && !b.hasArt && !b.hasSeedOil) tags.push('<span class="bar-tag">No sweeteners or seed oils</span>');
     const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
     const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
-    const protStr = (b.protein > 0) ? b.protein+'g' : '—';
+    const protStr = (b.protein > 0) ? b.protein+'g' : ' ';
     const card = document.createElement('div');
     card.className = 'bar-card';
     card.innerHTML = `
@@ -341,8 +366,8 @@ function renderBars(bars, listId) {
       <div class="bar-macros">
         <div class="bar-macro"><span class="bar-macro-val">${protStr}</span><span class="bar-macro-lbl">Protein</span></div>
         <div class="bar-macro"><span class="bar-macro-val">${b.calories}</span><span class="bar-macro-lbl">Cal</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : '—'}</span><span class="bar-macro-lbl">Sugar</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : '—'}</span><span class="bar-macro-lbl">Fiber</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : ' '}</span><span class="bar-macro-lbl">Sugar</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : ' '}</span><span class="bar-macro-lbl">Fiber</span></div>
       </div>
       <div class="bar-tags">${tags.join('')}</div>
       ${(amzBtn||siteBtn) ? `<div class="bar-links">${amzBtn}${siteBtn}</div>` : ''}

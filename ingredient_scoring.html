@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How We Score Protein Bars A–F by Ingredient Quality | Know Your Bar</title>
-  <meta name="description" content="Every protein bar scored ingredient by ingredient — base scores, position weights, and the full methodology behind each A–F grade across 900+ bars.">
+  <meta name="description" content="Every protein bar scored ingredient by ingredient   base scores, position weights, and the full methodology behind each A–F grade across 900+ bars.">
   <link rel="canonical" href="https://knowyourbar.com/ingredient_scoring.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -435,7 +435,32 @@
       .site-nav-mobile-toggle{display:block;}
     }
 
-    </style>
+    
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
+  </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the Know Your Bar ingredient scoring system work?","acceptedAnswer":{"@type":"Answer","text":"Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,000+ canonicals, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. The total becomes the bar's ingredient quality score."}},
 {"@type":"Question","name":"What do the letter grades mean?","acceptedAnswer":{"@type":"Answer","text":"Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities."}},
@@ -446,12 +471,12 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
   <meta property="og:title" content="How We Score Protein Bars | Know Your Bar">
-  <meta property="og:description" content="How Know Your Bar grades protein bars A through F — ingredient mapping, position weighting, and the full methodology explained.">
+  <meta property="og:description" content="How Know Your Bar grades protein bars A through F   ingredient mapping, position weighting, and the full methodology explained.">
   <meta property="og:url" content="https://knowyourbar.com/ingredient_scoring.html">
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How We Score Protein Bars | Know Your Bar">
-  <meta name="twitter:description" content="How Know Your Bar grades protein bars A through F — ingredient mapping, position weighting, and the full methodology explained.">
+  <meta name="twitter:description" content="How Know Your Bar grades protein bars A through F   ingredient mapping, position weighting, and the full methodology explained.">
 </head>
 <body>
 <nav class="site-nav">
@@ -502,7 +527,7 @@
   <!-- Live grade distribution (populated by bars.js) -->
   <section class="grades-section">
     <div class="grades-inner">
-      <div class="section-label">Live grade distribution: <span id="total-count">—</span> bars scored</div>
+      <div class="section-label">Live grade distribution: <span id="total-count"> </span> bars scored</div>
       <div class="grades-grid" id="grades-grid">
         <!-- Populated by JavaScript -->
       </div>
@@ -707,15 +732,15 @@
       <p>The ingredient score is one signal, not the full picture. Here's what it doesn't account for:</p>
       <p><strong>Macros and calories</strong> - a bar can score A on ingredients and still be high in sugar or low in protein. Use the macro filters alongside the grade for the full picture.</p>
       <p><strong>Taste and texture</strong> - no opinion here. That's your department.</p>
-      <p><strong>Bioavailability and processing methods</strong> — some ingredients score neutrally because the research is mixed or context-dependent. We err toward caution and transparency rather than overclaiming.</p>
-      <p><strong>Dietary needs</strong> — use the certification filters (Vegan, Gluten Free, etc.) alongside scores for your specific requirements.</p>
+      <p><strong>Bioavailability and processing methods</strong>   some ingredients score neutrally because the research is mixed or context-dependent. We err toward caution and transparency rather than overclaiming.</p>
+      <p><strong>Dietary needs</strong>   use the certification filters (Vegan, Gluten Free, etc.) alongside scores for your specific requirements.</p>
     </section>
 
     <!-- Data and updates -->
     <section class="content-section">
       <h2>Data and updates</h2>
-      <p>Our database of <strong id="total-count-2">—</strong> bars is hand-researched and updated regularly. Ingredient lists are sourced from product packaging and brand websites. Scores are recalculated whenever the database is updated.</p>
-      <p>The scoring schema — including all canonical ingredient definitions, base scores, and rules — is versioned and documented. If you believe a score is incorrect or an ingredient is miscategorized, we'd love to hear from you.</p>
+      <p>Our database of <strong id="total-count-2"> </strong> bars is hand-researched and updated regularly. Ingredient lists are sourced from product packaging and brand websites. Scores are recalculated whenever the database is updated.</p>
+      <p>The scoring schema   including all canonical ingredient definitions, base scores, and rules   is versioned and documented. If you believe a score is incorrect or an ingredient is miscategorized, we'd love to hear from you.</p>
       <div class="callout">
         <p>No brand pays to be included in this database. No brand pays to improve their score. The methodology applies equally to every bar.</p>
       </div>
@@ -749,7 +774,7 @@
         }
       });
 
-      // Update total count displays — always use full database length
+      // Update total count displays   always use full database length
       document.querySelectorAll('#total-count, #total-count-2').forEach(el => {
         el.textContent = BARS.length.toLocaleString();
       });

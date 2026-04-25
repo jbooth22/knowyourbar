@@ -152,6 +152,31 @@
       .brand-cols{grid-template-columns:1fr;}
       .hero-stats{gap:1.5rem;}
     }
+  
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
   </style>
 </head>
 <body>
@@ -186,14 +211,14 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Data-backed guide · 900+ bars checked</div>
     <h1 class="hero-title">Protein bars with <em>no sugar alcohols</em></h1>
-    <p>We checked every ingredient list in our database of 900+ protein bars for five sugar alcohols: maltitol, erythritol, isomalt, sorbitol, and xylitol. 640 bars (71%) contain none. Maltitol is the worst offender — it's in every single Barebells flavor and causes more digestive complaints than any other sugar alcohol. Erythritol is better tolerated but still present in all Quest bars. If you want to avoid both, you're actually in luck: 71% of bars skip sugar alcohols entirely. Here's the full breakdown.</p>
+    <p>We checked every ingredient list in our database of 900+ protein bars for five sugar alcohols: maltitol, erythritol, isomalt, sorbitol, and xylitol. 640 bars (71%) contain none. Maltitol is the worst offender   it's in every single Barebells flavor and causes more digestive complaints than any other sugar alcohol. Erythritol is better tolerated but still present in all Quest bars. If you want to avoid both, you're actually in luck: 71% of bars skip sugar alcohols entirely. Here's the full breakdown.</p>
     <div class="hero-stats"><div><span class="hero-stat-val">640</span><span class="hero-stat-lbl">Bars with no sugar alcohols</span></div><div><span class="hero-stat-val">71%</span><span class="hero-stat-lbl">Of all 900+ bars scored</span></div><div><span class="hero-stat-val">162</span><span class="hero-stat-lbl">Bars that contain maltitol</span></div></div>
   </div>
 </section>
 <section class="top-picks">
   <div class="top-picks-inner">
     <div class="top-picks-eyebrow">Top picks</div>
-    <div class="top-picks-title">The ones worth buying — decided for you</div>
+    <div class="top-picks-title">Our top picks for each goal</div>
     <div class="top-picks-grid"><div class="pick-card">
   <div class="pick-label">If you want the cleanest overall</div>
   <div class="pick-grade" style="background:#2a7a1f">A</div>
@@ -238,12 +263,12 @@
     <div class="section-eyebrow">What counts as a sugar alcohol?</div>
     <h2 class="section-title">The five sugar alcohols found in protein bars</h2>
     <div class="section-body">
-      <p>Sugar alcohols are neither sugars nor alcohols — the name comes from their chemical structure. They provide sweetness with fewer calories than sugar (typically 0–2.4 cal/g vs sugar's 4 cal/g) because they are not fully absorbed. That partial absorption is also what causes digestive issues in some people. These are the only five that appear in protein bars in our database.</p>
+      <p>Sugar alcohols are neither sugars nor alcohols, the name comes from their chemical structure. They provide sweetness with fewer calories than sugar (typically 0–2.4 cal/g vs sugar's 4 cal/g) because they are not fully absorbed. That partial absorption is also what causes digestive issues in some people. These are the only five that appear in protein bars in our database.</p>
     </div>
     <div class="def-grid">
-      <div class="def-card flagged"><div class="def-name">Maltitol</div><div class="def-desc">The most common sugar alcohol in bars and the most likely to cause digestive discomfort. Has a high glycemic impact compared to other sugar alcohols — roughly half of sugar's glycemic index. Every Barebells flavor contains maltitol.</div><span class="def-count bad">Found in 162 of 900+ bars</span></div>
+      <div class="def-card flagged"><div class="def-name">Maltitol</div><div class="def-desc">The most common sugar alcohol in bars and the most likely to cause digestive discomfort. Has a high glycemic impact compared to other sugar alcohols   roughly half of sugar's glycemic index. Every Barebells flavor contains maltitol.</div><span class="def-count bad">Found in 162 of 900+ bars</span></div>
       <div class="def-card flagged"><div class="def-name">Erythritol</div><div class="def-desc">Better tolerated than maltitol for most people. Mostly absorbed before reaching the large intestine. Near-zero glycemic impact. Quest bars use erythritol to achieve very low sugar counts. Recent research has raised questions about cardiovascular effects at high intake.</div><span class="def-count bad">Found in 67 of 900+ bars</span></div>
-      <div class="def-card flagged"><div class="def-name">Isomalt</div><div class="def-desc">Derived from beet sugar. Less sweet than sugar, often used in chocolate coatings. Moderate digestive tolerance — better than maltitol, worse than erythritol. Common in European-style confectionery bars.</div><span class="def-count bad">Found in 47 of 900+ bars</span></div>
+      <div class="def-card flagged"><div class="def-name">Isomalt</div><div class="def-desc">Derived from beet sugar. Less sweet than sugar, often used in chocolate coatings. Moderate digestive tolerance   better than maltitol, worse than erythritol. Common in European-style confectionery bars.</div><span class="def-count bad">Found in 47 of 900+ bars</span></div>
       <div class="def-card flagged"><div class="def-name">Sorbitol</div><div class="def-desc">One of the more problematic sugar alcohols for digestive symptoms at moderate quantities. Has a well-documented laxative effect. Less common in modern bars than it was a decade ago.</div><span class="def-count bad">Found in 25 of 900+ bars</span></div>
     </div>
     <div style="margin-top:1rem;padding:1rem 1.1rem;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-lg);font-size:.88rem;color:var(--muted);line-height:1.6;">
@@ -260,16 +285,16 @@
       <div class="big-stat-num">71%</div>
       <div>
         <div class="big-stat-headline">of protein bars contain no sugar alcohols</div>
-        <div class="big-stat-detail">640 of 894 scored bars are free of maltitol, erythritol, isomalt, sorbitol, and xylitol. Maltitol alone accounts for 162 bars — more than erythritol, isomalt, and sorbitol combined.</div>
+        <div class="big-stat-detail">640 of 894 scored bars are free of maltitol, erythritol, isomalt, sorbitol, and xylitol. Maltitol alone accounts for 162 bars   more than erythritol, isomalt, and sorbitol combined.</div>
       </div>
     </div>
     <div class="insights-grid">
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Maltitol is the main one to watch for.</strong> 162 bars contain maltitol — it is in every single Barebells flavor, most No Cow flavors, and many other popular brands. It has the highest glycemic impact of any common sugar alcohol and is most likely to cause digestive symptoms.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Maltitol is the main one to watch for.</strong> 162 bars contain maltitol. It is in every single Barebells flavor, most No Cow flavors, and many other popular brands. It has the highest glycemic impact of any common sugar alcohol and is most likely to cause digestive symptoms.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Quest uses erythritol, not maltitol.</strong> Quest bars achieve very low sugar counts through erythritol, which is better tolerated than maltitol. But if you want to avoid all sugar alcohols, Quest still does not qualify.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Some whole brands are entirely clean.</strong> RXBAR, Larabar, Perfect Bar, GoMacro, Bearded Bros, and Jonesbar have zero sugar alcohols across their entire lineup. Sweetness in these bars comes from dates, honey, or fruit.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Barebells, Daryl's Bars, and No Cow always use them.</strong> Every flavor from these brands contains at least one sugar alcohol. Skip them entirely if you are avoiding SA.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>High protein without sugar alcohols is achievable.</strong> Gryp hits 25g protein with no sugar alcohols. Linear and PEAK Protein both hit 20g. The assumption that high-protein bars require sugar alcohols is not supported by the data.</div></div>
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Sugar alcohols and artificial sweeteners often appear together.</strong> Many bars use both — erythritol for bulk sweetness and sucralose for intensity. If you want to avoid both categories, our clean protein bars guide covers that stricter definition.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Sugar alcohols and artificial sweeteners often appear together.</strong> Many bars use both   erythritol for bulk sweetness and sucralose for intensity. If you want to avoid both categories, our clean protein bars guide covers that stricter definition.</div></div>
     </div>
   </div>
 </section>
@@ -279,16 +304,16 @@
     <h2 class="section-title">Which brands always avoid sugar alcohols?</h2>
     <p class="section-body">These brands have zero sugar alcohols across every flavor in our database.</p>
     <div class="brand-cols">
-      <div><h3>Buy any flavor — zero sugar alcohols</h3><ul class="brand-list"><li>Larabar <span class="brand-note">all flavors clean</span></li><li>Aloha <span class="brand-note">all flavors clean</span></li><li>GoMacro <span class="brand-note">all flavors clean</span></li><li>Perfect Bar <span class="brand-note">all flavors clean</span></li><li>Healthy Eating on the Go <span class="brand-note">all flavors clean</span></li><li>KIND <span class="brand-note">all flavors clean</span></li><li>CLIF Bar <span class="brand-note">all flavors clean</span></li><li>Bearded Bros <span class="brand-note">all flavors clean</span></li></ul></div>
-      <div><h3>Avoid these — sugar alcohols in every flavor</h3><ul class="brand-list"><li>Barebells <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Daryl's Bars <span class="brand-note">all flavors contain sugar alcohols</span></li><li>FITCRUNCH <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Quest <span class="brand-note">all flavors contain sugar alcohols</span></li><li>One <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Legendary <span class="brand-note">all flavors contain sugar alcohols</span></li><li>David <span class="brand-note">all flavors contain sugar alcohols</span></li><li>No Cow <span class="brand-note">all flavors contain sugar alcohols</span></li></ul></div>
+      <div><h3>Buy any flavor   zero sugar alcohols</h3><ul class="brand-list"><li>Larabar <span class="brand-note">all flavors clean</span></li><li>Aloha <span class="brand-note">all flavors clean</span></li><li>GoMacro <span class="brand-note">all flavors clean</span></li><li>Perfect Bar <span class="brand-note">all flavors clean</span></li><li>Healthy Eating on the Go <span class="brand-note">all flavors clean</span></li><li>KIND <span class="brand-note">all flavors clean</span></li><li>CLIF Bar <span class="brand-note">all flavors clean</span></li><li>Bearded Bros <span class="brand-note">all flavors clean</span></li></ul></div>
+      <div><h3>Avoid these   sugar alcohols in every flavor</h3><ul class="brand-list"><li>Barebells <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Daryl's Bars <span class="brand-note">all flavors contain sugar alcohols</span></li><li>FITCRUNCH <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Quest <span class="brand-note">all flavors contain sugar alcohols</span></li><li>One <span class="brand-note">all flavors contain sugar alcohols</span></li><li>Legendary <span class="brand-note">all flavors contain sugar alcohols</span></li><li>David <span class="brand-note">all flavors contain sugar alcohols</span></li><li>No Cow <span class="brand-note">all flavors contain sugar alcohols</span></li></ul></div>
     </div>
   </div>
 </section>
 <section class="bars-section">
   <div class="bars-section-inner">
     <div class="section-eyebrow">Full ranked list</div>
-    <h2 class="section-title">Top 15 bars — ranked by ingredient quality</h2>
-    <p class="section-body" style="margin-bottom:1.5rem;">Every bar here passed the filter criteria and is ranked by our ingredient quality score. Bars with warnings still meet the page's primary filter — they may have other ingredients worth knowing about.</p>
+    <h2 class="section-title">Top 15 bars, ranked by ingredient quality</h2>
+    <p class="section-body" style="margin-bottom:1.5rem;">Every bar here passed the filter criteria and is ranked by our ingredient quality score. Bars with warnings still meet the page's primary filter. They may have other ingredients worth knowing about.</p>
     <div id="sa-bar-list"></div>
     <p style="margin-top:1.5rem;font-size:.85rem;color:var(--muted);text-align:center;">Showing top 15. <a href="/?excl=erythritol,maltitol,xylitol,sorbitol,isomalt" style="color:var(--black);font-weight:600;">Search all 640 qualifying bars in the tool →</a></p>
   </div>
@@ -304,8 +329,8 @@
   <div class="faq-section-inner">
     <div class="section-eyebrow">Common questions</div>
     <h2 class="section-title">Frequently asked questions</h2>
-    <div class="faq-items"><div class="faq-item"><div class="faq-q">What are sugar alcohols in protein bars?</div><div class="faq-a">Sugar alcohols are carbohydrate-derived sweeteners that provide sweetness with fewer calories than sugar. They are not fully absorbed by the body, which reduces their caloric impact but can cause digestive discomfort — bloating, gas, and diarrhea — in sensitive individuals. The five sugar alcohols found in protein bars are maltitol (162 bars), erythritol (67 bars), isomalt (47 bars), sorbitol (25 bars), and xylitol (6 bars). Maltitol is the most problematic for digestive symptoms. Erythritol is generally better tolerated.</div></div><div class="faq-item"><div class="faq-q">What protein bars have no sugar alcohols?</div><div class="faq-a">Protein bars with no sugar alcohols include RXBAR, Larabar, Perfect Bar, Kize, Linear, Gryp, Transparent Labs, GoMacro, Bearded Bros, Jonesbar, and many others. Of the 900+ bars we scored, 640 (71%) contain no sugar alcohols. Entire brands like RXBAR, Larabar, and Perfect Bar avoid sugar alcohols across every flavor.</div></div><div class="faq-item"><div class="faq-q">Is erythritol in protein bars bad for you?</div><div class="faq-a">Erythritol is generally better tolerated than other sugar alcohols because it is mostly absorbed in the small intestine rather than fermented in the large intestine. At typical protein bar quantities, most people do not experience digestive issues. However, a 2023 study raised questions about a potential link between high erythritol blood levels and cardiovascular risk — though this is not yet established causation. Our scoring system rates erythritol as a concern ingredient. Whether to avoid it is a personal decision based on your health goals.</div></div><div class="faq-item"><div class="faq-q">What is the difference between sugar alcohols and artificial sweeteners?</div><div class="faq-a">They are completely different categories. Sugar alcohols (erythritol, maltitol, xylitol, sorbitol, isomalt) are derived from carbohydrates and provide some calories. Artificial sweeteners (sucralose, acesulfame potassium, aspartame, saccharin) are synthetic compounds that provide no calories. A bar can contain sugar alcohols but no artificial sweeteners, or vice versa. This page covers sugar alcohols only. See our no artificial sweeteners guide for the other category.</div></div><div class="faq-item"><div class="faq-q">Do Quest bars have sugar alcohols?</div><div class="faq-a">Yes. Quest bars contain erythritol in most flavors. This is what gives them their very low sugar count — erythritol provides sweetness without registering as sugar. Quest bars do not contain maltitol. If erythritol specifically is what you want to avoid, Quest bars are not a match. High-protein alternatives without any sugar alcohols include Linear (20g protein), Gryp (25g protein), and PEAK Protein (20g protein).</div></div></div>
-    <div class="internal-links"><div class="internal-links-label">Explore more</div><p><a href="/">← Search all 900+ bars</a> — use the ingredient exclude filter to remove erythritol, maltitol, and more</p><p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a> — a separate category — sucralose, acesulfame, aspartame</p><p><a href="/clean-protein-bars.html">Clean protein bars guide</a> — bars free of both sugar alcohols and artificial sweeteners, A or B grade</p><p><a href="/ingredient_scoring.html">How we score ingredients</a></p></div>
+    <div class="faq-items"><div class="faq-item"><div class="faq-q">What are sugar alcohols in protein bars?</div><div class="faq-a">Sugar alcohols are carbohydrate-derived sweeteners that provide sweetness with fewer calories than sugar. They are not fully absorbed by the body, which reduces their caloric impact but can cause digestive discomfort   bloating, gas, and diarrhea   in sensitive individuals. The five sugar alcohols found in protein bars are maltitol (162 bars), erythritol (67 bars), isomalt (47 bars), sorbitol (25 bars), and xylitol (6 bars). Maltitol is the most problematic for digestive symptoms. Erythritol is generally better tolerated.</div></div><div class="faq-item"><div class="faq-q">What protein bars have no sugar alcohols?</div><div class="faq-a">Protein bars with no sugar alcohols include RXBAR, Larabar, Perfect Bar, Kize, Linear, Gryp, Transparent Labs, GoMacro, Bearded Bros, Jonesbar, and many others. Of the 900+ bars we scored, 640 (71%) contain no sugar alcohols. Entire brands like RXBAR, Larabar, and Perfect Bar avoid sugar alcohols across every flavor.</div></div><div class="faq-item"><div class="faq-q">Is erythritol in protein bars bad for you?</div><div class="faq-a">Erythritol is generally better tolerated than other sugar alcohols because it is mostly absorbed in the small intestine rather than fermented in the large intestine. At typical protein bar quantities, most people do not experience digestive issues. However, a 2023 study raised questions about a potential link between high erythritol blood levels and cardiovascular risk   though this is not yet established causation. Our scoring system rates erythritol as a concern ingredient. Whether to avoid it is a personal decision based on your health goals.</div></div><div class="faq-item"><div class="faq-q">What is the difference between sugar alcohols and artificial sweeteners?</div><div class="faq-a">They are completely different categories. Sugar alcohols (erythritol, maltitol, xylitol, sorbitol, isomalt) are derived from carbohydrates and provide some calories. Artificial sweeteners (sucralose, acesulfame potassium, aspartame, saccharin) are synthetic compounds that provide no calories. A bar can contain sugar alcohols but no artificial sweeteners, or vice versa. This page covers sugar alcohols only. See our no artificial sweeteners guide for the other category.</div></div><div class="faq-item"><div class="faq-q">Do Quest bars have sugar alcohols?</div><div class="faq-a">Yes. Quest bars contain erythritol in most flavors. This is what gives them their very low sugar count   erythritol provides sweetness without registering as sugar. Quest bars do not contain maltitol. If erythritol specifically is what you want to avoid, Quest bars are not a match. High-protein alternatives without any sugar alcohols include Linear (20g protein), Gryp (25g protein), and PEAK Protein (20g protein).</div></div></div>
+    <div class="internal-links"><div class="internal-links-label">Explore more</div><p><a href="/">← Search all 900+ bars</a>   use the ingredient exclude filter to remove erythritol, maltitol, and more</p><p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a>, a separate category   sucralose, acesulfame, aspartame</p><p><a href="/clean-protein-bars.html">Clean protein bars guide</a>   bars free of both sugar alcohols and artificial sweeteners, A or B grade</p><p><a href="/ingredient_scoring.html">How we score ingredients</a></p></div>
   </div>
 </section>
 <footer>
@@ -326,7 +351,7 @@ function renderBars(bars, listId) {
     if (!b.hasSA && !b.hasArt && !b.hasSeedOil) tags.push('<span class="bar-tag">No sweeteners or seed oils</span>');
     const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
     const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
-    const protStr = (b.protein > 0) ? b.protein+'g' : '—';
+    const protStr = (b.protein > 0) ? b.protein+'g' : ' ';
     const card = document.createElement('div');
     card.className = 'bar-card';
     card.innerHTML = `
@@ -341,8 +366,8 @@ function renderBars(bars, listId) {
       <div class="bar-macros">
         <div class="bar-macro"><span class="bar-macro-val">${protStr}</span><span class="bar-macro-lbl">Protein</span></div>
         <div class="bar-macro"><span class="bar-macro-val">${b.calories}</span><span class="bar-macro-lbl">Cal</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : '—'}</span><span class="bar-macro-lbl">Sugar</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : '—'}</span><span class="bar-macro-lbl">Fiber</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : ' '}</span><span class="bar-macro-lbl">Sugar</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : ' '}</span><span class="bar-macro-lbl">Fiber</span></div>
       </div>
       <div class="bar-tags">${tags.join('')}</div>
       ${(amzBtn||siteBtn) ? `<div class="bar-links">${amzBtn}${siteBtn}</div>` : ''}

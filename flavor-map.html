@@ -10,7 +10,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Protein Bar Flavor Map — 900+ Bars Visualized | Know Your Bar</title>
+  <title>Protein Bar Flavor Map   900+ Bars Visualized | Know Your Bar</title>
   <meta name="description" content="How do 900+ protein bars break down by flavor? Chocolate leads at 35%. Explore every primary flavor and variation.">
   <link rel="canonical" href="https://knowyourbar.com/flavor-map.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,6 +86,31 @@
       .mobile-chart{display:block;}
       .legend{display:none;}
     }
+  
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
   </style>
 </head>
 <body>
@@ -121,15 +146,15 @@
 <div class="hero">
   <div class="eyebrow">Data visualization &middot; 908 bars</div>
   <h1 class="hero-title">The protein bar <em>flavor map</em></h1>
-  <p class="hero-sub">How 908 protein bars break down by flavor &mdash; from primary category into specific variations. Hover any flow to see the exact count.</p>
+  <p class="hero-sub">How 908 protein bars break down by flavor   from primary category into specific variations. Hover any flow to see the exact count.</p>
 </div>
 
 <div class="stats">
   <div class="stat"><span class="stat-n">316</span><span class="stat-l">Chocolate</span></div>
   <div class="stat"><span class="stat-n">157</span><span class="stat-l">Peanut Butter</span></div>
   <div class="stat"><span class="stat-n">148</span><span class="stat-l">Fruit</span></div>
-  <div class="stat"><span class="stat-n">83</span><span class="stat-l">Choc Chip &mdash; #1 variation</span></div>
-  <div class="stat"><span class="stat-n">75</span><span class="stat-l">PB Choc &mdash; #1 combo</span></div>
+  <div class="stat"><span class="stat-n">83</span><span class="stat-l">Choc Chip   #1 variation</span></div>
+  <div class="stat"><span class="stat-n">75</span><span class="stat-l">PB Choc   #1 combo</span></div>
 </div>
 
 <!-- Desktop: Sankey -->
@@ -147,7 +172,7 @@
 
 <div class="legend" id="legend"></div>
 
-<p class="footnote">Flavors parsed from bar names across 908 bars. &mdash; <a href="/">Search all 900+ bars &rarr;</a></p>
+<p class="footnote">Flavors parsed from bar names across 908 bars.   <a href="/">Search all 900+ bars &rarr;</a></p>
 <footer><a href="/">knowyourbar.com</a> &nbsp;&middot;&nbsp; 908 bars &middot; 95+ brands &nbsp;&middot;&nbsp; Updated April 2026</footer>
 
 <script>

@@ -12,7 +12,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Best Clean Protein Bars: No Artificial Sweeteners, No Sugar Alcohols (900+ Bars Analyzed) | Know Your Bar</title>
-  <meta name="description" content="We scored 900+ protein bars. 271 qualify as truly clean — no artificial sweeteners, no sugar alcohols, A or B ingredient grade. Here are the best.">
+  <meta name="description" content="We scored 900+ protein bars. 271 qualify as truly clean, with no artificial sweeteners, no sugar alcohols, A or B ingredient grade. Here are the best.">
   <link rel="canonical" href="https://knowyourbar.com/clean-protein-bars.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -177,6 +177,31 @@
     .pick-macro-lbl{font-family:var(--font-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;}
     .pick-link{display:inline-flex;align-items:center;gap:4px;margin-top:.65rem;font-family:var(--font-mono);font-size:10px;color:var(--black);text-decoration:none;border-bottom:1px solid var(--border);}
     @media(max-width:640px){.top-picks-grid{grid-template-columns:1fr;}}
+  
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
   </style>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
@@ -191,7 +216,7 @@
 {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "Clean Protein Bars — Ingredient Quality Rankings",
+  "name": "Clean Protein Bars   Ingredient Quality Rankings",
   "description": "271 protein bars qualifying as clean: no artificial sweeteners (sucralose, acesulfame, aspartame, saccharin), no sugar alcohols (erythritol, maltitol, xylitol, sorbitol), and an A or B ingredient quality grade. Derived from analysis of 900+ bars across 95+ brands.",
   "url": "https://knowyourbar.com/clean-protein-bars.html",
   "creator": {
@@ -228,7 +253,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Ingredient Quality Rankings</div>
     <h1 class="hero-title">Clean Protein Bars:<br><em>Actually ranked by ingredients.</em></h1>
-    <p>We scored 900+ protein bars ingredient by ingredient. Only 319 qualify as truly clean by our definition — no artificial sweeteners, no sugar alcohols, and an A or B ingredient grade. That's 36% of the market. The other 64% fail on at least one criterion, most commonly sucralose (181 bars) or maltitol (162 bars). Most "clean eating" bar lists online are sponsored content. This one is built from a scoring algorithm applied to every bar equally, with no brand relationships. Here's what actually qualifies.</p>
+    <p>We scored 900+ protein bars ingredient by ingredient. Only 319 qualify as truly clean by our definition, with no artificial sweeteners, no sugar alcohols, and an A or B ingredient grade. That's 36% of the market. The other 64% fail on at least one criterion, most commonly sucralose (181 bars) or maltitol (162 bars). Most "clean eating" bar lists online are sponsored content. This one is built from a scoring algorithm applied to every bar equally, with no brand relationships. Here's what actually qualifies.</p>
     <div class="hero-stats">
       <div><span class="hero-stat-val">900+</span><span class="hero-stat-lbl">Bars analyzed</span></div>
       <div><span class="hero-stat-val">278</span><span class="hero-stat-lbl">Meet clean criteria</span></div>
@@ -247,7 +272,7 @@
 <section class="top-picks">
   <div class="top-picks-inner">
     <div class="top-picks-eyebrow">Top picks</div>
-    <div class="top-picks-title">The ones worth buying — decided for you</div>
+    <div class="top-picks-title">Our top picks for each goal</div>
     <div class="top-picks-grid"><div class="pick-card">
   <div class="pick-label">If you want one bar to rule them all</div>
   <div class="pick-grade" style="background:#2a7a1f">A</div>
@@ -755,9 +780,9 @@
 
 <div style="margin-top:2rem;padding:1.5rem;background:#f7f5f0;border:1px solid #d6d3cc;border-radius:8px;">
   <p style="margin:0 0 0.75rem;font-size:0.9rem;color:#6b6b65;">Explore more</p>
-  <p style="margin:0 0 0.5rem;font-size:0.95rem;"><a href="/" style="color:#0e0e0e;font-weight:600;">&#8592; Search all 900+ bars</a> — apply any filter combination including ingredient exclusions</p>
-  <p style="margin:0 0 0.5rem;font-size:0.95rem;"><a href="/rxbar-review.html" style="color:#0e0e0e;font-weight:600;">RXBAR review</a> — 10 of 12 flavors earn an A grade with no artificial sweeteners</p>
-  <p style="margin:0;font-size:0.95rem;"><a href="/ingredient_scoring.html" style="color:#0e0e0e;font-weight:600;">How we score ingredients</a> — methodology behind every grade on this page</p>
+  <p style="margin:0 0 0.5rem;font-size:0.95rem;"><a href="/" style="color:#0e0e0e;font-weight:600;">&#8592; Search all 900+ bars</a>   apply any filter combination including ingredient exclusions</p>
+  <p style="margin:0 0 0.5rem;font-size:0.95rem;"><a href="/rxbar-review.html" style="color:#0e0e0e;font-weight:600;">RXBAR review</a>   10 of 12 flavors earn an A grade with no artificial sweeteners</p>
+  <p style="margin:0;font-size:0.95rem;"><a href="/ingredient_scoring.html" style="color:#0e0e0e;font-weight:600;">How we score ingredients</a>   methodology behind every grade on this page</p>
 </div></main>
 
 <section class="faq-section">

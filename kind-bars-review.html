@@ -40,7 +40,7 @@
         "name": "Are KIND bars healthy?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "KIND bars are made with real nuts and no artificial sweeteners, which puts them ahead of most protein bars on ingredient quality. However, 15 of 19 flavors contain palm kernel oil, and many use glucose syrup or honey as sweeteners which drags ingredient scores down. Grades range from B (the allulose-sweetened dark chocolate varieties) to D (Dark Chocolate Mocha Almond). They are a reasonable snack bar but not a clean protein bar — protein averages just 8g per bar."
+          "text": "KIND bars are made with real nuts and no artificial sweeteners, which puts them ahead of most protein bars on ingredient quality. However, 15 of 19 flavors contain palm kernel oil, and many use glucose syrup or honey as sweeteners which drags ingredient scores down. Grades range from B (the allulose-sweetened dark chocolate varieties) to D (Dark Chocolate Mocha Almond). They are a reasonable snack bar but not a clean protein bar   protein averages just 8g per bar."
         }
       },
       {
@@ -48,7 +48,7 @@
         "name": "Do KIND bars have artificial sweeteners?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Every KIND bar flavor in our database — all 19 — contains zero artificial sweeteners. No sucralose, no acesulfame potassium, no aspartame, no saccharin. The newer allulose-sweetened varieties use allulose, a naturally occurring low-calorie sugar. The original line uses honey, glucose syrup, or cane sugar."
+          "text": "No. Every KIND bar flavor in our database. all 19   contains zero artificial sweeteners. No sucralose, no acesulfame potassium, no aspartame, no saccharin. The newer allulose-sweetened varieties use allulose, a naturally occurring low-calorie sugar. The original line uses honey, glucose syrup, or cane sugar."
         }
       },
       {
@@ -185,6 +185,31 @@
       .score-grid{grid-template-columns:1fr 1fr;}
       .hero-stats{gap:1.5rem;}
     }
+  
+    /* ── Global readability fixes ───────────────────────────── */
+    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
+      line-height: 1.15;
+      overflow: visible;
+    }
+    .hero-title {
+      padding-bottom: 0.1em; /* prevents descenders from clipping */
+    }
+    /* Improve body text contrast */
+    .section-body, .faq-a, .hero-sub {
+      color: #4a4a45;
+    }
+    /* Dark section muted text — was too low contrast */
+    .findings .insight-text { color: #d8d4cc; }
+    .findings .big-stat-detail { color: #c8c4bc; }
+    .findings-sub { color: #c8c4bc; }
+    /* Nav dropdown contrast */
+    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
+    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
+    /* Brand list muted text */
+    .brand-note, .brand-meta { color: #5a5a54; }
+    /* Bar card secondary text */
+    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+
   </style>
 </head>
 <body>
@@ -221,7 +246,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Brand review · 19 flavors scored · Based on 900+ bars analyzed</div>
     <h1 class="hero-title">Are <em>KIND bars</em> healthy?</h1>
-    <p class="hero-sub">KIND bars have genuinely good credentials — real nuts, no artificial sweeteners, no sugar alcohols. But 15 of 19 flavors contain palm kernel oil, and the original line uses glucose syrup and honey that drag ingredient scores into C and D territory. Here's the full breakdown, flavor by flavor.</p>
+    <p class="hero-sub">KIND bars have genuinely good credentials   real nuts, no artificial sweeteners, no sugar alcohols. But 15 of 19 flavors contain palm kernel oil, and the original line uses glucose syrup and honey that drag ingredient scores into C and D territory. Here's the full breakdown, flavor by flavor.</p>
     <div class="hero-stats">
       <div><span class="hero-stat-val">19</span><span class="hero-stat-lbl">Flavors scored</span></div>
       <div><span class="hero-stat-val">0</span><span class="hero-stat-lbl">Artificial sweeteners</span></div>
@@ -235,21 +260,21 @@
     <div class="verdict-card pro">
       <div class="verdict-label pro">What KIND does well</div>
       <ul class="verdict-items">
-        <li><strong>Zero artificial sweeteners</strong> — every flavor, no exceptions. No sucralose, acesulfame, aspartame.</li>
-        <li><strong>Zero sugar alcohols</strong> — no erythritol, maltitol, or xylitol in any flavor.</li>
-        <li><strong>Real nuts lead the ingredient list</strong> — almonds, peanuts, cashews are top-billed in most flavors.</li>
-        <li><strong>Newer allulose line scores better</strong> — the dark chocolate varieties with allulose earn solid B grades.</li>
-        <li><strong>Reasonable calories</strong> — most flavors between 140–190 calories.</li>
+        <li><strong>Zero artificial sweeteners</strong>. every flavor, no exceptions. No sucralose, acesulfame, aspartame.</li>
+        <li><strong>Zero sugar alcohols</strong>, with no erythritol, maltitol, or xylitol in any flavor.</li>
+        <li><strong>Real nuts lead the ingredient list</strong>   almonds, peanuts, cashews are top-billed in most flavors.</li>
+        <li><strong>Newer allulose line scores better</strong>, the dark chocolate varieties with allulose earn solid B grades.</li>
+        <li><strong>Reasonable calories</strong>   most flavors between 140–190 calories.</li>
       </ul>
     </div>
     <div class="verdict-card con">
       <div class="verdict-label con">What holds KIND back</div>
       <ul class="verdict-items">
-        <li><strong>Palm kernel oil in 15 of 19 flavors</strong> — a processed fat source that drags ingredient scores down.</li>
-        <li><strong>Glucose syrup in 12 of 19 flavors</strong> — a refined sweetener with no nutritional value.</li>
-        <li><strong>Low protein</strong> — original KIND bars average just 5g protein. Not a protein bar.</li>
-        <li><strong>Original line grades: C and D</strong> — honey plus glucose syrup plus palm oil is a tough combination to score well.</li>
-        <li><strong>Not a meal replacement</strong> — at 5g protein and 150–190 calories, KIND is a snack bar, not a protein bar.</li>
+        <li><strong>Palm kernel oil in 15 of 19 flavors</strong>, a processed fat source that drags ingredient scores down.</li>
+        <li><strong>Glucose syrup in 12 of 19 flavors</strong>, a refined sweetener with no nutritional value.</li>
+        <li><strong>Low protein</strong>   original KIND bars average just 5g protein. Not a protein bar.</li>
+        <li><strong>Original line grades: C and D</strong>   honey plus glucose syrup plus palm oil is a tough combination to score well.</li>
+        <li><strong>Not a meal replacement</strong>   at 5g protein and 150–190 calories, KIND is a snack bar, not a protein bar.</li>
       </ul>
     </div>
   </div>
@@ -260,14 +285,14 @@
     <div class="section-eyebrow">Score breakdown</div>
     <h2 class="section-title">Two very different lineups in one brand</h2>
     <div class="section-body">
-      <p>KIND has essentially two product lines that score very differently. The newer allulose-sweetened bars — primarily the dark chocolate nut varieties — earn B grades because allulose doesn't spike blood sugar and the ingredient list stays relatively clean despite palm kernel oil. The original line, which uses honey and glucose syrup as binders, scores significantly lower because both are high-glycemic sweeteners that add calories without nutritional benefit.</p>
-      <p>The bottom line on KIND: they are better than most gas station bars and meaningfully cleaner than Quest or Barebells on the sweetener side. But they are not a health food. If you're buying KIND, stick to the allulose-sweetened dark chocolate varieties and treat them as what they are — a reasonably clean snack, not a protein source.</p>
+      <p>KIND has essentially two product lines that score very differently. The newer allulose-sweetened bars   primarily the dark chocolate nut varieties   earn B grades because allulose doesn't spike blood sugar and the ingredient list stays relatively clean despite palm kernel oil. The original line, which uses honey and glucose syrup as binders, scores significantly lower because both are high-glycemic sweeteners that add calories without nutritional benefit.</p>
+      <p>The bottom line on KIND: they are better than most gas station bars and meaningfully cleaner than Quest or Barebells on the sweetener side. But they are not a health food. If you're buying KIND, stick to the allulose-sweetened dark chocolate varieties and treat them as what they are, a reasonably clean snack, not a protein source.</p>
     </div>
     <div class="score-grid">
       <div class="score-card">
         <div class="score-card-label">Best grade</div>
         <div class="score-card-val" style="color:#5a8a2f;">B</div>
-        <div class="score-card-desc">Dark Chocolate Nuts and Sea Salt scores 7.7 — the highest in the lineup. Uses allulose, only 1g sugar.</div>
+        <div class="score-card-desc">Dark Chocolate Nuts and Sea Salt scores 7.7, the highest in the lineup. Uses allulose, only 1g sugar.</div>
       </div>
       <div class="score-card">
         <div class="score-card-label">Worst grade</div>
@@ -298,10 +323,10 @@
     <div class="findings-eyebrow">Key findings</div>
     <h2 class="findings-title">What the data shows across all 19 KIND flavors</h2>
     <div class="insights-grid">
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>The allulose line is genuinely better.</strong> KIND's newer dark chocolate varieties use allulose — a naturally occurring low-calorie sugar that barely affects blood glucose. These flavors score B and are the ones worth buying if ingredient quality matters to you.</div></div>
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Glucose syrup is the main score killer.</strong> 12 of 19 flavors contain glucose syrup — a refined sweetener with the same glycemic impact as table sugar. It appears because it binds nuts together cheaply. Flavors without it score significantly higher.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>The allulose line is genuinely better.</strong> KIND's newer dark chocolate varieties use allulose, a naturally occurring low-calorie sugar that barely affects blood glucose. These flavors score B and are the ones worth buying if ingredient quality matters to you.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Glucose syrup is the main score killer.</strong> 12 of 19 flavors contain glucose syrup, a refined sweetener with the same glycemic impact as table sugar. It appears because it binds nuts together cheaply. Flavors without it score significantly higher.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Palm kernel oil is nearly universal.</strong> 15 of 19 flavors contain palm kernel oil. It's a processed saturated fat used for texture in coatings. Only the original nut-heavy flavors without chocolate coating avoid it entirely.</div></div>
-      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>KIND Protein Max is a different product.</strong> The Protein Max line adds soy protein isolate to hit 20g protein per bar. These score B consistently — they're not as clean as the best original KIND flavors but competitive with the broader protein bar market.</div></div>
+      <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>KIND Protein Max is a different product.</strong> The Protein Max line adds soy protein isolate to hit 20g protein per bar. These score B consistently   they're not as clean as the best original KIND flavors but competitive with the broader protein bar market.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>KIND is a snack bar, not a protein bar.</strong> Original KIND bars average 5g of protein. If protein is your goal, KIND is the wrong category. If you want a cleaner alternative to a candy bar or granola bar, the allulose varieties are a reasonable choice.</div></div>
       <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>Honey is not better than sugar.</strong> Several KIND flavors market honey as a natural sweetener. Nutritionally, honey has the same caloric impact as glucose syrup. It scores slightly better in our system due to trace minerals, but not by enough to matter in practice.</div></div>
     </div>
@@ -311,7 +336,7 @@
 <section class="flavor-section">
   <div class="flavor-section-inner">
     <div class="section-eyebrow">All flavors</div>
-    <h2 class="section-title">Every KIND bar scored — best to worst</h2>
+    <h2 class="section-title">Every KIND bar scored   best to worst</h2>
     <p class="section-body" style="margin-bottom:1.25rem;">Ranked by ingredient quality score. Filter by line below.</p>
     <div class="flavor-filter">
       <button class="filter-btn active" data-filter="all">All flavors</button>
@@ -337,7 +362,7 @@
     <div class="faq-items">
       <div class="faq-item">
         <div class="faq-q">Are KIND bars healthy?</div>
-        <div class="faq-a">KIND bars are made with real nuts and no artificial sweeteners, which puts them ahead of most protein bars on ingredient quality. However, 15 of 19 flavors contain palm kernel oil, and many use glucose syrup or honey as sweeteners which drags ingredient scores down. Grades range from B (the allulose-sweetened dark chocolate varieties) to D. They are a reasonable snack bar but not a clean protein bar — protein averages just 5–8g per bar.</div>
+        <div class="faq-a">KIND bars are made with real nuts and no artificial sweeteners, which puts them ahead of most protein bars on ingredient quality. However, 15 of 19 flavors contain palm kernel oil, and many use glucose syrup or honey as sweeteners which drags ingredient scores down. Grades range from B (the allulose-sweetened dark chocolate varieties) to D. They are a reasonable snack bar but not a clean protein bar   protein averages just 5–8g per bar.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Do KIND bars have artificial sweeteners?</div>
@@ -345,7 +370,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Do KIND bars have sugar alcohols?</div>
-        <div class="faq-a">No. None of the 19 KIND bar flavors we scored contain erythritol, maltitol, xylitol, sorbitol, or any other sugar alcohol. KIND uses either natural sugars or allulose — neither is a sugar alcohol.</div>
+        <div class="faq-a">No. None of the 19 KIND bar flavors we scored contain erythritol, maltitol, xylitol, sorbitol, or any other sugar alcohol. KIND uses either natural sugars or allulose   neither is a sugar alcohol.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">What is the healthiest KIND bar?</div>
@@ -359,10 +384,10 @@
 
     <div class="internal-links" style="margin-top:2rem;">
       <div class="internal-links-label">Explore more</div>
-      <p><a href="/">← Search all 900+ protein bars</a> — filter by grade, macros, or certifications</p>
-      <p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a> — KIND qualifies, along with 631 other bars</p>
-      <p><a href="/rxbar-review.html">RXBAR review</a> — another no-artificial-sweetener brand, but with cleaner overall scores</p>
-      <p><a href="/clean-protein-bars.html">Clean protein bars guide</a> — the strictest filter, A or B grade with no sweeteners of any kind</p>
+      <p><a href="/">← Search all 900+ protein bars</a>   filter by grade, macros, or certifications</p>
+      <p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a>   KIND qualifies, along with 631 other bars</p>
+      <p><a href="/rxbar-review.html">RXBAR review</a>   another no-artificial-sweetener brand, but with cleaner overall scores</p>
+      <p><a href="/clean-protein-bars.html">Clean protein bars guide</a>, the strictest filter, A or B grade with no sweeteners of any kind</p>
     </div>
   </div>
 </section>
