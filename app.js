@@ -977,7 +977,11 @@ function applyFilters() {
 
   // Update counts
   const countEl = document.getElementById('result-count');
-  if (countEl) countEl.textContent = filtered.length + ' bar' + (filtered.length !== 1 ? 's' : '');
+  if (countEl) {
+    const total = BARS.length;
+    const isFullSet = filtered.length >= total - 5; // within 5 of total = effectively unfiltered
+    countEl.textContent = isFullSet ? '900+ bars' : filtered.length + ' bar' + (filtered.length !== 1 ? 's' : '');
+  }
 
   const infoEl = document.getElementById('toolbar-info');
   if (infoEl) infoEl.textContent = `Showing ${Math.min(filtered.length, 150)} of ${filtered.length} results`;
