@@ -984,7 +984,7 @@ function applyFilters() {
   }
 
   const infoEl = document.getElementById('toolbar-info');
-  if (infoEl) infoEl.textContent = `Showing ${Math.min(filtered.length, 150)} of ${filtered.length} results`;
+  if (infoEl) infoEl.textContent = `Showing ${Math.min(filtered.length, 50)} of ${filtered.length} results`;
 
   // Render
   renderTable(filtered);
@@ -1012,7 +1012,7 @@ function renderTable(bars) {
 
   noRes.classList.add('hidden');
 
-  const limit   = 150;
+  const limit   = 50;
   const display = bars.slice(0, limit);
 
   display.forEach(bar => {
