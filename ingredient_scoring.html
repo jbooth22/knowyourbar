@@ -6,8 +6,6 @@
   <title>How We Score Protein Bars A to F by Ingredient Quality | Know Your Bar</title>
   <meta name="description" content="We score protein bars ingredient by ingredient using a 1,048-item canonical scoring system. Here's exactly how it works, what each grade means, and why we built it.">
   <link rel="canonical" href="https://knowyourbar.com/ingredient_scoring.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #0e0e0e;
@@ -16,8 +14,8 @@
       --accent: #d4f000;
       --muted: #888880;
       --border: #d6d3cc;
-      --font-display: 'Syne', sans-serif;
-      --font-mono: 'DM Mono', monospace;
+      
+      
       --radius: 6px;
       --radius-lg: 10px;
     }
@@ -25,7 +23,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-body);
+      font-family: var(
       background: var(--white);
       color: var(--black);
       font-size: 15px;
@@ -45,7 +43,7 @@
     .hero {
       background: var(--black);
       color: var(--white);
-      padding: 4rem 2rem 3rem;
+      padding: 2.25rem 1.5rem;
     }
 
     .hero-inner { max-width: 760px; margin: 0 auto; display: grid; grid-template-columns: 1fr 240px; gap: 1rem; align-items: center; }
@@ -55,7 +53,7 @@
     @media (max-width: 640px) { .hero-inner { grid-template-columns: 1fr; } .hero-img { width: 100%; max-width: 220px; margin: 0 auto; } }
 
     .hero-eyebrow {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -98,7 +96,7 @@
     .grades-inner { max-width: 760px; margin: 0 auto; }
 
     .section-label {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 9px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -127,7 +125,7 @@
       width: 40px;
       height: 40px;
       border-radius: var(--radius);
-      font-family: var(--font-display);
+      font-family: var(
       font-size: 22px;
       font-weight: 800;
       margin-bottom: 8px;
@@ -140,20 +138,20 @@
     }
 
     .grade-range {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       color: var(--muted);
       margin-bottom: 8px;
     }
 
     .grade-count {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 11px;
       font-weight: 500;
     }
 
     .grade-pct {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       color: var(--muted);
       margin-bottom: 8px;
@@ -161,7 +159,7 @@
 
     .grade-browse-link {
       display: block;
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       text-decoration: none;
       padding: 5px 8px;
@@ -232,7 +230,7 @@
 
     .score-table th {
       text-align: left;
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 9px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -262,7 +260,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
+      font-family: var(
       font-size: 16px;
       font-weight: 800;
       color: white;
@@ -291,7 +289,7 @@
       display: inline-block;
       padding: 4px 10px;
       border-radius: 100px;
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       font-weight: 500;
       white-space: nowrap;
@@ -311,7 +309,7 @@
     }
 
     .chip-rule {
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 10px;
       color: var(--muted);
       margin-top: 3px;
@@ -334,7 +332,7 @@
       color: #ffffff44;
       text-align: center;
       padding: 1.5rem;
-      font-family: var(--font-mono);
+      font-family: var(
       font-size: 11px;
     }
 
@@ -345,7 +343,7 @@
       .grades-grid .band-F { grid-column: span 1; }
       .chip-row { flex-direction: column; }
       .chip-sample { min-width: unset; width: 100%; }
-      .hero { padding: 2.5rem 1.25rem 2rem; }
+      .hero { padding: 2.25rem 1.5rem; }
       .content { padding: 2.5rem 1.25rem; }
     }
 
@@ -361,7 +359,7 @@
       margin: 0 auto;
     }
     .faq-section h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 1rem;
@@ -374,7 +372,7 @@
       border-top: 1px solid #d6d3cc;
     }
     .faq-q {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-weight: 600;
       font-size: 0.9rem;
       padding: 14px 0;
@@ -436,7 +434,7 @@
     }
 
     
-    /* ── Global readability fixes ───────────────────────────── */
+    
     h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
       line-height: 1.15;
       overflow: visible;
@@ -448,7 +446,7 @@
     .section-body, .faq-a, .hero-sub {
       color: #4a4a45;
     }
-    /* Dark section muted text — was too low contrast */
+    /* Dark section muted text - improved contrast */
     .findings .insight-text { color: #d8d4cc; }
     .findings .big-stat-detail { color: #c8c4bc; }
     .findings-sub { color: #c8c4bc; }
@@ -477,10 +475,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How We Score Protein Bars | Know Your Bar">
   <meta name="twitter:description" content="How Know Your Bar grades protein bars A through F   ingredient mapping, position weighting, and the full methodology explained.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <nav class="site-nav">
-  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <a href="/" class="site-nav-logo">KNOW YOUR BAR</a>
   <div class="site-nav-links">
     <div class="site-nav-group">
       <span class="site-nav-group-label">Brand Reviews</span>
@@ -495,7 +496,7 @@
     </div>
     <div class="site-nav-group">
       <span class="site-nav-group-label">Guides</span>
-            <div class="site-nav-dropdown">
+      <div class="site-nav-dropdown">
         <a href="/clean-protein-bars.html">Clean Protein Bars</a>
         <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
         <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
@@ -506,7 +507,6 @@
     </div>
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
   </div>
-  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
 
 
@@ -515,7 +515,7 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-eyebrow">Scoring Methodology</div>
+        
         <h1 class="hero-title">How We Score Bars.</h1>
         <p class="hero-sub">Every bar on KnowYourBar.com receives an ingredient quality score based on a transparent, rule-based system. No sponsorships. No bias. Just the ingredients.</p>
       </div>
@@ -757,8 +757,25 @@
 </section>
 
   <footer class="site-footer">
-    <p>knowyourbar.com &nbsp;·&nbsp; <a href="/" style="color:#ffffff44;text-decoration:none">← Back to bar finder</a></p>
-  </footer>
+  <div class="site-footer-inner">
+    <div>
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">900+ protein bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/clean-protein-bars.html">Clean Bars</a>
+      <a href="/keto-protein-bars.html">Keto Bars</a>
+      <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+      <a href="/no-seed-oils.html">No Seed Oils</a>
+      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+      <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+      <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+    </nav>
+    <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; Data from 900+ bars across 95+ brands</div>
+  </div>
+</footer>
 
   <script src="bars.js"></script>
   <script>
