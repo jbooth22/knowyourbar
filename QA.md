@@ -129,3 +129,54 @@ print('\nPASS' if all_pass else '\nFAIL — fix before uploading')
 ---
 
 *Last updated: April 2026*
+
+---
+
+## Deep HTML Structure Check (run on index.html after ANY change)
+
+```python
+import re, subprocess
+
+with open('/mnt/user-data/outputs/kyb-site/index.html') as f:
+    html = f.read()
+with open('/mnt/user-data/outputs/kyb-site/app.js') as f:
+    js = f.read()
+
+failures = []
+def check(label, condition):
+    print(f"  {'OK  ' if condition else 'FAIL'}: {label}")
+    if not condition: failures.append(label)
+
+# Div balance in key sections
+for name, start_tag, end_tag in [
+    ('aside/filter-panel', '<aside', '</aside>'),
+    ('results-panel', '<section class="results-panel"', '</section>'),
+]:
+    start = html.find(start_tag)
+    end = html.find(end_tag, start)
+    section = html[start:end+len(end_tag)] if start > -1 else ''
+    opens = section.count('<div')
+    closes = section.count('</div>')
+    depth = 0; neg = False
+    for line in section.split('\n'):
+        depth += line.count('<div') - line.count('</div>')
+        if depth < 0: neg = True; depth = 0
+    check(f'{name} div balance ({opens}/{closes})', opens == closes and not neg)
+
+# Critical IDs
+for id_ in ['results-body','filter-panel','preset-list','grade-filter-btns',
+            'brand-list','sliders-list','cert-grid','excl-tags',
+            'search-input','excl-input','sort-col','result-count']:
+    check(f'#{id_} present', f'id="{id_}"' in html)
+
+# JS syntax
+r = subprocess.run(['node','--check','/mnt/user-data/outputs/kyb-site/app.js'],capture_output=True,text=True)
+check('app.js syntax', r.returncode == 0)
+
+print('\nPASS' if not failures else f'\nFAIL: {failures}')
+```
+
+## Rule added after 2026-04-26 incident
+**After removing any wrapper div from HTML, always run the div balance check.**
+Removing a wrapper with regex leaves behind its closing `</div>`, which silently
+breaks page structure. The div balance check catches this before upload.
