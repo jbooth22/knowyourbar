@@ -358,41 +358,58 @@
 const BARS_DATA = [{"brand": "Healthy Eating on the Go", "flavor": "Coffee Mocha", "grade": "A", "score": 13.1, "protein": 11, "calories": 200, "sugar": 4, "fiber": 4.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/coffee-mocha"}, {"brand": "PEAK Protein", "flavor": "Dark Chocolate Mint", "grade": "A", "score": 12.7, "protein": 20, "calories": 290, "sugar": 7, "fiber": 9.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B0DJTX2KP8?tag=knowyourbar0f-20", "website": "https://peakprotein.com/products/peak-protein-bars?variant=50439366639905"}, {"brand": "Healthy Eating on the Go", "flavor": "Chocolate Oat", "grade": "A", "score": 12.5, "protein": 9, "calories": 210, "sugar": 9, "fiber": 6.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/chocolate"}, {"brand": "Healthy Eating on the Go", "flavor": "Chia Seed", "grade": "A", "score": 12.4, "protein": 14, "calories": 205, "sugar": 4, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/low-carb-chia"}, {"brand": "Kize", "flavor": "Cookie Dough", "grade": "A", "score": 12.2, "protein": 10, "calories": 200, "sugar": 13, "fiber": 2.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B072HMSMFH?tag=knowyourbar0f-20", "website": "https://kizeconcepts.com/products/cookie-dough"}, {"brand": "1st Phorm", "flavor": "Chocolate Brownie", "grade": "A", "score": 12.1, "protein": 15, "calories": 290, "sugar": 13, "fiber": 4.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://1stphorm.com/products/power-pro-bar-15ct?variant=42065483137110"}, {"brand": "Linear", "flavor": "Sweet Pecan Tortoise", "grade": "A", "score": 12.0, "protein": 20, "calories": 240, "sugar": 3, "fiber": 7.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.linearbar.com/pages/shop"}, {"brand": "Transparent Labs", "flavor": "Chocolate Sea Salt Brownie", "grade": "A", "score": 12.0, "protein": 16, "calories": 270, "sugar": 11, "fiber": 4.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.transparentlabs.com/products/protein-bars"}, {"brand": "Gryp", "flavor": "Peanut Butter Choco Chunk", "grade": "A", "score": 11.7, "protein": 25, "calories": 195, "sugar": 2, "fiber": 6.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://grypbar.com/products/peanut-butter-choco-chunk"}, {"brand": "Healthy Eating on the Go", "flavor": "Banana Crunch", "grade": "A", "score": 11.7, "protein": 12, "calories": 220, "sugar": 3, "fiber": 3.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/banana-crunch"}, {"brand": "Transparent Labs", "flavor": "Chocolate Coconut", "grade": "A", "score": 11.4, "protein": 15, "calories": 270, "sugar": 11, "fiber": 3.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.transparentlabs.com/products/protein-bars"}, {"brand": "Healthy Eating on the Go", "flavor": "Blueberry Dark Chocolate", "grade": "A", "score": 11.3, "protein": 15, "calories": 230, "sugar": 9, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/copy-of-blueberry-dark-chocolate"}, {"brand": "Healthy Eating on the Go", "flavor": "Almond Blueberry and Dark Chocolate", "grade": "A", "score": 11.3, "protein": 14, "calories": 220, "sugar": 9, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/almond-butter-blueberry"}, {"brand": "Healthy Eating on the Go", "flavor": "Peanut", "grade": "A", "score": 11.1, "protein": 15, "calories": 210, "sugar": 5, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/peanut"}, {"brand": "Perfect Bar", "flavor": "Peanut Butter", "grade": "A", "score": 11.0, "protein": 10, "calories": 230, "sugar": 13, "fiber": 2.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B08PG5ZHZL?tag=knowyourbar0f-20", "website": "https://perfectsnacks.com/products/peanut-butter-snack-size-1"}];
 
 const GRADE_COLORS = {A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};
-function renderBars(bars, listId) {
-  const list = document.getElementById(listId);
-  if (!list) return;
-  bars.forEach((b, i) => {
-    const tags = [];
-    if (b.hasSA) tags.push('<span class="bar-tag warn">Contains sugar alcohols</span>');
-    if (b.hasArt) tags.push('<span class="bar-tag warn">Contains artificial sweeteners</span>');
-    if (b.hasSeedOil) tags.push('<span class="bar-tag warn">Contains seed oils</span>');
-    if (!b.hasSA && !b.hasArt && !b.hasSeedOil) tags.push('<span class="bar-tag">No sweeteners or seed oils</span>');
-    const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
-    const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
-    const protStr = (b.protein > 0) ? b.protein+'g' : ' ';
-    const card = document.createElement('div');
-    card.className = 'bar-card';
-    card.innerHTML = `
-      <div class="bar-card-top">
-        <span class="bar-rank">${i+1}</span>
-        <div class="bar-card-main">
-          <div class="bar-brand">${b.brand}</div>
-          <div class="bar-flavor">${b.flavor}</div>
-        </div>
-        <div class="bar-grade-badge" style="background:${GRADE_COLORS[b.grade]}">${b.grade}</div>
-      </div>
+
+const list = document.getElementById('bar-list');
+TOP_BARS.forEach((b, i) => {
+  const protStr = b.protein > 0 ? b.protein + 'g' : '--';
+  const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
+  const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
+  const saTag = b.hasSA
+    ? '<span class="bar-tag warn">Contains sugar alcohols</span>'
+    : '<span class="bar-tag clean">No sugar alcohols</span>';
+
+  const card = document.createElement('div');
+  card.className = 'bar-card';
+
+  const topDiv = document.createElement('div');
+  topDiv.className = 'bar-card-top';
+  topDiv.innerHTML = `
+    <span class="bar-rank">${i+1}</span>
+    <div class="bar-card-main">
+      <div class="bar-brand">${b.brand}</div>
+      <div class="bar-flavor">${b.flavor}</div>
       <div class="bar-macros">
         <div class="bar-macro"><span class="bar-macro-val">${protStr}</span><span class="bar-macro-lbl">Protein</span></div>
         <div class="bar-macro"><span class="bar-macro-val">${b.calories}</span><span class="bar-macro-lbl">Cal</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : ' '}</span><span class="bar-macro-lbl">Sugar</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : ' '}</span><span class="bar-macro-lbl">Fiber</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.sugar}g</span><span class="bar-macro-lbl">Sugar</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : '--'}</span><span class="bar-macro-lbl">Fiber</span></div>
       </div>
-      <div class="bar-tags">${tags.join('')}</div>
-      ${(amzBtn||siteBtn) ? `<div class="bar-links">${amzBtn}${siteBtn}</div>` : ''}
-    `;
-    list.appendChild(card);
+      <div class="bar-tags">${saTag}</div>
+    </div>
+    <div class="bar-grade-badge" style="background:${GRADE_COLORS[b.grade]}">${b.grade}</div>
+    <span class="expand-icon">+</span>
+  `;
+
+  const expandDiv = document.createElement('div');
+  expandDiv.className = 'bar-expand';
+  expandDiv.innerHTML = `
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem;line-height:1.6;">
+      Ingredient quality score: <strong style="color:var(--black)">${b.score ? b.score.toFixed(1) : 'N/A'}</strong>
+      &nbsp;&middot;&nbsp; Grade: <strong style="color:${GRADE_COLORS[b.grade]}">${b.grade}</strong>
+    </div>
+    ${(amzBtn || siteBtn) ? '<div class="bar-links">' + amzBtn + siteBtn + '</div>' : ''}
+  `;
+
+  topDiv.addEventListener('click', function() {
+    const isOpen = expandDiv.classList.toggle('open');
+    topDiv.querySelector('.expand-icon').textContent = isOpen ? '\u2212' : '+';
   });
-}
+
+  card.appendChild(topDiv);
+  card.appendChild(expandDiv);
+  list.appendChild(card);
+});
+
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
 });

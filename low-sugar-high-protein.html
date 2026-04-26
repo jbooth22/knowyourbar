@@ -377,41 +377,58 @@
 const BARS_DATA = [{"brand": "Pure Protein", "flavor": "Cookies and Cream", "grade": "A", "score": 12.6, "protein": 20, "calories": 190, "sugar": 4, "fiber": 4.0, "hasSA": true, "hasArt": true, "hasSeedOil": true, "amazon": "https://www.amazon.com/dp/B0CGFVZMJ2?tag=knowyourbar0f-20", "website": "https://www.pureprotein.com/collections/protein-bars/products/cookies-cream-protein-bar"}, {"brand": "Linear", "flavor": "Sweet Pecan Tortoise", "grade": "A", "score": 12.0, "protein": 20, "calories": 240, "sugar": 3, "fiber": 7.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.linearbar.com/pages/shop"}, {"brand": "Gryp", "flavor": "Peanut Butter Choco Chunk", "grade": "A", "score": 11.7, "protein": 25, "calories": 195, "sugar": 2, "fiber": 6.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://grypbar.com/products/peanut-butter-choco-chunk"}, {"brand": "Healthy Eating on the Go", "flavor": "Peanut", "grade": "A", "score": 11.1, "protein": 15, "calories": 210, "sugar": 5, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/peanut"}, {"brand": "Healthy Eating on the Go", "flavor": "Chocolate Mint", "grade": "A", "score": 11.0, "protein": 15, "calories": 210, "sugar": 3, "fiber": 3.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://www.healthy-onthego.com/product-page/chocolate-mint"}, {"brand": "Promix", "flavor": "Mexican Hot Chocolate", "grade": "A", "score": 10.0, "protein": 15, "calories": 140, "sugar": 4, "fiber": 6.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://promixnutrition.com/products/mexican-hot-chocolate-protein-puff-bars"}, {"brand": "Promix", "flavor": "Chocolate Chip", "grade": "A", "score": 9.9, "protein": 15, "calories": 150, "sugar": 5, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://promixnutrition.com/products/chocolate-chip-protein-puff-bars"}, {"brand": "Promix", "flavor": "Mint Chocolate Chip", "grade": "A", "score": 9.7, "protein": 15, "calories": 150, "sugar": 5, "fiber": 6.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://promixnutrition.com/products/mint-chocolate-protein-puff-bars"}, {"brand": "Munk Pack", "flavor": "Cookie Dough", "grade": "A", "score": 9.5, "protein": 15, "calories": 220, "sugar": 1, "fiber": 5.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B0DL79899S?tag=knowyourbar0f-20", "website": "https://munkpack.com/products/cookie-dough-probiotic-protein-bar-12-count"}, {"brand": "B.T.R. Nation", "flavor": "Cinnamon Cashew Crunch", "grade": "A", "score": 9.5, "protein": 15, "calories": 240, "sugar": 2, "fiber": 10.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B0F1V4Z4WC?tag=knowyourbar0f-20", "website": "https://www.btrnation.com/collections/superfood-protein-bars/products/high-protein-cinnamon-cashew-crunch-protein-bar-12-count"}, {"brand": "B.T.R. Nation", "flavor": "Coffee Cashew Crunch", "grade": "A", "score": 9.5, "protein": 15, "calories": 240, "sugar": 2, "fiber": 10.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B0F1V67S4G?tag=knowyourbar0f-20", "website": "https://www.btrnation.com/collections/superfood-protein-bars/products/high-protein-coffee-protein-bar-12-count"}, {"brand": "Legion", "flavor": "Chocolate Chip Cookie Dough", "grade": "A", "score": 9.4, "protein": 20, "calories": 250, "sugar": 4, "fiber": 9.0, "hasSA": true, "hasArt": false, "hasSeedOil": true, "amazon": "", "website": "https://legionathletics.com/products/supplements/natural-protein-bars/"}, {"brand": "Nick's", "flavor": "Triple Chocolate", "grade": "A", "score": 9.2, "protein": 15, "calories": 200, "sugar": 2, "fiber": 5.0, "hasSA": true, "hasArt": false, "hasSeedOil": false, "amazon": "https://www.amazon.com/dp/B0B3CL733N?tag=knowyourbar0f-20", "website": "https://nicks.com/collections/bestsellers/products/triple-chocolate-box"}, {"brand": "Junkless", "flavor": "Peanut Butter Chocolate Brownie", "grade": "A", "score": 9.1, "protein": 15, "calories": 190, "sugar": 2, "fiber": 8.0, "hasSA": false, "hasArt": false, "hasSeedOil": false, "amazon": "", "website": "https://junklessfoods.com/products/protein-bar-peanut-butter-chocolate-brownie"}, {"brand": "Redefine", "flavor": "Skippy Oatmeal Chocolate", "grade": "A", "score": 9.0, "protein": 15, "calories": 320, "sugar": 4, "fiber": 10.0, "hasSA": false, "hasArt": false, "hasSeedOil": true, "amazon": "https://www.amazon.com/dp/B0DH8ZFXZY?tag=knowyourbar0f-20", "website": "https://redefinesnacks.com/products/oatmeal-protein-pie-skippy-chocolate"}];
 
 const GRADE_COLORS = {A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};
-function renderBars(bars, listId) {
-  const list = document.getElementById(listId);
-  if (!list) return;
-  bars.forEach((b, i) => {
-    const tags = [];
-    if (b.hasSA) tags.push('<span class="bar-tag warn">Contains sugar alcohols</span>');
-    if (b.hasArt) tags.push('<span class="bar-tag warn">Contains artificial sweeteners</span>');
-    if (b.hasSeedOil) tags.push('<span class="bar-tag warn">Contains seed oils</span>');
-    if (!b.hasSA && !b.hasArt && !b.hasSeedOil) tags.push('<span class="bar-tag">No sweeteners or seed oils</span>');
-    const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
-    const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
-    const protStr = (b.protein > 0) ? b.protein+'g' : ' ';
-    const card = document.createElement('div');
-    card.className = 'bar-card';
-    card.innerHTML = `
-      <div class="bar-card-top">
-        <span class="bar-rank">${i+1}</span>
-        <div class="bar-card-main">
-          <div class="bar-brand">${b.brand}</div>
-          <div class="bar-flavor">${b.flavor}</div>
-        </div>
-        <div class="bar-grade-badge" style="background:${GRADE_COLORS[b.grade]}">${b.grade}</div>
-      </div>
+
+const list = document.getElementById('bar-list');
+TOP_BARS.forEach((b, i) => {
+  const protStr = b.protein > 0 ? b.protein + 'g' : '--';
+  const amzBtn = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>` : '';
+  const siteBtn = b.website ? `<a href="${b.website}" target="_blank" rel="noopener" class="bar-link-site">Product page ↗</a>` : '';
+  const saTag = b.hasSA
+    ? '<span class="bar-tag warn">Contains sugar alcohols</span>'
+    : '<span class="bar-tag clean">No sugar alcohols</span>';
+
+  const card = document.createElement('div');
+  card.className = 'bar-card';
+
+  const topDiv = document.createElement('div');
+  topDiv.className = 'bar-card-top';
+  topDiv.innerHTML = `
+    <span class="bar-rank">${i+1}</span>
+    <div class="bar-card-main">
+      <div class="bar-brand">${b.brand}</div>
+      <div class="bar-flavor">${b.flavor}</div>
       <div class="bar-macros">
         <div class="bar-macro"><span class="bar-macro-val">${protStr}</span><span class="bar-macro-lbl">Protein</span></div>
         <div class="bar-macro"><span class="bar-macro-val">${b.calories}</span><span class="bar-macro-lbl">Cal</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.sugar != null ? b.sugar+'g' : ' '}</span><span class="bar-macro-lbl">Sugar</span></div>
-        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : ' '}</span><span class="bar-macro-lbl">Fiber</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.sugar}g</span><span class="bar-macro-lbl">Sugar</span></div>
+        <div class="bar-macro"><span class="bar-macro-val">${b.fiber ? b.fiber+'g' : '--'}</span><span class="bar-macro-lbl">Fiber</span></div>
       </div>
-      <div class="bar-tags">${tags.join('')}</div>
-      ${(amzBtn||siteBtn) ? `<div class="bar-links">${amzBtn}${siteBtn}</div>` : ''}
-    `;
-    list.appendChild(card);
+      <div class="bar-tags">${saTag}</div>
+    </div>
+    <div class="bar-grade-badge" style="background:${GRADE_COLORS[b.grade]}">${b.grade}</div>
+    <span class="expand-icon">+</span>
+  `;
+
+  const expandDiv = document.createElement('div');
+  expandDiv.className = 'bar-expand';
+  expandDiv.innerHTML = `
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.6rem;line-height:1.6;">
+      Ingredient quality score: <strong style="color:var(--black)">${b.score ? b.score.toFixed(1) : 'N/A'}</strong>
+      &nbsp;&middot;&nbsp; Grade: <strong style="color:${GRADE_COLORS[b.grade]}">${b.grade}</strong>
+    </div>
+    ${(amzBtn || siteBtn) ? '<div class="bar-links">' + amzBtn + siteBtn + '</div>' : ''}
+  `;
+
+  topDiv.addEventListener('click', function() {
+    const isOpen = expandDiv.classList.toggle('open');
+    topDiv.querySelector('.expand-icon').textContent = isOpen ? '\u2212' : '+';
   });
-}
+
+  card.appendChild(topDiv);
+  card.appendChild(expandDiv);
+  list.appendChild(card);
+});
+
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
 });

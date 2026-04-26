@@ -2605,16 +2605,28 @@ body.overlay-open { overflow: hidden; }
   margin: 1.25rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: visible;
+  overflow: hidden;  /* clips border-radius correctly */
+}
+/* Inner scroll wrapper — only the thead/tbody rows scroll, not ingr rows */
+.bar-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  /* Don't make display:block — that breaks colspan on ingr rows */
+  table-layout: auto;
+}
+/* The ingredient row spans full width and wraps properly */
+.ingr-row td {
+  max-width: 0;  /* allows the cell to shrink to table width */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+/* Wrap the scrollable columns only, not the expand rows */
+.bar-table-scroll {
+  overflow-x: auto;
 }
 
-/* The table itself scrolls horizontally if needed, but expand rows wrap below */
-.bar-table-wrap > table,
-.bar-table-wrap > div > table {
-  width: 100%;
-  overflow-x: auto;
-  display: block;
-}
 .bar-table-wrap table {
   width: 100%;
   border-collapse: collapse;
@@ -2684,6 +2696,33 @@ body.overlay-open { overflow: hidden; }
   border-radius: var(--radius);
   padding: 14px 16px;
   margin-top: 8px;
+  /* Critical: text must wrap, never scroll horizontally */
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.ingr-inner strong {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+/* The actual ingredient text */
+.ingr-inner p,
+.ingr-inner > span,
+.ingr-inner > div:not(.ingr-macros) {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.7;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .ingr-inner strong {
   font-family: var(--font-mono);
@@ -3374,3 +3413,149 @@ body.overlay-open { overflow: hidden; }
 @media (max-width: 640px) {
   .expand-cols { grid-template-columns: 1fr; }
 }
+
+/* ── clean-protein-bars.html card classes ────────────────────
+   This page uses a third static HTML card pattern.
+   These styles make it render correctly until it can be
+   rebuilt to match the standard JS-rendered card pattern.
+   ──────────────────────────────────────────────────────────── */
+.bar-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0.9rem 1.1rem 0.6rem;
+  cursor: pointer;
+}
+.bar-card-header:hover { background: #faf8f4; }
+.bar-identity { flex: 1; min-width: 0; }
+.bar-grade-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.grade-meta { text-align: center; }
+.grade-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+}
+.grade-score {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  display: block;
+}
+.bar-card-body {
+  padding: 0 1.1rem 0.9rem;
+  border-top: 1px solid var(--border);
+}
+.bar-card-body .bar-macros { padding-top: 0.6rem; }
+.macro {
+  background: var(--off-white);
+  border-radius: 3px;
+  padding: 3px 7px;
+  text-align: center;
+}
+.mv {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: block;
+  color: var(--black);
+}
+.ml {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+}
+.bar-why {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+.bar-ingr {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.bar-ingr-text {
+  font-size: 0.78rem;
+  color: #555;
+  line-height: 1.7;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.bar-certs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.5rem; }
+.cert-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: #e4f5d4;
+  border: 1px solid #70c040;
+  color: #1a6a00;
+}
+.bar-actions { display: flex; gap: 7px; margin-top: 0.6rem; flex-wrap: wrap; }
+.bar-buy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: #FF9900;
+  color: #000;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+}
+.bar-site-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: transparent;
+  color: var(--black);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.bar-site-btn:hover { border-color: var(--black); }
+
+/* Score bar */
+.score-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--border);
+  margin: 0.5rem 0 0.25rem;
+}
+.sb-pos { background: #2a7a1f; border-radius: 3px 0 0 3px; }
+.sb-neg { background: #c87020; border-radius: 0 3px 3px 0; }
+.score-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.sb-lpos { color: #2a7a1f; }
+.sb-lneg { color: #c87020; }
+
+/* ── Miscellaneous missing classes ──────────────────────────── */
+#bar-list, .bar-list { list-style: none; }
+.big-stat-text { font-size: 0.87rem; color: #c8c4bc; line-height: 1.6; }
