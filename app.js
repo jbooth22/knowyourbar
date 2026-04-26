@@ -1063,8 +1063,6 @@ function renderTable(bars) {
       <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
       <td class="col-num">${fmt(bar['Sugars (g)'])}</td>
       <td class="col-num col-hide-mobile">${fmt(bar['Sugar Alcohol (g)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Cholesterol (mg)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Sodium (mg)'])}</td>
       <td class="col-certs col-hide-mobile">${badgeHTML}</td>
       <td class="col-grade">${gradeHTML}</td>
       <td class="col-compare">
