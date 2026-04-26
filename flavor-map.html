@@ -13,21 +13,13 @@
   <title>Protein Bar Flavor Map   900+ Bars Visualized | Know Your Bar</title>
   <meta name="description" content="How do 900+ protein bars break down by flavor? Chocolate leads at 35%. Explore every primary flavor and variation.">
   <link rel="canonical" href="https://knowyourbar.com/flavor-map.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --black:#0e0e0e; --surface:#141414; --surface2:#1c1c1c;
       --white:#f7f5f0; --muted:#888780; --border:#ffffff12; --accent:#d4f000;
-      --fd:'Inter', system-ui, sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
-      --font-display: 'Inter', system-ui, sans-serif;
-      --font-head: 'Inter', system-ui, sans-serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'DM Mono', 'Menlo', monospace;
-      --text: #1a1a18;
-      --text-muted: #4a4a45;
-      --text-light: #c8c4bc;
-      --text-dim: #888780;
-      --surface: #141414;
-      --border-dark: #ffffff14;
+      --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
@@ -48,16 +40,16 @@
     .nav-dd a:hover{background:#ffffff08;color:var(--white);}
 
     /* Hero */
-    .hero{max-width:860px;margin:0 auto;padding: 2.25rem 1.5rem;}
+    .hero{max-width:860px;margin:0 auto;padding:3rem 1.25rem 2rem;}
     .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
-    .hero-title{font-family:'Inter', system-ui, sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:1rem;}
+    .hero-title{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:1rem;}
     .hero-title em{font-style:normal;color:var(--accent);}
     .hero-sub{font-size:.95rem;color:#aaa89e;max-width:540px;line-height:1.7;}
 
     /* Stats */
     .stats{max-width:860px;margin:0 auto;padding:0 1.25rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;}
     .stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
-    .stat-n{font-family:'Inter', system-ui, sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;display:block;margin-bottom:3px;}
+    .stat-n{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;display:block;margin-bottom:3px;}
     .stat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff30;}
 
     /* Desktop Sankey */
@@ -71,7 +63,7 @@
     .flavor-group{margin-bottom:1.5rem;}
     .flavor-group-header{display:flex;align-items:center;gap:10px;margin-bottom:.6rem;}
     .flavor-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
-    .flavor-name{font-family:'Inter', system-ui, sans-serif;font-weight:800;font-size:.97rem;}
+    .flavor-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.97rem;}
     .flavor-total{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
     .flavor-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
     .flavor-bar-label{font-family:'DM Sans',sans-serif;font-size:12px;color:#c0bcb4;width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -95,7 +87,7 @@
       .legend{display:none;}
     }
   
-    
+    /* ── Global readability fixes ───────────────────────────── */
     h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
       line-height: 1.15;
       overflow: visible;
@@ -107,7 +99,7 @@
     .section-body, .faq-a, .hero-sub {
       color: #4a4a45;
     }
-    /* Dark section muted text - improved contrast */
+    /* Dark section muted text — was too low contrast */
     .findings .insight-text { color: #d8d4cc; }
     .findings .big-stat-detail { color: #c8c4bc; }
     .findings-sub { color: #c8c4bc; }
@@ -120,29 +112,25 @@
     .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
 
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="/" class="site-nav-logo">KNOW YOUR BAR</a>
-  <div class="site-nav-links">
-    <div class="site-nav-group">
-      <span class="site-nav-group-label">Brand Reviews</span>
-      <div class="site-nav-dropdown">
+<nav class="nav">
+  <a href="/" class="nav-logo">KNOW YOUR BAR</a>
+  <div class="nav-links">
+    <div class="nav-group">
+      <span class="nav-group-label">Brands</span>
+      <div class="nav-dd">
         <a href="/quest-bars.html">Quest</a>
         <a href="/rxbar-review.html">RXBAR</a>
         <a href="/clif-bar-review.html">Clif Bar</a>
         <a href="/barebells-review.html">Barebells</a>
         <a href="/kind-bars-review.html">KIND</a>
-        <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
       </div>
     </div>
-    <div class="site-nav-group">
-      <span class="site-nav-group-label">Guides</span>
-      <div class="site-nav-dropdown">
+    <div class="nav-group">
+      <span class="nav-group-label">Guides</span>
+      <div class="nav-dd">
         <a href="/clean-protein-bars.html">Clean Protein Bars</a>
         <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
         <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
@@ -151,12 +139,12 @@
         <a href="/keto-protein-bars.html">Keto Protein Bars</a>
       </div>
     </div>
-    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+    <a href="/" class="nav-link">Tool</a>
   </div>
 </nav>
 
 <div class="hero">
-  
+  <div class="eyebrow">Data visualization &middot; 908 bars</div>
   <h1 class="hero-title">The protein bar <em>flavor map</em></h1>
   <p class="hero-sub">How 908 protein bars break down by flavor   from primary category into specific variations. Hover any flow to see the exact count.</p>
 </div>
@@ -185,26 +173,7 @@
 <div class="legend" id="legend"></div>
 
 <p class="footnote">Flavors parsed from bar names across 908 bars.   <a href="/">Search all 900+ bars &rarr;</a></p>
-<footer class="site-footer">
-  <div class="site-footer-inner">
-    <div>
-      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
-      <div class="site-footer-tagline">900+ protein bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
-    </div>
-    <nav class="site-footer-links">
-      <a href="/">Bar Finder</a>
-      <a href="/clean-protein-bars.html">Clean Bars</a>
-      <a href="/keto-protein-bars.html">Keto Bars</a>
-      <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-      <a href="/no-seed-oils.html">No Seed Oils</a>
-      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-      <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
-      <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
-      <a href="/ingredient_scoring.html">How We Score</a>
-    </nav>
-    <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; Data from 900+ bars across 95+ brands</div>
-  </div>
-</footer>
+<footer><a href="/">knowyourbar.com</a> &nbsp;&middot;&nbsp; 908 bars &middot; 95+ brands &nbsp;&middot;&nbsp; Updated April 2026</footer>
 
 <script>
 (function(){
@@ -381,7 +350,7 @@
       const big=n.h>22;
       gL.appendChild(mktxt(n.x-14,mid-(big?8:0),n.label,{
         'text-anchor':'end','dominant-baseline':'middle',
-        'font-family':'Inter,system-ui,sans-serif','font-weight':'800',
+        'font-family':'Syne,sans-serif','font-weight':'800',
         'font-size':'14','letter-spacing':'-0.3','fill':'#f0ede6',
       }));
       if(big){gL.appendChild(mktxt(n.x-14,mid+9,n.n+' bars \u00b7 '+pct+'%',{
