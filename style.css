@@ -57,6 +57,13 @@ body {
   align-items: center;
 }
 
+/* Brand and guide pages have no hero image — force single column */
+.page-brand .hero-inner,
+.page-guide .hero-inner {
+  display: block;
+  max-width: 820px;
+}
+
 .hero-text { min-width: 0; }
 
 .hero-image {
@@ -100,6 +107,16 @@ body {
   color: #aaa89e;
   max-width: 520px;
   line-height: 1.6;
+}
+
+/* Brand and guide page hero-sub — readable on dark background */
+.page-brand .hero-sub,
+.page-guide .hero-sub {
+  color: #c8c4bc;
+  max-width: 680px;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-top: 0.75rem;
 }
 
 .hero-sub strong {
@@ -1773,8 +1790,9 @@ body.overlay-open { overflow: hidden; }
   padding: 0 2rem;
   height: 52px;
   gap: 2rem;
-  position: relative;
-  z-index: 100;
+  position: sticky;
+  top: 0;
+  z-index: 200;
   border-bottom: 1px solid #ffffff12;
 }
 .site-nav-logo {
@@ -2587,7 +2605,15 @@ body.overlay-open { overflow: hidden; }
   margin: 1.25rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* The table itself scrolls horizontally if needed, but expand rows wrap below */
+.bar-table-wrap > table,
+.bar-table-wrap > div > table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
 }
 .bar-table-wrap table {
   width: 100%;
@@ -3247,4 +3273,104 @@ body.overlay-open { overflow: hidden; }
   .verdict-inner { grid-template-columns: 1fr; }
   .score-grid { grid-template-columns: 1fr 1fr; }
   .hero-stats { gap: 1.5rem; }
+}
+
+/* ── Guide page bar card classes (missing from style.css) ─── */
+.bar-rank {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  width: 20px;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+.bar-card-main { flex: 1; min-width: 0; }
+.bar-grade-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+  flex-shrink: 0;
+}
+.bar-link-amz {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: #FF9900;
+  color: #000;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+}
+.bar-link-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: transparent;
+  color: var(--black);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.bar-link-site:hover { border-color: var(--black); }
+.bar-links { display: flex; gap: 7px; margin-top: 0.65rem; flex-wrap: wrap; }
+.bars-section { padding: 2.5rem 1.5rem; border-top: 1px solid var(--border); }
+.bars-section-inner { max-width: 820px; margin: 0 auto; }
+
+/* Guide bar cards — expand behavior */
+.bar-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; }
+.bar-card-top { display: flex; align-items: flex-start; gap: 9px; padding: 0.9rem 1.1rem 0.75rem; cursor: pointer; }
+.bar-card-top:hover { background: #faf8f4; }
+.bar-expand { display: none; border-top: 1px solid var(--border); padding: 0.95rem 1.1rem; background: #faf8f4; }
+.bar-expand.open { display: block; }
+.expand-icon { font-family: var(--font-mono); font-size: 14px; color: var(--muted); flex-shrink: 0; padding-top: 3px; user-select: none; }
+
+/* Bar macros row */
+.bar-macros { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.4rem; }
+.bar-macro { background: var(--off-white); border-radius: 3px; padding: 3px 7px; text-align: center; }
+.bar-macro.highlight { background: #e4f5d4; }
+.bar-macro-val { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; display: block; color: var(--black); }
+.bar-macro-val.green { color: #1a6a00; }
+.bar-macro-lbl { font-family: var(--font-mono); font-size: 7.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); display: block; }
+
+/* Bar tags */
+.bar-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.5rem; }
+.bar-tag { font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted); }
+.bar-tag.warn { background: #fff7e0; border-color: #e8c040; color: #6a4a00; }
+.bar-tag.clean { background: #e4f5d4; border-color: #70c040; color: #1a6a00; }
+.bar-tag.sa { background: #fff7e0; border-color: #e8c040; color: #6a4a00; }
+
+/* Nutrition label inside expand */
+.nutr-label { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 0.82rem; max-width: 220px; }
+.nutr-title { font-family: var(--font-head, 'Inter', sans-serif); font-weight: 800; font-size: 1.1rem; border-bottom: 3px solid var(--black); margin-bottom: 0.3rem; padding-bottom: 0.3rem; }
+.nutr-serving { font-size: 0.78rem; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; margin-bottom: 0.3rem; }
+.nutr-row { display: flex; justify-content: space-between; gap: 0.5rem; padding: 2px 0; font-size: 0.8rem; border-bottom: 1px solid #eee; }
+.nutr-row:last-child { border-bottom: none; }
+.nutr-row.bold { font-weight: 600; }
+.nutr-row.indent { padding-left: 0.75rem; font-size: 0.77rem; }
+.expand-cols { display: grid; grid-template-columns: auto 1fr; gap: 1rem; }
+.expand-right { min-width: 0; }
+.ingr-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; margin-top: 0.75rem; }
+.cert-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.65rem; }
+.cert { font-family: var(--font-mono); font-size: 9px; padding: 2px 7px; border-radius: 3px; background: #e4f5d4; border: 1px solid #70c040; color: #1a6a00; }
+
+/* Show more button */
+.show-more-wrap { text-align: center; margin-top: 1rem; }
+.show-more-btn { font-family: var(--font-mono); font-size: 11px; padding: 8px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: transparent; cursor: pointer; color: var(--black); }
+.show-more-btn:hover { background: var(--off-white); }
+
+@media (max-width: 640px) {
+  .expand-cols { grid-template-columns: 1fr; }
 }
