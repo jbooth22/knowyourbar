@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════
+       KNOW YOUR BAR — BRAND REVIEW PAGE TEMPLATE
+       File: TEMPLATE_BRAND.html
+       Last updated: April 2026
+
+       HOW TO USE THIS TEMPLATE
+       ────────────────────────
+       1. Copy this file and rename it: brand-name.html
+       2. Find every @@PLACEHOLDER@@ and replace with real data
+       3. Update all section content with brand-specific copy
+       4. Add/remove chip-freq-item rows to match actual data
+       5. Populate the bar table rows (copy the example row pattern)
+       6. Update all JSON-LD schemas at the top
+       7. Add to sitemap.xml and update nav on all other pages
+
+       PLACEHOLDER KEY
+       ───────────────
+       @@BRAND@@          Brand name (e.g. Quest, RXBAR, Barebells)
+       @@BRAND_SLUG@@     URL slug (e.g. quest-bars, rxbar-review)
+       @@FLAVOR_COUNT@@   Number of flavors scored (e.g. 16)
+       @@GRADE_RANGE@@    e.g. B–A  or  C–A
+       @@SCORE_RANGE@@    e.g. 4.4–9.3
+       @@PROTEIN_RANGE@@  e.g. 18–21g
+       @@CALORIE_RANGE@@  e.g. 170–200
+       @@SHORT_ANSWER@@   1–2 sentence plain-English verdict
+       @@AMAZON_TAG@@     knowyourbar0f-20
+       ═══════════════════════════════════════════════════════ -->
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+
+  <!-- Core meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ══ SEO: Update title, description, and canonical for each brand ══ -->
+  <title>Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors | Know Your Bar</title>
+  <meta name="description" content="@@BRAND@@ bars scored A–F by ingredient quality across all @@FLAVOR_COUNT@@ flavors. See which flavors are worth it, how macros rank, and what the ingredients actually reveal.">
+  <link rel="canonical" href="https://knowyourbar.com/@@BRAND_SLUG@@.html">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- CSS variables (minimal inline — everything else lives in style.css) -->
+  <style>
+    :root {
+      --black:     #0e0e0e;
+      --white:     #f7f5f0;
+      --off-white: #efece6;
+      --accent:    #d4f000;
+      --muted:     #888880;
+      --border:    #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    6px;
+      --radius-lg: 10px;
+    }
+  </style>
+
+  <!-- ══ JSON-LD: Article schema ══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors",
+    "description": "@@BRAND@@ protein bars scored A–F by ingredient quality across all @@FLAVOR_COUNT@@ flavors. Full macro breakdown, grade distribution, and best vs. worst flavor callouts.",
+    "author": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://knowyourbar.com/@@BRAND_SLUG@@.html"
+    },
+    "dateModified": "2026-04-01"
+  }
+  </script>
+
+  <!-- ══ JSON-LD: Dataset schema ══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Know Your Bar — Protein Bar Ingredient Quality Database",
+    "description": "1,000+ protein bars across 95+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
+    "url": "https://knowyourbar.com",
+    "creator": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "dateModified": "2026-04-01",
+    "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "variableMeasured": [
+      "Ingredient quality grade (A through F)",
+      "Ingredient quality score",
+      "Macronutrients",
+      "Dietary certifications"
+    ],
+    "measurementTechnique": "Proprietary ingredient scoring algorithm mapping each ingredient to a canonical base score weighted by position in ingredient list",
+    "spatialCoverage": "United States",
+    "temporalCoverage": "2026"
+  }
+  </script>
+
+  <!-- ══ JSON-LD: FAQ schema — update questions/answers for each brand ══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are @@BRAND@@ bars healthy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_1@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which @@BRAND@@ flavor is the healthiest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_2@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much protein do @@BRAND@@ bars have?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_3@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do @@BRAND@@ bars have artificial sweeteners?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_4@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do @@BRAND@@ bars have sugar alcohols?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_5@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do @@BRAND@@ bars compare to other protein bars?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_6@@"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What type of protein is in @@BRAND@@ bars?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@@FAQ_ANSWER_7@@"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors">
+  <meta property="og:description" content="@@BRAND@@ bars scored A–F by ingredient quality. Full grade breakdown, macro ranking, and best vs. worst flavor callouts.">
+  <meta property="og:url" content="https://knowyourbar.com/@@BRAND_SLUG@@.html">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors">
+  <meta name="twitter:description" content="@@BRAND@@ bars scored A–F by ingredient quality. Full grade breakdown, macro ranking, and best vs. worst flavor callouts.">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
+
+</head>
+<body class="page-brand">
+
+<!-- ═══════════════════════════════════════════
+     NAV
+     Update dropdown links when adding new pages
+     ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar, High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Bars</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     Dark background, large headline, short answer
+     ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <!-- SEO headline formula: "Are [BRAND] Bars Healthy? We Scored All [N] Flavors" -->
+    <h1 class="hero-title">Are <em>@@BRAND@@</em> Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors</h1>
+    <!-- Short answer: 1–2 sentences. Plain English verdict. Mention grade, key trait. -->
+    <p class="hero-sub">@@SHORT_ANSWER@@</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SCORECARD SNAPSHOT
+     6 stats: Flavors · Grade Range · Score Range ·
+     Protein Range · Calorie Range · Sweetener Status
+     ═══════════════════════════════════════════ -->
+<section class="snapshot">
+  <div class="snapshot-inner">
+
+    <div class="snap-item">
+      <div class="snap-value">@@FLAVOR_COUNT@@</div>
+      <div class="snap-label">Flavors scored</div>
+    </div>
+
+    <!-- Grade range: e.g. "B–A" or "C–A". Use worst–best order. -->
+    <div class="snap-item">
+      <div class="snap-value">@@GRADE_RANGE@@</div>
+      <div class="snap-label">Grade range</div>
+    </div>
+
+    <!-- Score range: lowest–highest numeric score -->
+    <div class="snap-item">
+      <div class="snap-value">@@SCORE_RANGE@@</div>
+      <div class="snap-label">Score range</div>
+    </div>
+
+    <!-- Protein range: e.g. "18–21g" -->
+    <div class="snap-item">
+      <div class="snap-value">@@PROTEIN_RANGE@@</div>
+      <div class="snap-label">Protein per bar</div>
+    </div>
+
+    <!-- Calorie range: e.g. "170–200" -->
+    <div class="snap-item">
+      <div class="snap-value">@@CALORIE_RANGE@@</div>
+      <div class="snap-label">Calories per bar</div>
+    </div>
+
+    <!-- Sweetener status: "None" / "Natural only" / "Artificial" / "Mixed" -->
+    <div class="snap-item">
+      <div class="snap-value">@@SWEETENER_STATUS@@</div>
+      <div class="snap-label">Artificial sweeteners</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════ -->
+<div class="content">
+
+  <!-- ─── 1. OVERVIEW SUMMARY ─────────────────
+       2–3 paragraphs covering: sugar alcohols,
+       macros, protein, calories, sugar, ingredient
+       quality, sweeteners, protein type. Note if
+       lineup is consistent or wide-ranging.
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>What the data shows across all @@FLAVOR_COUNT@@ @@BRAND@@ flavors</h2>
+    <p>@@SUMMARY_PARAGRAPH_1@@</p>
+    <p>@@SUMMARY_PARAGRAPH_2@@</p>
+    <!-- Optional third paragraph if lineup is split or complex -->
+    <!-- <p>@@SUMMARY_PARAGRAPH_3@@</p> -->
+  </section>
+
+  <!-- ─── 2. GRADE DISTRIBUTION ──────────────
+       Visual bar showing A/B/C/D/F split.
+       flex values = count of bars at that grade.
+       Hide any grade with 0 bars (remove that div).
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>Ingredient quality grade distribution across all @@FLAVOR_COUNT@@ flavors</h2>
+    <p>Here is how @@BRAND@@'s full lineup grades out — every flavor, not a curated selection.</p>
+    <div class="grade-dist">
+      <!-- Remove segments with 0 bars. Flex value = bar count. -->
+      <div class="grade-seg" style="background:#2a7a1f;flex:@@COUNT_A@@" title="Clean: @@COUNT_A@@ bars">A</div>
+      <div class="grade-seg" style="background:#5a8a2f;flex:@@COUNT_B@@" title="Good: @@COUNT_B@@ bars">B</div>
+      <div class="grade-seg" style="background:#b89a00;flex:@@COUNT_C@@" title="Okay: @@COUNT_C@@ bars">C</div>
+      <div class="grade-seg" style="background:#c87020;flex:@@COUNT_D@@" title="Poor: @@COUNT_D@@ bars">D</div>
+      <div class="grade-seg" style="background:#c83020;flex:@@COUNT_F@@" title="Avoid: @@COUNT_F@@ bars">F</div>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:13px;color:var(--muted);">
+      @@COUNT_A@@ A (Clean) &nbsp;&middot;&nbsp; @@COUNT_B@@ B (Good) &nbsp;&middot;&nbsp; @@COUNT_C@@ C (Okay) &nbsp;&middot;&nbsp; @@COUNT_D@@ D (Poor) &nbsp;&middot;&nbsp; @@COUNT_F@@ F (Avoid)
+    </p>
+  </section>
+
+  <!-- ─── 3. BEST & WORST CARDS ──────────────
+       Two cards: highest and lowest scoring flavor.
+       Include chips, grade definition, Amazon link
+       when available.
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>Best and worst flavors by ingredient quality</h2>
+    <div class="bestworst">
+
+      <!-- BEST card -->
+      <div class="bw-card best">
+        <div class="bw-label">Highest ingredient quality</div>
+        <div class="bw-flavor">@@BEST_FLAVOR@@</div>
+        <div class="bw-score">Score @@BEST_SCORE@@ &middot; Grade @@BEST_GRADE@@ (@@BEST_GRADE_DEF@@)</div>
+        <div class="bw-chips">
+          <!-- Add 2–4 chips that explain why this flavor scores best -->
+          <span class="bchip pos">@@CHIP_1@@</span>
+          <span class="bchip pos">@@CHIP_2@@</span>
+          <!-- <span class="bchip con">@@CHIP_3@@</span> -->
+        </div>
+      </div>
+
+      <!-- WORST card -->
+      <div class="bw-card worst">
+        <div class="bw-label">Lowest ingredient quality</div>
+        <div class="bw-flavor">@@WORST_FLAVOR@@</div>
+        <div class="bw-score">Score @@WORST_SCORE@@ &middot; Grade @@WORST_GRADE@@ (@@WORST_GRADE_DEF@@)</div>
+        <div class="bw-chips">
+          <!-- Add 2–4 chips that explain why this flavor scores worst -->
+          <span class="bchip con">@@CHIP_1@@</span>
+          <span class="bchip con">@@CHIP_2@@</span>
+        </div>
+      </div>
+
+    </div>
+    <!-- Amazon buy link for the best flavor. Remove if no affiliate link available. -->
+    <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
+       target="_blank" rel="noopener sponsored" class="cta-amazon">
+      Buy @@BEST_FLAVOR@@ on Amazon
+    </a>
+  </section>
+
+  <!-- ─── 4. MACRO BREAKDOWN ─────────────────
+       One card per key macro. macro-verdict color:
+         green  = #5a8a2f  (top quartile / standout)
+         amber  = #b89a00  (middle of pack)
+         red    = #c83020  (bottom quartile)
+       After the grid: 1–2 sentence SEO text blurb.
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>How @@BRAND@@ ranks on macros</h2>
+    <p>Rather than labeling macros good or bad, we rank @@BRAND@@ against every bar in our database so you can judge relative to the full market.</p>
+    <div class="macro-grid">
+
+      <div class="macro-card">
+        <div class="macro-label">Protein</div>
+        <div class="macro-range">@@PROTEIN_RANGE@@</div>
+        <div class="macro-avg">avg @@PROTEIN_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@PROTEIN_COLOR@@">@@PROTEIN_VERDICT@@</div>
+      </div>
+
+      <div class="macro-card">
+        <div class="macro-label">Calories</div>
+        <div class="macro-range">@@CALORIE_RANGE@@cal</div>
+        <div class="macro-avg">avg @@CALORIE_AVG@@cal</div>
+        <div class="macro-verdict" style="color:@@CALORIE_COLOR@@">@@CALORIE_VERDICT@@</div>
+      </div>
+
+      <div class="macro-card">
+        <div class="macro-label">Total Sugar</div>
+        <div class="macro-range">@@SUGAR_RANGE@@g</div>
+        <div class="macro-avg">avg @@SUGAR_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@SUGAR_COLOR@@">@@SUGAR_VERDICT@@</div>
+      </div>
+
+      <div class="macro-card">
+        <div class="macro-label">Fiber</div>
+        <div class="macro-range">@@FIBER_RANGE@@g</div>
+        <div class="macro-avg">avg @@FIBER_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@FIBER_COLOR@@">@@FIBER_VERDICT@@</div>
+      </div>
+
+      <div class="macro-card">
+        <div class="macro-label">Total Fat</div>
+        <div class="macro-range">@@FAT_RANGE@@g</div>
+        <div class="macro-avg">avg @@FAT_AVG@@g</div>
+        <div class="macro-verdict" style="color:#888880">@@FAT_VERDICT@@</div>
+      </div>
+
+      <div class="macro-card">
+        <div class="macro-label">Net Carbs</div>
+        <div class="macro-range">@@NETCARB_RANGE@@g</div>
+        <div class="macro-avg">avg @@NETCARB_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@NETCARB_COLOR@@">@@NETCARB_VERDICT@@</div>
+      </div>
+
+    </div>
+    <!-- SEO macro blurb: 1–2 sentences summarizing standout macro story for this brand -->
+    <p class="macro-summary-text">@@MACRO_SEO_BLURB@@</p>
+  </section>
+
+  <!-- ─── 5. INGREDIENT QUALITY PATTERNS ────
+       Chip frequency table showing how many bars
+       have each ingredient pattern. Group by:
+       "Every flavor" / "Most flavors" / "Some flavors"
+       Only show groups that apply.
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>Ingredient quality patterns across the lineup</h2>
+
+    <!-- GROUP: Every flavor (100%) -->
+    <div class="chip-group-label">Every flavor</div>
+    <div class="chip-freq-row">
+      <div class="chip-freq-item">
+        <div class="chip-freq-name"><span class="bchip pos">@@PATTERN_NAME@@</span></div>
+        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:100%"></div></div>
+        <div class="chip-freq-pct">@@FLAVOR_COUNT@@/@@FLAVOR_COUNT@@</div>
+      </div>
+      <!-- Repeat chip-freq-item for each universal pattern -->
+    </div>
+
+    <!-- GROUP: Most flavors (>50%) — remove if none -->
+    <div class="chip-group-label">Most flavors</div>
+    <div class="chip-freq-row">
+      <div class="chip-freq-item">
+        <div class="chip-freq-name"><span class="bchip con">@@PATTERN_NAME@@</span></div>
+        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:@@PCT@@%"></div></div>
+        <div class="chip-freq-pct">@@N@@/@@FLAVOR_COUNT@@</div>
+      </div>
+    </div>
+
+    <!-- GROUP: Some flavors (<50%) — remove if none -->
+    <div class="chip-group-label">Some flavors</div>
+    <div class="chip-freq-row">
+      <div class="chip-freq-item">
+        <div class="chip-freq-name"><span class="bchip neu">@@PATTERN_NAME@@</span></div>
+        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:@@PCT@@%"></div></div>
+        <div class="chip-freq-pct">@@N@@/@@FLAVOR_COUNT@@</div>
+      </div>
+    </div>
+
+    <!-- Brief summary of the patterns -->
+    <p style="margin-top:1.25rem;">@@PATTERNS_SUMMARY_TEXT@@</p>
+  </section>
+
+  <!-- ─── 6. FULL FLAVOR TABLE ───────────────
+       Simplified table: Flavor · Grade · Score ·
+       Protein · Calories · Sugar · Insights (hide mobile)
+       - No horizontal scroll (table-layout: fixed)
+       - Click row to toggle ingredient expand
+       - toggleIngr(index, rowEl) IDs must be sequential
+         starting from 0 across the whole page
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>All @@FLAVOR_COUNT@@ @@BRAND@@ flavors ranked by ingredient quality</h2>
+    <p>Every flavor, every grade, every key macro — sorted from cleanest to most processed. Tap any row to see the full ingredient list.</p>
+
+    <div class="bar-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Flavor</th>
+            <th>Grade</th>
+            <th>Score</th>
+            <th>Protein</th>
+            <th>Cal</th>
+            <th>Sugar</th>
+            <th class="hide-mobile">Insights</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- ─── ROW TEMPLATE ───────────────────────────
+               Copy this block for each flavor.
+               - Increment toggleIngr index by 1 each row
+               - ingr-N id must match the toggleIngr index
+               - Remove Amazon link div if no affiliate link
+               ─────────────────────────────────────────── -->
+          <tr class="bar-row" onclick="toggleIngr(0, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">@@FLAVOR_NAME@@</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
+                   target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="grade-cell">
+              <span class="grade-badge" style="background:@@GRADE_COLOR@@" title="@@GRADE_DEF@@">@@GRADE@@</span>
+            </td>
+            <td class="num-cell">@@SCORE@@</td>
+            <td class="num-cell">@@PROTEIN@@g</td>
+            <td class="num-cell">@@CALORIES@@</td>
+            <td class="num-cell">@@SUGAR@@g</td>
+            <td class="chips-cell hide-mobile">
+              <!-- Add actual insight chips for this flavor -->
+              <span class="bchip pos">@@CHIP@@</span>
+              <span class="bchip con">@@CHIP@@</span>
+            </td>
+          </tr>
+          <!-- Ingredient expand row — colspan must be 7 to match column count -->
+          <tr class="ingr-row" id="ingr-0">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <strong>Ingredients</strong> @@FULL_INGREDIENT_LIST@@
+              </div>
+            </td>
+          </tr>
+          <!-- END ROW TEMPLATE — repeat above block for each flavor, incrementing index -->
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── 7. BOTTOM LINE ─────────────────────
+       3–5 sentences: how this bar fits the market,
+       grade callouts, flavor standouts, macro story,
+       who should buy it and who should skip it.
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>Bottom line on @@BRAND@@</h2>
+    <p>@@BOTTOM_LINE_P1@@</p>
+    <p>@@BOTTOM_LINE_P2@@</p>
+  </section>
+
+  <!-- ─── 8. EXPLORE ALL BARS CTA ───────────
+       Links back to main index with context.
+       Update the 2–3 quick-filter buttons to be
+       relevant to this brand's audience.
+       e.g. Quest users → High Protein, No Sugar
+            KIND users  → Clean Ingredients, Low Calorie
+       ─────────────────────────────────────────── -->
+  <section class="section explore-cta">
+    <div class="explore-cta-inner">
+      <div class="explore-cta-eyebrow">Know Your Bar</div>
+      <h2 class="explore-cta-title">Explore all 1,000+ bars</h2>
+      <p class="explore-cta-sub">Filter by protein, sugar, fiber, calories, or even specific ingredients. Every bar scored A–F by ingredient quality.</p>
+      <div class="explore-cta-btns">
+        <!-- Update these 2–3 buttons to be most relevant for this brand's audience -->
+        <a href="/?preset=@@PRESET_1_SLUG@@" class="explore-cta-btn">@@PRESET_1_LABEL@@</a>
+        <a href="/?preset=@@PRESET_2_SLUG@@" class="explore-cta-btn">@@PRESET_2_LABEL@@</a>
+        <a href="/?preset=@@PRESET_3_SLUG@@" class="explore-cta-btn">@@PRESET_3_LABEL@@</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 9. EXPLORE MORE ────────────────────
+       Always 3 links:
+       1. Another brand review page
+       2. A brand vs. page (if exists, else another brand)
+       3. A lifestyle/guide page relevant to this audience
+       ─────────────────────────────────────────── -->
+  <section class="section">
+    <h2>Explore more</h2>
+    <div class="related-links">
+      <div class="related-links-label">You might also like</div>
+      <div class="related-links-grid">
+        <!-- Link 1: Another brand -->
+        <a href="/@@RELATED_BRAND_SLUG@@.html" class="related-link">@@RELATED_BRAND_LABEL@@</a>
+        <!-- Link 2: vs. page or second brand -->
+        <a href="/@@VS_PAGE_SLUG@@.html" class="related-link">@@VS_PAGE_LABEL@@</a>
+        <!-- Link 3: Lifestyle/guide most relevant to this brand's audience -->
+        <a href="/@@GUIDE_SLUG@@.html" class="related-link">@@GUIDE_LABEL@@</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 10. FAQ ─────────────────────────────
+       7 questions minimum. Questions collapsed by
+       default; click to expand answer.
+       Match questions to FAQ JSON-LD schema above.
+       ─────────────────────────────────────────── -->
+</div><!-- /content -->
+
+<section class="faq-section">
+  <div class="faq-section-inner">
+    <h2>Frequently asked questions about @@BRAND@@ bars</h2>
+    <div class="faq-items">
+
+      <!-- FAQ item template — repeat for each question -->
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Are @@BRAND@@ bars healthy?</button>
+        <div class="faq-a">@@FAQ_ANSWER_1@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Which @@BRAND@@ flavor is the healthiest?</button>
+        <div class="faq-a">@@FAQ_ANSWER_2@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How much protein do @@BRAND@@ bars have?</button>
+        <div class="faq-a">@@FAQ_ANSWER_3@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Do @@BRAND@@ bars have artificial sweeteners?</button>
+        <div class="faq-a">@@FAQ_ANSWER_4@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Do @@BRAND@@ bars have sugar alcohols?</button>
+        <div class="faq-a">@@FAQ_ANSWER_5@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How do @@BRAND@@ bars compare to other protein bars?</button>
+        <div class="faq-a">@@FAQ_ANSWER_6@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What type of protein is in @@BRAND@@ bars?</button>
+        <div class="faq-a">@@FAQ_ANSWER_7@@</div>
+      </div>
+
+      <!-- Add up to 3 more brand-specific questions as needed -->
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     Update bar count if it changes from 1,000+
+     ═══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+      <a href="/clean-protein-bars.html">Clean Bars Guide</a>
+      <a href="/quest-bars.html">Quest Review</a>
+      <a href="/rxbar-review.html">RXBAR Review</a>
+      <a href="/barebells-review.html">Barebells Review</a>
+    </nav>
+    <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; 1,000+ bars across 95+ brands</div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     FAQ accordion + ingredient row toggle.
+     Do not modify this block.
+     ═══════════════════════════════════════════ -->
+<script>
+  /* FAQ accordion — uses .open class to match style.css */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      /* Close all */
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      /* Toggle clicked */
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* Ingredient row toggle */
+  function toggleIngr(idx, row) {
+    const ingrRow = document.getElementById('ingr-' + idx);
+    if (!ingrRow) return;
+    const isOpen = ingrRow.style.display === 'table-row';
+    /* Close all open rows */
+    document.querySelectorAll('.ingr-row').forEach(r => r.style.display = 'none');
+    document.querySelectorAll('.bar-row').forEach(r => r.classList.remove('row-open'));
+    /* Toggle clicked */
+    if (!isOpen) {
+      ingrRow.style.display = 'table-row';
+      row.classList.add('row-open');
+    }
+  }
+  /* Hide all ingredient rows on load */
+  document.querySelectorAll('.ingr-row').forEach(r => r.style.display = 'none');
+</script>
+
+</body>
+</html>

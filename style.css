@@ -2815,6 +2815,79 @@ body.overlay-open { overflow: hidden; }
   margin-bottom: 4px;
 }
 .bw-score { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.bw-chips { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 5px; }
+
+/* Macro summary SEO blurb — accent-left callout after macro grid */
+.macro-summary-text {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--white);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.93rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* Explore all bars CTA — dark tile linking back to main index */
+.explore-cta {
+  background: var(--black);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2.5rem;
+}
+.explore-cta-inner {
+  padding: 2rem 1.75rem;
+  text-align: center;
+}
+.explore-cta-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.explore-cta-title {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+  line-height: 1.15;
+}
+.explore-cta-sub {
+  font-size: 0.9rem;
+  color: #888880;
+  line-height: 1.65;
+  max-width: 480px;
+  margin: 0 auto 1.25rem;
+}
+.explore-cta-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.explore-cta-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  background: transparent;
+  border: 1px solid #444;
+  border-radius: 20px;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.explore-cta-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--black);
+}
 
 /* Callout */
 .callout {
@@ -2919,6 +2992,22 @@ body.overlay-open { overflow: hidden; }
 .verdict-items li:last-child { border-bottom: none; }
 .verdict-items li strong { color: var(--black); }
 
+/* Brand page — fixed table layout prevents horizontal scroll */
+.page-brand .bar-table-wrap {
+  overflow-x: hidden;
+}
+.page-brand .bar-table-wrap table {
+  table-layout: fixed;
+  width: 100%;
+}
+.page-brand .bar-table-wrap th:nth-child(1) { width: 38%; } /* Flavor  */
+.page-brand .bar-table-wrap th:nth-child(2) { width: 8%;  } /* Grade   */
+.page-brand .bar-table-wrap th:nth-child(3) { width: 9%;  } /* Score   */
+.page-brand .bar-table-wrap th:nth-child(4) { width: 10%; } /* Protein */
+.page-brand .bar-table-wrap th:nth-child(5) { width: 9%;  } /* Cal     */
+.page-brand .bar-table-wrap th:nth-child(6) { width: 9%;  } /* Sugar   */
+.page-brand .bar-table-wrap th:nth-child(7) { width: 17%; } /* Insights (hide-mobile) */
+
 /* Mobile */
 @media (max-width: 640px) {
   .bestworst { grid-template-columns: 1fr; }
@@ -2927,6 +3016,15 @@ body.overlay-open { overflow: hidden; }
   .macro-grid { grid-template-columns: 1fr 1fr; }
   .bar-table-wrap th.hide-mobile,
   .bar-table-wrap td.hide-mobile { display: none; }
+  /* Redistribute brand table widths when Insights col is hidden */
+  .page-brand .bar-table-wrap th:nth-child(1) { width: 44%; }
+  .page-brand .bar-table-wrap th:nth-child(2) { width: 10%; }
+  .page-brand .bar-table-wrap th:nth-child(3) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(4) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(5) { width: 11%; }
+  .page-brand .bar-table-wrap th:nth-child(6) { width: 11%; }
+  .explore-cta-inner { padding: 1.5rem 1.25rem; }
+  .explore-cta-title { font-size: 1.25rem; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
