@@ -2380,10 +2380,11 @@ body.overlay-open { overflow: hidden; }
 }
 .site-footer-links a:hover { color: var(--white); }
 .site-footer-copy {
-  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
   border-top: 1px solid #ffffff0a;
   padding-top: .85rem;
-  margin-top: .25rem;
+  margin-top: 1.25rem;
   font-family: var(--font-mono);
   font-size: 9px;
   color: #666660;
@@ -2926,6 +2927,16 @@ body.overlay-open { overflow: hidden; }
   font-size: 11px;
   padding: 7px 14px;
 }
+
+/* Ingredient expand — insight chips row */
+.ingr-chips {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
 .explore-cta {
   background: var(--black);
   border-radius: var(--radius-lg);
@@ -3065,7 +3076,7 @@ body.overlay-open { overflow: hidden; }
 .verdict-items li:last-child { border-bottom: none; }
 .verdict-items li strong { color: var(--black); }
 
-/* Brand page — fixed table layout prevents horizontal scroll */
+/* Brand page — fixed table layout, 6 columns (no Insights col) */
 .page-brand .bar-table-wrap {
   overflow-x: hidden;
 }
@@ -3073,13 +3084,12 @@ body.overlay-open { overflow: hidden; }
   table-layout: fixed;
   width: 100%;
 }
-.page-brand .bar-table-wrap th:nth-child(1) { width: 38%; } /* Flavor  */
-.page-brand .bar-table-wrap th:nth-child(2) { width: 8%;  } /* Grade   */
-.page-brand .bar-table-wrap th:nth-child(3) { width: 9%;  } /* Score   */
-.page-brand .bar-table-wrap th:nth-child(4) { width: 10%; } /* Protein */
-.page-brand .bar-table-wrap th:nth-child(5) { width: 9%;  } /* Cal     */
-.page-brand .bar-table-wrap th:nth-child(6) { width: 9%;  } /* Sugar   */
-.page-brand .bar-table-wrap th:nth-child(7) { width: 17%; } /* Insights (hide-mobile) */
+.page-brand .bar-table-wrap th:nth-child(1) { width: 42%; } /* Flavor  */
+.page-brand .bar-table-wrap th:nth-child(2) { width: 10%; } /* Grade   */
+.page-brand .bar-table-wrap th:nth-child(3) { width: 11%; } /* Score   */
+.page-brand .bar-table-wrap th:nth-child(4) { width: 13%; } /* Protein */
+.page-brand .bar-table-wrap th:nth-child(5) { width: 12%; } /* Cal     */
+.page-brand .bar-table-wrap th:nth-child(6) { width: 12%; } /* Sugar   */
 
 /* Mobile */
 @media (max-width: 640px) {
@@ -3089,12 +3099,12 @@ body.overlay-open { overflow: hidden; }
   .macro-grid { grid-template-columns: 1fr 1fr; }
   .bar-table-wrap th.hide-mobile,
   .bar-table-wrap td.hide-mobile { display: none; }
-  /* Redistribute brand table widths when Insights col is hidden */
-  .page-brand .bar-table-wrap th:nth-child(1) { width: 44%; }
-  .page-brand .bar-table-wrap th:nth-child(2) { width: 10%; }
-  .page-brand .bar-table-wrap th:nth-child(3) { width: 12%; }
+  /* Mobile brand table — 6 columns, all visible */
+  .page-brand .bar-table-wrap th:nth-child(1) { width: 40%; }
+  .page-brand .bar-table-wrap th:nth-child(2) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(3) { width: 13%; }
   .page-brand .bar-table-wrap th:nth-child(4) { width: 12%; }
-  .page-brand .bar-table-wrap th:nth-child(5) { width: 11%; }
+  .page-brand .bar-table-wrap th:nth-child(5) { width: 12%; }
   .page-brand .bar-table-wrap th:nth-child(6) { width: 11%; }
   .explore-cta-inner { padding: 1.5rem 1.25rem; }
   .explore-cta-title { font-size: 1.25rem; }
