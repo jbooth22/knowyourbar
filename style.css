@@ -9,7 +9,7 @@
   --off-white: #efece6;
   --accent: #d4f000;       /* electric yellow-green */
   --accent-dark: #9db000;
-  --muted: #888880;
+  --muted: #5a5a54;
   --border: #d6d3cc;
   --border-dark: #0e0e0e22;
   --panel-bg: #f7f5f0;
@@ -42,7 +42,7 @@ body {
 .hero {
   background: var(--black);
   color: var(--white);
-  padding: 4rem 2rem 0;
+  padding: 2.5rem 2rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -86,11 +86,13 @@ body {
 
 .hero-headline {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 1.05;
   letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
+  overflow: visible;
+  padding-bottom: 0.1em;
 }
 
 .hero-sub {
@@ -2242,3 +2244,159 @@ body.overlay-open { overflow: hidden; }
   padding-bottom: 5px;
   border-bottom: 1px solid var(--border);
 }
+
+/* ─── Guide & Brand Page Shared Styles ──────────────────────
+   Added to standardize all non-index pages.
+   These supplement each page's own inline CSS.
+   ──────────────────────────────────────────────────────────── */
+
+/* Hero on guide/brand pages */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  overflow: visible;
+  padding-bottom: 0.08em;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+.hero-title em { font-style: normal; color: var(--accent); }
+
+/* Section titles on guide pages */
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow: visible;
+  padding-bottom: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+/* Dark sections — ensure text is never gray-on-black */
+.findings .section-body,
+.findings p,
+.dark-bg p {
+  color: #c8c4bc;
+}
+.findings .insight-text { color: #d0ccC4; }
+.findings .big-stat-detail { color: #c0bcb4; }
+
+/* ─── Eyebrow labels — hidden sitewide ───────────────────── */
+/* The eyebrow divs exist in HTML but we hide them via CSS
+   rather than stripping HTML, which is safer */
+.hero-eyebrow,
+.eyebrow,
+.section-eyebrow,
+.findings-eyebrow,
+.picks-eyebrow,
+.picks-label,
+.top-picks-eyebrow {
+  display: none;
+}
+
+/* ─── Consistent Footer ──────────────────────────────────── */
+.site-footer {
+  background: var(--black);
+  border-top: 1px solid #ffffff12;
+  padding: 2.5rem 1.5rem;
+  color: #ffffff44;
+}
+.site-footer-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.site-footer-brand {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: .08em;
+  text-decoration: none;
+  display: block;
+  margin-bottom: .5rem;
+}
+.site-footer-tagline {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #ffffff33;
+  line-height: 1.6;
+}
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  justify-content: flex-end;
+}
+.site-footer-links a {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #ffffff44;
+  text-decoration: none;
+  transition: color .12s;
+}
+.site-footer-links a:hover { color: #c8c4bc; }
+.site-footer-copy {
+  grid-column: 1 / -1;
+  border-top: 1px solid #ffffff0a;
+  padding-top: 1rem;
+  margin-top: .5rem;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: #ffffff22;
+  text-align: center;
+  letter-spacing: .05em;
+}
+@media (max-width: 640px) {
+  .site-footer-inner { grid-template-columns: 1fr; }
+  .site-footer-links { justify-content: flex-start; }
+}
+
+/* ─── Related links — centered pill buttons ──────────────── */
+.related-links {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.related-links-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .85rem;
+}
+.related-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.related-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--black);
+  text-decoration: none;
+  transition: background .1s, border-color .1s;
+  white-space: nowrap;
+}
+.related-link:hover {
+  background: var(--off-white);
+  border-color: #888880;
+}
+
+/* ─── Guide page FAQ — consistent look ───────────────────── */
+.guide-faq { padding: 2.5rem 1.5rem; background: var(--off-white); border-top: 1px solid var(--border); }
+.guide-faq-inner { max-width: 820px; margin: 0 auto; }

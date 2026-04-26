@@ -14,6 +14,7 @@
   <meta name="description" content="We calculated net carbs on 900+ protein bars so you don't have to. Only 122 hit 5g or less. Here's what's actually worth buying on keto, with honest notes on sweeteners.">
   <link rel="canonical" href="https://knowyourbar.com/keto-protein-bars.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="/style.css">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
@@ -228,12 +229,12 @@
 </head>
 <body>
 
-<nav class="nav">
-  <a href="/" class="nav-logo">KNOW YOUR BAR</a>
-  <div class="nav-links">
-    <div class="nav-group">
-      <span class="nav-group-label">Brand Reviews</span>
-      <div class="nav-dd">
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
         <a href="/quest-bars.html">Quest</a>
         <a href="/rxbar-review.html">RXBAR</a>
         <a href="/clif-bar-review.html">Clif Bar</a>
@@ -241,9 +242,9 @@
         <a href="/kind-bars-review.html">KIND</a>
       </div>
     </div>
-    <div class="nav-group">
-      <span class="nav-group-label">Guides</span>
-      <div class="nav-dd">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+            <div class="site-nav-dropdown">
         <a href="/clean-protein-bars.html">Clean Protein Bars</a>
         <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
         <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
@@ -252,8 +253,9 @@
         <a href="/keto-protein-bars.html">Keto Protein Bars</a>
       </div>
     </div>
-    <a href="/ingredient_scoring.html" class="nav-link">How We Score</a>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
   </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
 
 <section class="hero">
@@ -454,7 +456,26 @@
   </div>
 </section>
 
-<footer><a href="/">knowyourbar.com</a> &nbsp;&middot;&nbsp; Net carbs calculated from 900+ bars &nbsp;&middot;&nbsp; Updated April 2026</footer>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">900+ protein bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/clean-protein-bars.html">Clean Bars</a>
+      <a href="/keto-protein-bars.html">Keto Bars</a>
+      <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+      <a href="/no-seed-oils.html">No Seed Oils</a>
+      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+      <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+      <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+    </nav>
+    <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; Data from 900+ bars across 95+ brands</div>
+  </div>
+</footer>
 
 <script>
 const GRADE_COLORS = {A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};

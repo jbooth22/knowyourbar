@@ -299,3 +299,36 @@ Google Analytics: G-SW4MNP5W7J (tag in index.html)
 ---
 
 Last updated: April 2026
+
+## CSS Architecture — READ BEFORE MAKING CHANGES
+
+**One file rules everything: `style.css`**
+
+- `style.css` contains ALL styles for the site — 2,400+ lines
+- `index.html` has NO inline `<style>` block. It depends entirely on `style.css`
+- Guide and brand pages have inline CSS for their own components, but fonts, nav, footer, and shared elements all come from `style.css`
+
+### Font variables (change only in `style.css` `:root`)
+```css
+--font-display: 'Syne', sans-serif;   /* headings */
+--font-mono: 'DM Mono', monospace;    /* labels, stats, tags */
+--font-body: 'DM Sans', sans-serif;   /* body text */
+```
+
+### Rules
+1. **Font changes: edit `:root` in `style.css` only.** Never change font-family in HTML files.
+2. **Never use regex to strip or modify CSS inside `<style>` tags.** It cannot be done safely.
+3. **Never delete lines from `style.css`.** Only append new rules at the bottom.
+4. **Test every change against index.html first** — if bars render, filters work, and the layout holds, proceed.
+
+### Safe changes to make in `style.css`
+- Color values in `:root`
+- Font sizes and weights on named classes
+- Padding and margin adjustments
+- Adding new classes at the bottom of the file
+
+### Never do this
+- Replace `style.css` entirely with a rewritten version
+- Strip inline `<style>` blocks from HTML files using find/replace
+- Bulk-replace CSS across multiple HTML files in one operation
+
