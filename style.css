@@ -2341,6 +2341,12 @@ body.overlay-open { overflow: hidden; }
   gap: 2rem;
   align-items: start;
 }
+.site-footer-brand-block {
+  /* wrapper for brand name + tagline — keeps them together in the grid */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 .site-footer-brand {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -2692,14 +2698,17 @@ body.overlay-open { overflow: hidden; }
 .num-cell { font-family: var(--font-mono); font-size: 12px; text-align: center; white-space: nowrap; }
 .grade-cell { text-align: center; }
 .chips-cell {
-  max-width: 220px;
-  white-space: normal;
-  word-break: break-word;
+  max-width: 200px;
+  overflow: hidden;
 }
 .chips-cell .bchip {
   display: inline-block;
   margin: 2px 2px 2px 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 /* Ingredient expand row — fixed: wraps properly, styled cleanly */
@@ -2959,7 +2968,7 @@ body.overlay-open { overflow: hidden; }
   display: inline-block;
   padding: 9px 18px;
   background: transparent;
-  border: 1px solid #444;
+  border: 1px solid #666660;
   border-radius: 20px;
   color: var(--white);
   font-family: var(--font-mono);
