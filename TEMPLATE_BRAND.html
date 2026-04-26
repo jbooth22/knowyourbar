@@ -585,23 +585,27 @@
   </section>
 
   <!-- ─── 9. EXPLORE MORE ────────────────────
-       Always 3 links:
+       Always 3 cards:
        1. Another brand review page
        2. A brand vs. page (if exists, else another brand)
-       3. A lifestyle/guide page relevant to this audience
+       3. A lifestyle/guide relevant to this audience
+       Each card: bold title + one-line description of why it's useful.
        ─────────────────────────────────────────── -->
   <section class="section">
     <h2>Explore more</h2>
-    <div class="related-links">
-      <div class="related-links-label">You might also like</div>
-      <div class="related-links-grid">
-        <!-- Link 1: Another brand -->
-        <a href="/@@RELATED_BRAND_SLUG@@.html" class="related-link">@@RELATED_BRAND_LABEL@@</a>
-        <!-- Link 2: vs. page or second brand -->
-        <a href="/@@VS_PAGE_SLUG@@.html" class="related-link">@@VS_PAGE_LABEL@@</a>
-        <!-- Link 3: Lifestyle/guide most relevant to this brand's audience -->
-        <a href="/@@GUIDE_SLUG@@.html" class="related-link">@@GUIDE_LABEL@@</a>
-      </div>
+    <div class="explore-more-grid">
+      <a href="/@@RELATED_BRAND_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@RELATED_BRAND_TITLE@@</div>
+        <div class="explore-more-desc">@@RELATED_BRAND_DESC@@</div>
+      </a>
+      <a href="/@@VS_PAGE_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@VS_PAGE_TITLE@@</div>
+        <div class="explore-more-desc">@@VS_PAGE_DESC@@</div>
+      </a>
+      <a href="/@@GUIDE_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@GUIDE_TITLE@@</div>
+        <div class="explore-more-desc">@@GUIDE_DESC@@</div>
+      </a>
     </div>
   </section>
 
@@ -687,23 +691,16 @@
      Do not modify this block.
      ═══════════════════════════════════════════ -->
 <script>
-  /* FAQ accordion */
+  /* FAQ accordion — uses .open class to match style.css */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
       /* Close all */
-      document.querySelectorAll('.faq-q').forEach(b => {
-        b.setAttribute('aria-expanded', 'false');
-        b.nextElementSibling.style.display = 'none';
-      });
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       /* Toggle clicked */
-      if (!isOpen) {
-        btn.setAttribute('aria-expanded', 'true');
-        btn.nextElementSibling.style.display = 'block';
-      }
+      if (!isOpen) item.classList.add('open');
     });
-    /* Ensure all closed on load */
-    btn.nextElementSibling.style.display = 'none';
   });
 
   /* Ingredient row toggle */

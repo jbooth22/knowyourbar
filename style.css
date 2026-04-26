@@ -1740,6 +1740,7 @@ body.overlay-open { overflow: hidden; }
 }
 .faq-item {
   border-bottom: 1px solid var(--border);
+  background: none;
 }
 .faq-item:first-of-type {
   border-top: 1px solid var(--border);
@@ -1756,6 +1757,13 @@ body.overlay-open { overflow: hidden; }
   gap: 12px;
   color: var(--black);
   user-select: none;
+  /* Reset button defaults */
+  background: none;
+  border: none;
+  border-radius: 0;
+  width: 100%;
+  text-align: left;
+  outline: none;
 }
 .faq-q::after {
   content: '+';
@@ -2683,7 +2691,16 @@ body.overlay-open { overflow: hidden; }
 }
 .num-cell { font-family: var(--font-mono); font-size: 12px; text-align: center; white-space: nowrap; }
 .grade-cell { text-align: center; }
-.chips-cell { max-width: 220px; }
+.chips-cell {
+  max-width: 220px;
+  white-space: normal;
+  word-break: break-word;
+}
+.chips-cell .bchip {
+  display: inline-block;
+  margin: 2px 2px 2px 0;
+  white-space: nowrap;
+}
 
 /* Ingredient expand row — fixed: wraps properly, styled cleanly */
 .ingr-row { display: none; }
@@ -2829,7 +2846,76 @@ body.overlay-open { overflow: hidden; }
   line-height: 1.7;
 }
 
-/* Explore all bars CTA — dark tile linking back to main index */
+/* Explore more — 3 descriptive link cards */
+.explore-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 1rem;
+}
+.explore-more-card {
+  display: block;
+  padding: 1.1rem 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.explore-more-card:hover {
+  border-color: #888880;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.explore-more-title {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 0.4rem;
+}
+.explore-more-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+@media (max-width: 640px) {
+  .explore-more-grid { grid-template-columns: 1fr; }
+}
+
+/* Ingredient expand — macro mini-strip */
+.ingr-macros {
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.ingr-macros span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--black);
+}
+.ingr-macros span strong {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+/* Ingredient expand — buy link row */
+.ingr-buy {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.ingr-buy .cta-amazon {
+  font-size: 11px;
+  padding: 7px 14px;
+}
 .explore-cta {
   background: var(--black);
   border-radius: var(--radius-lg);
@@ -2858,7 +2944,7 @@ body.overlay-open { overflow: hidden; }
 }
 .explore-cta-sub {
   font-size: 0.9rem;
-  color: #888880;
+  color: #c8c4bc;
   line-height: 1.65;
   max-width: 480px;
   margin: 0 auto 1.25rem;
@@ -2946,13 +3032,18 @@ body.overlay-open { overflow: hidden; }
   background: var(--black);
   padding: 2rem 1.5rem;
 }
+.page-brand .site-footer-inner,
+.page-guide .site-footer-inner {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
 .page-brand .site-footer-tagline,
 .page-guide .site-footer-tagline {
-  color: #888880;
+  color: #999992;
 }
 .page-brand .site-footer-links a,
 .page-guide .site-footer-links a {
-  color: #888880;
+  color: #999992;
 }
 .page-brand .site-footer-links a:hover,
 .page-guide .site-footer-links a:hover {
@@ -2960,7 +3051,7 @@ body.overlay-open { overflow: hidden; }
 }
 .page-brand .site-footer-copy,
 .page-guide .site-footer-copy {
-  color: #555550;
+  color: #666660;
 }
 
 /* Verdict cards (brand review pro/con) */
