@@ -249,8 +249,8 @@ body {
 .preset-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  gap: 8px;
+  padding: 7px 10px;
   background: white;
   border: 1.5px solid var(--border);
   border-left: 3px solid var(--border);
@@ -895,7 +895,7 @@ tr.expanded td { background: #eceae3; }
   gap: 8px;
 }
 
-.nutr-row:last-child { border-bottom: none; }
+
 
 /* Explicitly remove any highlight styling from nutrition rows */
 .nutr-highlight { background: none !important; }
@@ -1480,6 +1480,8 @@ tr.expanded td { background: #eceae3; }
   display: flex; align-items: flex-start; justify-content: center;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  /* Always scroll from top regardless of page scroll position */
+  padding-top: 0;flow-scrolling: touch;
   padding: 24px 12px 48px;
 }
 .cmp-overlay-inner {
@@ -3392,13 +3394,13 @@ body.overlay-open { overflow: hidden; }
 .bar-tag.sa { background: #fff7e0; border-color: #e8c040; color: #6a4a00; }
 
 /* Nutrition label inside expand */
-.nutr-label { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem 1rem; font-size: 0.82rem; max-width: 220px; }
-.nutr-title { font-family: var(--font-head, 'Inter', sans-serif); font-weight: 800; font-size: 1.1rem; border-bottom: 3px solid var(--black); margin-bottom: 0.3rem; padding-bottom: 0.3rem; }
-.nutr-serving { font-size: 0.78rem; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; margin-bottom: 0.3rem; }
-.nutr-row { display: flex; justify-content: space-between; gap: 0.5rem; padding: 2px 0; font-size: 0.8rem; border-bottom: 1px solid #eee; }
-.nutr-row:last-child { border-bottom: none; }
-.nutr-row.bold { font-weight: 600; }
-.nutr-row.indent { padding-left: 0.75rem; font-size: 0.77rem; }
+
+
+
+
+
+
+
 .expand-cols { display: grid; grid-template-columns: auto 1fr; gap: 1rem; }
 .expand-right { min-width: 0; }
 .ingr-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; margin-top: 0.75rem; }

@@ -80,8 +80,8 @@
     <div class="hero-inner">
       <div class="hero-text">
         
-        <h1 class="hero-headline">Know Your Bar.</h1>
-        <p class="hero-sub">Search, filter, and compare <strong id="bar-count">900+</strong> protein bars by macros, ingredients, and dietary needs. Built from a hand-researched database. No BS.</p>
+        <h1 class="hero-headline">Know Your Bar</h1>
+        <p class="hero-sub">Search, filter, and compare <strong>1,000+</strong> protein bars by macros, ingredients, and dietary needs. Built from a hand-researched database. No BS.</p>
       </div>
       <div class="hero-image">
         <img src="bar_hero.png" alt="Know Your Bar packaging" />
@@ -101,50 +101,45 @@
     <aside class="filter-panel" id="filter-panel">
 
       <div class="panel-section panel-section--presets">
-        <div class="panel-label">Not sure where to start?</div>
-        <div class="panel-sublabel">Pick a goal and we'll filter for you</div>
+        <div class="panel-label">Lifestyles</div>
+        
         <div class="preset-list" id="preset-list">
           <button class="preset-btn" data-preset="lose_weight">
-            <span class="preset-emoji">🎯</span>
             <span class="preset-text">
               <span class="preset-name">Lose Weight</span>
               <span class="preset-desc">High protein, low calorie</span>
             </span>
           </button>
           <button class="preset-btn" data-preset="clean">
-            <span class="preset-emoji">🌿</span>
             <span class="preset-text">
               <span class="preset-name">Clean Ingredients</span>
               <span class="preset-desc">No artificial sweeteners or sugar alcohols</span>
             </span>
           </button>
           <button class="preset-btn" data-preset="skip_sugar">
-            <span class="preset-emoji">🚫</span>
             <span class="preset-text">
               <span class="preset-name">Skip the Sugar</span>
               <span class="preset-desc">Under 2g sugar, no bad sugar alcohols</span>
             </span>
           </button>
           <button class="preset-btn" data-preset="high_protein">
-            <span class="preset-emoji">💪</span>
             <span class="preset-text">
               <span class="preset-name">High Protein</span>
               <span class="preset-desc">22g or more per bar</span>
             </span>
           </button>
           <button class="preset-btn" data-preset="keto">
-            <span class="preset-emoji">⚡</span>
             <span class="preset-text">
               <span class="preset-name">Keto Friendly</span>
               <span class="preset-desc">Under 5g net carbs</span>
             </span>
           </button>
         </div>
-        <div class="preset-divider">or use the filters below to find exactly what you want</div>
+        
       </div>
 
       <div class="panel-section">
-        <div class="panel-label">Ingredient grade</div>
+        <div class="panel-label">Ingredient Quality Grade</div>
         <div class="grade-filter-btns" id="grade-filter-btns"></div>
       </div>
 
@@ -168,14 +163,8 @@
         <div class="result-count" id="result-count">900+ bars</div>
       </div>
 
-      <div class="panel-advanced-toggle" id="advanced-toggle" onclick="toggleAdvanced()">
-        <span class="advanced-toggle-label">Advanced filters</span>
-        <span class="advanced-toggle-icon" id="advanced-icon">+</span>
-      </div>
-
-      <div class="panel-advanced" id="panel-advanced">
-        <div class="panel-section">
-          <div class="panel-label">Flavor keyword</div>
+      <div class="panel-section">
+          <div class="panel-label">Flavor keyword
           <div class="search-wrap">
             <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><line x1="9.5" y1="9.5" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
             <input type="text" id="search-input" placeholder="e.g. chocolate, peanut butter…" autocomplete="off" spellcheck="false">
@@ -223,7 +212,7 @@
             <option value="Sugar Alcohol (g)">Sugar Alcohol</option>
             <option value="Dietary Fiber (g)">Fiber</option>
             <option value="Total Fat (g)">Fat</option>
-            <option value="Sodium (mg)">Sodium</option>
+            <option value="_p100">Protein/100cal</option>
             <option value="brand">Brand A–Z</option>
           </select>
           <select id="sort-dir">
@@ -242,15 +231,14 @@
               <th class="col-bar">Bar</th>
               <th class="col-num col-hide-mobile" title="Calories">CAL</th>
               <th class="col-num" title="Protein (g)">PROT</th>
+      <th class="col-num col-hide-mobile" title="Protein per 100 calories">P/100</th>
               <th class="col-num" title="Total Fat (g)">FAT</th>
               <th class="col-num col-hide-mobile" title="Total Carbohydrates (g)">CARB</th>
               <th class="col-num" title="Dietary Fiber (g)">FIBR</th>
               <th class="col-num" title="Sugars (g)">SGR</th>
               <th class="col-num col-hide-mobile" title="Sugar Alcohol (g)">SGR ALC</th>
-              <th class="col-num col-hide-mobile" title="Cholesterol (mg)">CHOL</th>
-              <th class="col-num col-hide-mobile" title="Sodium (mg)">SODM</th>
               <th class="col-certs col-hide-mobile">CERTS</th>
-              <th class="col-grade" title="Ingredient Grade">GRADE</th>
+              <th class="col-grade" title="Ingredient Quality Grade">GRADE</th>
               <th class="col-compare" title="Add to comparison">CMP</th>
             </tr>
           </thead>

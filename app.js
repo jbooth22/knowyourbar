@@ -24,7 +24,7 @@ const SLIDERS_CFG = [
   { key: 'Sugars (g)',                 label: 'Max Sugars',        min: 0,  max: 29,  step: 1,  dir: 'max', unit: 'g',   default: 29 },
   { key: 'Sugar Alcohol (g)',          label: 'Max Sugar Alcohol', min: 0,  max: 20,  step: 1,  dir: 'max', unit: 'g',   default: 20 },
   { key: 'Dietary Fiber (g)',          label: 'Min Fiber',         min: 0,  max: 17,  step: 1,  dir: 'min', unit: 'g',   default: 0 },
-  { key: 'Sodium (mg)',                label: 'Max Sodium',        min: 0,  max: 760, step: 10, dir: 'max', unit: 'mg',  default: 760 },
+  { key: '_netCarbs',                  label: 'Max Net Carbs',     min: 0,  max: 50,  step: 1,  dir: 'max', unit: 'g',   default: 50 },
 ];
 
 // BRAND_LIST generated dynamically from BARS so new brands appear automatically
@@ -927,6 +927,15 @@ function applyFilters() {
 
     // Sliders
     for (const cfg of SLIDERS_CFG) {
+      // _netCarbs is a computed field, not a direct bar property
+      if (cfg.key === '_netCarbs') {
+        const carbs = bar['Total Carbohydrates (g)'] || 0;
+        const fiber = bar['Dietary Fiber (g)'] || 0;
+        const sa    = bar['Sugar Alcohol (g)'] || 0;
+        const nc    = carbs - fiber - (sa / 2);
+        if (nc > sliderValues['_netCarbs']) return false;
+        continue;
+      }
       const v = bar[cfg.key];
       if (v === null || v === undefined) continue;
       if (cfg.dir === 'max' && v > sliderValues[cfg.key]) return false;
@@ -961,6 +970,9 @@ function applyFilters() {
     } else if (sortCol === 'efficiency') {
       av = a['Calories'] ? (a['Protein (g)'] * 4) / a['Calories'] : 0;
       bv = b['Calories'] ? (b['Protein (g)'] * 4) / b['Calories'] : 0;
+    } else if (sortCol === '_p100') {
+      av = a['Calories'] > 0 ? (a['Protein (g)'] / a['Calories']) * 100 : 0;
+      bv = b['Calories'] > 0 ? (b['Protein (g)'] / b['Calories']) * 100 : 0;
     } else {
       av = a[sortCol] ?? -Infinity;
       bv = b[sortCol] ?? -Infinity;
@@ -1043,6 +1055,7 @@ function renderTable(bars) {
       </td>
       <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
       <td class="col-num">${fmt(bar['Protein (g)'])}</td>
+      <td class="col-num col-hide-mobile">${bar['Calories'] > 0 ? Math.round(bar['Protein (g)'] / bar['Calories'] * 100 * 10) / 10 : '--'}</td>
       <td class="col-num">${fmt(bar['Total Fat (g)'])}</td>
       <td class="col-num col-hide-mobile">${fmt(bar['Total Carbohydrates (g)'])}</td>
       <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
@@ -1632,7 +1645,7 @@ function openCompareOverlay() {
   overlay.id = 'compare-overlay';
   overlay.innerHTML = `
     <div class="cmp-overlay-inner">
-      <div class="cmp-header">
+      <div class="cmp-header" style="position:sticky;top:0;z-index:10;">
         <div class="cmp-title">Comparing ${bars.length} bars</div>
         <div class="cmp-header-actions">
           <button class="cmp-share-btn" id="cmp-share-btn">&#9015; Copy link</button>
@@ -1663,6 +1676,7 @@ function openCompareOverlay() {
     </div>`;
 
   document.body.appendChild(overlay);
+  overlay.scrollTop = 0;
   document.body.classList.add('overlay-open');
   document.getElementById('cmp-close-btn').addEventListener('click', closeCompareOverlay);
   document.getElementById('cmp-share-btn').addEventListener('click', copyCompareLink);
