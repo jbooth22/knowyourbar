@@ -687,16 +687,23 @@
      Do not modify this block.
      ═══════════════════════════════════════════ -->
 <script>
-  /* FAQ accordion — uses .open class to match style.css */
+  /* FAQ accordion */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
       /* Close all */
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      document.querySelectorAll('.faq-q').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        b.nextElementSibling.style.display = 'none';
+      });
       /* Toggle clicked */
-      if (!isOpen) item.classList.add('open');
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        btn.nextElementSibling.style.display = 'block';
+      }
     });
+    /* Ensure all closed on load */
+    btn.nextElementSibling.style.display = 'none';
   });
 
   /* Ingredient row toggle */
