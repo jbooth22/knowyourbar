@@ -1,12 +1,12 @@
 # knowyourbar.com
 
-A hand-researched protein bar database with ingredient quality scoring, macro filtering, comparison tools, and similar bar discovery. No sponsored picks. No ads.
+A protein bar database with ingredient quality scoring, macro filtering, comparison tools, and similar bar discovery. 1,000+ bars scored. No sponsored picks. No ads.
 
 ---
 
 ## What It Is
 
-A static website hosted on Cloudflare Pages via GitHub. Users can search, filter, sort, and compare 817+ protein bars by macros, ingredient quality grade, brand, certifications, and dietary preferences. Every bar is scored A through F based on its ingredient list.
+A static website hosted on Cloudflare Pages via GitHub. Users can search, filter, sort, and compare 1,000+ protein bars by macros, ingredient quality grade, brand, certifications, and dietary preferences. Every bar is scored A through F based on its ingredient list using a transparent, rule-based system.
 
 ---
 
@@ -14,72 +14,85 @@ A static website hosted on Cloudflare Pages via GitHub. Users can search, filter
 
 ```
 /
-├── index.html              — Main bar finder tool
-├── style.css               — All shared styles
-├── app.js                  — All filter, sort, preset, comparison, URL state, and similar bars logic
-├── bars.js                 — Full bar database (900+ bars, ~1.6MB)
-├── bar_hero.png            — Hero image
-├── score_and_export.py     — Scoring pipeline script
+├── index.html                          — Main bar finder tool
+├── style.css                           — All shared styles (3,700+ lines)
+├── app.js                              — All filter, sort, preset, comparison, URL state logic
+├── bars.js                             — Full bar database (1,000+ bars)
+├── TEMPLATE_BRAND.html                 — Master template for brand review pages
+├── score_and_export.py                 — Scoring pipeline script
+├── knowyourbar_scoring_schema_v3.xlsx  — Ingredient scoring schema
+├── bar_hero.png                        — Hero image
 ├── sitemap.xml
 ├── robots.txt
-├── README.md               — This file
-├── DEPLOY.md               — Deployment and update instructions
+├── BRIEFING.md                         — Claude session instructions
+├── README.md                           — This file
+├── DEPLOY.md                           — Deployment instructions
+├── QA.md                               — QA checklist
 │
-├── quest-bars.html         — Brand review: Quest
-├── rxbar-review.html       — Brand review: RXBAR
-├── clif-bar-review.html    — Brand review: Clif Bar
-├── barebells-review.html   — Brand review: Barebells
-├── clean-protein-bars.html — SEO guide: Clean Protein Bars (with Key Findings + charts)
-└── ingredient_scoring.html — Scoring methodology explainer
+├── quest-bars.html                     — Brand review: Quest (16 flavors)
+├── rxbar-review.html                   — Brand review: RXBAR (14 flavors)
+├── clif-bar-review.html                — Brand review: Clif Bar (28 flavors)
+├── barebells-review.html               — Brand review: Barebells (25 flavors)
+├── kind-bars-review.html               — Brand review: KIND (19 flavors)
+├── quest-vs-rxbar.html                 — Comparison page
+│
+├── clean-protein-bars.html             — Guide: Clean Protein Bars
+├── no-artificial-sweeteners.html       — Guide: No Artificial Sweeteners
+├── no-sugar-alcohols.html              — Guide: No Sugar Alcohols
+├── no-seed-oils.html                   — Guide: No Seed Oils
+├── low-sugar-high-protein.html         — Guide: Low Sugar High Protein
+├── keto-protein-bars.html              — Guide: Keto Protein Bars
+│
+└── ingredient_scoring.html             — Scoring methodology explainer
 ```
 
-Note on file naming: Brand pages use inconsistent naming (quest-bars.html vs rxbar-review.html). Standardization deferred until the site has enough link equity to absorb the redirects safely.
+Note on file naming: brand pages use inconsistent naming (quest-bars.html vs rxbar-review.html). Standardization deferred until the site has enough link equity to absorb redirects safely.
 
 ---
 
 ## Database
 
-File: bars.js
-Source: KYB - New Protein Bar Database (2026).xlsx (maintained locally, not in repo)
-Current count: 900+ bars across 95+ brands
-Affiliate tag: knowyourbar0f-20
-Affiliate coverage: ~554 of 900+ bars (~68%)
+**File:** bars.js
+**Source:** KYB bar database spreadsheet (maintained locally, not in repo)
+**Count:** 1,000+ bars across 95+ brands
+**Affiliate tag:** knowyourbar0f-20
 
-### Known unscored bars (missing ingredient data in spreadsheet)
-- Power Crunch | Chocolate Strawberry
-- MET-Rx | Peanut Butter Granola
-- MET-Rx | Chocolate Chip Granola
-- MET-Rx | Mint Super Cookie
-
-Add ingredient lists to the spreadsheet and re-run the pipeline to score them.
+Each bar object contains:
+```
+Brand Name, Flavor Name, score_band (A/B/C/D/F), ingredient_score (numeric),
+Calories, Protein (g), Total Fat (g), Saturated Fat (g), Total Carbohydrates (g),
+Dietary Fiber (g), Sugars (g), Sugar Alcohol (g), Sodium (mg), Cholesterol (mg),
+Ingredients (full text), Amazon Affiliate (URL), Website (URL),
+positive_ingredients, concern_ingredients,
+Vegan, Gluten Free, Dairy Free, Soy Free, Non-GMO, Nut Free, Kosher (all Y/N)
+```
 
 ---
 
 ## Scoring System
 
-Schema file: knowyourbar_scoring_schema_v3.xlsx (in repo)
-Canonicals: 1,047 ingredients
-Aliases: 2,021 ingredient name variants
+**Schema file:** knowyourbar_scoring_schema_v3.xlsx
+**Canonicals:** 1,048 ingredients
+**Aliases:** 2,024 ingredient name variants
 
-### Critical: how the pipeline works
+### How the pipeline works
 
-ALL bars are scored from raw ingredient text using a single unified code path.
-The schema's Ingredient_Lines and Products sheets are NOT used.
-Only Canonical_Ingredients and Alias_Map are loaded from the schema.
-
-This is intentional and settled. Do not revert to schema pre-parsed scoring.
+All bars are scored from raw ingredient text using a single unified code path. The schema's Canonical_Ingredients and Alias_Map sheets are loaded. The Ingredient_Lines and Products sheets are not used. This is intentional and settled.
 
 ### Parser behavior
 
 - Top-level ingredients get full position weight
-- Sub-ingredients inside parentheses (e.g. protein blends) get 60% weight — they are present in smaller amounts than their parent ingredient
+- Sub-ingredients inside parentheses get 60% weight
 - Ingredients after "contains less than", "may contain", etc. are ignored
 
 ### Scoring formula
 
+```
 Final Score = sum of (base_score x position_weight x sub_multiplier) + count adjustment
+```
 
 ### Position weights
+
 | Position | Weight | Position | Weight |
 |----------|--------|----------|--------|
 | 1 | 1.00 | 6 | 0.44 |
@@ -89,6 +102,7 @@ Final Score = sum of (base_score x position_weight x sub_multiplier) + count adj
 | 5 | 0.52 | 10+ | Decreasing from 0.22 |
 
 ### Count adjustment
+
 | Ingredient count | Adjustment |
 |-----------------|------------|
 | 1-8 | +0.05 |
@@ -98,20 +112,16 @@ Final Score = sum of (base_score x position_weight x sub_multiplier) + count adj
 | 21+ | -0.15 |
 
 ### Grade bands
+
 | Grade | Label | Score range |
 |-------|-------|-------------|
-| A | Clean | >= 8.0 |
-| B | Good | 4.0 to 7.9 |
-| C | Okay | 0.0 to 3.9 |
-| D | Poor | -3.0 to -0.1 |
-| F | Avoid | Below -3.0 |
+| A | Clean | >= 7.0 |
+| B | Good | 4.0 to 6.9 |
+| C | Okay | 1.0 to 3.9 |
+| D | Poor | -2.0 to 0.9 |
+| F | Avoid | Below -2.0 |
 
-### Current grade distribution (900+ bars)
-A=117, B=305, C=287, D=173, F=22, Unscored=4
-
----
-
-## Running the Pipeline
+### Running the pipeline
 
 Upload both files to Claude and say "run score_and_export":
 1. Your bar database Excel
@@ -119,216 +129,182 @@ Upload both files to Claude and say "run score_and_export":
 
 Claude will score all bars, export bars.js, and report the grade distribution and any unscored bars.
 
-After running: update the bar count in all HTML files (search and replace old number with new total). The ingredient scoring page pulls its count dynamically so it updates automatically.
-
-Alternatively, run locally with Python:
-```
+Or run locally:
+```bash
 python3 score_and_export.py --db "your_database.xlsx" --schema "knowyourbar_scoring_schema_v3.xlsx"
 ```
-Requires: pip install pandas openpyxl
+Requires: `pip install pandas openpyxl`
 
 ---
 
-## Pages
+## Brand Review Pages
 
-### index.html — Main Tool
-- 5 goal-oriented presets: Lose Weight, Clean Ingredients, Skip the Sugar, Most Protein Per Calorie, Keto Friendly
-- Core filters always visible: Presets, Ingredient Grade, Brand, Flavor keyword
-- Advanced filters collapsed by default: Macro sliders, Certifications, Exclude ingredients
-- Macro rank grid in expanded row: each of 5 macros shows rank (e.g. "#47 highest protein of 900+ bars")
-- Similar bars section in expanded row: 3 cross-brand bars with comparable macro profiles
-- Comparison feature: add up to 4 bars, shareable comparison URL
-- URL state serialization (all filter state in URL params)
-- FAQ accordion with FAQPage JSON-LD schema
+All brand pages are built from TEMPLATE_BRAND.html and follow a locked structure. Do not edit brand pages by hand without reading TEMPLATE_BRAND.html first.
 
-### Expanded row features
-- Macro rank grid: Protein (#N highest), Calories (#N lowest), Sugar (#N lowest), Fiber (#N highest), Fat (#N of 817) — color coded green/amber/gray by quartile
-- Similar bars: 3 cards showing brand, grade, flavor, protein/calories/sugar, and why they're similar. Clicking jumps to that bar and expands it.
-- Nutrition facts panel (full macro + vitamin/mineral data)
-- Ingredient quality section: grade, score, +/- breakdown bar, insight chips, positive/concern ingredients
-- Certifications, product page link, Amazon affiliate link
-- Full ingredient list
+### Template section order
+1. Head: title, meta, canonical, 4 JSON-LD schemas (Article, Dataset, BreadcrumbList, FAQPage), OG/Twitter
+2. Nav
+3. Hero: H1 + short answer paragraph
+4. Scorecard: 6 stats (flavors, grade range, score range, protein, calories, sweetener status)
+5. Overview summary: 2-3 paragraphs
+6. Grade distribution bar
+7. Best and worst flavor cards with chips
+8. Macro grid (6 macros) + SEO blurb
+9. Ingredient quality patterns with chip frequency bars
+10. Flavor table: 6 columns (Flavor, Grade, Score, Protein, Cal, Sugar)
+11. Bottom line
+12. Explore all bars CTA (dark tile)
+13. Explore more (3 link cards)
+14. FAQ (7+ questions)
+15. Footer
 
-### Brand Review Pages
-- Hero with brand-specific headline
-- Score overview with grade distribution
-- Per-flavor bar table with ingredient list expand
-- FAQ accordion (5Q) with FAQPage JSON-LD schema
-- Self-contained (no style.css link) — nav, FAQ, and font CSS injected inline
+### Flavor table
+- 6 columns only — no Insights column in the table
+- Chips live in the expand row (.ingr-chips), not in the table header
+- Each expand row: macro strip + ingredient list + chips + buy button
+- colspan must be 6
 
-### clean-protein-bars.html
-- Definition of "clean": no artificial sweeteners, no sugar alcohols, A or B grade
-- Key Findings section: big stat (65% of bars contain no artificial sweeteners or sugar alcohols), 6 insight bullets, donut chart (sweetener breakdown), bar chart (ingredient count vs quality score)
-- Top 15 clean bars ranked with full bar cards
-- CTA to /?preset=clean
-- FAQ accordion (4Q) with FAQPage JSON-LD schema
-
-### ingredient_scoring.html
-- Full methodology: parsing, mapping, weighting, scoring
-- Live grade distribution pulled from bars.js at runtime (uses BARS.length, not scored count)
-- Insight chip explainer
-- FAQ accordion (5Q) with FAQPage JSON-LD schema
+### JSON-LD schemas on every brand page
+- **Article:** headline, url, image, datePublished, dateModified, author, publisher, mainEntityOfPage, about
+- **Dataset:** static, same on every brand page
+- **BreadcrumbList:** Home > Brand Reviews > Page Name
+- **FAQPage:** minimum 7 questions, must match visible FAQ exactly
 
 ---
 
-## Insight Chips
+## CSS Architecture
 
-Generated for every scored bar. Displayed in the expanded row ingredient quality section.
+**style.css is the single source of truth for all styles.**
 
-| Chip | Type | Rule |
-|------|------|------|
-| Protein Leads | positive | First top-level ingredient is protein category |
-| Quality Protein Source | positive | High-quality protein (score >=3) in top 5 positions |
-| Whole Food Forward | positive | 2+ of first 3 top-level positions are whole_food category |
-| Short Clean List | positive | 8 or fewer top-level ingredients |
-| Fortified | neutral | Vitamin or mineral ingredients present |
-| Long Ingredient List | neutral | 18+ top-level ingredients |
-| Artificial Sweeteners | concern | Sucralose, acesulfame, aspartame, or saccharin present |
-| Sugar Alcohols | concern | Erythritol, maltitol, xylitol, sorbitol, etc. present |
-| Processed Oils | concern | Palm, canola, soybean, or hydrogenated oils (high-oleic excluded) |
-| Sweetener Heavy | concern (elevated) | Sweetener category in top 3 positions |
-| Collagen Protein | concern (elevated) | First protein ingredient is collagen |
+- `index.html` has NO inline style block
+- Brand/guide pages have minimal inline CSS for `:root` vars only
+- Do not replace style.css wholesale — only append or use targeted edits
 
----
+### Page body classes
+- `<body class="page-brand">` — brand review pages
+- `<body class="page-guide">` — guide pages
+- `<body>` — index.html (no class)
 
-## Similar Bars Algorithm
-
-Precomputed at page load as an IIFE over all scored bars.
-
-Similarity = weighted euclidean distance on 5 normalized macros + grade proximity penalty:
-- Protein: 35% weight
-- Calories: 25% weight
-- Sugar: 20% weight
-- Fiber: 10% weight
-- Fat: 10% weight
-- Grade proximity: 0.06 penalty per grade apart (keeps like quality with like quality)
-
-Cross-brand only. Top 3 results stored per bar. Clicking a similar bar card scrolls to and expands that bar; if filtered out, resets filters first.
-
----
-
-## Macro Rank System
-
-Precomputed at page load. For each of 5 macros, all bars sorted and ranks assigned (ties share rank).
-
-| Macro | Direction word | Green when | Amber when |
-|-------|---------------|------------|------------|
-| Protein | highest | Top 25% | Bottom 25% |
-| Calories | lowest | Top 25% | Bottom 25% |
-| Sugar | lowest | Top 25% | Bottom 25% |
-| Fiber | highest | Top 25% | Bottom 25% |
-| Fat | of 817 (neutral) | never | never |
-
----
-
-## Design System
+### Design tokens
 
 | Token | Value |
 |-------|-------|
 | --black | #0e0e0e |
 | --white | #f7f5f0 |
 | --off-white | #efece6 |
-| --accent | #d4f000 (electric yellow-green) |
-| --muted | #6b6b65 |
+| --accent | #d4f000 |
+| --muted | #888880 |
 | --border | #d6d3cc |
-| --font-display | Syne (headings, wordmark) |
-| --font-body | DM Sans (body text, paragraphs) |
-| --font-mono | DM Mono (labels, tags, data) |
+| --font-display | Syne |
+| --font-body | DM Sans |
+| --font-mono | DM Mono |
 
 Grade colors: A=#2a7a1f, B=#5a8a2f, C=#b89a00, D=#c87020, F=#c83020
 
 ---
 
-## Navigation
+## Main Tool Features (index.html + app.js)
 
-All pages share a consistent nav bar:
-- Brand Reviews dropdown: Quest, RXBAR, Clif Bar, Barebells
-- Guides dropdown: Clean Protein Bars
-- How We Score (direct link)
+### Filters
+- 5 goal presets: Lose Weight, Clean Ingredients, Skip the Sugar, High Protein, Keto Friendly
+- Ingredient grade toggles: A/B/C/D/F
+- Brand search (multi-select)
+- Flavor keyword search
+- Macro sliders: Protein (min), Calories (max), Fat (max), Carbs (max), Sugar (max), Sugar Alcohol (max), Fiber (min), Net Carbs (max)
+- Certifications: Vegan, GF, DF, SF, Non-GMO, Nut Free
+- Exclude ingredients (XSS-safe)
 
-Brand pages are self-contained. Nav CSS injected inline into each page's style block.
+### Results table columns
+BAR | CAL | PROT | P/100 | FAT | CARB | FIBR | SGR | SGR ALC | CERTS | GRADE | CMP
+
+P/100 = protein grams per 100 calories (sortable)
+
+### Bar expand row
+Macro rank grid, nutrition facts, ingredient quality score, certifications, insight chips, similar bars, buy links, full ingredient list
+
+### Similar bars algorithm
+Weighted Euclidean distance on 5 normalized macros + grade proximity penalty:
+- Protein: 35%, Calories: 25%, Sugar: 20%, Fiber: 10%, Fat: 10%
+- Grade proximity: 0.06 penalty per grade apart
+- Cross-brand only. Top 3 stored per bar.
+
+### URL state
+All filter state serialized to URL params — fully shareable and bookmarkable.
+
+---
+
+## Insight Chips
+
+Generated per bar. Displayed in the expand row.
+
+| Chip | Type | Rule |
+|------|------|------|
+| Protein Leads | positive | First top-level ingredient is protein |
+| Quality Protein Source | positive | High-quality protein (score >=3) in top 5 |
+| Whole Food Forward | positive | 2+ of first 3 positions are whole food |
+| Short Clean List | positive | 8 or fewer top-level ingredients |
+| Fortified | neutral | Vitamins/minerals present |
+| Long Ingredient List | neutral | 18+ top-level ingredients |
+| Artificial Sweeteners | concern | Sucralose, ace-K, aspartame, or saccharin |
+| Sugar Alcohols | concern | Erythritol, maltitol, xylitol, sorbitol, etc. |
+| Processed Oils | concern | Palm, canola, soybean, or hydrogenated oils (high-oleic excluded) |
+| Sweetener Heavy | concern elevated | Sweetener category in top 3 positions |
+| Collagen Protein | concern elevated | First protein ingredient is collagen |
 
 ---
 
 ## SEO
 
 Every page has:
-- Unique title tag
-- Meta description (under 158 characters)
+- Unique title tag and meta description
 - Canonical URL
-- FAQPage JSON-LD schema (4-5 questions)
-- Open Graph tags
-- Twitter card meta tags
+- FAQPage JSON-LD
+- Article JSON-LD (brand/guide pages)
+- Dataset JSON-LD
+- BreadcrumbList JSON-LD (brand pages)
+- Open Graph and Twitter card tags
+- GA4: G-SW4MNP5W7J
+
+Brand page title formula: "Are [Brand] Bars Healthy? We Scored All [N] Flavors | Know Your Bar"
+
+Meta description rule: lead with a specific data point. Under 155 characters. No em dashes.
 
 ---
 
 ## Deployment
 
-Host: Cloudflare Pages
-Repo: GitHub (jbooth22)
-Branch: main, auto-deploys on push
+**Host:** Cloudflare Pages
+**Repo:** GitHub (jbooth22/knowyourbar)
+**Branch:** main, auto-deploys on push
+**Workflow:** manual file upload via GitHub web UI
 
-Current workflow: manual file upload via GitHub web UI.
-Planned: local Git setup (git add . && git commit && git push).
+Cache: purge Cloudflare cache after uploads if changes are not showing. Use `?v=N` query string to bypass browser cache during testing.
+
+**Rollback:** GitHub → file → History → find last working commit → download raw → re-upload
+
+---
+
+## Known Issues
+
+- Footer layout on brand pages has a stacking issue (pending fix)
+- KIND Minis and Thins not yet in database
+- Some duplicate ASINs in bars.js: Barebells Caramel Peanut/Salted Peanut Caramel share B0DT7KS2QB; Clif ZBar Chocolate Mint and Clif Bar Cool Mint Chocolate share B0CXQ71XY8
 
 ---
 
 ## Pending Work
 
 ### Features
-- More brand pages: Kind, Nature Valley, FITCRUNCH, Magic Spoon
-- SEO guide: protein bars without artificial sweeteners
-- SEO guide: protein bars for weight loss
-- AI comparison summary: Claude API "choose this bar if..." per comparison overlay
+- Protein type filter (whey vs plant vs egg)
+- Net carbs column in main table
+- Brand comparison pages (Quest vs Barebells, etc.)
+- Full brand rankings page
 
-### Data
-- Add ingredient data for 4 unscored bars
-- Continue adding affiliate links (~263 bars missing)
-- File structure reorganization: /brands/, /guides/ subfolders (after link equity builds)
-
-### DevOps
-- Set up local Git
-- Standardize brand page file naming
+### Content
+- KIND Minis and Thins — score and add to database
+- Fix duplicate ASINs flagged above
+- Continue adding Amazon affiliate links
 
 ---
 
-## Analytics
-
-Google Analytics: G-SW4MNP5W7J (tag in index.html)
-
----
-
-Last updated: April 2026
-
-## CSS Architecture — READ BEFORE MAKING CHANGES
-
-**One file rules everything: `style.css`**
-
-- `style.css` contains ALL styles for the site — 2,400+ lines
-- `index.html` has NO inline `<style>` block. It depends entirely on `style.css`
-- Guide and brand pages have inline CSS for their own components, but fonts, nav, footer, and shared elements all come from `style.css`
-
-### Font variables (change only in `style.css` `:root`)
-```css
---font-display: 'Syne', sans-serif;   /* headings */
---font-mono: 'DM Mono', monospace;    /* labels, stats, tags */
---font-body: 'DM Sans', sans-serif;   /* body text */
-```
-
-### Rules
-1. **Font changes: edit `:root` in `style.css` only.** Never change font-family in HTML files.
-2. **Never use regex to strip or modify CSS inside `<style>` tags.** It cannot be done safely.
-3. **Never delete lines from `style.css`.** Only append new rules at the bottom.
-4. **Test every change against index.html first** — if bars render, filters work, and the layout holds, proceed.
-
-### Safe changes to make in `style.css`
-- Color values in `:root`
-- Font sizes and weights on named classes
-- Padding and margin adjustments
-- Adding new classes at the bottom of the file
-
-### Never do this
-- Replace `style.css` entirely with a rewritten version
-- Strip inline `<style>` blocks from HTML files using find/replace
-- Bulk-replace CSS across multiple HTML files in one operation
-
+*Last updated: April 2026*
