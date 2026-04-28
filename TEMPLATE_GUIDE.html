@@ -4,7 +4,7 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: April 2026
+       Last updated: April 2026 (rev 2 — bar row links, explore-more fix)
 
        HOW TO USE THIS TEMPLATE
        ────────────────────────
@@ -57,8 +57,8 @@
        @@GOAL_1_M1_VAL@@ / @@GOAL_1_M1_LBL@@   Macro 1
        @@GOAL_1_M2_VAL@@ / @@GOAL_1_M2_LBL@@   Macro 2
        @@GOAL_1_M3_VAL@@ / @@GOAL_1_M3_LBL@@   Macro 3
-       @@GOAL_1_AMAZON_URL@@   Full Amazon affiliate URL
-       @@GOAL_1_SITE_URL@@     Brand website URL (optional)
+       @@GOAL_1_AMAZON_URL@@   Amazon Affiliate column from DB. Omit button if empty.
+       @@GOAL_1_SITE_URL@@     Website column from DB. Omit button if empty.
        (Repeat _2_ and _3_ for cards 2 and 3)
 
        FINDINGS SECTION
@@ -642,12 +642,17 @@
                  ══════════════════════════════════════════════════════ -->
 
             <!-- ROWS 1–25: visible by default (no class needed) -->
+            <!-- @@AMAZON_URL@@ = Amazon Affiliate column from DB -->
+            <!-- @@SITE_URL@@   = Website column from DB -->
+            <!-- Omit the Amazon <a> entirely if no affiliate URL exists -->
+            <!-- Omit the Brand site <a> entirely if no website URL exists -->
             <tr class="bar-row" data-idx="0" onclick="toggleGuideBar(0, this)">
               <td class="bar-name-cell" style="padding:9px 10px;">
                 <div style="font-size:0.88rem;font-weight:600;color:var(--black);line-height:1.3;">@@BRAND_NAME@@ @@FLAVOR_NAME@@</div>
                 <div style="margin-top:3px;">
                   <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="buy-btn" onclick="event.stopPropagation()">Buy on Amazon</a>
-                  <span class="expand-hint">tap for details</span>
+                  <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:6px;" onclick="event.stopPropagation()">Brand site</a>
+                  <span class="expand-hint" style="margin-left:8px;">tap for details</span>
                 </div>
               </td>
               <td style="text-align:center;padding:9px 6px;">
@@ -682,8 +687,7 @@
                   </div>
                   <div class="ingr-buy" style="margin-top:0.7rem;">
                     <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                    <!-- Optional site link -->
-                    <!-- <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:7px;">Brand site</a> -->
+                    <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:7px;">Brand site</a>
                   </div>
                 </div>
               </td>
@@ -735,26 +739,25 @@
        Card 1: a related guide (most topically close)
        Card 2: another guide or relevant brand review
        Card 3: a brand review or the main tool
+       section-inner constrains to 820px — matches brand template.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
-    <div class="explore-more-label">Explore more</div>
-    <div class="explore-more-grid">
-
-      <a href="/@@EXPLORE_1_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@EXPLORE_1_TITLE@@</div>
-        <div class="explore-more-desc">@@EXPLORE_1_DESC@@</div>
-      </a>
-
-      <a href="/@@EXPLORE_2_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@EXPLORE_2_TITLE@@</div>
-        <div class="explore-more-desc">@@EXPLORE_2_DESC@@</div>
-      </a>
-
-      <a href="/@@EXPLORE_3_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@EXPLORE_3_TITLE@@</div>
-        <div class="explore-more-desc">@@EXPLORE_3_DESC@@</div>
-      </a>
-
+    <div class="section-inner">
+      <div class="explore-more-label">Explore more</div>
+      <div class="explore-more-grid">
+        <a href="/@@EXPLORE_1_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@EXPLORE_1_TITLE@@</div>
+          <div class="explore-more-desc">@@EXPLORE_1_DESC@@</div>
+        </a>
+        <a href="/@@EXPLORE_2_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@EXPLORE_2_TITLE@@</div>
+          <div class="explore-more-desc">@@EXPLORE_2_DESC@@</div>
+        </a>
+        <a href="/@@EXPLORE_3_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@EXPLORE_3_TITLE@@</div>
+          <div class="explore-more-desc">@@EXPLORE_3_DESC@@</div>
+        </a>
+      </div>
     </div>
   </section>
 
