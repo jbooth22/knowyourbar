@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════
+       KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
+       File: TEMPLATE_GUIDE.html
+       Last updated: April 2026
+
+       HOW TO USE THIS TEMPLATE
+       ────────────────────────
+       1. Copy this file, rename it: [guide-slug].html
+       2. Replace every @@PLACEHOLDER@@ with real data
+       3. Populate the metric highlights (3–5 stats)
+       4. Populate the top picks (3 goal cards)
+       5. Populate the findings section with real data
+       6. Write the bar list rows (aim for 40–60 bars)
+       7. Update all JSON-LD schemas
+       8. Add to sitemap.xml; verify nav links on all pages
+
+       WRITING RULES — apply to every guide page
+       ──────────────────────────────────────────
+       - No em dashes anywhere (not in copy, not in meta)
+       - No AI patterns: "it is worth noting", "furthermore",
+         "it is important to", "delve", "robust", "leverage"
+       - Write like a knowledgeable person, not a press release
+       - Short sentences. Direct claims. Specific numbers.
+       - Hero sub text color must have strong contrast (use #e8e4dc)
+
+       PLACEHOLDER KEY
+       ───────────────
+       @@GUIDE_TITLE@@         H1 headline (SEO-driven, unique per guide)
+       @@GUIDE_SLUG@@          URL slug (e.g. clean-protein-bars)
+       @@GUIDE_EYEBROW@@       Short category label (e.g. "Clean Eating Guide")
+       @@GUIDE_SHORT@@         1–2 sentence plain-English summary below H1
+       @@META_DESCRIPTION@@    Under 155 chars. Lead with data. No em dashes.
+       @@OG_DESCRIPTION@@      Shorter version for social. No em dashes.
+       @@DATE_PUBLISHED@@      e.g. 2026-04-01
+       @@BARS_TOTAL@@          Total bars in the database (1,048+)
+       @@BARS_QUALIFY@@        # of bars that meet this guide's criteria
+       @@PCT_QUALIFY@@         Percentage of total that qualify (e.g. 23%)
+
+       METRIC HIGHLIGHTS (3–5 stats in the snapshot bar)
+       ──────────────────────────────────────────────────
+       @@METRIC_1_VAL@@   @@METRIC_1_LBL@@
+       @@METRIC_2_VAL@@   @@METRIC_2_LBL@@
+       @@METRIC_3_VAL@@   @@METRIC_3_LBL@@
+       @@METRIC_4_VAL@@   @@METRIC_4_LBL@@   (optional)
+       @@METRIC_5_VAL@@   @@METRIC_5_LBL@@   (optional)
+
+       TOP PICKS — 3 goal cards
+       ────────────────────────
+       @@GOAL_1_LABEL@@   Goal label (e.g. "Best Overall")
+       @@GOAL_1_BRAND@@   Brand name
+       @@GOAL_1_FLAVOR@@  Flavor name
+       @@GOAL_1_GRADE@@   A / B / C
+       @@GOAL_1_GRADE_COLOR@@  Hex color for grade
+       @@GOAL_1_M1_VAL@@ / @@GOAL_1_M1_LBL@@   Macro 1
+       @@GOAL_1_M2_VAL@@ / @@GOAL_1_M2_LBL@@   Macro 2
+       @@GOAL_1_M3_VAL@@ / @@GOAL_1_M3_LBL@@   Macro 3
+       @@GOAL_1_AMAZON_URL@@   Full Amazon affiliate URL
+       @@GOAL_1_SITE_URL@@     Brand website URL (optional)
+       (Repeat _2_ and _3_ for cards 2 and 3)
+
+       FINDINGS SECTION
+       ────────────────
+       @@FINDINGS_TITLE@@   H2 for the dark findings section
+       @@BIG_STAT_NUM@@     Large accent number (e.g. "23%")
+       @@BIG_STAT_HEAD@@    Heading next to the big number
+       @@BIG_STAT_DETAIL@@  1–2 sentences of context
+
+       EXPLORE CTA
+       ───────────
+       @@PRESET_SLUG@@   Preset slug for the bar finder URL
+       @@PRESET_LABEL@@  Label for main CTA button
+
+       FAQ (7 minimum, must match JSON-LD exactly)
+       ──────────────────────────────────────────
+       @@FAQ_Q1@@ / @@FAQ_A1@@  through  @@FAQ_Q7@@ / @@FAQ_A7@@
+       ═══════════════════════════════════════════════════════ -->
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+
+  <!-- Core meta -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@@GUIDE_TITLE@@ | Know Your Bar</title>
+  <meta name="description" content="@@META_DESCRIPTION@@">
+  <link rel="canonical" href="https://knowyourbar.com/@@GUIDE_SLUG@@.html">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Inter:wght@400;600;700;800;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- CSS variables -->
+  <style>
+    :root {
+      --black:     #0e0e0e;
+      --white:     #f7f5f0;
+      --off-white: #efece6;
+      --accent:    #d4f000;
+      --muted:     #888880;
+      --border:    #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    6px;
+      --radius-lg: 10px;
+    }
+  </style>
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "@@GUIDE_TITLE@@",
+    "description": "@@META_DESCRIPTION@@",
+    "url": "https://knowyourbar.com/@@GUIDE_SLUG@@.html",
+    "image": "https://knowyourbar.com/bar_hero.png",
+    "datePublished": "@@DATE_PUBLISHED@@",
+    "dateModified": "@@DATE_PUBLISHED@@",
+    "author": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://knowyourbar.com/@@GUIDE_SLUG@@.html"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "@@GUIDE_EYEBROW@@"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Dataset (static across all pages) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Know Your Bar Protein Bar Ingredient Quality Database",
+    "description": "1,000+ protein bars across 95+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
+    "url": "https://knowyourbar.com",
+    "creator": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "dateModified": "@@DATE_PUBLISHED@@",
+    "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "variableMeasured": [
+      "Ingredient quality grade (A through F)",
+      "Ingredient quality score",
+      "Macronutrients",
+      "Dietary certifications"
+    ],
+    "measurementTechnique": "Proprietary ingredient scoring algorithm mapping each ingredient to a canonical base score weighted by position in ingredient list",
+    "spatialCoverage": "United States",
+    "temporalCoverage": "2026"
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Know Your Bar",
+        "item": "https://knowyourbar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Lifestyle Guides",
+        "item": "https://knowyourbar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "@@GUIDE_TITLE@@",
+        "item": "https://knowyourbar.com/@@GUIDE_SLUG@@.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage — must match visible FAQ questions exactly. Min 7 questions. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q1@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A1@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q2@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A2@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q3@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A3@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q4@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A4@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q5@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A5@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q6@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A6@@" }
+      },
+      {
+        "@type": "Question",
+        "name": "@@FAQ_Q7@@",
+        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A7@@" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="@@GUIDE_TITLE@@ | Know Your Bar">
+  <meta property="og:description" content="@@OG_DESCRIPTION@@">
+  <meta property="og:url" content="https://knowyourbar.com/@@GUIDE_SLUG@@.html">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="@@GUIDE_TITLE@@ | Know Your Bar">
+  <meta name="twitter:description" content="@@OG_DESCRIPTION@@">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
+
+</head>
+<body class="page-guide">
+
+<!-- NAV — update dropdown when adding new pages -->
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- ─── 1. HERO ───────────────────────────────────────────────
+     H1 must be unique to this guide. SEO-driven. No em dashes.
+     hero-sub text color is hardcoded #e8e4dc for contrast.
+     ─────────────────────────────────────────────────────────── -->
+<section class="hero page-guide">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">@@GUIDE_EYEBROW@@</div>
+    <h1 class="hero-title">@@GUIDE_TITLE@@</h1>
+    <p class="hero-sub" style="color:#e8e4dc;">@@GUIDE_SHORT@@</p>
+  </div>
+</section>
+
+<!-- ─── 2. METRIC HIGHLIGHTS ─────────────────────────────────
+     3–5 stats. Real data only — no marketing claims.
+     Use .snap-item pattern from brand pages.
+     Examples: # bars qualifying, % with no sweeteners, avg protein, etc.
+     ─────────────────────────────────────────────────────────── -->
+<section class="snapshot">
+  <div class="snapshot-inner">
+
+    <div class="snap-item">
+      <div class="snap-value">@@METRIC_1_VAL@@</div>
+      <div class="snap-label">@@METRIC_1_LBL@@</div>
+    </div>
+
+    <div class="snap-item">
+      <div class="snap-value">@@METRIC_2_VAL@@</div>
+      <div class="snap-label">@@METRIC_2_LBL@@</div>
+    </div>
+
+    <div class="snap-item">
+      <div class="snap-value">@@METRIC_3_VAL@@</div>
+      <div class="snap-label">@@METRIC_3_LBL@@</div>
+    </div>
+
+    <!-- Optional 4th metric — remove if only 3 -->
+    <div class="snap-item">
+      <div class="snap-value">@@METRIC_4_VAL@@</div>
+      <div class="snap-label">@@METRIC_4_LBL@@</div>
+    </div>
+
+    <!-- Optional 5th metric — remove if not needed -->
+    <div class="snap-item">
+      <div class="snap-value">@@METRIC_5_VAL@@</div>
+      <div class="snap-label">@@METRIC_5_LBL@@</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="content">
+
+  <!-- ─── 3. TOP PICKS: 3 GOAL CARDS ──────────────────────────
+       Each card = one user goal for this lifestyle category.
+       Include: goal label, brand, flavor, grade badge, key macros,
+       and minimalist Amazon + site links.
+       Tone: direct. State what makes this bar the best fit.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Top picks for @@GUIDE_EYEBROW@@</h2>
+      <p class="section-body">Three goals, three different answers. Here is the best bar for each.</p>
+
+      <div class="picks-grid">
+
+        <!-- GOAL CARD 1 -->
+        <div class="pick-card">
+          <div class="pick-label">@@GOAL_1_LABEL@@</div>
+          <span class="pick-grade" style="background:@@GOAL_1_GRADE_COLOR@@">@@GOAL_1_GRADE@@</span>
+          <div class="pick-brand">@@GOAL_1_BRAND@@</div>
+          <div class="pick-flavor">@@GOAL_1_FLAVOR@@</div>
+          <div class="pick-macros">
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_1_M1_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_1_M1_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_1_M2_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_1_M2_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_1_M3_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_1_M3_LBL@@</span>
+            </div>
+          </div>
+          <div class="bar-links" style="margin-top:0.65rem;">
+            <a href="@@GOAL_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
+            <!-- Remove site link if no brand URL -->
+            <a href="@@GOAL_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Brand site</a>
+          </div>
+        </div>
+
+        <!-- GOAL CARD 2 -->
+        <div class="pick-card">
+          <div class="pick-label">@@GOAL_2_LABEL@@</div>
+          <span class="pick-grade" style="background:@@GOAL_2_GRADE_COLOR@@">@@GOAL_2_GRADE@@</span>
+          <div class="pick-brand">@@GOAL_2_BRAND@@</div>
+          <div class="pick-flavor">@@GOAL_2_FLAVOR@@</div>
+          <div class="pick-macros">
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_2_M1_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_2_M1_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_2_M2_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_2_M2_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_2_M3_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_2_M3_LBL@@</span>
+            </div>
+          </div>
+          <div class="bar-links" style="margin-top:0.65rem;">
+            <a href="@@GOAL_2_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
+            <a href="@@GOAL_2_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Brand site</a>
+          </div>
+        </div>
+
+        <!-- GOAL CARD 3 -->
+        <div class="pick-card">
+          <div class="pick-label">@@GOAL_3_LABEL@@</div>
+          <span class="pick-grade" style="background:@@GOAL_3_GRADE_COLOR@@">@@GOAL_3_GRADE@@</span>
+          <div class="pick-brand">@@GOAL_3_BRAND@@</div>
+          <div class="pick-flavor">@@GOAL_3_FLAVOR@@</div>
+          <div class="pick-macros">
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_3_M1_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_3_M1_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_3_M2_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_3_M2_LBL@@</span>
+            </div>
+            <div class="pick-macro">
+              <span class="pick-macro-val">@@GOAL_3_M3_VAL@@</span>
+              <span class="pick-macro-lbl">@@GOAL_3_M3_LBL@@</span>
+            </div>
+          </div>
+          <div class="bar-links" style="margin-top:0.65rem;">
+            <a href="@@GOAL_3_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
+            <a href="@@GOAL_3_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Brand site</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4. CATEGORY EXPLAINER + KEY FACTORS ──────────────────
+       Short paragraph explaining what this lifestyle category means.
+       Then 3–5 key factors as named callouts with brief explanations.
+       Include calculations (e.g. Net Carbs formula) or notable
+       ingredient definitions where relevant.
+       Score grid uses existing .score-grid / .score-card classes.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="section off">
+    <div class="section-inner">
+      <h2 class="section-title">What "@@GUIDE_EYEBROW@@" actually means</h2>
+      <div class="section-body">
+        <p>@@EXPLAINER_PARAGRAPH@@</p>
+        <!-- Add a second paragraph if a calculation or definition note is needed -->
+        <!-- <p>@@EXPLAINER_NOTE@@</p> -->
+      </div>
+
+      <div class="score-grid" style="margin-top:1.5rem;">
+
+        <!-- FACTOR CARD 1 -->
+        <div class="score-card">
+          <div class="score-card-label">@@FACTOR_1_LABEL@@</div>
+          <div class="score-card-val">@@FACTOR_1_STAT@@</div>
+          <div class="score-card-desc">@@FACTOR_1_DESC@@</div>
+        </div>
+
+        <!-- FACTOR CARD 2 -->
+        <div class="score-card">
+          <div class="score-card-label">@@FACTOR_2_LABEL@@</div>
+          <div class="score-card-val">@@FACTOR_2_STAT@@</div>
+          <div class="score-card-desc">@@FACTOR_2_DESC@@</div>
+        </div>
+
+        <!-- FACTOR CARD 3 -->
+        <div class="score-card">
+          <div class="score-card-label">@@FACTOR_3_LABEL@@</div>
+          <div class="score-card-val">@@FACTOR_3_STAT@@</div>
+          <div class="score-card-desc">@@FACTOR_3_DESC@@</div>
+        </div>
+
+        <!-- FACTOR CARD 4 (optional — remove if not needed) -->
+        <div class="score-card">
+          <div class="score-card-label">@@FACTOR_4_LABEL@@</div>
+          <div class="score-card-val">@@FACTOR_4_STAT@@</div>
+          <div class="score-card-desc">@@FACTOR_4_DESC@@</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. FINDINGS (DARK SECTION) ───────────────────────────
+       Lead with the big headline stat (# bars, % of total).
+       Follow with observations: key brands, brands to avoid,
+       most common ingredients, other patterns worth noting.
+       Optional: include a simple inline chart or visual
+       (bar chart of grade distribution, ingredient frequency, etc.)
+       Use .big-stat for the headline number.
+       Use .insights-grid for the supporting observations.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="findings">
+    <div class="findings-inner">
+      <div class="findings-eyebrow" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#888880;margin-bottom:.75rem;">What the data shows</div>
+      <h2 class="findings-title">@@FINDINGS_TITLE@@</h2>
+
+      <!-- Big headline stat -->
+      <div class="big-stat">
+        <div class="big-stat-num">@@BIG_STAT_NUM@@</div>
+        <div>
+          <div class="big-stat-head">@@BIG_STAT_HEAD@@</div>
+          <div class="big-stat-detail">@@BIG_STAT_DETAIL@@</div>
+        </div>
+      </div>
+
+      <!-- Supporting observations (4–6 items) -->
+      <div class="insights-grid">
+
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_1_HEAD@@</strong> @@INSIGHT_1_BODY@@</div>
+        </div>
+
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_2_HEAD@@</strong> @@INSIGHT_2_BODY@@</div>
+        </div>
+
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_3_HEAD@@</strong> @@INSIGHT_3_BODY@@</div>
+        </div>
+
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_4_HEAD@@</strong> @@INSIGHT_4_BODY@@</div>
+        </div>
+
+        <!-- Optional 5th insight -->
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_5_HEAD@@</strong> @@INSIGHT_5_BODY@@</div>
+        </div>
+
+        <!-- Optional 6th insight -->
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>@@INSIGHT_6_HEAD@@</strong> @@INSIGHT_6_BODY@@</div>
+        </div>
+
+      </div>
+
+      <!-- Optional: inline chart/visual — use a simple SVG bar chart or grade distribution
+           Only include if it adds genuine clarity. Keep it clean and labeled.
+           Example: grade distribution among qualifying bars.
+      <div style="margin-top:2rem;">
+        @@OPTIONAL_VISUAL@@
+      </div>
+      -->
+
+    </div>
+  </section>
+
+  <!-- ─── 6. BEST BRANDS / BRANDS TO AVOID ─────────────────────
+       Highlight best brands for this category.
+       Name a "sleeper" brand (lesser-known, worth knowing).
+       Name brands to avoid and briefly say why.
+       Keep it factual and data-backed. No vague verdicts.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Best brands for @@GUIDE_EYEBROW@@</h2>
+      <div class="section-body">
+        <p>@@BRANDS_INTRO@@</p>
+      </div>
+
+      <div class="verdict-inner" style="margin-top:1.25rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+
+        <div class="verdict-card pro">
+          <div class="verdict-label pro">Brands to target</div>
+          <ul class="verdict-items">
+            <!-- Add 3–5 brands. Include a brief reason for each. -->
+            <li><strong>@@BRAND_GOOD_1@@</strong> @@BRAND_GOOD_1_REASON@@</li>
+            <li><strong>@@BRAND_GOOD_2@@</strong> @@BRAND_GOOD_2_REASON@@</li>
+            <li><strong>@@BRAND_GOOD_3@@</strong> @@BRAND_GOOD_3_REASON@@</li>
+            <!-- Optional sleeper brand — mark it clearly -->
+            <li><strong>@@BRAND_SLEEPER@@ (Sleeper Pick)</strong> @@BRAND_SLEEPER_REASON@@</li>
+          </ul>
+        </div>
+
+        <div class="verdict-card con">
+          <div class="verdict-label con">Brands to avoid</div>
+          <ul class="verdict-items">
+            <!-- Add 2–4 brands with specific reasons (ingredient, sweetener, etc.) -->
+            <li><strong>@@BRAND_BAD_1@@</strong> @@BRAND_BAD_1_REASON@@</li>
+            <li><strong>@@BRAND_BAD_2@@</strong> @@BRAND_BAD_2_REASON@@</li>
+            <li><strong>@@BRAND_BAD_3@@</strong> @@BRAND_BAD_3_REASON@@</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 7. BAR LIST ───────────────────────────────────────────
+       Target 40–60 bars. Sorted by ingredient_score descending.
+       Each bar = one .bar-card with expand behavior.
+       Table columns match brand pages: Bar, Grade, Score, Protein, Cal, Sugar.
+       Pagination toggle is included — initially shows first 25, "Show more"
+       reveals the rest. No JS dependency beyond the inline script below.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="bars-section">
+    <div class="bars-section-inner">
+      <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.4rem;">@@BARS_LIST_TITLE@@</h2>
+      <p style="color:#4a4a45;font-size:0.9rem;margin-bottom:1.25rem;">@@BARS_LIST_SUBTITLE@@</p>
+
+      <div class="bar-table-wrap" style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="text-align:left;padding:8px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:44%;">Bar</th>
+              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:10%;">Grade</th>
+              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:11%;">Score</th>
+              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:12%;">Protein</th>
+              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:11%;">Cal</th>
+              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:12%;">Sugar</th>
+            </tr>
+          </thead>
+          <tbody id="guide-bar-tbody">
+
+            <!-- ══════════════════════════════════════════════════════
+                 ROW PATTERN — copy and paste for each bar.
+                 Increment the data-idx value (0, 1, 2, ...).
+                 First 25 rows have no class. Rows 26+ get class="hidden-bar"
+                 ══════════════════════════════════════════════════════ -->
+
+            <!-- ROWS 1–25: visible by default (no class needed) -->
+            <tr class="bar-row" data-idx="0" onclick="toggleGuideBar(0, this)">
+              <td class="bar-name-cell" style="padding:9px 10px;">
+                <div style="font-size:0.88rem;font-weight:600;color:var(--black);line-height:1.3;">@@BRAND_NAME@@ @@FLAVOR_NAME@@</div>
+                <div style="margin-top:3px;">
+                  <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="buy-btn" onclick="event.stopPropagation()">Buy on Amazon</a>
+                  <span class="expand-hint">tap for details</span>
+                </div>
+              </td>
+              <td style="text-align:center;padding:9px 6px;">
+                <span class="grade-badge" style="background:@@GRADE_COLOR@@" title="@@GRADE_DEF@@">@@GRADE@@</span>
+              </td>
+              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);">@@SCORE@@</td>
+              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@PROTEIN@@g</td>
+              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@CALORIES@@</td>
+              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@SUGAR@@g</td>
+            </tr>
+            <tr class="ingr-row" id="guide-ingr-0">
+              <td colspan="6" class="ingr-cell">
+                <div class="ingr-inner">
+                  <div class="ingr-macros">
+                    <span><strong>Protein</strong> @@PROTEIN@@g</span>
+                    <span><strong>Calories</strong> @@CALORIES@@</span>
+                    <span><strong>Fat</strong> @@FAT@@g</span>
+                    <span><strong>Carbs</strong> @@CARBS@@g</span>
+                    <span><strong>Fiber</strong> @@FIBER@@g</span>
+                    <span><strong>Sugar</strong> @@SUGAR@@g</span>
+                    <!-- Include Net Carbs if guide is keto -->
+                    <!-- <span><strong>Net Carbs</strong> @@NET_CARBS@@g</span> -->
+                    <span><strong>Sugar Alc</strong> @@SUGAR_ALC@@g</span>
+                    <span><strong>Sodium</strong> @@SODIUM@@mg</span>
+                  </div>
+                  <strong style="font-size:0.82rem;">Ingredients: </strong>
+                  <span style="font-size:0.82rem;color:#444;line-height:1.7;">@@INGREDIENTS@@</span>
+                  <div class="ingr-chips" style="margin-top:0.6rem;">
+                    <!-- Add relevant chips. Use pos for positive, con elev for concerns. -->
+                    <span class="bchip pos">@@POSITIVE_CHIP@@</span>
+                    <span class="bchip con elev">@@CONCERN_CHIP@@</span>
+                  </div>
+                  <div class="ingr-buy" style="margin-top:0.7rem;">
+                    <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                    <!-- Optional site link -->
+                    <!-- <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:7px;">Brand site</a> -->
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <!-- END ROW PATTERN -->
+
+            <!-- ROWS 26+: add class="hidden-bar" to the tr pairs beyond 25 -->
+            <!-- Example:
+            <tr class="bar-row hidden-bar" data-idx="25" onclick="toggleGuideBar(25, this)">
+              ...
+            </tr>
+            <tr class="ingr-row hidden-bar" id="guide-ingr-25">
+              ...
+            </tr>
+            -->
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Show more / show less toggle -->
+      <div class="show-more-wrap" id="show-more-wrap">
+        <button class="show-more-btn" id="show-more-btn" onclick="toggleShowMore()">Show more bars</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── 8. BAR FINDER CTA ─────────────────────────────────────
+       Link to the main tool with a pre-filtered URL that matches
+       this guide's criteria. Use the explore-cta pattern.
+       @@PRESET_SLUG@@ should match a preset defined in app.js,
+       or you can pass raw filter params (e.g. ?maxSugar=5&minProtein=15).
+       ─────────────────────────────────────────────────────────── -->
+  <section class="section explore-cta">
+    <div class="explore-cta-inner">
+      <div class="explore-cta-eyebrow">Know Your Bar</div>
+      <p class="explore-cta-title">See all bars that meet these criteria</p>
+      <p class="explore-cta-sub">Filter all 1,000+ bars by the exact metrics that matter for @@GUIDE_EYEBROW@@. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
+      <div class="explore-cta-btns">
+        <a href="/?preset=@@PRESET_SLUG@@" class="explore-cta-btn">@@PRESET_LABEL@@</a>
+        <a href="/" class="explore-cta-btn">Browse all bars</a>
+        <a href="/ingredient_scoring.html" class="explore-cta-btn">How we score</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 9. EXPLORE MORE (3 links) ────────────────────────────
+       Card 1: a related guide (most topically close)
+       Card 2: another guide or relevant brand review
+       Card 3: a brand review or the main tool
+       ─────────────────────────────────────────────────────────── -->
+  <section class="section">
+    <div class="explore-more-label">Explore more</div>
+    <div class="explore-more-grid">
+
+      <a href="/@@EXPLORE_1_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@EXPLORE_1_TITLE@@</div>
+        <div class="explore-more-desc">@@EXPLORE_1_DESC@@</div>
+      </a>
+
+      <a href="/@@EXPLORE_2_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@EXPLORE_2_TITLE@@</div>
+        <div class="explore-more-desc">@@EXPLORE_2_DESC@@</div>
+      </a>
+
+      <a href="/@@EXPLORE_3_SLUG@@.html" class="explore-more-card">
+        <div class="explore-more-title">@@EXPLORE_3_TITLE@@</div>
+        <div class="explore-more-desc">@@EXPLORE_3_DESC@@</div>
+      </a>
+
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- ─── 10. FAQ ───────────────────────────────────────────────
+     Min 7 questions. Must match JSON-LD schema exactly.
+     Questions should be unique to this guide. No generic filler.
+     Use the same accordion style as brand pages.
+     ─────────────────────────────────────────────────────────── -->
+<section class="guide-faq">
+  <div class="guide-faq-inner">
+    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1.1rem;">Frequently asked questions</h2>
+    <div class="faq-items">
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q1@@</button>
+        <div class="faq-a">@@FAQ_A1@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q2@@</button>
+        <div class="faq-a">@@FAQ_A2@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q3@@</button>
+        <div class="faq-a">@@FAQ_A3@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q4@@</button>
+        <div class="faq-a">@@FAQ_A4@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q5@@</button>
+        <div class="faq-a">@@FAQ_A5@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q6@@</button>
+        <div class="faq-a">@@FAQ_A6@@</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">@@FAQ_Q7@@</button>
+        <div class="faq-a">@@FAQ_A7@@</div>
+      </div>
+
+      <!-- Add up to 3 guide-specific extra questions here -->
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ───────────────────────────────────────────────
+     site-footer-copy is OUTSIDE site-footer-inner.
+     Footer links should be a short, useful set — not exhaustive.
+     ─────────────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsors. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+      <a href="/clean-protein-bars.html">Clean Bars</a>
+      <a href="/no-artificial-sweeteners.html">No Sweeteners</a>
+      <a href="/keto-protein-bars.html">Keto Bars</a>
+      <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+    </nav>
+  </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+</footer>
+
+<!-- ─── JAVASCRIPT ────────────────────────────────────────────
+     Do not modify. Handles FAQ accordion, bar expand/collapse,
+     show more/less toggle, mobile nav, and GA4 affiliate tracking.
+     ─────────────────────────────────────────────────────────── -->
+<script>
+  /* ── Mobile nav toggle ── */
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks  = document.querySelector('.site-nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  }
+
+  /* ── FAQ accordion ── */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item   = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ── Guide bar expand/collapse ── */
+  function toggleGuideBar(idx, row) {
+    const ingrRow = document.getElementById('guide-ingr-' + idx);
+    if (!ingrRow) return;
+    const isOpen = ingrRow.classList.contains('open');
+    document.querySelectorAll('.ingr-row').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.bar-row').forEach(r => r.classList.remove('open'));
+    if (!isOpen) {
+      ingrRow.classList.add('open');
+      row.classList.add('open');
+    }
+  }
+
+  /* ── Show more / show less (bar list pagination) ── */
+  let showingAll = false;
+  function toggleShowMore() {
+    const hiddenRows = document.querySelectorAll('.hidden-bar');
+    const btn = document.getElementById('show-more-btn');
+    showingAll = !showingAll;
+    hiddenRows.forEach(r => {
+      r.style.display = showingAll ? '' : 'none';
+    });
+    btn.textContent = showingAll ? 'Show fewer bars' : 'Show more bars';
+  }
+  /* Initialize — hide overflow rows on load */
+  document.querySelectorAll('.hidden-bar').forEach(r => r.style.display = 'none');
+
+  /* ── GA4 affiliate tracking ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[href*="amazon.com"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        gtag('event', 'affiliate_click', {
+          'event_category': 'Amazon',
+          'event_label': window.location.pathname
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
