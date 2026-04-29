@@ -33,6 +33,10 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      overflow-x: hidden;
+    }
+
     body {
       font-family: var(--font-body);
       background: var(--white);
@@ -237,6 +241,7 @@
       border-collapse: collapse;
       font-size: 15px;
       margin: 1.5rem 0;
+      table-layout: fixed;
     }
 
     .score-table th {
@@ -254,6 +259,8 @@
       padding: 10px 12px;
       border-bottom: 1px solid var(--border);
       vertical-align: top;
+      word-wrap: break-word;
+      white-space: normal;
     }
 
     .score-table tr:last-child td { border-bottom: none; }
@@ -356,6 +363,8 @@
       .chip-sample { min-width: unset; width: 100%; }
       .hero { padding: 2.5rem 1.25rem 2rem; }
       .content { padding: 2.5rem 1.25rem; }
+      .score-table { font-size: 13px; }
+      .score-table th, .score-table td { padding: 8px 8px; }
     }
 
   
@@ -559,6 +568,9 @@
       <p>The first ingredient carries full weight (1.0). Each subsequent ingredient carries progressively less weight, reflecting the fact that ingredients are listed in descending order by quantity.</p>
 
       <table class="score-table">
+        <colgroup>
+          <col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%">
+        </colgroup>
         <thead>
           <tr><th>Position</th><th>Weight</th><th>Position</th><th>Weight</th></tr>
         </thead>
@@ -595,6 +607,12 @@
       <p>The numeric score is converted into a letter grade. The thresholds are designed so roughly the top quarter of bars score A, and the bottom ~10% score F - reflecting the real distribution of protein bar quality.</p>
 
       <table class="score-table">
+        <colgroup>
+          <col style="width:60px">
+          <col style="width:80px">
+          <col style="width:120px">
+          <col>
+        </colgroup>
         <thead>
           <tr><th>Grade</th><th>Label</th><th>Score range</th><th>What it means</th></tr>
         </thead>
@@ -627,7 +645,7 @@
             <td><div class="band-pill"><span class="band-dot" style="background:#c83020">F</span></div></td>
             <td>Avoid</td>
             <td>Below –3.0</td>
-            <td>Heavy artificial sweeteners, low-quality processed oils, or minimal real nutrition. We include these bars so you can make informed decisions - we include them so you can decide for yourself.</td>
+            <td>Heavy artificial sweeteners, low-quality processed oils, or minimal real nutrition. We include these bars so you can make informed decisions.</td>
           </tr>
         </tbody>
       </table>
@@ -636,7 +654,7 @@
     <!-- Insight chips -->
     <section class="content-section">
       <h2>Insight chips</h2>
-      <p>When you expand a bar, you'll see colored chips that highlight specific characteristics of the ingredient list. Every chip has an exact, documented rule - nothing is subjective.</p>
+      <p>When you expand a bar, you'll see colored chips that highlight specific characteristics of the ingredient list. Every chip has an exact, documented rule - we try our best to be consistent.</p>
 
       <h3>Positive signals</h3>
       <div class="chips-grid">
@@ -757,6 +775,17 @@
 
   
 </main>
+<section class="cta-section" style="background:#0e0e0e;padding:3rem 2rem;text-align:center;">
+  <div style="max-width:560px;margin:0 auto;">
+    <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#f7f5f0;margin-bottom:0.75rem;line-height:1.2;">Now go find your bar.</p>
+    <p style="font-family:var(--font-mono);font-size:12px;color:#888880;margin-bottom:1.5rem;">Filter by grade, macros, certifications, and more.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="/?band=A" style="font-family:var(--font-mono);font-size:11px;background:#2a7a1f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;">Browse A-Grade bars</a>
+      <a href="/?preset=clean" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">Clean ingredients</a>
+      <a href="/?preset=no-sweeteners" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">No artificial sweeteners</a>
+    </div>
+  </div>
+</section>
 <section class="faq-section">
   <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
@@ -781,8 +810,8 @@
       <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
       <a href="/ingredient_scoring.html">How We Score</a>
     </nav>
-    <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; Data from 900+ bars across 95+ brands</div>
   </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026 &nbsp;&middot;&nbsp; Data from 900+ bars across 95+ brands</div>
 </footer>
 
   <script src="bars.js"></script>
