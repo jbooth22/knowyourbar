@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Every Protein Bar Brand Ranked and Compared | Know Your Bar</title>
+  <meta name="description" content="125 protein bar brands compared by ingredient quality, protein per 100 calories, fiber, net carbs, and sugar alcohols. Real data on 983 flavors.">
+  <link rel="canonical" href="https://knowyourbar.com/all-protein-bar-brands.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/style.css">
+
+  <style>
+    :root {
+      --black:     #0e0e0e;
+      --white:     #f7f5f0;
+      --off-white: #efece6;
+      --accent:    #d4f000;
+      --muted:     #888880;
+      --border:    #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    6px;
+      --radius-lg: 10px;
+    }
+
+    /* ── Page-specific styles ── */
+    .brand-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 2rem 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .brand-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      min-width: 880px;
+    }
+
+    .brand-table thead th {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 10px 12px;
+      text-align: left;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .brand-table thead th.num-th {
+      text-align: right;
+    }
+
+    .cat-header-row td {
+      background: var(--black);
+      color: var(--white);
+      padding: 0;
+    }
+
+    .cat-header-inner {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      flex-wrap: wrap;
+    }
+
+    .cat-label {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .cat-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cat-desc {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: #b8b4ac;
+      margin: 0;
+      width: 100%;
+      line-height: 1.5;
+      padding-bottom: 4px;
+    }
+
+    .brand-row {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    .brand-row:hover {
+      background: var(--off-white);
+    }
+
+    .brand-row:last-child {
+      border-bottom: none;
+    }
+
+    .brand-cell {
+      padding: 10px 12px;
+      min-width: 150px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .brand-links {
+      display: flex;
+      gap: 6px;
+      margin-top: 3px;
+    }
+
+    .tbl-link {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: all 0.15s;
+    }
+
+    .tool-link {
+      background: var(--accent);
+      color: var(--black);
+    }
+
+    .tool-link:hover {
+      background: #b8d400;
+    }
+
+    .review-link {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .review-link:hover {
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    .num-cell {
+      padding: 10px 12px;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #444;
+      white-space: nowrap;
+    }
+
+
+    .rank-cell {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-align: right;
+      padding: 10px 8px 10px 12px;
+      min-width: 36px;
+    }
+    .highlight-cell {
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    .grade-cell {
+      padding: 10px 10px;
+      text-align: center;
+    }
+
+    .grade-badge {
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      text-align: center;
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .grade-range-cell {
+      padding: 10px 12px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .grade-sm {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .grade-sep {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin: 0 2px;
+    }
+
+    .none-val {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+
+    .filter-bar-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--black);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .search-wrap {
+      margin-left: auto;
+    }
+
+    .brand-search {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--white);
+      color: var(--black);
+      width: 180px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .brand-search:focus {
+      border-color: var(--black);
+    }
+
+    /* Column header tooltips */
+    .th-tip {
+      cursor: help;
+      border-bottom: 1px dashed rgba(255,255,255,0.3);
+    }
+
+    /* Intro section */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .intro-grid { grid-template-columns: 1fr; }
+      .brand-search { width: 130px; }
+      .search-wrap { margin-left: 0; width: 100%; }
+    }
+
+    .intro-block h2 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+    }
+
+    .intro-block p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #444;
+      margin: 0;
+    }
+
+    /* Grade legend */
+    .grade-legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      background: var(--off-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+
+    .grade-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: #444;
+    }
+
+    .grade-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Sortable headers */
+    .sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+    .sortable:hover { background: #1a1a1a; }
+    .sort-arrow { margin-left: 4px; opacity: 0.5; }
+    .sortable.asc .sort-arrow::after { content: ' ↑'; }
+    .sortable.desc .sort-arrow::after { content: ' ↓'; }
+    .sortable:not(.asc):not(.desc) .sort-arrow::after { content: ' ↕'; }
+
+    .hidden-row { display: none; }
+
+    /* FAQ */
+    .faq-section { margin: 3rem 0; }
+    .faq-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+  </style>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Every Protein Bar Brand Ranked and Compared",
+    "description": "125 protein bar brands compared by ingredient quality, protein per 100 calories, fiber, net carbs, and sugar alcohol use. Data covers 983 scored flavors.",
+    "url": "https://knowyourbar.com/all-protein-bar-brands.html",
+    "datePublished": "2026-04-28",
+    "dateModified": "2026-04-28",
+    "publisher": { "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is protein per 100 calories and why does it matter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Protein per 100 calories tells you how efficiently a bar delivers protein relative to its calorie cost. A bar with 20g protein and 200 calories scores 10.0, better than a bar with 20g protein and 280 calories, which scores 7.1. Higher is better if you want maximum protein without surplus calories." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the ingredient quality grade mean?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each bar is scored on a numeric scale based on ingredient quality. A grade means the ingredients are clean with minimal processing. B is good. C is okay but has some concerns. D is poor. F means avoid. The grade shown for each brand is the most common grade across that brand's flavors." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which protein bar brands have the best ingredient quality?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Based on average ingredient scores across all flavors, brands like Gryp, Jacob, Par Bar, Gutsy, and Healthy Eating on the Go consistently score highest. Many smaller or newer brands tend to outperform the mainstream names on ingredient quality." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which brands use sugar alcohols and should I avoid them?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sugar alcohols are common in bars marketed as low-sugar or keto-friendly. Brands like Quest, David, Barebells, and Legendary use them in all or most flavors. Whether to avoid them depends on your gut tolerance. Some people experience digestive issues with high doses of certain sugar alcohols like maltitol." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is net carbs and how is it calculated here?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Net carbs = Total Carbohydrates minus Fiber minus half of Sugar Alcohols. We use the half-credit formula for sugar alcohols because their glycemic impact varies. This is the standard formula used in low-carb communities." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many protein bar brands are there?",
+        "acceptedAnswer": { "@type": "Answer", "text": "This database covers 125 distinct protein bar brands across 983 scored flavors. The market is fragmented. Roughly a dozen brands dominate retail shelf space while dozens of smaller brands sell primarily online." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which protein bar brands are best for weight loss?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For weight loss, prioritize brands in the Protein First and Solid Macro Profile categories. They deliver the most protein per calorie, which helps with satiety. David, Quest, Promix, and Fiber One lead on protein efficiency. Pair that with a decent ingredient score to avoid ultra-processed options." }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://knowyourbar.com/" },
+      { "@type": "ListItem", "position": 2, "name": "All Protein Bar Brands", "item": "https://knowyourbar.com/all-protein-bar-brands.html" }
+    ]
+  }
+  </script>
+</head>
+<body class="page-guide">
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+    <a href="/all-protein-bar-brands.html" class="site-nav-link" style="color:var(--accent)">All Brands</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero page-guide">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Brand Database</div>
+    <h1 class="hero-title">Every Protein Bar Brand, Ranked and Compared</h1>
+    <p class="hero-sub" style="color:#e8e4dc;">125 brands. 983 flavors. Sorted by what actually matters.</p>
+  </div>
+</section>
+
+<!-- SNAPSHOT -->
+<section class="snapshot">
+  <div class="snapshot-inner">
+    <div class="snap-item">
+      <div class="snap-value">125</div>
+      <div class="snap-label">Brands Scored</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">983</div>
+      <div class="snap-label">Flavors in Database</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">4.2</div>
+      <div class="snap-label">Avg Ingredient Score</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">24</div>
+      <div class="snap-label">Brands 100% Sugar Alcohol</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">6</div>
+      <div class="snap-label">Brand Categories</div>
+    </div>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- INTRO -->
+  <p>Most protein bar comparisons pit two or three brands against each other. This page covers all of them. Every brand in the database is here, grouped into six categories based on macros, then ranked by protein per 100 calories within each group. Ingredient quality scores come from the same scoring system used across the whole site, the same one that grades individual flavors.</p>
+
+  <p>Use the table to find brands that fit your goals, then click "See in Tool" to filter the full bar finder to that brand and explore individual flavors.</p>
+
+
+  <!-- TOP 10 -->
+  <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin:2.5rem 0 0.5rem;">Top 10 Brands Overall</h2>
+  <p style="font-family:var(--font-body);font-size:0.9rem;color:#444;margin:0 0 1.25rem;">Ranked by a composite of ingredient quality (50%), protein per 100 calories (30%), and fiber (20%). This rewards brands that do all three things well, not just one.</p>
+
+  <style>
+    .top10-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2.5rem; }
+    .top10-card { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; background: var(--off-white); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .top10-rank { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--accent); min-width: 32px; line-height: 1; padding-top: 2px; }
+    .top10-body { flex: 1; min-width: 0; }
+    .top10-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+    .top10-brand { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; }
+    .top10-cat { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); border: 1px solid var(--border); padding: 2px 6px; border-radius: 3px; }
+    .top10-p100 { font-family: var(--font-mono); font-size: 0.72rem; color: var(--black); margin-left: auto; }
+    .top10-verdict { font-family: var(--font-body); font-size: 0.85rem; color: #444; margin: 0; line-height: 1.5; }
+    @media (max-width: 480px) { .top10-p100 { margin-left: 0; } }
+  </style>
+
+  <div class="top10-list">
+      <div class="top10-card">
+        <div class="top10-rank">1</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Gryp</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Protein First</span>
+            <span class="top10-p100">13.8g P/100cal</span>
+          </div>
+          <p class="top10-verdict">Highest protein efficiency in the database with 13.8g protein per 100 calories and clean ingredient scores across all three flavors.</p>
+          <a href="/?brand=Gryp" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">2</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Jacob</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Solid Macros</span>
+            <span class="top10-p100">9.1g P/100cal</span>
+          </div>
+          <p class="top10-verdict">All A-grade flavors, 9g fiber per bar, and nearly 10g protein per 100 calories. One of the best all-around numbers in the database.</p>
+          <a href="/?brand=Jacob" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">3</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">PEAK Protein</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Meal Replacement</span>
+            <span class="top10-p100">6.8g P/100cal</span>
+          </div>
+          <p class="top10-verdict">All A-grade, 8g fiber, and 10.8 average ingredient score. A meal-replacement bar that actually earns its clean positioning.</p>
+          <a href="/?brand=PEAK+Protein" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">4</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Linear</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Balanced</span>
+            <span class="top10-p100">8.1g P/100cal</span>
+          </div>
+          <p class="top10-verdict">A-grade ingredients, 9g fiber, and 8g+ protein per 100 calories. Strong across all three metrics.</p>
+          <a href="/?brand=Linear" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">5</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Legion</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Meal Replacement</span>
+            <span class="top10-p100">8.0g P/100cal</span>
+          </div>
+          <p class="top10-verdict">One flavor in the database, but it scores A with 9g fiber and 9.4 ingredient score. Built for athletes who read labels.</p>
+          <a href="/?brand=Legion" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">6</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Gutsy</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Solid Macros</span>
+            <span class="top10-p100">12.7g P/100cal</span>
+          </div>
+          <p class="top10-verdict">Leads the database on raw protein (28g avg) with solid ingredient quality and only two flavors scored so far.</p>
+          <a href="/?brand=Gutsy" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">7</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Unhinged</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Whole Food</span>
+            <span class="top10-p100">5.8g P/100cal</span>
+          </div>
+          <p class="top10-verdict">Single flavor with a 10.9 ingredient score and 8g fiber. The cleanest bar in the Whole Food category by a wide margin.</p>
+          <a href="/?brand=Unhinged" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">8</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Par Bar</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Balanced</span>
+            <span class="top10-p100">7.6g P/100cal</span>
+          </div>
+          <p class="top10-verdict">A-grade across the board with a 10.7 ingredient score. One flavor reviewed, and it outscores nearly everything here.</p>
+          <a href="/?brand=Par+Bar" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">9</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Atlas</span>
+            <span class="grade-badge" style="background:#5a8a2f;width:22px;height:22px;line-height:22px;font-size:0.72rem">B</span>
+            <span class="top10-cat">Solid Macros</span>
+            <span class="top10-p100">9.5g P/100cal</span>
+          </div>
+          <p class="top10-verdict">10g fiber average, solid protein, and consistent B-grade ingredient quality across all three flavors.</p>
+          <a href="/?brand=Atlas" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+      <div class="top10-card">
+        <div class="top10-rank">10</div>
+        <div class="top10-body">
+          <div class="top10-header">
+            <span class="top10-brand">Healthy Eating on the Go</span>
+            <span class="grade-badge" style="background:#2a7a1f;width:22px;height:22px;line-height:22px;font-size:0.72rem">A</span>
+            <span class="top10-cat">Balanced</span>
+            <span class="top10-p100">6.0g P/100cal</span>
+          </div>
+          <p class="top10-verdict">15 flavors, all A-grade, 11.0 average ingredient score. The widest selection of consistently clean bars in the database.</p>
+          <a href="/?brand=Healthy+Eating+on+the+Go" class="tbl-link tool-link" style="display:inline-block;margin-top:6px;">See all flavors</a>
+        </div>
+      </div>
+  </div>
+  <div class="grade-legend">
+    <span style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-right:4px;">Ingredient Grade:</span>
+    <div class="grade-legend-item"><span class="grade-dot" style="background:#2a7a1f">A</span> Clean</div>
+    <div class="grade-legend-item"><span class="grade-dot" style="background:#5a8a2f">B</span> Good</div>
+    <div class="grade-legend-item"><span class="grade-dot" style="background:#b89a00">C</span> Okay</div>
+    <div class="grade-legend-item"><span class="grade-dot" style="background:#c87020">D</span> Poor</div>
+    <div class="grade-legend-item"><span class="grade-dot" style="background:#c83020">F</span> Avoid</div>
+    <span style="font-family:var(--font-body);font-size:0.78rem;color:var(--muted);margin-left:auto;">Typical grade = most common across all flavors</span>
+  </div>
+
+  <!-- FILTER + TABLE -->
+  <div class="filter-bar">
+    <span class="filter-bar-label">Category:</span>
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="Protein First">Protein First</button>
+    <button class="filter-btn" data-cat="Solid Macro Profile">Solid Macros</button>
+    <button class="filter-btn" data-cat="Whole Food / High Fiber">Whole Food</button>
+    <button class="filter-btn" data-cat="Balanced Middle">Balanced</button>
+    <button class="filter-btn" data-cat="Snack / Low Protein">Snack</button>
+    <button class="filter-btn" data-cat="Meal Replacement / High Cal">Meal Replacement</button>
+    <div class="search-wrap">
+      <input type="text" class="brand-search" id="brandSearch" placeholder="Search brand..." autocomplete="off">
+    </div>
+  </div>
+
+  <div class="brand-table-wrap">
+    <table class="brand-table" id="brandTable">
+      <thead>
+        <tr>
+          <th class="num-th sortable" data-col="overall_rank">#<span class="sort-arrow"></span></th>
+          <th>Brand</th>
+          <th class="num-th">Flavors</th>
+          <th class="num-th sortable" data-col="avg_calories">Avg Cal<span class="sort-arrow"></span></th>
+          <th class="num-th sortable" data-col="avg_protein">Avg Protein<span class="sort-arrow"></span></th>
+          <th class="num-th sortable" data-col="avg_p100"><span class="th-tip" title="Grams of protein per 100 calories, higher means more efficient protein delivery">P/100 Cal</span><span class="sort-arrow"></span></th>
+          <th class="num-th sortable" data-col="avg_fiber">Avg Fiber<span class="sort-arrow"></span></th>
+          <th class="num-th sortable" data-col="avg_net_carbs">Avg Net Carbs<span class="sort-arrow"></span></th>
+          <th class="num-th">Sugar Alc</th>
+          <th class="num-th sortable" data-col="avg_score"><span class="th-tip" title="Average ingredient quality score across all scored flavors">Ingr Score</span><span class="sort-arrow"></span></th>
+          <th class="num-th">Typical Grade</th>
+          <th class="num-th">Grade Range</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Protein First</span><span class="cat-count">9 brands</span><p class="cat-desc">These brands lead on protein efficiency. 10+ grams of protein per 100 calories. If hitting your protein target with minimal calories is the goal, start here.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">37</td><td class="brand-cell"><div class="brand-name">David</div><div class="brand-links"><a href="/?brand=David" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">152</td><td class="num-cell">25.3g</td><td class="num-cell highlight-cell">16.7</td><td class="num-cell">2.2g</td><td class="num-cell">7.5g</td><td class="num-cell">100%</td><td class="num-cell">2.3</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">1</td><td class="brand-cell"><div class="brand-name">Gryp</div><div class="brand-links"><a href="/?brand=Gryp" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">182</td><td class="num-cell">25.0g</td><td class="num-cell highlight-cell">13.8</td><td class="num-cell">6.0g</td><td class="num-cell">15.3g</td><td class="num-cell">100%</td><td class="num-cell">9.7</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">46</td><td class="brand-cell"><div class="brand-name">Legendary</div><div class="brand-links"><a href="/?brand=Legendary" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">15</td><td class="num-cell">180</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">11.2</td><td class="num-cell">8.0g</td><td class="num-cell">9.9g</td><td class="num-cell">100%</td><td class="num-cell">1.9</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">45</td><td class="brand-cell"><div class="brand-name">Fiber One</div><div class="brand-links"><a href="/?brand=Fiber+One" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">90</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">11.1</td><td class="num-cell">5.2g</td><td class="num-cell">5.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.1</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">66</td><td class="brand-cell"><div class="brand-name">Lineage Provisions</div><div class="brand-links"><a href="/?brand=Lineage+Provisions" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">180</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">11.1</td><td class="num-cell">2.5g</td><td class="num-cell">12.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.7</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">15</td><td class="brand-cell"><div class="brand-name">Quest</div><div class="brand-links"><a href="/?brand=Quest" class="tbl-link tool-link">See in Tool</a> <a href="/quest-bars.html" class="tbl-link review-link">Full Review</a></div></td><td class="num-cell">16</td><td class="num-cell">182</td><td class="num-cell">19.9g</td><td class="num-cell highlight-cell">11.0</td><td class="num-cell">12.1g</td><td class="num-cell">7.1g</td><td class="num-cell">100%</td><td class="num-cell">3.9</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">116</td><td class="brand-cell"><div class="brand-name">Built</div><div class="brand-links"><a href="/?brand=Built" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">13</td><td class="num-cell">148</td><td class="num-cell">15.9g</td><td class="num-cell highlight-cell">10.8</td><td class="num-cell">0.0g</td><td class="num-cell">15.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-2.8</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">35</td><td class="brand-cell"><div class="brand-name">Promix</div><div class="brand-links"><a href="/?brand=Promix" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">13</td><td class="num-cell">148</td><td class="num-cell">15.2g</td><td class="num-cell highlight-cell">10.2</td><td class="num-cell">5.2g</td><td class="num-cell">11.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.0</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">31</td><td class="brand-cell"><div class="brand-name">No Cow</div><div class="brand-links"><a href="/?brand=No+Cow" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">9</td><td class="num-cell">200</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">10.0</td><td class="num-cell">14.8g</td><td class="num-cell">7.7g</td><td class="num-cell">100%</td><td class="num-cell">2.0</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Solid Macro Profile</span><span class="cat-count">21 brands</span><p class="cat-desc">Good protein delivery without going overboard on calories. Most land between 8 and 10g protein per 100 calories. Decent variety in ingredient quality across the group.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">6</td><td class="brand-cell"><div class="brand-name">Gutsy</div><div class="brand-links"><a href="/?brand=Gutsy" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">220</td><td class="num-cell">28.0g</td><td class="num-cell highlight-cell">12.7</td><td class="num-cell">5.0g</td><td class="num-cell">14.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">8.2</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">42</td><td class="brand-cell"><div class="brand-name">BSN</div><div class="brand-links"><a href="/?brand=BSN" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">198</td><td class="num-cell">19.5g</td><td class="num-cell highlight-cell">9.9</td><td class="num-cell">5.8g</td><td class="num-cell">12.6g</td><td class="num-cell">100%</td><td class="num-cell">4.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">71</td><td class="brand-cell"><div class="brand-name">Pure Protein</div><div class="brand-links"><a href="/?brand=Pure+Protein" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">18</td><td class="num-cell">192</td><td class="num-cell">18.9g</td><td class="num-cell highlight-cell">9.9</td><td class="num-cell">2.0g</td><td class="num-cell">13.8g</td><td class="num-cell">100%</td><td class="num-cell">2.8</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">89</td><td class="brand-cell"><div class="brand-name">Melo</div><div class="brand-links"><a href="/?brand=Melo" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">163</td><td class="num-cell">15.8g</td><td class="num-cell highlight-cell">9.7</td><td class="num-cell">2.8g</td><td class="num-cell">12.0g</td><td class="num-cell">100%</td><td class="num-cell">0.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">9</td><td class="brand-cell"><div class="brand-name">Atlas</div><div class="brand-links"><a href="/?brand=Atlas" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">210</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">9.5</td><td class="num-cell">10.0g</td><td class="num-cell">10.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">28</td><td class="brand-cell"><div class="brand-name">Immortal</div><div class="brand-links"><a href="/?brand=Immortal" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">1</td><td class="num-cell">160</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">9.4</td><td class="num-cell">4.0g</td><td class="num-cell">10.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.9</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">77</td><td class="brand-cell"><div class="brand-name">Fulfil</div><div class="brand-links"><a href="/?brand=Fulfil" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">174</td><td class="num-cell">16.0g</td><td class="num-cell highlight-cell">9.2</td><td class="num-cell">1.0g</td><td class="num-cell">10.9g</td><td class="num-cell">100%</td><td class="num-cell">3.1</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">2</td><td class="brand-cell"><div class="brand-name">Jacob</div><div class="brand-links"><a href="/?brand=Jacob" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">220</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">9.1</td><td class="num-cell">9.0g</td><td class="num-cell">11.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">78</td><td class="brand-cell"><div class="brand-name">MRE BAR</div><div class="brand-links"><a href="/?brand=MRE+BAR" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">222</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">9.0</td><td class="num-cell">4.6g</td><td class="num-cell">12.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.4</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">75</td><td class="brand-cell"><div class="brand-name">Barebells</div><div class="brand-links"><a href="/?brand=Barebells" class="tbl-link tool-link">See in Tool</a> <a href="/barebells-review.html" class="tbl-link review-link">Full Review</a></div></td><td class="num-cell">25</td><td class="num-cell">206</td><td class="num-cell">18.4g</td><td class="num-cell highlight-cell">8.9</td><td class="num-cell">3.4g</td><td class="num-cell">13.7g</td><td class="num-cell">100%</td><td class="num-cell">2.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">33</td><td class="brand-cell"><div class="brand-name">Alio</div><div class="brand-links"><a href="/?brand=Alio" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">170</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">8.8</td><td class="num-cell">9.0g</td><td class="num-cell">14.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.6</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">26</td><td class="brand-cell"><div class="brand-name">Magic Spoon</div><div class="brand-links"><a href="/?brand=Magic+Spoon" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">134</td><td class="num-cell">11.8g</td><td class="num-cell highlight-cell">8.8</td><td class="num-cell">7.0g</td><td class="num-cell">9.8g</td><td class="num-cell">10%</td><td class="num-cell">6.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">80</td><td class="brand-cell"><div class="brand-name">One</div><div class="brand-links"><a href="/?brand=One" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">15</td><td class="num-cell">223</td><td class="num-cell">19.6g</td><td class="num-cell highlight-cell">8.8</td><td class="num-cell">6.3g</td><td class="num-cell">15.5g</td><td class="num-cell">100%</td><td class="num-cell">0.8</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">34</td><td class="brand-cell"><div class="brand-name">Posana</div><div class="brand-links"><a href="/?brand=Posana" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">227</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">8.8</td><td class="num-cell">8.3g</td><td class="num-cell">11.2g</td><td class="num-cell">100%</td><td class="num-cell">4.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">13</td><td class="brand-cell"><div class="brand-name">The Feel Bar</div><div class="brand-links"><a href="/?brand=The+Feel+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">11</td><td class="num-cell">157</td><td class="num-cell">13.2g</td><td class="num-cell highlight-cell">8.7</td><td class="num-cell">5.7g</td><td class="num-cell">5.9g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">67</td><td class="brand-cell"><div class="brand-name">Wonderslim</div><div class="brand-links"><a href="/?brand=Wonderslim" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">23</td><td class="num-cell">166</td><td class="num-cell">14.3g</td><td class="num-cell highlight-cell">8.7</td><td class="num-cell">4.0g</td><td class="num-cell">12.1g</td><td class="num-cell">50%</td><td class="num-cell">3.4</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">53</td><td class="brand-cell"><div class="brand-name">Jacked Granny</div><div class="brand-links"><a href="/?brand=Jacked+Granny" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">180</td><td class="num-cell">15.5g</td><td class="num-cell highlight-cell">8.6</td><td class="num-cell">4.5g</td><td class="num-cell">20.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.3</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">107</td><td class="brand-cell"><div class="brand-name">Epic</div><div class="brand-links"><a href="/?brand=Epic" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">10</td><td class="num-cell">120</td><td class="num-cell">9.7g</td><td class="num-cell highlight-cell">8.4</td><td class="num-cell">1.7g</td><td class="num-cell">2.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.5</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">76</td><td class="brand-cell"><div class="brand-name">think!</div><div class="brand-links"><a href="/?brand=think!" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">22</td><td class="num-cell">201</td><td class="num-cell">16.8g</td><td class="num-cell highlight-cell">8.3</td><td class="num-cell">3.1g</td><td class="num-cell">15.6g</td><td class="num-cell">90%</td><td class="num-cell">3.0</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">88</td><td class="brand-cell"><div class="brand-name">GNC Total Lean</div><div class="brand-links"><a href="/?brand=GNC+Total+Lean" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">195</td><td class="num-cell">16.0g</td><td class="num-cell highlight-cell">8.2</td><td class="num-cell">1.0g</td><td class="num-cell">13.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.2</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">36</td><td class="brand-cell"><div class="brand-name">Stars and Honey</div><div class="brand-links"><a href="/?brand=Stars+and+Honey" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">10</td><td class="num-cell">178</td><td class="num-cell">14.6g</td><td class="num-cell highlight-cell">8.2</td><td class="num-cell">5.6g</td><td class="num-cell">10.4g</td><td class="num-cell">90%</td><td class="num-cell">5.9</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Whole Food / High Fiber</span><span class="cat-count">24 brands</span><p class="cat-desc">Higher fiber (5g+) and simpler ingredient lists tend to define this group. Protein is moderate. Trade-off: fewer calories from protein, more from fat and whole food carbs.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">22</td><td class="brand-cell"><div class="brand-name">Tusol</div><div class="brand-links"><a href="/?brand=Tusol" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">190</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">7.9</td><td class="num-cell">10.5g</td><td class="num-cell">9.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">73</td><td class="brand-cell"><div class="brand-name">Ready</div><div class="brand-links"><a href="/?brand=Ready" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">194</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">7.8</td><td class="num-cell">7.0g</td><td class="num-cell">17.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.9</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">60</td><td class="brand-cell"><div class="brand-name">Atkins</div><div class="brand-links"><a href="/?brand=Atkins" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">9</td><td class="num-cell">204</td><td class="num-cell">15.6g</td><td class="num-cell highlight-cell">7.7</td><td class="num-cell">10.4g</td><td class="num-cell">9.8g</td><td class="num-cell">10%</td><td class="num-cell">2.1</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">20</td><td class="brand-cell"><div class="brand-name">Junkless</div><div class="brand-links"><a href="/?brand=Junkless" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">194</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">7.7</td><td class="num-cell">7.2g</td><td class="num-cell">14.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">59</td><td class="brand-cell"><div class="brand-name">Simply Protein</div><div class="brand-links"><a href="/?brand=Simply+Protein" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">134</td><td class="num-cell">10.2g</td><td class="num-cell highlight-cell">7.5</td><td class="num-cell">5.9g</td><td class="num-cell">8.1g</td><td class="num-cell">100%</td><td class="num-cell">4.0</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">21</td><td class="brand-cell"><div class="brand-name">Mosh</div><div class="brand-links"><a href="/?brand=Mosh" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">10</td><td class="num-cell">169</td><td class="num-cell">11.9g</td><td class="num-cell highlight-cell">7.1</td><td class="num-cell">7.0g</td><td class="num-cell">7.9g</td><td class="num-cell">70%</td><td class="num-cell">7.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">30</td><td class="brand-cell"><div class="brand-name">Real Food Bar</div><div class="brand-links"><a href="/?brand=Real+Food+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">210</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">7.1</td><td class="num-cell">10.8g</td><td class="num-cell">13.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">39</td><td class="brand-cell"><div class="brand-name">IQ Bar</div><div class="brand-links"><a href="/?brand=IQ+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">10</td><td class="num-cell">174</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">6.9</td><td class="num-cell">7.2g</td><td class="num-cell">2.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">49</td><td class="brand-cell"><div class="brand-name">Love Good</div><div class="brand-links"><a href="/?brand=Love+Good" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">205</td><td class="num-cell">13.3g</td><td class="num-cell highlight-cell">6.4</td><td class="num-cell">7.8g</td><td class="num-cell">7.5g</td><td class="num-cell">40%</td><td class="num-cell">4.4</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">95</td><td class="brand-cell"><div class="brand-name">No Nuts!</div><div class="brand-links"><a href="/?brand=No+Nuts!" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">188</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">6.4</td><td class="num-cell">9.5g</td><td class="num-cell">19.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.9</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">56</td><td class="brand-cell"><div class="brand-name">Trubar</div><div class="brand-links"><a href="/?brand=Trubar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">190</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">6.3</td><td class="num-cell">11.8g</td><td class="num-cell">11.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.7</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">38</td><td class="brand-cell"><div class="brand-name">Bullet Proof</div><div class="brand-links"><a href="/?brand=Bullet+Proof" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">185</td><td class="num-cell">11.0g</td><td class="num-cell highlight-cell">5.9</td><td class="num-cell">8.0g</td><td class="num-cell">4.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">7</td><td class="brand-cell"><div class="brand-name">Unhinged</div><div class="brand-links"><a href="/?brand=Unhinged" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">1</td><td class="num-cell">190</td><td class="num-cell">11.0g</td><td class="num-cell highlight-cell">5.8</td><td class="num-cell">8.0g</td><td class="num-cell">13.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">10.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">81</td><td class="brand-cell"><div class="brand-name">Equate</div><div class="brand-links"><a href="/?brand=Equate" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">180</td><td class="num-cell">11.0g</td><td class="num-cell highlight-cell">5.7</td><td class="num-cell">6.5g</td><td class="num-cell">7.8g</td><td class="num-cell">100%</td><td class="num-cell">2.4</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">14</td><td class="brand-cell"><div class="brand-name">B.T.R. Nation</div><div class="brand-links"><a href="/?brand=B.T.R.+Nation" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">194</td><td class="num-cell">11.0g</td><td class="num-cell highlight-cell">5.5</td><td class="num-cell">8.1g</td><td class="num-cell">5.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">8.6</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">68</td><td class="brand-cell"><div class="brand-name">Laird</div><div class="brand-links"><a href="/?brand=Laird" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">183</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">5.5</td><td class="num-cell">6.0g</td><td class="num-cell">14.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.3</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">43</td><td class="brand-cell"><div class="brand-name">Munk Pack</div><div class="brand-links"><a href="/?brand=Munk+Pack" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">9</td><td class="num-cell">173</td><td class="num-cell">9.7g</td><td class="num-cell highlight-cell">5.4</td><td class="num-cell">5.4g</td><td class="num-cell">16.7g</td><td class="num-cell">20%</td><td class="num-cell">6.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">79</td><td class="brand-cell"><div class="brand-name">Good Word</div><div class="brand-links"><a href="/?brand=Good+Word" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">195</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">5.2</td><td class="num-cell">5.0g</td><td class="num-cell">11.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.4</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">52</td><td class="brand-cell"><div class="brand-name">Nature Valley</div><div class="brand-links"><a href="/?brand=Nature+Valley" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">197</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">5.1</td><td class="num-cell">5.0g</td><td class="num-cell">10.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.1</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">58</td><td class="brand-cell"><div class="brand-name">Skout</div><div class="brand-links"><a href="/?brand=Skout" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">207</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">4.9</td><td class="num-cell">5.3g</td><td class="num-cell">24.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">118</td><td class="brand-cell"><div class="brand-name">Lenny & Larry's</div><div class="brand-links"><a href="/?brand=Lenny+&+Larry's" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">11</td><td class="num-cell">227</td><td class="num-cell">8.0g</td><td class="num-cell highlight-cell">3.5</td><td class="num-cell">5.0g</td><td class="num-cell">28.9g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.8</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">90</td><td class="brand-cell"><div class="brand-name">KIND</div><div class="brand-links"><a href="/?brand=KIND" class="tbl-link tool-link">See in Tool</a> <a href="/kind-bars-review.html" class="tbl-link review-link">Full Review</a></div></td><td class="num-cell">15</td><td class="num-cell">173</td><td class="num-cell">4.8g</td><td class="num-cell highlight-cell">2.8</td><td class="num-cell">5.6g</td><td class="num-cell">11.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.4</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">64</td><td class="brand-cell"><div class="brand-name">Ratio</div><div class="brand-links"><a href="/?brand=Ratio" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">110</td><td class="num-cell">2.5g</td><td class="num-cell highlight-cell">2.2</td><td class="num-cell">6.0g</td><td class="num-cell">4.5g</td><td class="num-cell">100%</td><td class="num-cell">6.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">96</td><td class="brand-cell"><div class="brand-name">Neoh</div><div class="brand-links"><a href="/?brand=Neoh" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">117</td><td class="num-cell">2.4g</td><td class="num-cell highlight-cell">2.0</td><td class="num-cell">6.8g</td><td class="num-cell">5.6g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Balanced Middle</span><span class="cat-count">25 brands</span><p class="cat-desc">Solid protein, slightly higher calories. Many are legitimate options that just require a bit more attention to serving size. Several have strong ingredient scores despite moderate macros.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">17</td><td class="brand-cell"><div class="brand-name">Daryl's Bars</div><div class="brand-links"><a href="/?brand=Daryl's+Bars" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">19</td><td class="num-cell">234</td><td class="num-cell">20.5g</td><td class="num-cell highlight-cell">8.8</td><td class="num-cell">9.2g</td><td class="num-cell">10.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.0</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">84</td><td class="brand-cell"><div class="brand-name">Prima</div><div class="brand-links"><a href="/?brand=Prima" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">242</td><td class="num-cell">21.0g</td><td class="num-cell highlight-cell">8.7</td><td class="num-cell">1.2g</td><td class="num-cell">14.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.4</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">12</td><td class="brand-cell"><div class="brand-name">Rello</div><div class="brand-links"><a href="/?brand=Rello" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">1</td><td class="num-cell">240</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">8.3</td><td class="num-cell">9.0g</td><td class="num-cell">11.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.4</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">27</td><td class="brand-cell"><div class="brand-name">KIND Protein Max</div><div class="brand-links"><a href="/?brand=KIND+Protein+Max" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">242</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">8.2</td><td class="num-cell">9.5g</td><td class="num-cell">14.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">4</td><td class="brand-cell"><div class="brand-name">Linear</div><div class="brand-links"><a href="/?brand=Linear" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">247</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">8.1</td><td class="num-cell">9.0g</td><td class="num-cell">12.3g</td><td class="num-cell">100%</td><td class="num-cell">9.4</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">102</td><td class="brand-cell"><div class="brand-name">FITCRUNCH</div><div class="brand-links"><a href="/?brand=FITCRUNCH" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">17</td><td class="num-cell">222</td><td class="num-cell">17.2g</td><td class="num-cell highlight-cell">7.8</td><td class="num-cell">1.3g</td><td class="num-cell">10.5g</td><td class="num-cell">100%</td><td class="num-cell">0.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">109</td><td class="brand-cell"><div class="brand-name">Misfits</div><div class="brand-links"><a href="/?brand=Misfits" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">190</td><td class="num-cell">14.7g</td><td class="num-cell highlight-cell">7.8</td><td class="num-cell">4.6g</td><td class="num-cell">14.9g</td><td class="num-cell">100%</td><td class="num-cell">-1.3</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">120</td><td class="brand-cell"><div class="brand-name">Alani</div><div class="brand-links"><a href="/?brand=Alani" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">205</td><td class="num-cell">15.8g</td><td class="num-cell highlight-cell">7.7</td><td class="num-cell">1.2g</td><td class="num-cell">17.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-2.1</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">8</td><td class="brand-cell"><div class="brand-name">Par Bar</div><div class="brand-links"><a href="/?brand=Par+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">1</td><td class="num-cell">210</td><td class="num-cell">16.0g</td><td class="num-cell highlight-cell">7.6</td><td class="num-cell">4.0g</td><td class="num-cell">16.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">10.7</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">40</td><td class="brand-cell"><div class="brand-name">Genius Gourmet</div><div class="brand-links"><a href="/?brand=Genius+Gourmet" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">9</td><td class="num-cell">152</td><td class="num-cell">10.8g</td><td class="num-cell highlight-cell">7.5</td><td class="num-cell">3.9g</td><td class="num-cell">3.9g</td><td class="num-cell">60%</td><td class="num-cell">6.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">23</td><td class="brand-cell"><div class="brand-name">Nick's</div><div class="brand-links"><a href="/?brand=Nick's" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">204</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">7.4</td><td class="num-cell">4.8g</td><td class="num-cell">8.3g</td><td class="num-cell">100%</td><td class="num-cell">7.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">98</td><td class="brand-cell"><div class="brand-name">JustNosh</div><div class="brand-links"><a href="/?brand=JustNosh" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">220</td><td class="num-cell">14.8g</td><td class="num-cell highlight-cell">6.7</td><td class="num-cell">3.5g</td><td class="num-cell">14.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.1</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">112</td><td class="brand-cell"><div class="brand-name">Orgain</div><div class="brand-links"><a href="/?brand=Orgain" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">150</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">6.7</td><td class="num-cell">1.2g</td><td class="num-cell">16.0g</td><td class="num-cell">100%</td><td class="num-cell">0.2</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">94</td><td class="brand-cell"><div class="brand-name">NuGo</div><div class="brand-links"><a href="/?brand=NuGo" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">30</td><td class="num-cell">178</td><td class="num-cell">11.7g</td><td class="num-cell highlight-cell">6.6</td><td class="num-cell">4.7g</td><td class="num-cell">19.2g</td><td class="num-cell">10%</td><td class="num-cell">1.0</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">85</td><td class="brand-cell"><div class="brand-name">Raw Rev</div><div class="brand-links"><a href="/?brand=Raw+Rev" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">182</td><td class="num-cell">11.5g</td><td class="num-cell highlight-cell">6.3</td><td class="num-cell">2.2g</td><td class="num-cell">16.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.3</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">61</td><td class="brand-cell"><div class="brand-name">Aloha</div><div class="brand-links"><a href="/?brand=Aloha" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">18</td><td class="num-cell">231</td><td class="num-cell">14.0g</td><td class="num-cell highlight-cell">6.1</td><td class="num-cell">9.7g</td><td class="num-cell">15.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.2</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">93</td><td class="brand-cell"><div class="brand-name">Mezcla</div><div class="brand-links"><a href="/?brand=Mezcla" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">164</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">6.1</td><td class="num-cell">4.7g</td><td class="num-cell">14.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.3</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">10</td><td class="brand-cell"><div class="brand-name">Healthy Eating on the Go</div><div class="brand-links"><a href="/?brand=Healthy+Eating+on+the+Go" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">15</td><td class="num-cell">210</td><td class="num-cell">12.6g</td><td class="num-cell highlight-cell">6.0</td><td class="num-cell">4.8g</td><td class="num-cell">13.6g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">11.0</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">82</td><td class="brand-cell"><div class="brand-name">Afar</div><div class="brand-links"><a href="/?brand=Afar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">170</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">5.9</td><td class="num-cell">2.0g</td><td class="num-cell">14.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">106</td><td class="brand-cell"><div class="brand-name">Power Crunch</div><div class="brand-links"><a href="/?brand=Power+Crunch" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">11</td><td class="num-cell">220</td><td class="num-cell">13.0g</td><td class="num-cell highlight-cell">5.9</td><td class="num-cell">0.8g</td><td class="num-cell">10.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.3</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">19</td><td class="brand-cell"><div class="brand-name">RXBAR</div><div class="brand-links"><a href="/?brand=RXBAR" class="tbl-link tool-link">See in Tool</a> <a href="/rxbar-review.html" class="tbl-link review-link">Full Review</a></div></td><td class="num-cell">12</td><td class="num-cell">213</td><td class="num-cell">12.5g</td><td class="num-cell highlight-cell">5.9</td><td class="num-cell">4.7g</td><td class="num-cell">19.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.2</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">72</td><td class="brand-cell"><div class="brand-name">Rise</div><div class="brand-links"><a href="/?brand=Rise" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">248</td><td class="num-cell">14.5g</td><td class="num-cell highlight-cell">5.9</td><td class="num-cell">3.2g</td><td class="num-cell">18.7g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">29</td><td class="brand-cell"><div class="brand-name">Send</div><div class="brand-links"><a href="/?brand=Send" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">230</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">5.2</td><td class="num-cell">4.2g</td><td class="num-cell">21.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.0</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">83</td><td class="brand-cell"><div class="brand-name">The Gluten Free Brothers</div><div class="brand-links"><a href="/?brand=The+Gluten+Free+Brothers" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">234</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">5.1</td><td class="num-cell">3.0g</td><td class="num-cell">25.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">41</td><td class="brand-cell"><div class="brand-name">Supervibe</div><div class="brand-links"><a href="/?brand=Supervibe" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">100</td><td class="num-cell">5.0g</td><td class="num-cell highlight-cell">5.0</td><td class="num-cell">3.3g</td><td class="num-cell">12.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">8.1</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Snack / Low Protein</span><span class="cat-count">24 brands</span><p class="cat-desc">Under 5g protein per 100 calories. Some are genuinely clean snack bars that never claimed to be protein bars. Others are legacy brands leaning on brand equity. Check the grade before buying.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">51</td><td class="brand-cell"><div class="brand-name">Quantum</div><div class="brand-links"><a href="/?brand=Quantum" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">203</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">4.9</td><td class="num-cell">3.0g</td><td class="num-cell">17.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.0</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">119</td><td class="brand-cell"><div class="brand-name">Blake's</div><div class="brand-links"><a href="/?brand=Blake's" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">103</td><td class="num-cell">5.0g</td><td class="num-cell highlight-cell">4.8</td><td class="num-cell">1.7g</td><td class="num-cell">12.7g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.5</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">65</td><td class="brand-cell"><div class="brand-name">Fro Pro</div><div class="brand-links"><a href="/?brand=Fro+Pro" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">15</td><td class="num-cell">224</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">4.5</td><td class="num-cell">2.9g</td><td class="num-cell">15.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">97</td><td class="brand-cell"><div class="brand-name">Honey Stinger</div><div class="brand-links"><a href="/?brand=Honey+Stinger" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">193</td><td class="num-cell">8.7g</td><td class="num-cell highlight-cell">4.5</td><td class="num-cell">1.7g</td><td class="num-cell">18.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">3.1</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">91</td><td class="brand-cell"><div class="brand-name">Zing</div><div class="brand-links"><a href="/?brand=Zing" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">224</td><td class="num-cell">10.2g</td><td class="num-cell highlight-cell">4.5</td><td class="num-cell">4.8g</td><td class="num-cell">17.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.7</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">69</td><td class="brand-cell"><div class="brand-name">Kize</div><div class="brand-links"><a href="/?brand=Kize" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">202</td><td class="num-cell">9.0g</td><td class="num-cell highlight-cell">4.4</td><td class="num-cell">2.6g</td><td class="num-cell">16.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">48</td><td class="brand-cell"><div class="brand-name">NutRaw</div><div class="brand-links"><a href="/?brand=NutRaw" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">160</td><td class="num-cell">7.0g</td><td class="num-cell highlight-cell">4.4</td><td class="num-cell">4.5g</td><td class="num-cell">11.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">74</td><td class="brand-cell"><div class="brand-name">Tosi</div><div class="brand-links"><a href="/?brand=Tosi" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">135</td><td class="num-cell">5.9g</td><td class="num-cell highlight-cell">4.4</td><td class="num-cell">2.5g</td><td class="num-cell">7.9g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">5.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">113</td><td class="brand-cell"><div class="brand-name">Jambar</div><div class="brand-links"><a href="/?brand=Jambar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">236</td><td class="num-cell">10.0g</td><td class="num-cell highlight-cell">4.2</td><td class="num-cell">4.0g</td><td class="num-cell">30.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">0.2</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">121</td><td class="brand-cell"><div class="brand-name">Luna</div><div class="brand-links"><a href="/?brand=Luna" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">9</td><td class="num-cell">196</td><td class="num-cell">7.8g</td><td class="num-cell highlight-cell">4.0</td><td class="num-cell">2.8g</td><td class="num-cell">24.9g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-1.6</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">47</td><td class="brand-cell"><div class="brand-name">Perfect Bar</div><div class="brand-links"><a href="/?brand=Perfect+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">17</td><td class="num-cell">246</td><td class="num-cell">9.9g</td><td class="num-cell highlight-cell">4.0</td><td class="num-cell">2.8g</td><td class="num-cell">17.4g</td><td class="num-cell">10%</td><td class="num-cell">7.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">124</td><td class="brand-cell"><div class="brand-name">Clif ZBar</div><div class="brand-links"><a href="/?brand=Clif+ZBar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">130</td><td class="num-cell">5.0g</td><td class="num-cell highlight-cell">3.8</td><td class="num-cell">2.0g</td><td class="num-cell">21.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-2.7</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">54</td><td class="brand-cell"><div class="brand-name">Bearded Bros</div><div class="brand-links"><a href="/?brand=Bearded+Bros" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">203</td><td class="num-cell">6.6g</td><td class="num-cell highlight-cell">3.2</td><td class="num-cell">4.4g</td><td class="num-cell">19.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.4</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">105</td><td class="brand-cell"><div class="brand-name">Verb</div><div class="brand-links"><a href="/?brand=Verb" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">11</td><td class="num-cell">133</td><td class="num-cell">4.7g</td><td class="num-cell highlight-cell">3.2</td><td class="num-cell">2.3g</td><td class="num-cell">15.6g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">50</td><td class="brand-cell"><div class="brand-name">Elemental</div><div class="brand-links"><a href="/?brand=Elemental" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">222</td><td class="num-cell">7.0g</td><td class="num-cell highlight-cell">3.1</td><td class="num-cell">4.0g</td><td class="num-cell">12.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">103</td><td class="brand-cell"><div class="brand-name">Bob's Red Mill</div><div class="brand-links"><a href="/?brand=Bob's+Red+Mill" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">218</td><td class="num-cell">6.6g</td><td class="num-cell highlight-cell">3.0</td><td class="num-cell">3.2g</td><td class="num-cell">24.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.4</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">87</td><td class="brand-cell"><div class="brand-name">KetoBars.com</div><div class="brand-links"><a href="/?brand=KetoBars.com" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">240</td><td class="num-cell">6.7g</td><td class="num-cell highlight-cell">2.8</td><td class="num-cell">5.7g</td><td class="num-cell">6.2g</td><td class="num-cell">100%</td><td class="num-cell">3.5</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">86</td><td class="brand-cell"><div class="brand-name">Truvani</div><div class="brand-links"><a href="/?brand=Truvani" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">227</td><td class="num-cell">6.0g</td><td class="num-cell highlight-cell">2.7</td><td class="num-cell">3.8g</td><td class="num-cell">19.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.6</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">57</td><td class="brand-cell"><div class="brand-name">Jonesbar</div><div class="brand-links"><a href="/?brand=Jonesbar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">188</td><td class="num-cell">4.8g</td><td class="num-cell highlight-cell">2.5</td><td class="num-cell">4.5g</td><td class="num-cell">21.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">62</td><td class="brand-cell"><div class="brand-name">Thunderbird</div><div class="brand-links"><a href="/?brand=Thunderbird" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">14</td><td class="num-cell">214</td><td class="num-cell">4.7g</td><td class="num-cell highlight-cell">2.2</td><td class="num-cell">3.9g</td><td class="num-cell">19.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.6</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">104</td><td class="brand-cell"><div class="brand-name">Wise Bar</div><div class="brand-links"><a href="/?brand=Wise+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">180</td><td class="num-cell">4.0g</td><td class="num-cell highlight-cell">2.2</td><td class="num-cell">3.8g</td><td class="num-cell">26.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.6</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">70</td><td class="brand-cell"><div class="brand-name">Larabar</div><div class="brand-links"><a href="/?brand=Larabar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">26</td><td class="num-cell">204</td><td class="num-cell">4.1g</td><td class="num-cell highlight-cell">2.0</td><td class="num-cell">3.6g</td><td class="num-cell">21.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.7</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">125</td><td class="brand-cell"><div class="brand-name">The Maple Brothers</div><div class="brand-links"><a href="/?brand=The+Maple+Brothers" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">123</td><td class="num-cell">2.3g</td><td class="num-cell highlight-cell">1.9</td><td class="num-cell">2.7g</td><td class="num-cell">16.7g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-2.6</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">122</td><td class="brand-cell"><div class="brand-name">Bobo's</div><div class="brand-links"><a href="/?brand=Bobo's" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">21</td><td class="num-cell">191</td><td class="num-cell">3.4g</td><td class="num-cell highlight-cell">1.8</td><td class="num-cell">2.3g</td><td class="num-cell">26.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.8</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="cat-header-row"><td colspan="12"><div class="cat-header-inner"><span class="cat-label">Meal Replacement / High Cal</span><span class="cat-count">22 brands</span><p class="cat-desc">250+ average calories per bar. Designed for athletes, hard training, or replacing a meal entirely. Protein efficiency varies widely. Ingredient quality ranges from excellent to surprisingly poor.</p></div></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">16</td><td class="brand-cell"><div class="brand-name">Musashi</div><div class="brand-links"><a href="/?brand=Musashi" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">328</td><td class="num-cell">45.2g</td><td class="num-cell highlight-cell">13.8</td><td class="num-cell">2.8g</td><td class="num-cell">12.3g</td><td class="num-cell">100%</td><td class="num-cell">5.8</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">5</td><td class="brand-cell"><div class="brand-name">Legion</div><div class="brand-links"><a href="/?brand=Legion" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">1</td><td class="num-cell">250</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">8.0</td><td class="num-cell">9.0g</td><td class="num-cell">14.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.4</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">101</td><td class="brand-cell"><div class="brand-name">Ghost</div><div class="brand-links"><a href="/?brand=Ghost" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">263</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">7.6</td><td class="num-cell">8.0g</td><td class="num-cell">11.5g</td><td class="num-cell">100%</td><td class="num-cell">-1.8</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">63</td><td class="brand-cell"><div class="brand-name">MET-Rx</div><div class="brand-links"><a href="/?brand=MET-Rx" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">392</td><td class="num-cell">29.2g</td><td class="num-cell highlight-cell">7.5</td><td class="num-cell">3.2g</td><td class="num-cell">39.5g</td><td class="num-cell">80%</td><td class="num-cell">4.8</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">111</td><td class="brand-cell"><div class="brand-name">PROBar</div><div class="brand-links"><a href="/?brand=PROBar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">272</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">7.4</td><td class="num-cell">2.0g</td><td class="num-cell">30.7g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.4</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">110</td><td class="brand-cell"><div class="brand-name">Pro Bar</div><div class="brand-links"><a href="/?brand=Pro+Bar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">6</td><td class="num-cell">272</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">7.4</td><td class="num-cell">2.0g</td><td class="num-cell">24.4g</td><td class="num-cell">100%</td><td class="num-cell">-0.4</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">100</td><td class="brand-cell"><div class="brand-name">Anabar</div><div class="brand-links"><a href="/?brand=Anabar" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">286</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">7.0</td><td class="num-cell">1.4g</td><td class="num-cell">28.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.1</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">115</td><td class="brand-cell"><div class="brand-name">Clif Builders</div><div class="brand-links"><a href="/?brand=Clif+Builders" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">10</td><td class="num-cell">251</td><td class="num-cell">17.2g</td><td class="num-cell highlight-cell">6.8</td><td class="num-cell">2.7g</td><td class="num-cell">22.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-1.3</td><td class="grade-cell"><span class="grade-badge" style="background:#c83020">F</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">3</td><td class="brand-cell"><div class="brand-name">PEAK Protein</div><div class="brand-links"><a href="/?brand=PEAK+Protein" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">290</td><td class="num-cell">19.7g</td><td class="num-cell highlight-cell">6.8</td><td class="num-cell">8.0g</td><td class="num-cell">9.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">10.8</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">123</td><td class="brand-cell"><div class="brand-name">Gatorade</div><div class="brand-links"><a href="/?brand=Gatorade" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">352</td><td class="num-cell">20.0g</td><td class="num-cell highlight-cell">5.7</td><td class="num-cell">0.5g</td><td class="num-cell">39.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-3.0</td><td class="grade-cell"><span class="grade-badge" style="background:#c83020">F</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c83020">F</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">18</td><td class="brand-cell"><div class="brand-name">Transparent Labs</div><div class="brand-links"><a href="/?brand=Transparent+Labs" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">7</td><td class="num-cell">271</td><td class="num-cell">15.4g</td><td class="num-cell highlight-cell">5.7</td><td class="num-cell">3.3g</td><td class="num-cell">18.4g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">44</td><td class="brand-cell"><div class="brand-name">Mush</div><div class="brand-links"><a href="/?brand=Mush" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">270</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">5.6</td><td class="num-cell">3.3g</td><td class="num-cell">19.7g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">7.2</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">24</td><td class="brand-cell"><div class="brand-name">1st Phorm</div><div class="brand-links"><a href="/?brand=1st+Phorm" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">285</td><td class="num-cell">15.0g</td><td class="num-cell highlight-cell">5.3</td><td class="num-cell">3.2g</td><td class="num-cell">19.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.7</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">11</td><td class="brand-cell"><div class="brand-name">Off the Farm</div><div class="brand-links"><a href="/?brand=Off+the+Farm" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">5</td><td class="num-cell">434</td><td class="num-cell">22.0g</td><td class="num-cell highlight-cell">5.1</td><td class="num-cell">4.6g</td><td class="num-cell">29.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">11.1</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">117</td><td class="brand-cell"><div class="brand-name">88 Acres</div><div class="brand-links"><a href="/?brand=88+Acres" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">2</td><td class="num-cell">260</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">4.6</td><td class="num-cell">3.5g</td><td class="num-cell">15.0g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.8</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#c87020">D</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">32</td><td class="brand-cell"><div class="brand-name">Redefine</div><div class="brand-links"><a href="/?brand=Redefine" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">315</td><td class="num-cell">14.5g</td><td class="num-cell highlight-cell">4.6</td><td class="num-cell">10.5g</td><td class="num-cell">20.8g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">6.5</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#5a8a2f">B</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">25</td><td class="brand-cell"><div class="brand-name">Forward</div><div class="brand-links"><a href="/?brand=Forward" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">4</td><td class="num-cell">275</td><td class="num-cell">12.0g</td><td class="num-cell highlight-cell">4.4</td><td class="num-cell">4.0g</td><td class="num-cell">13.5g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">9.9</td><td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f">A</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#2a7a1f">A</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#2a7a1f">A</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">92</td><td class="brand-cell"><div class="brand-name">Possible</div><div class="brand-links"><a href="/?brand=Possible" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">3</td><td class="num-cell">300</td><td class="num-cell">13.3g</td><td class="num-cell highlight-cell">4.4</td><td class="num-cell">4.0g</td><td class="num-cell">26.3g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.9</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">55</td><td class="brand-cell"><div class="brand-name">Amirita</div><div class="brand-links"><a href="/?brand=Amirita" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">8</td><td class="num-cell">272</td><td class="num-cell">11.6g</td><td class="num-cell highlight-cell">4.3</td><td class="num-cell">10.0g</td><td class="num-cell">17.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">4.6</td><td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f">B</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#b89a00">C</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">114</td><td class="brand-cell"><div class="brand-name">CLIF Bar</div><div class="brand-links"><a href="/?brand=CLIF+Bar" class="tbl-link tool-link">See in Tool</a> <a href="/clif-bar-review.html" class="tbl-link review-link">Full Review</a></div></td><td class="num-cell">14</td><td class="num-cell">257</td><td class="num-cell">10.2g</td><td class="num-cell highlight-cell">4.0</td><td class="num-cell">5.0g</td><td class="num-cell">37.1g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">-0.2</td><td class="grade-cell"><span class="grade-badge" style="background:#c87020">D</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">108</td><td class="brand-cell"><div class="brand-name">Kate's Real Food</div><div class="brand-links"><a href="/?brand=Kate's+Real+Food" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">12</td><td class="num-cell">274</td><td class="num-cell">10.2g</td><td class="num-cell highlight-cell">3.8</td><td class="num-cell">3.8g</td><td class="num-cell">28.2g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">1.3</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#b89a00">C</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>
+<tr class="brand-row"><td class="num-cell rank-cell">99</td><td class="brand-cell"><div class="brand-name">GoMacro</div><div class="brand-links"><a href="/?brand=GoMacro" class="tbl-link tool-link">See in Tool</a></div></td><td class="num-cell">17</td><td class="num-cell">268</td><td class="num-cell">9.9g</td><td class="num-cell highlight-cell">3.7</td><td class="num-cell">2.5g</td><td class="num-cell">33.9g</td><td class="num-cell"><span class="none-val">none</span></td><td class="num-cell">2.9</td><td class="grade-cell"><span class="grade-badge" style="background:#b89a00">C</span></td><td class="grade-range-cell"><span class="grade-sm" style="color:#5a8a2f">B</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:#c87020">D</span></td></tr>      </tbody>
+    </table>
+  </div>
+
+  <p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--muted);margin-top:0.5rem;">All values are averages across scored flavors. Typical grade = most common grade across a brand's flavors. P/100 Cal = grams of protein per 100 calories.</p>
+
+  <!-- CATEGORY EXPLAINERS -->
+  <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin:3rem 0 1rem;">How the Categories Work</h2>
+
+  <p>Six categories, each defined by macro thresholds rather than brand reputation or marketing claims. A brand ends up where its numbers put it.</p>
+
+  <div class="intro-grid">
+    <div class="intro-block">
+      <h2>Protein First</h2>
+      <p>10+ grams of protein per 100 calories, under 210 average calories. These bars are built specifically around protein delivery. Most use sugar alcohols to keep carbs and calories low. David, Quest, and No Cow are the recognizable names here. Gryp and Promix are smaller brands worth checking out if ingredient quality matters to you.</p>
+    </div>
+    <div class="intro-block">
+      <h2>Solid Macro Profile</h2>
+      <p>Between 8 and 10g protein per 100 calories, under 230 calories. Good balance of protein and total calories without going to extremes. This is where Barebells, Pure Protein, and think! live. These are mainstream options with reasonable numbers. Some like Jacob and Gutsy punch above their weight on ingredient quality.</p>
+    </div>
+    <div class="intro-block">
+      <h2>Whole Food / High Fiber</h2>
+      <p>5g+ fiber per bar, under 230 calories. These bars lean on nuts, seeds, oats, and dried fruit rather than protein isolates. Protein is moderate. RXBAR, IQ Bar, and KIND live here. Ingredient scores in this category tend to be cleaner than in the higher-protein tiers. The trade-off is protein efficiency.</p>
+    </div>
+    <div class="intro-block">
+      <h2>Balanced Middle</h2>
+      <p>Solid protein efficiency (5-8g per 100 cal) but slightly higher calories, generally 190 to 250 range. Many of these are legitimate daily options. FITCRUNCH, One Bar, and Aloha are in this bucket. Some surprises here on ingredient quality. RXBAR-adjacent brands like Send and Supervibe score very high.</p>
+    </div>
+    <div class="intro-block">
+      <h2>Snack / Low Protein</h2>
+      <p>Under 5g protein per 100 calories. Not all of these are bad choices. Perfect Bar, Larabar, Bearded Bros, and Thunderbird are in this category, and several have clean ingredient scores. They just were not designed around protein delivery. Know what you're getting.</p>
+    </div>
+    <div class="intro-block">
+      <h2>Meal Replacement / High Cal</h2>
+      <p>250+ average calories per bar. Designed for higher-output athletes or as genuine meal replacements. Clif Bar, GoMacro, and Perfect Bar are here. Protein efficiency drops, but total protein can still be reasonable. Ingredient quality is the real variable in this group. It ranges from excellent (Off the Farm, Forward, 1st Phorm) to avoid (Gatorade, Ghost).</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2>Common Questions</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q">What is protein per 100 calories and why does it matter?</button>
+        <div class="faq-a">
+          <p>Protein per 100 calories tells you how efficiently a bar delivers protein relative to its calorie cost. A bar with 20g protein and 200 calories scores 10.0, better than a bar with 20g protein and 280 calories, which scores 7.1. Higher is better if you want maximum protein without surplus calories.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What does the ingredient quality grade mean?</button>
+        <div class="faq-a">
+          <p>Each bar is scored on a numeric scale based on ingredient quality. A means the ingredients are clean with minimal processing. B is good. C is okay but has some concerns. D is poor. F means avoid. The grade shown for each brand is the most common grade across that brand's flavors, so a brand with 10 C-grade and 2 B-grade flavors shows C.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which protein bar brands have the best ingredient quality?</button>
+        <div class="faq-a">
+          <p>Based on average ingredient scores across all flavors, brands like Gryp, Jacob, Par Bar, Gutsy, Healthy Eating on the Go, and Off the Farm score highest. Many smaller or newer brands outperform the mainstream names on ingredient quality. The ingredient score column in the table lets you sort by this directly.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which brands use sugar alcohols and should I avoid them?</button>
+        <div class="faq-a">
+          <p>Sugar alcohols are common in bars marketed as low-sugar or keto-friendly. David, Quest, Barebells, Legendary, and Gryp use them in all or most flavors. These show 100% in the sugar alcohol column. Whether to avoid them depends on your gut tolerance. Some people experience digestive issues with high doses, particularly with maltitol.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is net carbs and how is it calculated?</button>
+        <div class="faq-a">
+          <p>Net carbs = Total Carbohydrates minus Fiber minus half of Sugar Alcohols. We use the half-credit formula for sugar alcohols because their glycemic impact varies by type. This is the formula most commonly used in low-carb communities and on nutrition labels in some markets.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How many protein bar brands are there?</button>
+        <div class="faq-a">
+          <p>This database covers 125 distinct brands across 983 scored flavors. The market is heavily fragmented. Roughly a dozen brands dominate retail shelf space while dozens of smaller brands sell primarily through their own websites or Amazon. New brands launch regularly. Submit one to us if you spot a gap.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which protein bar brands are best for weight loss?</button>
+        <div class="faq-a">
+          <p>For weight loss, look at the Protein First and Solid Macro Profile categories. They deliver the most protein per calorie, which helps with satiety. David, Quest, Promix, and Fiber One lead on protein efficiency. Pair a high P/100 score with a decent ingredient grade to avoid ultra-processed options in the same tier.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="explore-cta">
+    <div class="explore-cta-inner">
+      <div class="explore-cta-eyebrow">Know Your Bar</div>
+      <p class="explore-cta-title">Filter 983 bars by any combination of macros, grades, and certifications</p>
+      <p class="explore-cta-sub">Find exactly what fits your goals, by brand, protein target, ingredient grade, or dietary need.</p>
+      <div class="explore-cta-btns">
+        <a href="/" class="explore-cta-btn">Open Bar Finder</a>
+        <a href="/clean-protein-bars.html" class="explore-cta-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);">Clean Bars Guide</a>
+        <a href="/ingredient_scoring.html" class="explore-cta-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);">How We Score</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .content -->
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+      <a href="/clean-protein-bars.html">Clean Bars Guide</a>
+      <a href="/quest-bars.html">Quest Review</a>
+      <a href="/rxbar-review.html">RXBAR Review</a>
+      <a href="/barebells-review.html">Barebells Review</a>
+    </nav>
+  </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+</footer>
+
+<script>
+/* Nav toggle */
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.querySelector('.site-nav-links');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* Brand data for filtering/sorting */
+const BRAND_DATA = [
+  {"brand": "Gryp", "category": "Protein First", "flavors": 3, "avg_calories": 182.0, "avg_protein": 25.0, "avg_p100": 13.8, "avg_fiber": 6.0, "avg_net_carbs": 15.3, "pct_sugar_alcohol": 100, "avg_score": 9.7, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 1, "cat_rank": 1},
+  {"brand": "Jacob", "category": "Solid Macro Profile", "flavors": 3, "avg_calories": 220.0, "avg_protein": 20.0, "avg_p100": 9.1, "avg_fiber": 9.0, "avg_net_carbs": 11.0, "pct_sugar_alcohol": 0, "avg_score": 9.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 2, "cat_rank": 1},
+  {"brand": "PEAK Protein", "category": "Meal Replacement / High Cal", "flavors": 3, "avg_calories": 290.0, "avg_protein": 19.7, "avg_p100": 6.8, "avg_fiber": 8.0, "avg_net_carbs": 9.3, "pct_sugar_alcohol": 0, "avg_score": 10.8, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 3, "cat_rank": 1},
+  {"brand": "Linear", "category": "Balanced Middle", "flavors": 3, "avg_calories": 247.0, "avg_protein": 20.0, "avg_p100": 8.1, "avg_fiber": 9.0, "avg_net_carbs": 12.3, "pct_sugar_alcohol": 100, "avg_score": 9.4, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 4, "cat_rank": 1},
+  {"brand": "Legion", "category": "Meal Replacement / High Cal", "flavors": 1, "avg_calories": 250.0, "avg_protein": 20.0, "avg_p100": 8.0, "avg_fiber": 9.0, "avg_net_carbs": 14.0, "pct_sugar_alcohol": 0, "avg_score": 9.4, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 5, "cat_rank": 2},
+  {"brand": "Gutsy", "category": "Solid Macro Profile", "flavors": 2, "avg_calories": 220.0, "avg_protein": 28.0, "avg_p100": 12.7, "avg_fiber": 5.0, "avg_net_carbs": 14.0, "pct_sugar_alcohol": 0, "avg_score": 8.2, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 6, "cat_rank": 2},
+  {"brand": "Unhinged", "category": "Whole Food / High Fiber", "flavors": 1, "avg_calories": 190.0, "avg_protein": 11.0, "avg_p100": 5.8, "avg_fiber": 8.0, "avg_net_carbs": 13.0, "pct_sugar_alcohol": 0, "avg_score": 10.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 7, "cat_rank": 1},
+  {"brand": "Par Bar", "category": "Balanced Middle", "flavors": 1, "avg_calories": 210.0, "avg_protein": 16.0, "avg_p100": 7.6, "avg_fiber": 4.0, "avg_net_carbs": 16.0, "pct_sugar_alcohol": 0, "avg_score": 10.7, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 8, "cat_rank": 2},
+  {"brand": "Atlas", "category": "Solid Macro Profile", "flavors": 3, "avg_calories": 210.0, "avg_protein": 20.0, "avg_p100": 9.5, "avg_fiber": 10.0, "avg_net_carbs": 10.3, "pct_sugar_alcohol": 0, "avg_score": 7.2, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 9, "cat_rank": 3},
+  {"brand": "Healthy Eating on the Go", "category": "Balanced Middle", "flavors": 15, "avg_calories": 210.0, "avg_protein": 12.6, "avg_p100": 6.0, "avg_fiber": 4.8, "avg_net_carbs": 13.6, "pct_sugar_alcohol": 0, "avg_score": 11.0, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 10, "cat_rank": 3},
+  {"brand": "Off the Farm", "category": "Meal Replacement / High Cal", "flavors": 5, "avg_calories": 434.0, "avg_protein": 22.0, "avg_p100": 5.1, "avg_fiber": 4.6, "avg_net_carbs": 29.8, "pct_sugar_alcohol": 0, "avg_score": 11.1, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 11, "cat_rank": 3},
+  {"brand": "Rello", "category": "Balanced Middle", "flavors": 1, "avg_calories": 240.0, "avg_protein": 20.0, "avg_p100": 8.3, "avg_fiber": 9.0, "avg_net_carbs": 11.0, "pct_sugar_alcohol": 0, "avg_score": 7.4, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 12, "cat_rank": 4},
+  {"brand": "The Feel Bar", "category": "Solid Macro Profile", "flavors": 11, "avg_calories": 157.0, "avg_protein": 13.2, "avg_p100": 8.7, "avg_fiber": 5.7, "avg_net_carbs": 5.9, "pct_sugar_alcohol": 0, "avg_score": 7.7, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 13, "cat_rank": 4},
+  {"brand": "B.T.R. Nation", "category": "Whole Food / High Fiber", "flavors": 7, "avg_calories": 194.0, "avg_protein": 11.0, "avg_p100": 5.5, "avg_fiber": 8.1, "avg_net_carbs": 5.4, "pct_sugar_alcohol": 0, "avg_score": 8.6, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 14, "cat_rank": 2},
+  {"brand": "Quest", "category": "Protein First", "flavors": 16, "avg_calories": 182.0, "avg_protein": 19.9, "avg_p100": 11.0, "avg_fiber": 12.1, "avg_net_carbs": 7.1, "pct_sugar_alcohol": 100, "avg_score": 3.9, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 15, "cat_rank": 2},
+  {"brand": "Musashi", "category": "Meal Replacement / High Cal", "flavors": 6, "avg_calories": 328.0, "avg_protein": 45.2, "avg_p100": 13.8, "avg_fiber": 2.8, "avg_net_carbs": 12.3, "pct_sugar_alcohol": 100, "avg_score": 5.8, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 16, "cat_rank": 4},
+  {"brand": "Daryl's Bars", "category": "Balanced Middle", "flavors": 19, "avg_calories": 234.0, "avg_protein": 20.5, "avg_p100": 8.8, "avg_fiber": 9.2, "avg_net_carbs": 10.1, "pct_sugar_alcohol": 0, "avg_score": 6.0, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 17, "cat_rank": 5},
+  {"brand": "Transparent Labs", "category": "Meal Replacement / High Cal", "flavors": 7, "avg_calories": 271.0, "avg_protein": 15.4, "avg_p100": 5.7, "avg_fiber": 3.3, "avg_net_carbs": 18.4, "pct_sugar_alcohol": 0, "avg_score": 9.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 18, "cat_rank": 5},
+  {"brand": "RXBAR", "category": "Balanced Middle", "flavors": 12, "avg_calories": 213.0, "avg_protein": 12.5, "avg_p100": 5.9, "avg_fiber": 4.7, "avg_net_carbs": 19.8, "pct_sugar_alcohol": 0, "avg_score": 9.2, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 19, "cat_rank": 6},
+  {"brand": "Junkless", "category": "Whole Food / High Fiber", "flavors": 5, "avg_calories": 194.0, "avg_protein": 15.0, "avg_p100": 7.7, "avg_fiber": 7.2, "avg_net_carbs": 14.2, "pct_sugar_alcohol": 0, "avg_score": 7.2, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 20, "cat_rank": 3},
+  {"brand": "Mosh", "category": "Whole Food / High Fiber", "flavors": 10, "avg_calories": 169.0, "avg_protein": 11.9, "avg_p100": 7.1, "avg_fiber": 7.0, "avg_net_carbs": 7.9, "pct_sugar_alcohol": 70, "avg_score": 7.5, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 21, "cat_rank": 4},
+  {"brand": "Tusol", "category": "Whole Food / High Fiber", "flavors": 2, "avg_calories": 190.0, "avg_protein": 15.0, "avg_p100": 7.9, "avg_fiber": 10.5, "avg_net_carbs": 9.5, "pct_sugar_alcohol": 0, "avg_score": 5.5, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 22, "cat_rank": 5},
+  {"brand": "Nick's", "category": "Balanced Middle", "flavors": 5, "avg_calories": 204.0, "avg_protein": 15.0, "avg_p100": 7.4, "avg_fiber": 4.8, "avg_net_carbs": 8.3, "pct_sugar_alcohol": 100, "avg_score": 7.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 23, "cat_rank": 7},
+  {"brand": "1st Phorm", "category": "Meal Replacement / High Cal", "flavors": 4, "avg_calories": 285.0, "avg_protein": 15.0, "avg_p100": 5.3, "avg_fiber": 3.2, "avg_net_carbs": 19.0, "pct_sugar_alcohol": 0, "avg_score": 9.7, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 24, "cat_rank": 6},
+  {"brand": "Forward", "category": "Meal Replacement / High Cal", "flavors": 4, "avg_calories": 275.0, "avg_protein": 12.0, "avg_p100": 4.4, "avg_fiber": 4.0, "avg_net_carbs": 13.5, "pct_sugar_alcohol": 0, "avg_score": 9.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "A", "overall_rank": 25, "cat_rank": 7},
+  {"brand": "Magic Spoon", "category": "Solid Macro Profile", "flavors": 8, "avg_calories": 134.0, "avg_protein": 11.8, "avg_p100": 8.8, "avg_fiber": 7.0, "avg_net_carbs": 9.8, "pct_sugar_alcohol": 10, "avg_score": 6.2, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 26, "cat_rank": 5},
+  {"brand": "KIND Protein Max", "category": "Balanced Middle", "flavors": 4, "avg_calories": 242.0, "avg_protein": 20.0, "avg_p100": 8.2, "avg_fiber": 9.5, "avg_net_carbs": 14.0, "pct_sugar_alcohol": 0, "avg_score": 5.5, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 27, "cat_rank": 8},
+  {"brand": "Immortal", "category": "Solid Macro Profile", "flavors": 1, "avg_calories": 160.0, "avg_protein": 15.0, "avg_p100": 9.4, "avg_fiber": 4.0, "avg_net_carbs": 10.0, "pct_sugar_alcohol": 0, "avg_score": 6.9, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 28, "cat_rank": 6},
+  {"brand": "Send", "category": "Balanced Middle", "flavors": 4, "avg_calories": 230.0, "avg_protein": 12.0, "avg_p100": 5.2, "avg_fiber": 4.2, "avg_net_carbs": 21.2, "pct_sugar_alcohol": 0, "avg_score": 9.0, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 29, "cat_rank": 9},
+  {"brand": "Real Food Bar", "category": "Whole Food / High Fiber", "flavors": 6, "avg_calories": 210.0, "avg_protein": 15.0, "avg_p100": 7.1, "avg_fiber": 10.8, "avg_net_carbs": 13.2, "pct_sugar_alcohol": 0, "avg_score": 5.2, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 30, "cat_rank": 6},
+  {"brand": "No Cow", "category": "Protein First", "flavors": 9, "avg_calories": 200.0, "avg_protein": 20.0, "avg_p100": 10.0, "avg_fiber": 14.8, "avg_net_carbs": 7.7, "pct_sugar_alcohol": 100, "avg_score": 2.0, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 31, "cat_rank": 3},
+  {"brand": "Redefine", "category": "Meal Replacement / High Cal", "flavors": 4, "avg_calories": 315.0, "avg_protein": 14.5, "avg_p100": 4.6, "avg_fiber": 10.5, "avg_net_carbs": 20.8, "pct_sugar_alcohol": 0, "avg_score": 6.5, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 32, "cat_rank": 8},
+  {"brand": "Alio", "category": "Solid Macro Profile", "flavors": 3, "avg_calories": 170.0, "avg_protein": 15.0, "avg_p100": 8.8, "avg_fiber": 9.0, "avg_net_carbs": 14.0, "pct_sugar_alcohol": 0, "avg_score": 4.6, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 33, "cat_rank": 7},
+  {"brand": "Posana", "category": "Solid Macro Profile", "flavors": 3, "avg_calories": 227.0, "avg_protein": 20.0, "avg_p100": 8.8, "avg_fiber": 8.3, "avg_net_carbs": 11.2, "pct_sugar_alcohol": 100, "avg_score": 4.7, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 34, "cat_rank": 8},
+  {"brand": "Promix", "category": "Protein First", "flavors": 13, "avg_calories": 148.0, "avg_protein": 15.2, "avg_p100": 10.2, "avg_fiber": 5.2, "avg_net_carbs": 11.8, "pct_sugar_alcohol": 0, "avg_score": 5.0, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 35, "cat_rank": 4},
+  {"brand": "Stars and Honey", "category": "Solid Macro Profile", "flavors": 10, "avg_calories": 178.0, "avg_protein": 14.6, "avg_p100": 8.2, "avg_fiber": 5.6, "avg_net_carbs": 10.4, "pct_sugar_alcohol": 90, "avg_score": 5.9, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 36, "cat_rank": 9},
+  {"brand": "David", "category": "Protein First", "flavors": 12, "avg_calories": 152.0, "avg_protein": 25.3, "avg_p100": 16.7, "avg_fiber": 2.2, "avg_net_carbs": 7.5, "pct_sugar_alcohol": 100, "avg_score": 2.3, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 37, "cat_rank": 5},
+  {"brand": "Bullet Proof", "category": "Whole Food / High Fiber", "flavors": 2, "avg_calories": 185.0, "avg_protein": 11.0, "avg_p100": 5.9, "avg_fiber": 8.0, "avg_net_carbs": 4.0, "pct_sugar_alcohol": 0, "avg_score": 6.2, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 38, "cat_rank": 7},
+  {"brand": "IQ Bar", "category": "Whole Food / High Fiber", "flavors": 10, "avg_calories": 174.0, "avg_protein": 12.0, "avg_p100": 6.9, "avg_fiber": 7.2, "avg_net_carbs": 2.5, "pct_sugar_alcohol": 0, "avg_score": 5.8, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 39, "cat_rank": 8},
+  {"brand": "Genius Gourmet", "category": "Balanced Middle", "flavors": 9, "avg_calories": 152.0, "avg_protein": 10.8, "avg_p100": 7.5, "avg_fiber": 3.9, "avg_net_carbs": 3.9, "pct_sugar_alcohol": 60, "avg_score": 6.7, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 40, "cat_rank": 10},
+  {"brand": "Supervibe", "category": "Balanced Middle", "flavors": 3, "avg_calories": 100.0, "avg_protein": 5.0, "avg_p100": 5.0, "avg_fiber": 3.3, "avg_net_carbs": 12.0, "pct_sugar_alcohol": 0, "avg_score": 8.1, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 41, "cat_rank": 11},
+  {"brand": "BSN", "category": "Solid Macro Profile", "flavors": 4, "avg_calories": 198.0, "avg_protein": 19.5, "avg_p100": 9.9, "avg_fiber": 5.8, "avg_net_carbs": 12.6, "pct_sugar_alcohol": 100, "avg_score": 4.2, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 42, "cat_rank": 10},
+  {"brand": "Munk Pack", "category": "Whole Food / High Fiber", "flavors": 9, "avg_calories": 173.0, "avg_protein": 9.7, "avg_p100": 5.4, "avg_fiber": 5.4, "avg_net_carbs": 16.7, "pct_sugar_alcohol": 20, "avg_score": 6.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "C", "overall_rank": 43, "cat_rank": 9},
+  {"brand": "Mush", "category": "Meal Replacement / High Cal", "flavors": 3, "avg_calories": 270.0, "avg_protein": 15.0, "avg_p100": 5.6, "avg_fiber": 3.3, "avg_net_carbs": 19.7, "pct_sugar_alcohol": 0, "avg_score": 7.2, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 44, "cat_rank": 9},
+  {"brand": "Fiber One", "category": "Protein First", "flavors": 4, "avg_calories": 90.0, "avg_protein": 10.0, "avg_p100": 11.1, "avg_fiber": 5.2, "avg_net_carbs": 5.0, "pct_sugar_alcohol": 0, "avg_score": 3.1, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 45, "cat_rank": 6},
+  {"brand": "Legendary", "category": "Protein First", "flavors": 15, "avg_calories": 180.0, "avg_protein": 20.0, "avg_p100": 11.2, "avg_fiber": 8.0, "avg_net_carbs": 9.9, "pct_sugar_alcohol": 100, "avg_score": 1.9, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 46, "cat_rank": 7},
+  {"brand": "Perfect Bar", "category": "Snack / Low Protein", "flavors": 17, "avg_calories": 246.0, "avg_protein": 9.9, "avg_p100": 4.0, "avg_fiber": 2.8, "avg_net_carbs": 17.4, "pct_sugar_alcohol": 10, "avg_score": 7.9, "typical_grade": "A", "best_grade": "A", "worst_grade": "B", "overall_rank": 47, "cat_rank": 1},
+  {"brand": "NutRaw", "category": "Snack / Low Protein", "flavors": 4, "avg_calories": 160.0, "avg_protein": 7.0, "avg_p100": 4.4, "avg_fiber": 4.5, "avg_net_carbs": 11.5, "pct_sugar_alcohol": 0, "avg_score": 6.8, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 48, "cat_rank": 2},
+  {"brand": "Love Good", "category": "Whole Food / High Fiber", "flavors": 12, "avg_calories": 205.0, "avg_protein": 13.3, "avg_p100": 6.4, "avg_fiber": 7.8, "avg_net_carbs": 7.5, "pct_sugar_alcohol": 40, "avg_score": 4.4, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 49, "cat_rank": 10},
+  {"brand": "Elemental", "category": "Snack / Low Protein", "flavors": 6, "avg_calories": 222.0, "avg_protein": 7.0, "avg_p100": 3.1, "avg_fiber": 4.0, "avg_net_carbs": 12.2, "pct_sugar_alcohol": 0, "avg_score": 7.7, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 50, "cat_rank": 3},
+  {"brand": "Quantum", "category": "Snack / Low Protein", "flavors": 6, "avg_calories": 203.0, "avg_protein": 10.0, "avg_p100": 4.9, "avg_fiber": 3.0, "avg_net_carbs": 17.3, "pct_sugar_alcohol": 0, "avg_score": 7.0, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 51, "cat_rank": 4},
+  {"brand": "Nature Valley", "category": "Whole Food / High Fiber", "flavors": 6, "avg_calories": 197.0, "avg_protein": 10.0, "avg_p100": 5.1, "avg_fiber": 5.0, "avg_net_carbs": 10.3, "pct_sugar_alcohol": 0, "avg_score": 6.1, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 52, "cat_rank": 11},
+  {"brand": "Jacked Granny", "category": "Solid Macro Profile", "flavors": 2, "avg_calories": 180.0, "avg_protein": 15.5, "avg_p100": 8.6, "avg_fiber": 4.5, "avg_net_carbs": 20.0, "pct_sugar_alcohol": 0, "avg_score": 4.3, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 53, "cat_rank": 11},
+  {"brand": "Bearded Bros", "category": "Snack / Low Protein", "flavors": 12, "avg_calories": 203.0, "avg_protein": 6.6, "avg_p100": 3.2, "avg_fiber": 4.4, "avg_net_carbs": 19.5, "pct_sugar_alcohol": 0, "avg_score": 7.4, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 54, "cat_rank": 5},
+  {"brand": "Amirita", "category": "Meal Replacement / High Cal", "flavors": 8, "avg_calories": 272.0, "avg_protein": 11.6, "avg_p100": 4.3, "avg_fiber": 10.0, "avg_net_carbs": 17.1, "pct_sugar_alcohol": 0, "avg_score": 4.6, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 55, "cat_rank": 10},
+  {"brand": "Trubar", "category": "Whole Food / High Fiber", "flavors": 12, "avg_calories": 190.0, "avg_protein": 12.0, "avg_p100": 6.3, "avg_fiber": 11.8, "avg_net_carbs": 11.2, "pct_sugar_alcohol": 0, "avg_score": 2.7, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 56, "cat_rank": 12},
+  {"brand": "Jonesbar", "category": "Snack / Low Protein", "flavors": 8, "avg_calories": 188.0, "avg_protein": 4.8, "avg_p100": 2.5, "avg_fiber": 4.5, "avg_net_carbs": 21.2, "pct_sugar_alcohol": 0, "avg_score": 7.5, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 57, "cat_rank": 6},
+  {"brand": "Skout", "category": "Whole Food / High Fiber", "flavors": 3, "avg_calories": 207.0, "avg_protein": 10.0, "avg_p100": 4.9, "avg_fiber": 5.3, "avg_net_carbs": 24.0, "pct_sugar_alcohol": 0, "avg_score": 5.8, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 58, "cat_rank": 13},
+  {"brand": "Simply Protein", "category": "Whole Food / High Fiber", "flavors": 8, "avg_calories": 134.0, "avg_protein": 10.2, "avg_p100": 7.5, "avg_fiber": 5.9, "avg_net_carbs": 8.1, "pct_sugar_alcohol": 100, "avg_score": 4.0, "typical_grade": "B", "best_grade": "A", "worst_grade": "D", "overall_rank": 59, "cat_rank": 14},
+  {"brand": "Atkins", "category": "Whole Food / High Fiber", "flavors": 9, "avg_calories": 204.0, "avg_protein": 15.6, "avg_p100": 7.7, "avg_fiber": 10.4, "avg_net_carbs": 9.8, "pct_sugar_alcohol": 10, "avg_score": 2.1, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 60, "cat_rank": 15},
+  {"brand": "Aloha", "category": "Balanced Middle", "flavors": 18, "avg_calories": 231.0, "avg_protein": 14.0, "avg_p100": 6.1, "avg_fiber": 9.7, "avg_net_carbs": 15.3, "pct_sugar_alcohol": 0, "avg_score": 3.2, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 61, "cat_rank": 12},
+  {"brand": "Thunderbird", "category": "Snack / Low Protein", "flavors": 14, "avg_calories": 214.0, "avg_protein": 4.7, "avg_p100": 2.2, "avg_fiber": 3.9, "avg_net_carbs": 19.2, "pct_sugar_alcohol": 0, "avg_score": 7.6, "typical_grade": "A", "best_grade": "A", "worst_grade": "C", "overall_rank": 62, "cat_rank": 7},
+  {"brand": "MET-Rx", "category": "Meal Replacement / High Cal", "flavors": 5, "avg_calories": 392.0, "avg_protein": 29.2, "avg_p100": 7.5, "avg_fiber": 3.2, "avg_net_carbs": 39.5, "pct_sugar_alcohol": 80, "avg_score": 4.8, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 63, "cat_rank": 11},
+  {"brand": "Ratio", "category": "Whole Food / High Fiber", "flavors": 2, "avg_calories": 110.0, "avg_protein": 2.5, "avg_p100": 2.2, "avg_fiber": 6.0, "avg_net_carbs": 4.5, "pct_sugar_alcohol": 100, "avg_score": 6.7, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 64, "cat_rank": 16},
+  {"brand": "Fro Pro", "category": "Snack / Low Protein", "flavors": 15, "avg_calories": 224.0, "avg_protein": 10.0, "avg_p100": 4.5, "avg_fiber": 2.9, "avg_net_carbs": 15.5, "pct_sugar_alcohol": 0, "avg_score": 6.5, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 65, "cat_rank": 8},
+  {"brand": "Lineage Provisions", "category": "Protein First", "flavors": 2, "avg_calories": 180.0, "avg_protein": 20.0, "avg_p100": 11.1, "avg_fiber": 2.5, "avg_net_carbs": 12.0, "pct_sugar_alcohol": 0, "avg_score": 2.7, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 66, "cat_rank": 8},
+  {"brand": "Wonderslim", "category": "Solid Macro Profile", "flavors": 23, "avg_calories": 166.0, "avg_protein": 14.3, "avg_p100": 8.7, "avg_fiber": 4.0, "avg_net_carbs": 12.1, "pct_sugar_alcohol": 50, "avg_score": 3.4, "typical_grade": "B", "best_grade": "A", "worst_grade": "F", "overall_rank": 67, "cat_rank": 12},
+  {"brand": "Laird", "category": "Whole Food / High Fiber", "flavors": 7, "avg_calories": 183.0, "avg_protein": 10.0, "avg_p100": 5.5, "avg_fiber": 6.0, "avg_net_carbs": 14.1, "pct_sugar_alcohol": 0, "avg_score": 4.3, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 68, "cat_rank": 17},
+  {"brand": "Kize", "category": "Snack / Low Protein", "flavors": 12, "avg_calories": 202.0, "avg_protein": 9.0, "avg_p100": 4.4, "avg_fiber": 2.6, "avg_net_carbs": 16.4, "pct_sugar_alcohol": 0, "avg_score": 6.2, "typical_grade": "B", "best_grade": "A", "worst_grade": "C", "overall_rank": 69, "cat_rank": 9},
+  {"brand": "Larabar", "category": "Snack / Low Protein", "flavors": 26, "avg_calories": 204.0, "avg_protein": 4.1, "avg_p100": 2.0, "avg_fiber": 3.6, "avg_net_carbs": 21.5, "pct_sugar_alcohol": 0, "avg_score": 6.7, "typical_grade": "B", "best_grade": "A", "worst_grade": "B", "overall_rank": 70, "cat_rank": 10},
+  {"brand": "Pure Protein", "category": "Solid Macro Profile", "flavors": 18, "avg_calories": 192.0, "avg_protein": 18.9, "avg_p100": 9.9, "avg_fiber": 2.0, "avg_net_carbs": 13.8, "pct_sugar_alcohol": 100, "avg_score": 2.8, "typical_grade": "C", "best_grade": "A", "worst_grade": "D", "overall_rank": 71, "cat_rank": 13},
+  {"brand": "Rise", "category": "Balanced Middle", "flavors": 6, "avg_calories": 248.0, "avg_protein": 14.5, "avg_p100": 5.9, "avg_fiber": 3.2, "avg_net_carbs": 18.7, "pct_sugar_alcohol": 0, "avg_score": 4.5, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 72, "cat_rank": 13},
+  {"brand": "Ready", "category": "Whole Food / High Fiber", "flavors": 8, "avg_calories": 194.0, "avg_protein": 15.0, "avg_p100": 7.8, "avg_fiber": 7.0, "avg_net_carbs": 17.8, "pct_sugar_alcohol": 0, "avg_score": 1.9, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 73, "cat_rank": 18},
+  {"brand": "Tosi", "category": "Snack / Low Protein", "flavors": 8, "avg_calories": 135.0, "avg_protein": 5.9, "avg_p100": 4.4, "avg_fiber": 2.5, "avg_net_carbs": 7.9, "pct_sugar_alcohol": 0, "avg_score": 5.5, "typical_grade": "B", "best_grade": "B", "worst_grade": "B", "overall_rank": 74, "cat_rank": 11},
+  {"brand": "Barebells", "category": "Solid Macro Profile", "flavors": 25, "avg_calories": 206.0, "avg_protein": 18.4, "avg_p100": 8.9, "avg_fiber": 3.4, "avg_net_carbs": 13.7, "pct_sugar_alcohol": 100, "avg_score": 2.6, "typical_grade": "C", "best_grade": "B", "worst_grade": "F", "overall_rank": 75, "cat_rank": 14},
+  {"brand": "think!", "category": "Solid Macro Profile", "flavors": 22, "avg_calories": 201.0, "avg_protein": 16.8, "avg_p100": 8.3, "avg_fiber": 3.1, "avg_net_carbs": 15.6, "pct_sugar_alcohol": 90, "avg_score": 3.0, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 76, "cat_rank": 15},
+  {"brand": "Fulfil", "category": "Solid Macro Profile", "flavors": 5, "avg_calories": 174.0, "avg_protein": 16.0, "avg_p100": 9.2, "avg_fiber": 1.0, "avg_net_carbs": 10.9, "pct_sugar_alcohol": 100, "avg_score": 3.1, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 77, "cat_rank": 16},
+  {"brand": "MRE BAR", "category": "Solid Macro Profile", "flavors": 5, "avg_calories": 222.0, "avg_protein": 20.0, "avg_p100": 9.0, "avg_fiber": 4.6, "avg_net_carbs": 12.8, "pct_sugar_alcohol": 0, "avg_score": 1.4, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 78, "cat_rank": 17},
+  {"brand": "Good Word", "category": "Whole Food / High Fiber", "flavors": 4, "avg_calories": 195.0, "avg_protein": 10.0, "avg_p100": 5.2, "avg_fiber": 5.0, "avg_net_carbs": 11.0, "pct_sugar_alcohol": 0, "avg_score": 3.4, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 79, "cat_rank": 19},
+  {"brand": "One", "category": "Solid Macro Profile", "flavors": 15, "avg_calories": 223.0, "avg_protein": 19.6, "avg_p100": 8.8, "avg_fiber": 6.3, "avg_net_carbs": 15.5, "pct_sugar_alcohol": 100, "avg_score": 0.8, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 80, "cat_rank": 18},
+  {"brand": "Equate", "category": "Whole Food / High Fiber", "flavors": 4, "avg_calories": 180.0, "avg_protein": 11.0, "avg_p100": 5.7, "avg_fiber": 6.5, "avg_net_carbs": 7.8, "pct_sugar_alcohol": 100, "avg_score": 2.4, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 81, "cat_rank": 20},
+  {"brand": "Afar", "category": "Balanced Middle", "flavors": 5, "avg_calories": 170.0, "avg_protein": 10.0, "avg_p100": 5.9, "avg_fiber": 2.0, "avg_net_carbs": 14.0, "pct_sugar_alcohol": 0, "avg_score": 3.8, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 82, "cat_rank": 14},
+  {"brand": "The Gluten Free Brothers", "category": "Balanced Middle", "flavors": 5, "avg_calories": 234.0, "avg_protein": 12.0, "avg_p100": 5.1, "avg_fiber": 3.0, "avg_net_carbs": 25.4, "pct_sugar_alcohol": 0, "avg_score": 3.8, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 83, "cat_rank": 15},
+  {"brand": "Prima", "category": "Balanced Middle", "flavors": 4, "avg_calories": 242.0, "avg_protein": 21.0, "avg_p100": 8.7, "avg_fiber": 1.2, "avg_net_carbs": 14.2, "pct_sugar_alcohol": 0, "avg_score": 2.4, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 84, "cat_rank": 16},
+  {"brand": "Raw Rev", "category": "Balanced Middle", "flavors": 4, "avg_calories": 182.0, "avg_protein": 11.5, "avg_p100": 6.3, "avg_fiber": 2.2, "avg_net_carbs": 16.2, "pct_sugar_alcohol": 0, "avg_score": 3.3, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 85, "cat_rank": 17},
+  {"brand": "Truvani", "category": "Snack / Low Protein", "flavors": 12, "avg_calories": 227.0, "avg_protein": 6.0, "avg_p100": 2.7, "avg_fiber": 3.8, "avg_net_carbs": 19.3, "pct_sugar_alcohol": 0, "avg_score": 4.6, "typical_grade": "B", "best_grade": "B", "worst_grade": "C", "overall_rank": 86, "cat_rank": 12},
+  {"brand": "KetoBars.com", "category": "Snack / Low Protein", "flavors": 3, "avg_calories": 240.0, "avg_protein": 6.7, "avg_p100": 2.8, "avg_fiber": 5.7, "avg_net_carbs": 6.2, "pct_sugar_alcohol": 100, "avg_score": 3.5, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 87, "cat_rank": 13},
+  {"brand": "GNC Total Lean", "category": "Solid Macro Profile", "flavors": 4, "avg_calories": 195.0, "avg_protein": 16.0, "avg_p100": 8.2, "avg_fiber": 1.0, "avg_net_carbs": 13.2, "pct_sugar_alcohol": 0, "avg_score": 2.2, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 88, "cat_rank": 19},
+  {"brand": "Melo", "category": "Solid Macro Profile", "flavors": 6, "avg_calories": 163.0, "avg_protein": 15.8, "avg_p100": 9.7, "avg_fiber": 2.8, "avg_net_carbs": 12.0, "pct_sugar_alcohol": 100, "avg_score": 0.6, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 89, "cat_rank": 20},
+  {"brand": "KIND", "category": "Whole Food / High Fiber", "flavors": 15, "avg_calories": 173.0, "avg_protein": 4.8, "avg_p100": 2.8, "avg_fiber": 5.6, "avg_net_carbs": 11.1, "pct_sugar_alcohol": 0, "avg_score": 3.4, "typical_grade": "B", "best_grade": "B", "worst_grade": "D", "overall_rank": 90, "cat_rank": 21},
+  {"brand": "Zing", "category": "Snack / Low Protein", "flavors": 5, "avg_calories": 224.0, "avg_protein": 10.2, "avg_p100": 4.5, "avg_fiber": 4.8, "avg_net_carbs": 17.0, "pct_sugar_alcohol": 0, "avg_score": 2.7, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 91, "cat_rank": 14},
+  {"brand": "Possible", "category": "Meal Replacement / High Cal", "flavors": 3, "avg_calories": 300.0, "avg_protein": 13.3, "avg_p100": 4.4, "avg_fiber": 4.0, "avg_net_carbs": 26.3, "pct_sugar_alcohol": 0, "avg_score": 2.9, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 92, "cat_rank": 12},
+  {"brand": "Mezcla", "category": "Balanced Middle", "flavors": 7, "avg_calories": 164.0, "avg_protein": 10.0, "avg_p100": 6.1, "avg_fiber": 4.7, "avg_net_carbs": 14.4, "pct_sugar_alcohol": 0, "avg_score": 1.3, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 93, "cat_rank": 18},
+  {"brand": "NuGo", "category": "Balanced Middle", "flavors": 30, "avg_calories": 178.0, "avg_protein": 11.7, "avg_p100": 6.6, "avg_fiber": 4.7, "avg_net_carbs": 19.2, "pct_sugar_alcohol": 10, "avg_score": 1.0, "typical_grade": "D", "best_grade": "B", "worst_grade": "F", "overall_rank": 94, "cat_rank": 19},
+  {"brand": "No Nuts!", "category": "Whole Food / High Fiber", "flavors": 4, "avg_calories": 188.0, "avg_protein": 12.0, "avg_p100": 6.4, "avg_fiber": 9.5, "avg_net_carbs": 19.2, "pct_sugar_alcohol": 0, "avg_score": -0.9, "typical_grade": "D", "best_grade": "D", "worst_grade": "D", "overall_rank": 95, "cat_rank": 22},
+  {"brand": "Neoh", "category": "Whole Food / High Fiber", "flavors": 5, "avg_calories": 117.0, "avg_protein": 2.4, "avg_p100": 2.0, "avg_fiber": 6.8, "avg_net_carbs": 5.6, "pct_sugar_alcohol": 0, "avg_score": 2.6, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 96, "cat_rank": 23},
+  {"brand": "Honey Stinger", "category": "Snack / Low Protein", "flavors": 3, "avg_calories": 193.0, "avg_protein": 8.7, "avg_p100": 4.5, "avg_fiber": 1.7, "avg_net_carbs": 18.0, "pct_sugar_alcohol": 0, "avg_score": 3.1, "typical_grade": "C", "best_grade": "B", "worst_grade": "C", "overall_rank": 97, "cat_rank": 15},
+  {"brand": "JustNosh", "category": "Balanced Middle", "flavors": 4, "avg_calories": 220.0, "avg_protein": 14.8, "avg_p100": 6.7, "avg_fiber": 3.5, "avg_net_carbs": 14.8, "pct_sugar_alcohol": 0, "avg_score": 1.1, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 98, "cat_rank": 20},
+  {"brand": "GoMacro", "category": "Meal Replacement / High Cal", "flavors": 17, "avg_calories": 268.0, "avg_protein": 9.9, "avg_p100": 3.7, "avg_fiber": 2.5, "avg_net_carbs": 33.9, "pct_sugar_alcohol": 0, "avg_score": 2.9, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 99, "cat_rank": 13},
+  {"brand": "Anabar", "category": "Meal Replacement / High Cal", "flavors": 7, "avg_calories": 286.0, "avg_protein": 20.0, "avg_p100": 7.0, "avg_fiber": 1.4, "avg_net_carbs": 28.1, "pct_sugar_alcohol": 0, "avg_score": 1.1, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 100, "cat_rank": 14},
+  {"brand": "Ghost", "category": "Meal Replacement / High Cal", "flavors": 3, "avg_calories": 263.0, "avg_protein": 20.0, "avg_p100": 7.6, "avg_fiber": 8.0, "avg_net_carbs": 11.5, "pct_sugar_alcohol": 100, "avg_score": -1.8, "typical_grade": "D", "best_grade": "D", "worst_grade": "F", "overall_rank": 101, "cat_rank": 15},
+  {"brand": "FITCRUNCH", "category": "Balanced Middle", "flavors": 17, "avg_calories": 222.0, "avg_protein": 17.2, "avg_p100": 7.8, "avg_fiber": 1.3, "avg_net_carbs": 10.5, "pct_sugar_alcohol": 100, "avg_score": 0.6, "typical_grade": "C", "best_grade": "B", "worst_grade": "F", "overall_rank": 102, "cat_rank": 21},
+  {"brand": "Bob's Red Mill", "category": "Snack / Low Protein", "flavors": 5, "avg_calories": 218.0, "avg_protein": 6.6, "avg_p100": 3.0, "avg_fiber": 3.2, "avg_net_carbs": 24.2, "pct_sugar_alcohol": 0, "avg_score": 2.4, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 103, "cat_rank": 16},
+  {"brand": "Wise Bar", "category": "Snack / Low Protein", "flavors": 4, "avg_calories": 180.0, "avg_protein": 4.0, "avg_p100": 2.2, "avg_fiber": 3.8, "avg_net_carbs": 26.0, "pct_sugar_alcohol": 0, "avg_score": 2.6, "typical_grade": "C", "best_grade": "C", "worst_grade": "C", "overall_rank": 104, "cat_rank": 17},
+  {"brand": "Verb", "category": "Snack / Low Protein", "flavors": 11, "avg_calories": 133.0, "avg_protein": 4.7, "avg_p100": 3.2, "avg_fiber": 2.3, "avg_net_carbs": 15.6, "pct_sugar_alcohol": 0, "avg_score": 2.6, "typical_grade": "C", "best_grade": "B", "worst_grade": "D", "overall_rank": 105, "cat_rank": 18},
+  {"brand": "Power Crunch", "category": "Balanced Middle", "flavors": 11, "avg_calories": 220.0, "avg_protein": 13.0, "avg_p100": 5.9, "avg_fiber": 0.8, "avg_net_carbs": 10.4, "pct_sugar_alcohol": 0, "avg_score": 1.3, "typical_grade": "C", "best_grade": "A", "worst_grade": "D", "overall_rank": 106, "cat_rank": 22},
+  {"brand": "Epic", "category": "Solid Macro Profile", "flavors": 10, "avg_calories": 120.0, "avg_protein": 9.7, "avg_p100": 8.4, "avg_fiber": 1.7, "avg_net_carbs": 2.1, "pct_sugar_alcohol": 0, "avg_score": -0.5, "typical_grade": "D", "best_grade": "D", "worst_grade": "D", "overall_rank": 107, "cat_rank": 21},
+  {"brand": "Kate's Real Food", "category": "Meal Replacement / High Cal", "flavors": 12, "avg_calories": 274.0, "avg_protein": 10.2, "avg_p100": 3.8, "avg_fiber": 3.8, "avg_net_carbs": 28.2, "pct_sugar_alcohol": 0, "avg_score": 1.3, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 108, "cat_rank": 16},
+  {"brand": "Misfits", "category": "Balanced Middle", "flavors": 7, "avg_calories": 190.0, "avg_protein": 14.7, "avg_p100": 7.8, "avg_fiber": 4.6, "avg_net_carbs": 14.9, "pct_sugar_alcohol": 100, "avg_score": -1.3, "typical_grade": "D", "best_grade": "D", "worst_grade": "F", "overall_rank": 109, "cat_rank": 23},
+  {"brand": "Pro Bar", "category": "Meal Replacement / High Cal", "flavors": 6, "avg_calories": 272.0, "avg_protein": 20.0, "avg_p100": 7.4, "avg_fiber": 2.0, "avg_net_carbs": 24.4, "pct_sugar_alcohol": 100, "avg_score": -0.4, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 110, "cat_rank": 17},
+  {"brand": "PROBar", "category": "Meal Replacement / High Cal", "flavors": 6, "avg_calories": 272.0, "avg_protein": 20.0, "avg_p100": 7.4, "avg_fiber": 2.0, "avg_net_carbs": 30.7, "pct_sugar_alcohol": 0, "avg_score": -0.4, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 111, "cat_rank": 17},
+  {"brand": "Orgain", "category": "Balanced Middle", "flavors": 4, "avg_calories": 150.0, "avg_protein": 10.0, "avg_p100": 6.7, "avg_fiber": 1.2, "avg_net_carbs": 16.0, "pct_sugar_alcohol": 100, "avg_score": 0.2, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 112, "cat_rank": 24},
+  {"brand": "Jambar", "category": "Snack / Low Protein", "flavors": 4, "avg_calories": 236.0, "avg_protein": 10.0, "avg_p100": 4.2, "avg_fiber": 4.0, "avg_net_carbs": 30.0, "pct_sugar_alcohol": 0, "avg_score": 0.2, "typical_grade": "C", "best_grade": "C", "worst_grade": "D", "overall_rank": 113, "cat_rank": 19},
+  {"brand": "CLIF Bar", "category": "Meal Replacement / High Cal", "flavors": 14, "avg_calories": 257.0, "avg_protein": 10.2, "avg_p100": 4.0, "avg_fiber": 5.0, "avg_net_carbs": 37.1, "pct_sugar_alcohol": 0, "avg_score": -0.2, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 114, "cat_rank": 19},
+  {"brand": "Clif Builders", "category": "Meal Replacement / High Cal", "flavors": 10, "avg_calories": 251.0, "avg_protein": 17.2, "avg_p100": 6.8, "avg_fiber": 2.7, "avg_net_carbs": 22.8, "pct_sugar_alcohol": 0, "avg_score": -1.3, "typical_grade": "F", "best_grade": "A", "worst_grade": "F", "overall_rank": 115, "cat_rank": 20},
+  {"brand": "Built", "category": "Protein First", "flavors": 13, "avg_calories": 148.0, "avg_protein": 15.9, "avg_p100": 10.8, "avg_fiber": 0.0, "avg_net_carbs": 15.3, "pct_sugar_alcohol": 0, "avg_score": -2.8, "typical_grade": "D", "best_grade": "D", "worst_grade": "F", "overall_rank": 116, "cat_rank": 9},
+  {"brand": "88 Acres", "category": "Meal Replacement / High Cal", "flavors": 2, "avg_calories": 260.0, "avg_protein": 12.0, "avg_p100": 4.6, "avg_fiber": 3.5, "avg_net_carbs": 15.0, "pct_sugar_alcohol": 0, "avg_score": -0.8, "typical_grade": "D", "best_grade": "D", "worst_grade": "D", "overall_rank": 117, "cat_rank": 21},
+  {"brand": "Lenny & Larry's", "category": "Whole Food / High Fiber", "flavors": 11, "avg_calories": 227.0, "avg_protein": 8.0, "avg_p100": 3.5, "avg_fiber": 5.0, "avg_net_carbs": 28.9, "pct_sugar_alcohol": 0, "avg_score": -0.8, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 118, "cat_rank": 24},
+  {"brand": "Blake's", "category": "Snack / Low Protein", "flavors": 3, "avg_calories": 103.0, "avg_protein": 5.0, "avg_p100": 4.8, "avg_fiber": 1.7, "avg_net_carbs": 12.7, "pct_sugar_alcohol": 0, "avg_score": -0.5, "typical_grade": "D", "best_grade": "D", "worst_grade": "D", "overall_rank": 119, "cat_rank": 20},
+  {"brand": "Alani", "category": "Balanced Middle", "flavors": 4, "avg_calories": 205.0, "avg_protein": 15.8, "avg_p100": 7.7, "avg_fiber": 1.2, "avg_net_carbs": 17.5, "pct_sugar_alcohol": 0, "avg_score": -2.1, "typical_grade": "D", "best_grade": "D", "worst_grade": "D", "overall_rank": 120, "cat_rank": 25},
+  {"brand": "Luna", "category": "Snack / Low Protein", "flavors": 9, "avg_calories": 196.0, "avg_protein": 7.8, "avg_p100": 4.0, "avg_fiber": 2.8, "avg_net_carbs": 24.9, "pct_sugar_alcohol": 0, "avg_score": -1.6, "typical_grade": "D", "best_grade": "C", "worst_grade": "F", "overall_rank": 121, "cat_rank": 21},
+  {"brand": "Bobo's", "category": "Snack / Low Protein", "flavors": 21, "avg_calories": 191.0, "avg_protein": 3.4, "avg_p100": 1.8, "avg_fiber": 2.3, "avg_net_carbs": 26.8, "pct_sugar_alcohol": 0, "avg_score": -0.8, "typical_grade": "D", "best_grade": "C", "worst_grade": "D", "overall_rank": 122, "cat_rank": 22},
+  {"brand": "Gatorade", "category": "Meal Replacement / High Cal", "flavors": 4, "avg_calories": 352.0, "avg_protein": 20.0, "avg_p100": 5.7, "avg_fiber": 0.5, "avg_net_carbs": 39.5, "pct_sugar_alcohol": 0, "avg_score": -3.0, "typical_grade": "F", "best_grade": "C", "worst_grade": "F", "overall_rank": 123, "cat_rank": 22},
+  {"brand": "Clif ZBar", "category": "Snack / Low Protein", "flavors": 4, "avg_calories": 130.0, "avg_protein": 5.0, "avg_p100": 3.8, "avg_fiber": 2.0, "avg_net_carbs": 21.0, "pct_sugar_alcohol": 0, "avg_score": -2.7, "typical_grade": "D", "best_grade": "D", "worst_grade": "F", "overall_rank": 124, "cat_rank": 23},
+  {"brand": "The Maple Brothers", "category": "Snack / Low Protein", "flavors": 3, "avg_calories": 123.0, "avg_protein": 2.3, "avg_p100": 1.9, "avg_fiber": 2.7, "avg_net_carbs": 16.7, "pct_sugar_alcohol": 0, "avg_score": -2.6, "typical_grade": "D", "best_grade": "D", "worst_grade": "F", "overall_rank": 125, "cat_rank": 24}
+];
+
+const gradeColors = {A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};
+const catOrder = ['Protein First','Solid Macro Profile','Whole Food / High Fiber','Balanced Middle','Snack / Low Protein','Meal Replacement / High Cal'];
+
+let currentCat = 'all';
+let currentSearch = '';
+let currentSort = null;
+let sortDir = 'desc';
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  let filtered = BRAND_DATA.filter(b => {
+    const matchCat = currentCat === 'all' || b.category === currentCat;
+    const matchSearch = !currentSearch || b.brand.toLowerCase().includes(currentSearch.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  // Sort within categories or globally
+  if (currentSort) {
+    filtered.sort((a, b) => {
+      const av = a[currentSort], bv = b[currentSort];
+      return sortDir === 'desc' ? bv - av : av - bv;
+    });
+  }
+
+  // Group by category if no sort or cat filter
+  const showGrouped = currentCat === 'all' && !currentSort;
+
+  tbody.innerHTML = '';
+  const cats = showGrouped ? catOrder : [...new Set(filtered.map(b => b.category))];
+
+  if (showGrouped) {
+    for (const cat of catOrder) {
+      const catBrands = filtered.filter(b => b.category === cat);
+      if (!catBrands.length) continue;
+      const catDescriptions = {
+        'Protein First': 'These brands lead on protein efficiency. 10+ grams of protein per 100 calories.',
+        'Solid Macro Profile': 'Good protein delivery without going overboard on calories. Most land between 8 and 10g protein per 100 calories.',
+        'Whole Food / High Fiber': 'Higher fiber (5g+) and simpler ingredient lists. Protein is moderate.',
+        'Balanced Middle': 'Solid protein, slightly higher calories. Several have strong ingredient scores despite moderate macros.',
+        'Snack / Low Protein': 'Under 5g protein per 100 calories. Some are clean snack bars; others lean on brand equity.',
+        'Meal Replacement / High Cal': '250+ average calories. Protein efficiency varies widely. Ingredient quality ranges from excellent to poor.',
+      };
+      const hdr = document.createElement('tr');
+      hdr.className = 'cat-header-row';
+      hdr.innerHTML = '<td colspan="12"><div class="cat-header-inner"><span class="cat-label">' + cat + '</span><span class="cat-count">' + catBrands.length + ' brands</span><p class="cat-desc">' + (catDescriptions[cat] || '') + '</p></div></td>';
+      tbody.appendChild(hdr);
+      catBrands.forEach(b => tbody.appendChild(buildRow(b)));
+    }
+  } else {
+    filtered.forEach(b => tbody.appendChild(buildRow(b)));
+  }
+
+  if (!filtered.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="12" style="text-align:center;padding:2rem;color:var(--muted);font-family:var(--font-body);">No brands match your search.</td>';
+    tbody.appendChild(tr);
+  }
+}
+
+function buildRow(b) {
+  const tr = document.createElement('tr');
+  tr.className = 'brand-row';
+  const gc = gradeColors[b.typical_grade] || '#888';
+  const bgc = gradeColors[b.best_grade] || '#888';
+  const wgc = gradeColors[b.worst_grade] || '#888';
+  const sa = b.pct_sugar_alcohol > 0 ? b.pct_sugar_alcohol + '%' : '<span class="none-val">none</span>';
+  const toolUrl = '/?brand=' + encodeURIComponent(b.brand);
+  const reviewPages = {Quest:'/quest-bars.html',RXBAR:'/rxbar-review.html','CLIF Bar':'/clif-bar-review.html',Barebells:'/barebells-review.html',KIND:'/kind-bars-review.html'};
+  let links = '<a href="' + toolUrl + '" class="tbl-link tool-link">See in Tool</a>';
+  if (reviewPages[b.brand]) links += ' <a href="' + reviewPages[b.brand] + '" class="tbl-link review-link">Full Review</a>';
+  tr.innerHTML = '<td class="num-cell rank-cell">' + b.overall_rank + '</td>'
+    + '<td class="brand-cell"><div class="brand-name">' + b.brand + '</div><div class="brand-links">' + links + '</div></td>'
+    + '<td class="num-cell">' + b.flavors + '</td>'
+    + '<td class="num-cell">' + Math.round(b.avg_calories) + '</td>'
+    + '<td class="num-cell">' + b.avg_protein.toFixed(1) + 'g</td>'
+    + '<td class="num-cell highlight-cell">' + b.avg_p100.toFixed(1) + '</td>'
+    + '<td class="num-cell">' + b.avg_fiber.toFixed(1) + 'g</td>'
+    + '<td class="num-cell">' + b.avg_net_carbs.toFixed(1) + 'g</td>'
+    + '<td class="num-cell">' + sa + '</td>'
+    + '<td class="num-cell">' + b.avg_score.toFixed(1) + '</td>'
+    + '<td class="grade-cell"><span class="grade-badge" style="background:' + gc + '">' + b.typical_grade + '</span></td>'
+    + '<td class="grade-range-cell"><span class="grade-sm" style="color:' + bgc + '">' + b.best_grade + '</span><span class="grade-sep"> to </span><span class="grade-sm" style="color:' + wgc + '">' + b.worst_grade + '</span></td>';
+  return tr;
+}
+
+/* Category filter buttons */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    currentSort = null;
+    document.querySelectorAll('.sortable').forEach(th => th.classList.remove('asc','desc'));
+    renderTable();
+  });
+});
+
+/* Search */
+document.getElementById('brandSearch').addEventListener('input', e => {
+  currentSearch = e.target.value;
+  if (currentSearch) {
+    currentCat = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-cat="all"]').classList.add('active');
+  }
+  renderTable();
+});
+
+/* Sortable columns */
+document.querySelectorAll('.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (currentSort === col) {
+      sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+      th.classList.toggle('asc', sortDir === 'asc');
+      th.classList.toggle('desc', sortDir === 'desc');
+    } else {
+      currentSort = col;
+      sortDir = 'desc';
+      document.querySelectorAll('.sortable').forEach(t => t.classList.remove('asc','desc'));
+      th.classList.add('desc');
+    }
+    renderTable();
+  });
+});
+
+/* GA4 events */
+document.querySelectorAll('.tool-link').forEach(a => {
+  a.addEventListener('click', () => {
+    const brand = a.closest('tr').querySelector('.brand-name').textContent;
+    if (typeof gtag !== 'undefined') gtag('event', 'brand_tool_click', {brand_name: brand});
+  });
+});
+</script>
+</body>
+</html>
