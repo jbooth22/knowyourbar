@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protein Bar Brand Rankings: The KYB Quadrant 2026 | Know Your Bar</title>
+  <meta name="description" content="We scored 95 protein bar brands by ingredient quality and macro efficiency. See which brands are truly clean, which are engineered, and which to skip entirely.">
+  <link rel="canonical" href="https://knowyourbar.com/brand-quadrant.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Protein Bar Brand Rankings: The KYB Quadrant 2026">
+  <meta property="og:description" content="95 brands. 904 bars. Two axes. No sponsored picks. The definitive protein bar brand ranking.">
+  <meta property="og:url" content="https://knowyourbar.com/brand-quadrant.html">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    :root { --quad-bg:#f8f7f4; }
+
+    .qhero { background:var(--black); color:var(--white); padding:3rem 1.5rem 2.5rem; text-align:center; }
+    .qhero-eyebrow { font-family:var(--font-mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.9rem; }
+    .qhero h1 { font-family:var(--font-display); font-size:clamp(1.7rem,4.5vw,3rem); font-weight:800; line-height:1.08; margin-bottom:0.9rem; letter-spacing:-0.02em; }
+    .qhero h1 em { font-style:normal; color:var(--accent); }
+    .qhero-sub { font-size:0.97rem; color:#999; max-width:520px; margin:0 auto 1.6rem; line-height:1.65; }
+    .qhero-stats { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; }
+    .qhero-stat strong { display:block; font-family:var(--font-display); font-size:1.8rem; font-weight:800; letter-spacing:-0.03em; color:var(--white); line-height:1; }
+    .qhero-stat span { font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:#555; }
+
+    .qcontrols { background:var(--white); border-bottom:1px solid var(--border); padding:0.9rem 1.5rem 0; position:sticky; top:0; z-index:100; }
+    .qcontrols-top { display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap; padding-bottom:0.75rem; }
+    .qview-label { font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); flex-shrink:0; }
+    .qview-btns { display:flex; gap:0.35rem; flex-wrap:wrap; }
+    .qview-btn { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; padding:0.45rem 0.95rem; background:var(--off-white); border:1.5px solid var(--border); border-radius:6px; cursor:pointer; color:var(--muted); transition:all 0.13s; white-space:nowrap; font-weight:500; }
+    .qview-btn:hover { border-color:#999; color:var(--black); }
+    .qview-btn.active { background:var(--black); border-color:var(--black); color:var(--white); }
+    .qcontrols-right { margin-left:auto; }
+    .qdl-btn { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; padding:0.45rem 0.95rem; background:var(--accent); border:1.5px solid var(--accent); border-radius:6px; cursor:pointer; color:var(--black); font-weight:600; transition:opacity 0.13s; white-space:nowrap; }
+    .qdl-btn:hover { opacity:0.82; }
+
+    .qview-explainer { font-size:0.8rem; color:var(--muted); padding:0.45rem 0 0.6rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
+    .qview-count { font-family:var(--font-mono); font-size:10px; background:var(--off-white); border:1px solid var(--border); border-radius:4px; padding:2px 8px; color:var(--black); white-space:nowrap; font-weight:500; }
+
+    .qouter { max-width:980px; margin:1.5rem auto; padding:0 1.5rem; }
+    .qwrapper { position:relative; background:var(--quad-bg); border:1.5px solid var(--border); border-radius:10px; overflow:hidden; }
+    #qcanvas { display:block; width:100%; cursor:crosshair; }
+
+    .qlegend { display:flex; align-items:center; gap:1.1rem; flex-wrap:wrap; margin-top:0.65rem; padding:0.55rem 0.1rem; border-top:1px solid var(--border); }
+    .qlegend-heading { font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); flex-shrink:0; }
+    .ql-item { display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:10px; color:var(--muted); }
+    .ql-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .ql-size { margin-left:auto; font-size:10px; font-family:var(--font-mono); color:var(--muted); }
+
+    .qmethod { max-width:980px; margin:0 auto 1.5rem; padding:0 1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+    .qmethod-card { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.1rem 1.25rem; }
+    .qmethod-axis { font-family:var(--font-mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.3rem; }
+    .qmethod-title { font-family:var(--font-display); font-size:0.95rem; font-weight:700; margin-bottom:0.3rem; }
+    .qmethod-card p { font-size:0.82rem; color:#555; line-height:1.6; margin:0; }
+
+    .qcta { max-width:980px; margin:0 auto 3rem; padding:0 1.5rem; }
+    .qcta-inner { background:var(--black); border-radius:10px; padding:1.75rem 2rem; text-align:center; }
+    .qcta-inner p { font-family:var(--font-mono); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:#444; margin-bottom:0.4rem; }
+    .qcta-inner h2 { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--white); margin-bottom:1rem; }
+    .qcta-inner a { display:inline-block; background:var(--accent); color:var(--black); font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; padding:0.6rem 1.4rem; border-radius:6px; text-decoration:none; }
+
+    #qtip { position:fixed; background:#1c1c1c; color:#f0f0f0; border:1px solid #2e2e2e; border-radius:9px; padding:0.85rem 1rem; font-family:var(--font-body); font-size:13px; pointer-events:none; z-index:9999; width:235px; box-shadow:0 10px 36px rgba(0,0,0,0.55); opacity:0; transition:opacity 0.1s; }
+    #qtip.on { opacity:1; }
+    .tt-name { font-family:var(--font-display); font-size:15px; font-weight:700; margin-bottom:0.45rem; line-height:1.2; }
+    .tt-badge { display:inline-flex; align-items:center; gap:5px; padding:2px 8px; border-radius:4px; font-family:var(--font-mono); font-size:10px; font-weight:600; margin-bottom:0.55rem; }
+    .tt-rows { display:flex; flex-direction:column; gap:3px; }
+    .tt-row { display:flex; justify-content:space-between; font-size:12px; }
+    .tt-row .lbl { color:#777; }
+    .tt-row .val { color:#e8e8e8; font-family:var(--font-mono); font-size:11px; }
+    .tt-div { border:none; border-top:1px solid #2e2e2e; margin:0.5rem 0 0.45rem; }
+    .tt-quad { font-size:11px; color:#666; font-style:italic; }
+    .tt-hint { font-size:10px; color:var(--accent); font-family:var(--font-mono); margin-top:0.3rem; letter-spacing:0.03em; }
+
+    @media (max-width:580px) {
+      .qmethod { grid-template-columns:1fr; }
+      .qcontrols-right { margin-left:0; width:100%; }
+      .qdl-btn { width:100%; text-align:center; display:block; }
+    }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SW4MNP5W7J');</script>
+</head>
+<body class="page-guide">
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+
+<section class="qhero">
+  <div class="qhero-eyebrow">The KYB Brand Quadrant &mdash; 2026</div>
+  <h1>Every Protein Bar Brand,<br><em>Ranked by What Actually Matters</em></h1>
+  <p class="qhero-sub">We scored 95 brands across 904 bars on ingredient quality and macro efficiency. No sponsorships. No affiliate influence. Just data.</p>
+  <div class="qhero-stats">
+    <div class="qhero-stat"><strong>95</strong><span>brands mapped</span></div>
+    <div class="qhero-stat"><strong>904</strong><span>bars scored</span></div>
+    <div class="qhero-stat"><strong>4+</strong><span>flavors to qualify</span></div>
+    <div class="qhero-stat"><strong>2026</strong><span>data</span></div>
+  </div>
+</section>
+
+<div class="qcontrols">
+  <div class="qcontrols-top">
+    <span class="qview-label">View</span>
+    <div class="qview-btns">
+      <button class="qview-btn active" data-view="all" onclick="setView('all',this)">All Brands</button>
+      <button class="qview-btn" data-view="mainstream" onclick="setView('mainstream',this)">Mainstream</button>
+      <button class="qview-btn" data-view="startup" onclick="setView('startup',this)">Startup Brands</button>
+    </div>
+    <div class="qcontrols-right">
+      <button class="qdl-btn" onclick="downloadPNG()">&#8595; Download PNG</button>
+    </div>
+  </div>
+  <div class="qview-explainer">
+    <span id="view-desc">All 95 brands with 4+ scored flavors, regardless of distribution size</span>
+    <span class="qview-count" id="vc-brands">95 brands</span>
+    <span class="qview-count" id="vc-bars">904 bars</span>
+  </div>
+</div>
+
+<div class="qouter">
+  <div class="qwrapper" id="qwrapper">
+    <canvas id="qcanvas"></canvas>
+  </div>
+  <div class="qlegend">
+    <span class="qlegend-heading">Ingredient Quality Score</span>
+    <div class="ql-item"><div class="ql-dot" style="background:#2a7a1f"></div>A &mdash; Clean</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#5a8a2f"></div>B &mdash; Good</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#b89a00"></div>C &mdash; Okay</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#c87020"></div>D &mdash; Poor</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#c83020"></div>F &mdash; Avoid</div>
+    <span class="ql-size">Dot size = # of different flavors</span>
+  </div>
+</div>
+
+<div class="qmethod">
+  <div class="qmethod-card">
+    <div class="qmethod-axis">Y Axis &mdash; Vertical</div>
+    <div class="qmethod-title">Ingredient Quality Score</div>
+    <p>Each bar is parsed ingredient-by-ingredient against our canonical scoring schema. Beneficial ingredients push the score up; problematic ones drag it down. Position in the list is weighted — what comes first matters more. Brand score = median across all scored flavors.</p>
+  </div>
+  <div class="qmethod-card">
+    <div class="qmethod-axis">X Axis &mdash; Horizontal</div>
+    <div class="qmethod-title">Macro Efficiency Score</div>
+    <p>A composite of three signals: protein efficiency (60%) — how much protein per calorie; low sugar (25%) — less sugar scores better; high fiber (15%) — more fiber scores better. Brand score = median across all flavors. Directionally correct, not a perfect measurement.</p>
+  </div>
+</div>
+
+<div class="qcta">
+  <div class="qcta-inner">
+    <p>Know Your Bar</p>
+    <h2>Find the exact bars that match your goals</h2>
+    <a href="/">Search and filter 904 bars &rarr;</a>
+  </div>
+</div>
+
+<div id="qtip"></div>
+
+<script>
+const ALL_BRANDS=[{"brand":"1st Phorm","flavor_count":4,"ingredient_score":9.25,"macro_score":0.37,"modal_grade":"A","avg_protein":15.0,"avg_calories":285.0,"avg_sugar":14.0,"avg_fiber":3.0,"grade_dist":{"A":4},"is_mainstream":false},{"brand":"Afar","flavor_count":5,"ingredient_score":4.2,"macro_score":0.475,"modal_grade":"B","avg_protein":10.0,"avg_calories":170.0,"avg_sugar":3.0,"avg_fiber":2.0,"grade_dist":{"B":3,"C":2},"is_mainstream":false},{"brand":"Alani","flavor_count":4,"ingredient_score":-2.1,"macro_score":0.523,"modal_grade":"D","avg_protein":15.5,"avg_calories":205.0,"avg_sugar":7.0,"avg_fiber":1.0,"grade_dist":{"D":4},"is_mainstream":true},{"brand":"Aloha","flavor_count":18,"ingredient_score":3.5,"macro_score":0.527,"modal_grade":"C","avg_protein":14.0,"avg_calories":230.0,"avg_sugar":5.0,"avg_fiber":10.0,"grade_dist":{"C":13,"B":4,"D":1},"is_mainstream":true},{"brand":"Amirita","flavor_count":8,"ingredient_score":5.0,"macro_score":0.429,"modal_grade":"B","avg_protein":12.0,"avg_calories":270.0,"avg_sugar":8.5,"avg_fiber":10.0,"grade_dist":{"B":5,"C":3},"is_mainstream":false},{"brand":"Anabar","flavor_count":7,"ingredient_score":1.0,"macro_score":0.36,"modal_grade":"C","avg_protein":20.0,"avg_calories":290.0,"avg_sugar":22.0,"avg_fiber":1.0,"grade_dist":{"C":3,"D":3,"B":1},"is_mainstream":false},{"brand":"Atkins","flavor_count":9,"ingredient_score":1.9,"macro_score":0.632,"modal_grade":"C","avg_protein":15.0,"avg_calories":200.0,"avg_sugar":1.0,"avg_fiber":10.0,"grade_dist":{"C":9},"is_mainstream":true},{"brand":"B.T.R. Nation","flavor_count":7,"ingredient_score":8.7,"macro_score":0.511,"modal_grade":"A","avg_protein":9.0,"avg_calories":170.0,"avg_sugar":2.0,"avg_fiber":7.0,"grade_dist":{"A":5,"B":2},"is_mainstream":false},{"brand":"BSN","flavor_count":4,"ingredient_score":4.1,"macro_score":0.675,"modal_grade":"B","avg_protein":20.0,"avg_calories":190.0,"avg_sugar":4.0,"avg_fiber":5.5,"grade_dist":{"B":2,"C":2},"is_mainstream":true},{"brand":"Barebells","flavor_count":25,"ingredient_score":3.6,"macro_score":0.638,"modal_grade":"C","avg_protein":20.0,"avg_calories":210.0,"avg_sugar":1.0,"avg_fiber":3.0,"grade_dist":{"C":10,"B":9,"D":4,"F":2},"is_mainstream":true},{"brand":"Bearded Bros","flavor_count":12,"ingredient_score":7.3,"macro_score":0.258,"modal_grade":"B","avg_protein":6.0,"avg_calories":205.0,"avg_sugar":16.5,"avg_fiber":4.0,"grade_dist":{"B":9,"A":3},"is_mainstream":false},{"brand":"Bob's Red Mill","flavor_count":5,"ingredient_score":2.2,"macro_score":0.314,"modal_grade":"C","avg_protein":7.0,"avg_calories":220.0,"avg_sugar":10.0,"avg_fiber":3.0,"grade_dist":{"C":5},"is_mainstream":true},{"brand":"Bobo's","flavor_count":21,"ingredient_score":-0.8,"macro_score":0.248,"modal_grade":"D","avg_protein":3.0,"avg_calories":180.0,"avg_sugar":10.0,"avg_fiber":2.0,"grade_dist":{"D":16,"C":5},"is_mainstream":true},{"brand":"Built","flavor_count":13,"ingredient_score":-1.8,"macro_score":0.61,"modal_grade":"D","avg_protein":16.0,"avg_calories":150.0,"avg_sugar":8.0,"avg_fiber":0.0,"grade_dist":{"D":10,"F":3},"is_mainstream":true},{"brand":"CLIF Bar","flavor_count":14,"ingredient_score":-0.4,"macro_score":0.303,"modal_grade":"D","avg_protein":10.0,"avg_calories":260.0,"avg_sugar":17.0,"avg_fiber":5.0,"grade_dist":{"D":9,"C":5},"is_mainstream":true},{"brand":"Clif Builders","flavor_count":10,"ingredient_score":-3.75,"macro_score":0.424,"modal_grade":"F","avg_protein":20.0,"avg_calories":280.0,"avg_sugar":16.5,"avg_fiber":3.0,"grade_dist":{"F":6,"D":2,"A":2},"is_mainstream":true},{"brand":"Clif ZBar","flavor_count":4,"ingredient_score":-2.6,"macro_score":0.344,"modal_grade":"D","avg_protein":5.0,"avg_calories":130.0,"avg_sugar":9.0,"avg_fiber":2.0,"grade_dist":{"D":3,"F":1},"is_mainstream":true},{"brand":"Daryl's Bars","flavor_count":19,"ingredient_score":6.0,"macro_score":0.639,"modal_grade":"B","avg_protein":20.0,"avg_calories":230.0,"avg_sugar":4.0,"avg_fiber":9.0,"grade_dist":{"B":18,"C":1},"is_mainstream":false},{"brand":"David","flavor_count":12,"ingredient_score":3.0,"macro_score":0.85,"modal_grade":"C","avg_protein":28.0,"avg_calories":150.0,"avg_sugar":0.0,"avg_fiber":1.0,"grade_dist":{"C":12},"is_mainstream":false},{"brand":"Elemental","flavor_count":6,"ingredient_score":7.7,"macro_score":0.335,"modal_grade":"B","avg_protein":7.0,"avg_calories":227.5,"avg_sugar":8.0,"avg_fiber":4.0,"grade_dist":{"B":6},"is_mainstream":false},{"brand":"Epic","flavor_count":10,"ingredient_score":-0.35,"macro_score":0.607,"modal_grade":"D","avg_protein":10.0,"avg_calories":115.0,"avg_sugar":0.0,"avg_fiber":2.0,"grade_dist":{"D":10},"is_mainstream":true},{"brand":"Equate","flavor_count":4,"ingredient_score":2.05,"macro_score":0.497,"modal_grade":"C","avg_protein":11.0,"avg_calories":175.0,"avg_sugar":1.0,"avg_fiber":6.0,"grade_dist":{"C":2,"B":1,"D":1},"is_mainstream":true},{"brand":"FITCRUNCH","flavor_count":17,"ingredient_score":0.3,"macro_score":0.537,"modal_grade":"C","avg_protein":16.0,"avg_calories":210.0,"avg_sugar":3.0,"avg_fiber":1.0,"grade_dist":{"C":7,"D":7,"B":2,"F":1},"is_mainstream":true},{"brand":"Fiber One","flavor_count":4,"ingredient_score":3.55,"macro_score":0.724,"modal_grade":"B","avg_protein":10.0,"avg_calories":90.0,"avg_sugar":1.0,"avg_fiber":5.0,"grade_dist":{"B":2,"C":2},"is_mainstream":true},{"brand":"Forward","flavor_count":4,"ingredient_score":10.1,"macro_score":0.351,"modal_grade":"A","avg_protein":12.0,"avg_calories":280.0,"avg_sugar":12.5,"avg_fiber":4.0,"grade_dist":{"A":4},"is_mainstream":false},{"brand":"Fro Pro","flavor_count":15,"ingredient_score":7.0,"macro_score":0.371,"modal_grade":"B","avg_protein":10.0,"avg_calories":230.0,"avg_sugar":10.0,"avg_fiber":3.0,"grade_dist":{"B":11,"C":3,"A":1},"is_mainstream":false},{"brand":"Fulfil","flavor_count":5,"ingredient_score":3.1,"macro_score":0.624,"modal_grade":"C","avg_protein":15.0,"avg_calories":160.0,"avg_sugar":1.0,"avg_fiber":1.0,"grade_dist":{"C":5},"is_mainstream":false},{"brand":"GNC Total Lean","flavor_count":4,"ingredient_score":2.25,"macro_score":0.553,"modal_grade":"C","avg_protein":16.0,"avg_calories":195.0,"avg_sugar":4.5,"avg_fiber":1.0,"grade_dist":{"C":2,"D":1,"B":1},"is_mainstream":true},{"brand":"Gatorade","flavor_count":4,"ingredient_score":-3.2,"macro_score":0.265,"modal_grade":"F","avg_protein":20.0,"avg_calories":355.0,"avg_sugar":26.5,"avg_fiber":0.5,"grade_dist":{"F":2,"D":1,"C":1},"is_mainstream":true},{"brand":"Genius Gourmet","flavor_count":9,"ingredient_score":7.7,"macro_score":0.51,"modal_grade":"B","avg_protein":10.0,"avg_calories":170.0,"avg_sugar":1.0,"avg_fiber":2.0,"grade_dist":{"B":6,"A":2,"C":1},"is_mainstream":false},{"brand":"GoMacro","flavor_count":17,"ingredient_score":2.9,"macro_score":0.349,"modal_grade":"C","avg_protein":10.0,"avg_calories":270.0,"avg_sugar":8.0,"avg_fiber":2.0,"grade_dist":{"C":11,"B":5,"D":1},"is_mainstream":true},{"brand":"Good Word","flavor_count":4,"ingredient_score":3.6,"macro_score":0.407,"modal_grade":"C","avg_protein":10.0,"avg_calories":205.0,"avg_sugar":9.5,"avg_fiber":5.0,"grade_dist":{"C":4},"is_mainstream":false},{"brand":"Healthy Eating on the Go","flavor_count":15,"ingredient_score":11.0,"macro_score":0.467,"modal_grade":"A","avg_protein":14.0,"avg_calories":210.0,"avg_sugar":5.0,"avg_fiber":5.0,"grade_dist":{"A":15},"is_mainstream":false},{"brand":"IQ Bar","flavor_count":10,"ingredient_score":5.9,"macro_score":0.565,"modal_grade":"B","avg_protein":12.0,"avg_calories":175.0,"avg_sugar":1.0,"avg_fiber":7.0,"grade_dist":{"B":10},"is_mainstream":false},{"brand":"Jambar","flavor_count":4,"ingredient_score":0.3,"macro_score":0.332,"modal_grade":"C","avg_protein":10.0,"avg_calories":237.5,"avg_sugar":14.0,"avg_fiber":4.0,"grade_dist":{"C":3,"D":1},"is_mainstream":false},{"brand":"Jonesbar","flavor_count":8,"ingredient_score":7.95,"macro_score":0.212,"modal_grade":"B","avg_protein":4.0,"avg_calories":190.0,"avg_sugar":19.5,"avg_fiber":4.5,"grade_dist":{"B":5,"A":3},"is_mainstream":false},{"brand":"Junkless","flavor_count":5,"ingredient_score":7.5,"macro_score":0.593,"modal_grade":"B","avg_protein":15.0,"avg_calories":190.0,"avg_sugar":3.0,"avg_fiber":7.0,"grade_dist":{"B":4,"A":1},"is_mainstream":false},{"brand":"JustNosh","flavor_count":4,"ingredient_score":1.35,"macro_score":0.515,"modal_grade":"C","avg_protein":15.0,"avg_calories":220.0,"avg_sugar":5.0,"avg_fiber":3.5,"grade_dist":{"C":3,"D":1},"is_mainstream":false},{"brand":"KIND","flavor_count":15,"ingredient_score":3.8,"macro_score":0.342,"modal_grade":"B","avg_protein":5.0,"avg_calories":180.0,"avg_sugar":7.0,"avg_fiber":6.0,"grade_dist":{"B":7,"C":7,"D":1},"is_mainstream":true},{"brand":"KIND Protein Max","flavor_count":4,"ingredient_score":5.5,"macro_score":0.646,"modal_grade":"B","avg_protein":20.0,"avg_calories":240.0,"avg_sugar":1.0,"avg_fiber":9.5,"grade_dist":{"B":4},"is_mainstream":true},{"brand":"Kate's Real Food","flavor_count":12,"ingredient_score":1.35,"macro_score":0.268,"modal_grade":"C","avg_protein":7.5,"avg_calories":270.0,"avg_sugar":15.5,"avg_fiber":4.0,"grade_dist":{"C":11,"D":1},"is_mainstream":false},{"brand":"Kize","flavor_count":12,"ingredient_score":5.65,"macro_score":0.355,"modal_grade":"B","avg_protein":10.0,"avg_calories":200.0,"avg_sugar":12.0,"avg_fiber":3.0,"grade_dist":{"B":9,"A":2,"C":1},"is_mainstream":false},{"brand":"Laird","flavor_count":7,"ingredient_score":4.5,"macro_score":0.451,"modal_grade":"B","avg_protein":10.0,"avg_calories":180.0,"avg_sugar":8.0,"avg_fiber":6.0,"grade_dist":{"B":5,"C":2},"is_mainstream":false},{"brand":"Larabar","flavor_count":26,"ingredient_score":6.6,"macro_score":0.208,"modal_grade":"B","avg_protein":4.0,"avg_calories":205.0,"avg_sugar":17.0,"avg_fiber":4.0,"grade_dist":{"B":21,"A":5},"is_mainstream":true},{"brand":"Legendary","flavor_count":15,"ingredient_score":2.0,"macro_score":0.754,"modal_grade":"C","avg_protein":20.0,"avg_calories":180.0,"avg_sugar":0.0,"avg_fiber":8.0,"grade_dist":{"C":12,"D":2,"B":1},"is_mainstream":true},{"brand":"Lenny & Larry's","flavor_count":11,"ingredient_score":-0.9,"macro_score":0.335,"modal_grade":"D","avg_protein":8.0,"avg_calories":230.0,"avg_sugar":11.0,"avg_fiber":5.0,"grade_dist":{"D":8,"C":3},"is_mainstream":true},{"brand":"Love Good","flavor_count":12,"ingredient_score":4.45,"macro_score":0.542,"modal_grade":"B","avg_protein":10.5,"avg_calories":205.0,"avg_sugar":2.0,"avg_fiber":9.0,"grade_dist":{"B":8,"C":4},"is_mainstream":false},{"brand":"Luna","flavor_count":9,"ingredient_score":-1.8,"macro_score":0.366,"modal_grade":"D","avg_protein":8.0,"avg_calories":190.0,"avg_sugar":9.0,"avg_fiber":3.0,"grade_dist":{"D":6,"F":2,"C":1},"is_mainstream":true},{"brand":"MRE BAR","flavor_count":5,"ingredient_score":1.5,"macro_score":0.643,"modal_grade":"C","avg_protein":20.0,"avg_calories":220.0,"avg_sugar":1.0,"avg_fiber":5.0,"grade_dist":{"C":3,"B":1,"D":1},"is_mainstream":true},{"brand":"Magic Spoon","flavor_count":8,"ingredient_score":6.0,"macro_score":0.65,"modal_grade":"B","avg_protein":12.0,"avg_calories":130.0,"avg_sugar":1.0,"avg_fiber":7.0,"grade_dist":{"B":8},"is_mainstream":true},{"brand":"Melo","flavor_count":6,"ingredient_score":0.55,"macro_score":0.623,"modal_grade":"C","avg_protein":16.0,"avg_calories":160.0,"avg_sugar":6.0,"avg_fiber":3.0,"grade_dist":{"C":5,"D":1},"is_mainstream":false},{"brand":"Mezcla","flavor_count":7,"ingredient_score":1.8,"macro_score":0.498,"modal_grade":"C","avg_protein":10.0,"avg_calories":160.0,"avg_sugar":3.0,"avg_fiber":5.0,"grade_dist":{"C":6,"D":1},"is_mainstream":false},{"brand":"Misfits","flavor_count":7,"ingredient_score":-1.2,"macro_score":0.587,"modal_grade":"D","avg_protein":15.0,"avg_calories":190.0,"avg_sugar":1.0,"avg_fiber":5.0,"grade_dist":{"D":6,"F":1},"is_mainstream":true},{"brand":"Mosh","flavor_count":10,"ingredient_score":7.65,"macro_score":0.557,"modal_grade":"B","avg_protein":12.0,"avg_calories":170.0,"avg_sugar":3.0,"avg_fiber":7.0,"grade_dist":{"B":7,"A":3},"is_mainstream":false},{"brand":"Munk Pack","flavor_count":9,"ingredient_score":7.4,"macro_score":0.522,"modal_grade":"A","avg_protein":10.0,"avg_calories":160.0,"avg_sugar":1.0,"avg_fiber":5.0,"grade_dist":{"A":4,"B":3,"C":2},"is_mainstream":false},{"brand":"Musashi","flavor_count":6,"ingredient_score":5.7,"macro_score":0.803,"modal_grade":"B","avg_protein":45.0,"avg_calories":330.0,"avg_sugar":2.0,"avg_fiber":3.0,"grade_dist":{"B":4,"C":1,"A":1},"is_mainstream":false},{"brand":"Nature Valley","flavor_count":6,"ingredient_score":5.85,"macro_score":0.438,"modal_grade":"B","avg_protein":10.0,"avg_calories":200.0,"avg_sugar":6.0,"avg_fiber":5.0,"grade_dist":{"B":3,"A":2,"C":1},"is_mainstream":true},{"brand":"Neoh","flavor_count":5,"ingredient_score":1.7,"macro_score":0.372,"modal_grade":"C","avg_protein":2.0,"avg_calories":120.0,"avg_sugar":1.0,"avg_fiber":6.0,"grade_dist":{"C":4,"B":1},"is_mainstream":false},{"brand":"Nick's","flavor_count":5,"ingredient_score":8.0,"macro_score":0.571,"modal_grade":"A","avg_protein":15.0,"avg_calories":200.0,"avg_sugar":2.0,"avg_fiber":5.0,"grade_dist":{"A":3,"B":2},"is_mainstream":false},{"brand":"No Cow","flavor_count":9,"ingredient_score":2.1,"macro_score":0.754,"modal_grade":"C","avg_protein":20.0,"avg_calories":200.0,"avg_sugar":1.0,"avg_fiber":15.0,"grade_dist":{"C":6,"D":2,"B":1},"is_mainstream":true},{"brand":"No Nuts!","flavor_count":4,"ingredient_score":-0.75,"macro_score":0.499,"modal_grade":"D","avg_protein":12.0,"avg_calories":190.0,"avg_sugar":9.5,"avg_fiber":9.5,"grade_dist":{"D":4},"is_mainstream":false},{"brand":"NuGo","flavor_count":30,"ingredient_score":-0.05,"macro_score":0.404,"modal_grade":"D","avg_protein":11.5,"avg_calories":180.0,"avg_sugar":12.5,"avg_fiber":3.0,"grade_dist":{"D":16,"C":7,"B":6,"F":1},"is_mainstream":true},{"brand":"NutRaw","flavor_count":4,"ingredient_score":6.9,"macro_score":0.387,"modal_grade":"B","avg_protein":7.0,"avg_calories":165.0,"avg_sugar":9.0,"avg_fiber":4.0,"grade_dist":{"B":3,"A":1},"is_mainstream":false},{"brand":"Off the Farm","flavor_count":5,"ingredient_score":11.4,"macro_score":0.384,"modal_grade":"A","avg_protein":23.0,"avg_calories":450.0,"avg_sugar":13.0,"avg_fiber":5.0,"grade_dist":{"A":5},"is_mainstream":false},{"brand":"One","flavor_count":15,"ingredient_score":1.2,"macro_score":0.65,"modal_grade":"C","avg_protein":20.0,"avg_calories":220.0,"avg_sugar":1.0,"avg_fiber":6.0,"grade_dist":{"C":10,"D":5},"is_mainstream":true},{"brand":"Orgain","flavor_count":4,"ingredient_score":-0.1,"macro_score":0.478,"modal_grade":"D","avg_protein":10.0,"avg_calories":150.0,"avg_sugar":6.0,"avg_fiber":1.0,"grade_dist":{"D":2,"C":2},"is_mainstream":true},{"brand":"PROBar","flavor_count":6,"ingredient_score":-0.9,"macro_score":0.456,"modal_grade":"D","avg_protein":20.0,"avg_calories":270.0,"avg_sugar":12.0,"avg_fiber":2.0,"grade_dist":{"D":5,"C":1},"is_mainstream":true},{"brand":"Perfect Bar","flavor_count":17,"ingredient_score":8.5,"macro_score":0.317,"modal_grade":"A","avg_protein":11.0,"avg_calories":250.0,"avg_sugar":15.0,"avg_fiber":2.0,"grade_dist":{"A":10,"B":7},"is_mainstream":true},{"brand":"Power Crunch","flavor_count":10,"ingredient_score":0.9,"macro_score":0.448,"modal_grade":"C","avg_protein":13.0,"avg_calories":220.0,"avg_sugar":5.5,"avg_fiber":1.0,"grade_dist":{"C":6,"D":3,"A":1},"is_mainstream":true},{"brand":"Prima","flavor_count":4,"ingredient_score":2.45,"macro_score":0.503,"modal_grade":"C","avg_protein":21.0,"avg_calories":240.0,"avg_sugar":12.5,"avg_fiber":1.0,"grade_dist":{"C":4},"is_mainstream":false},{"brand":"Promix","flavor_count":13,"ingredient_score":4.7,"macro_score":0.654,"modal_grade":"B","avg_protein":15.0,"avg_calories":150.0,"avg_sugar":5.0,"avg_fiber":5.0,"grade_dist":{"B":6,"C":5,"A":2},"is_mainstream":false},{"brand":"Pure Protein","flavor_count":18,"ingredient_score":2.25,"macro_score":0.644,"modal_grade":"C","avg_protein":20.0,"avg_calories":190.0,"avg_sugar":3.0,"avg_fiber":1.0,"grade_dist":{"C":10,"B":5,"D":2,"A":1},"is_mainstream":true},{"brand":"Quantum","flavor_count":6,"ingredient_score":7.8,"macro_score":0.381,"modal_grade":"B","avg_protein":10.0,"avg_calories":200.0,"avg_sugar":11.0,"avg_fiber":3.0,"grade_dist":{"B":3,"A":2,"C":1},"is_mainstream":false},{"brand":"Quest","flavor_count":16,"ingredient_score":4.1,"macro_score":0.779,"modal_grade":"B","avg_protein":20.0,"avg_calories":180.0,"avg_sugar":1.0,"avg_fiber":12.5,"grade_dist":{"B":9,"C":7},"is_mainstream":true},{"brand":"RXBAR","flavor_count":12,"ingredient_score":9.8,"macro_score":0.409,"modal_grade":"A","avg_protein":12.0,"avg_calories":205.0,"avg_sugar":14.0,"avg_fiber":4.5,"grade_dist":{"A":10,"B":2},"is_mainstream":true},{"brand":"Raw Rev","flavor_count":4,"ingredient_score":3.3,"macro_score":0.488,"modal_grade":"C","avg_protein":11.5,"avg_calories":185.0,"avg_sugar":3.0,"avg_fiber":2.5,"grade_dist":{"C":2,"B":2},"is_mainstream":false},{"brand":"Ready","flavor_count":8,"ingredient_score":2.35,"macro_score":0.519,"modal_grade":"C","avg_protein":15.0,"avg_calories":200.0,"avg_sugar":10.5,"avg_fiber":7.0,"grade_dist":{"C":8},"is_mainstream":false},{"brand":"Real Food Bar","flavor_count":6,"ingredient_score":5.6,"macro_score":0.552,"modal_grade":"B","avg_protein":15.0,"avg_calories":210.0,"avg_sugar":8.0,"avg_fiber":11.0,"grade_dist":{"B":5,"C":1},"is_mainstream":false},{"brand":"Redefine","flavor_count":4,"ingredient_score":6.25,"macro_score":0.467,"modal_grade":"B","avg_protein":14.5,"avg_calories":315.0,"avg_sugar":5.5,"avg_fiber":10.5,"grade_dist":{"B":3,"A":1},"is_mainstream":false},{"brand":"Rise","flavor_count":6,"ingredient_score":4.5,"macro_score":0.362,"modal_grade":"B","avg_protein":15.0,"avg_calories":270.0,"avg_sugar":16.5,"avg_fiber":3.5,"grade_dist":{"B":5,"C":1},"is_mainstream":false},{"brand":"Send","flavor_count":4,"ingredient_score":10.0,"macro_score":0.36,"modal_grade":"A","avg_protein":12.0,"avg_calories":230.0,"avg_sugar":15.5,"avg_fiber":4.0,"grade_dist":{"A":3,"B":1},"is_mainstream":false},{"brand":"Simply Protein","flavor_count":8,"ingredient_score":6.5,"macro_score":0.601,"modal_grade":"B","avg_protein":12.5,"avg_calories":145.0,"avg_sugar":2.0,"avg_fiber":7.0,"grade_dist":{"B":4,"D":3,"A":1},"is_mainstream":false},{"brand":"Stars and Honey","flavor_count":10,"ingredient_score":5.75,"macro_score":0.604,"modal_grade":"B","avg_protein":15.0,"avg_calories":180.0,"avg_sugar":2.0,"avg_fiber":6.0,"grade_dist":{"B":10},"is_mainstream":false},{"brand":"The Feel Bar","flavor_count":11,"ingredient_score":7.7,"macro_score":0.562,"modal_grade":"B","avg_protein":15.0,"avg_calories":180.0,"avg_sugar":7.0,"avg_fiber":5.0,"grade_dist":{"B":7,"A":4},"is_mainstream":false},{"brand":"The Gluten Free Brothers","flavor_count":5,"ingredient_score":4.1,"macro_score":0.381,"modal_grade":"B","avg_protein":12.0,"avg_calories":240.0,"avg_sugar":11.0,"avg_fiber":3.0,"grade_dist":{"B":3,"C":2},"is_mainstream":false},{"brand":"Thunderbird","flavor_count":14,"ingredient_score":8.2,"macro_score":0.238,"modal_grade":"A","avg_protein":5.0,"avg_calories":220.0,"avg_sugar":16.5,"avg_fiber":4.0,"grade_dist":{"A":8,"B":5,"C":1},"is_mainstream":false},{"brand":"Tosi","flavor_count":8,"ingredient_score":5.55,"macro_score":0.425,"modal_grade":"B","avg_protein":6.0,"avg_calories":130.0,"avg_sugar":3.0,"avg_fiber":2.5,"grade_dist":{"B":8},"is_mainstream":false},{"brand":"Transparent Labs","flavor_count":7,"ingredient_score":10.3,"macro_score":0.403,"modal_grade":"A","avg_protein":15.0,"avg_calories":270.0,"avg_sugar":11.0,"avg_fiber":3.0,"grade_dist":{"A":6,"B":1},"is_mainstream":false},{"brand":"Trubar","flavor_count":12,"ingredient_score":2.7,"macro_score":0.533,"modal_grade":"C","avg_protein":12.0,"avg_calories":190.0,"avg_sugar":7.0,"avg_fiber":12.5,"grade_dist":{"C":11,"B":1},"is_mainstream":false},{"brand":"Truvani","flavor_count":12,"ingredient_score":4.75,"macro_score":0.253,"modal_grade":"B","avg_protein":6.0,"avg_calories":230.0,"avg_sugar":15.0,"avg_fiber":3.5,"grade_dist":{"B":9,"C":3},"is_mainstream":false},{"brand":"Verb","flavor_count":11,"ingredient_score":2.5,"macro_score":0.307,"modal_grade":"C","avg_protein":3.0,"avg_calories":110.0,"avg_sugar":8.0,"avg_fiber":2.0,"grade_dist":{"C":7,"B":3,"D":1},"is_mainstream":true},{"brand":"Wise Bar","flavor_count":4,"ingredient_score":2.55,"macro_score":0.253,"modal_grade":"C","avg_protein":4.0,"avg_calories":180.0,"avg_sugar":13.5,"avg_fiber":4.0,"grade_dist":{"C":4},"is_mainstream":false},{"brand":"Wonderslim","flavor_count":23,"ingredient_score":4.8,"macro_score":0.596,"modal_grade":"B","avg_protein":15.0,"avg_calories":160.0,"avg_sugar":7.0,"avg_fiber":5.0,"grade_dist":{"B":13,"D":5,"C":3,"F":1,"A":1},"is_mainstream":true},{"brand":"Zing","flavor_count":5,"ingredient_score":2.0,"macro_score":0.411,"modal_grade":"C","avg_protein":10.0,"avg_calories":220.0,"avg_sugar":7.0,"avg_fiber":5.0,"grade_dist":{"C":4,"B":1},"is_mainstream":false},{"brand":"think!","flavor_count":22,"ingredient_score":3.65,"macro_score":0.598,"modal_grade":"C","avg_protein":20.0,"avg_calories":220.0,"avg_sugar":1.0,"avg_fiber":2.0,"grade_dist":{"C":10,"B":9,"D":3},"is_mainstream":true}];
+
+const VIEW_META={
+  all:        {desc:'All 95 brands with 4+ scored flavors, regardless of distribution size',brands:95,bars:904},
+  mainstream: {desc:'Widely distributed brands found in major retail — Target, Walmart, Costco, GNC',brands:41,bars:486},
+  startup:    {desc:'Smaller, independent, or digitally-native brands not yet in major retail',brands:54,bars:418},
+};
+
+const GC={A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};
+const GL={A:'Clean',B:'Good',C:'Okay',D:'Poor',F:'Avoid'};
+const PAGES={'Quest':'/quest-bars.html','RXBAR':'/rxbar-review.html','CLIF Bar':'/clif-bar-review.html','Barebells':'/barebells-review.html','KIND':'/kind-bars-review.html'};
+
+// Axis bounds
+const ING_MIN=-5,ING_MAX=13,MAC_MIN=0.12,MAC_MAX=0.93;
+const MID_ING=4.0,MID_MAC=0.525;
+
+// Priority labels — shown in all views
+const PRIORITY_LABELS=new Set([
+  'Quest','RXBAR','CLIF Bar','Barebells','KIND','Larabar','Perfect Bar',
+  'Thunderbird','David','Off the Farm','Healthy Eating on the Go',
+  'Transparent Labs','Send','Forward','Clif Builders','Gatorade','Luna','Built',
+  "Bobo's",'NuGo',"Daryl's Bars",'Magic Spoon','Mosh','The Feel Bar',
+  'Munk Pack',"Nick's",'Genius Gourmet','IQ Bar','Simply Protein','Stars and Honey',
+  'Jonesbar','Junkless','Musashi','B.T.R. Nation','Bearded Bros','Fro Pro',
+  'Truvani','GoMacro','Atkins','No Cow','Legendary','One','Wonderslim',
+  'Promix','think!','Aloha','Kize','Love Good','Amirita','Junkless',
+]);
+
+let view='all',hov=null,dots=[];
+const canvas=document.getElementById('qcanvas');
+const ctx=canvas.getContext('2d');
+let PA={};
+
+function resize(){
+  const wrap=document.getElementById('qwrapper');
+  const W=wrap.clientWidth,H=Math.round(W*0.7);
+  canvas.width=W*devicePixelRatio; canvas.height=H*devicePixelRatio;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(devicePixelRatio,devicePixelRatio);
+  const P={t:46,r:16,b:50,l:16};
+  PA={x:P.l,y:P.t,w:W-P.l-P.r,h:H-P.t-P.b,W,H};
+  draw();
+}
+
+function toXY(mac,ing){
+  return{
+    x:PA.x+((mac-MAC_MIN)/(MAC_MAX-MAC_MIN))*PA.w,
+    y:PA.y+(1-(ing-ING_MIN)/(ING_MAX-ING_MIN))*PA.h,
+  };
+}
+
+function filtered(){
+  if(view==='mainstream') return ALL_BRANDS.filter(b=>b.is_mainstream);
+  if(view==='startup')    return ALL_BRANDS.filter(b=>!b.is_mainstream);
+  return ALL_BRANDS;
+}
+
+function rr(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+
+function draw(){
+  const W=PA.W,H=PA.H;
+  ctx.clearRect(0,0,W,H);
+  const brands=filtered();
+  const midX=toXY(MID_MAC,0).x;
+  const midY=toXY(0,MID_ING).y;
+
+  // Quadrant fills
+  [{x:PA.x,y:PA.y,w:midX-PA.x,h:midY-PA.y,bg:'rgba(42,122,31,0.05)'},
+   {x:midX,y:PA.y,w:PA.x+PA.w-midX,h:midY-PA.y,bg:'rgba(42,122,31,0.09)'},
+   {x:PA.x,y:midY,w:midX-PA.x,h:PA.y+PA.h-midY,bg:'rgba(200,48,32,0.06)'},
+   {x:midX,y:midY,w:PA.x+PA.w-midX,h:PA.y+PA.h-midY,bg:'rgba(200,112,32,0.06)'},
+  ].forEach(q=>{ctx.fillStyle=q.bg;ctx.fillRect(q.x,q.y,q.w,q.h);});
+
+  // Outer border
+  ctx.save();
+  ctx.strokeStyle='rgba(0,0,0,0.20)';ctx.lineWidth=1.5;
+  ctx.strokeRect(PA.x,PA.y,PA.w,PA.h);
+  ctx.restore();
+
+  // Divider lines
+  ctx.save();
+  ctx.strokeStyle='rgba(0,0,0,0.16)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(midX,PA.y);ctx.lineTo(midX,PA.y+PA.h);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PA.x,midY);ctx.lineTo(PA.x+PA.w,midY);ctx.stroke();
+  ctx.restore();
+
+  // ── Quadrant label boxes (Gartner style) ─────────────────────────────
+  const PAD=8,LH=15;
+  ctx.save();
+  ctx.font='700 11px Syne, sans-serif';
+
+  const qlabels=[
+    {lines:['PRINCIPLED,','NOT PERFORMANCE'],x:PA.x+PAD,y:PA.y+PAD,ax:'left',ay:'top',color:'#236818',bg:'rgba(42,122,31,0.13)'},
+    {lines:['CLEAN &','OPTIMIZED'],x:PA.x+PA.w-PAD,y:PA.y+PAD,ax:'right',ay:'top',color:'#155210',bg:'rgba(42,122,31,0.16)'},
+    {lines:['SKIP IT'],x:PA.x+PAD,y:PA.y+PA.h-PAD,ax:'left',ay:'bottom',color:'#9a1e10',bg:'rgba(200,48,32,0.13)'},
+    {lines:['ENGINEERED,','NOT CLEAN'],x:PA.x+PA.w-PAD,y:PA.y+PA.h-PAD,ax:'right',ay:'bottom',color:'#8a4010',bg:'rgba(200,112,32,0.13)'},
+  ];
+
+  qlabels.forEach(q=>{
+    const maxW=Math.max(...q.lines.map(l=>ctx.measureText(l).width));
+    const totalH=q.lines.length*LH;
+    const px=10,py=7;
+    const bw=maxW+px*2,bh=totalH+py*2;
+    const bx=q.ax==='left'?q.x:q.x-bw;
+    const by=q.ay==='top'?q.y:q.y-bh;
+    rr(ctx,bx,by,bw,bh,4);
+    ctx.fillStyle=q.bg;ctx.fill();
+    ctx.textAlign=q.ax;
+    ctx.fillStyle=q.color;
+    q.lines.forEach((line,i)=>{
+      ctx.fillText(line,q.ax==='left'?q.x+px:q.x-px,by+py+LH*(i+1)-3);
+    });
+  });
+  ctx.restore();
+
+  // ── Axis labels ──────────────────────────────────────────────────────
+  ctx.save();
+  ctx.fillStyle='#666';ctx.font='500 11px DM Sans, sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('← Less Macro-Efficient    Macro Efficiency    More Macro-Efficient →',PA.x+PA.w/2,PA.y+PA.h+36);
+  ctx.translate(13,PA.y+PA.h/2);ctx.rotate(-Math.PI/2);
+  ctx.fillText('← Lower Quality    Ingredient Quality    Higher Quality →',0,0);
+  ctx.restore();
+
+  // ── Dots ─────────────────────────────────────────────────────────────
+  dots=[];
+  const sorted=[...brands].sort((a,b)=>a.ingredient_score-b.ingredient_score);
+
+  sorted.forEach(b=>{
+    const{x,y}=toXY(b.macro_score,b.ingredient_score);
+    const r=Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
+    const isH=hov&&hov.brand===b.brand;
+    const col=GC[b.modal_grade]||'#888';
+    ctx.beginPath();ctx.arc(x,y,isH?r+2.5:r,0,Math.PI*2);
+    ctx.fillStyle=col+(isH?'ff':'e0');
+    ctx.fill();
+    if(isH){ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.stroke();}
+    dots.push({brand:b,cx:x,cy:y,r});
+  });
+
+  // ── Labels ────────────────────────────────────────────────────────────
+  ctx.save();
+  sorted.forEach(b=>{
+    const showLabel=PRIORITY_LABELS.has(b.brand)||(hov&&hov.brand===b.brand);
+    if(!showLabel)return;
+    const{x,y}=toXY(b.macro_score,b.ingredient_score);
+    const r=Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
+    const isH=hov&&hov.brand===b.brand;
+    const fontSize=isH?11.5:10;
+    ctx.font=(isH?'600 ':'500 ')+fontSize+'px DM Sans, sans-serif';
+    ctx.textAlign='left';
+    const lx=x+r+3.5,ly=y+3.5;
+    const tw=ctx.measureText(b.brand).width;
+    // Knockout bg so label is readable over dots
+    ctx.fillStyle='rgba(248,247,244,0.85)';
+    ctx.fillRect(lx-1,ly-fontSize-0.5,tw+2,fontSize+2);
+    ctx.fillStyle=isH?'#0e0e0e':'#222';
+    ctx.fillText(b.brand,lx,ly);
+  });
+  ctx.restore();
+}
+
+// ── Tooltip ──────────────────────────────────────────────────────────────────
+const tip=document.getElementById('qtip');
+
+function quadName(b){
+  const u=b.ingredient_score>=MID_ING,r=b.macro_score>=MID_MAC;
+  if(u&&r)return'Clean & Optimized';
+  if(u&&!r)return'Principled, Not Performance';
+  if(!u&&r)return'Engineered, Not Clean';
+  return'Skip It';
+}
+
+function hit(mx,my){
+  for(let i=dots.length-1;i>=0;i--){
+    const d=dots[i];
+    if(Math.hypot(mx-d.cx,my-d.cy)<=d.r+5)return d.brand;
+  }
+  return null;
+}
+
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const brand=hit(mx,my);
+  if(brand){
+    canvas.style.cursor='pointer';
+    if(!hov||hov.brand!==brand.brand){hov=brand;draw();}
+    const c=GC[brand.modal_grade];
+    const gd=Object.entries(brand.grade_dist).sort((a,b)=>b[1]-a[1]).map(([g,n])=>g+':'+n).join('  ');
+    tip.innerHTML=`
+      <div class="tt-name">${brand.brand}</div>
+      <div class="tt-badge" style="background:${c}25;color:${c}">${brand.modal_grade} &mdash; ${GL[brand.modal_grade]}</div>
+      <div class="tt-rows">
+        <div class="tt-row"><span class="lbl">Flavors scored</span><span class="val">${brand.flavor_count}</span></div>
+        <div class="tt-row"><span class="lbl">Avg protein</span><span class="val">${brand.avg_protein}g</span></div>
+        <div class="tt-row"><span class="lbl">Avg calories</span><span class="val">${brand.avg_calories}</span></div>
+        <div class="tt-row"><span class="lbl">Avg sugar</span><span class="val">${brand.avg_sugar}g</span></div>
+        <div class="tt-row"><span class="lbl">Avg fiber</span><span class="val">${brand.avg_fiber}g</span></div>
+        <div class="tt-row"><span class="lbl">Grade spread</span><span class="val">${gd}</span></div>
+      </div>
+      <hr class="tt-div">
+      <div class="tt-quad">${quadName(brand)}</div>
+      <div class="tt-hint">${PAGES[brand.brand]?'Click for full brand review \u2192':'Click to filter on KYB \u2192'}</div>`;
+    tip.classList.add('on');
+    const tw=240,th=270,l=e.clientX+16>window.innerWidth-8?e.clientX-tw-16:e.clientX+16;
+    const t=e.clientY-12+th>window.innerHeight-8?e.clientY-th:e.clientY-12;
+    tip.style.left=l+'px';tip.style.top=t+'px';
+  }else{
+    canvas.style.cursor='crosshair';
+    if(hov){hov=null;draw();}
+    tip.classList.remove('on');
+  }
+});
+canvas.addEventListener('mouseleave',()=>{tip.classList.remove('on');if(hov){hov=null;draw();}});
+canvas.addEventListener('click',e=>{
+  const rect=canvas.getBoundingClientRect();
+  const b=hit(e.clientX-rect.left,e.clientY-rect.top);
+  if(b)window.location.href=PAGES[b.brand]||('/?brand='+encodeURIComponent(b.brand));
+});
+
+// ── View switching ────────────────────────────────────────────────────────────
+function setView(v,btn){
+  view=v;
+  document.querySelectorAll('.qview-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const m=VIEW_META[v];
+  document.getElementById('view-desc').textContent=m.desc;
+  document.getElementById('vc-brands').textContent=m.brands+' brands';
+  document.getElementById('vc-bars').textContent=m.bars+' bars';
+  hov=null;draw();
+}
+
+// ── Download ──────────────────────────────────────────────────────────────────
+function downloadPNG(){
+  const a=document.createElement('a');
+  a.download='kyb-brand-quadrant-'+view+'-2026.png';
+  a.href=canvas.toDataURL('image/png');
+  a.click();
+}
+
+// ── Nav ───────────────────────────────────────────────────────────────────────
+document.getElementById('nav-toggle').addEventListener('click',()=>{
+  document.querySelector('.site-nav-links').classList.toggle('open');
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+window.addEventListener('resize',resize);
+resize();
+</script>
+</body>
+</html>
