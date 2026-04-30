@@ -75,10 +75,30 @@
     .tt-quad { font-size:11px; color:#666; font-style:italic; }
     .tt-hint { font-size:10px; color:var(--accent); font-family:var(--font-mono); margin-top:0.3rem; letter-spacing:0.03em; }
 
-    @media (max-width:580px) {
-      .qmethod { grid-template-columns:1fr; }
+    /* ── Mobile ───────────────────────────────────────────── */
+    @media (max-width:600px) {
+      .qhero { padding:2rem 1rem 1.75rem; }
+      .qhero h1 { font-size:1.5rem; }
+      .qhero-sub { font-size:0.88rem; }
+      .qhero-stats { gap:1.25rem; }
+      .qhero-stat strong { font-size:1.4rem; }
+
+      .qcontrols { padding:0.65rem 1rem 0; }
+      .qcontrols-top { gap:0.4rem; padding-bottom:0.55rem; }
+      .qview-label { display:none; }
       .qcontrols-right { margin-left:0; width:100%; }
       .qdl-btn { width:100%; text-align:center; display:block; }
+      .qview-explainer { font-size:0.75rem; }
+      .qview-count { font-size:9px; }
+
+      .qouter { margin:1rem auto; padding:0 0.75rem; }
+      .qlegend { gap:0.65rem; font-size:9px; }
+      .qlegend-heading { width:100%; margin-bottom:2px; }
+      .ql-size { width:100%; margin-left:0; margin-top:2px; }
+
+      .qmethod { grid-template-columns:1fr; padding:0 0.75rem; }
+      .qmethod-card { padding:0.9rem 1rem; }
+      .qcta { padding:0 0.75rem; }
     }
   </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
@@ -116,7 +136,7 @@
 </nav>
 
 <section class="qhero">
-  <div class="qhero-eyebrow">The KYB Brand Quadrant &mdash; 2026</div>
+  <div class="qhero-eyebrow">The KYB Brand Quadrant  /  2026</div>
   <h1>Every Protein Bar Brand,<br><em>Ranked by What Actually Matters</em></h1>
   <p class="qhero-sub">We scored 95 brands across 904 bars on ingredient quality and macro efficiency. No sponsorships. No affiliate influence. Just data.</p>
   <div class="qhero-stats">
@@ -152,23 +172,23 @@
   </div>
   <div class="qlegend">
     <span class="qlegend-heading">Ingredient Quality Score</span>
-    <div class="ql-item"><div class="ql-dot" style="background:#2a7a1f"></div>A &mdash; Clean</div>
-    <div class="ql-item"><div class="ql-dot" style="background:#5a8a2f"></div>B &mdash; Good</div>
-    <div class="ql-item"><div class="ql-dot" style="background:#b89a00"></div>C &mdash; Okay</div>
-    <div class="ql-item"><div class="ql-dot" style="background:#c87020"></div>D &mdash; Poor</div>
-    <div class="ql-item"><div class="ql-dot" style="background:#c83020"></div>F &mdash; Avoid</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#2a7a1f"></div>A &middot; Clean</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#5a8a2f"></div>B &middot; Good</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#b89a00"></div>C &middot; Okay</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#c87020"></div>D &middot; Poor</div>
+    <div class="ql-item"><div class="ql-dot" style="background:#c83020"></div>F &middot; Avoid</div>
     <span class="ql-size">Dot size = # of different flavors</span>
   </div>
 </div>
 
 <div class="qmethod">
   <div class="qmethod-card">
-    <div class="qmethod-axis">Y Axis &mdash; Vertical</div>
+    <div class="qmethod-axis">Y Axis</div>
     <div class="qmethod-title">Ingredient Quality Score</div>
     <p>Each bar is parsed ingredient-by-ingredient against our canonical scoring schema. Beneficial ingredients push the score up; problematic ones drag it down. Position in the list is weighted — what comes first matters more. Brand score = median across all scored flavors.</p>
   </div>
   <div class="qmethod-card">
-    <div class="qmethod-axis">X Axis &mdash; Horizontal</div>
+    <div class="qmethod-axis">X Axis</div>
     <div class="qmethod-title">Macro Efficiency Score</div>
     <p>A composite of three signals: protein efficiency (60%) — how much protein per calorie; low sugar (25%) — less sugar scores better; high fiber (15%) — more fiber scores better. Brand score = median across all flavors. Directionally correct, not a perfect measurement.</p>
   </div>
@@ -218,14 +238,18 @@ const canvas=document.getElementById('qcanvas');
 const ctx=canvas.getContext('2d');
 let PA={};
 
+const isMobile=()=>window.innerWidth<=600;
 function resize(){
   const wrap=document.getElementById('qwrapper');
-  const W=wrap.clientWidth,H=Math.round(W*0.7);
+  const W=wrap.clientWidth;
+  // Taller on mobile so dots have breathing room
+  const H=Math.round(W*(isMobile()?0.95:0.7));
   canvas.width=W*devicePixelRatio; canvas.height=H*devicePixelRatio;
   canvas.style.width=W+'px'; canvas.style.height=H+'px';
   ctx.setTransform(1,0,0,1,0,0);
   ctx.scale(devicePixelRatio,devicePixelRatio);
-  const P={t:46,r:16,b:50,l:16};
+  // More bottom padding on mobile for axis label
+  const P=isMobile()?{t:36,r:10,b:44,l:10}:{t:46,r:16,b:50,l:16};
   PA={x:P.l,y:P.t,w:W-P.l-P.r,h:H-P.t-P.b,W,H};
   draw();
 }
@@ -283,7 +307,7 @@ function draw(){
   // ── Quadrant label boxes (Gartner style) ─────────────────────────────
   const PAD=8,LH=15;
   ctx.save();
-  ctx.font='700 11px Syne, sans-serif';
+  ctx.font='700 '+(isMobile()?'9':'11')+'px Syne, sans-serif';
 
   const qlabels=[
     {lines:['PRINCIPLED,','NOT PERFORMANCE'],x:PA.x+PAD,y:PA.y+PAD,ax:'left',ay:'top',color:'#236818',bg:'rgba(42,122,31,0.13)'},
@@ -311,11 +335,21 @@ function draw(){
 
   // ── Axis labels ──────────────────────────────────────────────────────
   ctx.save();
-  ctx.fillStyle='#666';ctx.font='500 11px DM Sans, sans-serif';
+  ctx.font='500 11px DM Sans, sans-serif';
+  ctx.fillStyle='#555'; ctx.textAlign='center';
+  ctx.fillText('Macro Efficiency',PA.x+PA.w/2,PA.y+PA.h+36);
+  ctx.font='400 10px DM Sans, sans-serif'; ctx.fillStyle='#aaa';
+  ctx.textAlign='left';  ctx.fillText('Low',PA.x,PA.y+PA.h+36);
+  ctx.textAlign='right'; ctx.fillText('High',PA.x+PA.w,PA.y+PA.h+36);
+  ctx.fillStyle='#555'; ctx.font='500 11px DM Sans, sans-serif';
   ctx.textAlign='center';
-  ctx.fillText('← Less Macro-Efficient    Macro Efficiency    More Macro-Efficient →',PA.x+PA.w/2,PA.y+PA.h+36);
-  ctx.translate(13,PA.y+PA.h/2);ctx.rotate(-Math.PI/2);
-  ctx.fillText('← Lower Quality    Ingredient Quality    Higher Quality →',0,0);
+  ctx.save(); ctx.translate(13,PA.y+PA.h/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Ingredient Quality',0,0); ctx.restore();
+  ctx.fillStyle='#aaa'; ctx.font='400 10px DM Sans, sans-serif';
+  ctx.save(); ctx.translate(13,PA.y+16); ctx.rotate(-Math.PI/2);
+  ctx.fillText('High',0,0); ctx.restore();
+  ctx.save(); ctx.translate(13,PA.y+PA.h-8); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Low',0,0); ctx.restore();
   ctx.restore();
 
   // ── Dots ─────────────────────────────────────────────────────────────
@@ -324,7 +358,7 @@ function draw(){
 
   sorted.forEach(b=>{
     const{x,y}=toXY(b.macro_score,b.ingredient_score);
-    const r=Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
+    const r=isMobile()?Math.max(3,2.2+Math.sqrt(b.flavor_count)*0.95):Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
     const isH=hov&&hov.brand===b.brand;
     const col=GC[b.modal_grade]||'#888';
     ctx.beginPath();ctx.arc(x,y,isH?r+2.5:r,0,Math.PI*2);
@@ -342,7 +376,7 @@ function draw(){
     const{x,y}=toXY(b.macro_score,b.ingredient_score);
     const r=Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
     const isH=hov&&hov.brand===b.brand;
-    const fontSize=isH?11.5:10;
+    const fontSize=isMobile()?(isH?10:8.5):(isH?11.5:10);
     ctx.font=(isH?'600 ':'500 ')+fontSize+'px DM Sans, sans-serif';
     ctx.textAlign='left';
     const lx=x+r+3.5,ly=y+3.5;
@@ -386,7 +420,7 @@ canvas.addEventListener('mousemove',e=>{
     const gd=Object.entries(brand.grade_dist).sort((a,b)=>b[1]-a[1]).map(([g,n])=>g+':'+n).join('  ');
     tip.innerHTML=`
       <div class="tt-name">${brand.brand}</div>
-      <div class="tt-badge" style="background:${c}25;color:${c}">${brand.modal_grade} &mdash; ${GL[brand.modal_grade]}</div>
+      <div class="tt-badge" style="background:${c}25;color:${c}">${brand.modal_grade} &middot; ${GL[brand.modal_grade]}</div>
       <div class="tt-rows">
         <div class="tt-row"><span class="lbl">Flavors scored</span><span class="val">${brand.flavor_count}</span></div>
         <div class="tt-row"><span class="lbl">Avg protein</span><span class="val">${brand.avg_protein}g</span></div>
@@ -409,6 +443,48 @@ canvas.addEventListener('mousemove',e=>{
   }
 });
 canvas.addEventListener('mouseleave',()=>{tip.classList.remove('on');if(hov){hov=null;draw();}});
+
+// Touch support: tap to show tooltip, tap away to dismiss
+let lastTouchBrand=null;
+canvas.addEventListener('touchstart',e=>{
+  e.preventDefault();
+  const rect=canvas.getBoundingClientRect();
+  const t=e.touches[0];
+  const mx=t.clientX-rect.left,my=t.clientY-rect.top;
+  const brand=hit(mx,my);
+  if(brand){
+    if(lastTouchBrand&&lastTouchBrand.brand===brand.brand){
+      // Second tap = navigate
+      window.location.href=PAGES[brand.brand]||('/?brand='+encodeURIComponent(brand.brand));
+      return;
+    }
+    lastTouchBrand=brand; hov=brand; draw();
+    const c=GC[brand.modal_grade];
+    const gd=Object.entries(brand.grade_dist).sort((a,b)=>b[1]-a[1]).map(([g,n])=>g+':'+n).join('  ');
+    tip.innerHTML=`
+      <div class="tt-name">${brand.brand}</div>
+      <div class="tt-badge" style="background:${c}25;color:${c}">${brand.modal_grade} &middot; ${GL[brand.modal_grade]}</div>
+      <div class="tt-rows">
+        <div class="tt-row"><span class="lbl">Flavors scored</span><span class="val">${brand.flavor_count}</span></div>
+        <div class="tt-row"><span class="lbl">Avg protein</span><span class="val">${brand.avg_protein}g</span></div>
+        <div class="tt-row"><span class="lbl">Avg sugar</span><span class="val">${brand.avg_sugar}g</span></div>
+        <div class="tt-row"><span class="lbl">Grade spread</span><span class="val">${gd}</span></div>
+      </div>
+      <hr class="tt-div">
+      <div class="tt-quad">${quadName(brand)}</div>
+      <div class="tt-hint">Tap again to view on KYB</div>`;
+    tip.classList.add('on');
+    // Position tooltip above finger
+    const bx=t.clientX,by=t.clientY;
+    const tw=235,th=220;
+    const l=Math.min(Math.max(8,bx-tw/2),window.innerWidth-tw-8);
+    const top=by-th-20<8?by+20:by-th-20;
+    tip.style.left=l+'px'; tip.style.top=top+'px';
+    tip.style.maxWidth=(window.innerWidth-16)+'px';
+  } else {
+    lastTouchBrand=null; hov=null; draw(); tip.classList.remove('on');
+  }
+},{passive:false});
 canvas.addEventListener('click',e=>{
   const rect=canvas.getBoundingClientRect();
   const b=hit(e.clientX-rect.left,e.clientY-rect.top);
