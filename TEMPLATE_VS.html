@@ -257,6 +257,33 @@
     }
     .vs-grade-block-label.brand-a { color: var(--brand-a); }
     .vs-grade-block-label.brand-b { color: var(--brand-b); }
+    /* Make grade segments taller and font bigger for readability */
+    .vs-grade-pair .grade-dist { height: 44px; }
+    .vs-grade-pair .grade-seg {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .vs-grade-count-row {
+      display: flex;
+      gap: .5rem;
+      margin-top: .5rem;
+      flex-wrap: wrap;
+    }
+    .vs-grade-count-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .vs-grade-count-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
 
     /* ── best flavor cards side by side ── */
     .vs-best-pair {
@@ -816,9 +843,10 @@
           <div class="grade-seg" style="background:#c87020;flex:@@BRAND_A_COUNT_D@@" title="Poor: @@BRAND_A_COUNT_D@@ bars">D</div>
           <div class="grade-seg" style="background:#c83020;flex:@@BRAND_A_COUNT_F@@" title="Avoid: @@BRAND_A_COUNT_F@@ bars">F</div>
         </div>
-        <p style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:.5rem;">
-          @@BRAND_A_COUNT_A@@ A &nbsp;&middot;&nbsp; @@BRAND_A_COUNT_B@@ B &nbsp;&middot;&nbsp; @@BRAND_A_COUNT_C@@ C &nbsp;&middot;&nbsp; @@BRAND_A_COUNT_D@@ D &nbsp;&middot;&nbsp; @@BRAND_A_COUNT_F@@ F
-        </p>
+        <div class="vs-grade-count-row">
+          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#5a8a2f"></span>@@BRAND_A_COUNT_B@@ &ndash; B</span>
+          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#b89a00"></span>@@BRAND_A_COUNT_C@@ &ndash; C</span>
+        </div>
       </div>
 
       <div>
@@ -830,9 +858,10 @@
           <div class="grade-seg" style="background:#c87020;flex:@@BRAND_B_COUNT_D@@" title="Poor: @@BRAND_B_COUNT_D@@ bars">D</div>
           <div class="grade-seg" style="background:#c83020;flex:@@BRAND_B_COUNT_F@@" title="Avoid: @@BRAND_B_COUNT_F@@ bars">F</div>
         </div>
-        <p style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:.5rem;">
-          @@BRAND_B_COUNT_A@@ A &nbsp;&middot;&nbsp; @@BRAND_B_COUNT_B@@ B &nbsp;&middot;&nbsp; @@BRAND_B_COUNT_C@@ C &nbsp;&middot;&nbsp; @@BRAND_B_COUNT_D@@ D &nbsp;&middot;&nbsp; @@BRAND_B_COUNT_F@@ F
-        </p>
+        <div class="vs-grade-count-row">
+          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#2a7a1f"></span>@@BRAND_B_COUNT_A@@ &ndash; A</span>
+          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#5a8a2f"></span>@@BRAND_B_COUNT_B@@ &ndash; B</span>
+        </div>
       </div>
 
     </div>
