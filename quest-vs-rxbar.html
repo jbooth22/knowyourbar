@@ -1,147 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-SW4MNP5W7J');</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+
+  <!-- Core meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quest Bars vs RXBAR: Ingredient Quality, Protein, and Sweeteners Compared | Know Your Bar</title>
-  <meta name="description" content="Quest bars score B/C on ingredients but deliver 20g protein at 3.8g net carbs. RXBARs score mostly A but have 14g sugar and half the protein. Here's which one to buy and when.">
+  <title>Quest vs RXBAR: Ingredient Quality, Protein, and Macros Compared | Know Your Bar</title>
+  <meta name="description" content="Quest scores B/C on ingredients but delivers 20g protein at 3.8g net carbs. RXBAR scores mostly A with whole food ingredients but averages 14g sugar and 12.5g protein. Full data breakdown.">
   <link rel="canonical" href="https://knowyourbar.com/quest-vs-rxbar.html">
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Article","headline":"Quest Bars vs RXBAR: Ingredient Quality, Protein, and Sweeteners Compared","description":"A data-driven comparison of Quest and RXBAR across ingredient quality, protein efficiency, sweeteners, and net carbs. Based on scoring 900+ protein bars.","author":{"@type":"Organization","name":"Know Your Bar","url":"https://knowyourbar.com"},"publisher":{"@type":"Organization","name":"Know Your Bar","url":"https://knowyourbar.com"},"dateModified":"2026-04-25","mainEntityOfPage":{"@type":"WebPage","@id":"https://knowyourbar.com/quest-vs-rxbar.html"}}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"Are Quest bars or RXBARs healthier?","acceptedAnswer":{"@type":"Answer","text":"It depends what you mean by healthy. RXBARs score significantly higher on ingredient quality   10 of 12 flavors earn an A grade, they use whole food ingredients like egg whites and dates, and contain zero artificial sweeteners. Quest bars score B or C, use sucralose and erythritol in every flavor, but deliver 20g protein at 3.8g net carbs. If ingredient quality is your priority, RXBAR wins clearly. If protein efficiency or keto macros matter more, Quest wins."}},
-    {"@type":"Question","name":"Which has more protein, Quest or RXBAR?","acceptedAnswer":{"@type":"Answer","text":"Quest bars average 19.9g protein per bar. RXBARs average 12.5g. Quest delivers significantly more protein per bar and per calorie   10.9g per 100 calories versus 5.9g for RXBAR. If protein is the primary goal, Quest is the more efficient choice."}},
-    {"@type":"Question","name":"Do RXBARs have artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"No. Zero of the 12 RXBAR flavors we scored contain sucralose, acesulfame potassium, aspartame, or saccharin. RXBARs are sweetened by dates, which is why they have 14g of sugar per bar   that sugar is naturally occurring from the dates, not added refined sugar."}},
-    {"@type":"Question","name":"Are Quest bars keto friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. All 16 Quest flavors average 3.8g net carbs and hit 5g or fewer. RXBARs average 19.8g net carbs and do not qualify for keto. Quest is one of the most consistently keto-friendly bars on the market."}}
-  ]}
-  </script>
-  <style>
-    :root {--black:#0e0e0e;--white:#f7f5f0;--off-white:#efece6;--accent:#d4f000;--muted:#4a4a45;--border:#d6d3cc;--quest:#2563c4;--rxbar:#c43a25;--radius:6px;--radius-lg:10px;--fd:var(--font-display);--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
-      --font-display: var(--font-display);
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'DM Mono', 'Menlo', monospace;
-      --text: #1a1a18;
-      --text-muted: #4a4a45;
-      --text-light: #c8c4bc;
-      --text-dim: #888780;
-      --surface: #141414;
-      --border-dark: #ffffff14;
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--black);font-size:16px;line-height:1.65;}
-    .nav{background:var(--black);display:flex;align-items:center;padding:0 1.5rem;height:52px;gap:2rem;position:relative;z-index:100;border-bottom:1px solid #ffffff15;}
-    .nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);text-decoration:none;letter-spacing:.08em;}
-    .nav-links{display:flex;align-items:center;margin-left:auto;}
-    .nav-link{font-family:'DM Mono',monospace;font-size:11px;color:#ccc8c0;text-decoration:none;padding:0 12px;height:52px;display:flex;align-items:center;}
-    .nav-link:hover{color:#fff;}
-    .nav-group{position:relative;height:52px;display:flex;align-items:center;}
-    .nav-group-label{font-family:'DM Mono',monospace;font-size:11px;color:#ccc8c0;padding:0 12px;height:52px;display:flex;align-items:center;gap:4px;cursor:default;}
-    .nav-group-label::after{content:'▾';font-size:9px;color:#ffffff55;}
-    .nav-group:hover .nav-group-label{color:#fff;}
-    .nav-dd{display:none;position:absolute;top:52px;left:0;background:#1c1c1c;border:1px solid #ffffff20;border-radius:0 0 6px 6px;min-width:185px;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,.5);}
-    .nav-group:hover .nav-dd{display:block;}
-    .nav-dd a{display:block;font-family:'DM Mono',monospace;font-size:11px;color:#ccc8c0;text-decoration:none;padding:8px 16px;}
-    .nav-dd a:hover{background:#ffffff0a;color:#fff;}
-    .hero{background:var(--black);color:#f0ede6;padding: 2.25rem 1.5rem;}
-    .hero-inner{max-width:820px;margin:0 auto;}
-    .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.85rem;}
-    h1{font-family: var(--font-display);font-size:clamp(1.8rem,5vw,3rem);font-weight:800;letter-spacing:-.025em;line-height:1.12;margin-bottom:1rem;padding-bottom:.1em;color:#f0ede6;}
-    h1 .vs{color:var(--accent);}
-    .hero-sub{font-size:1rem;color:#c8c4bc;max-width:620px;line-height:1.7;}
-    .verdict-bar{background:var(--off-white);border-bottom:1px solid var(--border);padding:2rem 1.5rem;}
-    .verdict-inner{max-width:820px;margin:0 auto;}
-    .verdict-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-top:1.25rem;}
-    .verdict-brand{padding:1.25rem;border-radius:var(--radius-lg);border:2px solid transparent;}
-    .verdict-brand.quest{border-color:var(--quest);background:#f0f4ff;}
-    .verdict-brand.rxbar{border-color:var(--rxbar);background:#fff0ee;}
-    .verdict-brand-name{font-family: var(--font-display);font-weight:800;font-size:1.2rem;margin-bottom:.5rem;}
-    .verdict-brand-name.quest{color:var(--quest);}
-    .verdict-brand-name.rxbar{color:var(--rxbar);}
-    .verdict-wins{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
-    .verdict-win-item{font-size:.88rem;color:var(--black);margin-bottom:.2rem;padding-left:.75rem;position:relative;}
-    .verdict-win-item::before{content:'✓';position:absolute;left:0;color:green;}
-    .verdict-vs{font-family: var(--font-display);font-size:1.5rem;font-weight:800;color:var(--muted);text-align:center;}
-    .scorecard{padding:2.5rem 1.5rem;border-bottom:1px solid var(--border);}
-    .scorecard-inner{max-width:820px;margin:0 auto;}
-    h2{font-family: var(--font-display);font-size:clamp(1.2rem,2.5vw,1.65rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.75rem;padding-bottom:.05em;line-height:1.15;}
-    .compare-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.9rem;}
-    .compare-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:.6rem .75rem;text-align:left;border-bottom:2px solid var(--border);color:var(--muted);}
-    .compare-table th.quest-col{color:var(--quest);}
-    .compare-table th.rxbar-col{color:var(--rxbar);}
-    .compare-table td{padding:.55rem .75rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-    .compare-table tr:last-child td{border-bottom:none;}
-    .compare-table .metric{font-family:'DM Mono',monospace;font-size:.82rem;color:var(--muted);}
-    .compare-table .val{font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;}
-    .compare-table .val.win{color:#1a6a00;font-weight:600;}
-    .compare-table .val.lose{color:var(--muted);}
-    .compare-table .val.neutral{color:var(--black);}
-    .winner-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;padding:2px 6px;border-radius:3px;background:#e4f5d4;color:#1a5a00;border:1px solid #70c040;margin-left:4px;}
-    .section-body{color:var(--muted);font-size:.95rem;line-height:1.7;max-width:680px;}
-    .section-body p{margin-bottom:.75rem;}
-    .callout-box{margin:1.25rem 0;padding:1rem 1.25rem;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--off-white);font-size:.9rem;line-height:1.65;}
-    .callout-box.quest{border-left:4px solid var(--quest);}
-    .callout-box.rxbar{border-left:4px solid var(--rxbar);}
-    .callout-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
-    .flavor-section{background:var(--off-white);padding:2.5rem 1.5rem;border-top:1px solid var(--border);}
-    .flavor-inner{max-width:820px;margin:0 auto;}
-    .tabs{display:flex;gap:8px;margin-bottom:1.25rem;}
-    .tab{font-family:'DM Mono',monospace;font-size:11px;padding:6px 14px;border:1px solid var(--border);border-radius:4px;background:transparent;cursor:pointer;color:var(--muted);}
-    .tab.active.quest{background:var(--quest);color:#fff;border-color:var(--quest);}
-    .tab.active.rxbar{background:var(--rxbar);color:#fff;border-color:var(--rxbar);}
-    .bar-row{display:flex;align-items:center;gap:8px;padding:.65rem .75rem;border-bottom:1px solid var(--border);background:var(--white);}
-    .bar-row:first-child{border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
-    .bar-row:last-child{border-bottom:none;border-radius:0 0 var(--radius-lg) var(--radius-lg);}
-    .grade-pill{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family: var(--font-display);font-size:11px;font-weight:800;color:white;flex-shrink:0;}
-    .bar-flavor-name{flex:1;font-size:.9rem;font-weight:500;}
-    .bar-stats{display:flex;gap:12px;font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted);}
-    .bar-stats span{white-space:nowrap;}
-    .amz-link{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;background:#FF9900;color:#000;text-decoration:none;border-radius:3px;white-space:nowrap;}
-    .bottom-line{background:var(--black);color:#f0ede6;padding:2.5rem 1.5rem;}
-    .bottom-inner{max-width:820px;margin:0 auto;}
-    h2.bottom-title{color:#f0ede6;padding-bottom:.05em;}
-    .buy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;}
-    .buy-card{padding:1.25rem;border-radius:var(--radius-lg);}
-    .buy-card.quest{background:rgba(37,99,196,.15);border:1px solid rgba(37,99,196,.4);}
-    .buy-card.rxbar{background:rgba(196,58,37,.15);border:1px solid rgba(196,58,37,.4);}
-    .buy-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;}
-    .buy-label.quest{color:#7aaefc;}
-    .buy-label.rxbar{color:#fc9a88;}
-    .buy-scenarios{list-style:none;}
-    .buy-scenarios li{font-size:.9rem;color:#c8c4bc;padding:.3rem 0;border-bottom:1px solid #ffffff12;}
-    .buy-scenarios li:last-child{border-bottom:none;}
-    .buy-scenarios li::before{content:'If ';color:#888;}
-    .faq-section{background:var(--off-white);border-top:1px solid var(--border);padding:2.5rem 1.5rem;}
-    .faq-inner{max-width:820px;margin:0 auto;}
-    .faq-item{border-bottom:1px solid var(--border);}
-    .faq-q{padding:.9rem 0;font-family: var(--font-display);font-weight:600;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;user-select:none;line-height:1.3;}
-    .faq-q::after{content:'＋';font-family:'DM Mono',monospace;font-size:.9rem;color:var(--muted);flex-shrink:0;}
-    .faq-item.open .faq-q::after{content:'－';}
-    .faq-a{display:none;padding-bottom:.9rem;font-size:.9rem;color:var(--muted);line-height:1.7;}
-    .faq-item.open .faq-a{display:block;}
-    .more-links{margin-top:1.75rem;padding:1.4rem;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);}
-    .more-links-label{font-size:.78rem;color:var(--muted);margin-bottom:.7rem;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;}
-    .more-links p{font-size:.9rem;margin-bottom:.45rem;}
-    .more-links a{color:var(--black);font-weight:600;text-decoration:none;}
-    footer{background:var(--black);color:#ffffff33;padding:1.5rem;font-family:'DM Mono',monospace;font-size:10px;text-align:center;}
-    footer a{color:#ffffff33;text-decoration:none;}
-    @media(max-width:620px){
-      .verdict-grid{grid-template-columns:1fr;}
-      .verdict-vs{display:none;}
-      .buy-grid{grid-template-columns:1fr;}
-      .bar-stats{display:none;}
-    }
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- CSS variables + vs-page overrides -->
+  <style>
+    :root {
+      --black:     #0e0e0e;
+      --white:     #f7f5f0;
+      --off-white: #efece6;
+      --accent:    #d4f000;
+      --muted:     #888880;
+      --border:    #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    6px;
+      --radius-lg: 10px;
+      --brand-a:   #2563c4;
+      --brand-b:   #c43a25;
+    }
+
+    .vs-accent { color: var(--accent); }
+
+    /* ── side-by-side scorecard ── */
+    .vs-scorecard {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+    .vs-brand-card {
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    .vs-brand-card.brand-a { border-top: 4px solid var(--brand-a); }
+    .vs-brand-card.brand-b { border-top: 4px solid var(--brand-b); }
+    .vs-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      margin-bottom: .85rem;
+    }
+    .vs-brand-name.brand-a { color: var(--brand-a); }
+    .vs-brand-name.brand-b { color: var(--brand-b); }
+    .vs-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: .35rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .85rem;
+      gap: .5rem;
+    }
+    .vs-stat-row:last-child { border-bottom: none; }
+    .vs-stat-label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+    }
+    .vs-stat-val {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--muted);
+      padding-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      .vs-scorecard { grid-template-columns: 1fr; }
+      .vs-divider { display: none; }
+    }
+
+    /* ── comparison table ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.25rem;
+      font-size: .88rem;
+    }
+    .compare-table thead th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .6rem .75rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      color: var(--muted);
+    }
+    .compare-table thead th.col-a { color: var(--brand-a); }
+    .compare-table thead th.col-b { color: var(--brand-b); }
+    .compare-table td {
+      padding: .55rem .75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .metric {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--muted);
+    }
+    .compare-table .val {
+      font-family: var(--font-mono);
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .compare-table .val.win-a { color: var(--brand-a); font-weight: 600; }
+    .compare-table .val.win-b { color: var(--brand-b); font-weight: 600; }
+    .compare-table .val.tie   { color: var(--muted); }
+
+    /* ── grade dist side by side ── */
+    .vs-grade-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 580px) { .vs-grade-pair { grid-template-columns: 1fr; } }
+    .vs-grade-block-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+    .vs-grade-block-label.brand-a { color: var(--brand-a); }
+    .vs-grade-block-label.brand-b { color: var(--brand-b); }
+
+    /* ── best flavor cards ── */
+    .vs-best-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 580px) { .vs-best-pair { grid-template-columns: 1fr; } }
+    .vs-best-card {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.1rem .9rem;
+    }
+    .vs-best-card.brand-a { border-top: 3px solid var(--brand-a); }
+    .vs-best-card.brand-b { border-top: 3px solid var(--brand-b); }
+    .vs-best-brand-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .vs-best-brand-tag.brand-a { color: var(--brand-a); }
+    .vs-best-brand-tag.brand-b { color: var(--brand-b); }
+    .vs-best-flavor {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: .3rem;
+      line-height: 1.2;
+    }
+    .vs-best-score {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--muted);
+      margin-bottom: .65rem;
+    }
+
+    /* ── callout boxes ── */
+    .vs-callout {
+      margin: 1rem 0;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--off-white);
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    .vs-callout.brand-a { border-left: 4px solid var(--brand-a); }
+    .vs-callout.brand-b { border-left: 4px solid var(--brand-b); }
+    .vs-callout-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .35rem;
+    }
+
+    /* ── who should buy ── */
+    .vs-buy-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 580px) { .vs-buy-pair { grid-template-columns: 1fr; } }
+    .vs-buy-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .vs-buy-card.brand-a { border-left: 4px solid var(--brand-a); }
+    .vs-buy-card.brand-b { border-left: 4px solid var(--brand-b); }
+    .vs-buy-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: .75rem;
+    }
+    .vs-buy-title.brand-a { color: var(--brand-a); }
+    .vs-buy-title.brand-b { color: var(--brand-b); }
+    .vs-buy-list { list-style: none; }
+    .vs-buy-list li {
+      font-size: .88rem;
+      padding: .3rem 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .vs-buy-list li:last-child { border-bottom: none; }
+
+    /* ── our pick ── */
+    .vs-pick {
+      background: var(--black);
+      color: #f0ede6;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .vs-pick-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .5rem;
+    }
+    .vs-pick-brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: .5rem;
+      color: #f0ede6;
+    }
+    .vs-pick-reason {
+      font-size: .9rem;
+      color: #c8c4bc;
+      line-height: 1.7;
+      max-width: 620px;
+    }
+    .vs-pick-amazon {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #FF9900;
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+
+    /* ── combined flavor table ── */
+    .vs-table-brand-row td {
+      background: var(--off-white);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .4rem .75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .vs-table-brand-row.brand-a td { color: var(--brand-a); }
+    .vs-table-brand-row.brand-b td { color: var(--brand-b); }
+  </style>
+
+  <!-- JSON-LD: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Quest vs RXBAR: Ingredient Quality, Protein, and Macros Compared",
+    "description": "A data-driven comparison of Quest and RXBAR across ingredient quality, protein efficiency, sweeteners, and net carbs. Based on scoring 1,000+ protein bars.",
+    "url": "https://knowyourbar.com/quest-vs-rxbar.html",
+    "image": "https://knowyourbar.com/bar_hero.png",
+    "datePublished": "2026-04-01",
+    "dateModified": "2026-04-30",
+    "author": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://knowyourbar.com/quest-vs-rxbar.html"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Dataset -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Know Your Bar Protein Bar Ingredient Quality Database",
+    "description": "1,000+ protein bars across 95+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
+    "url": "https://knowyourbar.com",
+    "creator": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "dateModified": "2026-04-30",
+    "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "variableMeasured": [
+      "Ingredient quality grade (A through F)",
+      "Ingredient quality score",
+      "Macronutrients",
+      "Dietary certifications"
+    ],
+    "measurementTechnique": "Proprietary ingredient scoring algorithm mapping each ingredient to a canonical base score weighted by position in ingredient list",
+    "spatialCoverage": "United States",
+    "temporalCoverage": "2026"
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Know Your Bar",
+        "item": "https://knowyourbar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Brand Comparisons",
+        "item": "https://knowyourbar.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Quest vs RXBAR",
+        "item": "https://knowyourbar.com/quest-vs-rxbar.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which is healthier, Quest or RXBAR?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It depends on what healthy means to you. RXBAR scores significantly higher on ingredient quality. 10 of 12 flavors earn an A grade, they use whole food ingredients like egg whites, dates, and nuts, and contain zero artificial sweeteners. Quest bars score B or C, use sucralose and erythritol in every flavor, but deliver 20g protein at 3.8g net carbs. If ingredient quality is your priority, RXBAR wins clearly. If protein efficiency or keto macros matter more, Quest wins." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which has more protein, Quest or RXBAR?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Quest bars average 19.9g protein per bar. RXBARs average 12.5g. Quest also wins on protein efficiency: 10.9g per 100 calories versus 5.9g for RXBAR. If protein is the primary goal, Quest is the more efficient choice." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do Quest bars have artificial sweeteners?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All 16 Quest flavors we scored contain sucralose and erythritol. These sweeteners let Quest hit 1g sugar and 3.8g net carbs per bar without using natural sugars, but they also push ingredient quality scores down to the B/C range." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do RXBAR bars have artificial sweeteners?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Zero of the 12 RXBAR flavors we scored contain sucralose, acesulfame potassium, aspartame, or saccharin. RXBARs are sweetened by dates, which is why they average 14g of sugar per bar. That sugar is naturally occurring from the dates, not added refined sugar." }
+      },
+      {
+        "@type": "Question",
+        "name": "Are Quest bars keto friendly?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All 16 Quest flavors average 3.8g net carbs and hit 5g or fewer. RXBARs average 19.8g net carbs and do not qualify for keto. Quest is one of the most consistently keto-friendly bars on the market." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which Quest flavor is the best?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Oatmeal Chocolate Chip scores highest among Quest flavors at 6.2 on ingredient quality and earns a B grade. It uses oats and stevia in addition to the standard erythritol, which helps the score. Double Chocolate Chunk has the lowest net carbs at 3g if keto is the priority." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which RXBAR flavor is the best?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Coconut Chocolate scores highest at 10.3 and earns an A grade. Chocolate Sea Salt is a close second at 10.2. Both use simple whole food ingredient lists: dates, egg whites, nuts, and real cocoa. Vanilla Almond and Blueberry are also strong picks at 10.0 and 9.9 respectively." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="Quest vs RXBAR: Ingredient Quality, Protein, and Macros Compared">
+  <meta property="og:description" content="Quest delivers 20g protein at 3.8g net carbs. RXBAR earns mostly A grades with whole food ingredients. Full data-driven comparison across all flavors.">
+  <meta property="og:url" content="https://knowyourbar.com/quest-vs-rxbar.html">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Quest vs RXBAR: Ingredient Quality, Protein, and Macros Compared">
+  <meta name="twitter:description" content="Quest delivers 20g protein at 3.8g net carbs. RXBAR earns mostly A grades with whole food ingredients. Full data-driven comparison across all flavors.">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
+
+</head>
+<body class="page-brand">
+
+<!-- NAV -->
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">knowyourbar.com</a>
   <div class="site-nav-links">
@@ -163,7 +479,7 @@
         <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
         <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
         <a href="/no-seed-oils.html">No Seed Oils</a>
-        <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
         <a href="/keto-protein-bars.html">Keto Protein Bars</a>
         <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
       </div>
@@ -172,7 +488,6 @@
       <span class="site-nav-group-label">Explore</span>
       <div class="site-nav-dropdown">
         <a href="/all-protein-bar-brands.html">All Brands</a>
-        <a href="/flavor-map.html">Flavor Map</a>
         <a href="/brand-quadrant.html">Brand Quadrant</a>
       </div>
     </div>
@@ -181,168 +496,1497 @@
   <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    
-    <h1>Quest Bars <span class="vs">vs</span> RXBAR</h1>
-    <p class="hero-sub">Two of the most popular protein bars on the market, and they couldn't be more different. Quest scores B/C on ingredients but crushes RXBAR on protein and net carbs. RXBAR earns mostly A grades with whole food ingredients but has more than 5 times the net carbs. Here's the full data-driven breakdown.</p>
+    <div class="hero-eyebrow">Brand Comparison</div>
+    <h1 class="hero-title"><em>Quest</em> <span class="vs-accent">vs</span> <em>RXBAR</em></h1>
+    <p class="hero-sub">Two of the most popular protein bars on the market, and they make opposite trade-offs. Quest scores B/C on ingredients but leads on protein and net carbs. RXBAR earns mostly A grades with whole food ingredients but has 5x the net carbs. Here is the full data breakdown across all 28 flavors.</p>
   </div>
 </section>
 
-<section class="verdict-bar">
-  <div class="verdict-inner">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Quick verdict</div>
-    <h2>What each brand wins at</h2>
-    <div class="verdict-grid">
-      <div class="verdict-brand quest">
-        <div class="verdict-brand-name quest">Quest</div>
-        <div class="verdict-wins">Wins on:</div>
-        <div class="verdict-win-item">Protein per bar (20g vs 12.5g)</div>
-        <div class="verdict-win-item">Net carbs (3.8g vs 19.8g)</div>
-        <div class="verdict-win-item">Protein per calorie (10.9 vs 5.9 per 100cal)</div>
-        <div class="verdict-win-item">Keto friendliness (all 16 flavors qualify)</div>
-        <div class="verdict-win-item">Flavor variety (16 flavors)</div>
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- 1. SIDE-BY-SIDE SCORECARD -->
+  <section class="section">
+    <h2>Quest vs RXBAR at a glance</h2>
+    <div class="vs-scorecard">
+
+      <div class="vs-brand-card brand-a">
+        <div class="vs-brand-name brand-a">Quest</div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Flavors scored</span>
+          <span class="vs-stat-val">16</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Grade range</span>
+          <span class="vs-stat-val">B-C</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg ingredient score</span>
+          <span class="vs-stat-val">3.9</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg protein</span>
+          <span class="vs-stat-val">19.9g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg calories</span>
+          <span class="vs-stat-val">182</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg sugar</span>
+          <span class="vs-stat-val">1.2g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg net carbs</span>
+          <span class="vs-stat-val">3.8g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Artificial sweeteners</span>
+          <span class="vs-stat-val" style="color:#c83020;">All 16 flavors</span>
+        </div>
       </div>
-      <div class="verdict-vs">vs</div>
-      <div class="verdict-brand rxbar">
-        <div class="verdict-brand-name rxbar">RXBAR</div>
-        <div class="verdict-wins">Wins on:</div>
-        <div class="verdict-win-item">Ingredient quality (avg score 9.2 vs 3.9)</div>
-        <div class="verdict-win-item">No artificial sweeteners (zero across all flavors)</div>
-        <div class="verdict-win-item">No sugar alcohols (zero across all flavors)</div>
-        <div class="verdict-win-item">Whole food ingredients (egg whites, dates, nuts)</div>
-        <div class="verdict-win-item">Grade (mostly A vs mostly B/C)</div>
+
+      <div class="vs-divider">vs</div>
+
+      <div class="vs-brand-card brand-b">
+        <div class="vs-brand-name brand-b">RXBAR</div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Flavors scored</span>
+          <span class="vs-stat-val">12</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Grade range</span>
+          <span class="vs-stat-val">A-B</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg ingredient score</span>
+          <span class="vs-stat-val">9.2</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg protein</span>
+          <span class="vs-stat-val">12.5g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg calories</span>
+          <span class="vs-stat-val">213</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg sugar</span>
+          <span class="vs-stat-val">14.2g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Avg net carbs</span>
+          <span class="vs-stat-val">19.8g</span>
+        </div>
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">Artificial sweeteners</span>
+          <span class="vs-stat-val" style="color:#2a7a1f;">None</span>
+        </div>
       </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="scorecard">
-  <div class="scorecard-inner">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Side by side</div>
+  <!-- 2. OVERVIEW -->
+  <section class="section">
+    <h2>What makes these two bars different</h2>
+    <p>Quest and RXBAR are built on different philosophies. Quest engineers its macros: high protein, very low sugar, and minimal net carbs by using artificial sweeteners and sugar alcohols. That lets them hit 20g protein at under 200 calories with 3.8g net carbs. The trade-off is ingredient quality, which sits in the B/C range across all 16 flavors.</p>
+    <p>RXBAR goes the other direction. Dates, egg whites, and nuts are the core of most flavors. No artificial sweeteners, no sugar alcohols. The result is an average ingredient score of 9.2 and 10 out of 12 flavors earning an A. The trade-off is macros. Dates carry natural sugar, which is why RXBARs average 14g sugar and 19.8g net carbs. Protein averages 12.5g, which is 37% less per bar than Quest.</p>
+
+    <div class="vs-callout brand-a">
+      <div class="vs-callout-label">Quest</div>
+      Quest achieves low sugar and high protein by using sucralose and erythritol as sweeteners, plus polydextrose as a prebiotic fiber. This lets them hit 20g protein and 3.8g net carbs in 182 calories without natural sugars. The ingredient quality score of 3.9 reflects that sweetener dependence along with the use of isolated protein fractions rather than whole food protein sources. They score B or C, not A. That is a meaningful gap from RXBAR on ingredient quality, but it is a deliberate engineering choice, not an oversight.
+    </div>
+    <div class="vs-callout brand-b">
+      <div class="vs-callout-label">RXBAR</div>
+      RXBAR's classic ingredient list is genuinely simple: egg whites, dates, nuts, and not much else. That is why 10 of 12 flavors earn an A. The two B-grade flavors are the newer high-protein line, which adds pea protein and agave nectar. The cost of the whole-food approach is macros. Dates are high in natural sugar, which is why RXBARs average 14g sugar and 19.8g net carbs. That is fine if you are not tracking net carbs, but it rules them out for keto entirely.
+    </div>
+  </section>
+
+  <!-- 3. HEAD-TO-HEAD TABLE -->
+  <section class="section">
     <h2>The numbers, head to head</h2>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th>Metric</th>
-          <th class="quest-col">Quest (avg)</th>
-          <th class="rxbar-col">RXBAR (avg)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td class="metric">Ingredient score</td><td class="val lose">3.9</td><td class="val win">9.2 <span class="winner-tag">wins</span></td></tr>
-        <tr><td class="metric">Grade</td><td class="val lose">B/C</td><td class="val win">A (mostly) <span class="winner-tag">wins</span></td></tr>
-        <tr><td class="metric">Protein per bar</td><td class="val win">19.9g <span class="winner-tag">wins</span></td><td class="val lose">12.5g</td></tr>
-        <tr><td class="metric">Calories per bar</td><td class="val win">182 <span class="winner-tag">wins</span></td><td class="val lose">213</td></tr>
-        <tr><td class="metric">Protein per 100 cal</td><td class="val win">10.9g <span class="winner-tag">wins</span></td><td class="val lose">5.9g</td></tr>
-        <tr><td class="metric">Sugar per bar</td><td class="val win">1.2g <span class="winner-tag">wins</span></td><td class="val lose">14.2g</td></tr>
-        <tr><td class="metric">Net carbs</td><td class="val win">3.8g <span class="winner-tag">wins</span></td><td class="val lose">19.8g</td></tr>
-        <tr><td class="metric">Fiber per bar</td><td class="val win">12.1g <span class="winner-tag">wins</span></td><td class="val lose">4.7g</td></tr>
-        <tr><td class="metric">Artificial sweeteners</td><td class="val lose">100% of flavors</td><td class="val win">0% of flavors <span class="winner-tag">wins</span></td></tr>
-        <tr><td class="metric">Sugar alcohols</td><td class="val lose">100% of flavors</td><td class="val win">0% of flavors <span class="winner-tag">wins</span></td></tr>
-        <tr><td class="metric">Keto friendly</td><td class="val win">All 16 flavors <span class="winner-tag">wins</span></td><td class="val lose">0 of 12 flavors</td></tr>
-        <tr><td class="metric">Flavors in lineup</td><td class="val neutral">16</td><td class="val neutral">12</td></tr>
-      </tbody>
-    </table>
-
-    <div class="section-body" style="margin-top:1.5rem;">
-      <p>The RXBAR vs Quest decision really comes down to one question: do you care more about what's in the bar or what macros the bar delivers? They've made very different trade-offs and both are legitimate choices depending on your goals.</p>
+    <p>Every metric that matters, side by side. No curated selection.</p>
+    <div class="bar-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th class="col-a">Quest (avg)</th>
+            <th class="col-b">RXBAR (avg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Ingredient score</td>
+            <td class="val tie">3.9</td>
+            <td class="val win-b">9.2</td>
+          </tr>
+          <tr>
+            <td class="metric">Grade</td>
+            <td class="val tie">B/C</td>
+            <td class="val win-b">A (10 of 12 flavors)</td>
+          </tr>
+          <tr>
+            <td class="metric">Protein per bar</td>
+            <td class="val win-a">19.9g</td>
+            <td class="val tie">12.5g</td>
+          </tr>
+          <tr>
+            <td class="metric">Calories per bar</td>
+            <td class="val win-a">182</td>
+            <td class="val tie">213</td>
+          </tr>
+          <tr>
+            <td class="metric">Protein per 100 cal</td>
+            <td class="val win-a">10.9g</td>
+            <td class="val tie">5.9g</td>
+          </tr>
+          <tr>
+            <td class="metric">Sugar per bar</td>
+            <td class="val win-a">1.2g</td>
+            <td class="val tie">14.2g</td>
+          </tr>
+          <tr>
+            <td class="metric">Net carbs</td>
+            <td class="val win-a">3.8g</td>
+            <td class="val tie">19.8g</td>
+          </tr>
+          <tr>
+            <td class="metric">Fiber per bar</td>
+            <td class="val win-a">12.1g</td>
+            <td class="val tie">4.7g</td>
+          </tr>
+          <tr>
+            <td class="metric">Artificial sweeteners</td>
+            <td class="val tie">100% of flavors</td>
+            <td class="val win-b">0% of flavors</td>
+          </tr>
+          <tr>
+            <td class="metric">Sugar alcohols</td>
+            <td class="val tie">100% of flavors</td>
+            <td class="val win-b">0% of flavors</td>
+          </tr>
+          <tr>
+            <td class="metric">Keto friendly</td>
+            <td class="val win-a">All 16 flavors</td>
+            <td class="val tie">0 of 12 flavors</td>
+          </tr>
+          <tr>
+            <td class="metric">Whole food ingredients</td>
+            <td class="val tie">No</td>
+            <td class="val win-b">Yes (most flavors)</td>
+          </tr>
+          <tr>
+            <td class="metric">Flavors in lineup</td>
+            <td class="val tie">16</td>
+            <td class="val tie">12</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </section>
 
-    <div class="callout-box quest">
-      <div class="callout-label">Quest</div>
-      Quest achieves low sugar and high protein by using sucralose and erythritol as sweeteners. This lets them hit 20g protein and 3.8g net carbs in 182 calories without natural sugars. The ingredient quality score (3.9 average) reflects that sweetener reliance plus whey protein concentrate rather than isolate in some flavors. They score B or C, not A. That's not terrible, but it's a meaningful gap from RXBAR.
+  <!-- 4. GRADE DISTRIBUTION -->
+  <section class="section">
+    <h2>Ingredient quality grade distribution</h2>
+    <p>How each brand's full lineup breaks down by ingredient quality grade. Every flavor, not a curated selection.</p>
+    <div class="vs-grade-pair">
+
+      <div>
+        <div class="vs-grade-block-label brand-a">Quest &mdash; 16 flavors</div>
+        <div class="grade-dist">
+          <div class="grade-seg" style="background:#5a8a2f;flex:9" title="Good: 9 bars">B</div>
+          <div class="grade-seg" style="background:#b89a00;flex:7" title="Okay: 7 bars">C</div>
+        </div>
+        <p style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:.5rem;">
+          0 A &nbsp;&middot;&nbsp; 9 B &nbsp;&middot;&nbsp; 7 C &nbsp;&middot;&nbsp; 0 D &nbsp;&middot;&nbsp; 0 F
+        </p>
+      </div>
+
+      <div>
+        <div class="vs-grade-block-label brand-b">RXBAR &mdash; 12 flavors</div>
+        <div class="grade-dist">
+          <div class="grade-seg" style="background:#2a7a1f;flex:10" title="Clean: 10 bars">A</div>
+          <div class="grade-seg" style="background:#5a8a2f;flex:2" title="Good: 2 bars">B</div>
+        </div>
+        <p style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:.5rem;">
+          10 A &nbsp;&middot;&nbsp; 2 B &nbsp;&middot;&nbsp; 0 C &nbsp;&middot;&nbsp; 0 D &nbsp;&middot;&nbsp; 0 F
+        </p>
+      </div>
+
     </div>
+  </section>
 
-    <div class="callout-box rxbar">
-      <div class="callout-label">RXBAR</div>
-      RXBAR's ingredient list is genuinely simple: egg whites, dates, nuts, and not much else. That's why 10 of 12 flavors earn an A. The cost is macros. Dates are high in natural sugar, which is why RXBARs average 14g sugar and 19.8g net carbs. That's fine if you're not tracking net carbs, but it rules them out for keto entirely. The lower protein (12.5g average) also means you'd need to eat more bars to hit a protein target.
+  <!-- 5. BEST FLAVOR FROM EACH BRAND -->
+  <section class="section">
+    <h2>Best flavor from each brand by ingredient quality</h2>
+    <div class="vs-best-pair">
+
+      <div class="vs-best-card brand-a">
+        <div class="vs-best-brand-tag brand-a">Quest</div>
+        <div class="vs-best-flavor">Oatmeal Chocolate Chip</div>
+        <div class="vs-best-score">Score 6.2 &middot; Grade B</div>
+        <div class="bw-chips">
+          <span class="bchip pos">High protein</span>
+          <span class="bchip pos">Stevia sweetened</span>
+          <span class="bchip con">Erythritol</span>
+          <span class="bchip con">Sucralose</span>
+        </div>
+        <div style="margin-top:.85rem;">
+          <a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20"
+             target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+        </div>
+      </div>
+
+      <div class="vs-best-card brand-b">
+        <div class="vs-best-brand-tag brand-b">RXBAR</div>
+        <div class="vs-best-flavor">Coconut Chocolate</div>
+        <div class="vs-best-score">Score 10.3 &middot; Grade A</div>
+        <div class="bw-chips">
+          <span class="bchip pos">Whole food ingredients</span>
+          <span class="bchip pos">No artificial sweeteners</span>
+          <span class="bchip pos">Egg white protein</span>
+        </div>
+        <div style="margin-top:.85rem;">
+          <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20"
+             target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+        </div>
+      </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="scorecard" style="background:var(--off-white);">
-  <div class="scorecard-inner">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Who should buy what</div>
+  <!-- 6. WHO SHOULD BUY WHAT -->
+  <section class="section">
     <h2>The right bar for your goal</h2>
-    <div class="section-body">
-      <p>Neither bar is better across the board. It depends entirely on what you're optimizing for.</p>
-    </div>
-    <div class="buy-grid" style="margin-top:1.25rem;">
-      <div style="background:var(--white);border:1px solid var(--border);border-left:4px solid var(--quest);border-radius:var(--radius-lg);padding:1.25rem;">
-        <div style="font-family: var(--font-display);font-weight:800;color:var(--quest);margin-bottom:.75rem;">Buy Quest if:</div>
-        <ul style="list-style:none;">
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You're tracking macros and want the most protein per calorie</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You're on keto and need to stay under 5g net carbs</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You don't mind artificial sweeteners or sugar alcohols</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You want more flavor options (16 vs 12)</li>
-          <li style="font-size:.9rem;padding:.3rem 0;">You're lifting and protein is the priority above all else</li>
+    <p>Neither brand wins outright. It depends on what you are optimizing for.</p>
+    <div class="vs-buy-pair">
+
+      <div class="vs-buy-card brand-a">
+        <div class="vs-buy-title brand-a">Buy Quest if:</div>
+        <ul class="vs-buy-list">
+          <li>You are tracking macros and want the most protein per calorie</li>
+          <li>You are on keto and need to stay under 5g net carbs</li>
+          <li>Artificial sweeteners and sugar alcohols are not a concern for you</li>
+          <li>You want more flavor variety (16 options vs 12)</li>
+          <li>You are lifting and protein is the priority above all else</li>
         </ul>
       </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-left:4px solid var(--rxbar);border-radius:var(--radius-lg);padding:1.25rem;">
-        <div style="font-family: var(--font-display);font-weight:800;color:var(--rxbar);margin-bottom:.75rem;">Buy RXBAR if:</div>
-        <ul style="list-style:none;">
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">Ingredient quality matters more than hitting a specific protein number</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You want to avoid artificial sweeteners and sugar alcohols</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You prefer real food ingredients over engineered ones</li>
-          <li style="font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border);">You're not on keto and 14g of natural sugar from dates is fine</li>
-          <li style="font-size:.9rem;padding:.3rem 0;">You want a bar that doesn't feel like a compromise</li>
+
+      <div class="vs-buy-card brand-b">
+        <div class="vs-buy-title brand-b">Buy RXBAR if:</div>
+        <ul class="vs-buy-list">
+          <li>Ingredient quality matters more than hitting a specific protein target</li>
+          <li>You want to avoid artificial sweeteners and sugar alcohols entirely</li>
+          <li>You prefer whole food ingredients over engineered formulas</li>
+          <li>You are not on keto and 14g of natural sugar from dates works for you</li>
+          <li>You want a bar that reads like a recipe, not a supplement label</li>
         </ul>
       </div>
-    </div>
-  </div>
-</section>
 
-<section class="flavor-section">
-  <div class="flavor-inner">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Every flavor scored</div>
-    <h2>All flavors ranked by ingredient quality</h2>
-    <div class="tabs">
-      <button class="tab active quest" data-brand="quest">Quest (16 flavors)</button>
-      <button class="tab rxbar" data-brand="rxbar">RXBAR (12 flavors)</button>
     </div>
-    <div id="flavor-list"></div>
-  </div>
-</section>
+  </section>
 
+  <!-- 7. ALL FLAVORS TABLE -->
+  <section class="section">
+    <h2>All 28 flavors ranked by ingredient quality</h2>
+    <p>Every flavor scored. Tap any row to expand the full ingredient list.</p>
+    <div class="bar-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Flavor</th>
+            <th>Brand</th>
+            <th>Grade</th>
+            <th>Score</th>
+            <th>Protein</th>
+            <th>Cal</th>
+            <th>Sugar</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- QUEST FLAVORS -->
+          <tr class="vs-table-brand-row brand-a">
+            <td colspan="7">Quest &mdash; 16 flavors</td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(0, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Oatmeal Chocolate Chip</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">6.2</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-0">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 14g</span>
+                  <span><strong>Net Carbs</strong> 5g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Oats, Unsweetened Chocolate, Erythritol, Glycerin. Contains Less Than 2% Of: Cocoa Butter, Sea Salt, Natural Flavors, Cinnamon, Lecithin, Stevia
+                <div class="ingr-chips">
+                  <span class="bchip pos">High protein</span>
+                  <span class="bchip pos">Stevia sweetened</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(1, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Double Chocolate Chunk</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00FEKGO1A?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">5.2</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">170</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-1">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 170</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 12g</span>
+                  <span><strong>Net Carbs</strong> 3g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Cocoa Processed With Alkali, Glycerin, Cocoa Butter. Contains Less Than 2%: Natural Flavors, Sodium Caseinate, Sea Salt, Lecithin
+                <div class="ingr-chips">
+                  <span class="bchip pos">High protein</span>
+                  <span class="bchip pos">Lowest net carbs</span>
+                  <span class="bchip con elev">Erythritol</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00FEKGO1A?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(2, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Chocolate Chip Cookie Dough</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00DLDH1N2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">5.0</td>
+            <td class="num-cell">21g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-2">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 21g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 12g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Unsweetened Chocolate, Erythritol, Cocoa Butter, Glycerin. Contains Less Than 2%: Natural Flavors, Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">Highest protein (Quest)</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00DLDH1N2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(3, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Chocolate Peanut Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0719163RQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.7</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-3">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 11g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Peanuts, Polydextrose (Prebiotic Fiber), Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2%: Cocoa Butter, Sodium Caseinate, Natural Flavors, Sea Salt, Stevia Sweetener, Lecithin
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real peanuts</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0719163RQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(4, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Chocolate Brownie</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0057RWSZQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.6</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">170</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-4">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 170</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 15g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Processed With Alkali, Erythritol, Glycerin. Contains Less Than 2%: Natural Flavors, Salt, Stevia Sweetener, Lecithin, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">High fiber (15g)</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0057RWSZQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(5, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Dipped Chocolate Chip Cookie Dough</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0CKTY2GBX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.5</td>
+            <td class="num-cell">18g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-5">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 18g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 8g</span>
+                  <span><strong>Net Carbs</strong> 3g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Unsweetened Chocolate, Sodium Caseinate, Cocoa Processed With Alkali. Contains Less Than 2%: Glycerin, Cocoa Butter, Sea Salt, Natural Flavors, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con">Palm kernel oil</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0CKTY2GBX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(6, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Mint Chocolate Chunk</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00XAYPTMM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.2</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-6">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 14g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Almonds, Cocoa Butter, Erythritol, Cocoa Processed With Alkali, Glycerin, Natural Flavors. Contains Less Than 2%: Soluble Corn Fiber, Sodium Caseinate, Palm Kernel Oil, Sea Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00XAYPTMM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(7, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">S'Mores</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B078JBTZ1R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.2</td>
+            <td class="num-cell">21g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-7">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 21g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 12g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2%: Natural Flavors, Soluble Corn Fiber, Cocoa Butter, Palm Kernel Oil and/or Palm Oil, Salt, Cinnamon, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">Highest protein (Quest)</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B078JBTZ1R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(8, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Blueberry Muffin</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B01LPCLEWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">4.0</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">2g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-8">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 2g</span>
+                  <span><strong>Fiber</strong> 13g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Cocoa Butter, Glycerin, Dried Blueberries. Contains Less Than 2%: Natural Flavors, Soluble Corn Fiber, Palm Kernel Oil, Salt, Cinnamon, Baking Soda, Sodium Caseinate, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">Dried blueberries</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B01LPCLEWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(9, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Cookies and Cream</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00I0DI0Z6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">3.7</td>
+            <td class="num-cell">21g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-9">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 21g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 13g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Butter, Erythritol, Glycerin, Soluble Corn Fiber, Natural Flavors. Contains Less Than 2%: Cocoa Processed With Alkali, Palm Kernel Oil, Sea Salt, Sodium Caseinate, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00I0DI0Z6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(10, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Strawberry Shortcake</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0DS6ML3YB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">3.4</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">200</td>
+            <td class="num-cell">2g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-10">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 200</span>
+                  <span><strong>Sugar</strong> 2g</span>
+                  <span><strong>Fiber</strong> 10g</span>
+                  <span><strong>Net Carbs</strong> 3g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2%: Natural Flavors, Strawberries, Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con">Palm kernel oil</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0DS6ML3YB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(11, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Apple Pie</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00U3RGAMW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">3.0</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">170</td>
+            <td class="num-cell">2g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-11">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 170</span>
+                  <span><strong>Sugar</strong> 2g</span>
+                  <span><strong>Fiber</strong> 13g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Dried Apple (Ascorbic Acid, Citric Acid, Sodium Chloride), Glycerin, Soluble Corn Fiber. Contains Less Than 2%: Natural Flavors, Palm Kernel Oil, Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">Dried apple</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00U3RGAMW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(12, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">White Chocolate Raspberry</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B00DZR75G2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">3.0</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-12">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 13g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin, Raspberries, Sodium Caseinate. Contains Less Than 2%: Natural Flavors, Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real raspberries</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B00DZR75G2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(13, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Dipped Cookies and Cream</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0BRYSS78K?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">2.9</td>
+            <td class="num-cell">18g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-13">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 18g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 8g</span>
+                  <span><strong>Net Carbs</strong> 3g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Palm Kernel Oil, Erythritol, Water, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2%: Soluble Corn Fiber, Natural Flavors, Cocoa Processed With Alkali, Sea Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con">Palm kernel oil</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0BRYSS78K?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(14, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Lemon Cake</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B086CHT1TM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">2.0</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-14">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 13g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin. Contains Less Than 2%: Lemon Powder, Sodium Caseinate, Natural Flavors, Soluble Corn Fiber, Salt, Lecithin, Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con">Palm kernel oil</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B086CHT1TM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(15, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Birthday Cake</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-a);">Quest</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
+            <td class="num-cell">1.7</td>
+            <td class="num-cell">20g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">1g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-15">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 20g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 1g</span>
+                  <span><strong>Fiber</strong> 12g</span>
+                  <span><strong>Net Carbs</strong> 4g</span>
+                </div>
+                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Erythritol, Almonds, Palm Kernel Oil, Glycerin, Sodium Caseinate, Natural Flavors. Contains Less Than 2%: Sea Salt, Gum Arabic, Spirulina Extract (Color), Red Cabbage Extract (Color), Stevia Sweetener, Sucralose
+                <div class="ingr-chips">
+                  <span class="bchip con">Palm kernel oil</span>
+                  <span class="bchip con elev">Erythritol</span>
+                  <span class="bchip con elev">Sucralose</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- RXBAR FLAVORS -->
+          <tr class="vs-table-brand-row brand-b">
+            <td colspan="7">RXBAR &mdash; 12 flavors</td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(16, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Coconut Chocolate</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">10.3</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">200</td>
+            <td class="num-cell">14g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-16">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 200</span>
+                  <span><strong>Sugar</strong> 14g</span>
+                  <span><strong>Fiber</strong> 5g</span>
+                  <span><strong>Net Carbs</strong> 18g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Chocolate, Coconut, Natural Flavors, Sea Salt
+                <div class="ingr-chips">
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                  <span class="bchip pos">Egg white protein</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(17, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Chocolate Sea Salt</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">10.2</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">200</td>
+            <td class="num-cell">14g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-17">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 200</span>
+                  <span><strong>Sugar</strong> 14g</span>
+                  <span><strong>Fiber</strong> 5g</span>
+                  <span><strong>Net Carbs</strong> 18g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Egg Whites, Cashews, Almonds, Chocolate, Cocoa, Natural Flavors, Sea Salt
+                <div class="ingr-chips">
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                  <span class="bchip pos">Egg white protein</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(18, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Dark Chocolate Peanut Butter</div>
+              <div class="bar-sub">
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">10.0</td>
+            <td class="num-cell">10g</td>
+            <td class="num-cell">230</td>
+            <td class="num-cell">11g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-18">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 10g</span>
+                  <span><strong>Calories</strong> 230</span>
+                  <span><strong>Sugar</strong> 11g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 24g</span>
+                </div>
+                <strong>Ingredients: </strong>Oats, Honey, Peanut Butter (Peanuts), Egg Whites, Peanuts, Pumpkin Seeds, Brown Rice, Chocolate, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Cocoa, Sea Salt, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">Real peanut butter</span>
+                  <span class="bchip neu">Higher calorie</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(19, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Vanilla Almond</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">10.0</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">16g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-19">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 16g</span>
+                  <span><strong>Fiber</strong> 5g</span>
+                  <span><strong>Net Carbs</strong> 19g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Vanilla Bean, Sea Salt, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">Real vanilla bean</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(20, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Strawberry Strudel</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">9.9</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">14g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-20">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 14g</span>
+                  <span><strong>Fiber</strong> 6g</span>
+                  <span><strong>Net Carbs</strong> 18g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Strawberries, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real strawberries</span>
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(21, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Blueberry</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">9.9</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">180</td>
+            <td class="num-cell">15g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-21">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 180</span>
+                  <span><strong>Sugar</strong> 15g</span>
+                  <span><strong>Fiber</strong> 6g</span>
+                  <span><strong>Net Carbs</strong> 18g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Blueberries, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real blueberries</span>
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(22, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Blueberry Cashew Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">9.7</td>
+            <td class="num-cell">10g</td>
+            <td class="num-cell">220</td>
+            <td class="num-cell">11g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-22">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 10g</span>
+                  <span><strong>Calories</strong> 220</span>
+                  <span><strong>Sugar</strong> 11g</span>
+                  <span><strong>Fiber</strong> 5g</span>
+                  <span><strong>Net Carbs</strong> 24g</span>
+                </div>
+                <strong>Ingredients: </strong>Oats, Honey, Egg Whites, Cashew Butter (Cashews), Almonds, Blueberries, Pumpkin Seeds, Brown Rice, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Lemon, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">Real cashew butter</span>
+                  <span class="bchip neu">Higher calorie</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(23, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Peanut Butter Chocolate</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">9.7</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">210</td>
+            <td class="num-cell">14g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-23">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 210</span>
+                  <span><strong>Sugar</strong> 14g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 19g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Peanuts, Egg Whites, Chocolate, Peanut Flour (Peanuts), Natural Flavors, Cocoa, Sea Salt
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real peanuts</span>
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(24, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Peanut Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">9.1</td>
+            <td class="num-cell">12g</td>
+            <td class="num-cell">190</td>
+            <td class="num-cell">17g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-24">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 12g</span>
+                  <span><strong>Calories</strong> 190</span>
+                  <span><strong>Sugar</strong> 17g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 20g</span>
+                </div>
+                <strong>Ingredients: </strong>Dates, Peanuts, Egg Whites, Peanut Flour (Peanuts), Sea Salt, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real peanuts</span>
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip pos">No artificial sweeteners</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(25, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Honey Cinnamon Peanut Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
+            <td class="num-cell">8.8</td>
+            <td class="num-cell">10g</td>
+            <td class="num-cell">220</td>
+            <td class="num-cell">12g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-25">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 10g</span>
+                  <span><strong>Calories</strong> 220</span>
+                  <span><strong>Sugar</strong> 12g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 25g</span>
+                </div>
+                <strong>Ingredients: </strong>Oats, Honey, Peanut Butter (Peanuts), Egg Whites, Peanuts, Pumpkin Seeds, Brown Rice, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Cinnamon, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Real peanut butter</span>
+                  <span class="bchip pos">Whole food ingredients</span>
+                  <span class="bchip neu">Higher calorie</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(26, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Strawberry Peanut Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">6.5</td>
+            <td class="num-cell">18g</td>
+            <td class="num-cell">260</td>
+            <td class="num-cell">16g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-26">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 18g</span>
+                  <span><strong>Calories</strong> 260</span>
+                  <span><strong>Sugar</strong> 16g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 17g</span>
+                </div>
+                <strong>Ingredients: </strong>Peanut Butter (Peanuts), Agave Nectar, Pea Protein, Peanuts, Strawberries, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Higher protein (18g)</span>
+                  <span class="bchip pos">Real peanut butter</span>
+                  <span class="bchip con">Pea protein isolate</span>
+                  <span class="bchip con">Agave nectar</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="bar-row" onclick="toggleIngr(27, this)">
+            <td class="bar-name-cell">
+              <div class="bar-flavor">Vanilla Peanut Butter</div>
+              <div class="bar-sub">
+                <a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                <span class="expand-hint">tap for ingredients</span>
+              </div>
+            </td>
+            <td class="num-cell" style="font-family:var(--font-mono);font-size:11px;color:var(--brand-b);">RXBAR</td>
+            <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
+            <td class="num-cell">6.5</td>
+            <td class="num-cell">18g</td>
+            <td class="num-cell">270</td>
+            <td class="num-cell">16g</td>
+          </tr>
+          <tr class="ingr-row" id="ingr-27">
+            <td colspan="7" class="ingr-cell">
+              <div class="ingr-inner">
+                <div class="ingr-macros">
+                  <span><strong>Protein</strong> 18g</span>
+                  <span><strong>Calories</strong> 270</span>
+                  <span><strong>Sugar</strong> 16g</span>
+                  <span><strong>Fiber</strong> 4g</span>
+                  <span><strong>Net Carbs</strong> 17g</span>
+                </div>
+                <strong>Ingredients: </strong>Peanut Butter (Peanuts), Agave Nectar, Pea Protein, Peanuts, Vanilla Beans, Natural Flavors
+                <div class="ingr-chips">
+                  <span class="bchip pos">Higher protein (18g)</span>
+                  <span class="bchip pos">Real vanilla beans</span>
+                  <span class="bchip con">Pea protein isolate</span>
+                  <span class="bchip con">Agave nectar</span>
+                </div>
+                <div class="ingr-buy">
+                  <a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. BOTTOM LINE + OUR PICK -->
+  <section class="section">
+    <h2>Bottom line</h2>
+    <p>The Quest vs RXBAR decision comes down to one question: do you care more about what is in the bar or what macros the bar delivers? Quest engineers macros. RXBAR sources ingredients. Both are legitimate choices depending on your goals, and neither is obviously wrong for the person it is designed for.</p>
+    <p>If you are counting net carbs, need 20g protein per bar, or are on keto, Quest wins on almost every macro metric. If you are avoiding artificial sweeteners, prefer whole food ingredients, and do not need the bar to double as a protein supplement, RXBAR is the better choice. The ingredient quality difference (9.2 vs 3.9) is substantial. That gap reflects real differences in what you are eating.</p>
+
+    <div class="vs-pick">
+      <div class="vs-pick-eyebrow">Our pick</div>
+      <div class="vs-pick-brand">RXBAR Coconut Chocolate</div>
+      <div class="vs-pick-reason">When the choice is between engineered macros and actual food, we pick actual food. RXBAR Coconut Chocolate scores 10.3 and earns an A with an 8-ingredient list: dates, egg whites, almonds, cashews, chocolate, coconut, natural flavors, sea salt. You can read it in 10 seconds and recognize every item on it. If you need 20g protein in under 200 calories with minimal carbs, Quest Oatmeal Chocolate Chip is the call instead. But as a bar we would eat daily, it is the Coconut Chocolate.</div>
+      <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20"
+         target="_blank" rel="noopener sponsored" class="vs-pick-amazon">Buy on Amazon</a>
+    </div>
+  </section>
+
+  <!-- 9. EXPLORE ALL BARS CTA -->
+  <section class="section explore-cta">
+    <div class="explore-cta-inner">
+      <div class="explore-cta-eyebrow">Know Your Bar</div>
+      <p class="explore-cta-title">Explore all 1,000+ bars</p>
+      <p class="explore-cta-sub">Filter by protein, sugar, fiber, calories, or specific ingredients. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
+      <div class="explore-cta-btns">
+        <a href="/?preset=clean" class="explore-cta-btn">A-grade bars only</a>
+        <a href="/?preset=keto" class="explore-cta-btn">Keto friendly</a>
+        <a href="/?preset=no-sweeteners" class="explore-cta-btn">No artificial sweeteners</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. EXPLORE MORE -->
+  <section class="section">
+    <div class="explore-more-label">Explore more</div>
+    <div class="explore-more-grid">
+      <a href="/quest-bars.html" class="explore-more-card">
+        <div class="explore-more-title">Full Quest Review</div>
+        <div class="explore-more-desc">All 16 flavors scored with full ingredient breakdowns, macro data, and grade distribution.</div>
+      </a>
+      <a href="/rxbar-review.html" class="explore-more-card">
+        <div class="explore-more-title">Full RXBAR Review</div>
+        <div class="explore-more-desc">All 12 flavors scored with full ingredient breakdowns, macro data, and grade distribution.</div>
+      </a>
+      <a href="/no-artificial-sweeteners.html" class="explore-more-card">
+        <div class="explore-more-title">No Artificial Sweeteners Guide</div>
+        <div class="explore-more-desc">The best protein bars with zero sucralose, acesulfame K, or aspartame. RXBAR is a standout. Quest is not.</div>
+      </a>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- 11. FAQ -->
 <section class="faq-section">
-  <div class="faq-inner">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;">Questions we get</div>
-    <h2>Frequently asked questions</h2>
+  <div class="faq-section-inner">
+    <h2>Frequently asked questions about Quest vs RXBAR</h2>
     <div class="faq-items">
+
       <div class="faq-item">
-        <div class="faq-q">Are Quest bars or RXBARs healthier?</div>
-        <div class="faq-a">It depends what healthy means to you. RXBARs score significantly higher on ingredient quality. 10 of 12 flavors earn an A grade, they use whole food ingredients, and contain zero artificial sweeteners. Quest bars score B or C, use sucralose and erythritol in every flavor, but deliver 20g protein at 3.8g net carbs. If ingredient quality is your priority, RXBAR wins. If protein efficiency or keto macros matter more, Quest wins.</div>
+        <button class="faq-q">Which is healthier, Quest or RXBAR?</button>
+        <div class="faq-a">It depends on what healthy means to you. RXBAR scores significantly higher on ingredient quality. 10 of 12 flavors earn an A grade, they use whole food ingredients, and contain zero artificial sweeteners. Quest bars score B or C, use sucralose and erythritol in every flavor, but deliver 20g protein at 3.8g net carbs. If ingredient quality is your priority, RXBAR wins. If protein efficiency or keto macros matter more, Quest wins.</div>
       </div>
+
       <div class="faq-item">
-        <div class="faq-q">Which has more protein, Quest or RXBAR?</div>
-        <div class="faq-a">Quest bars average 19.9g protein per bar. RXBARs average 12.5g. Quest delivers significantly more protein per bar and per calorie: 10.9g per 100 calories versus 5.9g for RXBAR. If protein is the primary goal, Quest is the more efficient choice.</div>
+        <button class="faq-q">Which has more protein, Quest or RXBAR?</button>
+        <div class="faq-a">Quest bars average 19.9g protein per bar. RXBARs average 12.5g. Quest also wins on protein efficiency: 10.9g per 100 calories versus 5.9g for RXBAR. If protein is the primary goal, Quest is the more efficient choice.</div>
       </div>
+
       <div class="faq-item">
-        <div class="faq-q">Do RXBARs have artificial sweeteners?</div>
-        <div class="faq-a">No. Zero of the 12 RXBAR flavors we scored contain sucralose, acesulfame potassium, aspartame, or saccharin. RXBARs get their sweetness from dates, which is why they have 14g of sugar per bar. That's naturally occurring sugar from the dates, not added refined sugar.</div>
+        <button class="faq-q">Do Quest bars have artificial sweeteners?</button>
+        <div class="faq-a">Yes. All 16 Quest flavors we scored contain sucralose and erythritol. These sweeteners let Quest hit 1g sugar and 3.8g net carbs per bar without using natural sugars, but they also push ingredient quality scores down to the B/C range.</div>
       </div>
+
       <div class="faq-item">
-        <div class="faq-q">Are Quest bars keto friendly?</div>
-        <div class="faq-a">Yes. All 16 Quest flavors average 3.8g net carbs and hit 5g or fewer. RXBARs average 19.8g net carbs and don't qualify for keto. Quest is one of the most consistently keto-friendly bars on the market.</div>
+        <button class="faq-q">Do RXBAR bars have artificial sweeteners?</button>
+        <div class="faq-a">No. Zero of the 12 RXBAR flavors we scored contain sucralose, acesulfame potassium, aspartame, or saccharin. RXBARs are sweetened by dates, which is why they average 14g of sugar per bar. That sugar is naturally occurring from the dates, not added refined sugar.</div>
       </div>
+
       <div class="faq-item">
-        <div class="faq-q">Which Quest or RXBAR flavor is the best?</div>
-        <div class="faq-a">For Quest, Oatmeal Chocolate Chip scores best on ingredient quality at 6.2 out of our scoring system. For RXBAR, Coconut Chocolate scores best at 10.3. If you want the best Quest bar for keto, Double Chocolate Chunk has the lowest net carbs at 3g. If you want the best RXBAR for protein, most flavors deliver 12g consistently.</div>
+        <button class="faq-q">Are Quest bars keto friendly?</button>
+        <div class="faq-a">Yes. All 16 Quest flavors average 3.8g net carbs and hit 5g or fewer. RXBARs average 19.8g net carbs and do not qualify for keto. Quest is one of the most consistently keto-friendly bars on the market.</div>
       </div>
-    </div>
-    <div class="more-links">
-      <div class="more-links-label">Dig deeper</div>
-      <p><a href="/quest-bars.html">Full Quest bars review</a> with all 16 flavors scored</p>
-      <p><a href="/rxbar-review.html">Full RXBAR review</a> with all 12 flavors scored</p>
-      <p><a href="/keto-protein-bars.html">Keto protein bars guide</a> Quest is the top brand in this category</p>
-      <p><a href="/no-artificial-sweeteners.html">No artificial sweeteners guide</a> RXBAR is a standout here, Quest is not</p>
-      <p><a href="/clean-protein-bars.html">Clean protein bars guide</a> RXBAR qualifies, Quest does not</p>
-      <p><a href="/">Search all 900+ bars</a> and compare any two bars side by side</p>
+
+      <div class="faq-item">
+        <button class="faq-q">Which Quest flavor is the best?</button>
+        <div class="faq-a">Oatmeal Chocolate Chip scores highest among Quest flavors at 6.2 and earns a B grade. It uses oats and stevia in addition to the standard erythritol, which helps the score. Double Chocolate Chunk has the lowest net carbs at 3g if keto is the priority.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which RXBAR flavor is the best?</button>
+        <div class="faq-a">Coconut Chocolate scores highest at 10.3 and earns an A grade. Chocolate Sea Salt is a close second at 10.2. Both use simple whole food ingredient lists: dates, egg whites, nuts, and real cocoa. Vanilla Almond and Blueberry are also strong at 10.0 and 9.9 respectively.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Which bar has less sugar, Quest or RXBAR?</button>
+        <div class="faq-a">Quest wins significantly on sugar. Quest bars average 1.2g of sugar per bar. RXBARs average 14.2g. The difference is that Quest uses artificial sweeteners to achieve low sugar, while RXBAR uses dates, which naturally contribute most of their sugar content. Both approaches are intentional trade-offs.</div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="site-footer-inner">
     <div class="site-footer-brand-block">
@@ -361,9 +2005,6 @@
       <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
       <a href="/clean-protein-bars.html">Clean Bars</a>
       <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-      <a href="/no-seed-oils.html">No Seed Oils</a>
-      <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
       <a href="/keto-protein-bars.html">Keto Protein Bars</a>
       <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
     </nav>
@@ -371,50 +2012,51 @@
   <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
 </footer>
 
+<!-- JAVASCRIPT -->
 <script>
-const GRADE_COLORS = {A:'#2a7a1f',B:'#5a8a2f',C:'#b89a00',D:'#c87020',F:'#c83020'};
-const QUEST_BARS = [{"flavor":"Oatmeal Chocolate Chip","grade":"B","score":6.2,"protein":20,"cal":180,"sugar":1,"fiber":14.0,"nc":5.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/oatmeal-chocolate-chip-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, OATS**, UNSWEETENED CHOCOLATE, ERYTHRITOL, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: COCOA BUTTER, SEA SALT, NATURAL FLAVORS, CINNAMON, LECITHIN (SUNFLOWER AND/OR SOY LECITHIN), STEVIA"},{"flavor":"Double Chocolate Chunk","grade":"B","score":5.2,"protein":20,"cal":170,"sugar":1,"fiber":12.0,"nc":3.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00FEKGO1A?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/double-chocolate-chunk-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, UNSWEETENED CHOCOLATE, COCOA PROCESSED WITH ALKALI, GLYCERIN, COCOA BUTTER. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SODIUM CASEINATE, SEA SALT, LECITHIN (SUNFLOWER"},{"flavor":"Chocolate Chip Cookie Dough","grade":"B","score":5.0,"protein":21,"cal":190,"sugar":1,"fiber":12.0,"nc":4.0,"fat":9.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00DLDH1N2?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/chocolate-chip-cookie-dough-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, UNSWEETENED CHOCOLATE, ERYTHRITOL, COCOA BUTTER, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SALT, LECITHIN (SUNFLOWER AND/OR SOY LECITHIN), STEVIA SWEETENER, SUCRALOSE"},{"flavor":"Chocolate Peanut Butter","grade":"B","score":4.7,"protein":20,"cal":190,"sugar":1,"fiber":11.0,"nc":4.0,"fat":9.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0719163RQ?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/chocolate-peanut-butter-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), PEANUTS, POLYDEXTROSE (PREBIOTIC FIBER), WATER, ERYTHRITOL, UNSWEETENED CHOCOLATE, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: COCOA BUTTER, SODIUM CASEINATE, NATURAL FLAVORS, SEA SALT, STEVIA SWEETENER, LECITHIN (SUNFLOWER AND/OR SOY"},{"flavor":"Chocolate Brownie","grade":"B","score":4.6,"protein":20,"cal":170,"sugar":1,"fiber":15.0,"nc":4.0,"fat":6.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0057RWSZQ?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/chocolate-brownie-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, COCOA PROCESSED WITH ALKALI, ERYTHRITOL, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SALT, STEVIA SWEETENER, LECITHIN (SUNFLOWER AND/OR SOY LECITHIN), SUCRALOSE"},{"flavor":"Dipped Chocolate Chip Cookie Dough","grade":"B","score":4.5,"protein":18,"cal":180,"sugar":1,"fiber":8.0,"nc":3.0,"fat":9.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0CKTY2GBX?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/dipped-chocolate-chip-cookie-dough-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, PALM KERNEL OIL, UNSWEETENED CHOCOLATE, SODIUM CASEINATE, COCOA PROCESSED WITH ALKALI. CONTAINS LESS THAN 2% OF THE FOLLOWING: GLYCERIN, COCOA BUTTER, SEA SALT, NATURAL FLAVORS, LE"},{"flavor":"Mint Chocolate Chunk","grade":"B","score":4.2,"protein":20,"cal":180,"sugar":1,"fiber":14.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00XAYPTMM?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/mint-chocolate-chunk-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), WATER, ALMONDS, COCOA BUTTER, ERYTHRITOL, COCOA PROCESSED WITH ALKALI, GLYCERIN, NATURAL FLAVORS. CONTAINS LESS THAN 2% OF THE FOLLOWING: SOLUBLE CORN FIBER, SODIUM CASEINATE, PALM KERNEL OIL, SEA SALT, LECIT"},{"flavor":"S'Mores","grade":"B","score":4.2,"protein":21,"cal":190,"sugar":1,"fiber":12.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B078JBTZ1R?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/smores-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, UNSWEETENED CHOCOLATE, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SOLUBLE CORN FIBER, COCOA BUTTER, PALM KERNEL OIL AND/OR PALM OIL, SALT, CINNAMON, LECITHI"},{"flavor":"Blueberry Muffin","grade":"B","score":4.0,"protein":20,"cal":180,"sugar":2,"fiber":13.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B01LPCLEWY?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/blueberry-muffin-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, COCOA BUTTER, GLYCERIN, DRIED BLUEBERRIES. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SOLUBLE CORN FIBER, PALM KERNEL OIL, SALT, CINNAMON, BAKING SODA, SODIUM CASEINA"},{"flavor":"Cookies and Cream","grade":"C","score":3.7,"protein":21,"cal":190,"sugar":1,"fiber":13.0,"nc":4.0,"fat":8.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00I0DI0Z6?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/cookies-cream-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, COCOA BUTTER, ERYTHRITOL, GLYCERIN, SOLUBLE CORN FIBER, NATURAL FLAVORS. CONTAINS LESS THAN 2% OF THE FOLLOWING: COCOA PROCESSED WITH ALKALI, PALM KERNEL OIL, SEA SALT, SODIUM CASEINATE, LECIT"},{"flavor":"Strawberry Shortcake","grade":"C","score":3.4,"protein":20,"cal":200,"sugar":2,"fiber":10.0,"nc":3.0,"fat":10.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0DS6ML3YB?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/strawberry-shortcake-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, PALM KERNEL OIL, SODIUM CASEINATE, COCOA BUTTER, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, STRAWBERRIES, SALT, LECITHIN (SUNFLOWER AND/OR SOY LECITHIN), SU"},{"flavor":"Apple Pie","grade":"C","score":3.0,"protein":20,"cal":170,"sugar":2,"fiber":13.0,"nc":4.0,"fat":6.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00U3RGAMW?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/apple-pie-protein-bars","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, DRIED APPLE (ASCORBIC ACID, CITRIC ACID, SODIUM CHLORIDE TO PREVENT BROWNING), GLYCERIN, SOLUBLE CORN FIBER. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, PALM KERNEL OI"},{"flavor":"White Chocolate Raspberry","grade":"C","score":3.0,"protein":20,"cal":180,"sugar":1,"fiber":13.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B00DZR75G2?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/white-chocolate-raspberry-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, PALM KERNEL OIL, GLYCERIN, RASPBERRIES, SODIUM CASEINATE. CONTAINS LESS THAN 2% OF THE FOLLOWING: NATURAL FLAVORS, SALT, LECITHIN (SUNFLOWER AND/OR SOY LECITHIN), STEVIA SWEETENER,"},{"flavor":"Dipped Cookies and Cream","grade":"C","score":2.9,"protein":18,"cal":180,"sugar":1,"fiber":8.0,"nc":3.0,"fat":9.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0BRYSS78K?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/dipped-cookies-and-cream-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, PALM KERNEL OIL, ERYTHRITOL, WATER, SODIUM CASEINATE, COCOA BUTTER, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: SOLUBLE CORN FIBER, NATURAL FLAVORS, COCOA PROCESSED WITH ALKALI, SEA SALT, LECIT"},{"flavor":"Lemon Cake","grade":"C","score":2.0,"protein":20,"cal":180,"sugar":1,"fiber":13.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B086CHT1TM?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/lemon-cake-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), ALMONDS, WATER, ERYTHRITOL, PALM KERNEL OIL, GLYCERIN. CONTAINS LESS THAN 2% OF THE FOLLOWING: LEMON POWDER, SODIUM CASEINATE, NATURAL FLAVORS, SOLUBLE CORN FIBER, SALT, LECITHIN (SUNFLOWER AND/OR SOY LECITHI"},{"flavor":"Birthday Cake","grade":"C","score":1.7,"protein":20,"cal":180,"sugar":1,"fiber":12.0,"nc":4.0,"fat":7.0,"art":true,"sa":true,"amazon":"https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20","website":"https://www.questnutrition.com/collections/protein-bars/products/birthday-cake-protein-bar","ingredients":"PROTEIN BLEND (MILK PROTEIN ISOLATE, WHEY PROTEIN ISOLATE), POLYDEXTROSE (PREBIOTIC FIBER), WATER, ERYTHRITOL, ALMONDS, PALM KERNEL OIL, GLYCERIN, SODIUM CASEINATE, NATURAL FLAVORS. CONTAINS LESS THAN 2% OF THE FOLLOWING: SEA SALT, GUM ARABIC, SPIRULINA EXTRACT (COLOR), RED CABBAGE EXTRACT (COLOR), "}];
-const RXBAR_BARS = [{"flavor":"Coconut Chocolate","grade":"A","score":10.3,"protein":12,"cal":200,"sugar":14,"fiber":5.0,"nc":18.0,"fat":8.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/coconut-chocolate-box-of-12-bars.html","ingredients":"Dates, Egg Whites, Almonds, Cashews, Chocolate, Coconut, Natural Flavors, Sea Salt"},{"flavor":"Chocolate Sea Salt","grade":"A","score":10.2,"protein":12,"cal":200,"sugar":14,"fiber":5.0,"nc":18.0,"fat":8.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/chocolate-sea-salt-box-of-12-bars.html","ingredients":"Dates, Egg Whites, Cashews, Almonds, Chocolate, Cocoa, Natural Flavors, Sea Salt"},{"flavor":"Dark Chocolate Peanut Butter","grade":"A","score":10.0,"protein":10,"cal":230,"sugar":11,"fiber":4.0,"nc":24.0,"fat":9.0,"art":false,"sa":false,"amazon":"","website":"https://shop.rxbar.com/shop/nut-butter-oat-protein-bar-peanut-butter-dark-chocolate.html","ingredients":"Oats, Honey, Peanut Butter (Peanuts), Egg Whites, Peanuts, Pumpkin Seeds, Brown Rice, Chocolate, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Cocoa, Sea Salt, Natural Flavors"},{"flavor":"Vanilla Almond","grade":"A","score":10.0,"protein":12,"cal":190,"sugar":16,"fiber":5.0,"nc":19.0,"fat":7.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/vanilla-almond-protein-bar-box-12.html","ingredients":"Dates, Egg Whites, Almonds, Cashews, Vanilla bean, Sea Salt, Natural Flavors"},{"flavor":"Strawberry Strudel","grade":"A","score":9.9,"protein":12,"cal":190,"sugar":14,"fiber":6.0,"nc":18.0,"fat":7.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/strawberry.html","ingredients":"Dates, Egg Whites, Almonds, Cashews, Strawberries, Natural Flavors"},{"flavor":"Blueberry","grade":"A","score":9.9,"protein":12,"cal":180,"sugar":15,"fiber":6.0,"nc":18.0,"fat":6.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/blueberry-protein-bars-box-of-12.html","ingredients":"Dates, Egg Whites, Almonds, Cashews, Blueberries, Natural Flavors"},{"flavor":"Blueberry Cashew Butter","grade":"A","score":9.7,"protein":10,"cal":220,"sugar":11,"fiber":5.0,"nc":24.0,"fat":8.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/nut-butter-oat-protein-bar-blueberry-cashew-butter.html","ingredients":"Oats, Honey, Egg Whites, Cashew Butter (Cashews), Almonds, Blueberries, Pumpkin Seeds, Brown Rice, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Lemon, Natural Flavors"},{"flavor":"Peanut Butter Chocolate","grade":"A","score":9.7,"protein":12,"cal":210,"sugar":14,"fiber":4.0,"nc":19.0,"fat":9.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/peanut-butter-chocolate-protein-bars-box-of-12.html","ingredients":"Dates, Peanuts, Egg Whites, Chocolate, Peanut Flour (Peanuts), Natural Flavors, Cocoa, Sea Salt"},{"flavor":"Peanut Butter","grade":"A","score":9.1,"protein":12,"cal":190,"sugar":17,"fiber":4.0,"nc":20.0,"fat":7.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/peanut-butter-protein-bars-box-of-12.html","ingredients":"Dates, Peanuts, Egg Whites, Peanut Flour (Peanuts), Sea Salt, Natural Flavors"},{"flavor":"Honey Cinnamon Peanut Butter","grade":"A","score":8.8,"protein":10,"cal":220,"sugar":12,"fiber":4.0,"nc":25.0,"fat":8.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/nut-butter-oat-protein-bar-honey-cinnamon-peanut-butter.html","ingredients":"Oats, Honey, Peanut Butter (Peanuts), Egg Whites, Peanuts, Pumpkins Seeds, Brown Rice, Avocado and/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Cinnamon, Natural Flavors"},{"flavor":"Strawberry Peanut Butter","grade":"B","score":6.5,"protein":18,"cal":260,"sugar":16,"fiber":4.0,"nc":17.0,"fat":12.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/rxbar-high-protein-strawberry-peanut-butter.html","ingredients":"Peanut Butter (Peanuts), Agave Nectar, Pea Protein, Peanuts, Strawberries, Natural Flavors"},{"flavor":"Vanilla Peanut Butter","grade":"B","score":6.5,"protein":18,"cal":270,"sugar":16,"fiber":4.0,"nc":17.0,"fat":13.0,"art":false,"sa":false,"amazon":"https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20","website":"https://shop.rxbar.com/shop/rxbar-high-protein-vanilla-peanut-butter.html","ingredients":"Peanut Butter (Peanuts), Agave Nectar, Pea Protein, Peanuts, Vanilla Beans, Natural Flavors"}];
-
-function renderFlavors(brand) {
-  const list = document.getElementById('flavor-list');
-  list.innerHTML = '';
-  const data = brand === 'quest' ? QUEST_BARS : RXBAR_BARS;
-  const color = brand === 'quest' ? 'var(--quest)' : 'var(--rxbar)';
-  
-  data.forEach((b, i) => {
-    const row = document.createElement('div');
-    row.className = 'bar-row';
-    const amz = b.amazon ? `<a href="${b.amazon}" target="_blank" rel="noopener sponsored" class="amz-link">Amazon</a>` : '';
-    row.innerHTML = `
-      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:18px;flex-shrink:0;">${i+1}</span>
-      <div class="grade-pill" style="background:${GRADE_COLORS[b.grade]}">${b.grade}</div>
-      <span class="bar-flavor-name">${b.flavor}</span>
-      <div class="bar-stats">
-        <span>${b.protein}g protein</span>
-        <span>${b.cal} cal</span>
-        <span>${b.nc}g NC</span>
-        <span>${b.sugar}g sugar</span>
-      </div>
-      ${amz}
-    `;
-    list.appendChild(row);
+  /* FAQ accordion */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
   });
-}
 
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderFlavors(tab.dataset.brand);
+  /* Ingredient row toggle - colspan is 7 on vs pages */
+  function toggleIngr(idx, row) {
+    const ingrRow = document.getElementById('ingr-' + idx);
+    if (!ingrRow) return;
+    const isOpen = ingrRow.classList.contains('open');
+    document.querySelectorAll('.ingr-row').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.bar-row').forEach(r => r.classList.remove('open'));
+    if (!isOpen) {
+      ingrRow.classList.add('open');
+      row.classList.add('open');
+    }
+  }
+
+  /* Mobile nav toggle */
+  const navToggle = document.getElementById('nav-toggle');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      document.querySelector('.site-nav-links').classList.toggle('open');
+    });
+  }
+
+  /* GA4 affiliate tracking */
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href*="amazon.com"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'affiliate_click', {
+          'event_category': 'Amazon',
+          'event_label': window.location.pathname
+        });
+      });
+    });
   });
-});
-
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
-});
-
-renderFlavors('quest');
 </script>
+
 </body>
 </html>
