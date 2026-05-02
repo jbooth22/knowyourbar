@@ -1645,7 +1645,7 @@ function openCompareOverlay() {
   overlay.id = 'compare-overlay';
   overlay.innerHTML = `
     <div class="cmp-overlay-inner">
-      <div class="cmp-header" style="position:sticky;top:0;z-index:10;">
+      <div class="cmp-header">
         <div class="cmp-title">Comparing ${bars.length} bars</div>
         <div class="cmp-header-actions">
           <button class="cmp-share-btn" id="cmp-share-btn">&#9015; Copy link</button>
@@ -1676,7 +1676,7 @@ function openCompareOverlay() {
     </div>`;
 
   document.body.appendChild(overlay);
-  overlay.scrollTop = 0;
+  requestAnimationFrame(() => { overlay.scrollTop = 0; });
   document.body.classList.add('overlay-open');
   document.getElementById('cmp-close-btn').addEventListener('click', closeCompareOverlay);
   document.getElementById('cmp-share-btn').addEventListener('click', copyCompareLink);
