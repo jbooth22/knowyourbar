@@ -542,7 +542,6 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-eyebrow">Scoring Methodology</div>
         <h1 class="hero-title">How We Score Bars.</h1>
         <p class="hero-sub">Every bar on KnowYourBar.com receives an ingredient quality score based on a transparent, rule-based system. No sponsorships. No bias. Just the ingredients.</p>
       </div>
@@ -659,6 +658,90 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- Ingredient examples -->
+    <section class="content-section">
+      <h2>Ingredient examples</h2>
+      <p>Here's how the scoring plays out with real ingredients you'll recognize on labels.</p>
+
+      <h3>High-scoring ingredients</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-positive" style="min-width:180px;">Whey Protein Isolate &nbsp;<strong>+4</strong></span>
+          <div>
+            <div class="chip-desc">The gold standard protein for bars. Isolate is highly filtered, so it's dense in protein with minimal fat and carbs. A complete amino acid profile makes it excellent for muscle protein synthesis.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive" style="min-width:180px;">Egg Whites &nbsp;<strong>+4</strong></span>
+          <div>
+            <div class="chip-desc">A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you're getting real food as the primary ingredient — not a powder or isolate.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive" style="min-width:180px;">Almonds / Peanuts &nbsp;<strong>+3</strong></span>
+          <div>
+            <div class="chip-desc">Whole food ingredients that bring fiber, healthy fats, and natural protein. When nuts appear early in the list, it's a good sign the bar is built around real food rather than processed filler.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-positive" style="min-width:180px;">Oats &nbsp;<strong>+3</strong></span>
+          <div>
+            <div class="chip-desc">A minimally processed whole grain that adds complex carbs, fiber, and a clean energy source. Common in bars that lean toward real food formulations over engineered ingredient lists.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Neutral ingredients</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-neutral" style="min-width:180px;">Salt &nbsp;<strong>0</strong></span>
+          <div>
+            <div class="chip-desc">Present in almost every bar. At typical quantities it's neither a benefit nor a concern — it scores neutral. Position matters though: if salt somehow led the ingredient list, that would be a different story.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-neutral" style="min-width:180px;">Soy / Sunflower Lecithin &nbsp;<strong>0</strong></span>
+          <div>
+            <div class="chip-desc">An emulsifier used to improve texture and shelf stability. Not harmful at the trace quantities found in bars, but not contributing nutritional value either. Scores neutral.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-neutral" style="min-width:180px;">Tapioca Starch &nbsp;<strong>0</strong></span>
+          <div>
+            <div class="chip-desc">A starch used for texture and binding. Common in "cleaner" bars as a more neutral binder compared to some alternatives. It's not a nutritional contributor, but it's not a red flag either.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Low-scoring ingredients</h3>
+      <div class="chips-grid">
+        <div class="chip-row">
+          <span class="chip-sample chip-concern" style="min-width:180px;">Sugar / Cane Sugar &nbsp;<strong>–2</strong></span>
+          <div>
+            <div class="chip-desc">Added caloric sweetener with no nutritional upside. Present in a huge share of bars. The position matters: sugar in spot #7 is a minor concern, sugar in spot #2 is a significant drag on the score.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern" style="min-width:180px;">Sucralose &nbsp;<strong>–2</strong></span>
+          <div>
+            <div class="chip-desc">A zero-calorie artificial sweetener. Research on its effects on gut microbiome and metabolic response continues to evolve. We score it negatively — not catastrophically, but it's a real ingredient concern.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern" style="min-width:180px;">Palm Kernel Oil &nbsp;<strong>–3</strong></span>
+          <div>
+            <div class="chip-desc">A highly processed industrial fat used for texture and shelf life. High in saturated fat and a poor-quality substitute for whole food fat sources like cocoa butter, nuts, or seeds.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern" style="min-width:180px;">Maltitol &nbsp;<strong>–4</strong></span>
+          <div>
+            <div class="chip-desc">The worst-scoring ingredient in our database. A sugar alcohol with a glycemic index closer to real sugar than to erythritol, often causing digestive distress, and frequently used in large quantities to hit "no sugar added" claims. If you see maltitol leading the list, that's an F-grade bar.</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Insight chips -->
@@ -845,6 +928,7 @@
           bands[bar.score_band]++;
         }
       });
+      const total = BARS.length;
 
       // Update total count displays   always use full database length
       document.querySelectorAll('#total-count, #total-count-2').forEach(el => {
