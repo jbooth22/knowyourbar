@@ -769,6 +769,14 @@ function applyPreset(presetKey) {
     document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
     activePreset = presetKey;
     btn.classList.add('active');
+    // Set sort dropdowns to preset default so UI matches results
+    const presetSort = PRESETS[presetKey]?.sort;
+    if (presetSort) {
+      const colEl = document.getElementById('sort-col');
+      const dirEl = document.getElementById('sort-dir');
+      if (colEl) colEl.value = presetSort.col;
+      if (dirEl) dirEl.value = presetSort.dir;
+    }
     // On mobile: collapse filter panel so user sees results immediately
     if (window.innerWidth <= 900) {
       const panel = document.getElementById('filter-panel');
@@ -955,14 +963,9 @@ function applyFilters() {
     return true;
   });
 
-  // Sort — preset overrides manual sort when active
+  // Sort — always use what the dropdowns say
   let sortCol = document.getElementById('sort-col').value;
   let sortDir = document.getElementById('sort-dir').value;
-
-  if (activePreset && PRESETS[activePreset].sort) {
-    sortCol = PRESETS[activePreset].sort.col;
-    sortDir = PRESETS[activePreset].sort.dir;
-  }
 
   filtered.sort((a, b) => {
     let av, bv;
