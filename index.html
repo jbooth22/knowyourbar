@@ -19,13 +19,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <!-- Google tag (gtag.js) — deferred until first user interaction -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SW4MNP5W7J');
+    (function () {
+      var GA_ID = 'G-SW4MNP5W7J';
+      var loaded = false;
+      function loadGA() {
+        if (loaded) return;
+        loaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (evt) {
+        window.addEventListener(evt, loadGA, { once: true, passive: true });
+      });
+    })();
   </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 900+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the tool above."}},
