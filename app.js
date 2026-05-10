@@ -545,7 +545,7 @@ function buildGradeFilter() {
       container.querySelectorAll('.grade-filter-btn').forEach(b => {
         b.classList.toggle('active', activeGrades.has(b.dataset.grade));
       });
-      applyFilters();
+      scheduleFilter();
     });
     container.appendChild(btn);
   });
@@ -573,7 +573,7 @@ function toggleBrand(brand, checked) {
   if (checked) selectedBrands.add(brand);
   else selectedBrands.delete(brand);
   updateBrandCount();
-  applyFilters();
+  scheduleFilter();
 }
 
 function clearBrands() {
@@ -582,7 +582,7 @@ function clearBrands() {
   document.getElementById('brand-search').value = '';
   filterBrandList('');
   updateBrandCount();
-  applyFilters();
+  scheduleFilter();
 }
 
 function updateBrandCount() {
@@ -623,7 +623,7 @@ function buildCertChips() {
       activeCerts[label] = !activeCerts[label];
       chip.classList.toggle('active', activeCerts[label]);
       chip.setAttribute('aria-pressed', String(activeCerts[label]));
-      applyFilters();
+      scheduleFilter();
     });
     grid.appendChild(chip);
   });
@@ -647,7 +647,7 @@ function buildSliders() {
       const val = parseFloat(e.target.value);
       sliderValues[cfg.key] = val;
       document.getElementById('sv-' + cfg.key).textContent = val + cfg.unit;
-      applyFilters();
+      scheduleFilter();
     });
   });
 }
@@ -796,7 +796,7 @@ function applyPreset(presetKey) {
       }, 100);
     }
   }
-  applyFilters();
+  scheduleFilter();
 }
 
 function updatePresetBanner(filteredCount) {
@@ -835,7 +835,7 @@ function addExclusion() {
   if (!exclusions.includes(term)) {
     exclusions.push(term);
     renderExclTags();
-    applyFilters();
+    scheduleFilter();
   }
   inp.value = '';
 }
@@ -843,7 +843,7 @@ function addExclusion() {
 function removeExclusion(term) {
   exclusions = exclusions.filter(x => x !== term);
   renderExclTags();
-  applyFilters();
+  scheduleFilter();
 }
 
 function renderExclTags() {
@@ -912,10 +912,19 @@ function resetAll() {
   exclusions = [];
   renderExclTags();
   clearCompare();
-  applyFilters();
+  scheduleFilter();
 }
 
 // ─── Core filter + render ────────────────────────────
+// Deferred wrapper — yields to browser paint before heavy filter+render work.
+// Use this in all event handlers. Call applyFilters() directly only from init().
+let _filterPending = false;
+function scheduleFilter() {
+  if (_filterPending) return;
+  _filterPending = true;
+  setTimeout(() => { _filterPending = false; applyFilters(); }, 0);
+}
+
 function applyFilters() {
   const q = document.getElementById('search-input').value.toLowerCase();
 
