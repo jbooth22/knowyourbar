@@ -1028,6 +1028,64 @@ function applyFilters() {
 }
 
 // ─── Table render ────────────────────────────────────
+function buildBarRow(bar) {
+  const row = document.createElement('tr');
+
+  // Cert badges (short labels)
+  const certBadges = [];
+  if (bar['Vegan (Y/N)']?.trim().toLowerCase() === 'yes')       certBadges.push('Vegan');
+  if (bar['Gluten Free (Y/N)']?.trim().toLowerCase() === 'yes') certBadges.push('GF');
+  if (bar['Dairy Free (Y/N)']?.trim().toLowerCase() === 'yes')  certBadges.push('DF');
+  if (bar['Soy Free (Y/N)']?.trim().toLowerCase() === 'yes')    certBadges.push('SF');
+  if (bar['Non-GMO (Y/N)']?.trim().toLowerCase() === 'yes')     certBadges.push('GMO');
+  if (bar['Nut Free (Y/N)']?.trim().toLowerCase() === 'yes')    certBadges.push('NF');
+  if (bar['Kosher (Y/N)']?.trim().toLowerCase() === 'yes')      certBadges.push('Ko');
+
+  const badgeHTML = '<div class="cert-badges">' + certBadges.map(b => `<span class="cert-badge">${b}</span>`).join('') + '</div>';
+
+  const band = bar['score_band'];
+  const gradeHTML = band
+    ? `<span class="table-grade-badge grade-${band}" title="${bar['score_band_label'] || ''}">${band}</span>`
+    : '';
+
+  row.innerHTML = `
+    <td class="col-bar">
+      <div class="bar-brand">${bar['Brand Name'] || ''}</div>
+      <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
+    </td>
+    <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
+    <td class="col-num">${fmt(bar['Protein (g)'])}</td>
+    <td class="col-num col-hide-mobile">${bar['Calories'] > 0 ? Math.round(bar['Protein (g)'] / bar['Calories'] * 100 * 10) / 10 : '--'}</td>
+    <td class="col-num">${fmt(bar['Total Fat (g)'])}</td>
+    <td class="col-num col-hide-mobile">${fmt(bar['Total Carbohydrates (g)'])}</td>
+    <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
+    <td class="col-num">${fmt(bar['Sugars (g)'])}</td>
+    <td class="col-num col-hide-mobile">${fmt(bar['Sugar Alcohol (g)'])}</td>
+    <td class="col-certs col-hide-mobile">${badgeHTML}</td>
+    <td class="col-grade">${gradeHTML}</td>
+    <td class="col-compare">
+      <button class="compare-cb${compareSet.has(bar['Brand Name'] + '|' + bar['Flavor Name']) ? ' active' : ''}"
+        data-barkey="${bar['Brand Name']}|${bar['Flavor Name']}"
+        title="Add to comparison">+</button>
+    </td>`;
+
+  row.addEventListener('click', () => toggleExpand(bar, row));
+  row.dataset.slug = barSlug(bar);
+  row.dataset.key  = bar['Brand Name'] + '|' + bar['Flavor Name'];
+  row.classList.add('bar-row');
+
+  // Compare button — use direct closure over bar, stop propagation from row click
+  const compareBtn = row.querySelector('.compare-cb');
+  if (compareBtn) {
+    compareBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleCompare(bar);
+    });
+  }
+
+  return row;
+}
+
 function renderTable(bars) {
   const tbody   = document.getElementById('results-body');
   const noRes   = document.getElementById('no-results');
@@ -1049,64 +1107,6 @@ function renderTable(bars) {
   const limit   = 50;
   const display = bars.slice(0, limit);
 
-  display.forEach(bar => {
-    const row = document.createElement('tr');
-    row.dataset.key = bar['Brand Name'] + '|' + bar['Flavor Name'];
-
-    // Cert badges (short labels)
-    const certBadges = [];
-    if (bar['Vegan (Y/N)']?.trim().toLowerCase() === 'yes')       certBadges.push('Vegan');
-    if (bar['Gluten Free (Y/N)']?.trim().toLowerCase() === 'yes') certBadges.push('GF');
-    if (bar['Dairy Free (Y/N)']?.trim().toLowerCase() === 'yes')  certBadges.push('DF');
-    if (bar['Soy Free (Y/N)']?.trim().toLowerCase() === 'yes')    certBadges.push('SF');
-    if (bar['Non-GMO (Y/N)']?.trim().toLowerCase() === 'yes')     certBadges.push('GMO');
-    if (bar['Nut Free (Y/N)']?.trim().toLowerCase() === 'yes')    certBadges.push('NF');
-    if (bar['Kosher (Y/N)']?.trim().toLowerCase() === 'yes')      certBadges.push('Ko');
-
-    const badgeHTML = '<div class="cert-badges">' + certBadges.map(b => `<span class="cert-badge">${b}</span>`).join('') + '</div>';
-
-    const band = bar['score_band'];
-    const gradeHTML = band
-      ? `<span class="table-grade-badge grade-${band}" title="${bar['score_band_label'] || ''}">${band}</span>`
-      : '';
-
-    row.innerHTML = `
-      <td class="col-bar">
-        <div class="bar-brand">${bar['Brand Name'] || ''}</div>
-        <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
-      </td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
-      <td class="col-num">${fmt(bar['Protein (g)'])}</td>
-      <td class="col-num col-hide-mobile">${bar['Calories'] > 0 ? Math.round(bar['Protein (g)'] / bar['Calories'] * 100 * 10) / 10 : '--'}</td>
-      <td class="col-num">${fmt(bar['Total Fat (g)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Total Carbohydrates (g)'])}</td>
-      <td class="col-num">${fmt(bar['Dietary Fiber (g)'])}</td>
-      <td class="col-num">${fmt(bar['Sugars (g)'])}</td>
-      <td class="col-num col-hide-mobile">${fmt(bar['Sugar Alcohol (g)'])}</td>
-      <td class="col-certs col-hide-mobile">${badgeHTML}</td>
-      <td class="col-grade">${gradeHTML}</td>
-      <td class="col-compare">
-        <button class="compare-cb${compareSet.has(bar['Brand Name'] + '|' + bar['Flavor Name']) ? ' active' : ''}"
-          data-barkey="${bar['Brand Name']}|${bar['Flavor Name']}"
-          title="Add to comparison">+</button>
-      </td>`;
-
-    row.addEventListener('click', () => toggleExpand(bar, row));
-    row.dataset.slug = barSlug(bar);
-    row.dataset.key  = bar['Brand Name'] + '|' + bar['Flavor Name'];
-    row.classList.add('bar-row');
-    tbody.appendChild(row);
-
-    // Compare button — use direct closure over bar, stop propagation from row click
-    const compareBtn = row.querySelector('.compare-cb');
-    if (compareBtn) {
-      compareBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        toggleCompare(bar);
-      });
-    }
-  });
-
   if (bars.length > limit) {
     truncEl.classList.remove('hidden');
     truncEl.textContent = `Showing first ${limit} of ${bars.length} results. Use filters to narrow down.`;
@@ -1114,21 +1114,48 @@ function renderTable(bars) {
     truncEl.classList.add('hidden');
   }
 
-  // Auto-expand a bar from URL ?bar=slug param (runs once on first load)
-  if (window._autoExpandSlug) {
-    const slug = window._autoExpandSlug;
-    delete window._autoExpandSlug;
-    const match = bars.find(b => barSlug(b) === slug);
-    if (match) {
-      const rows = tbody.querySelectorAll('tr.bar-row');
-      rows.forEach(row => {
-        if (row.dataset.slug === slug) {
-          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => row.click(), 300);
+  // Fade out to mask chunked repaints
+  const tableWrapper = tbody.closest('table') || tbody;
+  tableWrapper.style.transition = 'opacity 0.15s ease';
+  tableWrapper.style.opacity = '0.5';
+
+  const CHUNK = 25;
+  let offset = 0;
+
+  function appendChunk() {
+    const end = Math.min(offset + CHUNK, display.length);
+    for (let i = offset; i < end; i++) {
+      tbody.appendChild(buildBarRow(display[i]));
+    }
+    offset = end;
+
+    if (offset < display.length) {
+      // Yield to browser between chunks
+      setTimeout(appendChunk, 0);
+    } else {
+      // All rows appended — fade back in
+      tableWrapper.style.opacity = '1';
+
+      // Auto-expand a bar from URL ?bar=slug param (runs once on first load)
+      if (window._autoExpandSlug) {
+        const slug = window._autoExpandSlug;
+        delete window._autoExpandSlug;
+        const match = bars.find(b => barSlug(b) === slug);
+        if (match) {
+          const rows = tbody.querySelectorAll('tr.bar-row');
+          rows.forEach(row => {
+            if (row.dataset.slug === slug) {
+              row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              setTimeout(() => row.click(), 300);
+            }
+          });
         }
-      });
+      }
     }
   }
+
+  // First chunk on next tick so the opacity change can paint first
+  setTimeout(appendChunk, 0);
 }
 
 function barSlug(bar) {
