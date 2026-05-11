@@ -17,8 +17,12 @@
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .hero--compact { padding-top: 2rem; padding-bottom: 2rem; }
+    .hero--compact .hero-inner { justify-content: flex-start; }
+  </style>
   <!-- Google tag (gtag.js) - deferred until first user interaction -->
   <script>
     (function () {
@@ -102,20 +106,11 @@
 
 
   <!-- HERO -->
-  <header class="hero">
+  <header class="hero hero--compact">
     <div class="hero-inner">
       <div class="hero-text">
-        
         <h1 class="hero-headline">Protein Bar Finder</h1>
         <p class="hero-sub">Filter <strong id="bar-count">1,000+</strong> bars by ingredient grade, macros, certifications, and specific ingredients to exclude. Every result updates instantly. <a href="/ingredient_scoring.html" style="color:#d4f000;text-decoration:underline;">How we score &rarr;</a></p>
-      </div>
-      <div class="hero-image">
-        <img src="bar_hero.png" alt="Know Your Bar packaging" />
-      </div>
-    </div>
-    <div class="hero-ticker" aria-hidden="true">
-      <div class="ticker-track">
-        <span>Protein</span><span>·</span><span>Sugar Alcohol</span><span>·</span><span>Dietary Fiber</span><span>·</span><span>Sodium</span><span>·</span><span>Calories</span><span>·</span><span>Ingredients</span><span>·</span><span>Vegan</span><span>·</span><span>Gluten Free</span><span>·</span><span>Soy Free</span><span>·</span><span>Dairy Free</span><span>·</span><span>Non-GMO</span><span>·</span><span>Nut Free</span><span>·</span><span>Protein</span><span>·</span><span>Sugar Alcohol</span><span>·</span><span>Dietary Fiber</span><span>·</span><span>Sodium</span><span>·</span><span>Calories</span><span>·</span><span>Ingredients</span><span>·</span><span>Vegan</span><span>·</span><span>Gluten Free</span><span>·</span>
       </div>
     </div>
   </header>

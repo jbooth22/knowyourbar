@@ -27,6 +27,19 @@ const SLIDERS_CFG = [
   { key: '_netCarbs',                  label: 'Max Net Carbs',     min: 0,  max: 50,  step: 1,  dir: 'max', unit: 'g',   default: 50 },
 ];
 
+// Sort URL slug maps — keeps URLs clean (e.g. ?sort=protein:desc instead of ?sort=Protein+%28g%29%3Adesc)
+const SORT_SLUG_MAP = {
+  'Protein (g)':               'protein',
+  'Calories':                  'calories',
+  'Sugars (g)':                'sugar',
+  'Sugar Alcohol (g)':         'sugar-alcohol',
+  'Dietary Fiber (g)':         'fiber',
+  'Total Fat (g)':             'fat',
+  '_p100':                     'p100',
+  'brand':                     'brand',
+};
+const SORT_SLUG_REVERSE = Object.fromEntries(Object.entries(SORT_SLUG_MAP).map(([k,v]) => [v,k]));
+
 // BRAND_LIST generated dynamically from BARS so new brands appear automatically
 const BRAND_LIST = [...new Set(BARS.map(b => b['Brand Name']))].sort((a, b) =>
   a.localeCompare(b, undefined, { sensitivity: 'base' })
@@ -434,13 +447,15 @@ function readURLParams() {
     if (input) input.value = q;
   }
 
-  // sort — ?sort=protein:desc
+  // sort — ?sort=protein:desc (clean slug) or legacy ?sort=Protein (g):desc (raw field name)
   const sort = params.get('sort');
   if (sort && sort.includes(':')) {
     const [col, dir] = sort.split(':');
     const colEl = document.getElementById('sort-col');
     const dirEl = document.getElementById('sort-dir');
-    if (colEl) colEl.value = col;
+    // Resolve slug → internal field name, falling back to raw value for legacy URLs
+    const resolvedCol = SORT_SLUG_REVERSE[col] || col;
+    if (colEl) colEl.value = resolvedCol;
     if (dirEl && ['asc','desc'].includes(dir)) dirEl.value = dir;
   }
 
@@ -496,7 +511,8 @@ function serializeState() {
   const sortCol = document.getElementById('sort-col')?.value;
   const sortDir = document.getElementById('sort-dir')?.value;
   if (sortCol && sortDir && !(sortCol === 'default' && sortDir === 'desc')) {
-    params.set('sort', `${sortCol}:${sortDir}`);
+    const sortSlug = SORT_SLUG_MAP[sortCol] || sortCol;
+    params.set('sort', `${sortSlug}:${sortDir}`);
   }
 
   // preserve ?bar= if a bar is expanded
