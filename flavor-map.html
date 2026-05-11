@@ -15,12 +15,12 @@
   <link rel="canonical" href="https://knowyourbar.com/flavor-map.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --black:#0e0e0e; --surface:#141414; --surface2:#1c1c1c;
       --white:#f7f5f0; --muted:#888780; --border:#ffffff12; --accent:#d4f000;
-      --fd:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
+      --fd:'DM Sans', sans-serif; --fb:'DM Sans',sans-serif; --fm:'DM Mono',monospace;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
@@ -43,14 +43,14 @@
     /* Hero */
     .hero{max-width:860px;margin:0 auto;padding:3rem 1.25rem 2rem;}
     .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
-    .hero-title{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:1rem;}
+    .hero-title{font-family:'DM Sans', sans-serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:1rem;}
     .hero-title em{font-style:normal;color:var(--accent);}
     .hero-sub{font-size:.95rem;color:#aaa89e;max-width:540px;line-height:1.7;}
 
     /* Stats */
     .stats{max-width:860px;margin:0 auto;padding:0 1.25rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;}
     .stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
-    .stat-n{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;display:block;margin-bottom:3px;}
+    .stat-n{font-family:'DM Sans', sans-serif;font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;display:block;margin-bottom:3px;}
     .stat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#ffffff30;}
 
     /* Desktop Sankey */
@@ -64,7 +64,7 @@
     .flavor-group{margin-bottom:1.5rem;}
     .flavor-group-header{display:flex;align-items:center;gap:10px;margin-bottom:.6rem;}
     .flavor-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
-    .flavor-name{font-family:'Syne',sans-serif;font-weight:800;font-size:.97rem;}
+    .flavor-name{font-family:'DM Sans', sans-serif;font-weight:800;font-size:.97rem;}
     .flavor-total{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
     .flavor-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
     .flavor-bar-label{font-family:'DM Sans',sans-serif;font-size:12px;color:#c0bcb4;width:110px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -388,7 +388,7 @@
       const big=n.h>22;
       gL.appendChild(mktxt(n.x-14,mid-(big?8:0),n.label,{
         'text-anchor':'end','dominant-baseline':'middle',
-        'font-family':'Syne,sans-serif','font-weight':'800',
+        'font-family':'DM Sans,sans-serif','font-weight':'800',
         'font-size':'14','letter-spacing':'-0.3','fill':'#f0ede6',
       }));
       if(big){gL.appendChild(mktxt(n.x-14,mid+9,n.n+' bars \u00b7 '+pct+'%',{

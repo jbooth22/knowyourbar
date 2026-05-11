@@ -1,6 +1,6 @@
 /* ===================================================
    KYB — Know Your Bar
-   Design: editorial-utilitarian, Syne + DM Mono
+   Design: editorial-utilitarian, DM Sans + DM Mono
    =================================================== */
 
 :root {
@@ -17,7 +17,7 @@
   --danger: #e53;
   --success-bg: #edfce4;
   --success-text: #2a7a1f;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'DM Sans', sans-serif;
   --font-mono: 'DM Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
   --radius: 6px;

@@ -13,7 +13,7 @@
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
     :root { --quad-bg:#f8f7f4; }
@@ -317,7 +317,7 @@ function draw(){
   // ── Quadrant label boxes (Gartner style) ─────────────────────────────
   const PAD=8,LH=15;
   ctx.save();
-  ctx.font='700 '+(isMobile()?'9':'11')+'px Syne, sans-serif';
+  ctx.font='700 '+(isMobile()?'9':'11')+'px DM Sans, sans-serif';
 
   const qlabels=[
     {lines:['PRINCIPLED,','NOT PERFORMANCE'],x:PA.x+PAD,y:PA.y+PAD,ax:'left',ay:'top',color:'#236818',bg:'rgba(42,122,31,0.13)'},
