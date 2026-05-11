@@ -20,8 +20,23 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .hero--compact { padding-top: 2rem; padding-bottom: 2rem; }
-    .hero--compact .hero-inner { justify-content: flex-start; }
+    .hero--compact {
+      padding-top: 1.75rem;
+      padding-bottom: 0;
+    }
+    .hero--compact .hero-inner {
+      grid-template-columns: 1fr;
+      padding-bottom: 1.5rem;
+    }
+    .hero--compact .hero-headline {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .hero--compact .hero-sub {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
   </style>
   <!-- Google tag (gtag.js) - deferred until first user interaction -->
   <script>
