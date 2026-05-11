@@ -691,5 +691,20 @@
   }
 </script>
 
+<!-- INP monitoring — web-vitals.js pipes real-user data to GA4 -->
+<!-- Loaded as a module so it doesn't block the main thread -->
+<script type="module">
+  import { onINP } from 'https://unpkg.com/web-vitals@4/dist/web-vitals.attribution.js';
+  onINP(function(metric) {
+    if (typeof gtag !== 'function') return;
+    gtag('event', 'web_vitals', {
+      metric_name: 'INP',
+      metric_value: Math.round(metric.value),
+      metric_rating: metric.rating,           // 'good' / 'needs-improvement' / 'poor'
+      interaction_target: (metric.attribution && metric.attribution.interactionTarget) || '(unknown)',
+    });
+  });
+</script>
+
 </body>
 </html>
