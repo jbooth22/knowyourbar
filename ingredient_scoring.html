@@ -466,7 +466,7 @@
     .section-body, .faq-a, .hero-sub {
       color: #4a4a45;
     }
-    /* Dark section muted text — was too low contrast */
+    /* Dark section muted text - was too low contrast */
     .findings .insight-text { color: #d8d4cc; }
     .findings .big-stat-detail { color: #c8c4bc; }
     .findings-sub { color: #c8c4bc; }
@@ -676,7 +676,7 @@
         <div class="chip-row">
           <span class="chip-sample chip-positive" style="min-width:180px;">Egg Whites &nbsp;<strong>+4</strong></span>
           <div>
-            <div class="chip-desc">A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you're getting real food as the primary ingredient — not a powder or isolate.</div>
+            <div class="chip-desc">A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you're getting real food as the primary ingredient - not a powder or isolate.</div>
           </div>
         </div>
         <div class="chip-row">
@@ -698,7 +698,7 @@
         <div class="chip-row">
           <span class="chip-sample chip-neutral" style="min-width:180px;">Salt &nbsp;<strong>0</strong></span>
           <div>
-            <div class="chip-desc">Present in almost every bar. At typical quantities it's neither a benefit nor a concern — it scores neutral. Position matters though: if salt somehow led the ingredient list, that would be a different story.</div>
+            <div class="chip-desc">Present in almost every bar. At typical quantities it's neither a benefit nor a concern - it scores neutral. Position matters though: if salt somehow led the ingredient list, that would be a different story.</div>
           </div>
         </div>
         <div class="chip-row">
@@ -726,7 +726,7 @@
         <div class="chip-row">
           <span class="chip-sample chip-concern" style="min-width:180px;">Sucralose &nbsp;<strong>–2</strong></span>
           <div>
-            <div class="chip-desc">A zero-calorie artificial sweetener. Research on its effects on gut microbiome and metabolic response continues to evolve. We score it negatively — not catastrophically, but it's a real ingredient concern.</div>
+            <div class="chip-desc">A zero-calorie artificial sweetener. Research on its effects on gut microbiome and metabolic response continues to evolve. We score it negatively - not catastrophically, but it's a real ingredient concern.</div>
           </div>
         </div>
         <div class="chip-row">
@@ -873,9 +873,9 @@
     <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#f7f5f0;margin-bottom:0.75rem;line-height:1.2;">Now go find your bar.</p>
     <p style="font-family:var(--font-mono);font-size:12px;color:#888880;margin-bottom:1.5rem;">Filter by grade, macros, certifications, and more.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <a href="/?band=A" style="font-family:var(--font-mono);font-size:11px;background:#2a7a1f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;">Browse A-Grade bars</a>
-      <a href="/?preset=clean" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">Clean ingredients</a>
-      <a href="/?preset=no-sweeteners" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">No artificial sweeteners</a>
+      <a href="/bar-finder.html?band=A" style="font-family:var(--font-mono);font-size:11px;background:#2a7a1f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;">Browse A-Grade bars</a>
+      <a href="/bar-finder.html?preset=clean" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">Clean ingredients</a>
+      <a href="/bar-finder.html?preset=no-sweeteners" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">No artificial sweeteners</a>
     </div>
   </div>
 </section>
@@ -893,7 +893,7 @@
       <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
     </div>
     <nav class="site-footer-links">
-      <a href="/">Bar Finder</a>
+      <a href="/bar-finder.html">Protein Bar Finder</a>
       <a href="/ingredient_scoring.html">How We Score</a>
       <a href="/all-protein-bar-brands.html">All Brands</a>
       <a href="/quest-bars.html">Quest</a>
@@ -950,7 +950,7 @@
           <div class="grade-range">${ranges[band]}</div>
           <div class="grade-count">${count} bars</div>
           <div class="grade-pct">${pct}% of total</div>
-          <a href="/?band=${band}" class="grade-browse-link">Browse ${labels[band]} bars →</a>
+          <a href="/bar-finder.html?band=${band}" class="grade-browse-link">Browse ${labels[band]} bars →</a>
         `;
         grid.appendChild(card);
       });
