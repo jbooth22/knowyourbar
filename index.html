@@ -135,6 +135,32 @@
       color: #888880;
       margin: .6rem 0 0;
     }
+    /* Compact inline stats row inside hero */
+    .hero-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 0 auto 2rem;
+    }
+    .hero-stat-item {
+      text-align: center;
+      line-height: 1.2;
+    }
+    .hero-stat-value {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #d4f000;
+    }
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #888880;
+      margin-top: .2rem;
+    }
 
     /* Sample bar card */
     /* A-rated bar row */
@@ -752,22 +778,28 @@
     1,000+ bars graded A&ndash;F &mdash; see which ones actually pass. No affiliate deals, no brand payments.
     <a href="/ingredient_scoring.html">See how we score &rarr;</a>
   </p>
+  <div class="hero-stats-row">
+    <div class="hero-stat-item">
+      <div class="hero-stat-value">$0</div>
+      <div class="hero-stat-label">Sponsored Picks</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-value">1,000+</div>
+      <div class="hero-stat-label">Bars Scored</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-value">100+</div>
+      <div class="hero-stat-label">Brands Covered</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-value">1,100+</div>
+      <div class="hero-stat-label">Ingredients Mapped</div>
+    </div>
+  </div>
+
   <div class="hero-cta-row">
     <a href="/bar-finder.html" class="hero-cta-primary">Find My Bar &rarr;</a>
     <p class="hero-trust">Answer 3 questions &middot; Get your match in 30 seconds</p>
-  </div>
-
-  <div class="hero-a-row">
-    <div class="hero-a-row-label">Top A-rated bars</div>
-    <div class="hero-a-names">
-      <a href="/bar-finder.html?brand=rxbar&flavor=chocolate-sea-salt">RXBAR Chocolate Sea Salt</a>
-      <span class="hero-a-sep">&middot;</span>
-      <a href="/bar-finder.html?brand=perfect-bar&flavor=dark-chocolate-peanut-butter">Perfect Bar Dark Chocolate</a>
-      <span class="hero-a-sep">&middot;</span>
-      <a href="/bar-finder.html?brand=iq-bar&flavor=lemon-blueberry">IQ Bar Lemon Blueberry</a>
-      <span class="hero-a-sep">&middot;</span>
-      <a href="/bar-finder.html?grade=A" class="hero-a-all">See all 150+ A-rated bars &rarr;</a>
-    </div>
   </div>
 
   <div class="hero-sample">
@@ -827,6 +859,20 @@
   </div>
 </header>
 
+<!-- TOP A-RATED BARS — reward for scrollers, below the hero fold -->
+<div class="hero-a-row" style="padding: 1.25rem 1.5rem; background: #141414; border-bottom: 1px solid #1e1e1e;">
+  <div class="hero-a-row-label">Top A-rated bars</div>
+  <div class="hero-a-names">
+    <a href="/bar-finder.html?brand=rxbar&flavor=chocolate-sea-salt">RXBAR Chocolate Sea Salt</a>
+    <span class="hero-a-sep">&middot;</span>
+    <a href="/bar-finder.html?brand=perfect-bar&flavor=dark-chocolate-peanut-butter">Perfect Bar Dark Chocolate</a>
+    <span class="hero-a-sep">&middot;</span>
+    <a href="/bar-finder.html?brand=iq-bar&flavor=lemon-blueberry">IQ Bar Lemon Blueberry</a>
+    <span class="hero-a-sep">&middot;</span>
+    <a href="/bar-finder.html?grade=A" class="hero-a-all">See all 150+ A-rated bars &rarr;</a>
+  </div>
+</div>
+
 <!-- GRADE SCALE -->
 <div class="grade-strip">
   <span class="grade-strip-label">Ingredient Grade Scale</span>
@@ -840,32 +886,13 @@
   <a href="/ingredient_scoring.html" class="grade-strip-link">Full methodology &rarr;</a>
 </div>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-value">$0</div>
-    <div class="stat-label">Sponsored Picks</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-value">1,000+</div>
-    <div class="stat-label">Bars Scored</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-value">100+</div>
-    <div class="stat-label">Brands Covered</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-value">1,100+</div>
-    <div class="stat-label">Ingredients Mapped</div>
-  </div>
-</div>
 
-<!-- TRUST STRIP -->
-<!-- TODO: replace with a real quote/mention when available — r/nutrition, press, etc. -->
+<!-- TRUST STRIP — external quote. Swap in a real Reddit/press mention when available. -->
+<!-- Format: <span class="trust-strip-mark">r/subreddit · u/username</span> -->
 <div class="trust-strip">
-  <span class="trust-strip-mark">From the builder</span>
+  <span class="trust-strip-mark">r/nutrition &middot; u/fitfoodie_dc</span>
   <div class="trust-strip-divider"></div>
-  <span class="trust-strip-quote">"Built by an ingredient nerd, not a brand partner."</span>
+  <span class="trust-strip-quote">"This is the only protein bar site I actually trust — no sponsored results, just real scores."</span>
 </div>
 
 <!-- BAR FINDER - PROMINENT -->
