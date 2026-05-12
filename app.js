@@ -464,6 +464,44 @@ function readURLParams() {
   if (barSlug) {
     window._autoExpandSlug = barSlug;
   }
+
+  // ?brand=rxbar&flavor=chocolate-sea-salt  — deep-links from homepage hero cards
+  // brand is a lowercase slug; resolve it to the actual brand name in bars.js
+  const brandSlug  = params.get('brand');
+  const flavorSlug = params.get('flavor');
+  if (brandSlug) {
+    // Match slug to brand name: lowercase + replace spaces/special chars with hyphens
+    const slugify = str => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const matchedBrand = BRAND_LIST.find(b => slugify(b) === brandSlug);
+    if (matchedBrand) {
+      selectedBrands.add(matchedBrand);
+      const cb = document.querySelector(`#brand-list input[value="${CSS.escape(matchedBrand)}"]`);
+      if (cb) cb.checked = true;
+    }
+  }
+  if (flavorSlug) {
+    // Convert slug to search string: hyphens → spaces
+    const flavorText = flavorSlug.replace(/-/g, ' ');
+    const input = document.getElementById('search-input');
+    if (input) input.value = flavorText;
+    // Also auto-expand the matching bar once results render
+    if (!window._autoExpandSlug) {
+      // Find the bar that matches brand + flavor so we can set _autoExpandSlug
+      const slugify = str => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const brandSlugResolved = brandSlug || '';
+      const matchedBar = BARS.find(b => {
+        const bSlug = slugify(b['Brand Name']);
+        const fSlug = slugify(b['Flavor Name']);
+        return (!brandSlugResolved || bSlug === brandSlugResolved) && fSlug === flavorSlug;
+      });
+      if (matchedBar) {
+        // barSlug() is defined later in app.js — use the same logic inline
+        const slug = (matchedBar['Brand Name'] + '-' + matchedBar['Flavor Name'])
+          .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        window._autoExpandSlug = slug;
+      }
+    }
+  }
 }
 
 function serializeState() {
