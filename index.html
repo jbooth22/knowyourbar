@@ -129,14 +129,56 @@
     .hero-cta-primary:hover { opacity: .88; }
     .hero-trust {
       font-family: 'DM Mono', monospace;
-      font-size: .8rem;
-      letter-spacing: .08em;
+      font-size: .75rem;
+      letter-spacing: .07em;
       text-transform: uppercase;
       color: #888880;
-      margin: 0 0 1.75rem;
+      margin: .6rem 0 0;
     }
 
     /* Sample bar card */
+    /* A-rated bar row */
+    .hero-a-row {
+      margin: 1.75rem auto 0;
+      max-width: 560px;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      color: #888880;
+      line-height: 1.6;
+    }
+    .hero-a-row-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #888880;
+      margin-bottom: .35rem;
+    }
+    .hero-a-names {
+      color: #c8c5be;
+    }
+    .hero-a-names a {
+      color: #72d057;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(114,208,87,.25);
+      transition: border-color .15s;
+    }
+    .hero-a-names a:hover { border-color: rgba(114,208,87,.7); }
+    .hero-a-sep { color: #3a3a3a; margin: 0 .3rem; }
+    .hero-a-all {
+      color: #888880;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .05em;
+      border-bottom: 1px solid #3a3a3a;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .hero-a-all:hover { color: #c8c5be; border-color: #666; }
+
     /* Sample bar result card */
     .hero-sample {
       margin: 2.75rem auto 0;
@@ -679,12 +721,25 @@
   <div class="home-hero-eyebrow">The Protein Bar Database &middot; No Sponsored Picks</div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
-    1,000+ bars ranked by what's actually inside them. Hand-researched. No brand deals.
+    1,000+ bars graded A&ndash;F &mdash; see which ones actually pass. No affiliate deals, no brand payments.
     <a href="/ingredient_scoring.html">See how we score &rarr;</a>
   </p>
-  <p class="hero-trust">30 seconds &middot; No sponsored picks</p>
   <div class="hero-cta-row">
     <a href="/bar-finder.html" class="hero-cta-primary">Find My Bar &rarr;</a>
+    <p class="hero-trust">Answer 3 questions &middot; Get your match in 30 seconds</p>
+  </div>
+
+  <div class="hero-a-row">
+    <div class="hero-a-row-label">Top A-rated bars</div>
+    <div class="hero-a-names">
+      <a href="/bar-finder.html?brand=rxbar&flavor=chocolate-sea-salt">RXBAR Chocolate Sea Salt</a>
+      <span class="hero-a-sep">&middot;</span>
+      <a href="/bar-finder.html?brand=perfect-bar&flavor=dark-chocolate-peanut-butter">Perfect Bar Dark Chocolate</a>
+      <span class="hero-a-sep">&middot;</span>
+      <a href="/bar-finder.html?brand=iq-bar&flavor=lemon-blueberry">IQ Bar Lemon Blueberry</a>
+      <span class="hero-a-sep">&middot;</span>
+      <a href="/bar-finder.html?grade=A" class="hero-a-all">See all 150+ A-rated bars &rarr;</a>
+    </div>
   </div>
 
   <div class="hero-sample">
