@@ -343,13 +343,16 @@
       text-transform: uppercase;
       color: #888880;
     }
-    .grade-pills { display: flex; gap: .4rem; flex-wrap: wrap; justify-content: center; }
+    .grade-pills { display: flex; gap: .4rem; flex-wrap: nowrap; justify-content: center; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .grade-pills::-webkit-scrollbar { display: none; }
     .grade-pill {
       font-family: 'DM Mono', monospace;
       font-size: .7rem;
       font-weight: 500;
       padding: .2rem .55rem;
       border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .grade-pill.a { background: rgba(42,122,31,.25);  color: #72d057; border: 1px solid rgba(42,122,31,.5); }
     .grade-pill.b { background: rgba(90,138,47,.25);  color: #8fc760; border: 1px solid rgba(90,138,47,.5); }
@@ -667,6 +670,7 @@
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
     <a href="/bar-finder.html" class="site-nav-link" style="color:#d4f000;font-weight:600;">Bar Finder &#8599;</a>
   </div>
+  <a href="/bar-finder.html" class="site-nav-mobile-bar-finder">Bar Finder &rarr;</a>
   <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
 
@@ -768,8 +772,8 @@
     <div class="stat-label">Brands Covered</div>
   </div>
   <div class="stat-item">
-    <div class="stat-value">A&ndash;F</div>
-    <div class="stat-label">Ingredient Grades</div>
+    <div class="stat-value">1,100+</div>
+    <div class="stat-label">Ingredients Mapped</div>
   </div>
 </div>
 
