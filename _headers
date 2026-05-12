@@ -1,0 +1,57 @@
+# knowyourbar.com — Cloudflare Pages Cache Headers
+# Deployed automatically by Cloudflare Pages on every push.
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+
+# ─── HTML pages ────────────────────────────────────────────────────────────────
+# Short cache — content changes with every deploy.
+# must-revalidate ensures stale copies are never served silently.
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/:
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# ─── JavaScript ────────────────────────────────────────────────────────────────
+# bars.js changes on every data update — keep short so new scores go live fast.
+/bars.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# app.js changes less often but still needs to be fresh after deploys.
+/app.js
+  Cache-Control: public, max-age=86400, must-revalidate
+
+# ─── CSS ───────────────────────────────────────────────────────────────────────
+# style.css — 1 week. Long enough to benefit repeat visitors,
+# short enough that visual fixes go live without a hard refresh.
+/style.css
+  Cache-Control: public, max-age=604800, must-revalidate
+
+# ─── Images ────────────────────────────────────────────────────────────────────
+# bar_hero.png rarely changes — 30 days.
+/bar_hero.png
+  Cache-Control: public, max-age=2592000, must-revalidate
+
+# Any other images (OG images, logos, etc.)
+/*.png
+  Cache-Control: public, max-age=2592000, must-revalidate
+/*.jpg
+  Cache-Control: public, max-age=2592000, must-revalidate
+/*.webp
+  Cache-Control: public, max-age=2592000, must-revalidate
+/*.svg
+  Cache-Control: public, max-age=2592000, must-revalidate
+/*.ico
+  Cache-Control: public, max-age=2592000, must-revalidate
+
+# ─── Static text files ─────────────────────────────────────────────────────────
+/sitemap.xml
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/robots.txt
+  Cache-Control: public, max-age=86400, must-revalidate
+
+# ─── Security headers (free performance + trust boost) ─────────────────────────
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
