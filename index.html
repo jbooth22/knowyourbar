@@ -591,6 +591,34 @@
       transition: border-color .15s, background .15s;
     }
     .goal-card:hover { border-color: #555; background: #1e1e1e; }
+    .goal-card.goal-card--featured {
+      border-color: rgba(212,240,0,.35);
+      background: rgba(212,240,0,.05);
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.1rem 1.4rem;
+    }
+    .goal-card.goal-card--featured:hover {
+      border-color: rgba(212,240,0,.65);
+      background: rgba(212,240,0,.09);
+    }
+    .goal-card.goal-card--featured .goal-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    .goal-card.goal-card--featured .goal-card-body { flex: 1; }
+    .goal-card.goal-card--featured .goal-card-name { color: #d4f000; }
+    .goal-card.goal-card--featured .goal-card-arrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .75rem;
+      color: #d4f000;
+      flex-shrink: 0;
+      opacity: .7;
+    }
+    .goal-card.goal-card--featured:hover .goal-card-arrow { opacity: 1; }
     .goal-card-icon { font-size: 1.3rem; margin-bottom: .6rem; line-height: 1; }
     .goal-card-name {
       font-family: 'DM Sans', sans-serif;
@@ -866,6 +894,20 @@
     <h2 class="section-heading">What are you looking for in a bar?</h2>
 
     <div class="goal-groups">
+
+      <div>
+        <div class="goal-group-label">Not sure where to start?</div>
+        <div class="goal-grid">
+          <a href="/bar-finder.html?grade=A&sort=score" class="goal-card goal-card--featured">
+            <div class="goal-card-icon">⭐</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">Show me the best bars</div>
+              <div class="goal-card-desc">150+ A-rated bars, ranked by ingredient score — no filters needed</div>
+            </div>
+            <div class="goal-card-arrow">See all &rarr;</div>
+          </a>
+        </div>
+      </div>
 
       <div>
         <div class="goal-group-label">Clean Living</div>
