@@ -395,6 +395,37 @@
       margin-top: .4rem;
     }
 
+    /* Trust strip */
+    .trust-strip {
+      background: #0e0e0e;
+      border-bottom: 1px solid #1e1e1e;
+      padding: .9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+    }
+    .trust-strip-mark {
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #888880;
+      flex-shrink: 0;
+    }
+    .trust-strip-divider {
+      width: 1px;
+      height: 12px;
+      background: #2a2a2a;
+      flex-shrink: 0;
+    }
+    .trust-strip-quote {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      color: #c8c5be;
+      font-style: italic;
+    }
+
     /* Bar Finder - major section */
     .finder-hero-section {
       background: #181818;
@@ -725,6 +756,10 @@
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stat-item">
+    <div class="stat-value">$0</div>
+    <div class="stat-label">Sponsored Picks</div>
+  </div>
+  <div class="stat-item">
     <div class="stat-value">1,000+</div>
     <div class="stat-label">Bars Scored</div>
   </div>
@@ -736,10 +771,14 @@
     <div class="stat-value">A&ndash;F</div>
     <div class="stat-label">Ingredient Grades</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-value">$0</div>
-    <div class="stat-label">Sponsored Picks</div>
-  </div>
+</div>
+
+<!-- TRUST STRIP -->
+<!-- TODO: replace with a real quote/mention when available — r/nutrition, press, etc. -->
+<div class="trust-strip">
+  <span class="trust-strip-mark">From the builder</span>
+  <div class="trust-strip-divider"></div>
+  <span class="trust-strip-quote">"Built by an ingredient nerd, not a brand partner."</span>
 </div>
 
 <!-- BAR FINDER - PROMINENT -->
