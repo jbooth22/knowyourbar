@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's Really in Protein Bars: Ingredients Ranked Best to Worst | Know Your Bar</title>
+  <meta name="description" content="We analyzed 1,000+ protein bars and ranked every ingredient. The 10 best, the 10 worst, hidden ingredient patterns, and what to look for on any label.">
+  <link rel="canonical" href="https://knowyourbar.com/ingredient-report.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Inter:wght@400;600;700;800;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+
+  <style>
+    :root {
+      --black:     #0e0e0e;
+      --white:     #f7f5f0;
+      --off-white: #efece6;
+      --accent:    #d4f000;
+      --muted:     #888880;
+      --border:    #d6d3cc;
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-body:    'DM Sans', sans-serif;
+      --radius:    6px;
+      --radius-lg: 10px;
+
+      --green-best:    #2a7a1f;
+      --green-clean:   #5a8a2f;
+      --green-good:    #7a9a3f;
+      --yellow-okay:   #b89a00;
+      --grey-neutral:  #888880;
+      --orange-minor:  #c87020;
+      --red-concern:   #c85020;
+      --red-avoid:     #c83020;
+      --red-worst:     #8b0000;
+    }
+
+    /* ── Ranked ingredient cards ── */
+    .ranked-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .ranked-grid { grid-template-columns: 1fr; }
+    }
+
+    .ing-rank-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      position: relative;
+      background: var(--white);
+    }
+    .ing-rank-card.best { border-color: #b5d9a0; background: #f4faf0; }
+    .ing-rank-card.worst { border-color: #f0bfb0; background: #fdf5f3; }
+
+    .ing-rank-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      margin-bottom: 0.3rem;
+    }
+    .ing-rank-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      text-transform: capitalize;
+      margin-bottom: 0.2rem;
+    }
+    .ing-rank-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .ing-rank-score {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #fff;
+    }
+    .ing-rank-bars {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .ing-rank-body {
+      font-size: 0.87rem;
+      line-height: 1.55;
+      color: #3a3a35;
+    }
+    .ing-rank-bar-track {
+      height: 4px;
+      background: #e0ddd6;
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+    .ing-rank-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    /* ── Pattern section ── */
+    .pattern-section {
+      border-top: 2px solid var(--black);
+      padding-top: 2.5rem;
+      margin-top: 3rem;
+    }
+    .pattern-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .pattern-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+    .pattern-body {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #3a3a35;
+      max-width: 680px;
+    }
+    .pattern-body + .pattern-body { margin-top: 0.75rem; }
+
+    /* ── Ingredient cluster ── */
+    .cluster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 600px) { .cluster-grid { grid-template-columns: 1fr; } }
+
+    .cluster-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      background: var(--white);
+    }
+    .cluster-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--black);
+    }
+    .cluster-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.6rem;
+    }
+    .cluster-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: #e8e5de;
+      color: #4a4a45;
+    }
+    .cluster-tag.bad { background: #fde8e3; color: #7a1f10; }
+    .cluster-tag.good { background: #e3f5de; color: #1f5010; }
+    .cluster-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #4a4a45;
+    }
+
+    /* ── Most prevalent big visual ── */
+    .prevalence-list {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .prev-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .prev-name {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--black);
+      width: 200px;
+      flex-shrink: 0;
+      text-transform: capitalize;
+    }
+    @media (max-width: 480px) { .prev-name { width: 130px; font-size: 0.8rem; } }
+    .prev-track {
+      flex: 1;
+      height: 8px;
+      background: #e8e5de;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .prev-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    .prev-pct {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--muted);
+      width: 40px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── "Sounds healthy, isn't" table ── */
+    .decode-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.25rem;
+      font-size: 0.88rem;
+    }
+    .decode-table th {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 6px 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    .decode-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid #eae7e0;
+      vertical-align: top;
+      line-height: 1.4;
+      color: #3a3a35;
+    }
+    .decode-table tr:last-child td { border-bottom: none; }
+    .decode-ing {
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--black);
+      text-transform: capitalize;
+    }
+    .decode-verdict {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 3px;
+      color: #fff;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    /* ── Grade predictor ── */
+    .predictor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 580px) { .predictor-grid { grid-template-columns: 1fr; } }
+
+    .predictor-card {
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.2rem;
+    }
+    .predictor-card.signals-good {
+      background: #f4faf0;
+      border: 1.5px solid #b5d9a0;
+    }
+    .predictor-card.signals-bad {
+      background: #fdf5f3;
+      border: 1.5px solid #f0bfb0;
+    }
+    .predictor-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .predictor-label.good { color: var(--green-best); }
+    .predictor-label.bad { color: var(--red-avoid); }
+    .predictor-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #3a3a35;
+    }
+    .predictor-item:last-child { margin-bottom: 0; }
+    .predictor-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What's Really in Protein Bars: Ingredients Ranked Best to Worst",
+    "description": "We analyzed 1,000+ protein bars and ranked every ingredient. The 10 best, the 10 worst, hidden ingredient patterns, and what to look for on any label.",
+    "url": "https://knowyourbar.com/ingredient-report.html",
+    "image": "https://knowyourbar.com/bar_hero.png",
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-01",
+    "author": {"@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com"},
+    "publisher": {"@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the most common bad ingredient in protein bars?",
+        "acceptedAnswer": {"@type": "Answer", "text": "By bar count, sugar is the most common negative ingredient, appearing in 158 bars. But maltitol has the worst score at -4 and appears in 112 bars. Palm kernel oil, which hides inside coatings, is in 143 bars and scores -3."}
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best protein source in a protein bar?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Whey protein isolate and egg whites both score +4, the highest possible rating. Whey isolate appears in 182 bars, making it the most common high-quality protein source. It has complete amino acids, high bioavailability, and minimal processing compared to concentrate."}
+      },
+      {
+        "@type": "Question",
+        "name": "Is sucralose bad in protein bars?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Sucralose scores -2 in our system and appears in 131 bars. It is an artificial sweetener with some research suggesting effects on gut microbiome and insulin response. It is not the worst sweetener — maltitol and acesulfame potassium score lower — but it is a concern-level ingredient."}
+      },
+      {
+        "@type": "Question",
+        "name": "What ingredients should I avoid in protein bars?",
+        "acceptedAnswer": {"@type": "Answer", "text": "The highest-priority ingredients to avoid are maltitol (-4, in 112 bars), palm kernel oil (-3, in 143 bars), acesulfame potassium (-3, in 12 bars), brown rice syrup (-3, in 84 bars), tapioca syrup (-3, in 90 bars), and sucralose (-2, in 131 bars). On a label, also watch for 'chocolate coating' which almost always contains palm kernel oil."}
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between whey isolate and whey concentrate?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Whey isolate is further processed to remove most of the fat and lactose, resulting in a higher protein concentration and faster absorption. It scores +4. Whey concentrate retains more fat and lactose but is less processed overall. It scores +3. Both are complete protein sources, but isolate is generally considered higher quality."}
+      },
+      {
+        "@type": "Question",
+        "name": "Why is maltitol worse than other sugar alcohols?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Maltitol has a glycemic index of around 35, which is much higher than erythritol (close to 0) or xylitol (around 13). It also causes more GI distress than most sugar alcohols. Erythritol is mostly absorbed in the small intestine and does not cause the fermentation issues associated with maltitol. Both are listed as sugar-free, but they behave very differently."}
+      },
+      {
+        "@type": "Question",
+        "name": "What does 'natural flavors' actually mean on a protein bar label?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Natural flavors is a broad FDA-defined category that can include hundreds of compounds derived from animal or plant sources. The term tells you nothing about what specific substances are present. We score it -1 because it offers no transparency and no nutritional value, but it is a minor concern rather than a red flag."}
+      },
+      {
+        "@type": "Question",
+        "name": "How can I tell if a bar has palm kernel oil without seeing it on the label?",
+        "acceptedAnswer": {"@type": "Answer", "text": "Look for any compound ingredient involving a chocolate or coating layer: 'chocolate flavored coating', 'dark chocolate coating', 'compound coating', or 'chocolate chips'. Most of these contain palm kernel oil as their primary fat. Our scoring pipeline unpacks these compound ingredients and scores the sub-ingredients, which is how we catch palm kernel oil even when it is not listed at the top level."}
+      }
+    ]
+  }
+  </script>
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="What's Really in Protein Bars: Ingredients Ranked Best to Worst | Know Your Bar">
+  <meta property="og:description" content="We analyzed 1,000+ protein bars and ranked every ingredient. The 10 best, 10 worst, hidden patterns, and what to look for on any label.">
+  <meta property="og:url" content="https://knowyourbar.com/ingredient-report.html">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What's Really in Protein Bars: Ingredients Ranked Best to Worst | Know Your Bar">
+  <meta name="twitter:description" content="We analyzed 1,000+ protein bars and ranked every ingredient. The 10 best, 10 worst, hidden patterns, and what to look for on any label.">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
+</head>
+<body class="page-guide">
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">Know Your Bar</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero page-guide">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Ingredient Analysis</div>
+    <h1 class="hero-title">What's Really in Protein Bars</h1>
+    <p class="hero-sub" style="color:#e8e4dc;">We scored 1,000+ bars ingredient by ingredient. Here are the patterns — the best, the worst, what travels together, and what the label is hiding.</p>
+  </div>
+</section>
+
+<!-- SNAPSHOT -->
+<section class="snapshot">
+  <div class="snapshot-inner">
+    <div class="snap-item">
+      <div class="snap-value">369</div>
+      <div class="snap-label">Unique ingredients</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">1,000+</div>
+      <div class="snap-label">Bars analyzed</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">46%</div>
+      <div class="snap-label">Bars with added sugar</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">143</div>
+      <div class="snap-label">Bars with palm kernel oil</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value">182</div>
+      <div class="snap-label">Bars with whey isolate</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- 1. TOP 10 WORST -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="pattern-eyebrow">The worst offenders</div>
+      <h2 class="section-title">10 worst ingredients in protein bars</h2>
+      <p style="color:#4a4a45;font-size:0.92rem;line-height:1.6;margin-bottom:0;">Ranked by score, weighted by how many bars they appear in. These are the ingredients doing the most damage across the 1,000-bar database.</p>
+
+      <div class="ranked-grid" style="margin-top:1.5rem;">
+
+        <!-- WORST 1 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#1 Worst</div>
+          <div class="ing-rank-name">Maltitol</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-worst);">-4</span>
+            <span class="ing-rank-bars">112 bars &middot; 11.2% of database</span>
+          </div>
+          <div class="ing-rank-body">The worst-scoring sugar alcohol in the database. Despite being marketed as "sugar-free," maltitol has a glycemic index around 35 — nearly half of table sugar. It causes significant GI distress and raises blood sugar more than most alternatives. If you see it on a keto or diabetic bar, that bar is misleading you.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:11.2%;background:var(--red-worst);"></div></div>
+        </div>
+
+        <!-- WORST 2 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#2 Worst</div>
+          <div class="ing-rank-name">Maltitol Syrup</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-worst);">-4</span>
+            <span class="ing-rank-bars">54 bars &middot; 5.4% of database</span>
+          </div>
+          <div class="ing-rank-body">The liquid form of maltitol — same score, same problems. Often appears in soft coatings and fillings where solid maltitol can't be used. Both forms frequently appear in the same bar, compounding the total sugar alcohol load significantly.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:5.4%;background:var(--red-worst);"></div></div>
+        </div>
+
+        <!-- WORST 3 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#3 Worst</div>
+          <div class="ing-rank-name">Palm Kernel Oil</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-avoid);">-3</span>
+            <span class="ing-rank-bars">143 bars &middot; 14.3% of database</span>
+          </div>
+          <div class="ing-rank-body">The most prevalent high-scoring negative ingredient in the entire database. It almost never appears on a label by itself — it hides inside compound ingredients like "chocolate flavored coating" or "dark chocolate coating." Highly saturated, industrially processed, and linked to deforestation. Its prevalence is the strongest argument for reading sub-ingredients.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:14.3%;background:var(--red-avoid);"></div></div>
+        </div>
+
+        <!-- WORST 4 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#4 Worst</div>
+          <div class="ing-rank-name">Brown Rice Syrup</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-avoid);">-3</span>
+            <span class="ing-rank-bars">84 bars &middot; 8.4% of database</span>
+          </div>
+          <div class="ing-rank-body">Sounds like a whole food. It is not. Brown rice syrup is roughly 98% glucose — a pure sugar with a glycemic index higher than table sugar. It appears on "clean" and "natural" bars because it sounds healthier than "high fructose corn syrup." The marketing works; the ingredient doesn't.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:8.4%;background:var(--red-avoid);"></div></div>
+        </div>
+
+        <!-- WORST 5 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#5 Worst</div>
+          <div class="ing-rank-name">Tapioca Syrup</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-avoid);">-3</span>
+            <span class="ing-rank-bars">90 bars &middot; 9.0% of database</span>
+          </div>
+          <div class="ing-rank-body">Another ingredient in the "sounds natural, is sugar" category. Tapioca syrup is a highly refined starch-derived sweetener. It ranks alongside brown rice syrup as a -3 for the same reasons — no meaningful nutrients and significant glucose load. Common in granola-style and "clean label" bars.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:9.0%;background:var(--red-avoid);"></div></div>
+        </div>
+
+        <!-- WORST 6 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#6 Worst</div>
+          <div class="ing-rank-name">Acesulfame Potassium</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-avoid);">-3</span>
+            <span class="ing-rank-bars">12 bars &middot; 1.2% of database</span>
+          </div>
+          <div class="ing-rank-body">An artificial sweetener that scores even lower than sucralose due to greater concerns around its metabolic effects and the quality of safety research behind it. Less common than sucralose but worth flagging when you see it — it almost always appears alongside sucralose in the same bar.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:1.2%;background:var(--red-avoid);"></div></div>
+        </div>
+
+        <!-- WORST 7 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#7 Worst</div>
+          <div class="ing-rank-name">Erythritol</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-avoid);">-3</span>
+            <span class="ing-rank-bars">40 bars &middot; 4.0% of database</span>
+          </div>
+          <div class="ing-rank-body">Better than maltitol by a significant margin for blood sugar impact, but still scores -3 in our system. Erythritol is absorbed before it reaches the colon, which reduces GI issues, but emerging research has raised questions about cardiovascular effects at high doses. Until that research settles, we score it as avoid.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:4.0%;background:var(--red-avoid);"></div></div>
+        </div>
+
+        <!-- WORST 8 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#8 Worst</div>
+          <div class="ing-rank-name">Sucralose</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-concern);">-2</span>
+            <span class="ing-rank-bars">131 bars &middot; 13.1% of database</span>
+          </div>
+          <div class="ing-rank-body">The most common artificial sweetener in the database by a wide margin — in 1 out of every 8 bars. Research suggests effects on gut microbiome composition and potential insulin response priming. Not the worst ingredient, but one of the most impactful given how many bars contain it.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:13.1%;background:var(--red-concern);"></div></div>
+        </div>
+
+        <!-- WORST 9 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#9 Worst</div>
+          <div class="ing-rank-name">Sugar</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-concern);">-2</span>
+            <span class="ing-rank-bars">158 bars &middot; 15.8% of database</span>
+          </div>
+          <div class="ing-rank-body">Plain sugar appears in more bars than any other negative ingredient. It scores -2 rather than lower because it is at least transparent — it does what it says. The concern is position: when sugar appears in the first five ingredients, it is contributing meaningfully to the bar's total load. Cane sugar scores identically.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:15.8%;background:var(--red-concern);"></div></div>
+        </div>
+
+        <!-- WORST 10 -->
+        <div class="ing-rank-card worst">
+          <div class="ing-rank-num">#10 Worst</div>
+          <div class="ing-rank-name">Potassium Sorbate</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--red-concern);">-2</span>
+            <span class="ing-rank-bars">28 bars &middot; 2.8% of database</span>
+          </div>
+          <div class="ing-rank-body">A common preservative that scores -2 because it is a synthetic antimicrobial with limited transparency around long-term effects at the concentrations used in packaged foods. Less prevalent than the others on this list, but worth noting on any bar claiming to be "clean" or "natural."</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:2.8%;background:var(--red-concern);"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. TOP 10 BEST -->
+  <section class="section off">
+    <div class="section-inner">
+      <div class="pattern-eyebrow">The clean signals</div>
+      <h2 class="section-title">10 best ingredients in protein bars</h2>
+      <p style="color:#4a4a45;font-size:0.92rem;line-height:1.6;margin-bottom:0;">The ingredients that actually make a bar worth eating. Ranked by score, weighted by prevalence. These are the signals a good label shows.</p>
+
+      <div class="ranked-grid" style="margin-top:1.5rem;">
+
+        <!-- BEST 1 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#1 Best</div>
+          <div class="ing-rank-name">Whey Protein Isolate</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-best);">+4</span>
+            <span class="ing-rank-bars">182 bars &middot; 18.2% of database</span>
+          </div>
+          <div class="ing-rank-body">The gold standard protein source and the most common +4 ingredient in the database. Whey isolate is filtered further than concentrate, removing most fat and lactose. Complete amino acid profile, rapid absorption, high bioavailability. Seeing it as the first or second ingredient is the strongest single positive signal on any bar label.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:18.2%;background:var(--green-best);"></div></div>
+        </div>
+
+        <!-- BEST 2 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#2 Best</div>
+          <div class="ing-rank-name">Egg Whites</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-best);">+4</span>
+            <span class="ing-rank-bars">13 bars &middot; 1.3% of database</span>
+          </div>
+          <div class="ing-rank-body">The other +4 protein source. Egg whites deliver a complete amino acid profile with minimal fat and near-zero processing. Less common than whey isolate but equally high-scoring. Bars built around egg whites are almost always among the cleanest in the database. RXBAR is the most prominent example.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:1.3%;background:var(--green-best);"></div></div>
+        </div>
+
+        <!-- BEST 3 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#3 Best</div>
+          <div class="ing-rank-name">Almonds</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">127 bars &middot; 12.7% of database</span>
+          </div>
+          <div class="ing-rank-body">Whole almonds are the most common whole-food ingredient in the database. They contribute protein, fiber, healthy fat, and micronutrients — and they require no processing to include. Their presence, especially in the first few ingredients, is one of the clearest signals that a bar was built around real food rather than engineered texture.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:12.7%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 4 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#4 Best</div>
+          <div class="ing-rank-name">Peanuts</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">117 bars &middot; 11.7% of database</span>
+          </div>
+          <div class="ing-rank-body">One of the most efficient whole-food ingredients in any bar — high protein, high fat, fiber, and micronutrients all in one ingredient. Peanuts and almond are the two anchors of the whole-food protein bar category. Their presence usually signals a cleaner formulation than whey-and-coating designs.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:11.7%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 5 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#5 Best</div>
+          <div class="ing-rank-name">Whey Protein Concentrate</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">126 bars &middot; 12.6% of database</span>
+          </div>
+          <div class="ing-rank-body">One step below isolate — concentrate retains more fat and lactose but is still a complete, high-quality protein source. Many bars use a blend of isolate and concentrate; the presence of both is still a strong signal. Where it falls on the label relative to isolate matters: isolate-first blends score noticeably better.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:12.6%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 6 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#6 Best</div>
+          <div class="ing-rank-name">Peanut Butter</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">87 bars &middot; 8.7% of database</span>
+          </div>
+          <div class="ing-rank-body">Peanut butter in a bar is almost always just ground peanuts, and it scores accordingly. It contributes the same nutrients as whole peanuts with better binding properties. Bars that use peanut butter as a primary ingredient tend to have shorter, cleaner ingredient lists overall — the formulation usually follows the food.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:8.7%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 7 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#7 Best</div>
+          <div class="ing-rank-name">Oats</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">88 bars &middot; 8.8% of database</span>
+          </div>
+          <div class="ing-rank-body">Oats are the primary carbohydrate source in the cleanest bars. They deliver beta-glucan fiber, complex carbs, and trace protein — all in a minimally processed form. They are also a reliable texture anchor that replaces the need for refined starches and syrups. A bar with oats early in the ingredient list rarely has a terrible overall score.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:8.8%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 8 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#8 Best</div>
+          <div class="ing-rank-name">Milk Protein Isolate</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">90 bars &middot; 9.0% of database</span>
+          </div>
+          <div class="ing-rank-body">A micellar casein and whey blend derived from milk, retaining the natural ratio of the two proteins. Slower digesting than whey isolate alone, which some research suggests may be better for muscle protein synthesis over longer windows. A clean, complete protein source that scores identically to whey concentrate.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:9.0%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 9 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#9 Best</div>
+          <div class="ing-rank-name">Dates</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">52 bars &middot; 5.2% of database</span>
+          </div>
+          <div class="ing-rank-body">Dates are the binding and sweetening agent in whole-food bars — they replace syrups, sugars, and glycerin with a single whole fruit that contributes fiber, potassium, and natural glucose. Every bar with dates in the first three ingredients is using a food to do the work of an additive. That matters.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:5.2%;background:var(--green-clean);"></div></div>
+        </div>
+
+        <!-- BEST 10 -->
+        <div class="ing-rank-card best">
+          <div class="ing-rank-num">#10 Best</div>
+          <div class="ing-rank-name">Almond Butter</div>
+          <div class="ing-rank-meta">
+            <span class="ing-rank-score" style="background:var(--green-clean);">+3</span>
+            <span class="ing-rank-bars">60 bars &middot; 6.0% of database</span>
+          </div>
+          <div class="ing-rank-body">Same scoring logic as peanut butter. Almond butter tends to appear in slightly higher-end formulations, often alongside other whole-food ingredients. Bars anchored around almond or peanut butter as binders consistently score better than bars using tapioca syrup or glycerin for the same structural role.</div>
+          <div class="ing-rank-bar-track"><div class="ing-rank-bar-fill" style="width:6.0%;background:var(--green-clean);"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MOST PREVALENT -->
+  <section class="findings">
+    <div class="findings-inner">
+      <div class="findings-eyebrow" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#888880;margin-bottom:.75rem;">What the data shows</div>
+      <h2 class="findings-title">The most common ingredients across 1,000 bars</h2>
+
+      <div class="big-stat">
+        <div class="big-stat-num">464</div>
+        <div>
+          <div class="big-stat-head">bars contain salt</div>
+          <div class="big-stat-detail">Salt is the single most common ingredient in the database. Nearly half of all protein bars contain it — more than any protein source, sweetener, or fat.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888880;margin-bottom:1rem;">% of 1,000 bars containing each ingredient</div>
+
+        <div class="prevalence-list">
+          <div class="prev-row">
+            <div class="prev-name">Salt</div>
+            <div class="prev-track"><div class="prev-fill" style="width:46.4%;background:#888880;"></div></div>
+            <div class="prev-pct">46.4%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Natural flavors</div>
+            <div class="prev-track"><div class="prev-fill" style="width:34.2%;background:var(--orange-minor);"></div></div>
+            <div class="prev-pct">34.2%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Glycerin</div>
+            <div class="prev-track"><div class="prev-fill" style="width:30.7%;background:var(--orange-minor);"></div></div>
+            <div class="prev-pct">30.7%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Cocoa butter</div>
+            <div class="prev-track"><div class="prev-fill" style="width:22.6%;background:var(--yellow-okay);"></div></div>
+            <div class="prev-pct">22.6%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Soy lecithin</div>
+            <div class="prev-track"><div class="prev-fill" style="width:18.6%;background:#888880;"></div></div>
+            <div class="prev-pct">18.6%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Whey protein isolate</div>
+            <div class="prev-track"><div class="prev-fill" style="width:18.2%;background:var(--green-best);"></div></div>
+            <div class="prev-pct">18.2%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Sugar</div>
+            <div class="prev-track"><div class="prev-fill" style="width:15.8%;background:var(--red-concern);"></div></div>
+            <div class="prev-pct">15.8%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Palm kernel oil</div>
+            <div class="prev-track"><div class="prev-fill" style="width:14.3%;background:var(--red-avoid);"></div></div>
+            <div class="prev-pct">14.3%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Cane sugar</div>
+            <div class="prev-track"><div class="prev-fill" style="width:14.2%;background:var(--red-concern);"></div></div>
+            <div class="prev-pct">14.2%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Sucralose</div>
+            <div class="prev-track"><div class="prev-fill" style="width:13.1%;background:var(--red-concern);"></div></div>
+            <div class="prev-pct">13.1%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Almonds</div>
+            <div class="prev-track"><div class="prev-fill" style="width:12.7%;background:var(--green-clean);"></div></div>
+            <div class="prev-pct">12.7%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Whey protein concentrate</div>
+            <div class="prev-track"><div class="prev-fill" style="width:12.6%;background:var(--green-clean);"></div></div>
+            <div class="prev-pct">12.6%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Sunflower lecithin</div>
+            <div class="prev-track"><div class="prev-fill" style="width:15.4%;background:#888880;"></div></div>
+            <div class="prev-pct">15.4%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Peanuts</div>
+            <div class="prev-track"><div class="prev-fill" style="width:11.7%;background:var(--green-clean);"></div></div>
+            <div class="prev-pct">11.7%</div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-name">Maltitol</div>
+            <div class="prev-track"><div class="prev-fill" style="width:11.2%;background:var(--red-worst);"></div></div>
+            <div class="prev-pct">11.2%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insights-grid" style="margin-top:2.5rem;">
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>Salt is everywhere, neutrally.</strong> 464 bars contain salt. It scores 0 — a seasoning, not a concern. Its near-ubiquity just reflects how universal basic seasoning is in packaged food.</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>Glycerin is the invisible texture agent.</strong> 307 bars use glycerin as a humectant. It keeps bars soft on the shelf and scores -1. Most consumers have never noticed it, but it is in nearly 1 in 3 bars they've eaten.</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>Palm kernel oil beats sucralose for prevalence.</strong> Palm kernel oil (-3) appears in 143 bars — more than sucralose (-2) at 131. The difference is visibility: sucralose is listed directly; palm kernel oil almost always appears inside a coating compound ingredient.</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-dot"></div>
+          <div class="insight-text"><strong>Whey isolate is the most common positive signal.</strong> Among all ingredients with positive scores, whey protein isolate appears most often — 182 bars. It is followed by almonds (127), whey concentrate (126), and peanuts (117).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. INGREDIENT CLUSTERS -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="pattern-eyebrow">Co-occurrence patterns</div>
+      <h2 class="section-title">Ingredients that travel together</h2>
+      <p class="pattern-body">Certain ingredients almost never appear alone. They cluster — because they serve the same formulation purpose or come from the same sourcing decisions. These patterns are some of the most useful things you can learn about a label.</p>
+
+      <div class="cluster-grid">
+
+        <div class="cluster-card">
+          <div class="cluster-title">The coating system</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag bad">palm kernel oil</span>
+            <span class="cluster-tag bad">sugar</span>
+            <span class="cluster-tag">cocoa butter</span>
+            <span class="cluster-tag">soy lecithin</span>
+          </div>
+          <div class="cluster-desc">Chocolate coatings almost always contain this cluster. Palm kernel oil and sugar are the primary ingredients; cocoa butter and lecithin are the binders and emulsifiers. When you see "chocolate flavored coating" on a label, assume this group is inside.</div>
+        </div>
+
+        <div class="cluster-card">
+          <div class="cluster-title">The keto sweetener stack</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag bad">maltitol</span>
+            <span class="cluster-tag bad">sucralose</span>
+            <span class="cluster-tag bad">glycerin</span>
+            <span class="cluster-tag bad">maltitol syrup</span>
+          </div>
+          <div class="cluster-desc">Many bars marketed as "low sugar" or "keto-friendly" stack multiple sugar alcohols with artificial sweeteners. Maltitol plus sucralose is the most common pairing. The combined glycemic impact of this cluster is far higher than "zero sugar" marketing suggests.</div>
+        </div>
+
+        <div class="cluster-card">
+          <div class="cluster-title">The whole-food bar signature</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag good">dates</span>
+            <span class="cluster-tag good">almonds</span>
+            <span class="cluster-tag good">egg whites</span>
+            <span class="cluster-tag good">cashews</span>
+          </div>
+          <div class="cluster-desc">RXBAR popularized this cluster. Whole fruit for sweetness, whole nuts for fat and protein, egg whites for protein structure — no processed binding agents required. When you see dates plus nuts plus egg whites, you are almost certainly looking at an A or B grade bar.</div>
+        </div>
+
+        <div class="cluster-card">
+          <div class="cluster-title">The "clean label" sugar stack</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag bad">brown rice syrup</span>
+            <span class="cluster-tag bad">tapioca syrup</span>
+            <span class="cluster-tag bad">honey</span>
+            <span class="cluster-tag">oats</span>
+          </div>
+          <div class="cluster-desc">Common in granola-style bars positioned as natural or wholesome. These bars replace "sugar" with ingredients that sound healthier but carry similar glycemic loads. The oats help, but the syrup stack undoes much of that benefit.</div>
+        </div>
+
+        <div class="cluster-card">
+          <div class="cluster-title">The plant protein combo</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag good">pea protein</span>
+            <span class="cluster-tag good">brown rice protein</span>
+            <span class="cluster-tag">tapioca starch</span>
+          </div>
+          <div class="cluster-desc">Pea and brown rice protein are often paired because together they provide a complete amino acid profile that neither offers alone. Tapioca starch typically appears alongside them as a binder. This cluster is the foundation of most plant-based protein bars.</div>
+        </div>
+
+        <div class="cluster-card">
+          <div class="cluster-title">The whey blend</div>
+          <div class="cluster-tags">
+            <span class="cluster-tag good">whey protein isolate</span>
+            <span class="cluster-tag good">whey protein concentrate</span>
+            <span class="cluster-tag">glycerin</span>
+            <span class="cluster-tag">natural flavors</span>
+          </div>
+          <div class="cluster-desc">Most engineered whey bars use both isolate and concentrate — isolate for marketing ("contains whey isolate"), concentrate for cost and texture. Glycerin keeps them chewy; natural flavors carry the taste. This cluster is the backbone of the mainstream bar market.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. SOUNDS HEALTHY / ISN'T -->
+  <section class="section off">
+    <div class="section-inner">
+      <div class="pattern-eyebrow">Label literacy</div>
+      <h2 class="section-title">Sounds healthy vs. sounds bad: the decoder</h2>
+      <p class="pattern-body">Some of the worst ingredients have names that sound natural or wholesome. Some neutral ingredients sound synthetic. Here is the cheat sheet.</p>
+
+      <table class="decode-table">
+        <thead>
+          <tr>
+            <th style="width:30%;">Ingredient</th>
+            <th style="width:15%;">Score</th>
+            <th>Reality</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="decode-ing">Brown rice syrup</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: wholesome</span></td>
+            <td><span class="decode-verdict" style="background:var(--red-avoid);">-3 Avoid</span></td>
+            <td>Pure glucose. Higher glycemic index than table sugar. A refined starch derivative that sounds like a whole food.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Tapioca syrup</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: natural</span></td>
+            <td><span class="decode-verdict" style="background:var(--red-avoid);">-3 Avoid</span></td>
+            <td>Highly refined starch syrup. Functionally similar to corn syrup. Common in "clean label" granola bars.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Agave syrup</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: premium, natural</span></td>
+            <td><span class="decode-verdict" style="background:var(--red-avoid);">-3 Avoid</span></td>
+            <td>Very high in fructose — higher than high fructose corn syrup. Marketed as low-glycemic because fructose doesn't spike blood sugar immediately, but excessive fructose is associated with liver stress.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Honey</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: natural sweetener</span></td>
+            <td><span class="decode-verdict" style="background:var(--red-concern);">-2 Concern</span></td>
+            <td>Still added sugar. The trace antioxidants in honey are overwhelmed by the sugar content. It scores the same as plain sugar because nutritionally it behaves the same way.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Glycerin</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: industrial</span></td>
+            <td><span class="decode-verdict" style="background:var(--orange-minor);">-1 Minor</span></td>
+            <td>Not as bad as it sounds. A humectant that keeps bars soft. Low caloric impact. It is a processing additive, not a nutritional ingredient, but it is also not a red flag.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Soy lecithin</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: chemical</span></td>
+            <td><span class="decode-verdict" style="background:#888880;">0 Neutral</span></td>
+            <td>A natural emulsifier derived from soybeans. Widely considered safe and benign. The soy-allergy concern is real but the lecithin itself is highly refined and unlikely to trigger reactions.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Natural flavors</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: clean</span></td>
+            <td><span class="decode-verdict" style="background:var(--orange-minor);">-1 Minor</span></td>
+            <td>A broad regulatory category that can include hundreds of compounds. The word "natural" is doing marketing work here, not scientific work. You cannot tell from this label what is actually in it.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Stevia</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: healthy sweetener</span></td>
+            <td><span class="decode-verdict" style="background:var(--yellow-okay);">+1 Okay</span></td>
+            <td>Actually reasonably good. A plant-derived low-calorie sweetener with minimal effect on blood sugar. Scores +1 rather than higher because the research on long-term effects is still developing.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Cocoa butter</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: indulgent</span></td>
+            <td><span class="decode-verdict" style="background:var(--yellow-okay);">+1 Okay</span></td>
+            <td>Better than it sounds. A saturated fat from cocoa beans that is relatively neutral in this context — it is a natural fat source and a much better alternative to palm kernel oil in coatings. Its presence usually signals a higher-quality chocolate formulation.</td>
+          </tr>
+          <tr>
+            <td><div class="decode-ing">Collagen protein</div><span style="font-family:var(--font-mono);font-size:9px;color:var(--muted);">Sounds: premium protein</span></td>
+            <td><span class="decode-verdict" style="background:var(--yellow-okay);">+1 Okay</span></td>
+            <td>Often marketed as a premium protein source, but collagen is an incomplete protein — it lacks tryptophan. A bar that counts collagen toward its protein total is not giving you the same nutrition as whey or egg whites. Score reflects this limitation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. GRADE PREDICTOR -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="pattern-eyebrow">Label shortcuts</div>
+      <h2 class="section-title">How to predict a bar's grade in 10 seconds</h2>
+      <p class="pattern-body">You don't need to read every ingredient. A few signals in the first five ingredients tell you most of what you need to know. These are the strongest predictors we found in the data.</p>
+
+      <div class="predictor-grid">
+        <div class="predictor-card signals-good">
+          <div class="predictor-label good">Signals that predict A or B</div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--green-best);"></div>
+            <div>Whey protein isolate or egg whites listed in the first two ingredients</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--green-best);"></div>
+            <div>Dates as a primary ingredient — usually the first or second item</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--green-best);"></div>
+            <div>Almonds, peanuts, or other whole nuts in the first three spots</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--green-best);"></div>
+            <div>Fewer than 10 total ingredients with no compound ingredient groups</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--green-best);"></div>
+            <div>No sweetener of any kind in the first five ingredients</div>
+          </div>
+        </div>
+
+        <div class="predictor-card signals-bad">
+          <div class="predictor-label bad">Signals that predict C, D, or F</div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--red-worst);"></div>
+            <div>Maltitol anywhere in the ingredient list</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--red-avoid);"></div>
+            <div>Any "chocolate coating" or "compound coating" in the ingredients</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--red-avoid);"></div>
+            <div>Brown rice syrup or tapioca syrup in the first five ingredients</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--red-concern);"></div>
+            <div>Sucralose plus another sweetener (stacking)</div>
+          </div>
+          <div class="predictor-item">
+            <div class="predictor-dot" style="background:var(--red-concern);"></div>
+            <div>Sugar or cane sugar as the second or third ingredient</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section explore-cta">
+    <div class="explore-cta-inner">
+      <div class="explore-cta-eyebrow">Know Your Bar</div>
+      <p class="explore-cta-title">Apply this to any bar in the database</p>
+      <p class="explore-cta-sub">Every bar scored A-F by ingredient quality. Filter out maltitol, palm kernel oil, artificial sweeteners, or sugar alcohols entirely. See the full ingredient list for any bar.</p>
+      <div class="explore-cta-btns">
+        <a href="/?preset=clean" class="explore-cta-btn">Show clean bars only</a>
+        <a href="/" class="explore-cta-btn">Browse all bars</a>
+        <a href="/all-ingredients.html" class="explore-cta-btn">Full ingredient encyclopedia</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE MORE -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="explore-more-label">Explore more</div>
+      <div class="explore-more-grid">
+        <a href="/all-ingredients.html" class="explore-more-card">
+          <div class="explore-more-title">Ingredient encyclopedia</div>
+          <div class="explore-more-desc">Every ingredient scored and ranked by how many bars contain it. Searchable. All 369 catalogued.</div>
+        </a>
+        <a href="/no-sugar-alcohols.html" class="explore-more-card">
+          <div class="explore-more-title">No sugar alcohol bars</div>
+          <div class="explore-more-desc">Bars with no maltitol, erythritol, sorbitol, or any other sugar alcohol in the ingredient list.</div>
+        </a>
+        <a href="/clean-protein-bars.html" class="explore-more-card">
+          <div class="explore-more-title">Clean protein bars</div>
+          <div class="explore-more-desc">The highest-scoring bars by ingredient quality across the full 1,000-bar database.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /content -->
+
+<!-- FAQ -->
+<section class="guide-faq">
+  <div class="guide-faq-inner">
+    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1.1rem;">Frequently asked questions</h2>
+    <div class="faq-items">
+
+      <div class="faq-item">
+        <button class="faq-q">What is the most common bad ingredient in protein bars?</button>
+        <div class="faq-a">By bar count, sugar is the most common negative ingredient — appearing in 158 bars. But maltitol has the worst score at -4 and appears in 112 bars. Palm kernel oil, which hides inside coatings, is in 143 bars and scores -3. By total impact on the database, palm kernel oil is the most consequential negative ingredient because it is so prevalent and so well-hidden.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the best protein source in a protein bar?</button>
+        <div class="faq-a">Whey protein isolate and egg whites both score +4, the highest possible rating. Whey isolate appears in 182 bars, making it the most common high-quality protein source. It has complete amino acids, high bioavailability, and minimal processing compared to concentrate. Egg whites score identically and are the foundation of RXBAR and similar whole-food bars.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Is sucralose bad in protein bars?</button>
+        <div class="faq-a">Sucralose scores -2 in our system and appears in 131 bars. Research suggests effects on gut microbiome and insulin response. It is not the worst sweetener — maltitol and acesulfame potassium score lower — but it is a concern-level ingredient that appears in more bars than almost any other negative ingredient in the database.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What ingredients should I avoid in protein bars?</button>
+        <div class="faq-a">The highest-priority ingredients to avoid are maltitol (-4, in 112 bars), palm kernel oil (-3, in 143 bars), acesulfame potassium (-3, in 12 bars), brown rice syrup (-3, in 84 bars), tapioca syrup (-3, in 90 bars), and sucralose (-2, in 131 bars). On a label, also watch for "chocolate coating" which almost always contains palm kernel oil even when it is not listed separately.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What is the difference between whey isolate and whey concentrate?</button>
+        <div class="faq-a">Whey isolate is processed further to remove most fat and lactose, resulting in higher protein concentration and faster absorption. It scores +4. Whey concentrate retains more fat and lactose. It scores +3. Both are complete protein sources, but isolate is generally considered higher quality. When a bar lists both, the order matters — isolate listed first is the stronger formulation.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Why is maltitol worse than other sugar alcohols?</button>
+        <div class="faq-a">Maltitol has a glycemic index around 35, which is much higher than erythritol (close to 0) or xylitol (around 13). It also causes more GI distress. Erythritol is mostly absorbed before it reaches the colon. Both are marketed identically on labels — "sugar free" or "no added sugar" — but they behave very differently. Maltitol is the only sugar alcohol that scores -4 in our system.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">How can I tell if a bar has palm kernel oil without seeing it listed?</button>
+        <div class="faq-a">Look for any compound ingredient involving chocolate or a coating: "chocolate flavored coating," "dark chocolate coating," "compound coating," or "chocolate chips." Most of these contain palm kernel oil as their primary fat. Our scoring pipeline unpacks these compound ingredients, which is how we detect palm kernel oil even when it is nested inside a parent ingredient.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">What does "natural flavors" actually mean on a protein bar label?</button>
+        <div class="faq-a">Natural flavors is a broad FDA-defined category that can include hundreds of compounds derived from animal or plant sources. The term reveals nothing about what specific substances are present. We score it -1 because it adds no nutritional value and provides no transparency. It is the second most common ingredient in the database — in 342 bars — and almost always appears because the base ingredients alone cannot carry the flavor profile.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsors. No BS.</div>
+    </div>
+    <nav class="site-footer-links">
+      <a href="/">Bar Finder</a>
+      <a href="/ingredient_scoring.html">How We Score</a>
+      <a href="/all-ingredients.html">Ingredient Encyclopedia</a>
+      <a href="/ingredient-report.html">Ingredient Report</a>
+      <a href="/clean-protein-bars.html">Clean Bars</a>
+      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+    </nav>
+  </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated May 2026</div>
+</footer>
+
+<script>
+  /* Mobile nav */
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks  = document.querySelector('.site-nav-links');
+  if (navToggle && navLinks) navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  /* FAQ accordion */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item   = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* GA4 affiliate tracking */
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[href*="amazon.com"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        gtag('event', 'affiliate_click', {
+          'event_category': 'Amazon',
+          'event_label': window.location.pathname
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
