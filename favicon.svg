@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- Know Your Bar favicon — bar chart in magnifier, dark square -->
+  <rect x="0" y="0" width="80" height="80" rx="14" fill="#0e0e0e"/>
+  <!-- Bar chart bars -->
+  <rect x="18" y="46" width="8" height="16" rx="1.5" fill="#f7f5f0" opacity="0.3"/>
+  <rect x="29" y="36" width="8" height="26" rx="1.5" fill="#f7f5f0" opacity="0.6"/>
+  <rect x="40" y="26" width="8" height="36" rx="1.5" fill="#f7f5f0"/>
+  <rect x="51" y="38" width="8" height="24" rx="1.5" fill="#f7f5f0" opacity="0.6"/>
+  <!-- Magnifier circle -->
+  <circle cx="39" cy="42" r="26" fill="none" stroke="#f7f5f0" stroke-width="3.5"/>
+  <!-- Magnifier handle -->
+  <line x1="59" y1="62" x2="70" y2="73" stroke="#f7f5f0" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
