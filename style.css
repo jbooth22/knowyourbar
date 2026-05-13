@@ -2413,7 +2413,7 @@ body.overlay-open { overflow: hidden; }
   margin-top: 1.25rem;
   font-family: var(--font-mono);
   font-size: 9px;
-  color: #666660;
+  color: #888880;
   text-align: center;
   letter-spacing: .05em;
 }
