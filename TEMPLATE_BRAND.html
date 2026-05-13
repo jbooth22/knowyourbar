@@ -659,6 +659,14 @@
     }
   }
 
+  /* Mobile nav toggle */
+  const navToggle = document.getElementById('nav-toggle');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      document.querySelector('.site-nav-links').classList.toggle('open');
+    });
+  }
+
   /* GA4 affiliate tracking */
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href*="amazon.com"]').forEach(function(link) {
