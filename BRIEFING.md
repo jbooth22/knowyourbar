@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: April 2026*
+*Last updated: May 2026*
 
 ---
 
@@ -23,9 +23,11 @@ index.html              — Main bar finder tool (homepage)
 app.js                  — All filter, search, sort, compare, expand logic
 bars.js                 — Full bar database (1,000+ bars)
 style.css               — ALL shared styles — single source of truth
+_headers                — Cloudflare Pages cache + security headers
 TEMPLATE_BRAND.html     — Master template for brand review pages
+TEMPLATE_GUIDE.html     — Master template for lifestyle guide pages
 score_and_export.py     — Scoring pipeline script
-knowyourbar_scoring_schema_v3.xlsx — Ingredient scoring schema
+knowyourbar_scoring_schema_v4.xlsx — Ingredient scoring schema
 sitemap.xml
 robots.txt
 BRIEFING.md             — This file (upload to every Claude session)
@@ -41,24 +43,29 @@ Brand review pages (all rebuilt from TEMPLATE_BRAND.html):
   kind-bars-review.html
   quest-vs-rxbar.html
 
-Guide pages:
+Guide pages (all rebuilt from TEMPLATE_GUIDE.html):
   clean-protein-bars.html
   no-artificial-sweeteners.html
   no-sugar-alcohols.html
   no-seed-oils.html
   low-sugar-high-protein.html
   keto-protein-bars.html
+  best-bars-for-diabetics.html
+
+Data / visualization pages:
+  all-protein-bar-brands.html  — Full brand summary table (all brands, filterable)
+  brand-quadrant.html          — Magic Quadrant scatter plot (macro efficiency vs ingredient quality)
 
 Other:
-  ingredient_scoring.html   — How we score page
-  flavor-map.html           — Sankey diagram visualization
+  ingredient_scoring.html      — How we score page
+  flavor-map.html              — Sankey diagram visualization
 ```
 
 ---
 
 ## Brand review pages — TEMPLATE_BRAND.html
 
-All five brand pages (Quest, RXBAR, Clif Bar, Barebells, KIND) have been rebuilt from scratch using TEMPLATE_BRAND.html. This is the locked standard. Every future brand page must use this template.
+All brand pages have been rebuilt from scratch using TEMPLATE_BRAND.html. This is the locked standard. Every future brand page must use this template.
 
 ### Template section order
 1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
@@ -99,13 +106,48 @@ All five brand pages (Quest, RXBAR, Clif Bar, Barebells, KIND) have been rebuilt
 
 ---
 
+## Guide pages — TEMPLATE_GUIDE.html
+
+All lifestyle guide pages have been rebuilt from TEMPLATE_GUIDE.html. This is the locked standard for all guide pages including the diabetics page.
+
+### Template section order
+1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
+2. Nav
+3. Hero (H1 + short answer paragraph, hero sub text color: #e8e4dc)
+4. Snapshot stats (uses .snapshot / .snap-item pattern — bar count, grade breakdown, key macro)
+5. Top Picks (3 goal cards — .picks-grid with grade badge, brand, flavor, macros, buy links)
+6. Category explainer + key factors (.score-card callouts with stat + description)
+7. Findings dark section (.findings with .big-stat + .insights-grid)
+8. Best brands / brands to avoid (.verdict-card pro/con)
+9. Bar list table (columns vary by guide — default: Bar, Grade, Score, Protein, Cal, Sugar)
+10. Bar Finder CTA (.explore-cta linking to pre-filtered tool URL)
+11. Explore More (3 .explore-more-card links)
+12. FAQ (7+ questions, must match JSON-LD exactly)
+13. Footer
+
+### Guide table notes
+- First 25 rows visible, rows 26+ hidden with class="hidden-bar" and Show More toggle
+- Keto guide uses Fat + Net Carbs columns instead of Calories + Sugar — patch manually if template is updated
+- Diabetics guide uses 5-filter criteria: sugar, net carbs, fiber, no maltitol
+
+### JSON-LD schemas required on every guide page
+1. Article
+2. Dataset (static, same as brand pages)
+3. BreadcrumbList
+4. FAQPage (minimum 7 questions, must match visible FAQ exactly)
+
+### Disclaimer rule (diabetics page and similar)
+Pages targeting health conditions must include a visible disclaimer: "We are not doctors or dieticians. These are the qualities we know people look for, so that's what we factored in."
+
+---
+
 ## CSS architecture — READ BEFORE TOUCHING ANYTHING
 
 **style.css is the single source of truth for all styles.**
 
-- index.html has NO inline style block. It depends entirely on style.css.
+- index.html has an inline `<style>` block for homepage-only CSS (hero, stats bar, sample card, grade strip, finder section, goal cards). This is intentional — do not move it to style.css.
 - Brand/guide pages have minimal inline CSS (just :root vars). Everything else from style.css.
-- style.css is 3,700+ lines. Do not replace it wholesale. Only append or use str_replace for targeted edits.
+- style.css is 3,700+ lines. Do not replace it wholesale. Only append or use targeted str_replace.
 
 ### CSS variables (defined in style.css :root)
 ```css
@@ -127,7 +169,7 @@ All five brand pages (Quest, RXBAR, Clif Bar, Barebells, KIND) have been rebuilt
 - Guide pages: `<body class="page-guide">`
 - index.html: plain `<body>`
 
-### New CSS classes added in April 2026 (brand template rebuild)
+### New CSS classes added in April/May 2026
 These exist in style.css and should not be duplicated:
 - `.bw-chips` — chip row inside best/worst cards
 - `.macro-summary-text` — accent-left blurb after macro grid
@@ -137,14 +179,39 @@ These exist in style.css and should not be duplicated:
 - `.ingr-chips` — chip row inside expand rows
 - `.ingr-buy` — buy button inside expand rows
 - `.site-footer-brand-block` — footer brand+tagline wrapper
+- `.site-nav-mobile-bar-finder` — pinned Bar Finder button in mobile nav (always visible, outside hamburger)
+
+### Homepage-only CSS classes (in index.html inline style block)
+- `.hero-trust` — time/ease anchor line under the CTA button
+- `.hero-a-row`, `.hero-a-names`, `.hero-a-sep`, `.hero-a-all` — A-rated bar name row in hero
+- `.hero-sample`, `.hero-sample-card`, `.hero-sample-header`, `.hero-sample-badge`, `.hero-sample-bar-*`, `.hero-sample-chip`, `.hero-sample-macros` — sample bar result card
+- `.trust-strip`, `.trust-strip-mark`, `.trust-strip-quote` — trust strip between stats bar and finder
+- `.goal-card--featured` — "Show me the best" featured goal card variant
 
 ### Hard rules — never break these
 1. Never use regex to strip or modify CSS inside `<style>` tags
-2. Never replace style.css entirely — only append or targeted str_replace
+2. Never replace style.css entirely — only append or use targeted str_replace
 3. Never remove a wrapper `<div>` without checking div balance afterwards
 4. After ANY HTML change: run the div balance check in QA.md
 5. After ANY JS change: run `node --check app.js`
 6. Always work from the actual uploaded file, not from memory of previous sessions
+
+---
+
+## index.html hero — current structure (May 2026)
+
+The homepage hero has been significantly updated. Current structure in order:
+
+1. Eyebrow: "The Protein Bar Database · No Sponsored Picks"
+2. H1: "Every protein bar scored A-F on ingredient quality"
+3. Subhead: "1,000+ bars graded A-F — see which ones actually pass. No affiliate deals, no brand payments. See how we score →"
+4. CTA button: "Find My Bar →" (accent yellow, single button only — secondary button removed)
+5. Trust anchor: "Answer 3 questions · Get your match in 30 seconds" (directly under button)
+6. A-rated bar row: "Top A-rated bars: RXBAR Chocolate Sea Salt · Perfect Bar Dark Chocolate · IQ Bar Lemon Blueberry → See all 150+ A-rated bars"
+7. Sample bar result card: Atlas Salted Peanut Butter — B grade, score 6, real chips and macros from database
+8. (End of hero)
+
+**Do not add a secondary CTA button.** The "How We Score" link lives as inline text in the subhead only.
 
 ---
 
@@ -202,11 +269,29 @@ When building or rebuilding a brand page, always extract data directly from bars
 
 ## Scoring pipeline
 
-Bars scored using `score_and_export.py` against `knowyourbar_scoring_schema_v3.xlsx`
-- 1,048+ canonical ingredients
-- 2,024+ aliases
+Bars scored using `score_and_export.py` against `knowyourbar_scoring_schema_v4.xlsx`
+- 1,163 canonical ingredients
+- 2,194 aliases
 - Sub-ingredients in parentheses get 60% weight
-- Grades: A (>=7), B (>=4), C (>=1), D (>=-2), F (<-2)
+- 150+ A-rated bars in current database
+
+### Grade bands (v4 schema)
+| Grade | Label | Score range |
+|-------|-------|-------------|
+| A | Clean | >= 8.0 |
+| B | Good | 4.0 to 7.9 |
+| C | Okay | 0.0 to 3.9 |
+| D | Poor | -3.0 to -0.1 |
+| F | Avoid | < -3.0 |
+
+### Count adjustment
+| Ingredient count | Adjustment |
+|-----------------|------------|
+| 1-8 | +0.05 |
+| 9-12 | 0.00 |
+| 13-16 | -0.05 |
+| 17-20 | -0.10 |
+| 21+ | -0.15 |
 
 To rescore: upload new bar Excel + schema file and say "run score_and_export"
 
@@ -222,6 +307,19 @@ To rescore: upload new bar Excel + schema file and say "run score_and_export"
 - Macro sliders: Protein (min), Calories (max), Fat (max), Carbs (max), Sugars (max), Sugar Alcohol (max), Fiber (min), Net Carbs (max)
 - Certifications: Vegan, GF, DF, SF, Non-GMO, Nut Free
 - Exclude ingredients: text input, XSS-safe
+
+### Preset deep links — VALID SLUGS ONLY
+Brand and guide pages link to the bar finder with `/?preset=SLUG`. Only these 5 slugs are defined in `app.js` — any other value silently does nothing:
+
+| Slug | Label | Criteria |
+|------|-------|----------|
+| `lose_weight` | Lose Weight | 20g+ protein, under 200 cal, under 3g sugar, A/B grade |
+| `clean` | Clean Ingredients | A grade, 12g+ protein, no artificial sweeteners or sugar alcohols |
+| `skip_sugar` | Skip the Sugar | Under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade |
+| `high_protein` | High Protein | Highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade |
+| `keto` | Keto Friendly | Under 5g net carbs, 10g+ fat, A/B grade |
+
+**Never invent preset slugs.** If a guide topic doesn't map cleanly to one of these, use the closest match or link to `/?` (unfiltered) with a relevant label.
 
 ### Results table columns
 BAR | CAL | PROT | P/100 | FAT | CARB | FIBR | SGR | SGR ALC | CERTS | GRADE | CMP
@@ -253,25 +351,32 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 - Mobile experience (62% of traffic) — priority to maintain
 - Filter panel and bar expand on desktop
 - XSS patched (exclusion tags use DOM methods)
-- Brand review pages all rebuilt to consistent template
-- SEO schemas complete on all brand pages
+- Brand review pages all rebuilt to consistent TEMPLATE_BRAND.html
+- Guide pages all rebuilt to consistent TEMPLATE_GUIDE.html
+- SEO schemas complete on all brand and guide pages
+- ingredient_scoring.html fixed (horizontal scroll, grade bands table, copy)
+- Sitemap updated — all live pages indexed
+- Page speed grade A-93
+- Cloudflare cache headers configured via _headers file
 
 ---
 
 ## Known issues / next priorities
 
 ### CSS
-- Footer layout on brand pages still has a stacking issue (on the list to fix)
+- Footer layout on brand pages may still have a stacking issue — verify on mobile before marking resolved
 
 ### Content
 - KIND Minis and Thins not yet in database — pending scoring
-- Some duplicate ASINs in bars.js flagged: Barebells Caramel Peanut/Salted Peanut Caramel share B0DT7KS2QB; Clif ZBar Chocolate Mint and Clif Bar Cool Mint Chocolate share B0CXQ71XY8; Clif Builders Chocolatey Peanut Butter and Crispy Peanut Butter Chocolate share B09QHBBGJT
+- Some duplicate ASINs in bars.js: Barebells Caramel Peanut/Salted Peanut Caramel share B0DT7KS2QB; Clif ZBar Chocolate Mint and Clif Bar Cool Mint Chocolate share B0CXQ71XY8; Clif Builders Chocolatey Peanut Butter and Crispy Peanut Butter Chocolate share B09QHBBGJT
+- Trust strip on homepage uses founder statement placeholder — swap for a real external quote (Reddit mention, press) when available
 
 ### Future features
 - Protein type filter (whey vs plant vs egg)
 - Net carbs column in main table
-- Brand comparison pages (Quest vs Barebells, etc.)
-- Full brand rankings page
+- Brand comparison pages (Quest vs Barebells, RXBAR vs KIND, Clif vs KIND, Quest vs ONE Bar)
+- More brand review pages: Perfect Bar, GoMacro, ONE Bar, IQBar, Aloha, Built Bar
+- More guide pages: best bars for weight loss, bars with vitamins, bars with caffeine, bars with real food ingredients
 
 ---
 
@@ -283,7 +388,7 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 4. Upload to GitHub repo (drag and drop to repo root)
 5. Cloudflare Pages auto-deploys within ~60 seconds
 6. Purge Cloudflare cache if changes not showing
-7. Test with `?v=N` query string to bypass browser cache
+7. Test with `?v=N` query string to bypass browser cache during testing
 
 ### Rollback
 Go to GitHub → file → History → find last working commit → download raw → re-upload

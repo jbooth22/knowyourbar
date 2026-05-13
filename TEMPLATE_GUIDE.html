@@ -719,8 +719,13 @@
   <!-- ─── 8. BAR FINDER CTA ─────────────────────────────────────
        Link to the main tool with a pre-filtered URL that matches
        this guide's criteria. Use the explore-cta pattern.
-       @@PRESET_SLUG@@ should match a preset defined in app.js,
-       or you can pass raw filter params (e.g. ?maxSugar=5&minProtein=15).
+       @@PRESET_SLUG@@ MUST be one of these 5 valid keys from app.js:
+         lose_weight   → 20g+ protein, under 200 cal, under 3g sugar, A/B grade
+         clean         → A grade, 12g+ protein, no artificial sweeteners or sugar alcohols
+         skip_sugar    → under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade
+         high_protein  → highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade
+         keto          → under 5g net carbs, 10g+ fat, A/B grade
+       DO NOT invent slugs — only these keys are defined in app.js PRESETS.
        ─────────────────────────────────────────────────────────── -->
   <section class="section explore-cta">
     <div class="explore-cta-inner">

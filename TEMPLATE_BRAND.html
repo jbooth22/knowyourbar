@@ -533,6 +533,13 @@
       <div class="explore-cta-eyebrow">Know Your Bar</div>
       <p class="explore-cta-title">Explore all 1,000+ bars</p>
       <p class="explore-cta-sub">Filter by protein, sugar, fiber, calories, or specific ingredients. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
+      <!-- VALID PRESET SLUGS — only these 5 values work in app.js:
+           lose_weight   → 20g+ protein, under 200 cal, under 3g sugar, A/B grade
+           clean         → A grade, 12g+ protein, no artificial sweeteners or sugar alcohols
+           skip_sugar    → under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade
+           high_protein  → highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade
+           keto          → under 5g net carbs, 10g+ fat, A/B grade
+           DO NOT invent slugs — only these keys are defined in app.js PRESETS. -->
       <div class="explore-cta-btns">
         <a href="/?preset=@@PRESET_1_SLUG@@" class="explore-cta-btn">@@PRESET_1_LABEL@@</a>
         <a href="/?preset=@@PRESET_2_SLUG@@" class="explore-cta-btn">@@PRESET_2_LABEL@@</a>
