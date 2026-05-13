@@ -180,7 +180,7 @@
 
 <!-- NAV -->
 <nav class="site-nav">
-  <a href="/" class="site-nav-logo">knowyourbar.com</a>
+  <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
     <div class="site-nav-group">
       <span class="site-nav-group-label">Brand Reviews</span>
@@ -814,6 +814,14 @@
       ingrRow.classList.add('open');
       row.classList.add('open');
     }
+  }
+
+  /* Mobile nav toggle */
+  const navToggle = document.getElementById('nav-toggle');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      document.querySelector('.site-nav-links').classList.toggle('open');
+    });
   }
 
   /* GA4 affiliate click tracking */

@@ -3331,6 +3331,13 @@ body.overlay-open { overflow: hidden; }
 @media (max-width: 640px) {
   .page-guide .picks-grid { grid-template-columns: 1fr; }
   .insights-grid { grid-template-columns: 1fr; }
+
+  /* Fix guide bar table overlap on mobile */
+  .page-guide .bar-table-wrap table { table-layout: auto; }
+  .page-guide .bar-name-cell { min-width: 0; max-width: none; word-break: break-word; }
+  .page-guide .expand-hint { display: none; }
+  .page-guide .buy-btn,
+  .page-guide .bar-link-site { display: none; }
 }
 
 /* ── Homepage: fix wordmark + banner ────────────────────── */
