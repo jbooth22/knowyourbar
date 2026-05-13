@@ -787,6 +787,12 @@
     }
     .home-faq .faq-a a { color: #c8c5be; text-decoration: underline; text-underline-offset: 3px; }
     .home-faq .faq-a a:hover { color: #f7f5f0; }
+
+    /* Extracted from inline styles */
+    .site-nav-link--highlight { color: #d4f000; font-weight: 600; }
+    .hero-a-strip { padding: 1.25rem 1.5rem; background: #141414; border-bottom: 1px solid #1e1e1e; }
+    .home-faq .section-label { margin-bottom: .6rem; }
+    .home-faq .section-heading { margin-bottom: 1.5rem; }
   </style>
 </head>
 <body>
@@ -827,7 +833,7 @@
       </div>
     </div>
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
-    <a href="/bar-finder.html" class="site-nav-link" style="color:#d4f000;font-weight:600;">Bar Finder &#8599;</a>
+    <a href="/bar-finder.html" class="site-nav-link site-nav-link--highlight">Bar Finder &#8599;</a>
   </div>
   <a href="/bar-finder.html" class="site-nav-mobile-bar-finder">Bar Finder &rarr;</a>
   <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
@@ -922,7 +928,7 @@
 </header>
 
 <!-- TOP A-RATED BARS — reward for scrollers, below the hero fold -->
-<div class="hero-a-row" style="padding: 1.25rem 1.5rem; background: #141414; border-bottom: 1px solid #1e1e1e;">
+<div class="hero-a-row hero-a-strip">
   <div class="hero-a-row-label">Top A-rated bars</div>
   <div class="hero-a-names">
     <a href="/rxbar-review.html">RXBAR Chocolate Sea Salt</a>
@@ -1084,8 +1090,8 @@
 <!-- FAQ -->
 <section class="home-faq">
   <div class="home-faq-inner">
-    <div class="section-label" style="margin-bottom:.6rem;">Common questions</div>
-    <h2 class="section-heading" style="margin-bottom:1.5rem;">Frequently asked</h2>
+    <div class="section-label">Common questions</div>
+    <h2 class="section-heading">Frequently asked</h2>
 
     <div class="faq-item">
       <h3 class="faq-q">What is the healthiest protein bar?</h3>
