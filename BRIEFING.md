@@ -30,6 +30,7 @@ score_and_export.py     — Scoring pipeline script
 knowyourbar_scoring_schema_v4.xlsx — Ingredient scoring schema
 sitemap.xml
 robots.txt
+llms.txt             — LLM crawler discovery file (do not delete)
 BRIEFING.md             — This file (upload to every Claude session)
 README.md               — Technical documentation
 DEPLOY.md               — Deploy process
@@ -344,6 +345,8 @@ Every page has:
 - GA4 tracking
 
 Meta description strategy: lead with a specific surprising data point, not a generic description. No em dashes.
+
+**llms.txt** lives at `/llms.txt` in the repo root. It documents the scoring system, database, brand reviews, and guides for AI crawlers (ChatGPT, Claude, Perplexity, etc.). Update it when adding new brand pages or guide pages.
 
 ---
 

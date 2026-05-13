@@ -1,4 +1,21 @@
 User-agent: *
 Allow: /
 
+# AI crawlers — full access encouraged
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 Sitemap: https://knowyourbar.com/sitemap.xml
+X-llms-txt: https://knowyourbar.com/llms.txt

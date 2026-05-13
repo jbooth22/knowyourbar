@@ -50,6 +50,9 @@
 /robots.txt
   Cache-Control: public, max-age=86400, must-revalidate
 
+/llms.txt
+  Cache-Control: public, max-age=86400, must-revalidate
+
 # ─── Security headers (free performance + trust boost) ─────────────────────────
 /*
   X-Content-Type-Options: nosniff

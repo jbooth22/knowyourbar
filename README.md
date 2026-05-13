@@ -24,6 +24,7 @@ A static website hosted on Cloudflare Pages via GitHub. Users can search, filter
 ├── bar_hero.png                        — Hero image
 ├── sitemap.xml
 ├── robots.txt
+├── llms.txt                            — LLM crawler discovery file (AI citation signal)
 ├── BRIEFING.md                         — Claude session instructions
 ├── README.md                           — This file
 ├── DEPLOY.md                           — Deployment instructions
@@ -268,6 +269,8 @@ Every page has:
 Brand page title formula: "Are [Brand] Bars Healthy? We Scored All [N] Flavors | Know Your Bar"
 
 Meta description rule: lead with a specific data point. Under 155 characters. No em dashes.
+
+**llms.txt** — AI crawler discovery file at `/llms.txt`. Documents the scoring system, database coverage, brand summaries, and guide pages in structured markdown so LLMs can cite the site accurately. Paired with explicit AI crawler rules in `robots.txt`.
 
 ---
 

@@ -65,6 +65,7 @@ bar_hero.png
 score_and_export.py
 sitemap.xml
 robots.txt
+llms.txt
 README.md
 DEPLOY.md
 quest-bars.html
