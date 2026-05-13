@@ -46,11 +46,73 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using our Protein Bar Finder."}},
-    {"@type":"Question","name":"How does Know Your Bar score protein bars?","acceptedAnswer":{"@type":"Answer","text":"Every bar receives an A-F ingredient quality grade. Each ingredient is mapped to a quality score from +4 (excellent) to -4 (harmful), weighted by position in the list. Ingredients appearing earlier are present in larger quantities and contribute more to the final score. See the full methodology on our ingredient scoring page."}},
-    {"@type":"Question","name":"Which protein bars have no artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack."}},
-    {"@type":"Question","name":"What is the best protein bar for keto?","acceptedAnswer":{"@type":"Answer","text":"Keto-friendly protein bars must have under 5g net carbs. Top keto options with clean ingredient grades include Quest Hero, IQ Bar, and several Adapt bars. Use our Keto Friendly preset in the Protein Bar Finder to see all qualifying bars ranked by ingredient quality."}},
-    {"@type":"Question","name":"Are protein bars with sugar alcohols bad for you?","acceptedAnswer":{"@type":"Answer","text":"Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort in some people. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list."}}
+    {"@type":"Question","name":"What protein bar has the cleanest ingredients?","acceptedAnswer":{"@type":"Answer","text":"The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually — 340 of the 1,000+ bars in our database meet a strict clean standard. See the full Clean Protein Bars guide for the ranked list."}},
+    {"@type":"Question","name":"Are protein bars ultra-processed?","acceptedAnswer":{"@type":"Answer","text":"Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars — Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category."}},
+    {"@type":"Question","name":"Which protein bars have no seed oils?","acceptedAnswer":{"@type":"Answer","text":"Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern — use the No Seed Oils guide or filter by ingredient grade to find qualifying bars instantly."}},
+    {"@type":"Question","name":"Are protein bars good for weight loss?","acceptedAnswer":{"@type":"Answer","text":"Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar — and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the Low Sugar + High Protein preset in the Protein Bar Finder to see qualifying options ranked by ingredient quality."}},
+    {"@type":"Question","name":"How does Know Your Bar score protein bars?","acceptedAnswer":{"@type":"Answer","text":"Every bar receives an A-F ingredient quality grade. Each ingredient is mapped to a quality score from +4 (excellent) to -4 (harmful), weighted by position in the ingredient list. Ingredients appearing earlier are present in larger quantities and contribute more to the final score. See the full methodology on our ingredient scoring page."}},
+    {"@type":"Question","name":"Which protein bars have no artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. See our No Artificial Sweeteners guide or use the Bar Finder's Clean preset to see all qualifying bars instantly."}},
+    {"@type":"Question","name":"Are protein bars with sugar alcohols bad for you?","acceptedAnswer":{"@type":"Answer","text":"Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list."}}
   ]}
+  </script>
+
+  <!-- JSON-LD: WebSite + SearchAction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Know Your Bar",
+    "url": "https://knowyourbar.com",
+    "description": "Every protein bar scored A–F on ingredient quality. 1,000+ bars ranked by macros, ingredients, and certifications. No sponsored picks.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://knowyourbar.com/bar-finder.html?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Know Your Bar",
+    "url": "https://knowyourbar.com",
+    "logo": "https://knowyourbar.com/bar_hero.png",
+    "description": "Independent protein bar rating site. Every bar scored A–F by ingredient quality. No sponsored picks, no affiliate rankings.",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- JSON-LD: Dataset -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Know Your Bar Protein Bar Ingredient Quality Database",
+    "description": "1,000+ protein bars across 95+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
+    "url": "https://knowyourbar.com",
+    "creator": {
+      "@type": "Organization",
+      "name": "Know Your Bar",
+      "url": "https://knowyourbar.com"
+    },
+    "dateModified": "2026-05-01",
+    "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "variableMeasured": [
+      "Ingredient quality grade (A through F)",
+      "Ingredient quality score",
+      "Macronutrients",
+      "Dietary certifications"
+    ],
+    "measurementTechnique": "Proprietary ingredient scoring algorithm mapping each ingredient to a canonical base score weighted by position in ingredient list",
+    "spatialCoverage": "United States",
+    "temporalCoverage": "2026"
+  }
   </script>
 
   <style>
@@ -775,7 +837,6 @@
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
     1,000+ bars graded A&ndash;F &mdash; see which ones actually pass. No affiliate deals, no brand payments.
-    <a href="/ingredient_scoring.html">See how we score &rarr;</a>
   </p>
   <div class="hero-stats-row">
     <div class="hero-stat-item">
@@ -886,12 +947,8 @@
 </div>
 
 
-<!-- TRUST STRIP — external quote. Swap in a real Reddit/press mention when available. -->
-<!-- Format: <span class="trust-strip-mark">r/subreddit · u/username</span> -->
 <div class="trust-strip">
-  <span class="trust-strip-mark">r/nutrition &middot; u/fitfoodie_dc</span>
-  <div class="trust-strip-divider"></div>
-  <span class="trust-strip-quote">"This is the only protein bar site I actually trust — no sponsored results, just real scores."</span>
+  <span class="trust-strip-quote">1,000+ bars scored by ingredient quality &mdash; no sponsored picks, no affiliate rankings, no BS.</span>
 </div>
 
 <!-- BAR FINDER - PROMINENT -->
@@ -1033,16 +1090,28 @@
       <div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the Protein Bar Finder.</p></div>
     </div>
     <div class="faq-item">
+      <div class="faq-q">What protein bar has the cleanest ingredients?</div>
+      <div class="faq-a"><p>The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually — 340 of the 1,000+ bars in our database meet a strict clean standard. See the full <a href="/clean-protein-bars.html">Clean Protein Bars guide</a> for the ranked list.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are protein bars ultra-processed?</div>
+      <div class="faq-a"><p>Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars — Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Which protein bars have no seed oils?</div>
+      <div class="faq-a"><p>Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern — use the <a href="/no-seed-oils.html">No Seed Oils guide</a> or filter by ingredient grade to find qualifying bars instantly.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are protein bars good for weight loss?</div>
+      <div class="faq-a"><p>Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar — and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a> preset in the Bar Finder to see qualifying options ranked by ingredient quality.</p></div>
+    </div>
+    <div class="faq-item">
       <div class="faq-q">How does Know Your Bar score protein bars?</div>
       <div class="faq-a"><p>Every bar receives an A-F ingredient quality grade. Each ingredient is mapped to a quality score from +4 (excellent) to -4 (harmful), weighted by position in the ingredient list. Ingredients that appear earlier are present in larger quantities and contribute more to the final score. See the full methodology on our <a href="/ingredient_scoring.html">ingredient scoring page</a>.</p></div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Which protein bars have no artificial sweeteners?</div>
       <div class="faq-a"><p>About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. See our <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners guide</a> or use the Bar Finder's Clean preset to see all qualifying bars instantly.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">What is the best protein bar for keto?</div>
-      <div class="faq-a"><p>Keto-friendly bars need under 5g net carbs. Top keto options with clean ingredient grades include Quest Hero, IQ Bar, and select Adapt bars. See our <a href="/keto-protein-bars.html">Keto Protein Bars guide</a> or use the Keto Friendly preset in the Bar Finder to see all qualifying bars ranked by ingredient quality.</p></div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Are protein bars with sugar alcohols bad for you?</div>
