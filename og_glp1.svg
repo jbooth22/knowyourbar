@@ -1,0 +1,50 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="80%" cy="15%" r="70%">
+      <stop offset="0%" stop-color="#1a1a16" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0e0e0e" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Subtle grid texture, top right -->
+  <g opacity="0.06" stroke="#f7f5f0" stroke-width="1">
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+    <line x1="1100" y1="0" x2="1100" y2="630"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="64" y="72" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="1" fill="#f7f5f0">KNOW YOUR BAR</text>
+  <rect x="64" y="86" width="36" height="4" fill="#d4f000"/>
+
+  <!-- Eyebrow -->
+  <text x="64" y="180" font-family="'Courier New', monospace" font-size="16" letter-spacing="3" fill="#888880">GLP-1 GUIDE</text>
+
+  <!-- Big stat -->
+  <text x="60" y="330" font-family="Arial, sans-serif" font-size="220" font-weight="800" fill="#d4f000">2%</text>
+
+  <!-- Supporting headline -->
+  <text x="64" y="390" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#f7f5f0">of protein bars pass our GLP-1 test</text>
+
+  <!-- Detail line -->
+  <text x="64" y="430" font-family="Arial, sans-serif" font-size="21" fill="#c8c5be">Only 20 of 983 bars hit 15g+ protein, &lt;200 cal, &lt;4g sugar,</text>
+  <text x="64" y="460" font-family="Arial, sans-serif" font-size="21" fill="#c8c5be">and zero sugar alcohols. Ranked by ingredient quality.</text>
+
+  <!-- Bottom accent bar with grade chips -->
+  <g transform="translate(64, 520)">
+    <rect x="0" y="0" width="46" height="46" rx="6" fill="#2a7a1f"/>
+    <text x="23" y="31" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">A</text>
+
+    <rect x="58" y="0" width="46" height="46" rx="6" fill="#5a8a2f"/>
+    <text x="81" y="31" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">B</text>
+
+    <text x="122" y="20" font-family="Arial, sans-serif" font-size="15" fill="#888880">Ingredient-graded.</text>
+    <text x="122" y="40" font-family="Arial, sans-serif" font-size="15" fill="#888880">No sponsored picks.</text>
+  </g>
+
+  <!-- URL bottom right -->
+  <text x="1136" y="590" font-family="'Courier New', monospace" font-size="16" fill="#888880" text-anchor="end">knowyourbar.com</text>
+</svg>
