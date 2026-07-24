@@ -3334,12 +3334,23 @@ body.overlay-open { overflow: hidden; }
   .page-guide .picks-grid { grid-template-columns: 1fr; }
   .insights-grid { grid-template-columns: 1fr; }
 
-  /* Fix guide bar table overlap on mobile */
+  /* Fix guide bar table overlap on mobile — keep buy/site links and the
+     expand hint visible, just let them wrap onto their own line instead
+     of overlapping the bar name. */
   .page-guide .bar-table-wrap table { table-layout: auto; }
   .page-guide .bar-name-cell { min-width: 0; max-width: none; word-break: break-word; }
-  .page-guide .expand-hint { display: none; }
+  .page-guide .bar-name-cell > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-top: 6px;
+  }
   .page-guide .buy-btn,
-  .page-guide .bar-link-site { display: none; }
+  .page-guide .bar-link-site,
+  .page-guide .expand-hint {
+    margin-left: 0 !important;
+  }
 }
 
 /* ── Homepage: fix wordmark + banner ────────────────────── */
