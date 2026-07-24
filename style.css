@@ -3,7 +3,7 @@
    Design: editorial-utilitarian, DM Sans + DM Mono
    =================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
   --black: #0e0e0e;
@@ -24,6 +24,28 @@
   --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --radius: 6px;
   --radius-lg: 10px;
+
+  /* ===================================================
+     BRAND STANDARDS v1 (July 2026) — see BRAND_STANDARDS.md
+     New token set. Added alongside the legacy tokens above
+     rather than replacing them, so pages not yet migrated
+     (brand reviews, most guides, bar-finder.html) keep
+     rendering exactly as before. Migrate a page, then switch
+     its CSS to these; retire the legacy tokens above only
+     once every page on the migration checklist is done.
+     =================================================== */
+  --bs-paper:     #fbf9f4;
+  --bs-cream:     #f2ede0;
+  --bs-ink:       #17140f;
+  --bs-ink-2:     #2b271e;
+  --bs-text-dim:  #5c584c;
+  --bs-line-soft: #d8d2c2;
+  /* grade colors are unchanged, reuse the existing hex values directly:
+     A #2a7a1f  B #5a8a2f  C #b89a00  D #c87020  F #c83020 */
+  --bs-font-display: 'Barlow Condensed', sans-serif;
+  --bs-font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bs-font-data:    'IBM Plex Mono', 'DM Mono', monospace;
+  --bs-radius: 3px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -3788,3 +3810,105 @@ body.overlay-open { overflow: hidden; }
 /* ── Miscellaneous missing classes ──────────────────────────── */
 #bar-list, .bar-list { list-style: none; }
 .big-stat-text { font-size: 0.87rem; color: #c8c4bc; line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════════════
+   BRAND STANDARDS v1 — scoped migration overrides
+   See BRAND_STANDARDS.md. Only applies to pages with class="brand-v1"
+   on <body>, so unmigrated pages keep rendering exactly as before.
+   Nav and footer are intentionally NOT touched here — they're shared
+   chrome across every page and get their own migration pass once
+   more content pages are done, so this batch doesn't change every
+   page's header/footer before the rest of the content is ready.
+   ═══════════════════════════════════════════════════════════════ */
+
+.brand-v1, .brand-v1 body { background: var(--bs-paper); }
+.brand-v1 { color: var(--bs-text-dim); }
+
+.brand-v1 h1, .brand-v1 h2, .brand-v1 h3,
+.brand-v1 .hero-title, .brand-v1 .section-title,
+.brand-v1 .findings-title, .brand-v1 .big-stat-head {
+  font-family: var(--bs-font-display) !important;
+  color: var(--bs-ink);
+}
+
+/* Hero */
+.brand-v1 .hero { background: var(--bs-paper); }
+.brand-v1 .hero-eyebrow { display: none; } /* dropped per brand standard — no mono uppercase eyebrows */
+.brand-v1 .hero-title { color: var(--bs-ink) !important; font-weight: 800; }
+.brand-v1 .hero-title em { color: #2a7a1f; font-style: normal; }
+.brand-v1 .hero-sub { color: var(--bs-text-dim) !important; font-family: var(--bs-font-body); }
+
+/* Section alternation (paper / cream) */
+.brand-v1 .section { background: var(--bs-paper); }
+.brand-v1 .section.off { background: var(--bs-cream) !important; }
+.brand-v1 .section-title { font-weight: 800; }
+.brand-v1 .section-body { color: var(--bs-text-dim); font-family: var(--bs-font-body); }
+.brand-v1 .section-body p { color: var(--bs-text-dim); }
+
+/* Snapshot stat strip */
+.brand-v1 .snapshot { background: var(--bs-cream); border-bottom: 1px solid var(--bs-line-soft); }
+.brand-v1 .snap-value { font-family: var(--bs-font-data) !important; color: var(--bs-ink) !important; font-weight: 600; }
+.brand-v1 .snap-label { color: var(--bs-text-dim) !important; font-family: var(--bs-font-body) !important; }
+
+/* Top picks cards */
+.brand-v1 .pick-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink) !important; }
+.brand-v1 .pick-label { color: var(--bs-text-dim); font-family: var(--bs-font-body); }
+.brand-v1 .pick-brand, .brand-v1 .pick-flavor { color: var(--bs-ink); font-family: var(--bs-font-body); }
+.brand-v1 .pick-macro-val { font-family: var(--bs-font-data) !important; color: var(--bs-ink); }
+.brand-v1 .pick-macro-lbl { color: var(--bs-text-dim); }
+
+/* Factor / score cards */
+.brand-v1 .score-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink) !important; }
+.brand-v1 .score-card-label { color: var(--bs-text-dim); font-family: var(--bs-font-body); }
+.brand-v1 .score-card-val { font-family: var(--bs-font-display) !important; color: var(--bs-ink) !important; }
+.brand-v1 .score-card-desc { color: var(--bs-text-dim); }
+
+/* Findings — this page's one dark contrast band, was already dark, just re-themed */
+.brand-v1 .findings { background: var(--bs-ink-2) !important; color: var(--bs-paper); }
+.brand-v1 .findings-eyebrow { display: none; }
+.brand-v1 .findings-title { color: var(--bs-paper) !important; }
+.brand-v1 .big-stat-num { font-family: var(--bs-font-display) !important; color: var(--bs-paper) !important; }
+.brand-v1 .big-stat-head { color: var(--bs-paper) !important; }
+.brand-v1 .big-stat-detail, .brand-v1 .findings .section-body, .brand-v1 .findings p { color: #d8d2c2 !important; }
+.brand-v1 .insight-item { background: rgba(255,255,255,0.05); border: 1px solid #3a3527; }
+.brand-v1 .insight-dot { background: #e0a238; }
+.brand-v1 .insight-text { color: #d8d2c2 !important; }
+.brand-v1 .insight-text strong { color: var(--bs-paper) !important; }
+
+/* Verdict cards (brands to target/avoid, protein source ranking) */
+.brand-v1 .verdict-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-left-width: 3px; }
+.brand-v1 .verdict-items li { color: var(--bs-text-dim); border-bottom-color: var(--bs-line-soft); }
+.brand-v1 .verdict-items li strong { color: var(--bs-ink); }
+
+/* Bar table */
+.brand-v1 .bar-table-wrap { border-color: var(--bs-ink); }
+.brand-v1 .bar-table-wrap th { background: var(--bs-cream); color: var(--bs-text-dim); font-family: var(--bs-font-body); border-bottom-color: var(--bs-ink); }
+.brand-v1 .bar-table-wrap td { border-bottom-color: var(--bs-line-soft); }
+.brand-v1 .bar-name-cell > div:first-child { color: var(--bs-ink); }
+.brand-v1 .bar-table-wrap [style*="font-family:var(--font-mono)"],
+.brand-v1 .bar-table-wrap [style*="font-mono"] { font-family: var(--bs-font-data) !important; }
+.brand-v1 .grade-badge { font-family: var(--bs-font-data); }
+.brand-v1 .buy-btn { background: var(--bs-ink); color: var(--bs-paper) !important; font-family: var(--bs-font-body); }
+.brand-v1 .bar-link-site { color: var(--bs-ink); border-color: var(--bs-ink); }
+.brand-v1 .expand-hint { color: var(--bs-text-dim); }
+.brand-v1 .ingr-inner { background: var(--bs-paper); border-color: var(--bs-line-soft); }
+.brand-v1 .ingr-inner strong { color: var(--bs-text-dim) !important; }
+.brand-v1 .ingr-inner > span { color: var(--bs-text-dim) !important; }
+
+/* Explore CTA (dark tile) */
+.brand-v1 .explore-cta-inner { background: var(--bs-ink) !important; }
+.brand-v1 .explore-cta-eyebrow { color: #a39d8c; }
+.brand-v1 .explore-cta-title { color: var(--bs-paper) !important; font-family: var(--bs-font-display); }
+.brand-v1 .explore-cta-sub { color: #c9c0b0 !important; }
+.brand-v1 .explore-cta-btn { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
+
+/* Explore more cards */
+.brand-v1 .explore-more-label { color: var(--bs-text-dim); font-family: var(--bs-font-body); }
+.brand-v1 .explore-more-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); }
+.brand-v1 .explore-more-title { color: var(--bs-ink); font-family: var(--bs-font-body); font-weight: 700; }
+.brand-v1 .explore-more-desc { color: var(--bs-text-dim); }
+
+/* FAQ */
+.brand-v1 .faq-q { color: var(--bs-ink) !important; font-family: var(--bs-font-body) !important; font-weight: 700 !important; }
+.brand-v1 .faq-a, .brand-v1 .faq-a p { color: var(--bs-text-dim) !important; }
+.brand-v1 .faq-a a { color: var(--bs-ink); }

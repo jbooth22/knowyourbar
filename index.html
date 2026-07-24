@@ -119,545 +119,242 @@
 
   <style>
     /*
-      HOMEPAGE COLOR SYSTEM
-      Warm, food-forward dark theme — not a dashboard.
-      --ink:         #171410  - page background (warm near-black, not pure #000)
-      --ink-raised:  #211d17  - cards, finder section, raised panels
-      --ink-border:  #34302a  - hairline borders on dark panels
-      --paper:       #f7f5f0  - headings, high-contrast text
-      --paper-dim:   #d9d4c8  - body copy, descriptions (raised contrast from old #c8c5be)
-      --paper-muted: #a49c8c  - labels, eyebrows, metadata (warmer than old #888880)
-      --accent:      #d4f000  - CTA buttons ONLY
-      --sage:        #8fae6e  - secondary accent: positive/nutrition cues, icons
-      --clay:        #d98a4f  - secondary accent: warnings/concerns
-      All type uses var(--font-display) / var(--font-mono) / var(--font-body),
-      which resolve to DM Sans / DM Mono site-wide (see style.css).
+      HOMEPAGE — built against BRAND_STANDARDS.md v1.
+      Paper/cream neutrals, grade colors are the only accent,
+      Barlow Condensed for display, DM Sans for body,
+      IBM Plex Mono for data. No uppercase mono eyebrows.
+      Sections alternate paper/cream, one dark contrast band.
     */
 
+    .rule-thick { height: 5px; background: var(--bs-ink); width: 56px; }
+
+    /* ─── HERO — paper, headline + CTA only ─── */
     .home-hero {
-      background: var(--ink);
-      padding: 4rem 1.25rem 3.5rem;
-      text-align: center;
-    }
-    .home-hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 1.1rem;
+      background: var(--bs-paper);
+      padding: 3.5rem 1.5rem 3rem;
+      max-width: 720px;
+      margin: 0 auto;
     }
     .home-hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(1.9rem, 7vw, 3.6rem);
+      font-family: var(--bs-font-display);
       font-weight: 800;
-      color: var(--paper);
-      line-height: 1.12;
-      max-width: 820px;
-      margin: 0 auto 1.1rem;
-      letter-spacing: -.02em;
+      font-size: clamp(2.1rem, 6vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -.01em;
+      color: var(--bs-ink);
+      margin: 1.1rem 0 1rem;
+      max-width: 600px;
     }
     .home-hero-sub {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 1.05rem;
-      color: var(--paper-dim);
-      max-width: 520px;
-      margin: 0 auto 2rem;
+      color: var(--bs-text-dim);
+      max-width: 480px;
+      margin: 0 0 1.75rem;
       line-height: 1.6;
     }
-    .home-hero-sub a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
-    .home-hero-sub a:hover { color: var(--paper); }
-
-    .hero-cta-row { display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+    .hero-cta-row { display: flex; flex-direction: column; align-items: flex-start; gap: .65rem; }
     .hero-cta-primary {
       display: inline-flex;
       align-items: center;
       gap: .5rem;
-      background: var(--accent);
-      color: #14150e;
-      font-family: var(--font-display);
+      background: var(--bs-ink);
+      color: var(--bs-paper);
+      font-family: var(--bs-font-body);
+      font-weight: 700;
       font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: .01em;
-      padding: 1rem 2.25rem;
-      border-radius: var(--radius);
-      text-decoration: none;
-      transition: transform .15s, opacity .15s;
-    }
-    .hero-cta-primary:hover { opacity: .9; transform: translateY(-1px); }
-    .hero-trust {
-      font-family: var(--font-body);
-      font-size: .85rem;
-      color: var(--paper-muted);
-      margin: 0;
-    }
-
-    .hero-stats-row {
-      display: flex;
-      justify-content: center;
-      gap: 1.75rem;
-      flex-wrap: wrap;
-      margin: 0 auto 2rem;
-    }
-    .hero-stat-item { text-align: center; line-height: 1.25; }
-    .hero-stat-value {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--paper);
-    }
-    .hero-stat-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--paper-muted);
-      margin-top: .25rem;
-    }
-
-    /* ─── TOP 3 BARS (replaces old single "example bar") ─── */
-    .top-bars-section {
-      background: var(--ink);
-      padding: 3rem 1.25rem 3.5rem;
-      border-top: 1px solid var(--ink-border);
-    }
-    .top-bars-inner { max-width: 1040px; margin: 0 auto; }
-    .top-bars-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      text-align: center;
-      margin-bottom: .5rem;
-    }
-    .top-bars-heading {
-      font-family: var(--font-display);
-      font-size: clamp(1.3rem, 3vw, 1.75rem);
-      font-weight: 800;
-      color: var(--paper);
-      text-align: center;
-      margin: 0 0 2rem;
-      letter-spacing: -.015em;
-    }
-    .top-bars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.1rem;
-    }
-    .top-bar-card {
-      background: var(--ink-raised);
-      border: 1px solid var(--ink-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      text-align: left;
-    }
-    .top-bar-rank {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--paper-muted);
-      padding: .8rem 1rem 0;
-    }
-    .top-bar-header {
-      display: flex;
-      align-items: center;
-      gap: .85rem;
-      padding: .6rem 1rem .9rem;
-      border-bottom: 1px solid var(--ink-border);
-    }
-    .top-bar-badge {
-      flex-shrink: 0;
-      width: 42px;
-      height: 42px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #14150e;
-      background: #2a7a1f;
-    }
-    .top-bar-title { flex: 1; min-width: 0; }
-    .top-bar-name {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--paper);
-      line-height: 1.25;
-    }
-    .top-bar-brand {
-      font-family: var(--font-mono);
-      font-size: .75rem;
-      color: var(--paper-muted);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      margin-top: .1rem;
-    }
-    .top-bar-score { text-align: right; flex-shrink: 0; }
-    .top-bar-score-val { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 500; color: #6fae4a; line-height: 1; }
-    .top-bar-score-lbl { font-family: var(--font-mono); font-size: .62rem; color: var(--paper-muted); text-transform: uppercase; }
-    .top-bar-chips { display: flex; flex-wrap: wrap; gap: .4rem; padding: .8rem 1rem; }
-    .top-bar-chip {
-      font-family: var(--font-body);
-      font-size: .74rem;
-      padding: .3rem .65rem;
-      border-radius: 20px;
-      border: 1px solid;
-    }
-    .top-bar-chip.pos { background: rgba(143,174,110,.14); color: #a9c78f; border-color: rgba(143,174,110,.4); }
-    .top-bar-chip.con { background: rgba(217,138,79,.14); color: var(--clay); border-color: rgba(217,138,79,.4); }
-    .top-bar-macros {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .9rem;
-      padding: 0 1rem .9rem;
-    }
-    .top-bar-macro { display: flex; flex-direction: column; gap: 1px; }
-    .top-bar-macro-val { font-family: var(--font-mono); font-size: .88rem; font-weight: 500; color: var(--paper); }
-    .top-bar-macro-lbl { font-family: var(--font-mono); font-size: .62rem; color: var(--paper-muted); text-transform: uppercase; }
-    .top-bar-buy {
-      display: flex;
-      gap: .5rem;
-      padding: .9rem 1rem;
-      border-top: 1px solid var(--ink-border);
-      flex-wrap: wrap;
-    }
-    .top-bar-buy a {
-      flex: 1;
-      min-width: 110px;
-      text-align: center;
-      font-family: var(--font-display);
-      font-size: .82rem;
-      font-weight: 700;
-      padding: .65rem .75rem;
-      border-radius: var(--radius);
+      padding: 1rem 2rem;
+      border-radius: var(--bs-radius);
       text-decoration: none;
     }
-    .top-bar-buy .buy-amazon { background: var(--accent); color: #14150e; }
-    .top-bar-buy .buy-amazon:hover { opacity: .88; }
-    .top-bar-buy .buy-site { background: transparent; border: 1px solid var(--ink-border); color: var(--paper-dim); }
-    .top-bar-buy .buy-site:hover { border-color: var(--paper-muted); color: var(--paper); }
-    .top-bars-caption {
-      font-family: var(--font-body);
-      font-size: .85rem;
-      color: var(--paper-muted);
-      text-align: center;
-      margin-top: 1.75rem;
-    }
-    .top-bars-caption a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
-    .top-bars-caption a:hover { color: var(--paper); }
+    .hero-cta-primary:hover { opacity: .88; }
+    .hero-trust { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin: 0; }
 
-    /* ─── GRADE SCALE (fixed: wraps on mobile instead of clipping) ─── */
-    .grade-strip {
-      background: var(--ink-raised);
-      border-top: 1px solid var(--ink-border);
-      border-bottom: 1px solid var(--ink-border);
-      padding: 1rem 1.25rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: .9rem 1.25rem;
-      flex-wrap: wrap;
-    }
-    .grade-strip-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--paper-muted);
-      flex-basis: 100%;
-      text-align: center;
-    }
-    .grade-pills {
-      display: flex;
-      gap: .45rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .grade-pill {
-      font-family: var(--font-mono);
-      font-size: .75rem;
-      font-weight: 500;
-      padding: .3rem .65rem;
-      border-radius: var(--radius);
-      white-space: nowrap;
-    }
-    .grade-pill.a { background: rgba(42,122,31,.22);  color: #7fc95e; border: 1px solid rgba(42,122,31,.5); }
-    .grade-pill.b { background: rgba(90,138,47,.22);  color: #9ed46e; border: 1px solid rgba(90,138,47,.5); }
-    .grade-pill.c { background: rgba(184,154,0,.18);  color: #e0bd2e; border: 1px solid rgba(184,154,0,.4); }
-    .grade-pill.d { background: rgba(200,112,32,.18); color: #e4914a; border: 1px solid rgba(200,112,32,.4); }
-    .grade-pill.f { background: rgba(200,48,32,.18);  color: #e6584a; border: 1px solid rgba(200,48,32,.4); }
-    .grade-strip-link {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--paper-muted);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      white-space: nowrap;
-      flex-basis: 100%;
-      text-align: center;
-    }
-    .grade-strip-link:hover { color: var(--paper-dim); }
-
-    /* Trust strip */
-    .trust-strip {
-      background: var(--ink);
-      border-bottom: 1px solid var(--ink-border);
-      padding: .9rem 1.25rem;
-      text-align: center;
-    }
-    .trust-strip-quote {
-      font-family: var(--font-body);
-      font-size: .88rem;
-      color: var(--paper-dim);
-      font-style: italic;
-    }
-
-    /* ─── BAR FINDER — moved above grade scale/methodology, major section ─── */
-    .finder-hero-section {
-      background: var(--ink-raised);
-      border-bottom: 1px solid var(--ink-border);
-      padding: 3rem 1.25rem;
-    }
-    .finder-hero-inner { max-width: 860px; margin: 0 auto; text-align: center; }
-    .finder-hero-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: .75rem;
-    }
+    /* ─── BAR FINDER — cream ─── */
+    .finder-hero-section { background: var(--bs-cream); padding: 3rem 1.5rem; }
+    .finder-hero-inner { max-width: 780px; margin: 0 auto; text-align: left; }
+    .finder-hero-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .6rem; }
     .finder-hero-heading {
-      font-family: var(--font-display);
-      font-size: clamp(1.4rem, 4.5vw, 2.15rem);
+      font-family: var(--bs-font-display);
       font-weight: 800;
-      color: var(--paper);
-      letter-spacing: -.02em;
-      margin: 0 0 .9rem;
-      line-height: 1.15;
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      color: var(--bs-ink);
+      letter-spacing: -.01em;
+      margin: 0 0 .85rem;
+      line-height: 1.1;
     }
-    .finder-hero-desc {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      color: var(--paper-dim);
-      line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto 1.5rem;
-    }
-    .finder-feature-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .55rem;
-      justify-content: center;
-      margin-bottom: 1.75rem;
-    }
+    .finder-hero-desc { font-family: var(--bs-font-body); font-size: 1rem; color: var(--bs-text-dim); line-height: 1.6; max-width: 600px; margin: 0 0 1.5rem; }
+    .finder-feature-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.75rem; }
     .finder-feature-chip {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: .82rem;
       font-weight: 500;
       padding: .45rem .9rem;
-      background: var(--ink);
-      border: 1px solid var(--ink-border);
-      color: var(--paper-dim);
+      background: var(--bs-paper);
+      border: 1.5px solid var(--bs-ink);
+      color: var(--bs-ink);
       border-radius: 20px;
     }
     .finder-hero-btn {
       display: inline-flex;
       align-items: center;
       gap: .6rem;
-      background: var(--accent);
-      color: #14150e;
-      font-family: var(--font-display);
-      font-size: 1.05rem;
+      background: var(--bs-ink);
+      color: var(--bs-paper);
+      font-family: var(--bs-font-body);
       font-weight: 700;
-      padding: 1.1rem 2.5rem;
-      border-radius: var(--radius);
+      font-size: 1rem;
+      padding: 1rem 2.1rem;
+      border-radius: var(--bs-radius);
       text-decoration: none;
-      transition: opacity .15s;
     }
     .finder-hero-btn:hover { opacity: .88; }
 
-    /* Goal section */
-    .goal-section { background: var(--ink); padding: 3.5rem 1.25rem; }
-    .goal-section-inner { max-width: 960px; margin: 0 auto; }
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: .5rem;
-    }
-    .section-heading {
-      font-family: var(--font-display);
-      font-size: clamp(1.3rem, 3.2vw, 1.8rem);
-      font-weight: 700;
-      color: var(--paper);
+    /* ─── TOP 3 BARS — paper ─── */
+    .top-bars-section { background: var(--bs-paper); padding: 3rem 1.5rem 3.25rem; }
+    .top-bars-inner { max-width: 1040px; margin: 0 auto; }
+    .top-bars-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .35rem; }
+    .top-bars-heading {
+      font-family: var(--bs-font-display);
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+      color: var(--bs-ink);
       margin: 0 0 1.75rem;
-      letter-spacing: -.015em;
+      letter-spacing: -.01em;
+    }
+    .top-bars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
+    .top-bar-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); overflow: hidden; text-align: left; }
+    .top-bar-rank { font-family: var(--bs-font-data); font-size: .7rem; color: var(--bs-text-dim); padding: .75rem 1rem 0; }
+    .top-bar-header { display: flex; align-items: center; gap: .85rem; padding: .55rem 1rem .9rem; border-bottom: 1px solid var(--bs-line-soft); }
+    .top-bar-badge {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: var(--bs-radius);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--bs-font-display); font-weight: 800; font-size: 1.25rem; color: var(--bs-paper);
+      background: #2a7a1f; /* all three featured bars are grade A */
+    }
+    .top-bar-title { flex: 1; min-width: 0; }
+    .top-bar-name { font-family: var(--bs-font-body); font-weight: 700; font-size: 1rem; color: var(--bs-ink); line-height: 1.25; }
+    .top-bar-brand { font-family: var(--bs-font-body); font-size: .78rem; color: var(--bs-text-dim); margin-top: 1px; }
+    .top-bar-score { text-align: right; flex-shrink: 0; }
+    .top-bar-score-val { font-family: var(--bs-font-data); font-size: 1.15rem; font-weight: 600; color: var(--bs-ink); line-height: 1; }
+    .top-bar-score-lbl { font-family: var(--bs-font-body); font-size: .65rem; color: var(--bs-text-dim); }
+    .top-bar-chips { display: flex; flex-wrap: wrap; gap: .4rem; padding: .8rem 1rem; }
+    .top-bar-chip { font-family: var(--bs-font-body); font-size: .74rem; padding: .28rem .65rem; border-radius: 20px; border: 1px solid; }
+    .top-bar-chip.pos { background: rgba(42,122,31,.08); color: #2a7a1f; border-color: rgba(42,122,31,.4); }
+    .top-bar-chip.con { background: rgba(200,112,32,.08); color: #c87020; border-color: rgba(200,112,32,.4); }
+    .top-bar-macros { display: flex; flex-wrap: wrap; gap: .9rem; padding: 0 1rem .9rem; }
+    .top-bar-macro { display: flex; flex-direction: column; gap: 1px; }
+    .top-bar-macro-val { font-family: var(--bs-font-data); font-size: .85rem; font-weight: 500; color: var(--bs-ink); }
+    .top-bar-macro-lbl { font-family: var(--bs-font-body); font-size: .68rem; color: var(--bs-text-dim); }
+    .top-bar-buy { display: flex; gap: .5rem; padding: .9rem 1rem; border-top: 1px solid var(--bs-line-soft); flex-wrap: wrap; }
+    .top-bar-buy a { flex: 1; min-width: 110px; text-align: center; font-family: var(--bs-font-body); font-size: .82rem; font-weight: 700; padding: .6rem .75rem; border-radius: var(--bs-radius); text-decoration: none; }
+    .top-bar-buy .buy-amazon { background: var(--bs-ink); color: var(--bs-paper); }
+    .top-bar-buy .buy-amazon:hover { opacity: .88; }
+    .top-bar-buy .buy-site { background: transparent; border: 1.5px solid var(--bs-ink); color: var(--bs-ink); }
+    .top-bar-buy .buy-site:hover { background: var(--bs-cream); }
+    .top-bars-caption { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-top: 1.75rem; }
+    .top-bars-caption a { color: var(--bs-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ─── INGREDIENT GRADE — the one nutrition-facts device on this page, cream ─── */
+    .facts-wrap { background: var(--bs-cream); padding: 3rem 1.5rem; }
+    .facts-inner { max-width: 780px; margin: 0 auto; }
+    .facts-box { border: 3px solid var(--bs-ink); max-width: 360px; background: var(--bs-paper); }
+    .facts-title { font-family: var(--bs-font-display); font-weight: 800; font-size: 1.6rem; color: var(--bs-ink); padding: .5rem .9rem .35rem; border-bottom: 7px solid var(--bs-ink); }
+    .facts-sub { font-family: var(--bs-font-body); font-size: .78rem; color: var(--bs-text-dim); padding: .5rem .9rem; border-bottom: 1px solid var(--bs-line-soft); }
+    .facts-row { display: flex; align-items: center; justify-content: space-between; padding: .55rem .9rem; border-bottom: 1px solid var(--bs-line-soft); font-family: var(--bs-font-body); font-size: .92rem; color: var(--bs-ink); }
+    .facts-row:last-child { border-bottom: none; }
+    .facts-grade { display: flex; align-items: center; gap: .6rem; }
+    .facts-swatch { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+    .facts-count { font-family: var(--bs-font-data); font-size: .85rem; color: var(--bs-text-dim); }
+    .facts-caption { font-family: var(--bs-font-body); font-size: .82rem; color: var(--bs-text-dim); margin-top: 1rem; max-width: 400px; line-height: 1.55; }
+    .facts-caption a { color: var(--bs-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ─── DARK BAND — the one real contrast break ─── */
+    .dark-band { background: var(--bs-ink-2); padding: 2.75rem 1.5rem; }
+    .dark-band-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 1.75rem 3rem; align-items: center; justify-content: space-between; }
+    .dark-stat-group { display: flex; gap: 2.25rem; flex-wrap: wrap; }
+    .dark-stat-val { font-family: var(--bs-font-display); font-weight: 800; font-size: 2rem; color: var(--bs-paper); line-height: 1; }
+    .dark-stat-lbl { font-family: var(--bs-font-body); font-size: .8rem; color: #a39d8c; margin-top: .3rem; }
+    .dark-band-quote { font-family: var(--bs-font-body); font-size: 1rem; color: #e6e0d2; max-width: 280px; line-height: 1.5; margin: 0; }
+
+    /* ─── GOAL SELECTOR — paper ─── */
+    .goal-section { background: var(--bs-paper); padding: 3.5rem 1.5rem; }
+    .goal-section-inner { max-width: 960px; margin: 0 auto; }
+    .section-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .5rem; }
+    .section-heading {
+      font-family: var(--bs-font-display);
+      font-weight: 800;
+      font-size: clamp(1.3rem, 3.2vw, 1.8rem);
+      color: var(--bs-ink);
+      margin: 0 0 1.75rem;
+      letter-spacing: -.01em;
     }
     .goal-groups { display: flex; flex-direction: column; gap: 2rem; }
-    .goal-group-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--paper-muted);
-      margin-bottom: .75rem;
-      padding-bottom: .5rem;
-      border-bottom: 1px solid var(--ink-border);
-    }
-    .goal-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: .8rem;
-    }
-    .goal-card {
-      display: block;
-      background: var(--ink-raised);
-      border: 1px solid var(--ink-border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.25rem 1.1rem;
-      text-decoration: none;
-      transition: border-color .15s, background .15s;
-    }
-    .goal-card:hover { border-color: #55503f; background: #262117; }
+    .goal-group-label { font-family: var(--bs-font-body); font-size: .78rem; color: var(--bs-text-dim); margin-bottom: .75rem; padding-bottom: .5rem; border-bottom: 1px solid var(--bs-line-soft); }
+    .goal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .8rem; }
+    .goal-card { display: block; background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); padding: 1.25rem 1.25rem 1.1rem; text-decoration: none; }
+    .goal-card:hover { background: var(--bs-cream); }
     .goal-card.goal-card--featured {
-      border-color: rgba(212,240,0,.35);
-      background: rgba(212,240,0,.06);
+      background: var(--bs-cream);
       grid-column: 1 / -1;
       display: flex;
       align-items: center;
       gap: 1.25rem;
       padding: 1.1rem 1.4rem;
     }
-    .goal-card.goal-card--featured:hover { border-color: rgba(212,240,0,.65); background: rgba(212,240,0,.1); }
-    .goal-card.goal-card--featured .goal-card-icon { font-size: 1.6rem; margin-bottom: 0; flex-shrink: 0; }
+    .goal-card.goal-card--featured:hover { background: #e9e3d2; }
+    .goal-card.goal-card--featured .goal-card-icon { font-size: 1.5rem; margin-bottom: 0; flex-shrink: 0; }
     .goal-card.goal-card--featured .goal-card-body { flex: 1; }
-    .goal-card.goal-card--featured .goal-card-name { color: #d4f000; }
-    .goal-card.goal-card--featured .goal-card-arrow {
-      font-family: var(--font-mono);
-      font-size: .8rem;
-      color: #d4f000;
-      flex-shrink: 0;
-      opacity: .75;
-    }
-    .goal-card.goal-card--featured:hover .goal-card-arrow { opacity: 1; }
-    .goal-card-icon { font-size: 1.3rem; margin-bottom: .6rem; line-height: 1; }
-    .goal-card-name {
-      font-family: var(--font-display);
-      font-size: .95rem;
-      font-weight: 700;
-      color: var(--paper);
-      margin-bottom: .3rem;
-      letter-spacing: -.01em;
-    }
-    .goal-card-desc { font-family: var(--font-body); font-size: .84rem; color: var(--paper-dim); line-height: 1.5; }
+    .goal-card.goal-card--featured .goal-card-arrow { font-family: var(--bs-font-body); font-weight: 700; font-size: .82rem; color: var(--bs-ink); flex-shrink: 0; }
+    .goal-card-icon { font-size: 1.2rem; margin-bottom: .6rem; line-height: 1; }
+    .goal-card-name { font-family: var(--bs-font-body); font-size: .95rem; font-weight: 700; color: var(--bs-ink); margin-bottom: .3rem; }
+    .goal-card-desc { font-family: var(--bs-font-body); font-size: .84rem; color: var(--bs-text-dim); line-height: 1.5; }
 
-    /* About — inline linked lists per user request, not dead-end single links */
-    .about-section { background: var(--ink-raised); padding: 3.5rem 1.25rem; border-top: 1px solid var(--ink-border); }
+    /* ─── ABOUT — cream ─── */
+    .about-section { background: var(--bs-cream); padding: 3.5rem 1.5rem; }
     .about-inner { max-width: 960px; margin: 0 auto; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.75rem;
-    }
-    .about-card { border-top: 2px solid #4a4536; padding-top: 1rem; }
-    .about-card-title {
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--paper);
-      margin-bottom: .5rem;
-      letter-spacing: -.01em;
-    }
-    .about-card-body { font-family: var(--font-body); font-size: .85rem; color: var(--paper-dim); line-height: 1.6; margin-bottom: .75rem; }
+    .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
+    .about-card { border-top: 3px solid var(--bs-ink); padding-top: 1rem; }
+    .about-card-title { font-family: var(--bs-font-body); font-size: 1rem; font-weight: 700; color: var(--bs-ink); margin-bottom: .5rem; }
+    .about-card-body { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); line-height: 1.6; margin-bottom: .75rem; }
     .about-card-links { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .5rem; }
-    .about-card-links a {
-      font-family: var(--font-body);
-      font-size: .82rem;
-      color: var(--paper-dim);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(217,212,200,.25);
-      width: fit-content;
-    }
-    .about-card-links a:hover { color: var(--paper); border-color: var(--paper); }
-    .about-card-link {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      text-decoration: none;
-    }
-    .about-card-link:hover { color: var(--paper); }
+    .about-card-links a { font-family: var(--bs-font-body); font-size: .82rem; color: var(--bs-ink); text-decoration: none; border-bottom: 1px solid var(--bs-line-soft); width: fit-content; }
+    .about-card-links a:hover { border-color: var(--bs-ink); }
+    .about-card-link { font-family: var(--bs-font-body); font-size: .82rem; font-weight: 700; color: var(--bs-ink); text-decoration: underline; text-underline-offset: 3px; }
 
-    /* FAQ */
-    .home-faq { background: var(--ink); padding: 3.5rem 1.25rem; border-top: 1px solid var(--ink-border); }
+    /* ─── FAQ — paper ─── */
+    .home-faq { background: var(--bs-paper); padding: 3.5rem 1.5rem; }
     .home-faq-inner { max-width: 720px; margin: 0 auto; }
-    .home-faq .faq-item { border-bottom: 1px solid var(--ink-border); }
+    .home-faq .faq-item { border-bottom: 1px solid var(--bs-line-soft); }
     .home-faq .faq-q {
-      color: var(--paper) !important;
-      font-family: var(--font-display) !important;
+      color: var(--bs-ink) !important;
+      font-family: var(--bs-font-body) !important;
       font-size: 1rem !important;
-      font-weight: 500 !important;
+      font-weight: 700 !important;
     }
-    .home-faq .faq-a p { color: var(--paper-dim); font-family: var(--font-body); font-size: .92rem; line-height: 1.65; }
-    .home-faq .faq-a a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
-    .home-faq .faq-a a:hover { color: var(--paper); }
+    .home-faq .faq-a p { color: var(--bs-text-dim); font-family: var(--bs-font-body); font-size: .92rem; line-height: 1.65; }
+    .home-faq .faq-a a { color: var(--bs-ink); text-decoration: underline; text-underline-offset: 3px; }
 
-    /* Nav highlight + misc */
-    .site-nav-link--highlight { color: var(--accent); font-weight: 600; }
+    .site-nav-link--highlight { color: var(--bs-ink); font-weight: 700; }
 
-    /* ─── FOOTER — grouped columns, readable on mobile ─── */
-    .home-footer { background: var(--ink-raised); border-top: 1px solid var(--ink-border); padding: 3rem 1.25rem 1.75rem; }
+    /* ─── FOOTER — dark, grouped columns ─── */
+    .home-footer { background: var(--bs-ink); border-top: 1px solid var(--bs-ink-2); padding: 3rem 1.5rem 1.75rem; }
     .home-footer-inner { max-width: 1040px; margin: 0 auto; }
-    .home-footer-top {
-      display: grid;
-      grid-template-columns: 1.3fr repeat(3, 1fr);
-      gap: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--ink-border);
-    }
-    .home-footer-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--paper); text-decoration: none; }
-    .home-footer-tagline { font-family: var(--font-body); font-size: .85rem; color: var(--paper-muted); margin-top: .6rem; line-height: 1.55; }
-    .home-footer-col-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: .85rem;
-    }
-    .home-footer-col a {
-      display: block;
-      font-family: var(--font-body);
-      font-size: .85rem;
-      color: var(--paper-dim);
-      text-decoration: none;
-      padding: .3rem 0;
-    }
-    .home-footer-col a:hover { color: var(--paper); }
-    .home-footer-copy {
-      font-family: var(--font-mono);
-      font-size: .75rem;
-      color: var(--paper-muted);
-      text-align: center;
-      margin-top: 1.75rem;
-    }
+    .home-footer-top { display: grid; grid-template-columns: 1.3fr repeat(3, 1fr); gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #332d22; }
+    .home-footer-brand { font-family: var(--bs-font-display); font-size: 1.15rem; font-weight: 800; color: var(--bs-paper); text-decoration: none; }
+    .home-footer-tagline { font-family: var(--bs-font-body); font-size: .85rem; color: #a39d8c; margin-top: .6rem; line-height: 1.55; }
+    .home-footer-col-label { font-family: var(--bs-font-body); font-size: .78rem; font-weight: 700; color: var(--bs-paper); margin-bottom: .85rem; }
+    .home-footer-col a { display: block; font-family: var(--bs-font-body); font-size: .85rem; color: #c9c0b0; text-decoration: none; padding: .3rem 0; }
+    .home-footer-col a:hover { color: var(--bs-paper); }
+    .home-footer-copy { font-family: var(--bs-font-data); font-size: .75rem; color: #83795f; text-align: center; margin-top: 1.75rem; }
+
     @media (max-width: 760px) {
       .home-footer-top { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
       .home-footer-brand-block { grid-column: 1 / -1; }
+      .dark-band-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
+
 
 </head>
 <body>
@@ -706,30 +403,11 @@
 
 <!-- HERO -->
 <header class="home-hero">
-  <div class="home-hero-eyebrow">The Protein Bar Database &middot; No Sponsored Picks</div>
+  <div class="rule-thick"></div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
     1,000+ bars graded A&ndash;F, see which ones actually pass. No affiliate deals, no brand payments.
   </p>
-  <div class="hero-stats-row">
-    <div class="hero-stat-item">
-      <div class="hero-stat-value">$0</div>
-      <div class="hero-stat-label">Sponsored Picks</div>
-    </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-value">1,000+</div>
-      <div class="hero-stat-label">Bars Scored</div>
-    </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-value">100+</div>
-      <div class="hero-stat-label">Brands Covered</div>
-    </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-value">1,100+</div>
-      <div class="hero-stat-label">Ingredients Mapped</div>
-    </div>
-  </div>
-
   <div class="hero-cta-row">
     <a href="/bar-finder.html" class="hero-cta-primary">Find My Bar &rarr;</a>
     <p class="hero-trust">Filter by protein, sugar, and ingredient grade &middot; results in seconds</p>
@@ -857,22 +535,34 @@
   </div>
 </section>
 
-<!-- GRADE SCALE -->
-<div class="grade-strip">
-  <span class="grade-strip-label">Ingredient Grade Scale</span>
-  <div class="grade-pills">
-    <span class="grade-pill a">A &ndash; Clean</span>
-    <span class="grade-pill b">B &ndash; Good</span>
-    <span class="grade-pill c">C &ndash; Average</span>
-    <span class="grade-pill d">D &ndash; Concern</span>
-    <span class="grade-pill f">F &ndash; Avoid</span>
+<!-- INGREDIENT GRADE — the one nutrition-facts-style device on this page -->
+<section class="facts-wrap">
+  <div class="facts-inner">
+    <div class="facts-box">
+      <div class="facts-title">Ingredient Grade</div>
+      <div class="facts-sub">Every bar, scored on its full ingredient list</div>
+      <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:#2a7a1f"></span>A &middot; Clean</div><div class="facts-count">149 bars</div></div>
+      <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:#5a8a2f"></span>B &middot; Good</div><div class="facts-count">342 bars</div></div>
+      <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:#b89a00"></span>C &middot; Average</div><div class="facts-count">304 bars</div></div>
+      <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:#c87020"></span>D &middot; Concern</div><div class="facts-count">164 bars</div></div>
+      <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:#c83020"></span>F &middot; Avoid</div><div class="facts-count">20 bars</div></div>
+    </div>
+    <p class="facts-caption">Every ingredient scored individually, then weighted by position in the list. <a href="/ingredient_scoring.html">Full methodology &rarr;</a></p>
   </div>
-  <a href="/ingredient_scoring.html" class="grade-strip-link">Full methodology &rarr;</a>
-</div>
+</section>
 
-<div class="trust-strip">
-  <span class="trust-strip-quote">1,000+ bars scored by ingredient quality, no sponsored picks, no affiliate rankings, no BS.</span>
-</div>
+<!-- DARK BAND — real contrast break, houses the stats moved out of the hero -->
+<section class="dark-band">
+  <div class="dark-band-inner">
+    <div class="dark-stat-group">
+      <div class="dark-stat"><div class="dark-stat-val">$0</div><div class="dark-stat-lbl">Sponsored picks</div></div>
+      <div class="dark-stat"><div class="dark-stat-val">1,000+</div><div class="dark-stat-lbl">Bars scored</div></div>
+      <div class="dark-stat"><div class="dark-stat-val">100+</div><div class="dark-stat-lbl">Brands covered</div></div>
+      <div class="dark-stat"><div class="dark-stat-val">1,100+</div><div class="dark-stat-lbl">Ingredients mapped</div></div>
+    </div>
+    <p class="dark-band-quote">No brand paid to be here, and none ever will.</p>
+  </div>
+</section>
 
 <!-- GOAL SELECTOR -->
 <section class="goal-section">
