@@ -12,9 +12,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How We Score Protein Bars A-F by Ingredient Quality</title>
-  <meta name="description" content="Every protein bar scored ingredient by ingredient. Base scores, position weights, and the full methodology behind each A-F grade across 900+ bars.">
+  <meta name="description" content="Every protein bar scored ingredient by ingredient. Base scores, position weights, and the full methodology behind each A-F grade across 1,000+ bars.">
   <link rel="canonical" href="https://knowyourbar.com/ingredient_scoring.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="/style.css">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet">
   <style>
@@ -38,26 +39,22 @@
     }
 
     body {
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--black);
+      font-family: var(--bs-font-body);
+      background: var(--bs-paper);
+      color: var(--bs-text-dim);
       font-size: 15px;
       line-height: 1.6;
     }
 
-    /* ── NAV ─────────────────────────────────────────── */
-    .site-nav {
-      background: var(--black);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    /* Nav and footer intentionally NOT redefined here — they use the
+       shared .site-nav / .site-footer rules in style.css. A duplicate
+       local override used to live here and silently fight the global
+       styling; removed rather than fixed in place. */
 
     /* ── HERO ────────────────────────────────────────── */
     .hero {
-      background: var(--black);
-      color: var(--white);
+      background: var(--bs-paper);
+      color: var(--bs-ink);
       padding: 4rem 2rem 3rem;
     }
 
@@ -67,55 +64,37 @@
     .hero-img img { width: 100%; max-width: 240px; height: auto; display: block; }
     @media (max-width: 640px) { .hero-inner { grid-template-columns: 1fr; } .hero-img { width: 100%; max-width: 220px; margin: 0 auto; } }
 
-    .hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 1px;
-      background: var(--accent);
-    }
-
     .hero-title {
+      font-family: var(--bs-font-display);
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 800;
       line-height: 0.95;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.01em;
+      padding-bottom: 0.1em;
+      color: var(--bs-ink);
       margin-bottom: 1.5rem;
     }
 
     .hero-sub {
       font-size: 1rem;
-      color: #aaa89e;
+      color: var(--bs-text-dim);
       max-width: 560px;
       line-height: 1.7;
     }
 
     /* ── LIVE GRADES ─────────────────────────────────── */
     .grades-section {
-      background: var(--off-white);
-      border-bottom: 1px solid var(--border);
+      background: var(--bs-cream);
+      border-bottom: 1px solid var(--bs-line-soft);
       padding: 3rem 2rem;
     }
 
     .grades-inner { max-width: 760px; margin: 0 auto; }
 
     .section-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .85rem;
+      color: var(--bs-text-dim);
       margin-bottom: 1.5rem;
     }
 
@@ -126,9 +105,9 @@
     }
 
     .grade-card {
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-paper);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 16px 12px;
       text-align: center;
     }
@@ -139,46 +118,47 @@
       justify-content: center;
       width: 40px;
       height: 40px;
-      border-radius: var(--radius);
-      font-family: var(--font-display);
+      border-radius: var(--bs-radius);
+      font-family: var(--bs-font-display);
       font-size: 22px;
       font-weight: 800;
       margin-bottom: 8px;
     }
 
     .grade-label {
+      font-family: var(--bs-font-body);
       font-weight: 700;
       font-size: 13px;
       margin-bottom: 4px;
     }
 
     .grade-range {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-bottom: 8px;
     }
 
     .grade-count {
-      font-family: var(--font-mono);
-      font-size: 11px;
+      font-family: var(--bs-font-data);
+      font-size: .78rem;
       font-weight: 500;
     }
 
     .grade-pct {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-bottom: 8px;
     }
 
     .grade-browse-link {
       display: block;
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
       text-decoration: none;
       padding: 5px 8px;
-      border-radius: var(--radius);
+      border-radius: var(--bs-radius);
       border: 1px solid currentColor;
       opacity: 0.55;
       transition: opacity 0.15s;
@@ -186,7 +166,7 @@
     }
     .grade-browse-link:hover { opacity: 1; }
 
-    /* Band colors */
+    /* Band colors — functional grade colors, unchanged */
     .band-A .grade-letter { background: #2a7a1f; color: white; }
     .band-A .grade-label  { color: #1a5412; }
     .band-A .grade-count  { color: #1a5412; }
@@ -217,21 +197,25 @@
     .content-section { margin-bottom: 3.5rem; }
 
     h2 {
+      font-family: var(--bs-font-display);
       font-size: 1.6rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
+      color: var(--bs-ink);
       margin-bottom: 1rem;
     }
 
     h3 {
+      font-family: var(--bs-font-body);
       font-size: 1rem;
       font-weight: 700;
+      color: var(--bs-ink);
       margin-bottom: 0.5rem;
       margin-top: 1.5rem;
     }
 
     p {
-      color: #444;
+      color: var(--bs-text-dim);
       margin-bottom: 1rem;
     }
 
@@ -246,18 +230,16 @@
 
     .score-table th {
       text-align: left;
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      color: var(--bs-text-dim);
       padding: 8px 12px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 2px solid var(--bs-ink);
     }
 
     .score-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bs-line-soft);
       vertical-align: top;
       word-wrap: break-word;
       white-space: normal;
@@ -278,7 +260,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 16px;
       font-weight: 800;
       color: white;
@@ -298,17 +280,17 @@
       align-items: flex-start;
       gap: 12px;
       padding: 12px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-paper);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
     }
 
     .chip-sample {
       display: inline-block;
       padding: 4px 10px;
       border-radius: 100px;
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
       font-weight: 500;
       white-space: nowrap;
       flex-shrink: 0;
@@ -318,41 +300,33 @@
 
     .chip-sample.chip-positive { background: #edfce4; border: 1px solid #b8eaa0; color: #1a5412; }
     .chip-sample.chip-concern  { background: #fff3e8; border: 1px solid #f0c888; color: #a05010; }
-    .chip-sample.chip-neutral  { background: #f0ede6; border: 1px solid var(--border); color: var(--muted); }
+    .chip-sample.chip-neutral  { background: var(--bs-cream); border: 1px solid var(--bs-line-soft); color: var(--bs-text-dim); }
 
     .chip-desc {
       font-size: 13px;
-      color: #555;
+      color: var(--bs-text-dim);
       line-height: 1.65;
     }
 
     .chip-rule {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-top: 3px;
     }
 
     /* ── CALLOUT ─────────────────────────────────────── */
     .callout {
-      background: #0e0e0e08;
-      border-left: 3px solid var(--accent);
-      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--bs-cream);
+      border-left: 3px solid var(--bs-ink);
+      border-radius: 0 var(--bs-radius) var(--bs-radius) 0;
       padding: 16px 20px;
       margin: 1.5rem 0;
     }
 
-    .callout p { margin: 0; color: var(--black); font-size: 15px; }
+    .callout p { margin: 0; color: var(--bs-ink); font-size: 15px; }
 
-    /* ── FOOTER ──────────────────────────────────────── */
-    .site-footer {
-      background: var(--black);
-      color: #ffffff44;
-      text-align: center;
-      padding: 1.5rem;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
+    /* Footer intentionally not redefined here — shared .site-footer in style.css */
 
     /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 600px) {
@@ -370,8 +344,8 @@
   
     /* ── FAQ Accordion ── */
     .faq-section {
-      border-top: 2px solid #0e0e0e;
-      background: #efece6;
+      border-top: 2px solid var(--bs-ink);
+      background: var(--bs-cream);
       padding: 2.5rem 2rem;
     }
     .faq-section-inner {
@@ -379,20 +353,20 @@
       margin: 0 auto;
     }
     .faq-section h2 {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--bs-font-body);
       font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      color: #0e0e0e;
+      color: var(--bs-ink);
     }
     .faq-item {
-      border-bottom: 1px solid #d6d3cc;
+      border-bottom: 1px solid var(--bs-line-soft);
     }
     .faq-item:first-of-type {
-      border-top: 1px solid #d6d3cc;
+      border-top: 1px solid var(--bs-line-soft);
     }
     .faq-q {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--bs-font-body);
       font-weight: 600;
       font-size: 0.9rem;
       padding: 14px 0;
@@ -401,14 +375,14 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      color: #0e0e0e;
+      color: var(--bs-ink);
       user-select: none;
     }
     .faq-q::after {
       content: '+';
       font-size: 1.1rem;
       font-weight: 300;
-      color: #888880;
+      color: var(--bs-text-dim);
       flex-shrink: 0;
       transition: transform 0.2s ease;
       line-height: 1;
@@ -418,7 +392,7 @@
     }
     .faq-a {
       font-size: 0.875rem;
-      color: #555;
+      color: var(--bs-text-dim);
       line-height: 1.7;
       max-height: 0;
       overflow: hidden;
@@ -431,52 +405,12 @@
     }
     .faq-a p { margin: 0; }
 
-  
-    /* ── Navigation ── */
-    .site-nav{background:#0e0e0e;display:flex;align-items:center;padding:0 2rem;height:52px;gap:2rem;position:relative;z-index:100;border-bottom:1px solid #ffffff12;}
-    .site-nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:#d4f000;text-decoration:none;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;}
-    .site-nav-links{display:flex;align-items:center;margin-left:auto;}
-    .site-nav-link{font-family:'DM Mono',monospace;font-size:11px;color:#ffffff88;text-decoration:none;padding:0 14px;height:52px;display:flex;align-items:center;transition:color .12s;white-space:nowrap;}
-    .site-nav-link:hover{color:#f7f5f0;}
-    .site-nav-group{position:relative;height:52px;display:flex;align-items:center;}
-    .site-nav-group-label{font-family:'DM Mono',monospace;font-size:11px;color:#ffffff88;padding:0 14px;height:52px;display:flex;align-items:center;gap:5px;cursor:default;white-space:nowrap;}
-    .site-nav-group-label::after{content:'▾';font-size:9px;color:#ffffff44;}
-    .site-nav-group:hover .site-nav-group-label{color:#f7f5f0;}
-    .site-nav-dropdown{display:none;position:absolute;top:52px;left:0;background:#1a1a1a;border:1px solid #ffffff18;border-radius:0 0 6px 6px;min-width:180px;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,.4);}
-    .site-nav-group:hover .site-nav-dropdown{display:block;}
-    .site-nav-dropdown a{display:block;font-family:'DM Mono',monospace;font-size:11px;color:#ffffff88;text-decoration:none;padding:8px 16px;transition:all .1s;}
-    .site-nav-dropdown a:hover{background:#ffffff0a;color:#f7f5f0;}
-    .site-nav-mobile-toggle{display:none;background:none;border:none;color:#ffffff88;font-size:18px;cursor:pointer;padding:0 4px;margin-left:auto;}
-    @media(max-width:700px){
-      .site-nav{padding:0 1.25rem;}
-      .site-nav-links{display:none;}
-      .site-nav-mobile-toggle{display:block;}
-    }
-
-    
-    /* ── Global readability fixes ───────────────────────────── */
-    h1, h2, h3, .hero-title, .section-title, .findings-title, .cta-title {
-      line-height: 1.15;
-      overflow: visible;
-    }
-    .hero-title {
-      padding-bottom: 0.1em; /* prevents descenders from clipping */
-    }
-    /* Improve body text contrast */
-    .section-body, .faq-a, .hero-sub {
-      color: #4a4a45;
-    }
-    /* Dark section muted text - was too low contrast */
-    .findings .insight-text { color: #d8d4cc; }
-    .findings .big-stat-detail { color: #c8c4bc; }
-    .findings-sub { color: #c8c4bc; }
-    /* Nav dropdown contrast */
-    .site-nav-dropdown a, .nav-dd a { color: #c8c4bc; }
-    .site-nav-dropdown a:hover, .nav-dd a:hover { color: #ffffff; }
-    /* Brand list muted text */
-    .brand-note, .brand-meta { color: #5a5a54; }
-    /* Bar card secondary text */
-    .bar-brand, .bar-macro-lbl, .flavor-macro-lbl { color: #5a5a54; }
+    /* Nav and its dropdown, mobile toggle etc. intentionally not
+       redefined here — a full duplicate nav implementation used to
+       live in this spot (with the old neon/mono styling hardcoded),
+       silently overriding the shared, already-migrated .site-nav
+       rules in style.css. Removed rather than fixed in place, so
+       this page now actually gets the real global nav. */
 
   </style>
 <script type="application/ld+json">
@@ -496,7 +430,7 @@
   <meta name="twitter:title" content="How We Score Protein Bars | Know Your Bar">
   <meta name="twitter:description" content="How Know Your Bar grades protein bars A through F   ingredient mapping, position weighting, and the full methodology explained.">
 </head>
-<body class="page-guide">
+<body class="page-guide brand-v1">
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
@@ -861,22 +795,21 @@
     <section class="content-section">
       <h2>Data and updates</h2>
       <p>Our database of <strong id="total-count-2"> </strong> bars is hand-researched and updated regularly. Ingredient lists are sourced from product packaging and brand websites. Scores are recalculated whenever the database is updated.</p>
-      <p>The scoring schema   including all canonical ingredient definitions, base scores, and rules   is versioned and documented. If you believe a score is incorrect or an ingredient is miscategorized, we'd love to hear from you.</p>
+      <p>The scoring schema, including all canonical ingredient definitions, base scores, and rules, is versioned and documented. If you believe a score is incorrect or an ingredient is miscategorized, we'd love to hear from you.</p>
       <div class="callout">
         <p>No brand pays to be included in this database. No brand pays to improve their score. The methodology applies equally to every bar.</p>
       </div>
     </section>
 
-  
 </main>
-<section class="cta-section" style="background:#0e0e0e;padding:3rem 2rem;text-align:center;">
+<section class="cta-section" style="background:var(--bs-ink-2);padding:3rem 2rem;text-align:center;">
   <div style="max-width:560px;margin:0 auto;">
-    <p style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#f7f5f0;margin-bottom:0.75rem;line-height:1.2;">Now go find your bar.</p>
-    <p style="font-family:var(--font-mono);font-size:12px;color:#888880;margin-bottom:1.5rem;">Filter by grade, macros, certifications, and more.</p>
+    <p style="font-family:var(--bs-font-display);font-size:1.5rem;font-weight:800;color:var(--bs-paper);margin-bottom:0.75rem;line-height:1.2;">Now go find your bar.</p>
+    <p style="font-family:var(--bs-font-body);font-size:.85rem;color:#a39d8c;margin-bottom:1.5rem;">Filter by grade, macros, certifications, and more.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <a href="/?grade=A" style="font-family:var(--font-mono);font-size:11px;background:#2a7a1f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;">Browse A-Grade bars</a>
-      <a href="/?preset=clean" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">Clean ingredients</a>
-      <a href="/?preset=clean" style="font-family:var(--font-mono);font-size:11px;background:#1a1a1a;color:#f7f5f0;border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">No artificial sweeteners</a>
+      <a href="/bar-finder.html?grade=A" style="font-family:var(--bs-font-body);font-weight:700;font-size:.82rem;background:#2a7a1f;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;">Browse A-Grade bars</a>
+      <a href="/bar-finder.html?preset=clean" style="font-family:var(--bs-font-body);font-weight:700;font-size:.82rem;background:var(--bs-paper);color:var(--bs-ink);border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">Clean ingredients</a>
+      <a href="/no-artificial-sweeteners.html" style="font-family:var(--bs-font-body);font-weight:700;font-size:.82rem;background:var(--bs-paper);color:var(--bs-ink);border:1px solid #ffffff22;padding:10px 18px;border-radius:6px;text-decoration:none;">No artificial sweeteners</a>
     </div>
   </div>
 </section>
@@ -952,7 +885,7 @@
           <div class="grade-range">${ranges[band]}</div>
           <div class="grade-count">${count} bars</div>
           <div class="grade-pct">${pct}% of total</div>
-          <a href="/?grade=${band}" class="grade-browse-link">Browse ${labels[band]} bars →</a>
+          <a href="/bar-finder.html?grade=${band}" class="grade-browse-link">Browse ${labels[band]} bars →</a>
         `;
         grid.appendChild(card);
       });
