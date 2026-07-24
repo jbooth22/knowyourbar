@@ -3908,12 +3908,47 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .ingr-inner strong { color: var(--bs-text-dim) !important; }
 .brand-v1 .ingr-inner > span { color: var(--bs-text-dim) !important; }
 
+/* ── page-brand specific components ── */
+.brand-v1.page-brand .content { color: var(--bs-text-dim); }
+.brand-v1.page-brand h2, .brand-v1.page-brand h3 {
+  font-family: var(--bs-font-display) !important;
+  font-weight: 800;
+  color: var(--bs-ink);
+}
+.brand-v1.page-brand p { color: var(--bs-text-dim) !important; }
+.brand-v1 .num-cell, .brand-v1 .macro-avg, .brand-v1 .bw-score { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim); }
+
+/* Grade distribution bar — keep grade colors (functional), fix font only */
+.brand-v1 .grade-seg { font-family: var(--bs-font-body) !important; font-weight: 700; }
+
+/* Best / worst cards */
+.brand-v1 .bw-card.best { background: rgba(42,122,31,.06); border: 1.5px solid #2a7a1f; }
+.brand-v1 .bw-card.worst { background: rgba(200,112,32,.06); border: 1.5px solid #c87020; }
+.brand-v1 .bw-label { font-family: var(--bs-font-body) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--bs-text-dim) !important; font-weight: 700; }
+.brand-v1 .bw-flavor { font-family: var(--bs-font-body) !important; color: var(--bs-ink); }
+
+/* Macro grid */
+.brand-v1 .macro-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); }
+.brand-v1 .macro-label { font-family: var(--bs-font-body) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--bs-text-dim) !important; font-weight: 600; }
+.brand-v1 .macro-range { font-family: var(--bs-font-data) !important; color: var(--bs-ink); }
+.brand-v1 .macro-verdict { font-family: var(--bs-font-body) !important; }
+.brand-v1 .macro-summary-text { background: var(--bs-cream); border-left: 3px solid var(--bs-ink); color: var(--bs-text-dim); }
+
+/* Ingredient frequency chart */
+.brand-v1 .chip-group-label { font-family: var(--bs-font-body) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--bs-text-dim) !important; font-weight: 700; }
+.brand-v1 .chip-freq-name { font-family: var(--bs-font-body) !important; color: var(--bs-ink); }
+.brand-v1 .chip-freq-bar { background: var(--bs-line-soft); }
+.brand-v1 .chip-freq-fill { background: var(--bs-ink); }
+.brand-v1 .chip-freq-pct { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim); }
+.brand-v1 .bchip { font-family: var(--bs-font-body); }
+
 /* Explore CTA (dark tile) */
 .brand-v1 .explore-cta-inner { background: var(--bs-ink) !important; }
 .brand-v1 .explore-cta-eyebrow { color: #a39d8c; }
 .brand-v1 .explore-cta-title { color: var(--bs-paper) !important; font-family: var(--bs-font-display); }
 .brand-v1 .explore-cta-sub { color: #c9c0b0 !important; }
 .brand-v1 .explore-cta-btn { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
+.brand-v1 .cta-amazon { background: var(--bs-paper) !important; color: var(--bs-ink) !important; }
 
 /* Explore more cards */
 .brand-v1 .explore-more-label { color: var(--bs-text-dim); font-family: var(--bs-font-body); }
@@ -3921,7 +3956,7 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .explore-more-title { color: var(--bs-ink); font-family: var(--bs-font-body); font-weight: 700; }
 .brand-v1 .explore-more-desc { color: var(--bs-text-dim); }
 
-/* FAQ */
+/* FAQ (brand pages use faq-section, guide pages use guide-faq — cover both) */
 .brand-v1 .faq-q { color: var(--bs-ink) !important; font-family: var(--bs-font-body) !important; font-weight: 700 !important; }
 .brand-v1 .faq-a, .brand-v1 .faq-a p { color: var(--bs-text-dim) !important; }
 .brand-v1 .faq-a a { color: var(--bs-ink); }

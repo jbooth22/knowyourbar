@@ -39,11 +39,17 @@
       --font-body:    'DM Sans', sans-serif;
       --radius:    6px;
       --radius-lg: 10px;
-      --brand-a:   #2563c4;
-      --brand-b:   #c43a25;
+      /* Comparison colors — kept distinct from the A-F grade spectrum
+         (green/yellow/orange/red) so the two systems never collide.
+         Navy + rust is the default pairing; a future VS page comparing
+         different brands can swap these two values if needed, but stay
+         in a similarly muted, non-neon register. */
+      --brand-a:   #2c4a6b;
+      --brand-b:   #b5502f;
     }
 
-    .vs-accent { color: var(--accent); }
+    /* ── vs hero accent — plain, not a competing decorative accent color ── */
+    .vs-accent { color: var(--bs-text-dim); font-weight: 400; }
 
     /* ── side-by-side scorecard ── */
     .vs-scorecard {
@@ -54,17 +60,17 @@
       margin-top: 1.5rem;
     }
     .vs-brand-card {
-      background: var(--white);
-      border: 2px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-paper);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 1.25rem 1.25rem 1rem;
     }
     .vs-brand-card.brand-a { border-top: 4px solid var(--brand-a); }
     .vs-brand-card.brand-b { border-top: 4px solid var(--brand-b); }
     .vs-brand-name {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       margin-bottom: .85rem;
     }
     .vs-brand-name.brand-a { color: var(--brand-a); }
@@ -74,30 +80,30 @@
       justify-content: space-between;
       align-items: baseline;
       padding: .35rem 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bs-line-soft);
       font-size: .85rem;
       gap: .5rem;
     }
     .vs-stat-row:last-child { border-bottom: none; }
     .vs-stat-label {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .82rem;
+      color: var(--bs-text-dim);
     }
     .vs-stat-val {
-      font-family: var(--font-mono);
-      font-size: .85rem;
+      font-family: var(--bs-font-data);
+      font-size: .88rem;
       font-weight: 500;
-      color: var(--black);
+      color: var(--bs-ink);
     }
     .vs-divider {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 1.5rem;
       font-weight: 800;
-      color: var(--muted);
+      color: var(--bs-text-dim);
       padding-top: 1rem;
     }
     @media (max-width: 640px) {
@@ -117,20 +123,19 @@
     .compare-table colgroup col:nth-child(2) { width: 29%; }
     .compare-table colgroup col:nth-child(3) { width: 29%; }
     .compare-table thead th {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      font-weight: 700;
       padding: .6rem .75rem;
       text-align: left;
-      border-bottom: 2px solid var(--border);
-      color: var(--muted);
+      border-bottom: 2px solid var(--bs-ink);
+      color: var(--bs-text-dim);
     }
     .compare-table thead th.col-a { color: var(--brand-a); }
     .compare-table thead th.col-b { color: var(--brand-b); }
     .compare-table td {
       padding: .55rem .75rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bs-line-soft);
       vertical-align: middle;
       white-space: normal;
       word-break: break-word;
@@ -138,19 +143,19 @@
     }
     .compare-table tr:last-child td { border-bottom: none; }
     .compare-table .metric {
-      font-family: var(--font-mono);
-      font-size: .78rem;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .82rem;
+      color: var(--bs-text-dim);
     }
     .compare-table .val {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: .88rem;
       font-weight: 500;
-      color: var(--black);
+      color: var(--bs-ink);
     }
     .compare-table .val.win-a { color: var(--brand-a); font-weight: 600; }
     .compare-table .val.win-b { color: var(--brand-b); font-weight: 600; }
-    .compare-table .val.tie   { color: var(--muted); }
+    .compare-table .val.tie   { color: var(--bs-text-dim); }
 
     /* ── grade dist side by side ── */
     .vs-grade-pair {
@@ -161,10 +166,9 @@
     }
     @media (max-width: 580px) { .vs-grade-pair { grid-template-columns: 1fr; } }
     .vs-grade-block-label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .85rem;
+      font-weight: 700;
       margin-bottom: .6rem;
     }
     .vs-grade-block-label.brand-a { color: var(--brand-a); }
@@ -172,9 +176,9 @@
     /* Make grade segments taller and font bigger for readability */
     .vs-grade-pair .grade-dist { height: 44px; }
     .vs-grade-pair .grade-seg {
+      font-family: var(--bs-font-body);
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .04em;
+      font-weight: 700;
     }
     .vs-grade-count-row {
       display: flex;
@@ -183,9 +187,9 @@
       flex-wrap: wrap;
     }
     .vs-grade-count-item {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 11px;
-      color: var(--muted);
+      color: var(--bs-text-dim);
       display: flex;
       align-items: center;
       gap: 3px;
@@ -206,33 +210,33 @@
     }
     @media (max-width: 580px) { .vs-best-pair { grid-template-columns: 1fr; } }
     .vs-best-card {
-      background: var(--off-white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-cream);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 1.1rem 1.1rem .9rem;
     }
     .vs-best-card.brand-a { border-top: 3px solid var(--brand-a); }
     .vs-best-card.brand-b { border-top: 3px solid var(--brand-b); }
     .vs-best-brand-tag {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      font-weight: 700;
       margin-bottom: .4rem;
     }
     .vs-best-brand-tag.brand-a { color: var(--brand-a); }
     .vs-best-brand-tag.brand-b { color: var(--brand-b); }
     .vs-best-flavor {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-body);
       font-weight: 700;
       font-size: 1rem;
+      color: var(--bs-ink);
       margin-bottom: .3rem;
       line-height: 1.2;
     }
     .vs-best-score {
-      font-family: var(--font-mono);
-      font-size: .78rem;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .82rem;
+      color: var(--bs-text-dim);
       margin-bottom: .65rem;
     }
 
@@ -240,20 +244,20 @@
     .vs-callout {
       margin: 1rem 0;
       padding: 1rem 1.25rem;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--off-white);
+      border-radius: var(--bs-radius);
+      border: 1.5px solid var(--bs-ink);
+      background: var(--bs-cream);
       font-size: .9rem;
+      color: var(--bs-text-dim);
       line-height: 1.7;
     }
     .vs-callout.brand-a { border-left: 4px solid var(--brand-a); }
     .vs-callout.brand-b { border-left: 4px solid var(--brand-b); }
     .vs-callout-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--bs-text-dim);
       margin-bottom: .35rem;
     }
 
@@ -266,17 +270,18 @@
     }
     @media (max-width: 580px) { .vs-buy-pair { grid-template-columns: 1fr; } }
     .vs-buy-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-paper);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 1.25rem;
     }
     .vs-buy-card.brand-a { border-left: 4px solid var(--brand-a); }
     .vs-buy-card.brand-b { border-left: 4px solid var(--brand-b); }
     .vs-buy-title {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-weight: 800;
       font-size: 1rem;
+      color: var(--bs-ink);
       margin-bottom: .75rem;
     }
     .vs-buy-title.brand-a { color: var(--brand-a); }
@@ -284,63 +289,61 @@
     .vs-buy-list { list-style: none; }
     .vs-buy-list li {
       font-size: .88rem;
+      color: var(--bs-text-dim);
       padding: .3rem 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bs-line-soft);
       line-height: 1.5;
     }
     .vs-buy-list li:last-child { border-bottom: none; }
 
     /* ── our pick ── */
     .vs-pick {
-      background: var(--black);
-      color: #f0ede6;
-      border-radius: var(--radius-lg);
+      background: var(--bs-ink-2);
+      color: var(--bs-paper);
+      border-radius: var(--bs-radius);
       padding: 1.5rem;
       margin-top: 1.5rem;
     }
     .vs-pick-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--accent);
+      font-family: var(--bs-font-body);
+      font-size: .8rem;
+      color: #a39d8c;
       margin-bottom: .5rem;
     }
     .vs-pick-brand {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-weight: 800;
       font-size: 1.4rem;
       margin-bottom: .5rem;
-      color: #f0ede6;
+      color: var(--bs-paper);
     }
     .vs-pick-reason {
       font-size: .9rem;
-      color: #c8c4bc;
+      color: #d8d2c2;
       line-height: 1.7;
       max-width: 620px;
     }
     .vs-pick-amazon {
       display: inline-block;
       margin-top: 1rem;
-      background: #FF9900;
-      color: #000;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      padding: 7px 14px;
-      border-radius: 4px;
+      background: var(--bs-paper);
+      color: var(--bs-ink);
+      font-family: var(--bs-font-body);
+      font-size: .8rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: var(--bs-radius);
       text-decoration: none;
     }
 
     /* ── combined flavor table ── */
     .vs-table-brand-row td {
-      background: var(--off-white);
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      background: var(--bs-cream);
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      font-weight: 700;
       padding: .4rem .75rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--bs-line-soft);
     }
     .vs-table-brand-row.brand-a td { color: var(--brand-a); }
     .vs-table-brand-row.brand-b td { color: var(--brand-b); }
@@ -359,67 +362,64 @@
       margin-bottom: .75rem;
     }
     .vs-flavor-table-brand {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-weight: 800;
       font-size: 1.1rem;
     }
     .vs-flavor-table-brand.brand-a { color: var(--brand-a); }
     .vs-flavor-table-brand.brand-b { color: var(--brand-b); }
     .vs-flavor-table-count {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: .06em;
+      font-family: var(--bs-font-data);
+      font-size: .78rem;
+      color: var(--bs-text-dim);
     }
 
-    /* ── top bar pick badge ── */
+    /* ── top bar pick badge — reuses grade-A green (functional, not decorative) ── */
     .top-pick-badge {
       display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--accent);
-      color: var(--black);
-      padding: 2px 6px;
+      font-family: var(--bs-font-body);
+      font-size: .68rem;
+      font-weight: 700;
+      background: #2a7a1f;
+      color: var(--bs-paper);
+      padding: 2px 8px;
       border-radius: 3px;
       vertical-align: middle;
       margin-left: 6px;
-      font-weight: 600;
       white-space: nowrap;
     }
 
     /* ── brand verdict ── */
     .vs-brand-verdict {
-      background: var(--off-white);
-      border: 1px solid var(--border);
+      background: var(--bs-cream);
+      border: 1.5px solid var(--bs-ink);
       border-left: 4px solid var(--brand-b);
-      border-radius: var(--radius-lg);
+      border-radius: var(--bs-radius);
       padding: 1.25rem 1.5rem;
       margin-top: 1.5rem;
     }
     .vs-brand-verdict-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .8rem;
+      font-weight: 700;
       color: var(--brand-b);
       margin-bottom: .4rem;
     }
     .vs-brand-verdict-title {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-weight: 800;
       font-size: 1.15rem;
       margin-bottom: .5rem;
-      color: var(--black);
+      color: var(--bs-ink);
     }
     .vs-brand-verdict-reason {
       font-size: .9rem;
-      color: var(--black);
+      color: var(--bs-text-dim);
       line-height: 1.7;
       max-width: 680px;
     }
   </style>
+
 
   <!-- JSON-LD: Article -->
   <script type="application/ld+json">
@@ -564,7 +564,7 @@
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
 
 </head>
-<body class="page-brand">
+<body class="page-brand brand-v1">
 
 <!-- NAV -->
 <nav class="site-nav">
