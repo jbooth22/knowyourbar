@@ -3960,3 +3960,63 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .faq-q { color: var(--bs-ink) !important; font-family: var(--bs-font-body) !important; font-weight: 700 !important; }
 .brand-v1 .faq-a, .brand-v1 .faq-a p { color: var(--bs-text-dim) !important; }
 .brand-v1 .faq-a a { color: var(--bs-ink); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BAR FINDER — brand-v1 overrides
+   Base layout/backgrounds already work unchanged (--black/--white
+   were never remapped). This is about three things: kill the neon
+   accent everywhere it was decorative, de-mono the uppercase labels,
+   and ink-stamp the buy buttons instead of Amazon-orange.
+   Grade colors stay exactly as-is — they're functional, not this.
+   ═══════════════════════════════════════════════════════════════ */
+
+.brand-v1 .panel-label,
+.brand-v1 .grade-filter-label,
+.brand-v1 .preset-desc,
+.brand-v1 .sort-label,
+.brand-v1 .banner-criteria,
+.brand-v1 .tray-label {
+  font-family: var(--bs-font-body) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  font-weight: 600;
+}
+.brand-v1 .label-note { font-family: var(--bs-font-body); }
+
+/* Presets — active state loses the neon left-border, ink only */
+.brand-v1 .preset-btn.active { border-color: var(--bs-ink) !important; border-left-color: var(--bs-ink) !important; background: var(--bs-ink) !important; }
+.brand-v1 .preset-btn:hover { border-color: var(--bs-ink); border-left-color: var(--bs-ink); }
+.brand-v1 .grade-filter-btn:hover, .brand-v1 .grade-filter-btn.active { border-color: var(--bs-ink); }
+.brand-v1 .grade-filter-btn.active .grade-filter-label { color: var(--bs-ink); }
+
+/* Sliders — value chip goes ink instead of neon */
+.brand-v1 .slider-val { font-family: var(--bs-font-data) !important; background: var(--bs-ink); color: var(--bs-paper); }
+.brand-v1 .slider-name { font-family: var(--bs-font-body); color: var(--bs-ink); }
+.brand-v1 input[type="range"]::-webkit-slider-thumb { background: var(--bs-ink); }
+.brand-v1 .search-wrap:focus-within, .brand-v1 .brand-search-wrap:focus-within { border-color: var(--bs-ink); }
+.brand-v1 .brand-item input[type=checkbox] { accent-color: var(--bs-ink); }
+.brand-v1 .brand-clear-btn:hover, .brand-v1 .reset-btn:hover, .brand-v1 select:focus, .brand-v1 .excl-input-row #excl-input:focus { border-color: var(--bs-ink); color: var(--bs-ink); }
+.brand-v1 #excl-add-btn { background: var(--bs-ink); color: var(--bs-paper); }
+.brand-v1 .result-count, .brand-v1 .reset-btn { font-family: var(--bs-font-data); }
+
+/* Results toolbar / table */
+.brand-v1 thead { background: var(--bs-cream); }
+.brand-v1 th { font-family: var(--bs-font-body); letter-spacing: 0; color: var(--bs-text-dim); border-bottom-color: var(--bs-ink); }
+.brand-v1 td { border-bottom-color: var(--bs-line-soft); }
+.brand-v1 #results-table tr:hover td { background: var(--bs-cream); }
+.brand-v1 .bar-brand, .brand-v1 .bar-flavor { color: var(--bs-ink); }
+.brand-v1 .amazon-link, .brand-v1 .cmp-buy-btn { background: var(--bs-ink) !important; color: var(--bs-paper) !important; font-family: var(--bs-font-body) !important; }
+.brand-v1 .cmp-site-btn { border-color: var(--bs-ink); color: var(--bs-ink); background: var(--bs-paper); font-family: var(--bs-font-body) !important; }
+.brand-v1 .visit-link { color: var(--bs-ink); }
+
+/* Preset banner — dark band already reads fine, just lose the neon */
+.brand-v1 .preset-banner { border-bottom-color: var(--bs-ink); }
+.brand-v1 .banner-label { color: var(--bs-paper); font-family: var(--bs-font-display); }
+.brand-v1 .banner-count { font-family: var(--bs-font-data); }
+
+/* Compare tray — lose the neon, ink-stamp the compare button */
+.brand-v1 .tray-compare { background: var(--bs-paper); color: var(--bs-ink); font-family: var(--bs-font-body); }
+.brand-v1 .tray-clear:hover, .brand-v1 .tray-remove:hover { color: var(--bs-paper); }
+
+/* No results state */
+.brand-v1 .no-results button { background: var(--bs-ink); color: var(--bs-paper); font-family: var(--bs-font-body); }

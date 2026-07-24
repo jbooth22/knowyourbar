@@ -17,7 +17,8 @@
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
     .hero--compact {
@@ -62,9 +63,9 @@
     })();
   </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 900+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the tool above."}},
-{"@type":"Question","name":"Which protein bars have no artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"About 35% of the 900+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. Use the Clean preset filter to see all qualifying bars instantly."}},
-{"@type":"Question","name":"How do I find a protein bar that fits my macros?","acceptedAnswer":{"@type":"Answer","text":"Use the macro sliders to set your minimum protein, maximum calories, maximum sugar, and minimum fiber. You can combine any number of filters and see results update instantly. The tool covers 900+ bars with full macro data from the packaging."}},
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the tool above."}},
+{"@type":"Question","name":"Which protein bars have no artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. Use the Clean preset filter to see all qualifying bars instantly."}},
+{"@type":"Question","name":"How do I find a protein bar that fits my macros?","acceptedAnswer":{"@type":"Answer","text":"Use the macro sliders to set your minimum protein, maximum calories, maximum sugar, and minimum fiber. You can combine any number of filters and see results update instantly. The tool covers 1,000+ bars with full macro data from the packaging."}},
 {"@type":"Question","name":"What is an ingredient quality grade?","acceptedAnswer":{"@type":"Answer","text":"Each bar receives an ingredient quality grade from A (Clean) to F (Avoid) based on a score calculated from its ingredient list. Ingredients are mapped to quality scores from +4 (excellent) to -4 (harmful) and weighted by their position in the list. Earlier ingredients are present in larger quantities and contribute more to the score. See the full methodology on our ingredient scoring page."}},
 {"@type":"Question","name":"Are protein bars with sugar alcohols bad for you?","acceptedAnswer":{"@type":"Answer","text":"Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort, bloating, and a laxative effect in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list."}}]}
 </script>
@@ -78,7 +79,7 @@
   <meta name="twitter:title" content="Protein Bar Finder: Filter 1,000+ Bars by Grade, Macros & Ingredients">
   <meta name="twitter:description" content="Filter 1,000+ protein bars by ingredient quality grade, macros, and certifications. Every bar scored A–F. No sponsored picks.">
 </head>
-<body>
+<body class="brand-v1">
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
@@ -126,7 +127,7 @@
     <div class="hero-inner">
       <div class="hero-text">
         <h1 class="hero-headline">Protein Bar Finder</h1>
-        <p class="hero-sub">Filter <strong id="bar-count">1,000+</strong> bars by ingredient grade, macros, certifications, and specific ingredients to exclude. Every result updates instantly. <a href="/ingredient_scoring.html" style="color:#d4f000;text-decoration:underline;">How we score &rarr;</a></p>
+        <p class="hero-sub">Filter <strong id="bar-count">1,000+</strong> bars by ingredient grade, macros, certifications, and specific ingredients to exclude. Every result updates instantly. <a href="/ingredient_scoring.html" style="color:#17140f;text-decoration:underline;">How we score &rarr;</a></p>
       </div>
     </div>
   </header>
@@ -203,7 +204,7 @@
 
       <div class="panel-section panel-section--actions panel-section--actions-top">
         <button class="reset-btn" onclick="resetAll()">↺ Reset all</button>
-        <div class="result-count" id="result-count">900+ bars</div>
+        <div class="result-count" id="result-count">1,000+ bars</div>
       </div>
 
       <div class="panel-section">
@@ -301,7 +302,7 @@
   <section class="faq-section">
   <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
-  <div class="faq-item"><div class="faq-q">What is the healthiest protein bar?</div><div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 900+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the tool above.</p></div></div><div class="faq-item"><div class="faq-q">Which protein bars have no artificial sweeteners?</div><div class="faq-a"><p>About 35% of the 900+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. Use the Clean preset filter to see all qualifying bars instantly.</p></div></div><div class="faq-item"><div class="faq-q">How do I find a protein bar that fits my macros?</div><div class="faq-a"><p>Use the macro sliders to set your minimum protein, maximum calories, maximum sugar, and minimum fiber. You can combine any number of filters and see results update instantly. The tool covers 900+ bars with full macro data from the packaging.</p></div></div><div class="faq-item"><div class="faq-q">What is an ingredient quality grade?</div><div class="faq-a"><p>Each bar receives an ingredient quality grade from A (Clean) to F (Avoid) based on a score calculated from its ingredient list. Ingredients are mapped to quality scores from +4 (excellent) to -4 (harmful) and weighted by their position in the list. Earlier ingredients are present in larger quantities and contribute more to the score. See the full methodology on our ingredient scoring page.</p></div></div><div class="faq-item"><div class="faq-q">Are protein bars with sugar alcohols bad for you?</div><div class="faq-a"><p>Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort, bloating, and a laxative effect in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list.</p></div></div>
+  <div class="faq-item"><div class="faq-q">What is the healthiest protein bar?</div><div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the tool above.</p></div></div><div class="faq-item"><div class="faq-q">Which protein bars have no artificial sweeteners?</div><div class="faq-a"><p>About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. Use the Clean preset filter to see all qualifying bars instantly.</p></div></div><div class="faq-item"><div class="faq-q">How do I find a protein bar that fits my macros?</div><div class="faq-a"><p>Use the macro sliders to set your minimum protein, maximum calories, maximum sugar, and minimum fiber. You can combine any number of filters and see results update instantly. The tool covers 1,000+ bars with full macro data from the packaging.</p></div></div><div class="faq-item"><div class="faq-q">What is an ingredient quality grade?</div><div class="faq-a"><p>Each bar receives an ingredient quality grade from A (Clean) to F (Avoid) based on a score calculated from its ingredient list. Ingredients are mapped to quality scores from +4 (excellent) to -4 (harmful) and weighted by their position in the list. Earlier ingredients are present in larger quantities and contribute more to the score. See the full methodology on our ingredient scoring page.</p></div></div><div class="faq-item"><div class="faq-q">Are protein bars with sugar alcohols bad for you?</div><div class="faq-a"><p>Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort, bloating, and a laxative effect in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list.</p></div></div>
   </div>
 </section>
 
