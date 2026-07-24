@@ -48,10 +48,10 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using our Protein Bar Finder."}},
-    {"@type":"Question","name":"What protein bar has the cleanest ingredients?","acceptedAnswer":{"@type":"Answer","text":"The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually — 340 of the 1,000+ bars in our database meet a strict clean standard. See the full Clean Protein Bars guide for the ranked list."}},
-    {"@type":"Question","name":"Are protein bars ultra-processed?","acceptedAnswer":{"@type":"Answer","text":"Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars — Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category."}},
-    {"@type":"Question","name":"Which protein bars have no seed oils?","acceptedAnswer":{"@type":"Answer","text":"Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern — use the No Seed Oils guide or filter by ingredient grade to find qualifying bars instantly."}},
-    {"@type":"Question","name":"Are protein bars good for weight loss?","acceptedAnswer":{"@type":"Answer","text":"Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar — and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the Low Sugar + High Protein preset in the Protein Bar Finder to see qualifying options ranked by ingredient quality."}},
+    {"@type":"Question","name":"What protein bar has the cleanest ingredients?","acceptedAnswer":{"@type":"Answer","text":"The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually. 340 of the 1,000+ bars in our database meet a strict clean standard. See the full Clean Protein Bars guide for the ranked list."}},
+    {"@type":"Question","name":"Are protein bars ultra-processed?","acceptedAnswer":{"@type":"Answer","text":"Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars: Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category."}},
+    {"@type":"Question","name":"Which protein bars have no seed oils?","acceptedAnswer":{"@type":"Answer","text":"Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern. Use the No Seed Oils guide or filter by ingredient grade to find qualifying bars instantly."}},
+    {"@type":"Question","name":"Are protein bars good for weight loss?","acceptedAnswer":{"@type":"Answer","text":"Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar, and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the Low Sugar + High Protein preset in the Protein Bar Finder to see qualifying options ranked by ingredient quality."}},
     {"@type":"Question","name":"How does Know Your Bar score protein bars?","acceptedAnswer":{"@type":"Answer","text":"Every bar receives an A-F ingredient quality grade. Each ingredient is mapped to a quality score from +4 (excellent) to -4 (harmful), weighted by position in the ingredient list. Ingredients appearing earlier are present in larger quantities and contribute more to the final score. See the full methodology on our ingredient scoring page."}},
     {"@type":"Question","name":"Which protein bars have no artificial sweeteners?","acceptedAnswer":{"@type":"Answer","text":"About 35% of the 1,000+ bars in our database contain no artificial sweeteners. Brands that consistently avoid them include RXBAR, Perfect Bar, Larabar, GoMacro, IQ Bar, Simply Protein, and Munk Pack. See our No Artificial Sweeteners guide or use the Bar Finder's Clean preset to see all qualifying bars instantly."}},
     {"@type":"Question","name":"Are protein bars with sugar alcohols bad for you?","acceptedAnswer":{"@type":"Answer","text":"Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list."}}
@@ -119,681 +119,546 @@
 
   <style>
     /*
-      COLOR SYSTEM (homepage only)
-      --text-primary:   #f7f5f0  - headings, card titles
-      --text-secondary: #c8c5be  - body copy, descriptions, links
-      --text-muted:     #888880  - labels, eyebrows, metadata
-      --bg-page:        #0e0e0e
-      --bg-raised:      #181818  - cards, finder section
-      --bg-border:      #2a2a2a  - card borders
-      --accent:         #d4f000  - CTA buttons ONLY
+      HOMEPAGE COLOR SYSTEM
+      Warm, food-forward dark theme — not a dashboard.
+      --ink:         #171410  - page background (warm near-black, not pure #000)
+      --ink-raised:  #211d17  - cards, finder section, raised panels
+      --ink-border:  #34302a  - hairline borders on dark panels
+      --paper:       #f7f5f0  - headings, high-contrast text
+      --paper-dim:   #d9d4c8  - body copy, descriptions (raised contrast from old #c8c5be)
+      --paper-muted: #a49c8c  - labels, eyebrows, metadata (warmer than old #888880)
+      --accent:      #d4f000  - CTA buttons ONLY
+      --sage:        #8fae6e  - secondary accent: positive/nutrition cues, icons
+      --clay:        #d98a4f  - secondary accent: warnings/concerns
+      All type uses var(--font-display) / var(--font-mono) / var(--font-body),
+      which resolve to DM Sans / DM Mono site-wide (see style.css).
     */
 
     .home-hero {
-      background: #0e0e0e;
-      padding: 5rem 1.5rem 4.5rem;
+      background: var(--ink);
+      padding: 4rem 1.25rem 3.5rem;
       text-align: center;
     }
     .home-hero-eyebrow {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 11px;
-      letter-spacing: .13em;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #888880;
-      margin-bottom: 1.25rem;
+      color: var(--sage);
+      margin-bottom: 1.1rem;
     }
     .home-hero h1 {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 7vw, 3.6rem);
       font-weight: 800;
-      color: #f7f5f0;
-      line-height: 1.08;
+      color: var(--paper);
+      line-height: 1.12;
       max-width: 820px;
-      margin: 0 auto 1.25rem;
-      letter-spacing: -.025em;
+      margin: 0 auto 1.1rem;
+      letter-spacing: -.02em;
     }
     .home-hero-sub {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: var(--font-body);
       font-size: 1.05rem;
-      color: #c8c5be;
+      color: var(--paper-dim);
       max-width: 520px;
-      margin: 0 auto 2.25rem;
-      line-height: 1.65;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
     }
-    .home-hero-sub a {
-      color: #c8c5be;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-color: rgba(200,197,190,.4);
-    }
-    .home-hero-sub a:hover { color: #f7f5f0; }
-    .hero-cta-row {
-      display: flex;
-      gap: .75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    .home-hero-sub a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
+    .home-hero-sub a:hover { color: var(--paper); }
+
+    .hero-cta-row { display: flex; flex-direction: column; align-items: center; gap: .6rem; }
     .hero-cta-primary {
       display: inline-flex;
       align-items: center;
       gap: .5rem;
-      background: #d4f000;
-      color: #0e0e0e;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .9rem;
+      background: var(--accent);
+      color: #14150e;
+      font-family: var(--font-display);
+      font-size: 1rem;
       font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      padding: .85rem 1.75rem;
-      border-radius: 3px;
+      letter-spacing: .01em;
+      padding: 1rem 2.25rem;
+      border-radius: var(--radius);
       text-decoration: none;
-      transition: opacity .15s;
+      transition: transform .15s, opacity .15s;
     }
-    .hero-cta-primary:hover { opacity: .88; }
+    .hero-cta-primary:hover { opacity: .9; transform: translateY(-1px); }
     .hero-trust {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .75rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: #888880;
-      margin: .6rem 0 0;
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--paper-muted);
+      margin: 0;
     }
-    /* Compact inline stats row inside hero */
+
     .hero-stats-row {
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.75rem;
       flex-wrap: wrap;
       margin: 0 auto 2rem;
     }
-    .hero-stat-item {
-      text-align: center;
-      line-height: 1.2;
-    }
+    .hero-stat-item { text-align: center; line-height: 1.25; }
     .hero-stat-value {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 1.35rem;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
       font-weight: 800;
-      color: #d4f000;
+      color: var(--paper);
     }
     .hero-stat-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 9px;
-      letter-spacing: .12em;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      color: #888880;
-      margin-top: .2rem;
+      color: var(--paper-muted);
+      margin-top: .25rem;
     }
 
-    /* Sample bar card */
-    /* A-rated bar row */
-    .hero-a-row {
-      margin: 1.75rem auto 0;
-      max-width: 560px;
-      text-align: center;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .82rem;
-      color: #888880;
-      line-height: 1.6;
+    /* ─── TOP 3 BARS (replaces old single "example bar") ─── */
+    .top-bars-section {
+      background: var(--ink);
+      padding: 3rem 1.25rem 3.5rem;
+      border-top: 1px solid var(--ink-border);
     }
-    .hero-a-row-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .68rem;
+    .top-bars-inner { max-width: 1040px; margin: 0 auto; }
+    .top-bars-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: #888880;
-      margin-bottom: .35rem;
+      color: var(--sage);
+      text-align: center;
+      margin-bottom: .5rem;
     }
-    .hero-a-names {
-      color: #c8c5be;
+    .top-bars-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+      font-weight: 800;
+      color: var(--paper);
+      text-align: center;
+      margin: 0 0 2rem;
+      letter-spacing: -.015em;
     }
-    .hero-a-names a {
-      color: #72d057;
-      text-decoration: none;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(114,208,87,.25);
-      transition: border-color .15s;
+    .top-bars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.1rem;
     }
-    .hero-a-names a:hover { border-color: rgba(114,208,87,.7); }
-    .hero-a-sep { color: #3a3a3a; margin: 0 .3rem; }
-    .hero-a-all {
-      color: #888880;
-      text-decoration: none;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .72rem;
-      letter-spacing: .05em;
-      border-bottom: 1px solid #3a3a3a;
-      transition: color .15s, border-color .15s;
-      white-space: nowrap;
-    }
-    .hero-a-all:hover { color: #c8c5be; border-color: #666; }
-
-    /* Sample bar result card */
-    .hero-sample {
-      margin: 2.75rem auto 0;
-      max-width: 480px;
+    .top-bar-card {
+      background: var(--ink-raised);
+      border: 1px solid var(--ink-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
       text-align: left;
     }
-    .hero-sample-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
-      letter-spacing: .12em;
+    .top-bar-rank {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      color: #888880;
-      text-align: center;
-      margin-bottom: .75rem;
+      color: var(--paper-muted);
+      padding: .8rem 1rem 0;
     }
-    .hero-sample-card {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    /* top row: badge + name + score */
-    .hero-sample-header {
+    .top-bar-header {
       display: flex;
       align-items: center;
-      gap: .875rem;
-      padding: .875rem 1rem;
-      border-bottom: 1px solid #222;
+      gap: .85rem;
+      padding: .6rem 1rem .9rem;
+      border-bottom: 1px solid var(--ink-border);
     }
-    .hero-sample-badge {
+    .top-bar-badge {
       flex-shrink: 0;
-      width: 44px;
-      height: 44px;
-      border-radius: 5px;
+      width: 42px;
+      height: 42px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 1.4rem;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
       font-weight: 800;
-      color: #0e0e0e;
-      background: #5a8a2f;
+      color: #14150e;
+      background: #2a7a1f;
     }
-    .hero-sample-title { flex: 1; min-width: 0; }
-    .hero-sample-name {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .9rem;
+    .top-bar-title { flex: 1; min-width: 0; }
+    .top-bar-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
       font-weight: 700;
-      color: #f7f5f0;
+      color: var(--paper);
       line-height: 1.25;
-      margin-bottom: .1rem;
     }
-    .hero-sample-brand {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .7rem;
-      color: #888880;
+    .top-bar-brand {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--paper-muted);
       text-transform: uppercase;
-      letter-spacing: .07em;
+      letter-spacing: .05em;
+      margin-top: .1rem;
     }
-    .hero-sample-score {
-      text-align: right;
-      flex-shrink: 0;
-    }
-    .hero-sample-score-val {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: #5a8a2f;
-      line-height: 1;
-    }
-    .hero-sample-score-lbl {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .65rem;
-      color: #888880;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-    /* score bar */
-    .hero-sample-bar-row {
-      padding: .75rem 1rem .6rem;
-      border-bottom: 1px solid #222;
-    }
-    .hero-sample-bar-track {
-      height: 6px;
-      background: #2a2a2a;
-      border-radius: 3px;
-      overflow: hidden;
-      display: flex;
-    }
-    .hero-sample-bar-pos {
-      height: 100%;
-      background: #5a8a2f;
-      border-radius: 3px 0 0 3px;
-      width: 82%;
-    }
-    .hero-sample-bar-neg {
-      height: 100%;
-      background: #c87020;
-      border-radius: 0 3px 3px 0;
-      width: 12%;
-      margin-left: auto;
-    }
-    .hero-sample-bar-meta {
-      display: flex;
-      justify-content: space-between;
-      margin-top: .35rem;
-    }
-    .hero-sample-bar-pos-lbl {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .68rem;
-      color: #7ab33e;
-      letter-spacing: .04em;
-    }
-    .hero-sample-bar-neg-lbl {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .68rem;
-      color: #c87020;
-      letter-spacing: .04em;
-    }
-    /* chips */
-    .hero-sample-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .4rem;
-      padding: .65rem 1rem;
-      border-bottom: 1px solid #222;
-    }
-    .hero-sample-chip {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .68rem;
-      letter-spacing: .04em;
-      padding: .25rem .6rem;
+    .top-bar-score { text-align: right; flex-shrink: 0; }
+    .top-bar-score-val { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 500; color: #6fae4a; line-height: 1; }
+    .top-bar-score-lbl { font-family: var(--font-mono); font-size: .62rem; color: var(--paper-muted); text-transform: uppercase; }
+    .top-bar-chips { display: flex; flex-wrap: wrap; gap: .4rem; padding: .8rem 1rem; }
+    .top-bar-chip {
+      font-family: var(--font-body);
+      font-size: .74rem;
+      padding: .3rem .65rem;
       border-radius: 20px;
       border: 1px solid;
     }
-    .hero-sample-chip.pos {
-      background: rgba(42,122,31,.15);
-      color: #72d057;
-      border-color: rgba(42,122,31,.4);
-    }
-    .hero-sample-chip.con {
-      background: rgba(200,112,32,.15);
-      color: #d97830;
-      border-color: rgba(200,112,32,.4);
-    }
-    /* macros */
-    .hero-sample-macros {
+    .top-bar-chip.pos { background: rgba(143,174,110,.14); color: #a9c78f; border-color: rgba(143,174,110,.4); }
+    .top-bar-chip.con { background: rgba(217,138,79,.14); color: var(--clay); border-color: rgba(217,138,79,.4); }
+    .top-bar-macros {
       display: flex;
-      padding: .65rem 1rem;
-      gap: 0;
+      flex-wrap: wrap;
+      gap: .9rem;
+      padding: 0 1rem .9rem;
     }
-    .hero-sample-macro {
+    .top-bar-macro { display: flex; flex-direction: column; gap: 1px; }
+    .top-bar-macro-val { font-family: var(--font-mono); font-size: .88rem; font-weight: 500; color: var(--paper); }
+    .top-bar-macro-lbl { font-family: var(--font-mono); font-size: .62rem; color: var(--paper-muted); text-transform: uppercase; }
+    .top-bar-buy {
+      display: flex;
+      gap: .5rem;
+      padding: .9rem 1rem;
+      border-top: 1px solid var(--ink-border);
+      flex-wrap: wrap;
+    }
+    .top-bar-buy a {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      border-right: 1px solid #222;
-      padding-right: .75rem;
-      margin-right: .75rem;
-    }
-    .hero-sample-macro:last-child {
-      border-right: none;
-      padding-right: 0;
-      margin-right: 0;
-    }
-    .hero-sample-macro-val {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .88rem;
-      font-weight: 500;
-      color: #f7f5f0;
-    }
-    .hero-sample-macro-lbl {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .65rem;
-      color: #888880;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-    }
-    .hero-sample-caption {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .77rem;
-      color: #888880;
+      min-width: 110px;
       text-align: center;
-      margin-top: .7rem;
-      line-height: 1.5;
+      font-family: var(--font-display);
+      font-size: .82rem;
+      font-weight: 700;
+      padding: .65rem .75rem;
+      border-radius: var(--radius);
+      text-decoration: none;
     }
+    .top-bar-buy .buy-amazon { background: var(--accent); color: #14150e; }
+    .top-bar-buy .buy-amazon:hover { opacity: .88; }
+    .top-bar-buy .buy-site { background: transparent; border: 1px solid var(--ink-border); color: var(--paper-dim); }
+    .top-bar-buy .buy-site:hover { border-color: var(--paper-muted); color: var(--paper); }
+    .top-bars-caption {
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--paper-muted);
+      text-align: center;
+      margin-top: 1.75rem;
+    }
+    .top-bars-caption a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
+    .top-bars-caption a:hover { color: var(--paper); }
 
-    /* Grade strip */
+    /* ─── GRADE SCALE (fixed: wraps on mobile instead of clipping) ─── */
     .grade-strip {
-      background: #141414;
-      border-top: 1px solid #222;
-      border-bottom: 1px solid #222;
-      padding: 1rem 1.5rem;
+      background: var(--ink-raised);
+      border-top: 1px solid var(--ink-border);
+      border-bottom: 1px solid var(--ink-border);
+      padding: 1rem 1.25rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1.25rem;
+      gap: .9rem 1.25rem;
       flex-wrap: wrap;
     }
     .grade-strip-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: #888880;
-    }
-    .grade-pills { display: flex; gap: .4rem; flex-wrap: nowrap; justify-content: center; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .grade-pills::-webkit-scrollbar { display: none; }
-    .grade-pill {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .7rem;
-      font-weight: 500;
-      padding: .2rem .55rem;
-      border-radius: 3px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .grade-pill.a { background: rgba(42,122,31,.25);  color: #72d057; border: 1px solid rgba(42,122,31,.5); }
-    .grade-pill.b { background: rgba(90,138,47,.25);  color: #8fc760; border: 1px solid rgba(90,138,47,.5); }
-    .grade-pill.c { background: rgba(184,154,0,.2);   color: #ccaa00; border: 1px solid rgba(184,154,0,.4); }
-    .grade-pill.d { background: rgba(200,112,32,.2);  color: #d97830; border: 1px solid rgba(200,112,32,.4); }
-    .grade-pill.f { background: rgba(200,48,32,.2);   color: #d94030; border: 1px solid rgba(200,48,32,.4); }
-    .grade-strip-link {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: #888880;
+      color: var(--paper-muted);
+      flex-basis: 100%;
+      text-align: center;
+    }
+    .grade-pills {
+      display: flex;
+      gap: .45rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .grade-pill {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      font-weight: 500;
+      padding: .3rem .65rem;
+      border-radius: var(--radius);
+      white-space: nowrap;
+    }
+    .grade-pill.a { background: rgba(42,122,31,.22);  color: #7fc95e; border: 1px solid rgba(42,122,31,.5); }
+    .grade-pill.b { background: rgba(90,138,47,.22);  color: #9ed46e; border: 1px solid rgba(90,138,47,.5); }
+    .grade-pill.c { background: rgba(184,154,0,.18);  color: #e0bd2e; border: 1px solid rgba(184,154,0,.4); }
+    .grade-pill.d { background: rgba(200,112,32,.18); color: #e4914a; border: 1px solid rgba(200,112,32,.4); }
+    .grade-pill.f { background: rgba(200,48,32,.18);  color: #e6584a; border: 1px solid rgba(200,48,32,.4); }
+    .grade-strip-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--paper-muted);
       text-decoration: underline;
       text-underline-offset: 3px;
       white-space: nowrap;
+      flex-basis: 100%;
+      text-align: center;
     }
-    .grade-strip-link:hover { color: #c8c5be; }
-
-    /* Stats */
-    .stats-bar {
-      background: #0e0e0e;
-      padding: 2.25rem 1.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 3.5rem;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #1e1e1e;
-    }
-    .stat-item { text-align: center; }
-    .stat-value {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 2.25rem;
-      font-weight: 800;
-      color: #f7f5f0;
-      line-height: 1;
-    }
-    .stat-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 9px;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      color: #888880;
-      margin-top: .4rem;
-    }
+    .grade-strip-link:hover { color: var(--paper-dim); }
 
     /* Trust strip */
     .trust-strip {
-      background: #0e0e0e;
-      border-bottom: 1px solid #1e1e1e;
-      padding: .9rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .6rem;
-    }
-    .trust-strip-mark {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .7rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #888880;
-      flex-shrink: 0;
-    }
-    .trust-strip-divider {
-      width: 1px;
-      height: 12px;
-      background: #2a2a2a;
-      flex-shrink: 0;
+      background: var(--ink);
+      border-bottom: 1px solid var(--ink-border);
+      padding: .9rem 1.25rem;
+      text-align: center;
     }
     .trust-strip-quote {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .82rem;
-      color: #c8c5be;
+      font-family: var(--font-body);
+      font-size: .88rem;
+      color: var(--paper-dim);
       font-style: italic;
     }
 
-    /* Bar Finder - major section */
+    /* ─── BAR FINDER — moved above grade scale/methodology, major section ─── */
     .finder-hero-section {
-      background: #181818;
-      border-bottom: 1px solid #2a2a2a;
-      padding: 3.5rem 1.5rem;
+      background: var(--ink-raised);
+      border-bottom: 1px solid var(--ink-border);
+      padding: 3rem 1.25rem;
     }
-    .finder-hero-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      text-align: center;
-    }
+    .finder-hero-inner { max-width: 860px; margin: 0 auto; text-align: center; }
     .finder-hero-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
-      letter-spacing: .14em;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #888880;
+      color: var(--sage);
       margin-bottom: .75rem;
     }
     .finder-hero-heading {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 4.5vw, 2.15rem);
       font-weight: 800;
-      color: #f7f5f0;
-      letter-spacing: -.025em;
-      margin: 0 0 1rem;
-      line-height: 1.1;
+      color: var(--paper);
+      letter-spacing: -.02em;
+      margin: 0 0 .9rem;
+      line-height: 1.15;
     }
     .finder-hero-desc {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .95rem;
-      color: #c8c5be;
-      line-height: 1.65;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--paper-dim);
+      line-height: 1.6;
       max-width: 600px;
-      margin: 0 auto 1.75rem;
+      margin: 0 auto 1.5rem;
     }
     .finder-feature-row {
       display: flex;
       flex-wrap: wrap;
-      gap: .5rem;
+      gap: .55rem;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
     .finder-feature-chip {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: .3rem .75rem;
-      background: #222;
-      border: 1px solid #333;
-      color: #c8c5be;
-      border-radius: 3px;
+      font-family: var(--font-body);
+      font-size: .82rem;
+      font-weight: 500;
+      padding: .45rem .9rem;
+      background: var(--ink);
+      border: 1px solid var(--ink-border);
+      color: var(--paper-dim);
+      border-radius: 20px;
     }
     .finder-hero-btn {
       display: inline-flex;
       align-items: center;
       gap: .6rem;
-      background: #d4f000;
-      color: #0e0e0e;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 1rem;
+      background: var(--accent);
+      color: #14150e;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
       font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
       padding: 1.1rem 2.5rem;
-      border-radius: 3px;
+      border-radius: var(--radius);
       text-decoration: none;
       transition: opacity .15s;
     }
     .finder-hero-btn:hover { opacity: .88; }
 
     /* Goal section */
-    .goal-section {
-      background: #0e0e0e;
-      padding: 4rem 1.5rem;
-    }
+    .goal-section { background: var(--ink); padding: 3.5rem 1.25rem; }
     .goal-section-inner { max-width: 960px; margin: 0 auto; }
     .section-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10px;
-      letter-spacing: .14em;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #888880;
-      margin-bottom: .6rem;
+      color: var(--sage);
+      margin-bottom: .5rem;
     }
     .section-heading {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3.2vw, 1.8rem);
       font-weight: 700;
-      color: #f7f5f0;
-      margin: 0 0 2rem;
-      letter-spacing: -.02em;
+      color: var(--paper);
+      margin: 0 0 1.75rem;
+      letter-spacing: -.015em;
     }
-    .goal-groups { display: flex; flex-direction: column; gap: 2.25rem; }
+    .goal-groups { display: flex; flex-direction: column; gap: 2rem; }
     .goal-group-label {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 9px;
-      letter-spacing: .15em;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: #888880;
+      color: var(--paper-muted);
       margin-bottom: .75rem;
       padding-bottom: .5rem;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid var(--ink-border);
     }
     .goal-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: .75rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: .8rem;
     }
     .goal-card {
       display: block;
-      background: #181818;
-      border: 1px solid #2a2a2a;
-      border-radius: 4px;
+      background: var(--ink-raised);
+      border: 1px solid var(--ink-border);
+      border-radius: var(--radius);
       padding: 1.25rem 1.25rem 1.1rem;
       text-decoration: none;
       transition: border-color .15s, background .15s;
     }
-    .goal-card:hover { border-color: #555; background: #1e1e1e; }
+    .goal-card:hover { border-color: #55503f; background: #262117; }
     .goal-card.goal-card--featured {
       border-color: rgba(212,240,0,.35);
-      background: rgba(212,240,0,.05);
+      background: rgba(212,240,0,.06);
       grid-column: 1 / -1;
       display: flex;
       align-items: center;
       gap: 1.25rem;
       padding: 1.1rem 1.4rem;
     }
-    .goal-card.goal-card--featured:hover {
-      border-color: rgba(212,240,0,.65);
-      background: rgba(212,240,0,.09);
-    }
-    .goal-card.goal-card--featured .goal-card-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0;
-      flex-shrink: 0;
-    }
+    .goal-card.goal-card--featured:hover { border-color: rgba(212,240,0,.65); background: rgba(212,240,0,.1); }
+    .goal-card.goal-card--featured .goal-card-icon { font-size: 1.6rem; margin-bottom: 0; flex-shrink: 0; }
     .goal-card.goal-card--featured .goal-card-body { flex: 1; }
     .goal-card.goal-card--featured .goal-card-name { color: #d4f000; }
     .goal-card.goal-card--featured .goal-card-arrow {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: .75rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
       color: #d4f000;
       flex-shrink: 0;
-      opacity: .7;
+      opacity: .75;
     }
     .goal-card.goal-card--featured:hover .goal-card-arrow { opacity: 1; }
     .goal-card-icon { font-size: 1.3rem; margin-bottom: .6rem; line-height: 1; }
     .goal-card-name {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .9rem;
+      font-family: var(--font-display);
+      font-size: .95rem;
       font-weight: 700;
-      color: #f7f5f0;
+      color: var(--paper);
       margin-bottom: .3rem;
       letter-spacing: -.01em;
     }
-    .goal-card-desc {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .8rem;
-      color: #c8c5be;
-      line-height: 1.45;
-    }
+    .goal-card-desc { font-family: var(--font-body); font-size: .84rem; color: var(--paper-dim); line-height: 1.5; }
 
-    /* About */
-    .about-section {
-      background: #141414;
-      padding: 4rem 1.5rem;
-      border-top: 1px solid #1e1e1e;
-    }
+    /* About — inline linked lists per user request, not dead-end single links */
+    .about-section { background: var(--ink-raised); padding: 3.5rem 1.25rem; border-top: 1px solid var(--ink-border); }
     .about-inner { max-width: 960px; margin: 0 auto; }
     .about-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 1.5rem;
-      margin-top: 2rem;
+      margin-top: 1.75rem;
     }
-    .about-card { border-top: 2px solid #3a3a3a; padding-top: 1rem; }
+    .about-card { border-top: 2px solid #4a4536; padding-top: 1rem; }
     .about-card-title {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .95rem;
+      font-family: var(--font-display);
+      font-size: 1rem;
       font-weight: 700;
-      color: #f7f5f0;
+      color: var(--paper);
       margin-bottom: .5rem;
       letter-spacing: -.01em;
     }
-    .about-card-body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .83rem;
-      color: #c8c5be;
-      line-height: 1.6;
-      margin-bottom: .75rem;
+    .about-card-body { font-family: var(--font-body); font-size: .85rem; color: var(--paper-dim); line-height: 1.6; margin-bottom: .75rem; }
+    .about-card-links { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .5rem; }
+    .about-card-links a {
+      font-family: var(--font-body);
+      font-size: .82rem;
+      color: var(--paper-dim);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(217,212,200,.25);
+      width: fit-content;
     }
+    .about-card-links a:hover { color: var(--paper); border-color: var(--paper); }
     .about-card-link {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 9px;
-      letter-spacing: .12em;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #c8c5be;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-color: rgba(200,197,190,.35);
+      color: var(--sage);
+      text-decoration: none;
     }
-    .about-card-link:hover { color: #f7f5f0; }
+    .about-card-link:hover { color: var(--paper); }
 
-    /* FAQ - explicit overrides so question text is visible */
-    .home-faq {
-      background: #0e0e0e;
-      padding: 4rem 1.5rem;
-      border-top: 1px solid #1e1e1e;
-    }
+    /* FAQ */
+    .home-faq { background: var(--ink); padding: 3.5rem 1.25rem; border-top: 1px solid var(--ink-border); }
     .home-faq-inner { max-width: 720px; margin: 0 auto; }
-    .home-faq .faq-item { border-bottom: 1px solid #222; }
+    .home-faq .faq-item { border-bottom: 1px solid var(--ink-border); }
     .home-faq .faq-q {
-      color: #f7f5f0 !important;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-      font-size: .95rem !important;
+      color: var(--paper) !important;
+      font-family: var(--font-display) !important;
+      font-size: 1rem !important;
       font-weight: 500 !important;
     }
-    .home-faq .faq-a p {
-      color: #c8c5be;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: .875rem;
-      line-height: 1.65;
-    }
-    .home-faq .faq-a a { color: #c8c5be; text-decoration: underline; text-underline-offset: 3px; }
-    .home-faq .faq-a a:hover { color: #f7f5f0; }
+    .home-faq .faq-a p { color: var(--paper-dim); font-family: var(--font-body); font-size: .92rem; line-height: 1.65; }
+    .home-faq .faq-a a { color: var(--paper-dim); text-decoration: underline; text-underline-offset: 3px; }
+    .home-faq .faq-a a:hover { color: var(--paper); }
 
-    /* Extracted from inline styles */
-    .site-nav-link--highlight { color: #d4f000; font-weight: 600; }
-    .hero-a-strip { padding: 1.25rem 1.5rem; background: #141414; border-bottom: 1px solid #1e1e1e; }
-    .home-faq .section-label { margin-bottom: .6rem; }
-    .home-faq .section-heading { margin-bottom: 1.5rem; }
+    /* Nav highlight + misc */
+    .site-nav-link--highlight { color: var(--accent); font-weight: 600; }
+
+    /* ─── FOOTER — grouped columns, readable on mobile ─── */
+    .home-footer { background: var(--ink-raised); border-top: 1px solid var(--ink-border); padding: 3rem 1.25rem 1.75rem; }
+    .home-footer-inner { max-width: 1040px; margin: 0 auto; }
+    .home-footer-top {
+      display: grid;
+      grid-template-columns: 1.3fr repeat(3, 1fr);
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--ink-border);
+    }
+    .home-footer-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--paper); text-decoration: none; }
+    .home-footer-tagline { font-family: var(--font-body); font-size: .85rem; color: var(--paper-muted); margin-top: .6rem; line-height: 1.55; }
+    .home-footer-col-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: .85rem;
+    }
+    .home-footer-col a {
+      display: block;
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--paper-dim);
+      text-decoration: none;
+      padding: .3rem 0;
+    }
+    .home-footer-col a:hover { color: var(--paper); }
+    .home-footer-copy {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--paper-muted);
+      text-align: center;
+      margin-top: 1.75rem;
+    }
+    @media (max-width: 760px) {
+      .home-footer-top { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
+      .home-footer-brand-block { grid-column: 1 / -1; }
+    }
   </style>
+
 </head>
 <body>
 
@@ -822,7 +687,6 @@
         <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
         <a href="/keto-protein-bars.html">Keto Protein Bars</a>
         <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
-        <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
       </div>
     </div>
     <div class="site-nav-group">
@@ -845,7 +709,7 @@
   <div class="home-hero-eyebrow">The Protein Bar Database &middot; No Sponsored Picks</div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
-    1,000+ bars graded A&ndash;F &mdash; see which ones actually pass. No affiliate deals, no brand payments.
+    1,000+ bars graded A&ndash;F, see which ones actually pass. No affiliate deals, no brand payments.
   </p>
   <div class="hero-stats-row">
     <div class="hero-stat-item">
@@ -868,79 +732,130 @@
 
   <div class="hero-cta-row">
     <a href="/bar-finder.html" class="hero-cta-primary">Find My Bar &rarr;</a>
-    <p class="hero-trust">Answer 3 questions &middot; Get your match in 30 seconds</p>
+    <p class="hero-trust">Filter by protein, sugar, and ingredient grade &middot; results in seconds</p>
   </div>
+</header>
 
-  <div class="hero-sample">
-    <div class="hero-sample-label">This is what a grade looks like</div>
-    <div class="hero-sample-card">
+<!-- BAR FINDER - moved above grade scale / methodology per feedback -->
+<section class="finder-hero-section">
+  <div class="finder-hero-inner">
+    <div class="finder-hero-label">Protein Bar Finder</div>
+    <h2 class="finder-hero-heading">Filter 1,000+ bars by exactly what matters to you</h2>
+    <p class="finder-hero-desc">Set your minimum protein, maximum sugar, ingredient grade, brand, certifications, and ingredients to exclude. Every filter combines instantly. No lists, no listicles. Just the bars that actually match your goals.</p>
+    <div class="finder-feature-row">
+      <span class="finder-feature-chip">Ingredient Grade A&ndash;F</span>
+      <span class="finder-feature-chip">Protein &amp; Calorie Sliders</span>
+      <span class="finder-feature-chip">Sugar &amp; Fiber Sliders</span>
+      <span class="finder-feature-chip">Brand Filter</span>
+      <span class="finder-feature-chip">Exclude Ingredients</span>
+      <span class="finder-feature-chip">Certifications</span>
+      <span class="finder-feature-chip">Compare Side-by-Side</span>
+    </div>
+    <a href="/bar-finder.html" class="finder-hero-btn">Open the Bar Finder &rarr;</a>
+  </div>
+</section>
 
-      <div class="hero-sample-header">
-        <div class="hero-sample-badge">B</div>
-        <div class="hero-sample-title">
-          <div class="hero-sample-name">Salted Peanut Butter</div>
-          <div class="hero-sample-brand">Atlas</div>
+<!-- TOP 3 BARS — replaces the old single example card, real data + affiliate links -->
+<section class="top-bars-section">
+  <div class="top-bars-inner">
+    <div class="top-bars-label">Top A-Rated Bars</div>
+    <h2 class="top-bars-heading">This is what a grade looks like</h2>
+    <div class="top-bars-grid">
+
+      <div class="top-bar-card">
+        <div class="top-bar-rank">No. 1</div>
+        <div class="top-bar-header">
+          <div class="top-bar-badge">A</div>
+          <div class="top-bar-title">
+            <div class="top-bar-name">Cookie Dough</div>
+            <div class="top-bar-brand">Munk Pack</div>
+          </div>
+          <div class="top-bar-score">
+            <div class="top-bar-score-val">11.5</div>
+            <div class="top-bar-score-lbl">Score</div>
+          </div>
         </div>
-        <div class="hero-sample-score">
-          <div class="hero-sample-score-val">6</div>
-          <div class="hero-sample-score-lbl">Score</div>
+        <div class="top-bar-chips">
+          <span class="top-bar-chip pos">Nut &amp; Seed Blend</span>
+          <span class="top-bar-chip pos">Non-GMO Soy Protein</span>
+          <span class="top-bar-chip con">Glycerin</span>
+        </div>
+        <div class="top-bar-macros">
+          <div class="top-bar-macro"><span class="top-bar-macro-val">15g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">220</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">1g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">5g</span><span class="top-bar-macro-lbl">Fiber</span></div>
+        </div>
+        <div class="top-bar-buy">
+          <a href="https://www.amazon.com/dp/B0DL79899S?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
+          <a href="https://munkpack.com/products/cookie-dough-probiotic-protein-bar-12-count" target="_blank" rel="noopener" class="buy-site">Brand site</a>
         </div>
       </div>
 
-      <div class="hero-sample-bar-row">
-        <div class="hero-sample-bar-track">
-          <div class="hero-sample-bar-pos" style="width:92%"></div>
-          <div class="hero-sample-bar-neg" style="width:6%"></div>
+      <div class="top-bar-card">
+        <div class="top-bar-rank">No. 2</div>
+        <div class="top-bar-header">
+          <div class="top-bar-badge">A</div>
+          <div class="top-bar-title">
+            <div class="top-bar-name">Peanut Butter</div>
+            <div class="top-bar-brand">Perfect Bar</div>
+          </div>
+          <div class="top-bar-score">
+            <div class="top-bar-score-val">11.0</div>
+            <div class="top-bar-score-lbl">Score</div>
+          </div>
         </div>
-        <div class="hero-sample-bar-meta">
-          <span class="hero-sample-bar-pos-lbl">+6.6 positive</span>
-          <span class="hero-sample-bar-neg-lbl">-0.6 concerns</span>
+        <div class="top-bar-chips">
+          <span class="top-bar-chip pos">Peanut Butter</span>
+          <span class="top-bar-chip pos">Whole Egg Powder</span>
+          <span class="top-bar-chip con">Honey</span>
+        </div>
+        <div class="top-bar-macros">
+          <div class="top-bar-macro"><span class="top-bar-macro-val">10g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">230</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">13g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">2g</span><span class="top-bar-macro-lbl">Fiber</span></div>
+        </div>
+        <div class="top-bar-buy">
+          <a href="https://www.amazon.com/dp/B08PG5ZHZL?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
+          <a href="https://perfectsnacks.com/products/peanut-butter-snack-size-1" target="_blank" rel="noopener" class="buy-site">Brand site</a>
         </div>
       </div>
 
-      <div class="hero-sample-chips">
-        <span class="hero-sample-chip pos">Quality Protein Source</span>
-        <span class="hero-sample-chip pos">Short Clean List</span>
-        <span class="hero-sample-chip con">Glycerin</span>
-      </div>
-
-      <div class="hero-sample-macros">
-        <div class="hero-sample-macro">
-          <span class="hero-sample-macro-val">20g</span>
-          <span class="hero-sample-macro-lbl">Protein</span>
+      <div class="top-bar-card">
+        <div class="top-bar-rank">No. 3</div>
+        <div class="top-bar-header">
+          <div class="top-bar-badge">A</div>
+          <div class="top-bar-title">
+            <div class="top-bar-name">Coconut Chocolate</div>
+            <div class="top-bar-brand">RXBAR</div>
+          </div>
+          <div class="top-bar-score">
+            <div class="top-bar-score-val">10.3</div>
+            <div class="top-bar-score-lbl">Score</div>
+          </div>
         </div>
-        <div class="hero-sample-macro">
-          <span class="hero-sample-macro-val">200</span>
-          <span class="hero-sample-macro-lbl">Calories</span>
+        <div class="top-bar-chips">
+          <span class="top-bar-chip pos">Egg Whites</span>
+          <span class="top-bar-chip pos">Dates &amp; Almonds</span>
+          <span class="top-bar-chip con">Natural Flavors</span>
         </div>
-        <div class="hero-sample-macro">
-          <span class="hero-sample-macro-val">0g</span>
-          <span class="hero-sample-macro-lbl">Sugar</span>
+        <div class="top-bar-macros">
+          <div class="top-bar-macro"><span class="top-bar-macro-val">12g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">200</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">14g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">5g</span><span class="top-bar-macro-lbl">Fiber</span></div>
         </div>
-        <div class="hero-sample-macro">
-          <span class="hero-sample-macro-val">11g</span>
-          <span class="hero-sample-macro-lbl">Fiber</span>
+        <div class="top-bar-buy">
+          <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
+          <a href="/rxbar-review.html" class="buy-site">Full RXBAR review</a>
         </div>
       </div>
 
     </div>
-    <div class="hero-sample-caption">1,000+ bars graded this way &middot; no sponsored picks</div>
+    <div class="top-bars-caption">Ranked by ingredient score, highest first. <a href="/bar-finder.html">See all 150+ A-rated bars &rarr;</a></div>
   </div>
-</header>
-
-<!-- TOP A-RATED BARS — reward for scrollers, below the hero fold -->
-<div class="hero-a-row hero-a-strip">
-  <div class="hero-a-row-label">Top A-rated bars</div>
-  <div class="hero-a-names">
-    <a href="/rxbar-review.html">RXBAR Chocolate Sea Salt</a>
-    <span class="hero-a-sep">&middot;</span>
-    <a href="/perfect-bar-review.html">Perfect Bar Dark Chocolate</a>
-    <span class="hero-a-sep">&middot;</span>
-    <a href="/iq-bar-review.html">IQ Bar Lemon Blueberry</a>
-    <span class="hero-a-sep">&middot;</span>
-    <a href="/bar-finder.html" class="hero-a-all">See all 150+ A-rated bars &rarr;</a>
-  </div>
-</div>
+</section>
 
 <!-- GRADE SCALE -->
 <div class="grade-strip">
@@ -955,29 +870,9 @@
   <a href="/ingredient_scoring.html" class="grade-strip-link">Full methodology &rarr;</a>
 </div>
 
-
 <div class="trust-strip">
-  <span class="trust-strip-quote">1,000+ bars scored by ingredient quality &mdash; no sponsored picks, no affiliate rankings, no BS.</span>
+  <span class="trust-strip-quote">1,000+ bars scored by ingredient quality, no sponsored picks, no affiliate rankings, no BS.</span>
 </div>
-
-<!-- BAR FINDER - PROMINENT -->
-<section class="finder-hero-section">
-  <div class="finder-hero-inner">
-    <div class="finder-hero-label">Protein Bar Finder</div>
-    <h2 class="finder-hero-heading">Filter 1,000+ bars by exactly what matters to you</h2>
-    <p class="finder-hero-desc">Set your minimum protein, maximum sugar, ingredient grade, brand, certifications, and ingredients to exclude. Every filter combines instantly. No lists, no listicles - just the bars that actually match your goals.</p>
-    <div class="finder-feature-row">
-      <span class="finder-feature-chip">Ingredient Grade A&ndash;F</span>
-      <span class="finder-feature-chip">Protein &amp; Calorie Sliders</span>
-      <span class="finder-feature-chip">Sugar &amp; Fiber Sliders</span>
-      <span class="finder-feature-chip">Brand Filter</span>
-      <span class="finder-feature-chip">Exclude Ingredients</span>
-      <span class="finder-feature-chip">Certifications</span>
-      <span class="finder-feature-chip">Compare Side-by-Side</span>
-    </div>
-    <a href="/bar-finder.html" class="finder-hero-btn">Open the Bar Finder &rarr;</a>
-  </div>
-</section>
 
 <!-- GOAL SELECTOR -->
 <section class="goal-section">
@@ -994,7 +889,7 @@
             <div class="goal-card-icon">⭐</div>
             <div class="goal-card-body">
               <div class="goal-card-name">Show me the best bars</div>
-              <div class="goal-card-desc">150+ A-rated bars, ranked by ingredient score — no filters needed</div>
+              <div class="goal-card-desc">150+ A-rated bars, ranked by ingredient score, no filters needed</div>
             </div>
             <div class="goal-card-arrow">See all &rarr;</div>
           </a>
@@ -1002,54 +897,35 @@
       </div>
 
       <div>
-        <div class="goal-group-label">Clean Living</div>
-        <div class="goal-grid">
-          <a href="/clean-protein-bars.html" class="goal-card">
-            <div class="goal-card-icon">🌿</div>
-            <div class="goal-card-name">Clean Ingredients</div>
-            <div class="goal-card-desc">No artificial sweeteners, no sugar alcohols, real food first</div>
-          </a>
-          <a href="/no-artificial-sweeteners.html" class="goal-card">
-            <div class="goal-card-icon">🚫</div>
-            <div class="goal-card-name">No Artificial Sweeteners</div>
-            <div class="goal-card-desc">Zero sucralose, aspartame, ace-K, or saccharin</div>
-          </a>
-          <a href="/no-sugar-alcohols.html" class="goal-card">
-            <div class="goal-card-icon">&#10060;</div>
-            <div class="goal-card-name">No Sugar Alcohols</div>
-            <div class="goal-card-desc">Skip erythritol, maltitol, and similar compounds</div>
-          </a>
-          <a href="/no-seed-oils.html" class="goal-card">
-            <div class="goal-card-icon">🫒</div>
-            <div class="goal-card-name">No Seed Oils</div>
-            <div class="goal-card-desc">Avoid canola, soybean, sunflower, and palm oil</div>
-          </a>
-        </div>
-      </div>
-
-      <div>
-        <div class="goal-group-label">Macros &amp; Performance</div>
+        <div class="goal-group-label">By goal</div>
         <div class="goal-grid">
           <a href="/low-sugar-high-protein.html" class="goal-card">
-            <div class="goal-card-icon">📉</div>
-            <div class="goal-card-name">Low Sugar + High Protein</div>
-            <div class="goal-card-desc">The macro combination most people are actually after</div>
+            <div class="goal-card-icon">💪</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">Lose weight</div>
+              <div class="goal-card-desc">High protein, low sugar, under 200 calories</div>
+            </div>
           </a>
-        </div>
-      </div>
-
-      <div>
-        <div class="goal-group-label">Specific Eating Habits</div>
-        <div class="goal-grid">
+          <a href="/clean-protein-bars.html" class="goal-card">
+            <div class="goal-card-icon">🌱</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">Clean ingredients</div>
+              <div class="goal-card-desc">Grade A bars, no artificial sweeteners or sugar alcohols</div>
+            </div>
+          </a>
+          <a href="/no-sugar-alcohols.html" class="goal-card">
+            <div class="goal-card-icon">🍬</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">Skip the sugar</div>
+              <div class="goal-card-desc">Under 2g sugar, no maltitol or sorbitol</div>
+            </div>
+          </a>
           <a href="/keto-protein-bars.html" class="goal-card">
             <div class="goal-card-icon">🥑</div>
-            <div class="goal-card-name">Keto Friendly</div>
-            <div class="goal-card-desc">Under 5g net carbs, graded for ingredient quality</div>
-          </a>
-          <a href="/best-bars-for-diabetics.html" class="goal-card">
-            <div class="goal-card-icon">🩺</div>
-            <div class="goal-card-name">Best for Diabetics</div>
-            <div class="goal-card-desc">Low sugar, low glycemic impact, clean labels</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">Keto friendly</div>
+              <div class="goal-card-desc">Under 5g net carbs, high fat, grade A/B</div>
+            </div>
           </a>
         </div>
       </div>
@@ -1071,13 +947,26 @@
       </div>
       <div class="about-card">
         <h3 class="about-card-title">Brand Breakdowns</h3>
-        <div class="about-card-body">We've reviewed Quest, RXBAR, Clif, Barebells, KIND, and more, flavor by flavor. Every bar in a brand scored so you know which flavors are actually worth buying.</div>
-        <a href="/quest-bars.html" class="about-card-link">Browse brand reviews &rarr;</a>
+        <div class="about-card-body">We've reviewed these brands flavor by flavor, so you know which ones are actually worth buying.</div>
+        <div class="about-card-links">
+          <a href="/quest-bars.html">Quest</a>
+          <a href="/rxbar-review.html">RXBAR</a>
+          <a href="/clif-bar-review.html">Clif Bar</a>
+          <a href="/barebells-review.html">Barebells</a>
+          <a href="/kind-bars-review.html">KIND</a>
+        </div>
+        <a href="/all-protein-bar-brands.html" class="about-card-link">See all brand reviews &rarr;</a>
       </div>
       <div class="about-card">
         <h3 class="about-card-title">Lifestyle Guides</h3>
-        <div class="about-card-body">Our guides break down the best bars for specific goals: keto, clean eating, diabetic-friendly, no seed oils, and more. Data, not opinions.</div>
-        <a href="/clean-protein-bars.html" class="about-card-link">Explore lifestyle guides &rarr;</a>
+        <div class="about-card-body">Data-driven breakdowns of the best bars for specific goals, not opinions.</div>
+        <div class="about-card-links">
+          <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+          <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+          <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+          <a href="/no-seed-oils.html">No Seed Oils</a>
+          <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
+        </div>
       </div>
       <div class="about-card">
         <h3 class="about-card-title">All Brands at a Glance</h3>
@@ -1100,19 +989,19 @@
     </div>
     <div class="faq-item">
       <h3 class="faq-q">What protein bar has the cleanest ingredients?</h3>
-      <div class="faq-a"><p>The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually — 340 of the 1,000+ bars in our database meet a strict clean standard. See the full <a href="/clean-protein-bars.html">Clean Protein Bars guide</a> for the ranked list.</p></div>
+      <div class="faq-a"><p>The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually. 340 of the 1,000+ bars in our database meet a strict clean standard. See the full <a href="/clean-protein-bars.html">Clean Protein Bars guide</a> for the ranked list.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">Are protein bars ultra-processed?</h3>
-      <div class="faq-a"><p>Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars — Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category.</p></div>
+      <div class="faq-a"><p>Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars: Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">Which protein bars have no seed oils?</h3>
-      <div class="faq-a"><p>Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern — use the <a href="/no-seed-oils.html">No Seed Oils guide</a> or filter by ingredient grade to find qualifying bars instantly.</p></div>
+      <div class="faq-a"><p>Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern. Use the <a href="/no-seed-oils.html">No Seed Oils guide</a> or filter by ingredient grade to find qualifying bars instantly.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">Are protein bars good for weight loss?</h3>
-      <div class="faq-a"><p>Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar — and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a> preset in the Bar Finder to see qualifying options ranked by ingredient quality.</p></div>
+      <div class="faq-a"><p>Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar, and when they replace less nutritious snacks rather than adding calories on top of a full diet. The best bars for weight loss combine at least 15g of protein with under 250 calories and a clean ingredient grade. Use the <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a> preset in the Bar Finder to see qualifying options ranked by ingredient quality.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">How does Know Your Bar score protein bars?</h3>
@@ -1124,40 +1013,49 @@
     </div>
     <div class="faq-item">
       <h3 class="faq-q">Are protein bars with sugar alcohols bad for you?</h3>
-      <div class="faq-a"><p>Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list.</p></div>
+      <div class="faq-a"><p>Sugar alcohols like erythritol and maltitol are generally recognized as safe but can cause digestive discomfort in some people, particularly in larger amounts. Maltitol has a notably higher glycemic impact than other sugar alcohols. Our scoring system treats sugar alcohols as a concern, with severity depending on how prominently they appear in the ingredient list. See the <a href="/no-sugar-alcohols.html">No Sugar Alcohols guide</a> for the full ranked list, or filter the Bar Finder yourself.</p></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="site-footer-inner">
-    <div class="site-footer-brand-block">
-      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
-      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+<!-- FOOTER — grouped into columns for mobile readability -->
+<footer class="home-footer">
+  <div class="home-footer-inner">
+    <div class="home-footer-top">
+      <div class="home-footer-brand-block">
+        <a href="/" class="home-footer-brand">KNOW YOUR BAR</a>
+        <div class="home-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+      </div>
+      <div class="home-footer-col">
+        <div class="home-footer-col-label">Tools</div>
+        <a href="/bar-finder.html">Protein Bar Finder</a>
+        <a href="/ingredient_scoring.html">How We Score</a>
+        <a href="/all-protein-bar-brands.html">All Brands</a>
+      </div>
+      <div class="home-footer-col">
+        <div class="home-footer-col-label">Brand Reviews</div>
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+        <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
+      </div>
+      <div class="home-footer-col">
+        <div class="home-footer-col-label">Guides</div>
+        <a href="/clean-protein-bars.html">Clean Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+        <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
+      </div>
     </div>
-    <nav class="site-footer-links">
-      <a href="/bar-finder.html">Protein Bar Finder</a>
-      <a href="/ingredient_scoring.html">How We Score</a>
-      <a href="/all-protein-bar-brands.html">All Brands</a>
-      <a href="/quest-bars.html">Quest</a>
-      <a href="/rxbar-review.html">RXBAR</a>
-      <a href="/clif-bar-review.html">Clif Bar</a>
-      <a href="/barebells-review.html">Barebells</a>
-      <a href="/kind-bars-review.html">KIND</a>
-      <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
-      <a href="/clean-protein-bars.html">Clean Bars</a>
-      <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-      <a href="/no-seed-oils.html">No Seed Oils</a>
-      <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
-      <a href="/keto-protein-bars.html">Keto Protein Bars</a>
-      <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
-      <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
-    </nav>
+    <div class="home-footer-copy">knowyourbar.com &middot; Updated May 2026</div>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated May 2026</div>
 </footer>
+
 
 <script>
   document.querySelectorAll('.faq-q').forEach(function(q) {
