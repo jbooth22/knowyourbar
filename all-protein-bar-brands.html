@@ -61,17 +61,17 @@
       align-items: flex-start;
       gap: 14px;
       padding: 14px 16px;
-      background: var(--black);
-      border: 1px solid #2a2a2a;
-      border-radius: var(--radius-lg);
+      background: var(--bs-ink-2);
+      border: 1px solid #332d22;
+      border-radius: var(--bs-radius);
       overflow: hidden;
       word-break: break-word;
     }
     .top10-rank {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 1.6rem;
       font-weight: 800;
-      color: var(--accent);
+      color: var(--bs-paper);
       min-width: 34px;
       line-height: 1;
       padding-top: 3px;
@@ -85,10 +85,10 @@
       margin-bottom: 5px;
     }
     .top10-brand {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 0.95rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--bs-paper);
     }
     .top10-meta {
       display: flex;
@@ -98,31 +98,29 @@
       align-items: center;
     }
     .top10-cat {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-body);
       font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #aaa;
-      border: 1px solid #333;
+      color: #a39d8c;
+      border: 1px solid #443e2e;
       padding: 2px 6px;
       border-radius: 3px;
     }
     .top10-flavor-count {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 0.66rem;
-      color: #888;
+      color: #a39d8c;
     }
     .top10-p100 {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 0.72rem;
-      color: var(--accent);
+      color: var(--bs-paper);
       margin-left: auto;
       white-space: nowrap;
     }
     .top10-verdict {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.83rem;
-      color: #b8b4ac;
+      color: #c9c0b0;
       margin: 0 0 6px;
       line-height: 1.5;
     }
@@ -146,22 +144,18 @@
       width: 100%;
     }
     .filter-bar-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: 0.78rem;
+      color: var(--bs-text-dim);
     }
     .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-family: var(--bs-font-body);
+      font-size: 0.78rem;
       padding: 6px 11px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bs-line-soft);
       border-radius: 20px;
       background: transparent;
-      color: var(--black);
+      color: var(--bs-ink);
       cursor: pointer;
       transition: all 0.15s;
       white-space: nowrap;
@@ -169,9 +163,9 @@
       touch-action: manipulation;
     }
     .filter-btn:hover, .filter-btn.active {
-      background: var(--black);
-      color: var(--white);
-      border-color: var(--black);
+      background: var(--bs-ink);
+      color: var(--bs-paper);
+      border-color: var(--bs-ink);
     }
     .search-wrap { flex: 1; min-width: 140px; max-width: 200px; }
     @media (max-width: 500px) {
@@ -179,28 +173,26 @@
       .filter-row-bottom { flex-wrap: wrap; }
     }
     .brand-search {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.85rem;
       padding: 7px 14px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bs-line-soft);
       border-radius: 20px;
-      background: var(--white);
-      color: var(--black);
+      background: var(--bs-paper);
+      color: var(--bs-ink);
       width: 100%;
       outline: none;
       transition: border-color 0.15s;
       box-sizing: border-box;
     }
-    .brand-search:focus { border-color: var(--black); }
+    .brand-search:focus { border-color: var(--bs-ink); }
 
     /* ── Table scroll hint ── */
     .table-scroll-hint {
       display: none;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: 0.75rem;
+      color: var(--bs-text-dim);
       margin-bottom: 6px;
       text-align: right;
     }
@@ -211,9 +203,9 @@
     }
 
     .table-hint-bar {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.78rem;
-      color: var(--muted);
+      color: var(--bs-text-dim);
       margin-bottom: 8px;
       display: flex;
       align-items: center;
@@ -226,8 +218,8 @@
       width: 100%;
       overflow-x: auto;
       margin: 0.5rem 0 2rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       -webkit-overflow-scrolling: touch;
       position: relative;
     }
@@ -237,9 +229,9 @@
       position: absolute;
       top: 0; right: 0; bottom: 0;
       width: 32px;
-      background: linear-gradient(to right, transparent, rgba(247,245,240,0.9));
+      background: linear-gradient(to right, transparent, rgba(251,249,244,0.9));
       pointer-events: none;
-      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      border-radius: 0 var(--bs-radius) var(--bs-radius) 0;
       transition: opacity 0.3s;
     }
     .brand-table-wrap.scrolled-right::after { opacity: 0; }
@@ -248,18 +240,16 @@
     .brand-table {
       width: 100%;
       border-collapse: collapse;
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.84rem;
       min-width: 820px;
     }
     .brand-table thead th {
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      background: var(--bs-ink);
+      color: var(--bs-paper);
+      font-family: var(--bs-font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
       padding: 10px 10px;
       text-align: left;
       white-space: nowrap;
@@ -271,7 +261,7 @@
 
     /* Sortable */
     .sortable { cursor: pointer; user-select: none; }
-    .sortable:hover { background: #1a1a1a; }
+    .sortable:hover { background: var(--bs-ink-2); }
     .sort-arrow { margin-left: 3px; opacity: 0.5; }
     .sortable.asc .sort-arrow::after { content: ' ↑'; }
     .sortable.desc .sort-arrow::after { content: ' ↓'; }
@@ -281,7 +271,7 @@
     .th-tip { cursor: help; border-bottom: 1px dashed rgba(255,255,255,0.3); }
 
     /* Category header rows */
-    .cat-header-row td { background: var(--black); color: var(--white); padding: 0; }
+    .cat-header-row td { background: var(--bs-ink-2); color: var(--bs-paper); padding: 0; }
     .cat-header-inner {
       display: flex;
       align-items: baseline;
@@ -290,23 +280,21 @@
       flex-wrap: wrap;
     }
     .cat-label {
-      font-family: var(--font-display);
-      font-size: 0.92rem;
+      font-family: var(--bs-font-display);
+      font-size: 0.95rem;
       font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.02em;
+      color: var(--bs-paper);
+      letter-spacing: 0;
     }
     .cat-count {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 0.68rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: #a39d8c;
     }
     .cat-desc {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.78rem;
-      color: #b8b4ac;
+      color: #c9c0b0;
       margin: 0;
       width: 100%;
       line-height: 1.5;
@@ -314,16 +302,16 @@
     }
 
     /* Brand rows */
-    .brand-row { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-    .brand-row:hover { background: var(--off-white); }
+    .brand-row { border-bottom: 1px solid var(--bs-line-soft); transition: background 0.1s; }
+    .brand-row:hover { background: var(--bs-cream); }
     .brand-row:last-child { border-bottom: none; }
 
     /* Rank cell */
     .rank-cell {
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 0.75rem;
       font-weight: 500;
-      color: var(--muted);
+      color: var(--bs-text-dim);
       text-align: right;
       padding: 10px 6px 10px 10px;
       min-width: 32px;
@@ -332,10 +320,10 @@
     /* Brand cell */
     .brand-cell { padding: 9px 10px; min-width: 130px; max-width: 180px; }
     .brand-name {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--black);
+      color: var(--bs-ink);
       line-height: 1.2;
     }
     .brand-links {
@@ -353,57 +341,55 @@
       justify-content: center;
       width: 24px;
       height: 24px;
-      background: var(--accent);
+      background: var(--bs-ink);
       border-radius: 4px;
       text-decoration: none;
-      transition: background 0.15s;
+      transition: opacity 0.15s;
       flex-shrink: 0;
     }
-    .tool-icon-link:hover { background: #b8d400; }
+    .tool-icon-link:hover { opacity: 0.8; }
     .tool-icon-link svg { display: block; }
 
     /* Review link (below brand name) */
     .review-link {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-family: var(--bs-font-body);
+      font-size: 0.72rem;
       text-decoration: none;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
+      color: var(--bs-text-dim);
+      border-bottom: 1px solid var(--bs-line-soft);
       padding-bottom: 1px;
       transition: color 0.15s, border-color 0.15s;
       width: fit-content;
     }
-    .review-link:hover { color: var(--black); border-color: var(--black); }
+    .review-link:hover { color: var(--bs-ink); border-color: var(--bs-ink); }
 
     /* Numeric cells */
     .num-cell {
       padding: 10px 10px;
       text-align: right;
-      font-family: var(--font-mono);
+      font-family: var(--bs-font-data);
       font-size: 0.8rem;
-      color: #444;
+      color: var(--bs-text-dim);
       white-space: nowrap;
     }
-    .highlight-cell { font-weight: 600; color: var(--black); }
+    .highlight-cell { font-weight: 600; color: var(--bs-ink); }
 
-    /* Grade cells */
+    /* Grade cells — functional grade colors set inline, untouched */
     .grade-cell { padding: 10px 8px; text-align: center; }
     .grade-badge {
       display: inline-block;
       width: 24px; height: 24px; line-height: 24px;
       text-align: center;
       border-radius: 50%;
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 0.75rem;
       font-weight: 700;
       color: #fff;
     }
     .grade-range-cell { padding: 10px 10px; text-align: center; white-space: nowrap; }
-    .grade-sm { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; }
-    .grade-sep { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); margin: 0 2px; }
-    .none-val { color: var(--muted); font-size: 0.72rem; }
+    .grade-sm { font-family: var(--bs-font-data); font-size: 0.78rem; font-weight: 500; }
+    .grade-sep { font-family: var(--bs-font-data); font-size: 0.68rem; color: var(--bs-text-dim); margin: 0 2px; }
+    .none-val { color: var(--bs-text-dim); font-size: 0.72rem; }
 
     /* Grade legend */
     .grade-legend {
@@ -412,19 +398,19 @@
       flex-wrap: wrap;
       margin: 1.25rem 0;
       padding: 0.875rem 1.125rem;
-      background: var(--off-white);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
+      background: var(--bs-cream);
+      border-radius: var(--bs-radius);
+      border: 1.5px solid var(--bs-ink);
       align-items: center;
     }
     .grade-legend-item {
       display: flex; align-items: center; gap: 6px;
-      font-family: var(--font-body); font-size: 0.8rem; color: #444;
+      font-family: var(--bs-font-body); font-size: 0.8rem; color: var(--bs-text-dim);
     }
     .grade-dot {
       width: 20px; height: 20px; border-radius: 50%;
       display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 0.68rem; font-weight: 700;
+      font-family: var(--bs-font-display); font-size: 0.68rem; font-weight: 700;
       color: #fff; flex-shrink: 0;
     }
 
@@ -440,30 +426,32 @@
     }
     .intro-block {
       padding: 1rem 1.125rem;
-      background: var(--off-white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      background: var(--bs-cream);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
     }
     .intro-block h2 {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 1rem;
       font-weight: 700;
+      color: var(--bs-ink);
       margin: 0 0 0.4rem;
     }
     .intro-block p {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.85rem;
       line-height: 1.6;
-      color: #555;
+      color: var(--bs-text-dim);
       margin: 0;
     }
 
     /* FAQ */
     .faq-section { margin: 2.5rem 0; }
     .faq-section > h2 {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 1.4rem;
       font-weight: 700;
+      color: var(--bs-ink);
       margin-bottom: 1rem;
     }
 
@@ -479,38 +467,34 @@
       flex-wrap: wrap;
     }
     .view-toggle-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: 0.78rem;
+      color: var(--bs-text-dim);
     }
     .toggle-btn {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-family: var(--bs-font-body);
+      font-size: 0.78rem;
       padding: 5px 12px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--bs-line-soft);
       border-radius: 20px;
       background: transparent;
-      color: var(--black);
+      color: var(--bs-ink);
       cursor: pointer;
       transition: all 0.15s;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
     .toggle-btn.active {
-      background: var(--black);
-      color: var(--white);
-      border-color: var(--black);
+      background: var(--bs-ink);
+      color: var(--bs-paper);
+      border-color: var(--bs-ink);
     }
 
     /* Tool hint */
     .tool-hint {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.8rem;
-      color: var(--muted);
+      color: var(--bs-text-dim);
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -521,7 +505,7 @@
       align-items: center;
       justify-content: center;
       width: 20px; height: 20px;
-      background: var(--accent);
+      background: var(--bs-ink);
       border-radius: 3px;
       flex-shrink: 0;
     }
@@ -595,7 +579,7 @@
   }
   </script>
 </head>
-<body class="page-guide">
+<body class="page-guide brand-v1">
 
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
@@ -699,7 +683,7 @@
             <span class="top10-p100">13.8g P/100cal</span>
           </div>
           <p class="top10-verdict">Highest protein efficiency in the database with 13.8g protein per 100 calories and clean ingredient scores across all three flavors.</p>
-          <a href="/bar-finder.html?brand=Gryp" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Gryp" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -718,7 +702,7 @@
             <span class="top10-p100">9.1g P/100cal</span>
           </div>
           <p class="top10-verdict">All A-grade flavors, 9g fiber per bar, and nearly 10g protein per 100 calories. One of the best all-around numbers in the database.</p>
-          <a href="/bar-finder.html?brand=Jacob" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Jacob" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -737,7 +721,7 @@
             <span class="top10-p100">6.8g P/100cal</span>
           </div>
           <p class="top10-verdict">All A-grade, 8g fiber, and 10.8 average ingredient score. A meal-replacement bar that actually earns its clean positioning.</p>
-          <a href="/bar-finder.html?brand=PEAK+Protein" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=PEAK+Protein" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -756,7 +740,7 @@
             <span class="top10-p100">8.1g P/100cal</span>
           </div>
           <p class="top10-verdict">A-grade ingredients, 9g fiber, and 8g+ protein per 100 calories. Strong across all three metrics.</p>
-          <a href="/bar-finder.html?brand=Linear" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Linear" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -775,7 +759,7 @@
             <span class="top10-p100">8.0g P/100cal</span>
           </div>
           <p class="top10-verdict">One flavor in the database, but it scores A with 9g fiber and 9.4 ingredient score. Built for athletes who read labels.</p>
-          <a href="/bar-finder.html?brand=Legion" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Legion" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -794,7 +778,7 @@
             <span class="top10-p100">12.7g P/100cal</span>
           </div>
           <p class="top10-verdict">Leads the database on raw protein (28g avg) with solid ingredient quality and only two flavors scored so far.</p>
-          <a href="/bar-finder.html?brand=Gutsy" class="tool-icon-link" title="See all 2 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Gutsy" class="tool-icon-link" title="See all 2 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -813,7 +797,7 @@
             <span class="top10-p100">5.8g P/100cal</span>
           </div>
           <p class="top10-verdict">Single flavor with a 10.9 ingredient score and 8g fiber. The cleanest bar in the Whole Food category by a wide margin.</p>
-          <a href="/bar-finder.html?brand=Unhinged" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Unhinged" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -832,7 +816,7 @@
             <span class="top10-p100">7.6g P/100cal</span>
           </div>
           <p class="top10-verdict">A-grade across the board with a 10.7 ingredient score. One flavor reviewed, and it outscores nearly everything here.</p>
-          <a href="/bar-finder.html?brand=Par+Bar" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Par+Bar" class="tool-icon-link" title="See all 1 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -851,7 +835,7 @@
             <span class="top10-p100">9.5g P/100cal</span>
           </div>
           <p class="top10-verdict">10g fiber average, solid protein, and consistent B-grade ingredient quality across all three flavors.</p>
-          <a href="/bar-finder.html?brand=Atlas" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Atlas" class="tool-icon-link" title="See all 3 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -870,7 +854,7 @@
             <span class="top10-p100">6.0g P/100cal</span>
           </div>
           <p class="top10-verdict">15 flavors, all A-grade, 11.0 average ingredient score. The widest selection of consistently clean bars in the database.</p>
-          <a href="/bar-finder.html?brand=Healthy+Eating+on+the+Go" class="tool-icon-link" title="See all 15 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
+          <a href="/bar-finder.html?brand=Healthy+Eating+on+the+Go" class="tool-icon-link" title="See all 15 flavors in the tool" style="width:auto;padding:3px 10px;border-radius:4px;font-family:var(--bs-font-body);font-size:0.72rem;font-weight:600;color:var(--bs-paper);background:var(--bs-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-top:2px;">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="#0e0e0e" stroke-width="1.5"/><line x1="7.5" y1="7.5" x2="11" y2="11" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round"/></svg>
             See all flavors
           </a>
@@ -881,13 +865,13 @@
   
 
   <div class="grade-legend">
-    <span style="font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-right:4px;">Ingredient Grade:</span>
+    <span style="font-family:var(--bs-font-body);font-size:0.78rem;color:var(--bs-text-dim);margin-right:4px;">Ingredient Grade:</span>
     <div class="grade-legend-item"><span class="grade-dot" style="background:#2a7a1f">A</span> Clean</div>
     <div class="grade-legend-item"><span class="grade-dot" style="background:#5a8a2f">B</span> Good</div>
     <div class="grade-legend-item"><span class="grade-dot" style="background:#b89a00">C</span> Okay</div>
     <div class="grade-legend-item"><span class="grade-dot" style="background:#c87020">D</span> Poor</div>
     <div class="grade-legend-item"><span class="grade-dot" style="background:#c83020">F</span> Avoid</div>
-    <span style="font-family:var(--font-body);font-size:0.78rem;color:var(--muted);margin-left:auto;">Typical grade = most common across all flavors</span>
+    <span style="font-family:var(--font-body);font-size:0.78rem;color:var(--bs-text-dim);margin-left:auto;">Typical grade = most common across all flavors</span>
   </div>
 
   <!-- FILTER + TABLE -->
@@ -1084,7 +1068,7 @@
     </table>
   </div>
 
-  <p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--muted);margin-top:0.5rem;">All values are averages across scored flavors. Typical grade = most common grade across a brand's flavors. P/100 Cal = grams of protein per 100 calories.</p>
+  <p style="font-family:var(--bs-font-body);font-size:0.78rem;color:var(--bs-text-dim);margin-top:0.5rem;">All values are averages across scored flavors. Typical grade = most common grade across a brand's flavors. P/100 Cal = grams of protein per 100 calories.</p>
 
   <!-- CATEGORY EXPLAINERS -->
   <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;margin:3rem 0 1rem;">How the Categories Work</h2>
@@ -1421,7 +1405,7 @@ function renderTable() {
 
   if (!filtered.length) {
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="12" style="text-align:center;padding:2rem;color:var(--muted);font-family:var(--font-body);">No brands match your search.</td>';
+    tr.innerHTML = '<td colspan="12" style="text-align:center;padding:2rem;color:var(--bs-text-dim);font-family:var(--bs-font-body);">No brands match your search.</td>';
     tbody.appendChild(tr);
   }
 }
