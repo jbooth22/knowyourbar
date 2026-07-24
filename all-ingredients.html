@@ -18,7 +18,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Inter:wght@400;600;700;800;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/style.css">
 
@@ -30,7 +30,7 @@
       --accent:    #d4f000;
       --muted:     #888880;
       --border:    #d6d3cc;
-      --font-display: 'Syne', sans-serif;
+      --font-display: var(--bs-font-display);
       --font-mono:    'DM Mono', monospace;
       --font-body:    'DM Sans', sans-serif;
       --radius:    6px;
@@ -39,11 +39,11 @@
 
     /* ── Category nav ── */
     .cat-nav {
-      background: var(--black);
+      background: var(--bs-ink);
       position: sticky;
       top: 0;
       z-index: 90;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid #332d22;
       overflow-x: auto;
       scrollbar-width: none;
     }
@@ -58,24 +58,22 @@
     .cat-nav-link {
       display: block;
       padding: 0.7rem 0.85rem;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      color: #a39d8c;
       text-decoration: none;
       white-space: nowrap;
       border-bottom: 2px solid transparent;
       transition: color 0.15s, border-color 0.15s;
     }
     .cat-nav-link:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+      color: var(--bs-paper);
+      border-bottom-color: var(--bs-paper);
     }
 
     /* ── Ingredient section ── */
     .ing-section {
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--bs-line-soft);
       padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem);
     }
     .ing-section:first-of-type { border-top: none; }
@@ -93,20 +91,19 @@
       margin-bottom: 0.5rem;
     }
     .ing-section-title {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: clamp(1.3rem, 2.5vw, 1.8rem);
       font-weight: 700;
-      color: var(--black);
+      color: var(--bs-ink);
       margin: 0;
     }
     .ing-section-count {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: .06em;
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
     }
     .ing-section-desc {
-      color: #4a4a45;
+      color: var(--bs-text-dim);
       font-size: 0.92rem;
       line-height: 1.6;
       margin: 0;
@@ -121,7 +118,7 @@
     }
     .ing-row {
       padding: 0.85rem 0;
-      border-bottom: 1px solid #e8e5de;
+      border-bottom: 1px solid var(--bs-line-soft);
     }
     .ing-row:last-child { border-bottom: none; }
     .ing-meta {
@@ -131,8 +128,8 @@
       margin-bottom: 0.45rem;
     }
     .ing-score-badge {
-      font-family: var(--font-mono);
-      font-size: 11px;
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
       font-weight: 500;
       padding: 2px 7px;
       border-radius: 3px;
@@ -145,22 +142,22 @@
       min-width: 0;
     }
     .ing-name {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--black);
+      color: var(--bs-ink);
       text-transform: capitalize;
     }
     .ing-desc {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-top: 1px;
     }
     .ing-bars-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -169,7 +166,7 @@
       align-items: center;
       gap: 0.5rem;
       height: 5px;
-      background: #e8e5de;
+      background: var(--bs-line-soft);
       border-radius: 3px;
       position: relative;
       overflow: visible;
@@ -181,9 +178,9 @@
       transition: width 0.4s ease;
     }
     .ing-bar-pct {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .68rem;
+      color: var(--bs-text-dim);
       position: absolute;
       right: 0;
       top: -13px;
@@ -200,9 +197,9 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: #4a4a45;
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      color: var(--bs-text-dim);
     }
     .legend-dot {
       width: 10px;
@@ -222,31 +219,31 @@
     .ing-search {
       width: 100%;
       padding: 0.75rem 1rem;
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.95rem;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--white);
-      color: var(--black);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
+      background: var(--bs-paper);
+      color: var(--bs-ink);
       outline: none;
       box-sizing: border-box;
     }
     .ing-search:focus {
-      border-color: var(--black);
+      border-color: var(--bs-ink);
     }
     .ing-search-count {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-top: 0.4rem;
-      letter-spacing: .04em;
     }
 
     /* ── Hide/show for search ── */
     .ing-row.hidden { display: none; }
     .ing-section.hidden { display: none; }
 
-    /* ── Intro hero tweaks ── */
+    /* ── Intro hero tweaks — hero is paper now, not dark, so these
+       switch from light-on-dark to normal ink/dim text ── */
     .ing-hero-stats {
       display: flex;
       gap: 2rem;
@@ -254,19 +251,17 @@
       flex-wrap: wrap;
     }
     .ing-hero-stat {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,0.6);
-      letter-spacing: .06em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      color: var(--bs-text-dim);
     }
     .ing-hero-stat strong {
       display: block;
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -0.02em;
+      color: var(--bs-ink);
+      letter-spacing: -0.01em;
     }
   </style>
 
@@ -293,7 +288,7 @@
   <meta property="og:url" content="https://knowyourbar.com/all-ingredients.html">
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
 </head>
-<body class="page-guide">
+<body class="page-guide brand-v1">
 
 <!-- NAV -->
 <nav class="site-nav">
@@ -330,7 +325,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Ingredient Reference</div>
     <h1 class="hero-title">Protein Bar Ingredient Encyclopedia</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">Every ingredient we found across 1,000+ protein bars. Scored, explained, and ranked by how many bars it appears in. Use it to read any label.</p>
+    <p class="hero-sub">Every ingredient we found across 1,000+ protein bars. Scored, explained, and ranked by how many bars it appears in. Use it to read any label.</p>
     <div class="ing-hero-stats">
       <div class="ing-hero-stat"><strong>369</strong>ingredients catalogued</div>
       <div class="ing-hero-stat"><strong>1,000+</strong>bars analyzed</div>
@@ -5845,7 +5840,7 @@
 <!-- FAQ -->
 <section class="guide-faq">
   <div class="guide-faq-inner">
-    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1.1rem;">Frequently asked questions</h2>
+    <h2 style="font-family:var(--bs-font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:1.1rem;">Frequently asked questions</h2>
     <div class="faq-items">
 
       <div class="faq-item">
