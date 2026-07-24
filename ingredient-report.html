@@ -18,7 +18,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Inter:wght@400;600;700;800;900&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 
   <style>
@@ -29,7 +29,7 @@
       --accent:    #d4f000;
       --muted:     #888880;
       --border:    #d6d3cc;
-      --font-display: 'Syne', sans-serif;
+      --font-display: var(--bs-font-display);
       --font-mono:    'DM Mono', monospace;
       --font-body:    'DM Sans', sans-serif;
       --radius:    6px;
@@ -58,27 +58,26 @@
     }
 
     .ing-rank-card {
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 1rem 1.1rem;
       position: relative;
-      background: var(--white);
+      background: var(--bs-paper);
     }
-    .ing-rank-card.best { border-color: #b5d9a0; background: #f4faf0; }
-    .ing-rank-card.worst { border-color: #f0bfb0; background: #fdf5f3; }
+    .ing-rank-card.best { border-color: #2a7a1f; background: rgba(42,122,31,.05); }
+    .ing-rank-card.worst { border-color: #c83020; background: rgba(200,48,32,.05); }
 
     .ing-rank-num {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
-      letter-spacing: .08em;
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       margin-bottom: 0.3rem;
     }
     .ing-rank-name {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-body);
       font-size: 1.05rem;
       font-weight: 700;
-      color: var(--black);
+      color: var(--bs-ink);
       text-transform: capitalize;
       margin-bottom: 0.2rem;
     }
@@ -89,26 +88,26 @@
       margin-bottom: 0.6rem;
     }
     .ing-rank-score {
-      font-family: var(--font-mono);
-      font-size: 11px;
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
       font-weight: 500;
       padding: 2px 6px;
       border-radius: 3px;
       color: #fff;
     }
     .ing-rank-bars {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--muted);
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
     }
     .ing-rank-body {
       font-size: 0.87rem;
       line-height: 1.55;
-      color: #3a3a35;
+      color: var(--bs-text-dim);
     }
     .ing-rank-bar-track {
       height: 4px;
-      background: #e0ddd6;
+      background: var(--bs-line-soft);
       border-radius: 2px;
       margin-top: 0.75rem;
       overflow: hidden;
@@ -120,30 +119,23 @@
 
     /* ── Pattern section ── */
     .pattern-section {
-      border-top: 2px solid var(--black);
+      border-top: 2px solid var(--bs-ink);
       padding-top: 2.5rem;
       margin-top: 3rem;
     }
-    .pattern-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-    }
+    .pattern-eyebrow { display: none; }
     .pattern-title {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-display);
       font-size: clamp(1.3rem, 2.5vw, 1.9rem);
       font-weight: 700;
-      color: var(--black);
+      color: var(--bs-ink);
       margin-bottom: 0.75rem;
       line-height: 1.2;
     }
     .pattern-body {
       font-size: 0.95rem;
       line-height: 1.65;
-      color: #3a3a35;
+      color: var(--bs-text-dim);
       max-width: 680px;
     }
     .pattern-body + .pattern-body { margin-top: 0.75rem; }
@@ -158,17 +150,17 @@
     @media (max-width: 600px) { .cluster-grid { grid-template-columns: 1fr; } }
 
     .cluster-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--bs-ink);
+      border-radius: var(--bs-radius);
       padding: 1rem 1.1rem;
-      background: var(--white);
+      background: var(--bs-paper);
     }
     .cluster-title {
-      font-family: var(--font-display);
+      font-family: var(--bs-font-body);
       font-size: 0.95rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      color: var(--black);
+      color: var(--bs-ink);
     }
     .cluster-tags {
       display: flex;
@@ -177,22 +169,23 @@
       margin-bottom: 0.6rem;
     }
     .cluster-tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
       padding: 2px 8px;
       border-radius: 3px;
-      background: #e8e5de;
-      color: #4a4a45;
+      background: var(--bs-cream);
+      color: var(--bs-text-dim);
     }
     .cluster-tag.bad { background: #fde8e3; color: #7a1f10; }
     .cluster-tag.good { background: #e3f5de; color: #1f5010; }
     .cluster-desc {
       font-size: 0.85rem;
       line-height: 1.5;
-      color: #4a4a45;
+      color: var(--bs-text-dim);
     }
 
-    /* ── Most prevalent big visual ── */
+    /* ── Most prevalent big visual — sits inside the shared dark
+       .findings band, so this stays intentionally light-on-dark ── */
     .prevalence-list {
       margin-top: 1.25rem;
       display: flex;
@@ -205,10 +198,10 @@
       gap: 0.75rem;
     }
     .prev-name {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-size: 0.88rem;
       font-weight: 500;
-      color: #f0ede6;
+      color: var(--bs-paper);
       width: 200px;
       flex-shrink: 0;
       text-transform: capitalize;
@@ -226,9 +219,9 @@
       border-radius: 4px;
     }
     .prev-pct {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: #aaa;
+      font-family: var(--bs-font-data);
+      font-size: .72rem;
+      color: #a39d8c;
       width: 40px;
       text-align: right;
       flex-shrink: 0;
@@ -242,21 +235,19 @@
       font-size: 0.88rem;
     }
     .decode-table th {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
+      color: var(--bs-text-dim);
       text-align: left;
       padding: 6px 10px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 2px solid var(--bs-ink);
     }
     .decode-table td {
       padding: 10px 10px;
-      border-bottom: 1px solid #eae7e0;
+      border-bottom: 1px solid var(--bs-line-soft);
       vertical-align: top;
       line-height: 1.4;
-      color: #3a3a35;
+      color: var(--bs-text-dim);
       word-wrap: break-word;
       overflow-wrap: break-word;
       min-width: 0;
@@ -266,14 +257,14 @@
     }
     .decode-table tr:last-child td { border-bottom: none; }
     .decode-ing {
-      font-family: var(--font-body);
+      font-family: var(--bs-font-body);
       font-weight: 600;
-      color: var(--black);
+      color: var(--bs-ink);
       text-transform: capitalize;
     }
     .decode-verdict {
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-family: var(--bs-font-body);
+      font-size: .72rem;
       font-weight: 500;
       padding: 2px 7px;
       border-radius: 3px;
@@ -292,22 +283,21 @@
     @media (max-width: 580px) { .predictor-grid { grid-template-columns: 1fr; } }
 
     .predictor-card {
-      border-radius: var(--radius-lg);
+      border-radius: var(--bs-radius);
       padding: 1.1rem 1.2rem;
     }
     .predictor-card.signals-good {
-      background: #f4faf0;
-      border: 1.5px solid #b5d9a0;
+      background: rgba(42,122,31,.05);
+      border: 1.5px solid #2a7a1f;
     }
     .predictor-card.signals-bad {
-      background: #fdf5f3;
-      border: 1.5px solid #f0bfb0;
+      background: rgba(200,48,32,.05);
+      border: 1.5px solid #c83020;
     }
     .predictor-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
+      font-family: var(--bs-font-body);
+      font-size: .78rem;
+      font-weight: 700;
       margin-bottom: 0.75rem;
     }
     .predictor-label.good { color: var(--green-best); }
@@ -319,7 +309,7 @@
       margin-bottom: 0.6rem;
       font-size: 0.88rem;
       line-height: 1.45;
-      color: #3a3a35;
+      color: var(--bs-text-dim);
     }
     .predictor-item:last-child { margin-bottom: 0; }
     .predictor-dot {
@@ -405,7 +395,7 @@
   <meta name="twitter:description" content="We analyzed 1,000+ protein bars and ranked every ingredient. The 10 best, 10 worst, hidden patterns, and what to look for on any label.">
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
 </head>
-<body class="page-guide">
+<body class="page-guide brand-v1">
 
 <!-- NAV -->
 <nav class="site-nav">
@@ -1106,7 +1096,7 @@
 <!-- FAQ -->
 <section class="guide-faq">
   <div class="guide-faq-inner">
-    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1.1rem;">Frequently asked questions</h2>
+    <h2 style="font-family:var(--bs-font-display);font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:1.1rem;">Frequently asked questions</h2>
     <div class="faq-items">
 
       <div class="faq-item">
