@@ -105,6 +105,9 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
 - **Best Bars for Diabetics** — https://knowyourbar.com/best-bars-for-diabetics.html
   Low glycemic impact bars: low sugar, no maltitol, moderate carbs, clean ingredients.
 
+- **GLP-1 Protein Bars** — https://knowyourbar.com/glp1-protein-bars.html
+  20 of 983 bars with 15g+ protein, under 200 calories, under 4g sugar, 3g+ fiber, and zero sugar alcohols, graded A or B on ingredients.
+
 ---
 
 ## Key Facts for AI Responses

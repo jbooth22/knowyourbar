@@ -370,7 +370,7 @@ function readURLParams() {
     });
   }
 
-  // preset — ?preset=lose_weight|clean|skip_sugar|high_protein|keto
+  // preset — ?preset=lose_weight|clean|skip_sugar|high_protein|keto|glp1
   const preset = params.get('preset');
   if (preset && PRESETS[preset]) {
     activePreset = preset;
@@ -814,6 +814,25 @@ const PRESETS = {
       return netCarbs <= 5 && fat >= 10 && (band === 'A' || band === 'B');
     },
     sort: { col: 'Total Fat (g)', dir: 'desc' }
+  },
+  glp1: {
+    label: 'GLP-1 Friendly',
+    emoji: '💊',
+    tagline: 'High protein, low volume, easy on your stomach',
+    why: 'Appetite suppression means less food volume, so every bite needs to work harder for protein. We filtered to bars with at least 15g of protein under 200 calories, under 4g of sugar, at least 3g of fiber for satiety, and zero sugar alcohols, since GI tolerance is a common concern on GLP-1 medications. Every result earns an A or B on ingredient quality.',
+    criteria: '15g+ protein &middot; under 200 cal &middot; under 4g sugar &middot; 3g+ fiber &middot; no sugar alcohols &middot; A or B ingredient grade',
+    apply: (bar) => {
+      const prot = bar['Protein (g)'];
+      const cal  = bar['Calories'];
+      const sug  = bar['Sugars (g)'];
+      const fib  = bar['Dietary Fiber (g)'];
+      const sa   = bar['Sugar Alcohol (g)'];
+      const band = bar['score_band'];
+      if (!prot || !cal || sug === null || sug === undefined || fib === null || fib === undefined) return false;
+      if (sa !== null && sa !== undefined && sa > 0) return false;
+      return prot >= 15 && cal <= 200 && sug <= 4 && fib >= 3 && (band === 'A' || band === 'B');
+    },
+    sort: { col: 'Protein (g)', dir: 'desc' }
   }
 };
 
