@@ -130,11 +130,11 @@
 
     .rule-thick { height: 5px; background: var(--bs-ink); width: 56px; }
 
-    /* ─── HERO — paper, headline + CTA only ─── */
+    /* ─── HERO — transparent (matches body bg), headline only, CTA moved to Bar Finder section below ─── */
     .home-hero {
-      background: var(--bs-paper);
-      padding: 3.5rem 1.5rem 3rem;
-      max-width: 720px;
+      background: transparent;
+      padding: 3.5rem 1.5rem 2.5rem;
+      max-width: 1040px;
       margin: 0 auto;
     }
     .home-hero h1 {
@@ -152,29 +152,13 @@
       font-size: 1.05rem;
       color: var(--bs-text-dim);
       max-width: 480px;
-      margin: 0 0 1.75rem;
+      margin: 0;
       line-height: 1.6;
     }
-    .hero-cta-row { display: flex; flex-direction: column; align-items: flex-start; gap: .65rem; }
-    .hero-cta-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      background: var(--bs-ink);
-      color: var(--bs-paper);
-      font-family: var(--bs-font-body);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 1rem 2rem;
-      border-radius: var(--bs-radius);
-      text-decoration: none;
-    }
-    .hero-cta-primary:hover { opacity: .88; }
-    .hero-trust { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin: 0; }
 
     /* ─── BAR FINDER — cream ─── */
-    .finder-hero-section { background: var(--bs-cream); padding: 3rem 1.5rem; }
-    .finder-hero-inner { max-width: 780px; margin: 0 auto; text-align: left; }
+    .finder-hero-section { background: var(--bs-cream); padding: 3.5rem 1.5rem; }
+    .finder-hero-inner { max-width: 1040px; margin: 0 auto; text-align: left; }
     .finder-hero-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .6rem; }
     .finder-hero-heading {
       font-family: var(--bs-font-display);
@@ -186,17 +170,17 @@
       line-height: 1.1;
     }
     .finder-hero-desc { font-family: var(--bs-font-body); font-size: 1rem; color: var(--bs-text-dim); line-height: 1.6; max-width: 600px; margin: 0 0 1.5rem; }
-    .finder-feature-row { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.75rem; }
+    .finder-feature-row { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-bottom: 1.75rem; }
     .finder-feature-chip {
       font-family: var(--bs-font-body);
-      font-size: .82rem;
-      font-weight: 500;
-      padding: .45rem .9rem;
-      background: var(--bs-paper);
-      border: 1.5px solid var(--bs-ink);
+      font-size: .85rem;
+      font-weight: 600;
       color: var(--bs-ink);
-      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
     }
+    .finder-feature-chip::before { content: "\2713"; color: #2a7a1f; font-weight: 700; }
     .finder-hero-btn {
       display: inline-flex;
       align-items: center;
@@ -213,7 +197,7 @@
     .finder-hero-btn:hover { opacity: .88; }
 
     /* ─── TOP 3 BARS — paper ─── */
-    .top-bars-section { background: var(--bs-paper); padding: 3rem 1.5rem 3.25rem; }
+    .top-bars-section { background: var(--bs-paper); padding: 3.5rem 1.5rem; }
     .top-bars-inner { max-width: 1040px; margin: 0 auto; }
     .top-bars-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .35rem; }
     .top-bars-heading {
@@ -225,7 +209,7 @@
       letter-spacing: -.01em;
     }
     .top-bars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
-    .top-bar-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); overflow: hidden; text-align: left; }
+    .top-bar-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); overflow: hidden; text-align: left; display: flex; flex-direction: column; }
     .top-bar-rank { font-family: var(--bs-font-data); font-size: .7rem; color: var(--bs-text-dim); padding: .75rem 1rem 0; }
     .top-bar-header { display: flex; align-items: center; gap: .85rem; padding: .55rem 1rem .9rem; border-bottom: 1px solid var(--bs-line-soft); }
     .top-bar-badge {
@@ -248,7 +232,7 @@
     .top-bar-macro { display: flex; flex-direction: column; gap: 1px; }
     .top-bar-macro-val { font-family: var(--bs-font-data); font-size: .85rem; font-weight: 500; color: var(--bs-ink); }
     .top-bar-macro-lbl { font-family: var(--bs-font-body); font-size: .68rem; color: var(--bs-text-dim); }
-    .top-bar-buy { display: flex; gap: .5rem; padding: .9rem 1rem; border-top: 1px solid var(--bs-line-soft); flex-wrap: wrap; }
+    .top-bar-buy { display: flex; gap: .5rem; padding: .9rem 1rem; border-top: 1px solid var(--bs-line-soft); flex-wrap: wrap; margin-top: auto; }
     .top-bar-buy a { flex: 1; min-width: 110px; text-align: center; font-family: var(--bs-font-body); font-size: .82rem; font-weight: 700; padding: .6rem .75rem; border-radius: var(--bs-radius); text-decoration: none; }
     .top-bar-buy .buy-amazon { background: var(--bs-ink); color: var(--bs-paper); }
     .top-bar-buy .buy-amazon:hover { opacity: .88; }
@@ -258,8 +242,8 @@
     .top-bars-caption a { color: var(--bs-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
     /* ─── INGREDIENT GRADE — the one nutrition-facts device on this page, cream ─── */
-    .facts-wrap { background: var(--bs-cream); padding: 3rem 1.5rem; }
-    .facts-inner { max-width: 780px; margin: 0 auto; }
+    .facts-wrap { background: var(--bs-cream); padding: 3.5rem 1.5rem; }
+    .facts-inner { max-width: 1040px; margin: 0 auto; }
     .facts-box { border: 3px solid var(--bs-ink); max-width: 360px; background: var(--bs-paper); }
     .facts-title { font-family: var(--bs-font-display); font-weight: 800; font-size: 1.6rem; color: var(--bs-ink); padding: .5rem .9rem .35rem; border-bottom: 7px solid var(--bs-ink); }
     .facts-sub { font-family: var(--bs-font-body); font-size: .78rem; color: var(--bs-text-dim); padding: .5rem .9rem; border-bottom: 1px solid var(--bs-line-soft); }
@@ -272,7 +256,7 @@
     .facts-caption a { color: var(--bs-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
     /* ─── DARK BAND — the one real contrast break ─── */
-    .dark-band { background: var(--bs-ink-2); padding: 2.75rem 1.5rem; }
+    .dark-band { background: var(--bs-ink-2); padding: 3.5rem 1.5rem; }
     .dark-band-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 1.75rem 3rem; align-items: center; justify-content: space-between; }
     .dark-stat-group { display: flex; gap: 2.25rem; flex-wrap: wrap; }
     .dark-stat-val { font-family: var(--bs-font-display); font-weight: 800; font-size: 2rem; color: var(--bs-paper); line-height: 1; }
@@ -281,7 +265,7 @@
 
     /* ─── GOAL SELECTOR — paper ─── */
     .goal-section { background: var(--bs-paper); padding: 3.5rem 1.5rem; }
-    .goal-section-inner { max-width: 960px; margin: 0 auto; }
+    .goal-section-inner { max-width: 1040px; margin: 0 auto; }
     .section-label { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-bottom: .5rem; }
     .section-heading {
       font-family: var(--bs-font-display);
@@ -314,7 +298,7 @@
 
     /* ─── ABOUT — cream ─── */
     .about-section { background: var(--bs-cream); padding: 3.5rem 1.5rem; }
-    .about-inner { max-width: 960px; margin: 0 auto; }
+    .about-inner { max-width: 1040px; margin: 0 auto; }
     .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
     .about-card { border-top: 3px solid var(--bs-ink); padding-top: 1rem; }
     .about-card-title { font-family: var(--bs-font-body); font-size: 1rem; font-weight: 700; color: var(--bs-ink); margin-bottom: .5rem; }
@@ -326,7 +310,7 @@
 
     /* ─── FAQ — paper ─── */
     .home-faq { background: var(--bs-paper); padding: 3.5rem 1.5rem; }
-    .home-faq-inner { max-width: 720px; margin: 0 auto; }
+    .home-faq-inner { max-width: 1040px; margin: 0 auto; }
     .home-faq .faq-item { border-bottom: 1px solid var(--bs-line-soft); }
     .home-faq .faq-q {
       color: var(--bs-ink) !important;
@@ -334,7 +318,7 @@
       font-size: 1rem !important;
       font-weight: 700 !important;
     }
-    .home-faq .faq-a p { color: var(--bs-text-dim); font-family: var(--bs-font-body); font-size: .92rem; line-height: 1.65; }
+    .home-faq .faq-a p { color: var(--bs-text-dim); font-family: var(--bs-font-body); font-size: .92rem; line-height: 1.65; max-width: 700px; }
     .home-faq .faq-a a { color: var(--bs-ink); text-decoration: underline; text-underline-offset: 3px; }
 
     /* Nav highlight link styling now lives globally in style.css .site-nav-link--highlight */
@@ -408,12 +392,8 @@
   <div class="rule-thick"></div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
-    1,000+ bars graded A&ndash;F, see which ones actually pass. No affiliate deals, no brand payments.
+    1,000+ bars graded A&ndash;F, see which ones actually pass. Every grade is based on ingredients only, never on payment.
   </p>
-  <div class="hero-cta-row">
-    <a href="/bar-finder.html" class="hero-cta-primary">Find My Bar &rarr;</a>
-    <p class="hero-trust">Filter by protein, sugar, and ingredient grade &middot; results in seconds</p>
-  </div>
 </header>
 
 <!-- BAR FINDER - moved above grade scale / methodology per feedback -->
@@ -447,28 +427,27 @@
         <div class="top-bar-header">
           <div class="top-bar-badge">A</div>
           <div class="top-bar-title">
-            <div class="top-bar-name">Cookie Dough</div>
-            <div class="top-bar-brand">Munk Pack</div>
+            <div class="top-bar-name">Peanut Butter and Jelly</div>
+            <div class="top-bar-brand">Off the Farm</div>
           </div>
           <div class="top-bar-score">
-            <div class="top-bar-score-val">11.5</div>
+            <div class="top-bar-score-val">11.4</div>
             <div class="top-bar-score-lbl">Score</div>
           </div>
         </div>
         <div class="top-bar-chips">
-          <span class="top-bar-chip pos">Nut &amp; Seed Blend</span>
-          <span class="top-bar-chip pos">Non-GMO Soy Protein</span>
-          <span class="top-bar-chip con">Glycerin</span>
+          <span class="top-bar-chip pos">Peanut Butter</span>
+          <span class="top-bar-chip pos">Cashew Butter</span>
+          <span class="top-bar-chip con">Honey</span>
         </div>
         <div class="top-bar-macros">
-          <div class="top-bar-macro"><span class="top-bar-macro-val">15g</span><span class="top-bar-macro-lbl">Protein</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">220</span><span class="top-bar-macro-lbl">Calories</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">1g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">20g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">380</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">22g</span><span class="top-bar-macro-lbl">Sugar</span></div>
           <div class="top-bar-macro"><span class="top-bar-macro-val">5g</span><span class="top-bar-macro-lbl">Fiber</span></div>
         </div>
         <div class="top-bar-buy">
-          <a href="https://www.amazon.com/dp/B0DL79899S?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
-          <a href="https://munkpack.com/products/cookie-dough-probiotic-protein-bar-12-count" target="_blank" rel="noopener" class="buy-site">Brand site</a>
+          <a href="https://www.offthefarm.com/products/peanut-butter-jelly-box-of-12?snowball=JEFF24004" target="_blank" rel="noopener sponsored" class="buy-site">Buy from Brand</a>
         </div>
       </div>
 
@@ -477,28 +456,27 @@
         <div class="top-bar-header">
           <div class="top-bar-badge">A</div>
           <div class="top-bar-title">
-            <div class="top-bar-name">Peanut Butter</div>
-            <div class="top-bar-brand">Perfect Bar</div>
+            <div class="top-bar-name">Rocky Road and Sea Salt</div>
+            <div class="top-bar-brand">Gryp</div>
           </div>
           <div class="top-bar-score">
-            <div class="top-bar-score-val">11.0</div>
+            <div class="top-bar-score-val">8.7</div>
             <div class="top-bar-score-lbl">Score</div>
           </div>
         </div>
         <div class="top-bar-chips">
-          <span class="top-bar-chip pos">Peanut Butter</span>
-          <span class="top-bar-chip pos">Whole Egg Powder</span>
-          <span class="top-bar-chip con">Honey</span>
+          <span class="top-bar-chip pos">Whey Protein Isolate</span>
+          <span class="top-bar-chip pos">Casein</span>
+          <span class="top-bar-chip con">Marshmallow</span>
         </div>
         <div class="top-bar-macros">
-          <div class="top-bar-macro"><span class="top-bar-macro-val">10g</span><span class="top-bar-macro-lbl">Protein</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">230</span><span class="top-bar-macro-lbl">Calories</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">13g</span><span class="top-bar-macro-lbl">Sugar</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">2g</span><span class="top-bar-macro-lbl">Fiber</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">25g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">170</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">1g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">7g</span><span class="top-bar-macro-lbl">Fiber</span></div>
         </div>
         <div class="top-bar-buy">
-          <a href="https://www.amazon.com/dp/B08PG5ZHZL?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
-          <a href="https://perfectsnacks.com/products/peanut-butter-snack-size-1" target="_blank" rel="noopener" class="buy-site">Brand site</a>
+          <a href="https://grypbar.com/products/rocky-road-sea-salt?sca_ref=10944347.Zm1RtY1FxuB3Mt0" target="_blank" rel="noopener sponsored" class="buy-site">Buy from Brand</a>
         </div>
       </div>
 
@@ -507,28 +485,28 @@
         <div class="top-bar-header">
           <div class="top-bar-badge">A</div>
           <div class="top-bar-title">
-            <div class="top-bar-name">Coconut Chocolate</div>
-            <div class="top-bar-brand">RXBAR</div>
+            <div class="top-bar-name">Peanut Butter Crunch</div>
+            <div class="top-bar-brand">B.T.R. Nation</div>
           </div>
           <div class="top-bar-score">
-            <div class="top-bar-score-val">10.3</div>
+            <div class="top-bar-score-val">8.7</div>
             <div class="top-bar-score-lbl">Score</div>
           </div>
         </div>
         <div class="top-bar-chips">
-          <span class="top-bar-chip pos">Egg Whites</span>
-          <span class="top-bar-chip pos">Dates &amp; Almonds</span>
-          <span class="top-bar-chip con">Natural Flavors</span>
+          <span class="top-bar-chip pos">Peanut Butter</span>
+          <span class="top-bar-chip pos">Peanuts</span>
+          <span class="top-bar-chip pos">Pea Protein</span>
         </div>
         <div class="top-bar-macros">
-          <div class="top-bar-macro"><span class="top-bar-macro-val">12g</span><span class="top-bar-macro-lbl">Protein</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">200</span><span class="top-bar-macro-lbl">Calories</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">14g</span><span class="top-bar-macro-lbl">Sugar</span></div>
-          <div class="top-bar-macro"><span class="top-bar-macro-val">5g</span><span class="top-bar-macro-lbl">Fiber</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">15g</span><span class="top-bar-macro-lbl">Protein</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">230</span><span class="top-bar-macro-lbl">Calories</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">3g</span><span class="top-bar-macro-lbl">Sugar</span></div>
+          <div class="top-bar-macro"><span class="top-bar-macro-val">10g</span><span class="top-bar-macro-lbl">Fiber</span></div>
         </div>
         <div class="top-bar-buy">
-          <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
-          <a href="/rxbar-review.html" class="buy-site">Full RXBAR review</a>
+          <a href="https://www.amazon.com/dp/B0D934GFNH?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-amazon">Buy on Amazon</a>
+          <a href="https://www.btrnation.com/collections/superfood-protein-bars/products/peanut-butter-crunch-protein?snowball=JEFF60365" target="_blank" rel="noopener sponsored" class="buy-site">Buy from Brand</a>
         </div>
       </div>
 
@@ -575,7 +553,6 @@
     <div class="goal-groups">
 
       <div>
-        <div class="goal-group-label">Not sure where to start?</div>
         <div class="goal-grid">
           <a href="/bar-finder.html?grade=A" class="goal-card goal-card--featured">
             <div class="goal-card-icon">⭐</div>
@@ -617,6 +594,20 @@
             <div class="goal-card-body">
               <div class="goal-card-name">Keto friendly</div>
               <div class="goal-card-desc">Under 5g net carbs, high fat, grade A/B</div>
+            </div>
+          </a>
+          <a href="/bar-finder.html?preset=high_protein" class="goal-card">
+            <div class="goal-card-icon">🥩</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">High protein</div>
+              <div class="goal-card-desc">Ranked by protein per calorie, 15g+ protein, A&ndash;C grade</div>
+            </div>
+          </a>
+          <a href="/bar-finder.html?preset=glp1" class="goal-card">
+            <div class="goal-card-icon">💊</div>
+            <div class="goal-card-body">
+              <div class="goal-card-name">GLP-1 friendly</div>
+              <div class="goal-card-desc">High protein, low volume, no sugar alcohols</div>
             </div>
           </a>
         </div>
