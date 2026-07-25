@@ -1299,6 +1299,7 @@ function toggleExpand(bar, row) {
     { label: 'Potassium',       value: bar['Potassium (mg)'],              unit: 'mg',  highlight: false },
     { label: 'Calcium',         value: bar['Calcium (mg)'],                unit: 'mg',  highlight: false },
     { label: 'Iron',            value: bar['Iron (mg)'],                   unit: 'mg',  highlight: false },
+    { label: 'Creatine',        value: bar['Creatine (g)'],                unit: 'g',   highlight: false },
     { label: 'Caffeine',        value: bar['Caffeine (mg)'],               unit: 'mg',  highlight: false },
   ].filter(r => r.value !== null && r.value !== undefined);
 
