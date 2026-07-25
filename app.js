@@ -1116,6 +1116,24 @@ function buildBarRow(bar) {
 
   const badgeHTML = '<div class="cert-badges">' + certBadges.map(b => `<span class="cert-badge">${b}</span>`).join('') + '</div>';
 
+  // Boost badges — differentiators that deserve to stand out on the main view
+  const boostBadges = [];
+  if (bar['Caffeine (mg)'] > 0) boostBadges.push({ icon: '\u2615', label: 'Caffeine' });
+  if (bar['Creatine (g)'] > 0)  boostBadges.push({ icon: '\uD83D\uDCAA', label: 'Creatine' });
+  const VITAMIN_FIELDS = [
+    'Vitamin A (% DV)', 'Vitamin C (% DV)', 'Vitamin D (% DV)', 'Vitamin E (% DV)', 'Vitamin K (% DV)',
+    'Thiamin / B1 (% DV)', 'Riboflavin / B2 (% DV)', 'Niacin / B3 (% DV)', 'Vitamin B6 (% DV)',
+    'Vitamin B12 (% DV)', 'Folic Acid (% DV)', 'Biotin (% DV)', 'Pantothenic Acid (% DV)'
+  ];
+  // Threshold set at >2% DV so trace/incidental amounts from fortified flour etc. don't count —
+  // adjust VITAMIN_DV_THRESHOLD if this should be looser (e.g. 1) or stricter.
+  const VITAMIN_DV_THRESHOLD = 2;
+  const hasVitamins = VITAMIN_FIELDS.some(f => bar[f] !== null && bar[f] !== undefined && bar[f] > VITAMIN_DV_THRESHOLD);
+  if (hasVitamins) boostBadges.push({ icon: '\uD83D\uDC8A', label: 'Vitamins' });
+  const boostHTML = boostBadges.length
+    ? '<div class="boost-badges">' + boostBadges.map(b => `<span class="boost-badge" title="${b.label}">${b.icon} ${b.label}</span>`).join('') + '</div>'
+    : '';
+
   const band = bar['score_band'];
   const gradeHTML = band
     ? `<span class="table-grade-badge grade-${band}" title="${bar['score_band_label'] || ''}">${band}</span>`
@@ -1125,6 +1143,7 @@ function buildBarRow(bar) {
     <td class="col-bar">
       <div class="bar-brand">${bar['Brand Name'] || ''}</div>
       <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
+      ${boostHTML}
     </td>
     <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
     <td class="col-num">${fmt(bar['Protein (g)'])}</td>
@@ -1508,7 +1527,7 @@ function toggleExpand(bar, row) {
         <div class="expand-right">
           ${scoreSection}
           ${certPills ? `<div class="cert-strip">${certPills}</div>` : ''}
-          ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Visit product page ↗</a>` : ''}
+          ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Buy from Brand ↗</a>` : ''}
           ${bar['Amazon Affiliate'] ? `<a href="${bar['Amazon Affiliate']}" target="_blank" rel="noopener sponsored" class="amazon-link">Buy on Amazon ↗</a>` : ''}
           <button class="expand-compare-btn${compareSet.has(bar['Brand Name'] + '|' + bar['Flavor Name']) ? ' active' : ''}"
             data-barkey="${bar['Brand Name']}|${bar['Flavor Name']}">
@@ -1701,7 +1720,7 @@ function openCompareOverlay() {
       ? `<a href="${aff}" target="_blank" rel="noopener sponsored" class="cmp-buy-btn">Buy on Amazon</a>`
       : `<span class="cmp-buy-btn cmp-buy-placeholder">&nbsp;</span>`;
     const site = b['Website']
-      ? `<a href="${b['Website']}" target="_blank" rel="noopener" class="cmp-site-btn">Product page</a>` : '';
+      ? `<a href="${b['Website']}" target="_blank" rel="noopener" class="cmp-site-btn">Buy from Brand</a>` : '';
     return `<th class="cmp-bar-header-cell">
       <div class="cmp-bar-card-inner">
         <div class="cmp-brand">${b['Brand Name']}</div>
