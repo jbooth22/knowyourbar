@@ -35,6 +35,9 @@ BRIEFING.md             — This file (upload to every Claude session)
 README.md               — Technical documentation
 DEPLOY.md               — Deploy process
 QA.md                   — QA checklist
+BRAND_STANDARDS.md      — Locked v1 visual system (--bs-* tokens in style.css). Migration in progress, not
+                           complete — see "Brand Standards v1 migration" section below before touching colors,
+                           buttons, or type on any page.
 
 Brand review pages (all rebuilt from TEMPLATE_BRAND.html):
   quest-bars.html
@@ -52,6 +55,8 @@ Guide pages (all rebuilt from TEMPLATE_GUIDE.html):
   low-sugar-high-protein.html
   keto-protein-bars.html
   best-bars-for-diabetics.html
+  caffeine-protein-bars.html   — added July 2026, fulfills the "bars with caffeine" future-feature item
+  glp1-protein-bars.html
 
 Data / visualization pages:
   all-protein-bar-brands.html  — Full brand summary table (all brands, filterable)
@@ -142,6 +147,16 @@ Pages targeting health conditions must include a visible disclaimer: "We are not
 
 ---
 
+## Brand Standards v1 migration — READ BEFORE TOUCHING COLORS OR BUTTONS
+
+`BRAND_STANDARDS.md` defines a locked future visual system (`--bs-ink`, `--bs-paper`, ink-stamp buttons, Barlow Condensed, sentence case, no uppercase mono labels). It is **not fully live**. Current actual state:
+- `style.css` has both token sets defined: the legacy `--black`/`--white`/`--accent` tokens (still what nearly every page actually renders with) and the new `--bs-*` tokens (used only in scoped `.brand-v1` overrides).
+- Almost every page now has `<body class="brand-v1">`, but that only activates a handful of specific overrides already written into style.css — it does **not** mean the page has been rebuilt to the new spec. Check `BRAND_STANDARDS.md`'s migration checklist for which pages are actually done.
+- Recent work (buy button standardization, boost badges) was done against the **legacy** token set, since that's what's actually rendering. Don't assume a full `--bs-*` rebuild is imminent — check with the site owner before investing in new legacy-system polish vs. waiting for the v1 migration on any given page.
+- Before adding any new color, button style, or type treatment: check `BRAND_STANDARDS.md` first. If the page isn't migrated yet, match the existing legacy pattern on that page rather than introducing `--bs-*` tokens piecemeal.
+
+---
+
 ## CSS architecture — READ BEFORE TOUCHING ANYTHING
 
 **style.css is the single source of truth for all styles.**
@@ -158,7 +173,7 @@ Pages targeting health conditions must include a visible disclaimer: "We are not
 --accent:     #d4f000   /* yellow-green */
 --muted:      #888880
 --border:     #d6d3cc
---font-display: 'Syne', sans-serif    /* headings */
+--font-display: 'DM Sans', sans-serif /* headings — Syne was removed (single-story 'g' clipping); never reintroduce it */
 --font-mono:    'DM Mono', monospace  /* labels, stats */
 --font-body:    'DM Sans', sans-serif /* body text */
 --radius:     6px
@@ -169,6 +184,7 @@ Pages targeting health conditions must include a visible disclaimer: "We are not
 - Brand review pages: `<body class="page-brand">`
 - Guide pages: `<body class="page-guide">`
 - index.html: plain `<body>`
+- Nearly all pages also carry `<body class="brand-v1">` — this opts them into partial BRAND_STANDARDS v1 overrides (see "Brand Standards v1 migration" below). It does not mean the page is fully migrated.
 
 ### New CSS classes added in April/May 2026
 These exist in style.css and should not be duplicated:
@@ -181,6 +197,15 @@ These exist in style.css and should not be duplicated:
 - `.ingr-buy` — buy button inside expand rows
 - `.site-footer-brand-block` — footer brand+tagline wrapper
 - `.site-nav-mobile-bar-finder` — pinned Bar Finder button in mobile nav (always visible, outside hamburger)
+
+### New CSS classes added in July 2026
+- `.boost-badges`, `.boost-badge` — small indigo pills under the flavor name in the bar-finder results table, flagging Caffeine / Creatine / Vitamins as differentiators. Vitamin badge triggers at >2% DV on any single vitamin (not mineral) field — see `VITAMIN_DV_THRESHOLD` constant in `app.js`. Do not reuse this color for anything else; it's reserved for these three supplement flags.
+
+### Buy button conventions (locked July 2026 — do not deviate)
+Every "buy" link on the site follows one of exactly two styles, regardless of page:
+- **Primary — "Buy on Amazon":** solid black background (`var(--black)`), white text. Classes: `.amazon-link` (bar-finder detail panel), `.cmp-buy-btn` (comparison table), `.buy-btn` (guide/brand listing cards), `.cta-amazon`, `.bar-link-amz`, `.bar-buy-btn`.
+- **Secondary — "Buy from Brand":** transparent background, black text, black border (outlined, not solid). Classes: `.visit-link` (bar-finder detail panel), `.cmp-site-btn` (comparison table), `.bar-link-site` (guide/brand listing cards).
+Both classes for a given context should always render side by side with the primary (solid) first. **Never use orange (`#FF9900` or similar) for any buy button** — that was the pre-July-2026 default and has been fully removed sitewide. If a new page or template needs a buy button, copy one of the six primary classes above; do not invent a new one.
 
 ### Homepage-only CSS classes (in index.html inline style block)
 - `.hero-trust` — time/ease anchor line under the CTA button
@@ -327,6 +352,8 @@ BAR | CAL | PROT | P/100 | FAT | CARB | FIBR | SGR | SGR ALC | CERTS | GRADE | C
 
 P/100 = Protein grams per 100 calories (sortable)
 
+Under the flavor name in the BAR cell, Caffeine/Creatine/Vitamins boost badges render when present (see `.boost-badge` above) — not a table column, but part of that cell's content.
+
 ### Bar expand
 Shows: macro rank grid, nutrition facts panel, ingredient quality score, certifications, ingredient list, similar bars, buy links
 
@@ -379,7 +406,9 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 - Net carbs column in main table
 - Brand comparison pages (Quest vs Barebells, RXBAR vs KIND, Clif vs KIND, Quest vs ONE Bar)
 - More brand review pages: Perfect Bar, GoMacro, ONE Bar, IQBar, Aloha, Built Bar
-- More guide pages: best bars for weight loss, bars with vitamins, bars with caffeine, bars with real food ingredients
+- More guide pages: best bars for weight loss, bars with real food ingredients
+- ~~bars with caffeine~~ — done, see `caffeine-protein-bars.html`
+- ~~bars with vitamins~~ — partially covered by the Vitamins boost badge in the main finder table (July 2026); a dedicated guide page is still open if wanted
 
 ---
 

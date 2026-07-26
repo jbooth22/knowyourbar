@@ -11,7 +11,7 @@ Use this whenever you add bars, update affiliate links, or fix ingredient data.
 1. Update your bar database Excel
 2. Upload both files to Claude:
    - Your bar database Excel
-   - knowyourbar_scoring_schema_v3.xlsx (in your GitHub repo)
+   - knowyourbar_scoring_schema_v4.xlsx (in your GitHub repo)
 3. Say "run score_and_export"
 4. Download bars.js and upload to GitHub
 5. If the bar count changed, update the count in all HTML files (search and replace)
@@ -22,7 +22,7 @@ Use this whenever you add bars, update affiliate links, or fix ingredient data.
 ```bash
 python3 score_and_export.py \
     --db "KYB - New Protein Bar Database (2026).xlsx" \
-    --schema "knowyourbar_scoring_schema_v3.xlsx"
+    --schema "knowyourbar_scoring_schema_v4.xlsx"
 ```
 
 Requires: pip install pandas openpyxl
@@ -74,7 +74,7 @@ clif-bar-review.html
 barebells-review.html
 clean-protein-bars.html
 ingredient_scoring.html
-knowyourbar_scoring_schema_v3.xlsx
+knowyourbar_scoring_schema_v4.xlsx
 ```
 
 Files NOT in the repo (keep locally):
@@ -108,7 +108,7 @@ Files NOT in the repo (keep locally):
 
 When adding new canonical ingredients or fixing scores:
 
-1. Edit knowyourbar_scoring_schema_v3.xlsx
+1. Edit knowyourbar_scoring_schema_v4.xlsx
    - Add rows to Canonical_Ingredients
    - Add rows to Alias_Map
 2. Upload updated schema + bar database to Claude
@@ -126,8 +126,25 @@ When adding new canonical ingredients or fixing scores:
 | Repo | GitHub — jbooth22 |
 | Domain | GoDaddy (DNS pointed to Cloudflare) |
 | Analytics | GA4 — G-SW4MNP5W7J (in index.html) |
-| Fonts | Google Fonts — Syne, DM Sans, DM Mono |
+| Fonts | Google Fonts — DM Sans, DM Mono, Barlow Condensed, IBM Plex Mono |
 | Charts | Chart.js v4.4.0 via jsDelivr CDN (clean-protein-bars.html only) |
+
+---
+
+## Cache Headers (`_headers` file — already exists, check it before proposing a new one)
+
+Current cache durations, set via `_headers` at repo root (Cloudflare Pages reads this automatically on every deploy):
+
+| File(s) | max-age | In practice |
+|---|---|---|
+| `*.html`, `/` | 1 hour | Content pages refresh fast |
+| `bars.js` | 1 hour | New scores/data go live quickly |
+| `app.js` | 1 day | Logic changes need up to 24h or a manual purge to reach all visitors |
+| `style.css` | **1 week** | Visual changes can take up to 7 days to reach a returning visitor without a manual purge |
+| `bar_hero.png`, other images | 30 days | Rarely change |
+| `sitemap.xml`, `robots.txt`, `llms.txt` | 1 day | |
+
+All entries use `must-revalidate`, so nothing is served stale forever — but `max-age` means the browser won't even check with the server until it expires. **`style.css`'s 7-day window is the most likely explanation for "I made a CSS change and it's not showing"** — after any `style.css` deploy, manually purge Cloudflare cache (Cloudflare dashboard → Caching → Configuration → Purge Everything) if you need it live immediately, rather than waiting.
 
 ---
 

@@ -20,7 +20,7 @@ A static website hosted on Cloudflare Pages via GitHub. Users can search, filter
 ├── bars.js                             — Full bar database (1,000+ bars)
 ├── TEMPLATE_BRAND.html                 — Master template for brand review pages
 ├── score_and_export.py                 — Scoring pipeline script
-├── knowyourbar_scoring_schema_v3.xlsx  — Ingredient scoring schema
+├── knowyourbar_scoring_schema_v4.xlsx  — Ingredient scoring schema
 ├── bar_hero.png                        — Hero image
 ├── sitemap.xml
 ├── robots.txt
@@ -72,7 +72,7 @@ Vegan, Gluten Free, Dairy Free, Soy Free, Non-GMO, Nut Free, Kosher (all Y/N)
 
 ## Scoring System
 
-**Schema file:** knowyourbar_scoring_schema_v3.xlsx
+**Schema file:** knowyourbar_scoring_schema_v4.xlsx
 **Canonicals:** 1,048 ingredients
 **Aliases:** 2,024 ingredient name variants
 
@@ -126,13 +126,13 @@ Final Score = sum of (base_score x position_weight x sub_multiplier) + count adj
 
 Upload both files to Claude and say "run score_and_export":
 1. Your bar database Excel
-2. knowyourbar_scoring_schema_v3.xlsx
+2. knowyourbar_scoring_schema_v4.xlsx
 
 Claude will score all bars, export bars.js, and report the grade distribution and any unscored bars.
 
 Or run locally:
 ```bash
-python3 score_and_export.py --db "your_database.xlsx" --schema "knowyourbar_scoring_schema_v3.xlsx"
+python3 score_and_export.py --db "your_database.xlsx" --schema "knowyourbar_scoring_schema_v4.xlsx"
 ```
 Requires: `pip install pandas openpyxl`
 
@@ -196,7 +196,7 @@ All brand pages are built from TEMPLATE_BRAND.html and follow a locked structure
 | --accent | #d4f000 |
 | --muted | #888880 |
 | --border | #d6d3cc |
-| --font-display | Syne |
+| --font-display | DM Sans |
 | --font-body | DM Sans |
 | --font-mono | DM Mono |
 
