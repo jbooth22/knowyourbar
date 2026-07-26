@@ -49,7 +49,7 @@
 
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using our Protein Bar Finder."}},
+    {"@type":"Question","name":"What is the healthiest protein bar?","acceptedAnswer":{"@type":"Answer","text":"There is no single healthiest protein bar because it depends on your goals. RXBAR and Perfect Bar are the most consistent larger brands, every flavor in each lineup scores B or higher. A few smaller names do too, Gryp is one worth knowing before it shows up in stores. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using our Protein Bar Finder."}},
     {"@type":"Question","name":"What protein bar has the cleanest ingredients?","acceptedAnswer":{"@type":"Answer","text":"The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. Top options include RXBAR, Perfect Bar, GoMacro, IQ Bar, and Atlas. Know Your Bar scores every ingredient individually. 340 of the 1,000+ bars in our database meet a strict clean standard. See the full Clean Protein Bars guide for the ranked list."}},
     {"@type":"Question","name":"Are protein bars ultra-processed?","acceptedAnswer":{"@type":"Answer","text":"Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial additives, isolates, or synthetic ingredients not found in home cooking. However, a meaningful minority use whole-food ingredients and minimal processing. Know Your Bar's ingredient scoring system identifies these bars: Grade A and B bars with short, recognizable ingredient lists represent the least-processed options in the category."}},
     {"@type":"Question","name":"Which protein bars have no seed oils?","acceptedAnswer":{"@type":"Answer","text":"Many protein bars contain canola, soybean, sunflower, or palm oil. Bars that consistently avoid seed oils include RXBAR, Perfect Bar, Atlas, GoMacro, and Larabar. Know Your Bar flags processed oils as a scoring concern. Use the No Seed Oils guide or filter by ingredient grade to find qualifying bars instantly."}},
@@ -299,6 +299,7 @@
     /* ─── ABOUT — cream ─── */
     .about-section { background: var(--bs-cream); padding: 3.5rem 1.5rem; }
     .about-inner { max-width: 1040px; margin: 0 auto; }
+    .about-intro { font-family: var(--bs-font-body); font-size: .95rem; color: var(--bs-text-dim); line-height: 1.65; max-width: 640px; margin: 0; }
     .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
     .about-card { border-top: 3px solid var(--bs-ink); padding-top: 1rem; }
     .about-card-title { font-family: var(--bs-font-body); font-size: 1rem; font-weight: 700; color: var(--bs-ink); margin-bottom: .5rem; }
@@ -394,7 +395,7 @@
   <div class="rule-thick"></div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
-    1,000+ bars graded A&ndash;F, see which ones actually pass. Every grade is based on ingredients only, never on payment.
+    I've eaten a lot of protein bars, and it took me embarrassingly long to realize some hurt more than they helped: more sugar and filler than actual protein. So I scored 1,000+ bars, ingredient by ingredient, and graded each one A to F. Never based on payment.
   </p>
 </header>
 
@@ -402,8 +403,8 @@
 <section class="finder-hero-section">
   <div class="finder-hero-inner">
     <div class="finder-hero-label">Protein Bar Finder</div>
-    <h2 class="finder-hero-heading">Filter 1,000+ bars by exactly what matters to you</h2>
-    <p class="finder-hero-desc">Set your minimum protein, maximum sugar, ingredient grade, brand, certifications, and ingredients to exclude. Every filter combines instantly. No lists, no listicles. Just the bars that actually match your goals.</p>
+    <h2 class="finder-hero-heading">Search 130+ brands and 1,000+ bars to find one that works for you</h2>
+    <p class="finder-hero-desc">I built a tool to filter by protein, sugar, carbs, fiber, calories, ingredient grade, brand, flavor, gluten-free, and specific ingredients to exclude, like peanuts. You might care about protein. Someone else cares about avoiding erythritol. That's why the filters exist. No sponsored lists, no subjective taste tests. You decide what tastes good.</p>
     <div class="finder-feature-row">
       <span class="finder-feature-chip">Ingredient Grade A&ndash;F</span>
       <span class="finder-feature-chip">Protein &amp; Calorie Sliders</span>
@@ -624,10 +625,11 @@
   <div class="about-inner">
     <div class="section-label">Know Your Bar</div>
     <h2 class="section-heading">What is this, and why does it exist?</h2>
+    <p class="about-intro">I got tired of standing in the aisle doing the math on protein-to-calorie ratios and remembering which bars were loaded with sugar alcohols. Turns out nobody had built a searchable database of every protein bar. So I started writing them down. 200 bars in a spreadsheet turned into 1,000+. So I kept going.</p>
     <div class="about-grid">
       <div class="about-card">
         <h3 class="about-card-title">The Database</h3>
-        <div class="about-card-body">We built a scoring system for protein bar ingredients from scratch. No affiliate influence, no brand relationships. Every ingredient maps to a quality score. Every bar gets a grade.</div>
+        <div class="about-card-body">I built a scoring system for protein bar ingredients from scratch. No affiliate influence, no brand relationships. Every ingredient maps to a quality score. Every bar gets a grade.</div>
         <a href="/ingredient_scoring.html" class="about-card-link">How we score ingredients &rarr;</a>
       </div>
       <div class="about-card">
@@ -671,7 +673,7 @@
 
     <div class="faq-item">
       <h3 class="faq-q">What is the healthiest protein bar?</h3>
-      <div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. Based on ingredient quality scoring across 1,000+ bars, top-scoring options include RXBAR, Perfect Bar, IQ Bar, Atlas, and Munk Pack. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to Grade A bars using the Protein Bar Finder.</p></div>
+      <div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. RXBAR and Perfect Bar are the most consistent larger brands, every flavor in each lineup scores B or higher. A few smaller names do too, Gryp is one worth knowing before it shows up in stores. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to <a href="/?preset=clean">Grade A bars using the Protein Bar Finder</a>.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">What protein bar has the cleanest ingredients?</h3>
