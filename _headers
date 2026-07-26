@@ -21,10 +21,10 @@
   Cache-Control: public, max-age=86400, must-revalidate
 
 # ─── CSS ───────────────────────────────────────────────────────────────────────
-# style.css — 1 week. Long enough to benefit repeat visitors,
-# short enough that visual fixes go live without a hard refresh.
+# style.css — 1 hour, matching HTML/bars.js. Visual fixes reach every visitor
+# (including mobile) within the hour with no manual Cloudflare purge needed.
 /style.css
-  Cache-Control: public, max-age=604800, must-revalidate
+  Cache-Control: public, max-age=3600, must-revalidate
 
 # ─── Images ────────────────────────────────────────────────────────────────────
 # bar_hero.png rarely changes — 30 days.
