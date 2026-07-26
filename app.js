@@ -1120,6 +1120,7 @@ function buildBarRow(bar) {
   const boostBadges = [];
   if (bar['Caffeine (mg)'] > 0) boostBadges.push({ icon: '\u2615', label: 'Caffeine' });
   if (bar['Creatine (g)'] > 0)  boostBadges.push({ icon: '\uD83D\uDCAA', label: 'Creatine' });
+  if (bar['Melatonin (mg)'] > 0) boostBadges.push({ icon: '\uD83C\uDF19', label: 'Melatonin' });
   const VITAMIN_FIELDS = [
     'Vitamin A (% DV)', 'Vitamin C (% DV)', 'Vitamin D (% DV)', 'Vitamin E (% DV)', 'Vitamin K (% DV)',
     'Thiamin / B1 (% DV)', 'Riboflavin / B2 (% DV)', 'Niacin / B3 (% DV)', 'Vitamin B6 (% DV)',
@@ -1320,6 +1321,7 @@ function toggleExpand(bar, row) {
     { label: 'Iron',            value: bar['Iron (mg)'],                   unit: 'mg',  highlight: false },
     { label: 'Creatine',        value: bar['Creatine (g)'],                unit: 'g',   highlight: false },
     { label: 'Caffeine',        value: bar['Caffeine (mg)'],               unit: 'mg',  highlight: false },
+    { label: 'Melatonin',       value: bar['Melatonin (mg)'],              unit: 'mg',  highlight: false },
   ].filter(r => r.value !== null && r.value !== undefined);
 
   const vitamins = [

@@ -84,7 +84,7 @@ KEEP_COLS      = [
     'Saturated Fat (g)', 'Trans Fat (g)', 'Cholesterol (mg)', 'Sodium (mg)',
     'Total Carbohydrates (g)', 'Dietary Fiber (g)', 'Sugars (g)',
     'Sugar Alcohol (g)', 'Protein (g)', 'Calcium (mg)', 'Iron (mg)',
-    'Potassium (mg)', 'Creatine (g)', 'Caffeine (mg)',
+    'Potassium (mg)', 'Creatine (g)', 'Caffeine (mg)', 'Melatonin (mg)',
 ] + PCT_DV_COLS + [
     'Kosher (Y/N)', 'Vegan (Y/N)', 'Non-GMO (Y/N)', 'Soy Free (Y/N)',
     'Dairy Free (Y/N)', 'Gluten Free (Y/N)', 'Nut Free (Y/N)', 'Ingredients',
