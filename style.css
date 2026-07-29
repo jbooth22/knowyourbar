@@ -2651,6 +2651,12 @@ body.overlay-open { overflow: hidden; }
   font-weight: 800;
   color: white;
 }
+.grade-seg-count {
+  font-weight: 500;
+  font-size: 10px;
+  opacity: 0.85;
+  margin-left: 3px;
+}
 
 /* Macro grid */
 .macro-grid {
@@ -2959,7 +2965,56 @@ body.overlay-open { overflow: hidden; }
 }
 .bw-score { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
 .bw-chips { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 5px; }
-.bw-buy { display: inline-block; margin: 12px 0 0; }
+/* Cross-brand comparison table (dark band, appears on some brand pages) */
+.brand-compare { background: var(--bs-ink); padding: 3rem 1.5rem; }
+.brand-compare-inner { max-width: 860px; margin: 0 auto; }
+.brand-v1 .brand-compare .brand-compare-title {
+  font-family: var(--bs-font-display); font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: var(--bs-paper) !important;
+}
+.brand-compare-sub {
+  color: #c9c0b0; font-size: 0.97rem; margin-bottom: 1.75rem;
+  font-family: var(--bs-font-body); line-height: 1.5;
+}
+.brand-compare-table-wrap { overflow-x: auto; }
+.brand-compare-table { width: 100%; border-collapse: collapse; font-family: var(--bs-font-body); font-size: 0.92rem; }
+.brand-compare-table thead tr { border-bottom: 1px solid #3a382f; }
+.brand-compare-table th { text-align: left; padding: 0.6rem 0.75rem; color: #c9c0b0; font-weight: 600; }
+.brand-compare-table th.ctr, .brand-compare-table td.ctr { text-align: center; }
+.brand-compare-table tbody tr { border-bottom: 1px solid #2a2820; }
+.brand-compare-table tbody tr:last-child { border-bottom: none; }
+.brand-compare-table td { padding: 0.75rem; color: var(--bs-paper); }
+.brand-compare-table td.name { font-weight: 600; }
+.brand-compare-grade {
+  display: inline-block; color: #fff; font-weight: 700;
+  padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.85rem;
+}
+.brand-compare-grade.grade-a  { background: #2a7a1f; }
+.brand-compare-grade.grade-bc { background: #b89a00; }
+.brand-compare-grade.grade-df { background: #c83020; }
+.brand-compare-note {
+  margin-top: 1.5rem; padding: 1.25rem; background: var(--bs-ink-2);
+  border-radius: 8px; border-left: 3px solid #5c584c;
+}
+.brand-compare-note-text { color: #c9c0b0; font-size: 0.93rem; margin: 0; line-height: 1.6; font-family: var(--bs-font-body); }
+.buy-btn-brand {
+  background: transparent;
+  color: var(--black);
+  border: 1.5px solid var(--black);
+  box-shadow: none;
+}
+.buy-btn-brand:hover { background: var(--black); color: var(--white); }
+
+.bw-buy { display: inline-block; }
+.bw-buy-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.bw-buy-group .bw-buy { margin-top: 0; }
+.bw-buy-brand {
+  background: transparent;
+  color: var(--black);
+  border: 1.5px solid var(--black);
+  box-shadow: none;
+}
+.bw-buy-brand:hover { background: var(--black); color: var(--white); }
 
 /* Macro summary SEO blurb — accent-left callout after macro grid */
 .macro-summary-text {
@@ -3960,6 +4015,11 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .bar-table-wrap [style*="font-mono"] { font-family: var(--bs-font-data) !important; }
 .brand-v1 .grade-badge { font-family: var(--bs-font-data); }
 .brand-v1 .buy-btn { background: var(--bs-ink); color: var(--bs-paper) !important; font-family: var(--bs-font-body); }
+.brand-v1 .buy-btn.buy-btn-brand {
+  background: transparent !important; color: var(--bs-ink) !important;
+  border: 1.5px solid var(--bs-ink);
+}
+.brand-v1 .buy-btn.buy-btn-brand:hover { background: var(--bs-ink) !important; color: var(--bs-paper) !important; }
 .brand-v1 .bar-link-site { color: var(--bs-ink); border-color: var(--bs-ink); }
 .brand-v1 .expand-hint { color: var(--bs-text-dim); }
 .brand-v1 .ingr-inner { background: var(--bs-paper); border-color: var(--bs-line-soft); }
@@ -4007,6 +4067,11 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .explore-cta-inner .explore-cta-sub { color: #c9c0b0 !important; }
 .brand-v1 .explore-cta-btn { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
 .brand-v1 .cta-amazon { background: var(--bs-paper) !important; color: var(--bs-ink) !important; }
+.brand-v1 .cta-amazon.bw-buy-brand {
+  background: transparent !important; color: var(--bs-ink) !important;
+  border: 1.5px solid var(--bs-ink);
+}
+.brand-v1 .cta-amazon.bw-buy-brand:hover { background: var(--bs-ink) !important; color: var(--bs-paper) !important; }
 
 /* Explore more cards */
 .brand-v1 .explore-more-label { color: var(--bs-text-dim); font-family: var(--bs-font-body); }

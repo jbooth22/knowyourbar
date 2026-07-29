@@ -216,9 +216,9 @@
     <p>Here is how Clif's full lineup grades out across all three product lines. The wide spread reflects how dramatically the product lines differ in ingredient approach.</p>
     <div class="grade-dist">
       <div class="grade-seg" style="background:#2a7a1f;flex:2" title="Clean: 2 bars">A</div>
-      <div class="grade-seg" style="background:#b89a00;flex:3" title="Okay: 3 bars">C</div>
-      <div class="grade-seg" style="background:#c87020;flex:13" title="Poor: 13 bars">D</div>
-      <div class="grade-seg" style="background:#c83020;flex:10" title="Avoid: 10 bars">F</div>
+      <div class="grade-seg" style="background:#b89a00;flex:3" title="Okay: 3 bars">C <span class="grade-seg-count">3</span></div>
+      <div class="grade-seg" style="background:#c87020;flex:13" title="Poor: 13 bars">D <span class="grade-seg-count">13</span></div>
+      <div class="grade-seg" style="background:#c83020;flex:10" title="Avoid: 10 bars">F <span class="grade-seg-count">10</span></div>
     </div>
     <p style="font-family:var(--font-mono);font-size:13px;color:var(--muted);">
       2 A (Clean) &nbsp;&middot;&nbsp; 0 B (Good) &nbsp;&middot;&nbsp; 3 C (Okay) &nbsp;&middot;&nbsp; 13 D (Poor) &nbsp;&middot;&nbsp; 10 F (Avoid)
@@ -237,10 +237,10 @@
           <span class="bchip pos">Real Nuts</span>
           <span class="bchip pos">Oat Based</span>
         </div>
-        <a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20"
-       target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">
-      Shop Builders Crispy Peanut Butter Chocolate on Amazon
-    </a>
+        <div class="bw-buy-group">
+          <a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+          <a href="https://www.clifbar.com/products/clif-builders-peanut-butter-chocolate-protein-crisp?variant=41102382301317" target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+        </div>
       </div>
       <div class="bw-card worst">
         <div class="bw-label">Lowest ingredient quality</div>
@@ -360,7 +360,8 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter Chocolate <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-peanut-butter-chocolate-protein-crisp?variant=41102382301317" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">8.3</td>
@@ -385,7 +386,8 @@
           <tr class="bar-row" onclick="toggleIngr(1, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Crispy Almond Salted Caramel <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F4RKV55J?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F4RKV55J?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-almond-salted-caramel-protein-crisp?variant=41102382334085" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">8.2</td>
@@ -410,7 +412,8 @@
           <tr class="bar-row" onclick="toggleIngr(2, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Trail Mix</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F869HV7J?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F869HV7J?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-trail-mix?variant=41364287062149" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">1.5</td>
@@ -435,7 +438,8 @@
           <tr class="bar-row" onclick="toggleIngr(3, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Berry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FTDPM9X1?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FTDPM9X1?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-berry-run-the-world-limited-edition?variant=41527242752133" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.9</td>
@@ -460,7 +464,8 @@
           <tr class="bar-row" onclick="toggleIngr(4, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter Banana</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ52DC2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ52DC2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-peanut-butter-banana-dark-chocolate?variant=34478771896453" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.9</td>
@@ -485,7 +490,8 @@
           <tr class="bar-row" onclick="toggleIngr(5, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Brownie</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5FGPB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5FGPB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-brownie?variant=34478760951941" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.2</td>
@@ -510,7 +516,8 @@
           <tr class="bar-row" onclick="toggleIngr(6, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Chip Peanut Crunch</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DJB5FKYD?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DJB5FKYD?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-chip-peanut-crunch?variant=34478774878341" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.1</td>
@@ -535,7 +542,8 @@
           <tr class="bar-row" onclick="toggleIngr(7, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Crunchy Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ6QP2B?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ6QP2B?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-crunchy-peanut-butter?variant=34478773928069" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">0.0</td>
@@ -560,7 +568,8 @@
           <tr class="bar-row" onclick="toggleIngr(8, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Blueberry Almond Crisp</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ4ZC1Y?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ4ZC1Y?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-blueberry-almond-crisp?variant=34478775140485" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.4</td>
@@ -585,7 +594,8 @@
           <tr class="bar-row" onclick="toggleIngr(9, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Oatmeal Raisin Walnut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ6LP2L?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ6LP2L?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-oatmeal-raisin-walnut?variant=34478772191365" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.4</td>
@@ -610,7 +620,8 @@
           <tr class="bar-row" onclick="toggleIngr(10, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cool Mint Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ71XY8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ71XY8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-kid-zbar-protein-chocolate-mint?variant=39743014830213" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.4</td>
@@ -635,7 +646,8 @@
           <tr class="bar-row" onclick="toggleIngr(11, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Chip</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5ZHWH?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5ZHWH?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-chip?variant=34478774911109" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.5</td>
@@ -660,7 +672,8 @@
           <tr class="bar-row" onclick="toggleIngr(12, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Vanilla+Almond+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Vanilla+Almond+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-chip?variant=34478774911109" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.8</td>
@@ -685,7 +698,8 @@
           <tr class="bar-row" onclick="toggleIngr(13, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cookies and Creme</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Cookies+and+Creme+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Cookies+and+Creme+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-chocolate-chip?variant=34478774911109" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.9</td>
@@ -710,7 +724,8 @@
           <tr class="bar-row" onclick="toggleIngr(14, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">White Chocolate Macadamia Nuts</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5SK16?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ5SK16?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-white-chocolate-macadamia?variant=34478760689797" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.0</td>
@@ -735,7 +750,8 @@
           <tr class="bar-row" onclick="toggleIngr(15, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Chocolate Chip</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Caramel+Chocolate+Chip+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Caramel+Chocolate+Chip+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-bar-white-chocolate-macadamia?variant=34478760689797" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.3</td>
@@ -760,7 +776,8 @@
           <tr class="bar-row" onclick="toggleIngr(16, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Chip <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(ZBar)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07QWJYM91?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07QWJYM91?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-kid-zbar-protein-chocolate-chip?variant=39743014895749" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-2.5</td>
@@ -785,7 +802,8 @@
           <tr class="bar-row" onclick="toggleIngr(17, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberries N Creme <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(ZBar)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FY4H9F4C?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FY4H9F4C?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/zbar-protein-strawberries-n-creme?variant=41527242883205" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-2.5</td>
@@ -810,7 +828,8 @@
           <tr class="bar-row" onclick="toggleIngr(18, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Oreo <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DZXJ7LJG?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DZXJ7LJG?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-oreo-protein-oreo-protein-bar?variant=41102382366853" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-2.6</td>
@@ -835,7 +854,8 @@
           <tr class="bar-row" onclick="toggleIngr(19, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Oreo White Fudge <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Oreo+White+Fudge+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Clif+Oreo+White+Fudge+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-oreo-protein-oreo-protein-bar?variant=41102382366853" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-2.6</td>
@@ -860,7 +880,8 @@
           <tr class="bar-row" onclick="toggleIngr(20, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Mint <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(ZBar)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ71XY8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CXQ71XY8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-kid-zbar-protein-chocolate-mint?variant=39743014830213" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-2.7</td>
@@ -885,7 +906,8 @@
           <tr class="bar-row" onclick="toggleIngr(21, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cookie N Creme <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(ZBar)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D4RW2P5W?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D4RW2P5W?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-kid-zbar-protein-cookies-creme?variant=39743014273157" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.1</td>
@@ -910,7 +932,8 @@
           <tr class="bar-row" onclick="toggleIngr(22, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Chip Cookie Dough <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMV78PB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMV78PB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-chocolate-chip-cookie-dough-with-caffeine?variant=39621124849797" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.7</td>
@@ -935,7 +958,8 @@
           <tr class="bar-row" onclick="toggleIngr(23, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B007D6DZ1K?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B007D6DZ1K?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-chocolate?variant=34478776156293" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.8</td>
@@ -960,7 +984,8 @@
           <tr class="bar-row" onclick="toggleIngr(24, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolatey Mint <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B08T21XSSD?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B08T21XSSD?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-chocolate-mint-minis?variant=34847769198725" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.9</td>
@@ -985,7 +1010,8 @@
           <tr class="bar-row" onclick="toggleIngr(25, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolatey Peanut Butter <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09QHBBGJT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-peanut-butter-chocolate-protein-crisp?variant=41102382301317" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-4.1</td>
@@ -1010,7 +1036,8 @@
           <tr class="bar-row" onclick="toggleIngr(26, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cookies N Creme <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B000668QZ4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B000668QZ4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-cookies-cream?variant=34478775402629" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-4.2</td>
@@ -1035,7 +1062,8 @@
           <tr class="bar-row" onclick="toggleIngr(27, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Almond <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Builders)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B000Q5XO4S?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B000Q5XO4S?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://www.clifbar.com/products/clif-builders-vanilla-almond?variant=34478775271557" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-4.2</td>
@@ -1100,64 +1128,64 @@
 
 </div>
 
-<section style="background:#1a1a1a;padding:3rem 1.5rem;">
-  <div style="max-width:860px;margin:0 auto;">
-    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#f5f5f0;">How Clif compares to RXBAR, KIND, and Quest</h2>
-    <p style="color:#b0b0a8;font-size:0.97rem;margin-bottom:1.75rem;">Clif is often compared to other bars in gym bags and trail packs. Here's how the best Clif option stacks up against the alternatives on the same criteria.</p>
+<section class="brand-compare">
+  <div class="brand-compare-inner">
+    <h2 class="brand-compare-title">How Clif compares to RXBAR, KIND, and Quest</h2>
+    <div class="brand-compare-sub">Clif is often compared to other bars in gym bags and trail packs. Here's how the best Clif option stacks up against the alternatives on the same criteria.</div>
 
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-family:'Inter',system-ui,sans-serif;font-size:0.92rem;">
+    <div class="brand-compare-table-wrap">
+      <table class="brand-compare-table">
         <thead>
-          <tr style="border-bottom:1px solid #333;">
-            <th style="text-align:left;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Bar</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Grade</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Protein</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Sugar</th>
-            <th style="text-align:left;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Sweetener</th>
+          <tr>
+            <th>Bar</th>
+            <th class="ctr">Grade</th>
+            <th class="ctr">Protein</th>
+            <th class="ctr">Sugar</th>
+            <th>Sweetener</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">Clif Builders Crispy</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">20g</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">7g</td>
-            <td style="padding:0.75rem;color:#7ec87e;">None</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">Classic Clif Bar</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#b8860b;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">C/D</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">9-11g</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">21-24g</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Organic cane syrup</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">RXBAR</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">12g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">14g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Dates (whole food)</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">KIND Protein</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#b8860b;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">B/C</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">12g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">8g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Honey + sugar</td>
+          <tr>
+            <td class="name">Clif Builders Crispy</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">20g</td>
+            <td class="ctr">7g</td>
+            <td>None</td>
           </tr>
           <tr>
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">Quest</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#b8860b;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">B/C</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">20-21g</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">1g</td>
-            <td style="padding:0.75rem;color:#e07070;">Sucralose + erythritol</td>
+            <td class="name">Classic Clif Bar</td>
+            <td class="ctr"><span class="brand-compare-grade grade-bc">C/D</span></td>
+            <td class="ctr">9-11g</td>
+            <td class="ctr">21-24g</td>
+            <td>Organic cane syrup</td>
+          </tr>
+          <tr>
+            <td class="name">RXBAR</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">12g avg</td>
+            <td class="ctr">14g avg</td>
+            <td>Dates (whole food)</td>
+          </tr>
+          <tr>
+            <td class="name">KIND Protein</td>
+            <td class="ctr"><span class="brand-compare-grade grade-bc">B/C</span></td>
+            <td class="ctr">12g avg</td>
+            <td class="ctr">8g avg</td>
+            <td>Honey + sugar</td>
+          </tr>
+          <tr>
+            <td class="name">Quest</td>
+            <td class="ctr"><span class="brand-compare-grade grade-bc">B/C</span></td>
+            <td class="ctr">20-21g</td>
+            <td class="ctr">1g</td>
+            <td>Sucralose + erythritol</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div style="margin-top:1.5rem;padding:1.25rem;background:#222;border-radius:8px;border-left:3px solid #666;">
-      <p style="color:#b0b0a8;font-size:0.93rem;margin:0;line-height:1.6;">The Builders Crispy line is genuinely competitive — A grade, 20g protein, no artificial sweeteners. The problem is most people grabbing a Clif product reach for the Classic bar, which is an energy bar built for endurance, not ingredient quality. If you want the best of what Clif offers, Builders Crispy is the only version worth comparing to these alternatives.</p>
+    <div class="brand-compare-note">
+      <div class="brand-compare-note-text">The Builders Crispy line is genuinely competitive: A grade, 20g protein, no artificial sweeteners. The problem is most people grabbing a Clif product reach for the Classic bar, which is an energy bar built for endurance, not ingredient quality. If you want the best of what Clif offers, Builders Crispy is the only version worth comparing to these alternatives.</div>
     </div>
   </div>
 </section>

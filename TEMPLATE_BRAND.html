@@ -40,6 +40,11 @@
        @@CALORIE_RANGE@@     e.g. 170-200 (used only in the macro grid section, not the scorecard)
        @@FAT@@ / @@SODIUM@@  Per-row values in the flavor table expand strip, pulled from bars.js
                               Total Fat (g) / Sodium (mg). Never estimate.
+       @@BRAND_SITE_URL@@    Per-row, from bars.js "Website" field. If a brand has no Website
+                              data (e.g. KIND), drop this whole <a> — don't fake a URL.
+       @@BEST_WEBSITE_URL@@  Same as above, for the best-flavor card specifically.
+       Button text is ALWAYS "Shop on Amazon" / "Shop on Brand Site" — never include the
+       flavor name, it's already shown elsewhere on the card/row.
        @@SHORT_ANSWER@@      1-2 sentence plain-English verdict. No em dashes.
        @@META_DESCRIPTION@@  Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@    Shorter version for social. No em dashes.
@@ -317,7 +322,12 @@
   </section>
 
   <!-- 2. GRADE DISTRIBUTION
-       Remove any grade segment with 0 bars. flex value = bar count. -->
+       Remove any grade segment with 0 bars. flex value = bar count.
+       If a segment's share of the total is >=10%, add the count inline:
+         <div class="grade-seg" style="..." title="...">A <span class="grade-seg-count">3</span></div>
+       If a segment's share is <10%, leave it as the bare letter (not enough width
+       for the number to sit comfortably) — the exact count is still available via
+       the title tooltip and the flat breakdown line below the bar. -->
   <section class="section">
     <h2>Ingredient quality grade distribution across all @@FLAVOR_COUNT@@ flavors</h2>
     <p>Here is how @@BRAND@@'s full lineup grades out. This is every flavor we've scored, not a hand-picked few.</p>
@@ -346,10 +356,12 @@
           <span class="bchip pos">@@CHIP@@</span>
           <span class="bchip pos">@@CHIP@@</span>
         </div>
-        <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
-           target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">
-          Shop @@BEST_FLAVOR@@ on Amazon
-        </a>
+        <div class="bw-buy-group">
+          <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
+             target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+          <a href="@@BEST_WEBSITE_URL@@"
+             target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+        </div>
       </div>
       <div class="bw-card worst">
         <div class="bw-label">Lowest ingredient quality</div>
@@ -473,9 +485,14 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">@@FLAVOR_NAME@@</div>
+              <!-- Two buttons: Amazon always (uses Amazon Affiliate field), Brand Site only
+                   when bars.js has a Website URL for this flavor. Never include the flavor
+                   name in the button text, it's already shown above. -->
               <div class="bar-sub">
                 <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
                    target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="@@BRAND_SITE_URL@@"
+                   target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a>
                 <span class="expand-hint">tap for ingredients</span>
               </div>
             </td>

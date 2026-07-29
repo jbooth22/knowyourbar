@@ -301,7 +301,7 @@
     <h2>Ingredient quality grade distribution across all 14 flavors</h2>
     <p>Here is how RXBAR's full lineup grades out. This is every flavor we've scored, not a hand-picked few.</p>
     <div class="grade-dist">
-      <div class="grade-seg" style="background:#2a7a1f;flex:13" title="Clean: 13 bars">A</div>
+      <div class="grade-seg" style="background:#2a7a1f;flex:13" title="Clean: 13 bars">A <span class="grade-seg-count">13</span></div>
       <div class="grade-seg" style="background:#5a8a2f;flex:1" title="Good: 1 bar">B</div>
     </div>
     <p style="font-family:var(--font-mono);font-size:13px;color:var(--muted);">
@@ -322,10 +322,10 @@
           <span class="bchip pos">Quality Protein Source</span>
           <span class="bchip pos">Short Clean List</span>
         </div>
-        <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20"
-       target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">
-      Shop Strawberry Peanut Butter on Amazon
-    </a>
+        <div class="bw-buy-group">
+          <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+          <a href="https://shop.rxbar.com/shop/rxbar-high-protein-strawberry-peanut-butter.html" target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+        </div>
       </div>
       <div class="bw-card worst">
         <div class="bw-label">Lowest ingredient quality</div>
@@ -442,7 +442,8 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberry Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/rxbar-high-protein-strawberry-peanut-butter.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">14.6</td>
@@ -503,7 +504,8 @@
           <tr class="bar-row" onclick="toggleIngr(2, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Honey Cinnamon Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/nut-butter-oat-protein-bar-honey-cinnamon-peanut-butter.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">11.0</td>
@@ -534,7 +536,8 @@
           <tr class="bar-row" onclick="toggleIngr(3, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Coconut Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/coconut-chocolate-box-of-12-bars.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.3</td>
@@ -565,7 +568,8 @@
           <tr class="bar-row" onclick="toggleIngr(4, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/peanut-butter-chocolate-protein-bars-box-of-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.3</td>
@@ -596,7 +600,8 @@
           <tr class="bar-row" onclick="toggleIngr(5, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Sea Salt</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/chocolate-sea-salt-box-of-12-bars.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.2</td>
@@ -627,7 +632,8 @@
           <tr class="bar-row" onclick="toggleIngr(6, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Blueberry Cashew Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/nut-butter-oat-protein-bar-blueberry-cashew-butter.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.2</td>
@@ -657,7 +663,8 @@
           <tr class="bar-row" onclick="toggleIngr(7, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/vanilla-almond-protein-bar-box-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.0</td>
@@ -688,7 +695,8 @@
           <tr class="bar-row" onclick="toggleIngr(8, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberry Strudel</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/strawberry.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -719,7 +727,8 @@
           <tr class="bar-row" onclick="toggleIngr(9, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Blueberry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/blueberry-protein-bars-box-of-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -750,7 +759,8 @@
           <tr class="bar-row" onclick="toggleIngr(10, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/peanut-butter-protein-bars-box-of-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -781,7 +791,8 @@
           <tr class="bar-row" onclick="toggleIngr(11, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Mixed Berry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mixed+berry&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mixed+berry&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/peanut-butter-protein-bars-box-of-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.8</td>
@@ -812,7 +823,8 @@
           <tr class="bar-row" onclick="toggleIngr(12, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Mango Pineapple</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mango+pineapple&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mango+pineapple&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/peanut-butter-protein-bars-box-of-12.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.5</td>
@@ -843,7 +855,8 @@
           <tr class="bar-row" onclick="toggleIngr(13, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
+                <a href="https://shop.rxbar.com/shop/rxbar-high-protein-vanilla-peanut-butter.html" target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.7</td>
@@ -919,64 +932,64 @@
 </div><!-- /content -->
 
 <!-- 9b. COMPARISON TABLE -->
-<section style="background:#1a1a1a;padding:3rem 1.5rem;">
-  <div style="max-width:860px;margin:0 auto;">
-    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;color:#f5f5f0;">How RXBAR compares to other whole-food bars</h2>
-    <p style="color:#b0b0a8;font-size:0.97rem;margin-bottom:1.75rem;">RXBAR's real competition isn't Quest or Barebells — it's the other bars built on whole-food ingredients. Here's how they stack up on the same criteria.</p>
+<section class="brand-compare">
+  <div class="brand-compare-inner">
+    <h2 class="brand-compare-title">How RXBAR compares to other whole-food bars</h2>
+    <div class="brand-compare-sub">RXBAR's real competition isn't Quest or Barebells, it's the other bars built on whole-food ingredients. Here's how they stack up on the same criteria.</div>
 
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-family:'Inter',system-ui,sans-serif;font-size:0.92rem;">
+    <div class="brand-compare-table-wrap">
+      <table class="brand-compare-table">
         <thead>
-          <tr style="border-bottom:1px solid #333;">
-            <th style="text-align:left;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Brand</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Grade</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Protein</th>
-            <th style="text-align:center;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Sugar</th>
-            <th style="text-align:left;padding:0.6rem 0.75rem;color:#b0b0a8;font-weight:600;">Sweetener</th>
+          <tr>
+            <th>Brand</th>
+            <th class="ctr">Grade</th>
+            <th class="ctr">Protein</th>
+            <th class="ctr">Sugar</th>
+            <th>Sweetener</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">RXBAR</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">12g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">14g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Dates (whole food)</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">Larabar</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">4-5g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">18g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Dates (whole food)</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">Perfect Bar</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">12g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">14g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Honey (whole food)</td>
-          </tr>
-          <tr style="border-bottom:1px solid #2a2a2a;">
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">KIND Protein</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#b8860b;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">B/C</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">12g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">8g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Honey + sugar</td>
+          <tr>
+            <td class="name">RXBAR</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">12g avg</td>
+            <td class="ctr">14g avg</td>
+            <td>Dates (whole food)</td>
           </tr>
           <tr>
-            <td style="padding:0.75rem;color:#f5f5f0;font-weight:600;">GoMacro</td>
-            <td style="text-align:center;padding:0.75rem;"><span style="background:#2e7d32;color:#fff;font-weight:700;padding:0.2rem 0.55rem;border-radius:4px;font-size:0.85rem;">A</span></td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">10g avg</td>
-            <td style="text-align:center;padding:0.75rem;color:#f5f5f0;">11g avg</td>
-            <td style="padding:0.75rem;color:#7ec87e;">Brown rice syrup + tapioca</td>
+            <td class="name">Larabar</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">4-5g avg</td>
+            <td class="ctr">18g avg</td>
+            <td>Dates (whole food)</td>
+          </tr>
+          <tr>
+            <td class="name">Perfect Bar</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">12g avg</td>
+            <td class="ctr">14g avg</td>
+            <td>Honey (whole food)</td>
+          </tr>
+          <tr>
+            <td class="name">KIND Protein</td>
+            <td class="ctr"><span class="brand-compare-grade grade-bc">B/C</span></td>
+            <td class="ctr">12g avg</td>
+            <td class="ctr">8g avg</td>
+            <td>Honey + sugar</td>
+          </tr>
+          <tr>
+            <td class="name">GoMacro</td>
+            <td class="ctr"><span class="brand-compare-grade grade-a">A</span></td>
+            <td class="ctr">10g avg</td>
+            <td class="ctr">11g avg</td>
+            <td>Brown rice syrup + tapioca</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div style="margin-top:1.5rem;padding:1.25rem;background:#222;border-radius:8px;border-left:3px solid #666;">
-      <p style="color:#b0b0a8;font-size:0.93rem;margin:0;line-height:1.6;">RXBAR sits at the top of the whole-food bar category for protein alongside Perfect Bar, while Larabar and GoMacro come in lower. If you want an A-grade bar with more protein than RXBAR offers, Perfect Bar is the closest alternative — similar macros, similar ingredient philosophy, different sweetener.</p>
+    <div class="brand-compare-note">
+      <div class="brand-compare-note-text">RXBAR sits at the top of the whole-food bar category for protein alongside Perfect Bar, while Larabar and GoMacro come in lower. If you want an A-grade bar with more protein than RXBAR offers, Perfect Bar is the closest alternative: similar macros, similar ingredient philosophy, different sweetener.</div>
     </div>
   </div>
 </section>
