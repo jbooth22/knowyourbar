@@ -539,10 +539,16 @@
     <p>@@BOTTOM_LINE_P2@@</p>
   </section>
 
-  <!-- 8. EXPLORE ALL BARS CTA
+  <!-- 8. DISCOVER MODULE — fuses the "explore the tool" CTA (dark) with
+       "related reading" (light) into ONE rounded card with two zones,
+       so they read as a single "where to go next" module instead of two
+       separate stacked link-grids.
        Title uses <p> not <h2> — not a content heading.
-       3 filter buttons tailored to this brand's audience. -->
-  <section class="section explore-cta">
+       3 filter buttons tailored to this brand's audience.
+       Related-reading card 1: another brand review
+       Related-reading card 2: vs. page if available, else another brand
+       Related-reading card 3: guide most relevant to this audience -->
+  <section class="section discover-wrap">
     <div class="explore-cta-inner">
       <div class="explore-cta-eyebrow">Know Your Bar</div>
       <p class="explore-cta-title">Explore all 1,000+ bars</p>
@@ -560,32 +566,59 @@
         <a href="/?preset=@@PRESET_3_SLUG@@" class="explore-cta-btn">@@PRESET_3_LABEL@@</a>
       </div>
     </div>
-  </section>
-
-  <!-- 9. EXPLORE MORE
-       Uses explore-more-label div, not h2.
-       Card 1: another brand review
-       Card 2: vs. page if available, else another brand
-       Card 3: guide most relevant to this audience -->
-  <section class="section">
-    <div class="explore-more-label">Explore more</div>
-    <div class="explore-more-grid">
-      <a href="/@@RELATED_BRAND_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@RELATED_BRAND_TITLE@@</div>
-        <div class="explore-more-desc">@@RELATED_BRAND_DESC@@</div>
-      </a>
-      <a href="/@@VS_PAGE_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@VS_PAGE_TITLE@@</div>
-        <div class="explore-more-desc">@@VS_PAGE_DESC@@</div>
-      </a>
-      <a href="/@@GUIDE_SLUG@@.html" class="explore-more-card">
-        <div class="explore-more-title">@@GUIDE_TITLE@@</div>
-        <div class="explore-more-desc">@@GUIDE_DESC@@</div>
-      </a>
+    <div class="discover-more">
+      <div class="discover-more-label">Related reading</div>
+      <div class="explore-more-grid">
+        <a href="/@@RELATED_BRAND_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@RELATED_BRAND_TITLE@@</div>
+          <div class="explore-more-desc">@@RELATED_BRAND_DESC@@</div>
+        </a>
+        <a href="/@@VS_PAGE_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@VS_PAGE_TITLE@@</div>
+          <div class="explore-more-desc">@@VS_PAGE_DESC@@</div>
+        </a>
+        <a href="/@@GUIDE_SLUG@@.html" class="explore-more-card">
+          <div class="explore-more-title">@@GUIDE_TITLE@@</div>
+          <div class="explore-more-desc">@@GUIDE_DESC@@</div>
+        </a>
+      </div>
     </div>
   </section>
 
 </div><!-- /content -->
+
+<!-- 9. CROSS-BRAND COMPARISON (optional, dark full-bleed band outside .content)
+     Reuses the exact data already shown on the other 4 brand pages' versions
+     of this table — never invent new figures for another brand's row.
+     Table columns: Bar | Grade | Protein | Sugar | Sweetener.
+     Grade badge classes: grade-a (green, A only), grade-bc (gold, B/C mixed
+     or single B or C), grade-df (red, D/F mixed or single D or F). -->
+<section class="brand-compare">
+  <div class="brand-compare-inner">
+    <h2 class="brand-compare-title">@@COMPARE_TITLE@@</h2>
+    <div class="brand-compare-sub">@@COMPARE_INTRO@@</div>
+    <div class="brand-compare-table-wrap">
+      <table class="brand-compare-table">
+        <thead>
+          <tr><th>Bar</th><th class="ctr">Grade</th><th class="ctr">Protein</th><th class="ctr">Sugar</th><th>Sweetener</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">@@COMPARE_ROW_NAME@@</td>
+            <td class="ctr"><span class="brand-compare-grade @@COMPARE_ROW_GRADE_CLASS@@">@@COMPARE_ROW_GRADE@@</span></td>
+            <td class="ctr">@@COMPARE_ROW_PROTEIN@@</td>
+            <td class="ctr">@@COMPARE_ROW_SUGAR@@</td>
+            <td>@@COMPARE_ROW_SWEETENER@@</td>
+          </tr>
+          <!-- repeat <tr> per brand row -->
+        </tbody>
+      </table>
+    </div>
+    <div class="brand-compare-note">
+      <div class="brand-compare-note-text">@@COMPARE_NOTE@@</div>
+    </div>
+  </div>
+</section>
 
 <!-- 10. FAQ — must match JSON-LD schema exactly. Min 7 questions. -->
 <section class="faq-section">

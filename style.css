@@ -3117,6 +3117,29 @@ body.overlay-open { overflow: hidden; }
   padding: 2rem 1.75rem;
   text-align: center;
 }
+
+/* Discover module: fuses the "explore the tool" CTA (dark) with "related reading"
+   (light) into one continuous rounded card instead of two separate stacked sections. */
+.discover-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+.discover-wrap .explore-cta-inner { margin-bottom: 0; }
+.discover-more {
+  background: var(--off-white);
+  padding: 1.75rem 1.75rem 2rem;
+}
+.discover-more-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.discover-more .explore-more-grid { margin-top: 0; }
 .explore-cta-eyebrow {
   font-family: var(--font-mono);
   font-size: 9px;
@@ -3971,6 +3994,8 @@ body.overlay-open { overflow: hidden; }
 
 /* Snapshot stat strip */
 .brand-v1 .snapshot { background: var(--bs-cream); border-bottom: 1px solid var(--bs-line-soft); }
+.brand-v1 .discover-more { background: var(--bs-cream) !important; }
+.brand-v1 .discover-more-label { color: var(--bs-text-dim) !important; font-family: var(--bs-font-body) !important; }
 .brand-v1 .snap-value { font-family: var(--bs-font-data) !important; color: var(--bs-ink) !important; font-weight: 600; }
 .brand-v1 .snap-label { color: var(--bs-text-dim) !important; font-family: var(--bs-font-body) !important; }
 .brand-v1 .snap-sub { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim) !important; }
