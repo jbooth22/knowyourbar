@@ -128,14 +128,26 @@
       Sections alternate paper/cream, one dark contrast band.
     */
 
-    .rule-thick { height: 5px; background: var(--bs-ink); width: 56px; }
-
     /* ─── HERO — transparent (matches body bg), headline only, CTA moved to Bar Finder section below ─── */
     .home-hero {
       background: transparent;
       padding: 3.5rem 1.5rem 2.5rem;
       max-width: 1040px;
       margin: 0 auto;
+    }
+    .home-hero-mark {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin-bottom: 1.1rem;
+    }
+    .home-hero-mark svg { flex-shrink: 0; }
+    .home-hero-mark-word {
+      font-family: var(--bs-font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -.01em;
+      color: var(--bs-ink);
     }
     .home-hero h1 {
       font-family: var(--bs-font-display);
@@ -151,7 +163,7 @@
       font-family: var(--bs-font-body);
       font-size: 1.05rem;
       color: var(--bs-text-dim);
-      max-width: 480px;
+      max-width: 600px;
       margin: 0;
       line-height: 1.6;
     }
@@ -392,7 +404,18 @@
 
 <!-- HERO -->
 <header class="home-hero">
-  <div class="rule-thick"></div>
+  <div class="home-hero-mark">
+    <svg width="34" height="34" viewBox="0 0 80 80" role="img" aria-label="Know Your Bar">
+      <rect x="0" y="0" width="80" height="80" rx="14" style="fill:var(--bs-ink)"/>
+      <rect x="18" y="46" width="8" height="16" rx="1.5" style="fill:var(--bs-paper)" opacity="0.3"/>
+      <rect x="29" y="36" width="8" height="26" rx="1.5" style="fill:var(--bs-paper)" opacity="0.6"/>
+      <rect x="40" y="26" width="8" height="36" rx="1.5" style="fill:var(--bs-paper)"/>
+      <rect x="51" y="38" width="8" height="24" rx="1.5" style="fill:var(--bs-paper)" opacity="0.6"/>
+      <circle cx="39" cy="42" r="26" fill="none" style="stroke:var(--bs-paper)" stroke-width="3.5"/>
+      <line x1="59" y1="62" x2="70" y2="73" style="stroke:var(--bs-paper)" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+    <span class="home-hero-mark-word">Know Your Bar</span>
+  </div>
   <h1>Every protein bar scored A&ndash;F on ingredient quality</h1>
   <p class="home-hero-sub">
     I've eaten a lot of protein bars, and it took me embarrassingly long to realize some hurt more than they helped: more sugar and filler than actual protein. So I scored 1,000+ bars, ingredient by ingredient, and graded each one A to F. Never based on payment.
