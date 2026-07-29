@@ -274,24 +274,13 @@
       <div class="snap-label">Flavors scored</div>
     </div>
     <div class="snap-item">
-      <div class="snap-value">B-A</div>
-      <div class="snap-label">Grade range</div>
+      <div class="snap-value">B<span class="snap-value-arrow">&rarr;</span>A</div>
+      <div class="snap-sub">Ingredient score 7.7-14.6</div>
+      <div class="snap-label">Grade range, worst to best</div>
     </div>
     <div class="snap-item">
-      <div class="snap-value">7.7-14.6</div>
-      <div class="snap-label">Score range</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">8-18g</div>
-      <div class="snap-label">Protein per bar</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">180-270</div>
-      <div class="snap-label">Calories per bar</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:#2a7a1f">None</div>
-      <div class="snap-label">Artificial sweeteners</div>
+      <div class="snap-value" style="color:#2a7a1f">0%</div>
+      <div class="snap-label">Flavors with artificial sweeteners</div>
     </div>
   </div>
 </section>
@@ -310,7 +299,7 @@
   <!-- 2. GRADE DISTRIBUTION -->
   <section class="section">
     <h2>Ingredient quality grade distribution across all 14 flavors</h2>
-    <p>Here is how RXBAR's full lineup grades out. Every flavor, not a curated selection.</p>
+    <p>Here is how RXBAR's full lineup grades out. This is every flavor we've scored, not a hand-picked few.</p>
     <div class="grade-dist">
       <div class="grade-seg" style="background:#2a7a1f;flex:13" title="Clean: 13 bars">A</div>
       <div class="grade-seg" style="background:#5a8a2f;flex:1" title="Good: 1 bar">B</div>
@@ -346,7 +335,7 @@
     </div>
     <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20"
        target="_blank" rel="noopener sponsored" class="cta-amazon">
-      Buy Strawberry Peanut Butter on Amazon
+      Shop Strawberry Peanut Butter on Amazon
     </a>
   </section>
 
@@ -399,6 +388,7 @@
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
     <p>RXBAR is one of the most consistent brands in our database in terms of ingredient approach. Here is what the data shows across all 14 flavors.</p>
+    <p class="chip-legend"><span class="chip-legend-dot minor"></span>Present, minor impact on score &nbsp;&nbsp; <span class="chip-legend-dot elevated"></span>Significant impact on score</p>
 
     <div class="chip-group-label">Most flavors</div>
     <div class="chip-freq-row">
@@ -452,7 +442,7 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberry Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">14.6</td>
@@ -468,16 +458,14 @@
                   <span><strong>Calories</strong>260</span>
                   <span><strong>Sugar</strong>16g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>240mg</span></div>
                 <strong>Ingredients: </strong>Peanut Butter (Peanuts), Apples, Dates, Peanuts, Honey, Egg Whites, Strawberries, Oats, Cranberry Seeds, Citrus Fiber, Coconut, Sea Salt, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0F8CY1BY4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -501,15 +489,13 @@
                   <span><strong>Calories</strong>210</span>
                   <span><strong>Sugar</strong>14g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>240mg</span></div>
                 <strong>Ingredients: </strong>Peanut Butter (Peanuts), Apples, Peanuts, Egg Whites, Honey, Chocolate, Citrus Fiber, Cacao Nibs, Cocoa, Coconut, Natural Flavors, Sea Salt
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/s?k=rxbar+dark+chocolate+peanut+butter&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -517,7 +503,7 @@
           <tr class="bar-row" onclick="toggleIngr(2, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Honey Cinnamon Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">11.0</td>
@@ -533,16 +519,14 @@
                   <span><strong>Calories</strong>220</span>
                   <span><strong>Sugar</strong>12g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>170mg</span></div>
                 <strong>Ingredients: </strong>Oats, Honey, Peanut Butter (Peanuts), Egg Whites, Peanuts, Pumpkin Seeds, Brown Rice, Avocado And/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Cinnamon, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip con elev">Sweetener Heavy</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B09KMWCX72?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -550,7 +534,7 @@
           <tr class="bar-row" onclick="toggleIngr(3, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Coconut Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.3</td>
@@ -566,16 +550,14 @@
                   <span><strong>Calories</strong>200</span>
                   <span><strong>Sugar</strong>14g</span>
                   <span><strong>Fiber</strong>5g</span>
-                </div>
+                <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>190mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Chocolate, Coconut, Natural Flavors, Sea Salt
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0143NQVI4?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -583,7 +565,7 @@
           <tr class="bar-row" onclick="toggleIngr(4, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.3</td>
@@ -599,16 +581,14 @@
                   <span><strong>Calories</strong>210</span>
                   <span><strong>Sugar</strong>14g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>180mg</span></div>
                 <strong>Ingredients: </strong>Dates, Peanuts, Egg Whites, Chocolate, Peanut Flour (Peanuts), Natural Flavors, Cocoa, Sea Salt
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B01M6TK228?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -616,7 +596,7 @@
           <tr class="bar-row" onclick="toggleIngr(5, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Sea Salt</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.2</td>
@@ -632,16 +612,14 @@
                   <span><strong>Calories</strong>200</span>
                   <span><strong>Sugar</strong>14g</span>
                   <span><strong>Fiber</strong>5g</span>
-                </div>
+                <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>190mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Cashews, Almonds, Chocolate, Cocoa, Natural Flavors, Sea Salt
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0143NQVQ6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -649,7 +627,7 @@
           <tr class="bar-row" onclick="toggleIngr(6, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Blueberry Cashew Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.2</td>
@@ -665,15 +643,13 @@
                   <span><strong>Calories</strong>220</span>
                   <span><strong>Sugar</strong>11g</span>
                   <span><strong>Fiber</strong>5g</span>
-                </div>
+                <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>150mg</span></div>
                 <strong>Ingredients: </strong>Oats, Honey, Egg Whites, Cashew Butter (Cashews), Almonds, Blueberries, Pumpkin Seeds, Brown Rice, Avocado And/or High Oleic Sunflower Oil, Coconut Sugar, Oat Fiber, Sea Salt, Lemon, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip con elev">Sweetener Heavy</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0BG95RLRK?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -681,7 +657,7 @@
           <tr class="bar-row" onclick="toggleIngr(7, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">10.0</td>
@@ -697,16 +673,14 @@
                   <span><strong>Calories</strong>190</span>
                   <span><strong>Sugar</strong>16g</span>
                   <span><strong>Fiber</strong>5g</span>
-                </div>
+                <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>200mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Vanilla Bean, Sea Salt, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B07ZQYM8MJ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -714,7 +688,7 @@
           <tr class="bar-row" onclick="toggleIngr(8, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberry Strudel</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -730,16 +704,14 @@
                   <span><strong>Calories</strong>190</span>
                   <span><strong>Sugar</strong>14g</span>
                   <span><strong>Fiber</strong>6g</span>
-                </div>
+                <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>140mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Strawberries, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0BFSFGNHR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -747,7 +719,7 @@
           <tr class="bar-row" onclick="toggleIngr(9, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Blueberry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -763,16 +735,14 @@
                   <span><strong>Calories</strong>180</span>
                   <span><strong>Sugar</strong>15g</span>
                   <span><strong>Fiber</strong>6g</span>
-                </div>
+                <span><strong>Fat</strong>6g</span><span><strong>Sodium</strong>150mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Blueberries, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0143NQW2E?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -780,7 +750,7 @@
           <tr class="bar-row" onclick="toggleIngr(10, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.9</td>
@@ -796,16 +766,14 @@
                   <span><strong>Calories</strong>190</span>
                   <span><strong>Sugar</strong>17g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>300mg</span></div>
                 <strong>Ingredients: </strong>Dates, Peanuts, Egg Whites, Peanut Flour (Peanuts), Sea Salt, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0143NQVP2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -813,7 +781,7 @@
           <tr class="bar-row" onclick="toggleIngr(11, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Mixed Berry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mixed+berry&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mixed+berry&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.8</td>
@@ -829,16 +797,14 @@
                   <span><strong>Calories</strong>180</span>
                   <span><strong>Sugar</strong>15g</span>
                   <span><strong>Fiber</strong>6g</span>
-                </div>
+                <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>300mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Blueberries, Raspberries, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/s?k=rxbar+mixed+berry&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -846,7 +812,7 @@
           <tr class="bar-row" onclick="toggleIngr(12, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Mango Pineapple</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mango+pineapple&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=rxbar+mango+pineapple&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#2a7a1f" title="Clean">A</span></td>
             <td class="num-cell">9.5</td>
@@ -862,16 +828,14 @@
                   <span><strong>Calories</strong>190</span>
                   <span><strong>Sugar</strong>16g</span>
                   <span><strong>Fiber</strong>5g</span>
-                </div>
+                <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>300mg</span></div>
                 <strong>Ingredients: </strong>Dates, Egg Whites, Almonds, Cashews, Mango, Pineapple, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip pos">Quality Protein Source</span>
                   <span class="bchip pos">Whole Food Forward</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/s?k=rxbar+mango+pineapple&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>
@@ -879,7 +843,7 @@
           <tr class="bar-row" onclick="toggleIngr(13, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Vanilla Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.7</td>
@@ -895,16 +859,14 @@
                   <span><strong>Calories</strong>270</span>
                   <span><strong>Sugar</strong>16g</span>
                   <span><strong>Fiber</strong>4g</span>
-                </div>
+                <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>240mg</span></div>
                 <strong>Ingredients: </strong>Peanut Butter (Peanuts), Agave Nectar, Pea Protein, Peanuts, Vanilla Beans, Natural Flavors
                 <div class="ingr-chips">
                   <span class="bchip con elev">Sweetener Heavy</span>
                   <span class="bchip con">Processed Protein</span>
                   <span class="bchip pos">Short Clean List</span>
                 </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/B0F8D58FJM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                </div>
+                
               </div>
             </td>
           </tr>

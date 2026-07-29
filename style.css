@@ -2599,6 +2599,20 @@ body.overlay-open { overflow: hidden; }
   color: var(--muted);
   margin-top: 4px;
 }
+.snap-value-arrow {
+  display: inline-block;
+  margin: 0 4px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--muted);
+  vertical-align: middle;
+}
+.snap-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
 
 /* Main content area */
 .page-brand .content {
@@ -2631,6 +2645,7 @@ body.overlay-open { overflow: hidden; }
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 800;
@@ -2695,10 +2710,29 @@ body.overlay-open { overflow: hidden; }
   margin: 1px;
   white-space: nowrap;
 }
-.bchip.pos { background: #edfce4; border: 1px solid #b8eaa0; color: #1a5412; }
-.bchip.con { background: #f5f2ec; border: 1px solid #d6d3cc; color: #666; }
-.bchip.con.elev { background: #c83020; border: 1px solid #c83020; color: #ffffff; font-weight: 600; }
-.bchip.neu { background: #f0ede6; border: 1px solid var(--border); color: var(--muted); }
+.bchip.pos { order: 1; background: #edfce4; border: 1px solid #b8eaa0; color: #1a5412; }
+.bchip.neu { order: 2; background: #f0ede6; border: 1px solid var(--border); color: var(--muted); }
+.bchip.con { order: 3; background: #f5f2ec; border: 1px solid #d6d3cc; color: #666; }
+.bchip.con.elev { order: 4; background: #c83020; border: 1px solid #c83020; color: #ffffff; font-weight: 600; }
+
+.chip-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+.chip-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+.chip-legend-dot.minor { background: #d6d3cc; }
+.chip-legend-dot.elevated { background: #c83020; }
 
 /* Bar table — THE key fix: no forced horizontal scroll */
 .bar-table-wrap {
@@ -2895,8 +2929,10 @@ body.overlay-open { overflow: hidden; }
   border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
 }
-.buy-btn:hover { opacity: 0.85; }
+.buy-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 3px 7px rgba(0,0,0,0.25); }
 
 /* Best / worst cards */
 .bestworst {
@@ -3125,7 +3161,10 @@ body.overlay-open { overflow: hidden; }
   border-radius: var(--radius);
   text-decoration: none;
   margin: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
 }
+.cta-amazon:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 9px rgba(0,0,0,0.28); }
 
 /* Verdict cards (brand review pro/con) */
 .verdict-grid {
@@ -3879,6 +3918,8 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .snapshot { background: var(--bs-cream); border-bottom: 1px solid var(--bs-line-soft); }
 .brand-v1 .snap-value { font-family: var(--bs-font-data) !important; color: var(--bs-ink) !important; font-weight: 600; }
 .brand-v1 .snap-label { color: var(--bs-text-dim) !important; font-family: var(--bs-font-body) !important; }
+.brand-v1 .snap-sub { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim) !important; }
+.brand-v1 .snap-value-arrow { color: var(--bs-text-dim) !important; }
 
 /* Top picks cards */
 .brand-v1 .pick-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink) !important; }
@@ -3962,7 +4003,7 @@ body.overlay-open { overflow: hidden; }
 /* Explore CTA (dark tile) */
 .brand-v1 .explore-cta-inner { background: var(--bs-ink) !important; }
 .brand-v1 .explore-cta-eyebrow { color: #a39d8c; }
-.brand-v1 .explore-cta-title { color: var(--bs-paper) !important; font-family: var(--bs-font-display); }
+.brand-v1 .explore-cta-inner .explore-cta-title { color: var(--bs-paper) !important; font-family: var(--bs-font-display); }
 .brand-v1 .explore-cta-sub { color: #c9c0b0 !important; }
 .brand-v1 .explore-cta-btn { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
 .brand-v1 .cta-amazon { background: var(--bs-paper) !important; color: var(--bs-ink) !important; }

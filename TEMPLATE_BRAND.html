@@ -31,11 +31,15 @@
        @@BRAND_FULL_NAME@@   Legal brand name (e.g. Quest Nutrition)
        @@BRAND_URL@@         Brand website URL
        @@FLAVOR_COUNT@@      Number of flavors scored (e.g. 16)
-       @@GRADE_RANGE@@       Worst to best (e.g. B-A or C-A)
-       @@SCORE_RANGE@@       e.g. 4.4-9.3
-       @@PROTEIN_RANGE@@     e.g. 18-21g
-       @@CALORIE_RANGE@@     e.g. 170-200
-       @@SWEETENER_STATUS@@  None / Natural only / Artificial / Mixed
+       @@GRADE_RANGE_LOW@@   Worst grade in lineup (e.g. B)
+       @@GRADE_RANGE_HIGH@@  Best grade in lineup (e.g. A)
+       @@SCORE_RANGE@@       e.g. 4.4-9.3 (worst to best, matches grade order)
+       @@SWEETENER_PCT@@     Whole number 0-100, from bars.js score_insights, not estimated
+       @@SWEETENER_COLOR@@   #c83020 if @@SWEETENER_PCT@@ > 0, else #2a7a1f
+       @@PROTEIN_RANGE@@     e.g. 18-21g (used only in the macro grid section, not the scorecard)
+       @@CALORIE_RANGE@@     e.g. 170-200 (used only in the macro grid section, not the scorecard)
+       @@FAT@@ / @@SODIUM@@  Per-row values in the flavor table expand strip, pulled from bars.js
+                              Total Fat (g) / Sodium (mg). Never estimate.
        @@SHORT_ANSWER@@      1-2 sentence plain-English verdict. No em dashes.
        @@META_DESCRIPTION@@  Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@    Shorter version for social. No em dashes.
@@ -61,7 +65,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
@@ -75,7 +79,7 @@
       --accent:    #d4f000;
       --muted:     #888880;
       --border:    #d6d3cc;
-      --font-display: 'Syne', sans-serif;
+      --font-display: 'DM Sans', sans-serif;
       --font-mono:    'DM Mono', monospace;
       --font-body:    'DM Sans', sans-serif;
       --radius:    6px;
@@ -273,7 +277,13 @@
 </section>
 
 <!-- SCORECARD SNAPSHOT
-     Sweetener value color: style="color:#c83020" for Artificial, style="color:#2a7a1f" for None -->
+     Only 3 stats — this strip is about ingredient quality, not macros.
+     Macro numbers live in the "How [BRAND] ranks on macros" section below;
+     do not duplicate Protein/Calorie ranges up here.
+     @@GRADE_RANGE_LOW@@ / @@GRADE_RANGE_HIGH@@ = worst and best grade, shown as low -> high.
+     @@SWEETENER_PCT@@ = whole number, 0-100. Pull from score_insights ("Artificial Sweeteners")
+     in bars.js, never estimate. Sweetener value color: style="color:#c83020" if >0%,
+     style="color:#2a7a1f" if 0%. -->
 <section class="snapshot">
   <div class="snapshot-inner">
     <div class="snap-item">
@@ -281,24 +291,13 @@
       <div class="snap-label">Flavors scored</div>
     </div>
     <div class="snap-item">
-      <div class="snap-value">@@GRADE_RANGE@@</div>
-      <div class="snap-label">Grade range</div>
+      <div class="snap-value">@@GRADE_RANGE_LOW@@<span class="snap-value-arrow">&rarr;</span>@@GRADE_RANGE_HIGH@@</div>
+      <div class="snap-sub">Ingredient score @@SCORE_RANGE@@</div>
+      <div class="snap-label">Grade range, worst to best</div>
     </div>
     <div class="snap-item">
-      <div class="snap-value">@@SCORE_RANGE@@</div>
-      <div class="snap-label">Score range</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">@@PROTEIN_RANGE@@</div>
-      <div class="snap-label">Protein per bar</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">@@CALORIE_RANGE@@</div>
-      <div class="snap-label">Calories per bar</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">@@SWEETENER_STATUS@@</div>
-      <div class="snap-label">Artificial sweeteners</div>
+      <div class="snap-value" style="color:@@SWEETENER_COLOR@@">@@SWEETENER_PCT@@%</div>
+      <div class="snap-label">Flavors with artificial sweeteners</div>
     </div>
   </div>
 </section>
@@ -321,7 +320,7 @@
        Remove any grade segment with 0 bars. flex value = bar count. -->
   <section class="section">
     <h2>Ingredient quality grade distribution across all @@FLAVOR_COUNT@@ flavors</h2>
-    <p>Here is how @@BRAND@@'s full lineup grades out. Every flavor, not a curated selection.</p>
+    <p>Here is how @@BRAND@@'s full lineup grades out. This is every flavor we've scored, not a hand-picked few.</p>
     <div class="grade-dist">
       <div class="grade-seg" style="background:#2a7a1f;flex:@@COUNT_A@@" title="Clean: @@COUNT_A@@ bars">A</div>
       <div class="grade-seg" style="background:#5a8a2f;flex:@@COUNT_B@@" title="Good: @@COUNT_B@@ bars">B</div>
@@ -360,7 +359,7 @@
     </div>
     <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
        target="_blank" rel="noopener sponsored" class="cta-amazon">
-      Buy @@BEST_FLAVOR@@ on Amazon
+      Shop @@BEST_FLAVOR@@ on Amazon
     </a>
   </section>
 
@@ -418,6 +417,7 @@
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
     <p>@@PATTERNS_INTRO@@</p>
+    <p class="chip-legend"><span class="chip-legend-dot minor"></span>Present, minor impact on score &nbsp;&nbsp; <span class="chip-legend-dot elevated"></span>Significant impact on score</p>
 
     <div class="chip-group-label">Every flavor</div>
     <div class="chip-freq-row">
@@ -476,7 +476,7 @@
               <div class="bar-flavor">@@FLAVOR_NAME@@</div>
               <div class="bar-sub">
                 <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
-                   target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a>
+                   target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
                 <span class="expand-hint">tap for ingredients</span>
               </div>
             </td>
@@ -496,15 +496,13 @@
                   <span><strong>Calories</strong>@@CALORIES@@</span>
                   <span><strong>Sugar</strong>@@SUGAR@@g</span>
                   <span><strong>Fiber</strong>@@FIBER@@g</span>
+                  <span><strong>Fat</strong>@@FAT@@g</span>
+                  <span><strong>Sodium</strong>@@SODIUM@@mg</span>
                 </div>
                 <strong>Ingredients: </strong>@@FULL_INGREDIENT_LIST@@
                 <div class="ingr-chips">
                   <span class="bchip pos">@@CHIP@@</span>
                   <span class="bchip con elev">@@CHIP@@</span>
-                </div>
-                <div class="ingr-buy">
-                  <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
-                     target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
                 </div>
               </div>
             </td>

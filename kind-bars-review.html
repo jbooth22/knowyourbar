@@ -197,11 +197,8 @@
 <section class="snapshot">
   <div class="snapshot-inner">
     <div class="snap-item"><div class="snap-value">19</div><div class="snap-label">Flavors scored</div></div>
-    <div class="snap-item"><div class="snap-value">D-B</div><div class="snap-label">Grade range</div></div>
-    <div class="snap-item"><div class="snap-value">-0.2-7.7</div><div class="snap-label">Score range</div></div>
-    <div class="snap-item"><div class="snap-value">3-20g</div><div class="snap-label">Protein per bar</div></div>
-    <div class="snap-item"><div class="snap-value">140-250</div><div class="snap-label">Calories per bar</div></div>
-    <div class="snap-item"><div class="snap-value" style="color:#2a7a1f">None</div><div class="snap-label">Artificial sweeteners</div></div>
+    <div class="snap-item"><div class="snap-value">D<span class="snap-value-arrow">&rarr;</span>B</div><div class="snap-sub">Ingredient score -0.2-7.7</div><div class="snap-label">Grade range, worst to best</div></div>
+    <div class="snap-item"><div class="snap-value" style="color:#2a7a1f">0%</div><div class="snap-label">Flavors with artificial sweeteners</div></div>
   </div>
 </section>
 
@@ -216,7 +213,7 @@
 
   <section class="section">
     <h2>Ingredient quality grade distribution across all 19 flavors</h2>
-    <p>Here is how KIND's full lineup grades out. Every flavor, not a curated selection. The spread from B to D shows how much sweetener choice affects the score even when the nut base stays consistent.</p>
+    <p>Here is how KIND's full lineup grades out. This is every flavor we've scored, not a hand-picked few. The spread from B to D shows how much sweetener choice affects the score even when the nut base stays consistent.</p>
     <div class="grade-dist">
       <div class="grade-seg" style="background:#5a8a2f;flex:11" title="Good: 11 bars">B</div>
       <div class="grade-seg" style="background:#b89a00;flex:7" title="Okay: 7 bars">C</div>
@@ -253,7 +250,7 @@
     </div>
     <a href="https://www.amazon.com/s?k=KIND+Dark+Chocolate+Nuts+Sea+Salt&tag=knowyourbar0f-20"
        target="_blank" rel="noopener sponsored" class="cta-amazon">
-      Buy Dark Chocolate Nuts and Sea Salt on Amazon
+      Shop Dark Chocolate Nuts and Sea Salt on Amazon
     </a>
   </section>
 
@@ -304,6 +301,7 @@
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
     <p>Two patterns define the KIND lineup more than anything else: what sweetener is used, and whether palm kernel oil is present in the coating.</p>
+    <p class="chip-legend"><span class="chip-legend-dot minor"></span>Present, minor impact on score &nbsp;&nbsp; <span class="chip-legend-dot elevated"></span>Significant impact on score</p>
 
     <div class="chip-group-label">Most flavors</div>
     <div class="chip-freq-row">
@@ -361,7 +359,7 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Nuts and Sea Salt</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Nuts+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Nuts+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.7</td>
@@ -376,17 +374,17 @@
                 <span><strong>Calories</strong>150</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>75mg</span></div>
               <strong>Ingredients: </strong>Almonds, peanuts, allulose, tapioca fiber, palm kernel oil, brown rice, chicory root fiber, alkalized cocoa, unsweetened chocolate, sea salt, peanut butter (peanuts, sea salt), natural flavor, soy lecithin
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Nuts+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(1, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter Dark Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Peanut+Butter+Dark+Chocolate+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Peanut+Butter+Dark+Chocolate+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.5</td>
@@ -401,17 +399,17 @@
                 <span><strong>Calories</strong>150</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>65mg</span></div>
               <strong>Ingredients: </strong>Peanuts, allulose, tapioca fiber, almonds, palm kernel oil, brown rice, chicory root fiber, peanut butter (peanuts, sea salt), alkalized cocoa, unsweetened chocolate, sea salt, natural flavor, soy lecithin
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Peanut+Butter+Dark+Chocolate+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(2, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Raspberry Cocoa Crisp <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Protein Max)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Raspberry+Cocoa+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Raspberry+Cocoa+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.9</td>
@@ -426,17 +424,17 @@
                 <span><strong>Calories</strong>240</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>10g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>180mg</span></div>
               <strong>Ingredients: </strong>Peanuts, soy protein isolate, allulose, tapioca fiber, palm kernel oil, chicory root fiber, vegetable glycerin, dried raspberries, alkalized cocoa, cocoa oil, soy lecithin, tapioca starch, Vitamin E (mixed tocopherols for freshness)
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip pos">High Protein</span><span class="bchip con">Soy Protein</span><span class="bchip con elev">Processed Oils</span><span class="bchip con">Glycerin</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Raspberry+Cocoa+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(3, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Crisp <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Protein Max)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.6</td>
@@ -451,17 +449,17 @@
                 <span><strong>Calories</strong>240</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>9g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>200mg</span></div>
               <strong>Ingredients: </strong>Peanuts, soy protein isolate, allulose, tapioca fiber, palm kernel oil, vegetable glycerin, chicory root fiber, unsweetened chocolate, alkalized cocoa, natural flavor, cocoa powder, canola oil, tapioca starch, soy lecithin, Vitamin E (mixed tocopherols for freshness)
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip pos">High Protein</span><span class="bchip con">Soy Protein</span><span class="bchip con elev">Processed Oils</span><span class="bchip con">Glycerin</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(4, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Crispy Chocolate Peanut Butter <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Protein Max)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Crispy+Chocolate+Peanut+Butter+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Crispy+Chocolate+Peanut+Butter+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.4</td>
@@ -476,17 +474,17 @@
                 <span><strong>Calories</strong>250</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>9g</span>
-              </div>
+              <span><strong>Fat</strong>14g</span><span><strong>Sodium</strong>200mg</span></div>
               <strong>Ingredients: </strong>Peanuts, soy protein isolate, allulose, tapioca fiber, palm kernel oil, vegetable glycerin, chicory root fiber, unsweetened chocolate, alkalized cocoa, natural flavor, sea salt, peanut oil, tapioca starch, soy lecithin, Vitamin E (mixed tocopherols for freshness)
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip pos">High Protein</span><span class="bchip con">Soy Protein</span><span class="bchip con elev">Processed Oils</span><span class="bchip con">Glycerin</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Crispy+Chocolate+Peanut+Butter+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(5, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Raspberry Pumpkin Seed</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Raspberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Raspberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.2</td>
@@ -501,17 +499,17 @@
                 <span><strong>Calories</strong>180</span>
                 <span><strong>Sugar</strong>8g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>45mg</span></div>
               <strong>Ingredients: </strong>Pumpkin seeds, peanuts, chicory root fiber, sunflower seeds, cane sugar, dried cranberries, almonds, honey, palm kernel oil, glucose syrup, rice flour, dried raspberries, unsweetened chocolate, alkalized cocoa, soy lecithin, sea salt, natural flavor, rosemary extract (to maintain freshness), cocoa butter
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Raspberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(6, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Sweet and Salty Caramel Peanut Crisp <span style="font-size:10px;font-family:var(--font-mono);color:var(--muted);font-weight:500;">(Protein Max)</span></div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Sweet+and+Salty+Caramel+Peanut+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Sweet+and+Salty+Caramel+Peanut+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.0</td>
@@ -526,17 +524,17 @@
                 <span><strong>Calories</strong>240</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>10g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>190mg</span></div>
               <strong>Ingredients: </strong>Peanuts, soy protein isolate, allulose, tapioca fiber, chicory root fiber, palm kernel oil, vegetable glycerin, natural flavor, tapioca starch, milk powder, peanut oil, sea salt, cocoa, soy lecithin, annatto extract, Vitamin E (mixed tocopherols for freshness)
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip pos">High Protein</span><span class="bchip con">Soy Protein</span><span class="bchip con elev">Processed Oils</span><span class="bchip con">Glycerin</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Sweet+and+Salty+Caramel+Peanut+Crisp+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(7, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Strawberry Sunflower Seed</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Strawberry+Sunflower+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Strawberry+Sunflower+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.8</td>
@@ -551,17 +549,17 @@
                 <span><strong>Calories</strong>190</span>
                 <span><strong>Sugar</strong>7g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>35mg</span></div>
               <strong>Ingredients: </strong>Sunflower seeds, almonds, peanuts, chicory root fiber, cane sugar, pumpkin seeds, honey, palm kernel oil, glucose syrup, dried cranberries, oat milk powder, rice flour, dried strawberries, natural flavor, soy lecithin, sea salt, rosemary extract (to maintain freshness)
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Strawberry+Sunflower+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(8, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Orange Cranberry Pumpkin Seed</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Orange+Cranberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Orange+Cranberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.5</td>
@@ -576,17 +574,17 @@
                 <span><strong>Calories</strong>180</span>
                 <span><strong>Sugar</strong>9g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>11g</span><span><strong>Sodium</strong>50mg</span></div>
               <strong>Ingredients: </strong>Pumpkin seeds, almonds, sunflower seeds, dried cranberries, chicory root fiber, cane sugar, honey, rice flour, glucose syrup, orange peel, sea salt, orange extract, soy lecithin, rosemary extract (to maintain freshness)
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Orange+Cranberry+Pumpkin+Seed+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(9, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Cherry Cashew</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Cherry+Cashew+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Cherry+Cashew+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.3</td>
@@ -601,17 +599,17 @@
                 <span><strong>Calories</strong>170</span>
                 <span><strong>Sugar</strong>10g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>10g</span><span><strong>Sodium</strong>20mg</span></div>
               <strong>Ingredients: </strong>Cashews, peanuts, chicory root fiber, cane sugar, almonds, dried cherries, dried cranberries, honey, palm kernel oil, glucose syrup, rice flour, unsweetened chocolate, raisins, alkalized cocoa, soy lecithin, sea salt, natural flavor, cocoa butter
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Cherry+Cashew+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(10, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Salted Caramel Dark Chocolate Nut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Salted+Caramel+Dark+Chocolate+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Salted+Caramel+Dark+Chocolate+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.1</td>
@@ -626,17 +624,17 @@
                 <span><strong>Calories</strong>190</span>
                 <span><strong>Sugar</strong>5g</span>
                 <span><strong>Fiber</strong>7g</span>
-              </div>
+              <span><strong>Fat</strong>15g</span><span><strong>Sodium</strong>105mg</span></div>
               <strong>Ingredients: </strong>Peanuts, almonds, chicory root fiber, palm kernel oil, cane sugar, cashews, glucose syrup, rice flour, unsweetened chocolate, alkalized cocoa, sea salt, natural flavor, soy lecithin, cocoa butter
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Salted+Caramel+Dark+Chocolate+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(11, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Fruit and Nut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Fruit+and+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Fruit+and+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.8</td>
@@ -651,17 +649,17 @@
                 <span><strong>Calories</strong>190</span>
                 <span><strong>Sugar</strong>8g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>10mg</span></div>
               <strong>Ingredients: </strong>Peanuts, almonds, glucose syrup, honey, sultanas, raisins, dried apricots, dates, rice flour, flax seeds, soy lecithin, cane sugar, sea salt
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Fruit+and+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(12, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Almond and Sea Salt</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Caramel+Almond+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Caramel+Almond+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.7</td>
@@ -676,17 +674,17 @@
                 <span><strong>Calories</strong>140</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>7g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>75mg</span></div>
               <strong>Ingredients: </strong>Almonds, allulose, tapioca fiber, chicory root fiber, palm kernel oil, brown rice, milk powder, natural flavor, sea salt, soy lecithin, cocoa, annatto extract
               <div class="ingr-chips"><span class="bchip neu">Allulose Sweetened</span><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Caramel+Almond+and+Sea+Salt+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(13, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Mango Pineapple Nut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Mango+Pineapple+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Mango+Pineapple+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">1.9</td>
@@ -701,17 +699,17 @@
                 <span><strong>Calories</strong>170</span>
                 <span><strong>Sugar</strong>7g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>40mg</span></div>
               <strong>Ingredients: </strong>Almonds, cashews, chicory root fiber, honey, dried pineapple, palm kernel oil, rice flour, glucose syrup, cane sugar, dried mango, oat milk powder, soy lecithin, salt, natural flavor
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Mango+Pineapple+Nut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(14, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Almond Mint</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Mint+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Mint+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">1.5</td>
@@ -726,17 +724,17 @@
                 <span><strong>Calories</strong>170</span>
                 <span><strong>Sugar</strong>5g</span>
                 <span><strong>Fiber</strong>6g</span>
-              </div>
+              <span><strong>Fat</strong>15g</span><span><strong>Sodium</strong>15mg</span></div>
               <strong>Ingredients: </strong>Almonds, cashews, chicory root fiber, honey, palm kernel oil, sugar, glucose syrup, rice flour, unsweetened chocolate, alkalized cocoa, natural flavor, soy lecithin, peppermint extract, sea salt, peppermint leaves, cocoa butter
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Mint+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(15, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Almond and Coconut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Almond+and+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Almond+and+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">1.1</td>
@@ -751,17 +749,17 @@
                 <span><strong>Calories</strong>190</span>
                 <span><strong>Sugar</strong>9g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>14g</span><span><strong>Sodium</strong>20mg</span></div>
               <strong>Ingredients: </strong>Almonds, coconut, glucose syrup, honey, rice flour, soy lecithin, chicory root fiber, cane sugar, sea salt
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Almond+and+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(16, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Almond Coconut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.3</td>
@@ -776,17 +774,17 @@
                 <span><strong>Calories</strong>190</span>
                 <span><strong>Sugar</strong>10g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>13g</span><span><strong>Sodium</strong>25mg</span></div>
               <strong>Ingredients: </strong>Almonds, coconut, honey, glucose syrup, palm kernel oil, cane sugar, chicory root fiber, rice flour, unsweetened chocolate, alkalized cocoa, soy lecithin, sea salt, natural flavor, cocoa butter
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Almond+Coconut+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(17, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cranberry Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Cranberry+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Cranberry+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.2</td>
@@ -801,17 +799,17 @@
                 <span><strong>Calories</strong>160</span>
                 <span><strong>Sugar</strong>8g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>12g</span><span><strong>Sodium</strong>20mg</span></div>
               <strong>Ingredients: </strong>Almonds, dried cranberries, chicory root fiber, cane sugar, glucose syrup, rice flour, honey, soy lecithin, salt
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Cranberry+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(18, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Dark Chocolate Mocha Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Mocha+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Mocha+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-0.2</td>
@@ -826,10 +824,10 @@
                 <span><strong>Calories</strong>180</span>
                 <span><strong>Sugar</strong>5g</span>
                 <span><strong>Fiber</strong>7g</span>
-              </div>
+              <span><strong>Fat</strong>15g</span><span><strong>Sodium</strong>15mg</span></div>
               <strong>Ingredients: </strong>Almonds, chicory root fiber, palm kernel oil, cane sugar, honey, glucose syrup, unsweetened chocolate, alkalized cocoa, cocoa butter, soy lecithin, natural flavor, sea salt, cocoa powder
               <div class="ingr-chips"><span class="bchip pos">Whole Food Forward</span><span class="bchip con elev">Glucose Syrup</span><span class="bchip con elev">Processed Oils</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Dark+Chocolate+Mocha+Almond+KIND+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 

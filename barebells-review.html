@@ -262,11 +262,8 @@
 <section class="snapshot">
   <div class="snapshot-inner">
     <div class="snap-item"><div class="snap-value">25</div><div class="snap-label">Flavors scored</div></div>
-    <div class="snap-item"><div class="snap-value">F-B</div><div class="snap-label">Grade range</div></div>
-    <div class="snap-item"><div class="snap-value">-3.8-7.9</div><div class="snap-label">Score range</div></div>
-    <div class="snap-item"><div class="snap-value">15-20g</div><div class="snap-label">Protein per bar</div></div>
-    <div class="snap-item"><div class="snap-value">200-220</div><div class="snap-label">Calories per bar</div></div>
-    <div class="snap-item"><div class="snap-value" style="color:#c83020">All</div><div class="snap-label">Artificial sweeteners</div></div>
+    <div class="snap-item"><div class="snap-value">F<span class="snap-value-arrow">&rarr;</span>B</div><div class="snap-sub">Ingredient score -3.8-7.9</div><div class="snap-label">Grade range, worst to best</div></div>
+    <div class="snap-item"><div class="snap-value" style="color:#c83020">100%</div><div class="snap-label">Flavors with artificial sweeteners</div></div>
   </div>
 </section>
 
@@ -281,7 +278,7 @@
 
   <section class="section">
     <h2>Ingredient quality grade distribution across all 25 flavors</h2>
-    <p>Here is how Barebells' full lineup grades out. Every flavor, not a curated selection. The F grades belong entirely to the Vegan line.</p>
+    <p>Here is how Barebells' full lineup grades out. This is every flavor we've scored, not a hand-picked few. The F grades belong entirely to the Vegan line.</p>
     <div class="grade-dist">
       <div class="grade-seg" style="background:#5a8a2f;flex:9" title="Good: 9 bars">B</div>
       <div class="grade-seg" style="background:#b89a00;flex:10" title="Okay: 10 bars">C</div>
@@ -368,7 +365,7 @@
     </div>
     <a href="https://www.amazon.com/dp/B0F3FQQRTR?tag=knowyourbar0f-20"
        target="_blank" rel="noopener sponsored" class="cta-amazon">
-      Buy Marshmallow Peanut Road on Amazon
+      Shop Marshmallow Peanut Road on Amazon
     </a>
   </section>
 
@@ -419,6 +416,7 @@
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
     <p>Three patterns define Barebells across all 25 flavors. Two of them apply to every single bar. The third separates the standard from the Vegan line.</p>
+    <p class="chip-legend"><span class="chip-legend-dot minor"></span>Present, minor impact on score &nbsp;&nbsp; <span class="chip-legend-dot elevated"></span>Significant impact on score</p>
 
     <div class="chip-group-label">Every flavor</div>
     <div class="chip-freq-row">
@@ -485,7 +483,7 @@
           <tr class="bar-row" onclick="toggleIngr(0, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Marshmallow Peanut Road</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F3FQQRTR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F3FQQRTR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.9</td>
@@ -500,17 +498,17 @@
                 <span><strong>Calories</strong>220</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>4g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>220mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (whey protein isolate, micellar casein isolate, calcium caseinate, casein, milk protein concentrate), maltitol, glycerin, hydrolyzed bovine collagen, cocoa butter, milk, soluble corn fiber, roasted peanut pieces, polydextrose, soy protein isolate, water, unsweetened chocolate, peanut butter (peanuts), contains less than 2% of each of the following: soybean oil, maltitol syrup, cocoa processed with alkali, salt, soy lecithin, tapioca starch, artificial & natural flavors, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Maltitol Syrup</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0F3FQQRTR?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(1, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DZ3Z37WP?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DZ3Z37WP?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">7.4</td>
@@ -525,17 +523,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>190mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), maltitol, glycerin, bovine collagen hydrolysate, peanut butter (peanuts), soy protein isolate, water, polydextrose, cocoa butter, peanuts, dry whole milk, unsweetened chocolate, contains less than 2% of each of the following: natural and artificial flavors, salt, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0DZ3Z37WP?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(2, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Peanut Butter & Jelly</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Peanut+Butter+&+Jelly+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Peanut+Butter+&+Jelly+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.6</td>
@@ -550,17 +548,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>2g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>190mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, maltitol, bovine collagen hydrolysate, water, soy protein isolate, polydextrose, cocoa butter, dry whole milk, peanut butter, acacia gum, unsweetened chocolate, peanuts. contains less than 2% of each of the following: freeze dried raspberries, natural and artificial flavors, salt, sunflower lecithin, beet powder (color), citric acid, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Barebells+Peanut+Butter+&+Jelly+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(3, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Coco Caramel Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FT8V3QG8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0FT8V3QG8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">5.3</td>
@@ -575,17 +573,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), bovine collagen hydrolysate, glycerin, maltitol, polydextrose, cocoa butter, water, dry whole milk, coconut, almonds, unsweetened chocolate, contains less than 2% of each of the following: sunflower oil, natural and artificial flavors, salt, sunflower lecithin, turmeric (color), beet powder (color), soy lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0FT8V3QG8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(4, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Brownie Batter</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Brownie+Batter+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Brownie+Batter+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.9</td>
@@ -600,17 +598,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, bovine collagen hydrolysate, maltitol, polydextrose, cocoa butter, dry whole milk, water, soy protein isolate, unsweetened chocolate, sunflower oil, cocoa nibs, contains less than 2% of each of the following: cocoa processed with alkali, cocoa powder, natural and artificial flavors, tapioca starch, salt, sunflower lecithin, sucralose, cinnamon, milkfat
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Barebells+Brownie+Batter+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(5, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Lemon Cheesecake</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D5YWF5BZ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D5YWF5BZ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.5</td>
@@ -625,17 +623,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>2g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>125mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), bovine collagen hydrolysate, glycerin, maltitol, cocoa butter, polydextrose, water, dry whole milk, soy protein isolate, sunflower oil, contains less than 2% of each of the following: natural and artificial flavors, citric acid, tapioca starch, sunflower lecithin, turmeric (color), salt, soy lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0D5YWF5BZ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(6, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Chocolate Dough</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CFWR5VJ3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CFWR5VJ3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.2</td>
@@ -650,17 +648,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, bovine collagen hydrolysate, maltitol, polydextrose, cocoa butter, dry whole milk, water, soy protein isolate, sunflower oil, unsweetened chocolate, cocoa processed with alkali, tapioca starch, natural and artificial flavors, salt, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0CFWR5VJ3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(7, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Pumpkin Spice</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Pumpkin+Spice+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Pumpkin+Spice+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.2</td>
@@ -675,17 +673,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein isolate), glycerin, maltitol, bovine collagen hydrolysate, polydextrose, cocoa butter, dry whole milk, soy protein isolate, water, sunflower oil, unsweetened chocolate, natural and artificial flavors, cocoa processed with alkali, salt, tapioca starch, sunflower lecithin, nonfat dry milk, cinnamon, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Barebells+Pumpkin+Spice+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(8, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cookies & Caramel</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D1HBJF5R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D1HBJF5R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#5a8a2f" title="Good">B</span></td>
             <td class="num-cell">4.1</td>
@@ -700,17 +698,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>4g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein isolate), glycerin, maltitol, polydextrose, bovine collagen hydrolysate, soy protein isolate, cocoa butter, dry whole milk, water, sunflower oil, unsweetened chocolate, contains less than 2% of each of the following: natural and artificial flavors, cocoa processed with alkali, tapioca starch, salt, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0D1HBJF5R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(9, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Key Lime Pie</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Key+Lime+Pie+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Key+Lime+Pie+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">4.0</td>
@@ -725,17 +723,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>150mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, bovine collagen hydrolysate, maltitol, cocoa butter, polydextrose, dry whole milk, water, soy protein isolate, sunflower oil, natural and artificial flavours, citric acid, tapioca starch, salt, sunflower lecithin, turmeric (color), spirulina extract (color), cinnamon, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Barebells+Key+Lime+Pie+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(10, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Creamy Crisp</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BL1TDB9P?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0BL1TDB9P?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.7</td>
@@ -750,17 +748,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>120mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, bovine collagen hydrolysate, maltitol, polydextrose, cocoa butter, water, dry whole milk, unsweetened chocolate, soy protein isolate, sunflower oil, natural and artificial flavors, tapioca starch, salt, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0BL1TDB9P?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(11, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Cookies & Cream</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B08KWGDMJW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B08KWGDMJW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.6</td>
@@ -775,17 +773,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>75mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein isolate), glycerin, maltitol, bovine collagen hydrolysate, polydextrose, cocoa butter, water, soy protein isolate, dry whole milk, sunflower oil, unsweetened chocolate, tapioca starch, natural and artificial flavors, cocoa processed with alkali, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B08KWGDMJW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(12, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Salty Peanut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Salty+Peanut+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/s?k=Barebells+Salty+Peanut+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.6</td>
@@ -800,17 +798,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>75mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein isolate), glycerin, bovine collagen hydrolysate, maltitol, polydextrose, water, cocoa butter, dry whole milk, roasted peanut pieces, peanut paste (peanuts), sunflower oil, unsweetened chocolate, cocoa processed with alkali, salt, artificial and natural flavors, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/s?k=Barebells+Salty+Peanut+bar&tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(13, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Cashew</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0942D8JC3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0942D8JC3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.5</td>
@@ -825,17 +823,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>80mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein isolate), glycerin, bovine collagen hydrolysate, maltitol, polydextrose, water, cocoa butter, dry whole milk, roasted cashew pieces, sunflower oil, unsweetened chocolate, peanut paste (peanuts), cocoa processed with alkali, natural and artificial flavors, salt, sunflower lecithin, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0942D8JC3?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(14, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Wild Cherry</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DVVWFZYT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DVVWFZYT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">3.5</td>
@@ -850,17 +848,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>110mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, maltitol, bovine collagen hydrolysate, polydextrose, cocoa butter, water, dry whole milk, soy protein isolate, sunflower oil, contains less than 2% of each of the following: natural and artificial flavors, tapioca starch, sunflower lecithin, salt, citric acid, beet powder (color), unsweetened chocolate, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0DVVWFZYT?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(15, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Salted Peanut Caramel</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">2.9</td>
@@ -875,17 +873,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>210mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (whey protein concentrate, calcium caseinate, micellar casein isolate, whey protein hydrolysate), maltitol, polydextrose, hydrolyzed bovine collagen, dry roasted peanuts, glycerin, cocoa butter, milk, water, unsweetened chocolate, soybean oil, contains less than 2% of each of the following: xylitol, peanut butter (peanuts), salt, artificial & natural flavors, soy lecithin, color added, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Xylitol</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(16, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Birthday Cake</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D195TV4T?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0D195TV4T?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">2.2</td>
@@ -900,17 +898,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>2g</span>
-              </div>
+              <span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>120mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate, whey protein concentrate), glycerin, bovine collagen hydrolysate, maltitol, cocoa butter, polydextrose, water, confetti blend (maltitol, rice flour, potato starch, sunflower oil, red 40 lake, blue 2 lake, yellow 5 lake, blue 1 lake), dry whole milk, soy protein isolate, sunflower oil, natural and artificial flavors, tapioca starch, salt, sunflower lecithin, citric acid, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0D195TV4T?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(17, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">White Chocolate Almond</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0GL3S2FQG?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0GL3S2FQG?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">1.2</td>
@@ -925,17 +923,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>4g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>110mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein isolate), glycerin, maltitol, polydextrose, bovine collagen hydrolysate, cocoa butter, water, dry whole milk, roasted almond pieces, soy protein isolate, sunflower oil, cocoa processed with alkali, tapioca starch, natural and artificial flavors, salt, sucralose, sunflower lecithin, unsweetened chocolate
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0GL3S2FQG?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(18, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Banana Caramel</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DGB498BQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DGB498BQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#b89a00" title="Okay">C</span></td>
             <td class="num-cell">0.7</td>
@@ -950,17 +948,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>160mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, micellar casein isolate, whey protein hydrolysate), maltitol, polydextrose, hydrolyzed bovine collagen, glycerin, cocoa butter, milk, water, sunflower oil, unsweetened chocolate, xylitol, contains less than 2% of each of the following: soy lecithin, artificial & natural flavors, salt, color added, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Xylitol</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0DGB498BQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(19, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Minty Chocolate</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CN84KLQN?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0CN84KLQN?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.0</td>
@@ -975,17 +973,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>180mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein hydrolysate), maltitol, polydextrose, hydrolyzed bovine collagen, glycerin, cocoa butter, milk, water, unsweetened chocolate, sunflower oil, xylitol, contains less than 2% of each of the following: soybean oil, cocoa, soy lecithin, salt, artificial & natural flavors, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Xylitol</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0CN84KLQN?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(20, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Choco</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.1</td>
@@ -1000,17 +998,17 @@
                 <span><strong>Calories</strong>200</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>5g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>190mg</span></div>
               <strong>Ingredients: </strong>Milk protein blend (calcium caseinate, whey protein concentrate, whey protein hydrolysate), maltitol, polydextrose, hydrolyzed bovine collagen, glycerin, cocoa butter, milk, water, sunflower oil, unsweetened chocolate, xylitol, contains less than 2% of each of the following: cocoa processed with alkali, artificial & natural flavors, soy lecithin, salt, color added, sucralose
               <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Xylitol</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(21, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Hazelnut Nougat</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09XT2WFJC?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B09XT2WFJC?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.2</td>
@@ -1025,17 +1023,17 @@
                 <span><strong>Calories</strong>220</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>7g</span>
-              </div>
+              <span><strong>Fat</strong>10g</span><span><strong>Sodium</strong>160mg</span></div>
               <strong>Ingredients: </strong>Vegan protein blend (soy protein isolate, pea protein isolate, rice protein isolate), vegetable glycerin, maltitol, polydextrose, cocoa butter, oligofructose, roasted hazelnut pieces, unsweetened chocolate, sunflower oil, rice flour, natural and artificial flavors, sunflower lecithin, cocoa processed with alkali, tapioca starch, sucralose
               <div class="ingr-chips"><span class="bchip neu">Vegan Protein</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B09XT2WFJC?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(22, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Peanut</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c87020" title="Poor">D</span></td>
             <td class="num-cell">-1.7</td>
@@ -1050,17 +1048,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>1g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>210mg</span></div>
               <strong>Ingredients: </strong>Vegan protein blend (hydrolyzed wheat gluten, soy protein isolate), maltitol, vegetable glycerin, cocoa butter, maltitol syrup, polydextrose, peanut butter (peanuts), dry roasted peanuts, water, unsweetened chocolate, soybean oil, contains less than 2% of each of the following: artificial & natural flavors, soluble corn fiber, sunflower oil, salt, soy lecithin, sunflower lecithin, color added, sucralose
               <div class="ingr-chips"><span class="bchip con elev">Hydrolyzed Wheat Gluten</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Maltitol Syrup</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0DT7KS2QB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(23, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Fudge Brownie</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F6GW7DHX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0F6GW7DHX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.2</td>
@@ -1075,17 +1073,17 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>3g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>220mg</span></div>
               <strong>Ingredients: </strong>Vegan protein blend (hydrolyzed wheat gluten, soy protein isolate), maltitol, vegetable glycerin, unsweetened chocolate, cocoa butter, maltitol syrup, water, polydextrose, soybean oil, contains less than 2% of each of the following: salt, artificial and natural flavors, cocoa, sunflower lecithin, soy lecithin, cocoa processed with alkali, sucralose
               <div class="ingr-chips"><span class="bchip con elev">Hydrolyzed Wheat Gluten</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Maltitol Syrup</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0F6GW7DHX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
 
           <tr class="bar-row" onclick="toggleIngr(24, this)">
             <td class="bar-name-cell">
               <div class="bar-flavor">Caramel Choco Chip</div>
-              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Buy on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
+              <div class="bar-sub"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a><span class="expand-hint">tap for ingredients</span></div>
             </td>
             <td class="grade-cell"><span class="grade-badge" style="background:#c83020" title="Avoid">F</span></td>
             <td class="num-cell">-3.8</td>
@@ -1100,10 +1098,10 @@
                 <span><strong>Calories</strong>210</span>
                 <span><strong>Sugar</strong>2g</span>
                 <span><strong>Fiber</strong>2g</span>
-              </div>
+              <span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>190mg</span></div>
               <strong>Ingredients: </strong>Vegan protein blend (hydrolyzed wheat gluten, soy protein isolate), maltitol, vegetable glycerin, cocoa butter, maltitol syrup, unsweetened chocolate, water, polydextrose, sunflower oil, contains less than 2% of each of the following: soybean oil, artificial and natural flavors, salt, soluble corn fiber, sunflower lecithin, color added, soy lecithin, sucralose, cocoa processed with alkali
               <div class="ingr-chips"><span class="bchip con elev">Hydrolyzed Wheat Gluten</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Maltitol Syrup</span><span class="bchip con">Sugar Alcohols</span></div>
-              <div class="ingr-buy"><a href="https://www.amazon.com/dp/B0C6W6B937?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a></div>
+              
             </div></td>
           </tr>
         </tbody>
