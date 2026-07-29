@@ -118,399 +118,7 @@
   <link rel="stylesheet" href="/style.css">
 
   <!-- CSS variables + vs-page overrides -->
-  <style>
-    :root {
-      --black:     #0e0e0e;
-      --white:     #f7f5f0;
-      --off-white: #efece6;
-      --accent:    #d4f000;
-      --muted:     #888880;
-      --border:    #d6d3cc;
-      --font-display: 'DM Sans', sans-serif;
-      --font-mono:    'DM Mono', monospace;
-      --font-body:    'DM Sans', sans-serif;
-      --radius:    6px;
-      --radius-lg: 10px;
-      /* Comparison colors — kept distinct from the A-F grade spectrum
-         (green/yellow/orange/red) so the two systems never collide.
-         Navy + rust is the default pairing; a future VS page comparing
-         different brands can swap these two values if needed, but stay
-         in a similarly muted, non-neon register. */
-      --brand-a:   @@BRAND_A_COLOR@@;
-      --brand-b:   @@BRAND_B_COLOR@@;
-    }
-
-    /* ── vs hero accent — plain, not a competing decorative accent color ── */
-    .vs-accent { color: var(--bs-text-dim); font-weight: 400; }
-
-    /* ── side-by-side scorecard ── */
-    .vs-scorecard {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 1.5rem;
-      align-items: start;
-      margin-top: 1.5rem;
-    }
-    .vs-brand-card {
-      background: var(--bs-paper);
-      border: 1.5px solid var(--bs-ink);
-      border-radius: var(--bs-radius);
-      padding: 1.25rem 1.25rem 1rem;
-    }
-    .vs-brand-card.brand-a { border-top: 4px solid var(--brand-a); }
-    .vs-brand-card.brand-b { border-top: 4px solid var(--brand-b); }
-    .vs-brand-name {
-      font-family: var(--bs-font-display);
-      font-weight: 800;
-      font-size: 1.3rem;
-      margin-bottom: .85rem;
-    }
-    .vs-brand-name.brand-a { color: var(--brand-a); }
-    .vs-brand-name.brand-b { color: var(--brand-b); }
-    .vs-stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: .35rem 0;
-      border-bottom: 1px solid var(--bs-line-soft);
-      font-size: .85rem;
-      gap: .5rem;
-    }
-    .vs-stat-row:last-child { border-bottom: none; }
-    .vs-stat-label {
-      font-family: var(--bs-font-body);
-      font-size: .82rem;
-      color: var(--bs-text-dim);
-    }
-    .vs-stat-val {
-      font-family: var(--bs-font-data);
-      font-size: .88rem;
-      font-weight: 500;
-      color: var(--bs-ink);
-    }
-    .vs-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--bs-font-display);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--bs-text-dim);
-      padding-top: 1rem;
-    }
-    @media (max-width: 640px) {
-      .vs-scorecard { grid-template-columns: 1fr; }
-      .vs-divider { display: none; }
-    }
-
-    /* ── comparison table ── */
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1.25rem;
-      font-size: .88rem;
-      table-layout: fixed;
-    }
-    .compare-table colgroup col:first-child { width: 42%; }
-    .compare-table colgroup col:nth-child(2) { width: 29%; }
-    .compare-table colgroup col:nth-child(3) { width: 29%; }
-    .compare-table thead th {
-      font-family: var(--bs-font-body);
-      font-size: .78rem;
-      font-weight: 700;
-      padding: .6rem .75rem;
-      text-align: left;
-      border-bottom: 2px solid var(--bs-ink);
-      color: var(--bs-text-dim);
-    }
-    .compare-table thead th.col-a { color: var(--brand-a); }
-    .compare-table thead th.col-b { color: var(--brand-b); }
-    .compare-table td {
-      padding: .55rem .75rem;
-      border-bottom: 1px solid var(--bs-line-soft);
-      vertical-align: middle;
-      white-space: normal;
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .compare-table .metric {
-      font-family: var(--bs-font-body);
-      font-size: .82rem;
-      color: var(--bs-text-dim);
-    }
-    .compare-table .val {
-      font-family: var(--bs-font-data);
-      font-size: .88rem;
-      font-weight: 500;
-      color: var(--bs-ink);
-    }
-    .compare-table .val.win-a { color: var(--brand-a); font-weight: 600; }
-    .compare-table .val.win-b { color: var(--brand-b); font-weight: 600; }
-    .compare-table .val.tie   { color: var(--bs-text-dim); }
-
-    /* ── grade dist side by side ── */
-    .vs-grade-pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 1.25rem;
-    }
-    @media (max-width: 580px) { .vs-grade-pair { grid-template-columns: 1fr; } }
-    .vs-grade-block-label {
-      font-family: var(--bs-font-body);
-      font-size: .85rem;
-      font-weight: 700;
-      margin-bottom: .6rem;
-    }
-    .vs-grade-block-label.brand-a { color: var(--brand-a); }
-    .vs-grade-block-label.brand-b { color: var(--brand-b); }
-    /* Make grade segments taller and font bigger for readability */
-    .vs-grade-pair .grade-dist { height: 44px; }
-    .vs-grade-pair .grade-seg {
-      font-family: var(--bs-font-body);
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .vs-grade-count-row {
-      display: flex;
-      gap: .5rem;
-      margin-top: .5rem;
-      flex-wrap: wrap;
-    }
-    .vs-grade-count-item {
-      font-family: var(--bs-font-data);
-      font-size: 11px;
-      color: var(--bs-text-dim);
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .vs-grade-count-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-
-    /* ── best flavor cards ── */
-    .vs-best-pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-top: 1.25rem;
-    }
-    @media (max-width: 580px) { .vs-best-pair { grid-template-columns: 1fr; } }
-    .vs-best-card {
-      background: var(--bs-cream);
-      border: 1.5px solid var(--bs-ink);
-      border-radius: var(--bs-radius);
-      padding: 1.1rem 1.1rem .9rem;
-    }
-    .vs-best-card.brand-a { border-top: 3px solid var(--brand-a); }
-    .vs-best-card.brand-b { border-top: 3px solid var(--brand-b); }
-    .vs-best-brand-tag {
-      font-family: var(--bs-font-body);
-      font-size: .78rem;
-      font-weight: 700;
-      margin-bottom: .4rem;
-    }
-    .vs-best-brand-tag.brand-a { color: var(--brand-a); }
-    .vs-best-brand-tag.brand-b { color: var(--brand-b); }
-    .vs-best-flavor {
-      font-family: var(--bs-font-body);
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--bs-ink);
-      margin-bottom: .3rem;
-      line-height: 1.2;
-    }
-    .vs-best-score {
-      font-family: var(--bs-font-data);
-      font-size: .82rem;
-      color: var(--bs-text-dim);
-      margin-bottom: .65rem;
-    }
-
-    /* ── callout boxes ── */
-    .vs-callout {
-      margin: 1rem 0;
-      padding: 1rem 1.25rem;
-      border-radius: var(--bs-radius);
-      border: 1.5px solid var(--bs-ink);
-      background: var(--bs-cream);
-      font-size: .9rem;
-      color: var(--bs-text-dim);
-      line-height: 1.7;
-    }
-    .vs-callout.brand-a { border-left: 4px solid var(--brand-a); }
-    .vs-callout.brand-b { border-left: 4px solid var(--brand-b); }
-    .vs-callout-label {
-      font-family: var(--bs-font-body);
-      font-size: .8rem;
-      font-weight: 700;
-      color: var(--bs-text-dim);
-      margin-bottom: .35rem;
-    }
-
-    /* ── who should buy ── */
-    .vs-buy-pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-top: 1.25rem;
-    }
-    @media (max-width: 580px) { .vs-buy-pair { grid-template-columns: 1fr; } }
-    .vs-buy-card {
-      background: var(--bs-paper);
-      border: 1.5px solid var(--bs-ink);
-      border-radius: var(--bs-radius);
-      padding: 1.25rem;
-    }
-    .vs-buy-card.brand-a { border-left: 4px solid var(--brand-a); }
-    .vs-buy-card.brand-b { border-left: 4px solid var(--brand-b); }
-    .vs-buy-title {
-      font-family: var(--bs-font-display);
-      font-weight: 800;
-      font-size: 1rem;
-      color: var(--bs-ink);
-      margin-bottom: .75rem;
-    }
-    .vs-buy-title.brand-a { color: var(--brand-a); }
-    .vs-buy-title.brand-b { color: var(--brand-b); }
-    .vs-buy-list { list-style: none; }
-    .vs-buy-list li {
-      font-size: .88rem;
-      color: var(--bs-text-dim);
-      padding: .3rem 0;
-      border-bottom: 1px solid var(--bs-line-soft);
-      line-height: 1.5;
-    }
-    .vs-buy-list li:last-child { border-bottom: none; }
-
-    /* ── our pick ── */
-    .vs-pick {
-      background: var(--bs-ink-2);
-      color: var(--bs-paper);
-      border-radius: var(--bs-radius);
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .vs-pick-eyebrow {
-      font-family: var(--bs-font-body);
-      font-size: .8rem;
-      color: #a39d8c;
-      margin-bottom: .5rem;
-    }
-    .vs-pick-brand {
-      font-family: var(--bs-font-display);
-      font-weight: 800;
-      font-size: 1.4rem;
-      margin-bottom: .5rem;
-      color: var(--bs-paper);
-    }
-    .vs-pick-reason {
-      font-size: .9rem;
-      color: #d8d2c2;
-      line-height: 1.7;
-      max-width: 620px;
-    }
-    .vs-pick-amazon {
-      display: inline-block;
-      margin-top: 1rem;
-      background: var(--bs-paper);
-      color: var(--bs-ink);
-      font-family: var(--bs-font-body);
-      font-size: .8rem;
-      font-weight: 700;
-      padding: 8px 16px;
-      border-radius: var(--bs-radius);
-      text-decoration: none;
-    }
-
-    /* ── combined flavor table ── */
-    .vs-table-brand-row td {
-      background: var(--bs-cream);
-      font-family: var(--bs-font-body);
-      font-size: .78rem;
-      font-weight: 700;
-      padding: .4rem .75rem;
-      border-bottom: 1px solid var(--bs-line-soft);
-    }
-    .vs-table-brand-row.brand-a td { color: var(--brand-a); }
-    .vs-table-brand-row.brand-b td { color: var(--brand-b); }
-
-    /* ── split flavor tables ── */
-    .vs-flavor-tables {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    .vs-flavor-table-block {}
-    .vs-flavor-table-header {
-      display: flex;
-      align-items: baseline;
-      gap: .75rem;
-      margin-bottom: .75rem;
-    }
-    .vs-flavor-table-brand {
-      font-family: var(--bs-font-display);
-      font-weight: 800;
-      font-size: 1.1rem;
-    }
-    .vs-flavor-table-brand.brand-a { color: var(--brand-a); }
-    .vs-flavor-table-brand.brand-b { color: var(--brand-b); }
-    .vs-flavor-table-count {
-      font-family: var(--bs-font-data);
-      font-size: .78rem;
-      color: var(--bs-text-dim);
-    }
-
-    /* ── top bar pick badge — reuses grade-A green (functional, not decorative) ── */
-    .top-pick-badge {
-      display: inline-block;
-      font-family: var(--bs-font-body);
-      font-size: .68rem;
-      font-weight: 700;
-      background: #2a7a1f;
-      color: var(--bs-paper);
-      padding: 2px 8px;
-      border-radius: 3px;
-      vertical-align: middle;
-      margin-left: 6px;
-      white-space: nowrap;
-    }
-
-    /* ── brand verdict ── */
-    .vs-brand-verdict {
-      background: var(--bs-cream);
-      border: 1.5px solid var(--bs-ink);
-      border-left: 4px solid var(--brand-b);
-      border-radius: var(--bs-radius);
-      padding: 1.25rem 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .vs-brand-verdict-eyebrow {
-      font-family: var(--bs-font-body);
-      font-size: .8rem;
-      font-weight: 700;
-      color: var(--brand-b);
-      margin-bottom: .4rem;
-    }
-    .vs-brand-verdict-title {
-      font-family: var(--bs-font-display);
-      font-weight: 800;
-      font-size: 1.15rem;
-      margin-bottom: .5rem;
-      color: var(--bs-ink);
-    }
-    .vs-brand-verdict-reason {
-      font-size: .9rem;
-      color: var(--bs-text-dim);
-      line-height: 1.7;
-      max-width: 680px;
-    }
-  </style>
+  
 
 
   <!-- JSON-LD: Article -->
@@ -906,6 +514,10 @@
   <section class="section">
     <h2>Ingredient quality grade distribution</h2>
     <p>How each brand's full lineup breaks down by ingredient quality grade. This is every flavor we've scored, not a hand-picked few.</p>
+    <!-- Remove any grade segment (and its corresponding piece of the count line
+         below) with 0 bars — same convention as the grade-dist section on every
+         brand page. Don't reinvent a color-swatch legend; the flat text line is
+         the established pattern. -->
     <div class="vs-grade-pair">
 
       <div>
@@ -917,10 +529,7 @@
           <div class="grade-seg" style="background:#c87020;flex:@@BRAND_A_COUNT_D@@" title="Poor: @@BRAND_A_COUNT_D@@ bars">D</div>
           <div class="grade-seg" style="background:#c83020;flex:@@BRAND_A_COUNT_F@@" title="Avoid: @@BRAND_A_COUNT_F@@ bars">F</div>
         </div>
-        <div class="vs-grade-count-row">
-          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#5a8a2f"></span>@@BRAND_A_COUNT_B@@ &ndash; B</span>
-          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#b89a00"></span>@@BRAND_A_COUNT_C@@ &ndash; C</span>
-        </div>
+        <p class="grade-dist-counts">@@BRAND_A_COUNT_A@@ A (Clean) &middot; @@BRAND_A_COUNT_B@@ B (Good) &middot; @@BRAND_A_COUNT_C@@ C (Okay) &middot; @@BRAND_A_COUNT_D@@ D (Poor) &middot; @@BRAND_A_COUNT_F@@ F (Avoid)</p>
       </div>
 
       <div>
@@ -932,10 +541,7 @@
           <div class="grade-seg" style="background:#c87020;flex:@@BRAND_B_COUNT_D@@" title="Poor: @@BRAND_B_COUNT_D@@ bars">D</div>
           <div class="grade-seg" style="background:#c83020;flex:@@BRAND_B_COUNT_F@@" title="Avoid: @@BRAND_B_COUNT_F@@ bars">F</div>
         </div>
-        <div class="vs-grade-count-row">
-          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#2a7a1f"></span>@@BRAND_B_COUNT_A@@ &ndash; A</span>
-          <span class="vs-grade-count-item"><span class="vs-grade-count-dot" style="background:#5a8a2f"></span>@@BRAND_B_COUNT_B@@ &ndash; B</span>
-        </div>
+        <p class="grade-dist-counts">@@BRAND_B_COUNT_A@@ A (Clean) &middot; @@BRAND_B_COUNT_B@@ B (Good) &middot; @@BRAND_B_COUNT_C@@ C (Okay) &middot; @@BRAND_B_COUNT_D@@ D (Poor) &middot; @@BRAND_B_COUNT_F@@ F (Avoid)</p>
       </div>
 
     </div>
@@ -1040,7 +646,7 @@
 
           <!-- BRAND SEPARATOR ROW (use when grouping brand-by-brand, remove if interleaving) -->
           <tr class="vs-table-brand-row brand-a">
-            <td colspan="7">@@BRAND_A@@ — @@BRAND_A_FLAVORS@@ flavors</td>
+            <td colspan="7">@@BRAND_A@@, @@BRAND_A_FLAVORS@@ flavors</td>
           </tr>
 
           <!-- BAR ROW PATTERN — copy and increment index for each flavor -->
@@ -1085,7 +691,7 @@
 
           <!-- BRAND SEPARATOR ROW — Brand B -->
           <tr class="vs-table-brand-row brand-b">
-            <td colspan="7">@@BRAND_B@@ — @@BRAND_B_FLAVORS@@ flavors</td>
+            <td colspan="7">@@BRAND_B@@, @@BRAND_B_FLAVORS@@ flavors</td>
           </tr>
 
           <!-- Repeat bar row pattern for all Brand B flavors, continuing the index -->
@@ -1115,7 +721,7 @@
 
   <!-- 9. EXPLORE ALL BARS CTA
        3 filter buttons relevant to this comparison's audience. -->
-  <section class="section explore-cta">
+  <section class="section discover-wrap">
     <div class="explore-cta-inner">
       <div class="explore-cta-eyebrow">Know Your Bar</div>
       <p class="explore-cta-title">Explore all 1,000+ bars</p>
@@ -1133,15 +739,9 @@
         <a href="/?preset=@@PRESET_3_SLUG@@" class="explore-cta-btn">@@PRESET_3_LABEL@@</a>
       </div>
     </div>
-  </section>
-
-  <!-- 10. EXPLORE MORE
-        Card 1: Brand A full review
-        Card 2: Brand B full review
-        Card 3: Guide most relevant to this comparison's audience -->
-  <section class="section">
-    <div class="explore-more-label">Explore more</div>
-    <div class="explore-more-grid">
+    <div class="discover-more">
+      <div class="discover-more-label">Related reading</div>
+      <div class="explore-more-grid">
       <a href="/@@BRAND_A_SLUG@@.html" class="explore-more-card">
         <div class="explore-more-title">Full @@BRAND_A@@ Review</div>
         <div class="explore-more-desc">All @@BRAND_A_FLAVORS@@ flavors scored with full ingredient breakdowns and macro data.</div>
@@ -1154,6 +754,7 @@
         <div class="explore-more-title">@@GUIDE_TITLE@@</div>
         <div class="explore-more-desc">@@GUIDE_DESC@@</div>
       </a>
+    </div>
     </div>
   </section>
 
