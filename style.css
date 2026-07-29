@@ -2651,12 +2651,6 @@ body.overlay-open { overflow: hidden; }
   font-weight: 800;
   color: white;
 }
-.grade-seg-count {
-  font-weight: 500;
-  font-size: 10px;
-  opacity: 0.85;
-  margin-left: 3px;
-}
 
 /* Macro grid */
 .macro-grid {
@@ -2979,7 +2973,11 @@ body.overlay-open { overflow: hidden; }
 .brand-compare-table-wrap { overflow-x: auto; }
 .brand-compare-table { width: 100%; border-collapse: collapse; font-family: var(--bs-font-body); font-size: 0.92rem; }
 .brand-compare-table thead tr { border-bottom: 1px solid #3a382f; }
-.brand-compare-table th { text-align: left; padding: 0.6rem 0.75rem; color: #c9c0b0; font-weight: 600; }
+.brand-v1 .brand-compare-table th {
+  text-align: left; padding: 0.6rem 0.75rem; font-weight: 500;
+  font-family: var(--bs-font-data); font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #c9c0b0;
+}
 .brand-compare-table th.ctr, .brand-compare-table td.ctr { text-align: center; }
 .brand-compare-table tbody tr { border-bottom: 1px solid #2a2820; }
 .brand-compare-table tbody tr:last-child { border-bottom: none; }

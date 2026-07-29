@@ -323,11 +323,10 @@
 
   <!-- 2. GRADE DISTRIBUTION
        Remove any grade segment with 0 bars. flex value = bar count.
-       If a segment's share of the total is >=10%, add the count inline:
-         <div class="grade-seg" style="..." title="...">A <span class="grade-seg-count">3</span></div>
-       If a segment's share is <10%, leave it as the bare letter (not enough width
-       for the number to sit comfortably) — the exact count is still available via
-       the title tooltip and the flat breakdown line below the bar. -->
+       Segments show the bare letter only — no inline count (tried it, it looked
+       cramped on narrow segments and inconsistent next to wide ones). The exact
+       count is available via the title tooltip and the flat breakdown line below
+       the bar; don't try to reconcile visual width with the number, that's expected. -->
   <section class="section">
     <h2>Ingredient quality grade distribution across all @@FLAVOR_COUNT@@ flavors</h2>
     <p>Here is how @@BRAND@@'s full lineup grades out. This is every flavor we've scored, not a hand-picked few.</p>
