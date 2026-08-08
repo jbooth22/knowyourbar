@@ -2787,7 +2787,6 @@ body.overlay-open { overflow: hidden; }
 .bar-row:hover td { background: #faf8f4; }
 .bar-row.open td { background: #f5f2ec; }
 .bar-flavor {
-  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;
   font-size: 13px;
   color: var(--black);
@@ -4085,11 +4084,11 @@ body.overlay-open { overflow: hidden; }
 
 /* Explore CTA (dark tile) */
 .brand-v1 .explore-cta-inner { background: var(--bs-ink) !important; }
-.brand-v1 .explore-cta-eyebrow { color: #a39d8c; }
+.brand-v1 .explore-cta-eyebrow { display: none; } /* same treatment as .brand-v1 .hero-eyebrow — retired uppercase mono label pattern */
 .brand-v1 .explore-cta-inner .explore-cta-title { color: var(--bs-paper) !important; font-family: var(--bs-font-display); }
 .brand-v1 .explore-cta-inner .explore-cta-sub { color: #c9c0b0 !important; }
 .brand-v1 .explore-cta-btn { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
-.brand-v1 .cta-amazon { background: var(--bs-paper) !important; color: var(--bs-ink) !important; }
+.brand-v1 .cta-amazon { background: var(--bs-paper) !important; color: var(--bs-ink) !important; font-family: var(--bs-font-body) !important; }
 .brand-v1 .cta-amazon.bw-buy-brand {
   background: transparent !important; color: var(--bs-ink) !important;
   border: 1.5px solid var(--bs-ink);
