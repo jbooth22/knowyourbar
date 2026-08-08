@@ -24,13 +24,13 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 
+  <!-- Only --muted is kept below. Every other legacy token matched
+       style.css's global values exactly and was removed 2026-08-08.
+       --muted genuinely differs from the global default and is still
+       used by the "(Protein Max)" sub-label spans in the flavor table,
+       verified via rendered computed-style diff before trimming. -->
   <style>
-    :root {
-      --black:#0e0e0e;--white:#f7f5f0;--off-white:#efece6;--accent:#d4f000;
-      --muted:#888880;--border:#d6d3cc;--font-display:'DM Sans', sans-serif;
-      --font-mono:'DM Mono',monospace;--font-body:'DM Sans',sans-serif;
-      --radius:6px;--radius-lg:10px;
-    }
+    :root { --muted: #888880; }
   </style>
 
   <!-- JSON-LD: Article -->
