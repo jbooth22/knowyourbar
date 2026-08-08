@@ -1145,6 +1145,7 @@ function buildBarRow(bar) {
       <div class="bar-brand">${bar['Brand Name'] || ''}</div>
       <div class="bar-flavor">${bar['Flavor Name'] || ''}</div>
       ${boostHTML}
+      <svg class="row-expand-icon" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </td>
     <td class="col-num col-hide-mobile">${fmt(bar['Calories'])}</td>
     <td class="col-num">${fmt(bar['Protein (g)'])}</td>
@@ -1509,12 +1510,20 @@ function toggleExpand(bar, row) {
     </div>` : '';
 
 
+  const buyButtonsHTML = (bar['Amazon Affiliate'] || bar['Website']) ? `
+      <div class="expand-buy-row">
+        ${bar['Amazon Affiliate'] ? `<a href="${bar['Amazon Affiliate']}" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>` : ''}
+        ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>` : ''}
+      </div>` : '';
+
   const expandRow = document.createElement('tr');
   expandRow.className = 'expand-detail';
   expandRow.innerHTML = `<td colspan="13">
     <div class="expand-content">
 
       <div class="expand-meta">${sizeServing}</div>
+
+      ${buyButtonsHTML}
 
       ${renderMacroRankGrid(bar)}
 
@@ -1529,15 +1538,13 @@ function toggleExpand(bar, row) {
         <div class="expand-right">
           ${scoreSection}
           ${certPills ? `<div class="cert-strip">${certPills}</div>` : ''}
-          ${bar['Website'] ? `<a href="${bar['Website']}" target="_blank" rel="noopener" class="visit-link">Buy from Brand ↗</a>` : ''}
-          ${bar['Amazon Affiliate'] ? `<a href="${bar['Amazon Affiliate']}" target="_blank" rel="noopener sponsored" class="amazon-link">Buy on Amazon ↗</a>` : ''}
+          <div class="ingr-block">
+            ${ingrSection}
+          </div>
           <button class="expand-compare-btn${compareSet.has(bar['Brand Name'] + '|' + bar['Flavor Name']) ? ' active' : ''}"
             data-barkey="${bar['Brand Name']}|${bar['Flavor Name']}">
             ${compareSet.has(bar['Brand Name'] + '|' + bar['Flavor Name']) ? '✓ In comparison' : '+ Add to comparison'}
           </button>
-          <div class="ingr-block">
-            ${ingrSection}
-          </div>
         </div>
 
       </div>
