@@ -9,7 +9,8 @@ every editorial claim (grade range, best/worst flavor, scores, ingredient
 patterns) was built from stale/hallucinated data instead of the live bars.js.
 Real numbers: grade range B->A claimed, actual B->C. Score range 4.4-9.3
 claimed, actual 1.7-6.2. Two ingredient chips referenced in copy ("Protein
-Leads", "Long Ingredient List") did not exist anywhere in score_insights.
+Leads", "Long Ingredient List") that are real, defined chips used elsewhere
+in the database but don't apply to any of Quest's actual flavors.
 
 This script is the fix: it computes ground-truth stats directly from
 bars.js for a given brand (or guide filter) so Claude/Jeff can cross-check

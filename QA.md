@@ -7,6 +7,13 @@ Run this before every upload to GitHub. If any check fails, fix it before deploy
 
 ## 0. Data accuracy — run BEFORE writing any copy (not just before upload)
 
+*The rules below implement BRIEFING.md's Locked Global Rules section — if the
+two ever seem to disagree, BRIEFING.md is canonical, update this checklist to
+match rather than the other way around. Duplicating a rule's full text in two
+places is how the "1,000+" rule went undiscovered for months; this section
+should stay a checklist derived from BRIEFING.md, not a second independent
+statement of the rules themselves.*
+
 This check happens earlier than everything else in this file because it governs
 what the copy says, not just whether the HTML is well-formed. A page can pass
 every other check in this document and still be publishing wrong grades and
@@ -228,8 +235,9 @@ pattern) must be verified against bars.js with `verify_brand_data.py` before
 it's written, not just before upload.** quest-bars.html was live with a
 completely wrong grade range (claimed B->A, actual B->C), wrong score range
 (claimed 4.4-9.3, actual 1.7-6.2), a wrong best/worst flavor grade, and two
-ingredient chips in copy ("Protein Leads", "Long Ingredient List") that don't
-exist anywhere in the real score_insights data. None of this was caught by
+ingredient chips in copy ("Protein Leads", "Long Ingredient List") that are
+real, defined chips used elsewhere in the database but don't apply to any of
+Quest's 16 flavors specifically. None of this was caught by
 the existing structural/technical QA in this file, because none of it checks
 whether the copy is *true* — only whether the HTML is valid. See section 0
 above. This applies to every remaining brand page rebuild (RXBAR, Clif,

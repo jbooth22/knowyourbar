@@ -2,9 +2,9 @@
 
 **Purpose:** every guide page states a filtering formula and a qualifying count. Numbers have drifted from the formulas before (see Keto incident below). This doc is the single source of truth for what each guide actually filters on, so counts can be regenerated correctly whenever the database updates instead of being hand-typed or copied from a prior version.
 
-**Global rule:** never state the total database size as an exact number (e.g. "983 bars," "1,048 bars") anywhere in copy, meta tags, or JSON-LD. Always use **"1,000+"** for the total. Specific qualifying counts per guide (e.g. "714 bars qualify") are fine and should stay specific — they're the credibility-building detail. Only the denominator gets the "1,000+" treatment.
+**Global rule:** the site-wide "never state the exact database size, always '1,000+'" rule now lives in `BRIEFING.md`'s Locked Global Rules section (moved there 2026-08-09 so it's visible in every session, not just guide-page sessions — it was previously only here, which is why a brand-page session had no way to know about it). This file covers only what's specific to guide pages: qualifying counts per guide, which stay specific ("714 bars qualify") and are the credibility-building detail — only the total-database denominator gets the "1,000+" treatment.
 
-**Live count as of this doc:** 1,028 bars in `bars.js`, 133 distinct brands. Re-check both whenever `bars.js` is regenerated — see "How to regenerate" below.
+**Live count as of this doc:** 1,028 bars in `bars.js`, 133 distinct brands as of the last time this line was updated. Treat this as a snapshot, not a live value — re-check with `bars.js` directly (or `verify_brand_data.py`/`diff_bars_upload.py`) whenever it matters, rather than trusting this number. It will go stale the moment the database changes and nobody is required to update this line.
 
 ---
 

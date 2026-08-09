@@ -49,6 +49,30 @@
        @@META_DESCRIPTION@@  Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@    Shorter version for social. No em dashes.
        @@DATE_PUBLISHED@@    e.g. 2026-04-01
+
+       ═══════════════════════════════════════════════════════
+       TABLE ARCHITECTURE DECISION — "Option A" (locked 2026-08-09)
+       ═══════════════════════════════════════════════════════
+       Brand pages use a STATIC GENERATED TABLE, never a live Bar Finder
+       embed. The scorecard, best/worst cards, and full flavor table below
+       are hand-generated per brand from bars.js data (via verify_brand_data.py)
+       and mirror Bar Finder's finalized table design: same column set and
+       classes (col-bar/col-num/col-hide-mobile/col-certs/col-grade,
+       table-grade-badge, cert-badges, row-expand-icon), minus the brand-name
+       line (redundant on a single-brand page) and minus the compare column.
+       Buy buttons live in the expand row, not in the visible BAR cell.
+       colspan on every ingr-row must equal the number of <th> in the header
+       (11, as templated below) — if you add/remove a column, update both.
+
+       This template was rebuilt to this spec after quest-bars.html was
+       rebuilt first (2026-08-09) and confirmed against Bar Finder in
+       Playwright at 1400px and 390px with zero console errors. Before
+       rebuilding another brand page, run verify_brand_data.py for that
+       brand FIRST — do not port numbers from any existing HTML page, and
+       do not assume the old TEMPLATE_BRAND.html's now-superseded 6-column
+       table (Flavor/Grade/Score/Protein/Cal/Sugar, no CAL/FAT/CARB/FIBR/
+       SGR ALC/CERTS columns) is still correct. It isn't — this file is
+       the update.
        ═══════════════════════════════════════════════════════ -->
 
   <!-- Analytics -->
@@ -282,13 +306,17 @@
 </section>
 
 <!-- SCORECARD SNAPSHOT
-     Only 3 stats — this strip is about ingredient quality, not macros.
-     Macro numbers live in the "How [BRAND] ranks on macros" section below;
-     do not duplicate Protein/Calorie ranges up here.
-     @@GRADE_RANGE_LOW@@ / @@GRADE_RANGE_HIGH@@ = worst and best grade, shown as low -> high.
-     @@SWEETENER_PCT@@ = whole number, 0-100. Pull from score_insights ("Artificial Sweeteners")
-     in bars.js, never estimate. Sweetener value color: style="color:#c83020" if >0%,
-     style="color:#2a7a1f" if 0%. -->
+     5 stats: flavor count, grade range, artificial sweetener %, sugar alcohol %+avg, certifications.
+     Run verify_brand_data.py "@@BRAND@@" first — every value here comes straight from its output.
+     @@GRADE_RANGE_LOW@@ / @@GRADE_RANGE_HIGH@@ = worst and best grade PRESENT IN THE DATA, shown
+     worst -> best. Do not assume A is the best grade or B the worst — use whatever the script reports.
+     @@SWEETENER_PCT@@ / @@SUGAR_ALC_PCT@@ = whole numbers 0-100, from the script's chip frequency
+     output, never estimated. Color: style="color:#c83020" if >0%, style="color:#2a7a1f" if 0%.
+     @@CERT_ITEM@@ = if the script reports certifications "NOT TRACKED", render:
+       <div class="snap-value" style="color:var(--muted)">&mdash;</div>
+       <div class="snap-label">Certifications not tracked for this brand</div>
+     If the script reports real cert data, render the actual %, colored green if >0. Never write
+     "0%" for a field the script says is untracked — untracked and confirmed-zero are different facts. -->
 <section class="snapshot">
   <div class="snapshot-inner">
     <div class="snap-item">
@@ -303,6 +331,14 @@
     <div class="snap-item">
       <div class="snap-value" style="color:@@SWEETENER_COLOR@@">@@SWEETENER_PCT@@%</div>
       <div class="snap-label">Flavors with artificial sweeteners</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-value" style="color:@@SUGAR_ALC_COLOR@@">@@SUGAR_ALC_PCT@@%</div>
+      <div class="snap-sub">avg @@SUGAR_ALC_AVG@@g per flavor</div>
+      <div class="snap-label">Flavors with sugar alcohol</div>
+    </div>
+    <div class="snap-item">
+      @@CERT_ITEM@@
     </div>
   </div>
 </section>
@@ -343,17 +379,45 @@
   </section>
 
   <!-- 3. BEST & WORST CARDS
-       2-4 chips per card. Remove Amazon link if no affiliate URL. -->
+       Standardized structure, both cards identical shape:
+       - Clear grade badge (.grade-badge, 26px circle, inline style="background:<hex>")
+         Hex by grade: A=#2a7a1f B=#5a8a2f C=#b89a00 D=#c87020 F=#c83020
+       - Six macros: Calories, Protein, Protein/100cal, Fiber, Sugar, Sugar Alcohol
+         (Protein/100cal = round(Protein / Calories * 100, 1) — compute it, don't estimate)
+       - Two chip groups, labeled "Good" and "Concerning" (.bw-chip-group-label + .bw-chips),
+         built from the REAL score_insights chips in verify_brand_data.py's output — positive
+         type goes in "Good", concern type goes in "Concerning". If a group is empty, render
+         <span class="bw-chip-none">None</span> rather than omitting the group.
+       - Buy buttons on BOTH cards (Amazon + Brand Site). Drop the Amazon link if no affiliate
+         URL exists for that flavor; drop the Brand Site link if bars.js has no Website value
+         for it. Never fabricate a URL. -->
   <section class="section">
     <h2>Best and worst flavors by ingredient quality</h2>
     <div class="bestworst">
       <div class="bw-card best">
-        <div class="bw-label">Highest ingredient quality</div>
+        <div class="bw-card-top">
+          <div class="bw-label">Highest ingredient quality</div>
+          <span class="grade-badge" style="background:@@BEST_GRADE_COLOR@@" title="@@BEST_GRADE_DEF@@">@@BEST_GRADE@@</span>
+        </div>
         <div class="bw-flavor">@@BEST_FLAVOR@@</div>
         <div class="bw-score">Score @@BEST_SCORE@@ &middot; Grade @@BEST_GRADE@@ (@@BEST_GRADE_DEF@@)</div>
+        <div class="ingr-macros">
+          <span><strong>Calories</strong>@@BEST_CALORIES@@</span>
+          <span><strong>Protein</strong>@@BEST_PROTEIN@@g</span>
+          <span><strong>Protein/100cal</strong>@@BEST_P100@@g</span>
+          <span><strong>Fiber</strong>@@BEST_FIBER@@g</span>
+          <span><strong>Sugar</strong>@@BEST_SUGAR@@g</span>
+          <span><strong>Sugar Alcohol</strong>@@BEST_SUGAR_ALCOHOL@@g</span>
+        </div>
+        <div class="bw-chip-group-label">Good</div>
         <div class="bw-chips">
           <span class="bchip pos">@@CHIP@@</span>
-          <span class="bchip pos">@@CHIP@@</span>
+          <!-- repeat per positive chip, or <span class="bw-chip-none">None</span> -->
+        </div>
+        <div class="bw-chip-group-label">Concerning</div>
+        <div class="bw-chips">
+          <span class="bchip con">@@CHIP@@</span>
+          <!-- use "bchip con elev" if that chip's severity is "elevated" -->
         </div>
         <div class="bw-buy-group">
           <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
@@ -363,12 +427,34 @@
         </div>
       </div>
       <div class="bw-card worst">
-        <div class="bw-label">Lowest ingredient quality</div>
+        <div class="bw-card-top">
+          <div class="bw-label">Lowest ingredient quality</div>
+          <span class="grade-badge" style="background:@@WORST_GRADE_COLOR@@" title="@@WORST_GRADE_DEF@@">@@WORST_GRADE@@</span>
+        </div>
         <div class="bw-flavor">@@WORST_FLAVOR@@</div>
         <div class="bw-score">Score @@WORST_SCORE@@ &middot; Grade @@WORST_GRADE@@ (@@WORST_GRADE_DEF@@)</div>
+        <div class="ingr-macros">
+          <span><strong>Calories</strong>@@WORST_CALORIES@@</span>
+          <span><strong>Protein</strong>@@WORST_PROTEIN@@g</span>
+          <span><strong>Protein/100cal</strong>@@WORST_P100@@g</span>
+          <span><strong>Fiber</strong>@@WORST_FIBER@@g</span>
+          <span><strong>Sugar</strong>@@WORST_SUGAR@@g</span>
+          <span><strong>Sugar Alcohol</strong>@@WORST_SUGAR_ALCOHOL@@g</span>
+        </div>
+        <div class="bw-chip-group-label">Good</div>
+        <div class="bw-chips">
+          <span class="bchip pos">@@CHIP@@</span>
+          <!-- or <span class="bw-chip-none">None</span> -->
+        </div>
+        <div class="bw-chip-group-label">Concerning</div>
         <div class="bw-chips">
           <span class="bchip con elev">@@CHIP@@</span>
-          <span class="bchip con elev">@@CHIP@@</span>
+        </div>
+        <div class="bw-buy-group">
+          <a href="https://www.amazon.com/dp/@@WORST_ASIN@@?tag=knowyourbar0f-20"
+             target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+          <a href="@@WORST_WEBSITE_URL@@"
+             target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
         </div>
       </div>
     </div>
@@ -423,8 +509,19 @@
   </section>
 
   <!-- 5. INGREDIENT QUALITY PATTERNS
-       Remove any group that doesn't apply.
-       chip-freq-fill width% = (N / total) * 100 -->
+       Every @@PATTERN_NAME@@ here MUST come verbatim from verify_brand_data.py's
+       "chip frequency" output — it lists every real chip name in score_insights
+       for this brand, with type (pos/con) and count. Do not invent, generalize,
+       or reuse a chip from another brand's page or from memory ("Protein Leads"
+       and "Long Ingredient List" both appeared on quest-bars.html on 2026-08-09
+       without applying to any of Quest's actual 16 flavors — they're real chips
+       used elsewhere in the database, just not for this brand's ingredients).
+       Tier by percentage, matching the script's own grouping: 100% = "Every
+       flavor", 50-99% = "Most flavors", <50% = "Some flavors". Remove any tier
+       that has no chips. Use "con elev" instead of "con" only if that chip's
+       severity is uniformly "elevated" across every occurrence in the brand's
+       rows — if severity is mixed, use plain "con".
+       chip-freq-fill width% = (N / total) * 100, rounded. -->
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
     <p>@@PATTERNS_INTRO@@</p>
@@ -459,73 +556,98 @@
     <p style="margin-top:1.25rem;">@@PATTERNS_SUMMARY_TEXT@@</p>
   </section>
 
-  <!-- 6. FULL FLAVOR TABLE
-       6 columns — no Insights column in the table header.
-       Chips live inside the expand row (.ingr-chips).
-       colspan must be 6. toggleIngr index starts at 0. -->
+  <!-- 6. FULL FLAVOR TABLE — "Option A" static table, mirrors Bar Finder exactly
+       (see the architecture note at the top of this file). 11 columns: BAR, CAL,
+       PROT, P/100, FAT, CARB, FIBR, SGR, SGR ALC, CERTS, GRADE — same classes as
+       Bar Finder minus the brand-name line and minus the compare column.
+       colspan on every ingr-row MUST equal 11. If you add/remove a <th>, update
+       colspan on every row, not just the first one.
+       Buy buttons live in the expand row (not in the BAR cell) via .expand-buy-row
+       / .amazon-link / .visit-link — reuse those exact classes, they're global CSS,
+       not scoped to Bar Finder's #results-table.
+       toggleIngr index starts at 0 and must be sequential with no gaps or repeats —
+       verify_brand_data.py's "Full flavor list, sorted best to worst" gives you the
+       correct row order (best/cleanest first) to assign indices against. -->
   <section class="section">
     <h2>All @@FLAVOR_COUNT@@ @@BRAND@@ flavors ranked by ingredient quality</h2>
-    <p>Every flavor, every grade, every key macro. Sorted from cleanest to most processed. Tap any row to see the full ingredient list.</p>
+    <p>Every flavor, every grade, every key macro. Sorted from cleanest to most processed. Tap any row to see the full ingredient list, macros, and buy links.</p>
     <div class="bar-table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Flavor</th>
-            <th>Grade</th>
-            <th>Score</th>
-            <th>Protein</th>
-            <th>Cal</th>
-            <th>Sugar</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-bar">BAR</th>
+              <th class="col-num col-hide-mobile" title="Calories">CAL</th>
+              <th class="col-num" title="Protein (g)">PROT</th>
+              <th class="col-num col-hide-mobile" title="Protein per 100 calories">P/100</th>
+              <th class="col-num" title="Total Fat (g)">FAT</th>
+              <th class="col-num col-hide-mobile" title="Total Carbohydrates (g)">CARB</th>
+              <th class="col-num" title="Dietary Fiber (g)">FIBR</th>
+              <th class="col-num" title="Sugars (g)">SGR</th>
+              <th class="col-num col-hide-mobile" title="Sugar Alcohol (g)">SGR ALC</th>
+              <th class="col-certs col-hide-mobile">CERTS</th>
+              <th class="col-grade" title="Ingredient Quality Grade">GRADE</th>
+            </tr>
+          </thead>
+          <tbody>
 
-          <!-- ROW PATTERN — copy and increment index for each flavor -->
-          <tr class="bar-row" onclick="toggleIngr(0, this)">
-            <td class="bar-name-cell">
-              <div class="bar-flavor">@@FLAVOR_NAME@@</div>
-              <!-- Two buttons: Amazon always (uses Amazon Affiliate field), Brand Site only
-                   when bars.js has a Website URL for this flavor. Never include the flavor
-                   name in the button text, it's already shown above. -->
-              <div class="bar-sub">
-                <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
-                   target="_blank" rel="noopener sponsored" class="buy-btn">Shop on Amazon</a>
-                <a href="@@BRAND_SITE_URL@@"
-                   target="_blank" rel="noopener" class="buy-btn buy-btn-brand">Shop on Brand Site</a>
-                <span class="expand-hint">tap for ingredients</span>
-              </div>
-            </td>
-            <td class="grade-cell">
-              <span class="grade-badge" style="background:@@GRADE_COLOR@@" title="@@GRADE_DEF@@">@@GRADE@@</span>
-            </td>
-            <td class="num-cell">@@SCORE@@</td>
-            <td class="num-cell">@@PROTEIN@@g</td>
-            <td class="num-cell">@@CALORIES@@</td>
-            <td class="num-cell">@@SUGAR@@g</td>
-          </tr>
-          <tr class="ingr-row" id="ingr-0">
-            <td colspan="6" class="ingr-cell">
-              <div class="ingr-inner">
-                <div class="ingr-macros">
-                  <span><strong>Protein</strong>@@PROTEIN@@g</span>
-                  <span><strong>Calories</strong>@@CALORIES@@</span>
-                  <span><strong>Sugar</strong>@@SUGAR@@g</span>
-                  <span><strong>Fiber</strong>@@FIBER@@g</span>
-                  <span><strong>Fat</strong>@@FAT@@g</span>
-                  <span><strong>Sodium</strong>@@SODIUM@@mg</span>
+            <!-- ROW PATTERN — copy and increment index for each flavor, best/cleanest first -->
+            <tr class="bar-row" onclick="toggleIngr(0, this)">
+              <td class="col-bar">
+                <div class="bar-flavor">@@FLAVOR_NAME@@</div>
+                <svg class="row-expand-icon" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </td>
+              <td class="col-num col-hide-mobile">@@CALORIES@@</td>
+              <td class="col-num">@@PROTEIN@@</td>
+              <td class="col-num col-hide-mobile">@@P100@@</td>
+              <td class="col-num">@@FAT@@</td>
+              <td class="col-num col-hide-mobile">@@CARBS@@</td>
+              <td class="col-num">@@FIBER@@</td>
+              <td class="col-num">@@SUGAR@@</td>
+              <td class="col-num col-hide-mobile">@@SUGAR_ALCOHOL@@</td>
+              <td class="col-certs col-hide-mobile">
+                <div class="cert-badges">
+                  <!-- one <span class="cert-badge">LABEL</span> per Y cert field, or leave empty -->
                 </div>
-                <strong>Ingredients: </strong>@@FULL_INGREDIENT_LIST@@
-                <div class="ingr-chips">
-                  <span class="bchip pos">@@CHIP@@</span>
-                  <span class="bchip con elev">@@CHIP@@</span>
+              </td>
+              <td class="col-grade">
+                <span class="table-grade-badge grade-@@GRADE@@" title="@@GRADE_DEF@@ &middot; score @@SCORE@@">@@GRADE@@</span>
+              </td>
+            </tr>
+            <tr class="ingr-row" id="ingr-0">
+              <td colspan="11" class="ingr-cell">
+                <div class="ingr-inner">
+                  <div class="expand-buy-row">
+                    <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
+                       target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
+                    <a href="@@BRAND_SITE_URL@@"
+                       target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
+                    <!-- drop the visit-link entirely if bars.js has no Website value for this flavor -->
+                  </div>
+                  <div class="ingr-macros">
+                    <span><strong>Protein</strong>@@PROTEIN@@g</span>
+                    <span><strong>Calories</strong>@@CALORIES@@</span>
+                    <span><strong>Sugar</strong>@@SUGAR@@g</span>
+                    <span><strong>Fiber</strong>@@FIBER@@g</span>
+                    <span><strong>Fat</strong>@@FAT@@g</span>
+                    <span><strong>Sodium</strong>@@SODIUM@@mg</span>
+                  </div>
+                  <strong>Ingredients: </strong>@@FULL_INGREDIENT_LIST@@
+                  <div class="ingr-chips">
+                    <span class="bchip pos">@@CHIP@@</span>
+                    <span class="bchip con elev">@@CHIP@@</span>
+                    <!-- one span per real chip from score_insights, pos or con (+ elev if severity
+                         is "elevated"). Never write a chip name that isn't in verify_brand_data.py's
+                         chip frequency output. -->
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          <!-- END ROW PATTERN -->
+              </td>
+            </tr>
+            <!-- END ROW PATTERN -->
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 
