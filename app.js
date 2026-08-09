@@ -78,10 +78,13 @@ const MACRO_RANKS = (function() {
       .map(b => ({ val: b[key], bar: b }))
       .filter(x => x.val !== null && x.val !== undefined);
 
-    // Sort: highest = desc, lowest = asc, neutral = desc (arbitrary, just for rank)
-    vals.sort((a, b) => dir === 'lowest' ? a.val - b.val : b.val - a.val);
+    // Always sort ascending (smallest value = rank 1), independent of which
+    // direction is "favorable" for this macro. Favorability is applied later,
+    // purely for color — the rank number itself always means true magnitude,
+    // so a tag never says "lowest" on a bar that's actually near the top.
+    vals.sort((a, b) => a.val - b.val);
 
-    // Build map: bar key → rank (1-based)
+    // Build map: bar key → ascending rank (1-based)
     const rankMap = {};
     vals.forEach((x, i) => {
       const barKey = x.bar['Brand Name'] + '|' + x.bar['Flavor Name'];
@@ -109,13 +112,11 @@ function getMacroRank(bar, macroKey) {
   return { rank, total: r.total, dir: r.dir };
 }
 
-function getRankTagClass(rank, total, dir) {
-  if (dir === 'neutral') return 'rank-gray';
-  const pct = rank / total;
-  // Top 25% in favorable direction = green, bottom 25% = amber, middle = gray
-  if (pct <= 0.25) return 'rank-green';
-  if (pct >= 0.75) return 'rank-amber';
-  return 'rank-gray';
+function getRankTagClass(magnitudeWord, dir) {
+  if (dir === 'neutral' || !magnitudeWord) return 'rank-gray';
+  // Green if this bar's true magnitude (highest/lowest) matches the favorable
+  // direction for this macro; amber if it's the unfavorable extreme.
+  return magnitudeWord === dir ? 'rank-green' : 'rank-amber';
 }
 
 function renderMacroRankGrid(bar) {
@@ -133,9 +134,17 @@ function renderMacroRankGrid(bar) {
     const r = getMacroRank(bar, key);
     let rankHtml = '';
     if (r) {
-      const cls = getRankTagClass(r.rank, r.total, r.dir);
-      const dirWord = r.dir === 'neutral' ? `of ${r.total}` : r.dir;
-      rankHtml = `<span class="macro-rank-tag ${cls}">#${r.rank} ${dirWord}</span>`;
+      const pct = r.rank / r.total;
+      let magnitudeWord = null, displayRank = r.rank;
+      if (pct <= 0.25) {
+        magnitudeWord = 'lowest';
+      } else if (pct >= 0.75) {
+        magnitudeWord = 'highest';
+        displayRank = r.total - r.rank + 1; // count from the top when calling it "highest"
+      }
+      const cls = getRankTagClass(magnitudeWord, r.dir);
+      const dirWord = (r.dir === 'neutral' || !magnitudeWord) ? `of ${r.total}` : magnitudeWord;
+      rankHtml = `<span class="macro-rank-tag ${cls}">#${displayRank} ${dirWord}</span>`;
     }
     return `<div class="macro-rank-cell">
       <span class="macro-rank-lbl">${label}</span>

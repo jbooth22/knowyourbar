@@ -797,7 +797,13 @@ th {
   user-select: none;
 }
 
-th.col-num { text-align: right; }
+th.col-num {
+  text-align: right;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 
 td {
   padding: 10px 12px;
@@ -1440,10 +1446,10 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
   /* Tighter number columns */
   .col-num { width: 40px; font-size: 11px; padding: 8px 5px; }
   th { padding: 8px 5px; font-size: 8px; }
+  th.col-num { font-size: 8px; }
   td { padding: 8px 5px; }
 
-  /* Stack buy buttons full width on mobile */
-  .expand-buy-row { flex-direction: column; }
+  /* Buy buttons stay side by side on mobile — confirmed to fit at 390px */
 }
 
 @media (max-width: 600px) {
