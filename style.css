@@ -832,7 +832,8 @@ tr.expanded td { background: #eceae3; }
   pointer-events: none;
 }
 tr:hover .row-expand-icon { color: var(--muted); }
-tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color: var(--black); }
+tr.expanded .row-expand-icon,
+tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); color: var(--black); }
 
 .table-grade-badge {
   display: inline-flex;
@@ -3001,7 +3002,21 @@ body.overlay-open { overflow: hidden; }
   margin-bottom: 4px;
 }
 .bw-score { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-.bw-chips { margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 5px; }
+.bw-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.bw-card-top .bw-label { margin-bottom: 0; }
+.bw-chip-group-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.75rem;
+  margin-bottom: 4px;
+}
+.bw-chip-group-label:first-of-type { margin-top: 0.9rem; }
+.bw-chips { margin-top: 0; display: flex; flex-wrap: wrap; gap: 5px; }
+.bw-chip-none { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.bw-card .ingr-macros { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.08); }
 /* Cross-brand comparison table (dark band, appears on some brand pages) */
 .brand-compare { background: var(--bs-ink); padding: 3rem 1.5rem; }
 .brand-compare-inner { max-width: 860px; margin: 0 auto; }
