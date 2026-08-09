@@ -914,11 +914,11 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
 }
 
 .expand-meta {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
   color: var(--muted);
   margin-bottom: 11px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;
 }
 
 /* Desktop: side by side */
@@ -979,10 +979,10 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
 }
 
 .nutr-section-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--muted);
   margin: 10px 0 6px;
   border-top: 0.5px solid var(--border);
@@ -1097,6 +1097,16 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
   margin-bottom: 5px;
 }
 
+/* Bar Finder expanded panel only — scoped so this doesn't affect the
+   unrelated guide-page component that reuses the .ingr-label class name. */
+.expand-content .ingr-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
 .ingr-text {
   font-size: 12px;
   color: #555;
@@ -1128,11 +1138,11 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
 }
 
 .score-header-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.6;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--muted);
   margin-bottom: 4px;
 }
 
@@ -1183,10 +1193,10 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
   display: inline-block;
   padding: 4px 10px;
   border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .chip-positive {
@@ -1254,11 +1264,10 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
 }
 
 .ingr-col-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.01em;
+  font-weight: 700;
   margin-bottom: 5px;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -1269,7 +1278,7 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
 
 .ingr-col-item {
   font-size: 11px;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   padding: 2px 0;
   border-bottom: 0.5px solid rgba(0,0,0,0.05);
   line-height: 1.4;
@@ -1501,9 +1510,9 @@ tr.expanded .row-expand-icon { transform: translateY(-50%) rotate(90deg); color:
   border-radius: var(--radius);
   background: var(--white);
   color: var(--black);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.12s;
 }
@@ -2162,10 +2171,10 @@ body.overlay-open { overflow: hidden; }
   margin-bottom: 12px;
 }
 .macro-rank-lbl {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--muted);
   display: block;
 }
@@ -2273,10 +2282,10 @@ body.overlay-open { overflow: hidden; }
   background: var(--off-white);
 }
 .similar-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--muted);
   margin-bottom: 10px;
 }
@@ -2304,9 +2313,10 @@ body.overlay-open { overflow: hidden; }
   margin-bottom: 5px;
 }
 .sim-brand {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -2352,10 +2362,10 @@ body.overlay-open { overflow: hidden; }
   line-height: 1;
 }
 .sim-macro-lbl {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--muted);
   margin-top: 2px;
   display: block;
@@ -2376,10 +2386,10 @@ body.overlay-open { overflow: hidden; }
 
 /* ─── Sim card bucket label ─────────────────────── */
 .sim-bucket-label {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--muted);
   margin-bottom: 6px;
   padding-bottom: 5px;
