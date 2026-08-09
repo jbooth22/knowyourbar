@@ -27,6 +27,11 @@ _headers                — Cloudflare Pages cache + security headers
 TEMPLATE_BRAND.html     — Master template for brand review pages
 TEMPLATE_GUIDE.html     — Master template for lifestyle guide pages
 score_and_export.py     — Scoring pipeline script
+verify_brand_data.py    — Data verification script. Run before writing ANY brand/guide
+                           page copy that cites grades, scores, macros, or ingredient
+                           patterns. See "MANDATORY: run verify_brand_data.py" below.
+diff_bars_upload.py     — Diffs old vs. new bars.js on every database upload to see what
+                           actually changed. See "When a new bars.js is uploaded" below.
 knowyourbar_scoring_schema_v4.xlsx — Ingredient scoring schema
 sitemap.xml
 robots.txt
@@ -70,6 +75,8 @@ Other:
 ---
 
 ## Brand review pages — TEMPLATE_BRAND.html
+
+**⚠ Scheduled for rebuild (August 2026) — do not treat the section order below as final.** Once Bar Finder's redesign is locked, this template gets: (1) the scorecard snapshot section replaced with an expanded macro/cert/sweetener-status card, replacing the current low-value "flavors scored / grade range / sweetener %" stat bar, (2) the best/worst flavor cards standardized (clear grade badge, six key macros, Good/Concerning ingredient chip groups, buy buttons on both cards), (3) the full flavor table rebuilt to mirror Bar Finder's table exactly (see "Brand page table architecture decision" below for how). Until that rebuild happens, the section order below is what's actually live.
 
 All brand pages have been rebuilt from scratch using TEMPLATE_BRAND.html. This is the locked standard. Every future brand page must use this template.
 
@@ -243,6 +250,18 @@ Every brand page originally shipped with a full duplicate `<style>:root{...}</st
 
 ---
 
+## Brand page table architecture decision (August 2026)
+
+When the flavor table on brand/guide pages gets rebuilt to mirror Bar Finder's redesigned table, **it stays static HTML, generated to match Bar Finder's markup, not a live embed of Bar Finder itself.** Three approaches were considered:
+
+- **A — Static, generated (chosen).** Brand/guide pages keep their current architecture: no `bars.js`, no `app.js`, hand-baked HTML matching Bar Finder's current design, scoped to that page's bars. The only change from today is discipline: generate this from Bar Finder's actual current row/expand-panel markup each time, rather than re-deriving it from memory in a fresh session, which is what caused drift before.
+- **B — Live embed, filters pre-locked.** Rejected. Every brand page (16-25 bars) would ship the same ~2.2MB database + full app as the page showing all 1,000 bars, and would require new conditional branches inside `app.js` (hide compare button, hide brand column) that add complexity to the single most important shared file on the site.
+- **C — Shared render functions, page-specific data.** The architecturally "correct" long-term answer: extract Bar Finder's row/panel rendering into reusable functions both Bar Finder and brand pages call, so markup and behavior are one codebase with zero drift, while brand pages still only load their own small bar list. Not done now, since it means refactoring `app.js`'s rendering internals while Bar Finder's design is still actively moving. Worth revisiting as its own project once Bar Finder is stable.
+
+Why A over C for now: A matches the site's existing architecture (no new dependency between brand pages and `app.js`), keeps brand pages fast and immediately crawlable for SEO (no client-side render needed for content to be indexable), and carries the least risk to `app.js`/Bar Finder while both are still changing. C remains the better end-state if drift becomes a recurring problem.
+
+---
+
 ## index.html hero — current structure (May 2026)
 
 The homepage hero has been significantly updated. Current structure in order:
@@ -309,6 +328,52 @@ When building or rebuilding a brand page, always extract data directly from bars
 2. Sort by ingredient_score descending
 3. Use exact ingredient text, amazon affiliate URL, and macro data from the database
 4. Build rows using the template row pattern from TEMPLATE_BRAND.html
+
+### MANDATORY: run verify_brand_data.py before writing ANY page copy
+**Incident (2026-08-09):** a Quest rebuild found every editorial claim on the live
+quest-bars.html was stale or fabricated. Claimed grade range B->A, actual B->C.
+Claimed scores 4.4-9.3, actual 1.7-6.2. Claimed best flavor at grade A/9.3, actual
+grade B/6.2. Two ingredient chips referenced in copy ("Protein Leads", "Long
+Ingredient List") do not exist anywhere in the real score_insights data — they
+were invented. This had been live and indexed by Google for an unknown period.
+
+To prevent this from recurring, `verify_brand_data.py` (repo root) computes
+ground-truth stats directly from bars.js: grade distribution, score range,
+best/worst flavor with real chips, macro ranges/averages, percentile rankings
+against the full 1,000+ bar database, real ingredient chip frequency, and
+artificial sweetener / sugar alcohol / certification prevalence.
+
+**Run it before writing or approving a single sentence of brand or guide page
+copy that cites a grade, score, percentile, macro range, or ingredient pattern:**
+```
+python3 verify_brand_data.py "Quest"
+python3 verify_brand_data.py "Clif" --include-subbrands
+```
+Cross-check every number in the draft against the script's output. If a number
+in existing copy doesn't match, the existing copy is wrong — bars.js is always
+the source of truth, never the other way around. Certification fields that are
+`null` (not `"No"`) must be reported as "not tracked," never asserted as 0%.
+Chip names that don't appear in the script's chip frequency table must not
+appear anywhere in the page copy — there is no such thing as a chip the score_insights
+data doesn't contain.
+
+This applies to every brand page rebuild still pending (RXBAR, Clif, Barebells,
+KIND) and to any future one.
+
+### When a new bars.js is uploaded
+Before doing anything else with a newly uploaded bars.js:
+1. Run `diff_bars_upload.py old_bars.js new_bars.js` (keep the previous bars.js
+   around specifically to make this possible) to see exactly what changed —
+   added bars, removed bars, and any bar whose score, grade, macros,
+   ingredients, or score_insights changed. It prints which brands are affected.
+2. For every brand the diff flags as affected, re-run `verify_brand_data.py`
+   before touching that brand's page, even if the page was rebuilt recently.
+   Scores and grades can shift between scoring-pipeline runs — a page that was
+   accurate last month is not guaranteed accurate today.
+3. If a brand's grade distribution or score range changed since its page was
+   last written, flag it to the person before making any other edit. Don't
+   silently rewrite the copy — they may want to review the change themselves,
+   same as the quest-bars.html discovery on 2026-08-09.
 
 ---
 
@@ -455,6 +520,9 @@ Go to GitHub → file → History → find last working commit → download raw 
 
 **During session:**
 - Claude works from uploaded files, not memory
+- Before writing or editing any brand/guide page copy, run `verify_brand_data.py`
+  for the relevant brand(s) and cross-check every grade/score/macro/pattern
+  claim against it — see "MANDATORY: run verify_brand_data.py" above
 - Claude runs verification checks before presenting output files
 - Upload and verify before moving to the next change
 
