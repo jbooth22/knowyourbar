@@ -1039,6 +1039,35 @@ tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); co
   color: var(--black);
 }
 
+/* Certification / fortification icon badges — used in the macro grid footnote
+   on brand pages when a brand has real cert or vitamin data (bars.js field is
+   "Yes", not null). Icons here are original and generic (a checkmark-in-circle
+   shared across all cert types, distinguished by label text) rather than any
+   attempt to reproduce official third-party seals (GFCO, Non-GMO Project,
+   kosher certifying agencies, etc.) — those are trademarked marks the site is
+   not licensed to display. Do not try to recreate an official seal's look;
+   the label text carries the meaning, the icon is a visual anchor only. */
+.cert-badge-icon-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 0.75rem;
+}
+.cert-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 100px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--black);
+}
+.cert-badge-icon svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--muted); }
+
 .visit-link {
   display: inline-flex;
   align-items: center;
@@ -3018,41 +3047,44 @@ body.overlay-open { overflow: hidden; }
 .bw-chip-none { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 .bw-card .ingr-macros { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.08); }
 /* Cross-brand comparison table (dark band, appears on some brand pages) */
-.brand-compare { background: var(--bs-ink); padding: 3rem 1.5rem; }
-.brand-compare-inner { max-width: 860px; margin: 0 auto; }
+/* Brand comparison table — redesigned 2026-08-10 to match the rest of the page.
+   Was a standalone dark-background component (var(--bs-ink)) sitting inside an
+   otherwise light page, with its own separate grade-badge component instead of
+   reusing .table-grade-badge. That produced font/contrast complaints and looked
+   off-brand. Now uses the same light section background, borders, and grade
+   badge component as every other table on brand pages. Affects every brand
+   page using this component, not just Quest. */
+.brand-compare { background: var(--white); padding: 0; }
+.brand-compare-inner { max-width: 900px; margin: 0 auto; }
 .brand-v1 .brand-compare .brand-compare-title {
   font-family: var(--bs-font-display); font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: var(--bs-paper) !important;
+  font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: var(--bs-ink) !important;
 }
 .brand-compare-sub {
-  color: #c9c0b0; font-size: 0.97rem; margin-bottom: 1.75rem;
+  color: var(--bs-text-dim); font-size: 0.97rem; margin-bottom: 1.75rem;
   font-family: var(--bs-font-body); line-height: 1.5;
 }
 .brand-compare-table-wrap { overflow-x: auto; }
 .brand-compare-table { width: 100%; border-collapse: collapse; font-family: var(--bs-font-body); font-size: 0.92rem; }
-.brand-compare-table thead tr { border-bottom: 1px solid #3a382f; }
+.brand-compare-table thead tr { border-bottom: 2px solid var(--bs-ink); }
 .brand-v1 .brand-compare-table th {
   text-align: left; padding: 0.6rem 0.75rem; font-weight: 500;
   font-family: var(--bs-font-data); font-size: 9px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #c9c0b0;
+  text-transform: uppercase; color: var(--bs-text-dim);
 }
 .brand-compare-table th.ctr, .brand-compare-table td.ctr { text-align: center; }
-.brand-compare-table tbody tr { border-bottom: 1px solid #2a2820; }
+.brand-compare-table tbody tr { border-bottom: 1px solid var(--bs-line-soft); }
 .brand-compare-table tbody tr:last-child { border-bottom: none; }
-.brand-compare-table td { padding: 0.75rem; color: var(--bs-paper); }
-.brand-compare-table td.name { font-weight: 600; }
-.brand-compare-grade {
-  display: inline-block; color: #fff; font-weight: 700;
-  padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.85rem;
-}
-.brand-compare-grade.grade-a  { background: #2a7a1f; }
-.brand-compare-grade.grade-bc { background: #b89a00; }
-.brand-compare-grade.grade-df { background: #c83020; }
+.brand-compare-table tbody tr.self-row { background: var(--bs-cream); }
+.brand-compare-table td { padding: 0.75rem; color: var(--bs-ink); font-family: var(--bs-font-data); }
+.brand-compare-table td.name { font-weight: 700; font-family: var(--bs-font-body); }
+.brand-compare-grade-pair { display: inline-flex; align-items: center; gap: 4px; }
+.brand-compare-grade-arrow { color: var(--bs-text-dim); font-size: 0.8rem; }
 .brand-compare-note {
-  margin-top: 1.5rem; padding: 1.25rem; background: var(--bs-ink-2);
-  border-radius: 8px; border-left: 3px solid #5c584c;
+  margin-top: 1.5rem; padding: 1.25rem; background: var(--bs-cream);
+  border-radius: 8px; border-left: 3px solid var(--bs-ink);
 }
-.brand-compare-note-text { color: #c9c0b0; font-size: 0.93rem; margin: 0; line-height: 1.6; font-family: var(--bs-font-body); }
+.brand-compare-note-text { color: var(--bs-text-dim); font-size: 0.93rem; margin: 0; line-height: 1.6; font-family: var(--bs-font-body); }
 .buy-btn-brand {
   background: transparent;
   color: var(--black);
@@ -3093,6 +3125,36 @@ body.overlay-open { overflow: hidden; }
   margin-top: 0.75rem;
 }
 .macro-grid-footnote strong { color: var(--muted); font-weight: 600; }
+
+/* All-brand-reviews link grid — deliberately a wrapping pill grid, not fixed-
+   count cards, so it holds up as more brand pages get added (see BRIEFING.md,
+   "footer isn't going to scale to every brand" discussion, 2026-08-10). */
+.brand-link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+.brand-link-pill {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.brand-link-pill:hover { background: var(--black); color: var(--white); }
+.brand-link-pill-all { border-style: dashed; color: var(--muted); border-color: var(--border); }
+.brand-link-pill-all:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+.brand-v1 .brand-link-pill { border-color: var(--bs-ink); color: var(--bs-ink); font-family: var(--bs-font-body); }
+.brand-v1 .brand-link-pill:hover { background: var(--bs-ink); color: var(--bs-paper); }
+.brand-v1 .brand-link-pill-all { color: var(--bs-text-dim); border-color: var(--bs-line-soft); }
+.brand-v1 .brand-link-pill-all:hover { background: var(--bs-ink); color: var(--bs-paper); border-color: var(--bs-ink); }
 
 /* Explore more — 3 descriptive link cards */
 .explore-more-grid {

@@ -91,10 +91,18 @@
   <meta name="description" content="@@META_DESCRIPTION@@">
   <link rel="canonical" href="https://knowyourbar.com/@@BRAND_SLUG@@.html">
 
-  <!-- Fonts -->
+  <!-- Fonts (fixed 2026-08-10: this template's body carries class="page-brand
+       brand-v1", which forces every h1/h2/h3/hero-title/section-title through
+       font-family: var(--bs-font-display) = 'Barlow Condensed' via an !important
+       rule, and mono/data text through var(--bs-font-data) = 'IBM Plex Mono'.
+       Both must be loaded here or that text silently falls back to the browser's
+       system font. This was live and unnoticed on quest-bars.html until caught
+       by visual review, not by any automated check — there is no lint that
+       catches "declared font-family never loaded." Do not remove either family
+       from this link without confirming nothing under .brand-v1 still needs it. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
@@ -305,48 +313,96 @@
   </div>
 </section>
 
-<!-- SCORECARD SNAPSHOT
-     5 stats: flavor count, grade range, artificial sweetener %, sugar alcohol %+avg, certifications.
-     Run verify_brand_data.py "@@BRAND@@" first — every value here comes straight from its output.
-     @@GRADE_RANGE_LOW@@ / @@GRADE_RANGE_HIGH@@ = worst and best grade PRESENT IN THE DATA, shown
-     worst -> best. Do not assume A is the best grade or B the worst — use whatever the script reports.
-     @@SWEETENER_PCT@@ / @@SUGAR_ALC_PCT@@ = whole numbers 0-100, from the script's chip frequency
-     output, never estimated. Color: style="color:#c83020" if >0%, style="color:#2a7a1f" if 0%.
-     @@CERT_ITEM@@ = if the script reports certifications "NOT TRACKED", render:
-       <div class="snap-value" style="color:var(--muted)">&mdash;</div>
-       <div class="snap-label">Certifications not tracked for this brand</div>
-     If the script reports real cert data, render the actual %, colored green if >0. Never write
-     "0%" for a field the script says is untracked — untracked and confirmed-zero are different facts. -->
-<section class="snapshot">
-  <div class="snapshot-inner">
-    <div class="snap-item">
-      <div class="snap-value">@@FLAVOR_COUNT@@</div>
-      <div class="snap-label">Flavors scored</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">@@GRADE_RANGE_LOW@@<span class="snap-value-arrow">&rarr;</span>@@GRADE_RANGE_HIGH@@</div>
-      <div class="snap-sub">Ingredient score @@SCORE_RANGE@@</div>
-      <div class="snap-label">Grade range, worst to best</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:@@SWEETENER_COLOR@@">@@SWEETENER_PCT@@%</div>
-      <div class="snap-label">Flavors with artificial sweeteners</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:@@SUGAR_ALC_COLOR@@">@@SUGAR_ALC_PCT@@%</div>
-      <div class="snap-sub">avg @@SUGAR_ALC_AVG@@g per flavor</div>
-      <div class="snap-label">Flavors with sugar alcohol</div>
-    </div>
-    <div class="snap-item">
-      @@CERT_ITEM@@
-    </div>
-  </div>
-</section>
-
 <!-- MAIN CONTENT -->
 <div class="content">
 
-  <!-- 1. OVERVIEW SUMMARY
+  <!-- 1. MACRO BREAKDOWN — moved above Overview Summary 2026-08-10. This is the
+       most scannable, valuable content on the page, so it comes right after the
+       hero. The old separate "scorecard snapshot" strip (flavor count / grade
+       range / sweetener %) was deleted entirely — it was redundant with the hero
+       paragraph (which already states flavor count, grade range, and score
+       range) and with this section. Do not recreate it.
+       Run verify_brand_data.py "@@BRAND@@" first — every card below comes
+       straight from its output, including the two cards that were missing
+       before 2026-08-10: Protein/100cal and Sugar Alcohol.
+       Colors: #2a7a1f top tier, #5a8a2f above avg, #b89a00 middle,
+       #c87020 below avg, var(--muted) neutral.
+       Percentile framing: for macros where LOWER is better (Sugar, Net Carbs),
+       verdict is "Top X% lowest, excellent" when the brand beats most bars, or
+       "Bottom X%, more than most bars" (color #c83020) when it's worse than
+       most — Sugar Alcohol in particular is very likely to land in the red
+       "bottom X%" case, don't force it into the green framing just because
+       other cards are green.
+       Certifications/vitamins footnote: if verify_brand_data.py reports
+       certifications and vitamins both as "NOT TRACKED," omit the footnote
+       entirely — do not print a "not tracked" line, per 2026-08-10 decision.
+       If either has real data, render icon badges (see .cert-badge-icon in
+       style.css) with the real cert/vitamin names as text — icons are
+       original generic checkmark badges, NOT reproductions of official
+       GFCO/Non-GMO Project/kosher-agency seals, which are trademarked marks
+       this site isn't licensed to display. -->
+  <section class="section">
+    <h2>How @@BRAND@@ ranks on macros</h2>
+    <p>Rather than labeling macros good or bad, we rank @@BRAND@@ against every bar in our database so you can see where they stand in the full market.</p>
+    <div class="macro-grid">
+      <div class="macro-card">
+        <div class="macro-label">Protein</div>
+        <div class="macro-range">@@PROTEIN_RANGE@@</div>
+        <div class="macro-avg">avg @@PROTEIN_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@PROTEIN_COLOR@@">@@PROTEIN_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Protein/100cal</div>
+        <div class="macro-range">@@P100_RANGE@@</div>
+        <div class="macro-avg">avg @@P100_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@P100_COLOR@@">@@P100_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Calories</div>
+        <div class="macro-range">@@CALORIE_RANGE@@cal</div>
+        <div class="macro-avg">avg @@CALORIE_AVG@@cal</div>
+        <div class="macro-verdict" style="color:@@CALORIE_COLOR@@">@@CALORIE_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Total Sugar</div>
+        <div class="macro-range">@@SUGAR_RANGE@@g</div>
+        <div class="macro-avg">avg @@SUGAR_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@SUGAR_COLOR@@">@@SUGAR_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Sugar Alcohol</div>
+        <div class="macro-range">@@SUGAR_ALC_RANGE@@g</div>
+        <div class="macro-avg">avg @@SUGAR_ALC_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@SUGAR_ALC_COLOR@@">@@SUGAR_ALC_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Fiber</div>
+        <div class="macro-range">@@FIBER_RANGE@@g</div>
+        <div class="macro-avg">avg @@FIBER_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@FIBER_COLOR@@">@@FIBER_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Total Fat</div>
+        <div class="macro-range">@@FAT_RANGE@@g</div>
+        <div class="macro-avg">avg @@FAT_AVG@@g</div>
+        <div class="macro-verdict" style="color:var(--muted)">@@FAT_VERDICT@@</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Net Carbs</div>
+        <div class="macro-range">@@NETCARB_RANGE@@g</div>
+        <div class="macro-avg">avg @@NETCARB_AVG@@g</div>
+        <div class="macro-verdict" style="color:@@NETCARB_COLOR@@">@@NETCARB_VERDICT@@</div>
+      </div>
+    </div>
+    <p class="macro-summary-text">@@MACRO_SEO_BLURB@@</p>
+    <!-- OMIT the block below entirely if certs and vitamins are both untracked.
+    <div class="cert-badge-icon-row">
+      <span class="cert-badge-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>@@CERT_NAME@@</span>
+    </div>
+    -->
+  </section>
+
+  <!-- 2. OVERVIEW SUMMARY
        2-3 paragraphs. Cover: protein type, sweeteners, sugar alcohols, macros,
        calorie range, ingredient quality, consistency vs. variety across lineup.
        Specific numbers. No em dashes. -->
@@ -357,7 +413,7 @@
     <!-- <p>@@SUMMARY_PARAGRAPH_3@@</p> -->
   </section>
 
-  <!-- 2. GRADE DISTRIBUTION
+  <!-- 3. GRADE DISTRIBUTION
        Remove any grade segment with 0 bars. flex value = bar count.
        Segments show the bare letter only — no inline count (tried it, it looked
        cramped on narrow segments and inconsistent next to wide ones). The exact
@@ -378,7 +434,7 @@
     </p>
   </section>
 
-  <!-- 3. BEST & WORST CARDS
+  <!-- 4. BEST & WORST CARDS
        Standardized structure, both cards identical shape:
        - Clear grade badge (.grade-badge, 26px circle, inline style="background:<hex>")
          Hex by grade: A=#2a7a1f B=#5a8a2f C=#b89a00 D=#c87020 F=#c83020
@@ -421,9 +477,9 @@
         </div>
         <div class="bw-buy-group">
           <a href="https://www.amazon.com/dp/@@BEST_ASIN@@?tag=knowyourbar0f-20"
-             target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+             target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
           <a href="@@BEST_WEBSITE_URL@@"
-             target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+             target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
         </div>
       </div>
       <div class="bw-card worst">
@@ -452,60 +508,12 @@
         </div>
         <div class="bw-buy-group">
           <a href="https://www.amazon.com/dp/@@WORST_ASIN@@?tag=knowyourbar0f-20"
-             target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
+             target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
           <a href="@@WORST_WEBSITE_URL@@"
-             target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+             target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- 4. MACRO BREAKDOWN
-       Colors: #2a7a1f top tier, #5a8a2f above avg, #b89a00 middle,
-       #c87020 below avg, #888880 neutral.
-       Blurb: 1-2 sentences. Specific. No em dashes. -->
-  <section class="section">
-    <h2>How @@BRAND@@ ranks on macros</h2>
-    <p>Rather than labeling macros good or bad, we rank @@BRAND@@ against every bar in our database so you can see where they stand in the full market.</p>
-    <div class="macro-grid">
-      <div class="macro-card">
-        <div class="macro-label">Protein</div>
-        <div class="macro-range">@@PROTEIN_RANGE@@</div>
-        <div class="macro-avg">avg @@PROTEIN_AVG@@g</div>
-        <div class="macro-verdict" style="color:@@PROTEIN_COLOR@@">@@PROTEIN_VERDICT@@</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-label">Calories</div>
-        <div class="macro-range">@@CALORIE_RANGE@@cal</div>
-        <div class="macro-avg">avg @@CALORIE_AVG@@cal</div>
-        <div class="macro-verdict" style="color:@@CALORIE_COLOR@@">@@CALORIE_VERDICT@@</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-label">Total Sugar</div>
-        <div class="macro-range">@@SUGAR_RANGE@@g</div>
-        <div class="macro-avg">avg @@SUGAR_AVG@@g</div>
-        <div class="macro-verdict" style="color:@@SUGAR_COLOR@@">@@SUGAR_VERDICT@@</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-label">Fiber</div>
-        <div class="macro-range">@@FIBER_RANGE@@g</div>
-        <div class="macro-avg">avg @@FIBER_AVG@@g</div>
-        <div class="macro-verdict" style="color:@@FIBER_COLOR@@">@@FIBER_VERDICT@@</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-label">Total Fat</div>
-        <div class="macro-range">@@FAT_RANGE@@g</div>
-        <div class="macro-avg">avg @@FAT_AVG@@g</div>
-        <div class="macro-verdict" style="color:#888880">@@FAT_VERDICT@@</div>
-      </div>
-      <div class="macro-card">
-        <div class="macro-label">Net Carbs</div>
-        <div class="macro-range">@@NETCARB_RANGE@@g</div>
-        <div class="macro-avg">avg @@NETCARB_AVG@@g</div>
-        <div class="macro-verdict" style="color:@@NETCARB_COLOR@@">@@NETCARB_VERDICT@@</div>
-      </div>
-    </div>
-    <p class="macro-summary-text">@@MACRO_SEO_BLURB@@</p>
   </section>
 
   <!-- 5. INGREDIENT QUALITY PATTERNS
@@ -706,40 +714,81 @@
     </div>
   </section>
 
-</div><!-- /content -->
+  <!-- 9. BRAND COMPARISON — redesigned 2026-08-10. Was a standalone dark
+       full-bleed band OUTSIDE .content with its own separate grade-badge
+       component; that produced font/contrast complaints ("can't see the
+       table") and looked off-brand next to the rest of the page. Now lives
+       INSIDE .content as a normal .section, reuses .table-grade-badge (the
+       same component the flavor table uses) instead of a separate one, and
+       the CSS itself (.brand-compare*) is light-themed sitewide now, not
+       just on this page — check style.css before assuming it's still dark.
+       COLUMNS: Bar | Grade range | Protein/100cal | Fiber avg | Sugar avg |
+       Sweetener. All figures are PER-BRAND AVERAGES across every flavor of
+       that brand/sub-line, never a single cherry-picked "best" flavor — a
+       mixed methodology (some rows best-flavor, some rows brand-average) is
+       what the pre-2026-08-10 table did and it made weaker brands look
+       artificially strong. Grade shown as a WORST->BEST range (two
+       .table-grade-badge spans with an arrow between, or a single badge if
+       worst==best), not a single combined letter.
+       ISOLATE SUB-BRANDS CORRECTLY: brands with multiple bars.js "Brand Name"
+       values (Clif Bar / Clif Builders / Clif ZBar, or KIND / KIND Protein
+       Max) must be filtered to the SPECIFIC sub-line being compared, not the
+       whole family aggregated together — run
+       `verify_brand_data.py "<exact Brand Name>"` (no --include-subbrands
+       unless you deliberately want the aggregate) and confirm which sub-line
+       the comparison is actually about before pulling numbers. Mixing sub-
+       brands produced a wrong "KIND Protein: honey + sugar" claim before
+       2026-08-10 — the real KIND Protein Max line uses allulose. -->
+  <section class="section brand-compare">
+    <div class="brand-compare-inner">
+      <h2 class="brand-compare-title">@@COMPARE_TITLE@@</h2>
+      <div class="brand-compare-sub">All figures are per-brand averages across every flavor we've scored, not a single cherry-picked bar, and grade ranges show the full spread from that brand's worst to best flavor.</div>
+      <div class="brand-compare-table-wrap">
+        <table class="brand-compare-table">
+          <thead>
+            <tr><th>Bar</th><th class="ctr">Grade range</th><th class="ctr" title="Protein per 100 calories">Protein/100cal</th><th class="ctr col-hide-mobile">Fiber avg</th><th class="ctr col-hide-mobile">Sugar avg</th><th>Sweetener</th></tr>
+          </thead>
+          <tbody>
+            <tr class="self-row">
+              <td class="name">@@COMPARE_ROW_NAME@@</td>
+              <td class="ctr">@@COMPARE_ROW_GRADE_PAIR@@</td>
+              <!-- @@COMPARE_ROW_GRADE_PAIR@@ = single <span class="table-grade-badge grade-X">X</span> if
+                   worst==best, otherwise:
+                   <span class="brand-compare-grade-pair"><span class="table-grade-badge grade-WORST">WORST</span>
+                   <span class="brand-compare-grade-arrow">&rarr;</span>
+                   <span class="table-grade-badge grade-BEST">BEST</span></span> -->
+              <td class="ctr">@@COMPARE_ROW_P100@@g</td>
+              <td class="ctr col-hide-mobile">@@COMPARE_ROW_FIBER@@g</td>
+              <td class="ctr col-hide-mobile">@@COMPARE_ROW_SUGAR@@g</td>
+              <td>@@COMPARE_ROW_SWEETENER@@</td>
+            </tr>
+            <!-- repeat <tr> per competitor brand row, no class="self-row" on those -->
+          </tbody>
+        </table>
+      </div>
+      <div class="brand-compare-note">
+        <div class="brand-compare-note-text">@@COMPARE_NOTE@@</div>
+      </div>
+    </div>
+  </section>
 
-<!-- 9. CROSS-BRAND COMPARISON (optional, dark full-bleed band outside .content)
-     Reuses the exact data already shown on the other 4 brand pages' versions
-     of this table — never invent new figures for another brand's row.
-     Table columns: Bar | Grade | Protein | Sugar | Sweetener.
-     Grade badge classes: grade-a (green, A only), grade-bc (gold, B/C mixed
-     or single B or C), grade-df (red, D/F mixed or single D or F). -->
-<section class="brand-compare">
-  <div class="brand-compare-inner">
-    <h2 class="brand-compare-title">@@COMPARE_TITLE@@</h2>
-    <div class="brand-compare-sub">@@COMPARE_INTRO@@</div>
-    <div class="brand-compare-table-wrap">
-      <table class="brand-compare-table">
-        <thead>
-          <tr><th>Bar</th><th class="ctr">Grade</th><th class="ctr">Protein</th><th class="ctr">Sugar</th><th>Sweetener</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="name">@@COMPARE_ROW_NAME@@</td>
-            <td class="ctr"><span class="brand-compare-grade @@COMPARE_ROW_GRADE_CLASS@@">@@COMPARE_ROW_GRADE@@</span></td>
-            <td class="ctr">@@COMPARE_ROW_PROTEIN@@</td>
-            <td class="ctr">@@COMPARE_ROW_SUGAR@@</td>
-            <td>@@COMPARE_ROW_SWEETENER@@</td>
-          </tr>
-          <!-- repeat <tr> per brand row -->
-        </tbody>
-      </table>
+  <!-- 9.5 ALL BRAND REVIEWS — scalable link-out, not a fixed-count card grid,
+       so it holds up as more brand pages get added instead of relying on the
+       footer to list every brand (footer scalability concern raised 2026-08-10).
+       List every OTHER brand page that exists (not this page's own brand),
+       plus a link to the full brand directory. Update this list whenever a
+       new brand page is added — it will not update itself. -->
+  <section class="section">
+    <h2>Every brand we've reviewed</h2>
+    <p>@@BRAND@@ is one of @@TOTAL_BRAND_COUNT@@ brands we've scored in full. Browse the rest below.</p>
+    <div class="brand-link-grid">
+      <!-- one <a class="brand-link-pill" href="/@@OTHER_BRAND_SLUG@@.html">@@OTHER_BRAND_NAME@@</a> per
+           other existing brand page, then: -->
+      <a href="/all-protein-bar-brands.html" class="brand-link-pill brand-link-pill-all">See all @@TOTAL_DB_BRAND_COUNT@@+ brands &rarr;</a>
     </div>
-    <div class="brand-compare-note">
-      <div class="brand-compare-note-text">@@COMPARE_NOTE@@</div>
-    </div>
-  </div>
-</section>
+  </section>
+
+</div><!-- /content -->
 
 <!-- 10. FAQ — must match JSON-LD schema exactly. Min 7 questions. -->
 <section class="faq-section">
