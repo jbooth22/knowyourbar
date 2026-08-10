@@ -18,10 +18,17 @@
   <meta name="description" content="Top 3% for fiber, top 23% for protein across 1,000+ bars. Every flavor grades B or C, no A's in the lineup. All 16 contain sucralose and erythritol.">
   <link rel="canonical" href="https://knowyourbar.com/quest-bars.html">
 
-  <!-- Fonts -->
+  <!-- Fonts (2026-08-10: added Barlow Condensed + IBM Plex Mono. This page's <body>
+       carries class="page-brand brand-v1", which forces every h1/h2/h3/hero-title/
+       section-title to font-family: var(--bs-font-display) = 'Barlow Condensed' via
+       an !important rule, and mono/data text to var(--bs-font-data) = 'IBM Plex Mono'.
+       Neither was ever loaded on this page, so all of that text silently fell back
+       to the browser's system sans-serif. Confirmed root cause, not a guess: check
+       any page with class="brand-v1" for the same gap before assuming its fonts
+       are correct just because the CSS looks right. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
@@ -220,33 +227,6 @@
   </div>
 </section>
 
-<!-- SCORECARD SNAPSHOT -->
-<section class="snapshot">
-  <div class="snapshot-inner">
-    <div class="snap-item">
-      <div class="snap-value">16</div>
-      <div class="snap-label">Flavors scored</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value">C<span class="snap-value-arrow">&rarr;</span>B</div>
-      <div class="snap-sub">Ingredient score 1.7–6.2</div>
-      <div class="snap-label">Grade range, worst to best</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:#c83020">100%</div>
-      <div class="snap-label">Flavors with artificial sweeteners</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:#c83020">100%</div>
-      <div class="snap-sub">avg 6.5g per flavor</div>
-      <div class="snap-label">Flavors with sugar alcohol</div>
-    </div>
-    <div class="snap-item">
-      <div class="snap-value" style="color:var(--muted)">—</div>
-      <div class="snap-label">Certifications not tracked for this brand</div>
-    </div>
-  </div>
-</section>
 
 <!-- MAIN CONTENT -->
 <div class="content">
@@ -302,8 +282,8 @@
           <span class="bchip con elev">Sweetener Heavy</span>
         </div>
         <div class="bw-buy-group">
-          <a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
-          <a href="https://www.questnutrition.com/collections/protein-bars/products/oatmeal-chocolate-chip-protein-bar" target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+          <a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
+          <a href="https://www.questnutrition.com/collections/protein-bars/products/oatmeal-chocolate-chip-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
         </div>
       </div>
       <div class="bw-card worst">
@@ -333,14 +313,14 @@
           <span class="bchip con elev">Sweetener Heavy</span>
         </div>
         <div class="bw-buy-group">
-          <a href="https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="cta-amazon bw-buy">Shop on Amazon</a>
-          <a href="https://www.questnutrition.com/collections/protein-bars/products/birthday-cake-protein-bar" target="_blank" rel="noopener" class="cta-amazon bw-buy bw-buy-brand">Shop on Brand Site</a>
+          <a href="https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
+          <a href="https://www.questnutrition.com/collections/protein-bars/products/birthday-cake-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. MACRO BREAKDOWN -->
+  <!-- 4. MACRO BREAKDOWN (consolidated with former scorecard snapshot, 2026-08-10) -->
   <section class="section">
     <h2>How Quest ranks on macros</h2>
     <p>Rather than labeling macros good or bad, we rank Quest against every bar in our database so you can judge relative to the full market.</p>
@@ -350,6 +330,12 @@
         <div class="macro-range">18–21g</div>
         <div class="macro-avg">avg 19.9g</div>
         <div class="macro-verdict" style="color:#5a8a2f">Top 23%, above average</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-label">Protein/100cal</div>
+        <div class="macro-range">10.0–11.8g</div>
+        <div class="macro-avg">avg 11.0g</div>
+        <div class="macro-verdict" style="color:#2a7a1f">Top 6%, exceptional</div>
       </div>
       <div class="macro-card">
         <div class="macro-label">Calories</div>
@@ -364,6 +350,12 @@
         <div class="macro-verdict" style="color:#2a7a1f">Top 18% lowest, excellent</div>
       </div>
       <div class="macro-card">
+        <div class="macro-label">Sugar Alcohol</div>
+        <div class="macro-range">5–9g</div>
+        <div class="macro-avg">avg 6.5g</div>
+        <div class="macro-verdict" style="color:#c83020">Bottom 14%, more than most bars</div>
+      </div>
+      <div class="macro-card">
         <div class="macro-label">Fiber</div>
         <div class="macro-range">8–15g</div>
         <div class="macro-avg">avg 12.1g</div>
@@ -373,7 +365,7 @@
         <div class="macro-label">Total Fat</div>
         <div class="macro-range">6–10g</div>
         <div class="macro-avg">avg 7.6g</div>
-        <div class="macro-verdict" style="color:#888880">Average for the category</div>
+        <div class="macro-verdict" style="color:var(--muted)">Average for the category</div>
       </div>
       <div class="macro-card">
         <div class="macro-label">Net Carbs</div>
@@ -382,21 +374,34 @@
         <div class="macro-verdict" style="color:#2a7a1f">Top 11% lowest, excellent</div>
       </div>
     </div>
-    <p class="macro-summary-text">Quest's standout number is fiber. Averaging 12g per bar puts them in the top 3% of all bars we track. Pair that with 1-2g of sugar and solid protein and they are one of the most macro-efficient options in the database. The tradeoff is 5-9g of erythritol per bar, which keeps sugar low but can affect digestion for some people.</p>
+    <p class="macro-summary-text">Quest's standout numbers are fiber and protein efficiency: averaging 12g of fiber and 11g of protein per 100 calories puts them in the top 3% and top 6% of all bars we track, respectively. The tradeoff is sugar alcohol: at 6.5g average, Quest carries more than 86% of bars in the database, which keeps sugar low but can affect digestion for some people.</p>
+    <div class="macro-grid-footnote">
+      <span><strong>Certifications:</strong> not tracked for this brand</span>
+      <span><strong>Vitamins &amp; minerals:</strong> not tracked for this brand</span>
+    </div>
   </section>
 
   <!-- 5. INGREDIENT QUALITY PATTERNS -->
   <section class="section">
     <h2>Ingredient quality patterns across the lineup</h2>
-    <p>Some characteristics appear in every Quest flavor. Others vary. Here is what the data shows across all 16 flavors.</p>
+    <p>Every Quest flavor shares a common ingredient profile, with some variation in additive load. Here is what the data shows across all 16 flavors, grouped by whether it helps or hurts the score.</p>
 
-    <div class="chip-group-label">Every flavor</div>
+    <div class="chip-group-label">Good qualities</div>
     <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip pos">Quality Protein Source</span></div>
         <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:100%"></div></div>
         <div class="chip-freq-pct">16/16</div>
       </div>
+      <div class="chip-freq-item">
+        <div class="chip-freq-name"><span class="bchip pos">Short Clean List</span></div>
+        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:50%"></div></div>
+        <div class="chip-freq-pct">8/16</div>
+      </div>
+    </div>
+
+    <div class="chip-group-label">Concerning qualities</div>
+    <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip con elev">Artificial Sweeteners</span></div>
         <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:100%"></div></div>
@@ -412,23 +417,10 @@
         <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:100%"></div></div>
         <div class="chip-freq-pct">16/16</div>
       </div>
-    </div>
-
-    <div class="chip-group-label">Most flavors</div>
-    <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip con">Processed Oils</span></div>
         <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:69%"></div></div>
         <div class="chip-freq-pct">11/16</div>
-      </div>
-    </div>
-
-    <div class="chip-group-label">Some flavors</div>
-    <div class="chip-freq-row">
-      <div class="chip-freq-item">
-        <div class="chip-freq-name"><span class="bchip pos">Short Clean List</span></div>
-        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:50%"></div></div>
-        <div class="chip-freq-pct">8/16</div>
       </div>
     </div>
 
@@ -477,11 +469,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-0">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B01IRE8IQ8?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/oatmeal-chocolate-chip-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>14g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>210mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Oats**, Unsweetened Chocolate, Erythritol, Glycerin. Contains Less Than 2% Of The Following: Cocoa Butter, Sea Salt, Natural Flavors, Cinnamon, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">14g</span>
+      <span class="macro-rank-tag rank-green">#21 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">1.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">210mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">14g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">130mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">150mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.6mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">6.2</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:75%" title="Positive contributions: +9.3"></div>
+        <div class="sbd-neg" style="width:25%" title="Concern contributions: -3.1"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+9.3 positive</span>
+        <span class="sbd-label-neg">-3.1 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Oats**, Unsweetened Chocolate, Erythritol, Glycerin. Contains Less Than 2% Of The Following: Cocoa Butter, Sea Salt, Natural Flavors, Cinnamon, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -504,11 +620,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-1">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00FEKGO1A?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/double-chocolate-chunk-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>170</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>12g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>240mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Cocoa Processed With Alkali, Glycerin, Cocoa Butter. Contains Less Than 2% Of The Following: Natural Flavors, Sodium Caseinate, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">170</span>
+      <span class="macro-rank-tag rank-green">#199 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">12g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">170</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">240mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">12g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">160mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">1.5mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">5.2</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:71%" title="Positive contributions: +8.8"></div>
+        <div class="sbd-neg" style="width:29%" title="Concern contributions: -3.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8.8 positive</span>
+        <span class="sbd-label-neg">-3.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Cocoa Processed With Alkali, Glycerin, Cocoa Butter. Contains Less Than 2% Of The Following: Natural Flavors, Sodium Caseinate, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -531,11 +771,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-2">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00DLDH1N2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/chocolate-chip-cookie-dough-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>21g</span><span><strong>Calories</strong>190</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>12g</span><span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>220mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Unsweetened Chocolate, Erythritol, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">21g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">190</span>
+      <span class="macro-rank-tag rank-gray">#342 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">12g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">9g</span>
+      <span class="macro-rank-tag rank-gray">#473 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">190</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">21g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">3g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">220mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">22g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">12g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.6mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">5</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:72%" title="Positive contributions: +8.3"></div>
+        <div class="sbd-neg" style="width:28%" title="Concern contributions: -3.3"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8.3 positive</span>
+        <span class="sbd-label-neg">-3.3 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Unsweetened Chocolate, Erythritol, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -558,11 +922,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-3">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0719163RQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/chocolate-peanut-butter-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>190</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>11g</span><span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>220mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Peanuts, Polydextrose (Prebiotic Fiber), Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2% Of The Following: Cocoa Butter, Sodium Caseinate, Natural Flavors, Sea Salt, Stevia Sweetener, Lecithin (Sunflower And/or Soy Lecithin), Almonds, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">190</span>
+      <span class="macro-rank-tag rank-gray">#342 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">11g</span>
+      <span class="macro-rank-tag rank-green">#62 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">9g</span>
+      <span class="macro-rank-tag rank-gray">#473 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">190</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">220mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">22g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">11g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">120mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4.7</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:70%" title="Positive contributions: +8.1"></div>
+        <div class="sbd-neg" style="width:30%" title="Concern contributions: -3.4"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8.1 positive</span>
+        <span class="sbd-label-neg">-3.4 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Peanuts</div><div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Polydextrose</div><div class="ingr-col-item">Erythritol</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Peanuts, Polydextrose (Prebiotic Fiber), Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2% Of The Following: Cocoa Butter, Sodium Caseinate, Natural Flavors, Sea Salt, Stevia Sweetener, Lecithin (Sunflower And/or Soy Lecithin), Almonds, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -585,11 +1073,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-4">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0057RWSZQ?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/chocolate-brownie-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>170</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>15g</span><span><strong>Fat</strong>6g</span><span><strong>Sodium</strong>240mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Processed With Alkali, Erythritol, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Stevia Sweetener, Lecithin (Sunflower And/or Soy Lecithin), Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">170</span>
+      <span class="macro-rank-tag rank-green">#199 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">15g</span>
+      <span class="macro-rank-tag rank-green">#11 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">6g</span>
+      <span class="macro-rank-tag rank-gray">#168 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">170</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">240mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">15g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">210mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">2.8mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4.6</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:70%" title="Positive contributions: +7.9"></div>
+        <div class="sbd-neg" style="width:30%" title="Concern contributions: -3.4"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.9 positive</span>
+        <span class="sbd-label-neg">-3.4 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Processed With Alkali, Erythritol, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Stevia Sweetener, Lecithin (Sunflower And/or Soy Lecithin), Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -612,11 +1224,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-5">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 50g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0CKTY2GBX?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/dipped-chocolate-chip-cookie-dough-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>18g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>8g</span><span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>170mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Unsweetened Chocolate, Sodium Caseinate, Cocoa Processed With Alkali. Contains Less Than 2% Of The Following: Glycerin, Cocoa Butter, Sea Salt, Natural Flavors, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Stevia Sweetener
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">18g</span>
+      <span class="macro-rank-tag rank-gray">#768 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">8g</span>
+      <span class="macro-rank-tag rank-green">#171 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">9g</span>
+      <span class="macro-rank-tag rank-gray">#473 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">18g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">170mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">16g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">8g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">160mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">110mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.9mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4.5</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:66%" title="Positive contributions: +9.1"></div>
+        <div class="sbd-neg" style="width:34%" title="Concern contributions: -4.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+9.1 positive</span>
+        <span class="sbd-label-neg">-4.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Palm Kernel Oil</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Unsweetened Chocolate, Sodium Caseinate, Cocoa Processed With Alkali. Contains Less Than 2% Of The Following: Glycerin, Cocoa Butter, Sea Salt, Natural Flavors, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Stevia Sweetener</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -639,11 +1375,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-6">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00XAYPTMM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/mint-chocolate-chunk-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>14g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>230mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Almonds, Cocoa Butter, Erythritol, Cocoa Processed With Alkali, Glycerin, Natural Flavors. Contains Less Than 2% Of The Following: Soluble Corn Fiber, Sodium Caseinate, Palm Kernel Oil, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Xanthan Gum, Baking Soda, Stevia Sweetener, Peppermint Oil
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span><span class="bchip con">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">14g</span>
+      <span class="macro-rank-tag rank-green">#21 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">3g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">230mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">14g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">130mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">140mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">1.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4.2</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:68%" title="Positive contributions: +7.8"></div>
+        <div class="sbd-neg" style="width:32%" title="Concern contributions: -3.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.8 positive</span>
+        <span class="sbd-label-neg">-3.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern">Sugar Alcohols</span><span class="insight-chip chip-concern">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Almonds, Cocoa Butter, Erythritol, Cocoa Processed With Alkali, Glycerin, Natural Flavors. Contains Less Than 2% Of The Following: Soluble Corn Fiber, Sodium Caseinate, Palm Kernel Oil, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Xanthan Gum, Baking Soda, Stevia Sweetener, Peppermint Oil</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -666,11 +1526,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-7">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B078JBTZ1R?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/smores-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>21g</span><span><strong>Calories</strong>190</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>12g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>230mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Soluble Corn Fiber, Cocoa Butter, Palm Kernel Oil And/or Palm Oil, Salt, Cinnamon, Lecithin (Sunflower And/or Soy Lecithin), Baking Soda, Stevia Sweetener, Xanthan Gum, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">21g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">190</span>
+      <span class="macro-rank-tag rank-gray">#342 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">12g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">190</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">21g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">230mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">23g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">12g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">120mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">150mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.5mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4.2</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:68%" title="Positive contributions: +7.8"></div>
+        <div class="sbd-neg" style="width:32%" title="Concern contributions: -3.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.8 positive</span>
+        <span class="sbd-label-neg">-3.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Unsweetened Chocolate, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Soluble Corn Fiber, Cocoa Butter, Palm Kernel Oil And/or Palm Oil, Salt, Cinnamon, Lecithin (Sunflower And/or Soy Lecithin), Baking Soda, Stevia Sweetener, Xanthan Gum, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -693,11 +1677,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-8">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B01LPCLEWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/blueberry-muffin-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>2g</span><span><strong>Fiber</strong>13g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>220mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Cocoa Butter, Glycerin, Dried Blueberries. Contains Less Than 2% Of The Following: Natural Flavors, Soluble Corn Fiber, Palm Kernel Oil, Salt, Cinnamon, Baking Soda, Sodium Caseinate, Xanthan Gum, Sucralose, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">2g</span>
+      <span class="macro-rank-tag rank-green">#191 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">13g</span>
+      <span class="macro-rank-tag rank-green">#33 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">10mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">220mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">23g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">13g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">2g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">90mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">160mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-B">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">B</span>
+            <span class="score-band-label">Good</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">4</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:68%" title="Positive contributions: +7.6"></div>
+        <div class="sbd-neg" style="width:32%" title="Concern contributions: -3.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.6 positive</span>
+        <span class="sbd-label-neg">-3.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Cocoa Butter, Glycerin, Dried Blueberries. Contains Less Than 2% Of The Following: Natural Flavors, Soluble Corn Fiber, Palm Kernel Oil, Salt, Cinnamon, Baking Soda, Sodium Caseinate, Xanthan Gum, Sucralose, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -720,11 +1828,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-9">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00I0DI0Z6?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/cookies-cream-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>21g</span><span><strong>Calories</strong>190</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>13g</span><span><strong>Fat</strong>8g</span><span><strong>Sodium</strong>290mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Butter, Erythritol, Glycerin, Soluble Corn Fiber, Natural Flavors. Contains Less Than 2% Of The Following: Cocoa Processed With Alkali, Palm Kernel Oil, Sea Salt, Sodium Caseinate, Lecithin (Sunflower And/or Soy Lecithin), Xanthan Gum, Baking Soda, Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con">Sugar Alcohols</span><span class="bchip con">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">21g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">190</span>
+      <span class="macro-rank-tag rank-gray">#342 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">13g</span>
+      <span class="macro-rank-tag rank-green">#33 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">8g</span>
+      <span class="macro-rank-tag rank-gray">#363 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">190</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">21g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">8g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">10mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">290mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">22g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">13g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">130mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">170mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.7mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">3.7</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:67%" title="Positive contributions: +7.4"></div>
+        <div class="sbd-neg" style="width:33%" title="Concern contributions: -3.6"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.4 positive</span>
+        <span class="sbd-label-neg">-3.6 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern">Sugar Alcohols</span><span class="insight-chip chip-concern">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Cocoa Butter, Erythritol, Glycerin, Soluble Corn Fiber, Natural Flavors. Contains Less Than 2% Of The Following: Cocoa Processed With Alkali, Palm Kernel Oil, Sea Salt, Sodium Caseinate, Lecithin (Sunflower And/or Soy Lecithin), Xanthan Gum, Baking Soda, Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -747,11 +1979,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-10">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0DS6ML3YB?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/strawberry-shortcake-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>200</span><span><strong>Sugar</strong>2g</span><span><strong>Fiber</strong>10g</span><span><strong>Fat</strong>10g</span><span><strong>Sodium</strong>230mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Strawberries, Salt, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Vegetable Juice Color
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">200</span>
+      <span class="macro-rank-tag rank-gray">#452 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">2g</span>
+      <span class="macro-rank-tag rank-green">#191 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">10g</span>
+      <span class="macro-rank-tag rank-green">#113 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">10g</span>
+      <span class="macro-rank-tag rank-gray">#599 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">200</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">10g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">230mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">21g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">10g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">2g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">8g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">100mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">130mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">3.4</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:63%" title="Positive contributions: +8.3"></div>
+        <div class="sbd-neg" style="width:37%" title="Concern contributions: -4.8"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8.3 positive</span>
+        <span class="sbd-label-neg">-4.8 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Palm Kernel Oil</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Natural Flavors, Strawberries, Salt, Lecithin (Sunflower And/or Soy Lecithin), Sucralose, Vegetable Juice Color</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -774,11 +2130,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-11">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00U3RGAMW?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/apple-pie-protein-bars" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>170</span><span><strong>Sugar</strong>2g</span><span><strong>Fiber</strong>13g</span><span><strong>Fat</strong>6g</span><span><strong>Sodium</strong>230mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Dried Apple (Ascorbic Acid, Citric Acid, Sodium Chloride To Prevent Browning), Glycerin, Soluble Corn Fiber. Contains Less Than 2% Of The Following: Natural Flavors, Palm Kernel Oil, Salt, Sodium Caseinate, Cinnamon, Butter (Cream, Salt), Malic Acid, Sucralose, Lecithin (Sunflower And/or Soy Lecithin), Baking Soda, Xanthan Gum, Stevia Sweetener
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">170</span>
+      <span class="macro-rank-tag rank-green">#199 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">2g</span>
+      <span class="macro-rank-tag rank-green">#191 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">13g</span>
+      <span class="macro-rank-tag rank-green">#33 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">6g</span>
+      <span class="macro-rank-tag rank-gray">#168 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">170</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">230mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">13g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">2g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">120mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">150mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">3</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:64%" title="Positive contributions: +6.9"></div>
+        <div class="sbd-neg" style="width:36%" title="Concern contributions: -3.9"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+6.9 positive</span>
+        <span class="sbd-label-neg">-3.9 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Glycerin</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Dried Apple (Ascorbic Acid, Citric Acid, Sodium Chloride To Prevent Browning), Glycerin, Soluble Corn Fiber. Contains Less Than 2% Of The Following: Natural Flavors, Palm Kernel Oil, Salt, Sodium Caseinate, Cinnamon, Butter (Cream, Salt), Malic Acid, Sucralose, Lecithin (Sunflower And/or Soy Lecithin), Baking Soda, Xanthan Gum, Stevia Sweetener</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -801,11 +2281,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-12">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B00DZR75G2?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/white-chocolate-raspberry-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>13g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>240mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin, Raspberries, Sodium Caseinate. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">13g</span>
+      <span class="macro-rank-tag rank-green">#33 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">240mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">23g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">13g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">100mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">180mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">3</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:62%" title="Positive contributions: +8"></div>
+        <div class="sbd-neg" style="width:38%" title="Concern contributions: -5"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8 positive</span>
+        <span class="sbd-label-neg">-5 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Palm Kernel Oil</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin, Raspberries, Sodium Caseinate. Contains Less Than 2% Of The Following: Natural Flavors, Salt, Lecithin (Sunflower And/or Soy Lecithin), Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -828,11 +2432,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-13">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 50g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0BRYSS78K?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/dipped-cookies-and-cream-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>18g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>8g</span><span><strong>Fat</strong>9g</span><span><strong>Sodium</strong>210mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Palm Kernel Oil, Erythritol, Water, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Soluble Corn Fiber, Natural Flavors, Cocoa Processed With Alkali, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Xanthan Gum, Baking Soda, Stevia Sweetener, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">18g</span>
+      <span class="macro-rank-tag rank-gray">#768 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">8g</span>
+      <span class="macro-rank-tag rank-green">#171 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">9g</span>
+      <span class="macro-rank-tag rank-gray">#473 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">18g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">210mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">17g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">8g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">6g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">110mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">110mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.6mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">2.9</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:61%" title="Positive contributions: +8.3"></div>
+        <div class="sbd-neg" style="width:39%" title="Concern contributions: -5.3"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+8.3 positive</span>
+        <span class="sbd-label-neg">-5.3 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div><div class="ingr-col-item">Palm Kernel Oil</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Palm Kernel Oil, Erythritol, Water, Sodium Caseinate, Cocoa Butter, Glycerin. Contains Less Than 2% Of The Following: Soluble Corn Fiber, Natural Flavors, Cocoa Processed With Alkali, Sea Salt, Lecithin (Sunflower And/or Soy Lecithin), Xanthan Gum, Baking Soda, Stevia Sweetener, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -855,11 +2583,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-14">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B086CHT1TM?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/lemon-cake-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>13g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>210mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin. Contains Less Than 2% Of The Following: Lemon Powder, Sodium Caseinate, Natural Flavors, Soluble Corn Fiber, Salt, Lecithin (Sunflower And/or Soy Lecithin), Citric Acid, Cinnamon, Xanthan Gum, Baking Soda, Sucralose
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Short Clean List</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">13g</span>
+      <span class="macro-rank-tag rank-green">#33 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">2.5g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">210mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">24g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">13g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">100mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">160mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.4mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">2</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:58%" title="Positive contributions: +6.9"></div>
+        <div class="sbd-neg" style="width:42%" title="Concern contributions: -5"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+6.9 positive</span>
+        <span class="sbd-label-neg">-5 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-positive">Short Clean List</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Almonds</div><div class="ingr-col-item">Milk Protein Isolate</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Palm Kernel Oil</div><div class="ingr-col-item">Erythritol</div><div class="ingr-col-item">Polydextrose</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Almonds, Water, Erythritol, Palm Kernel Oil, Glycerin. Contains Less Than 2% Of The Following: Lemon Powder, Sodium Caseinate, Natural Flavors, Soluble Corn Fiber, Salt, Lecithin (Sunflower And/or Soy Lecithin), Citric Acid, Cinnamon, Xanthan Gum, Baking Soda, Sucralose</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -882,11 +2734,135 @@
           </tr>
           <tr class="ingr-row" id="ingr-15">
             <td colspan="11" class="ingr-cell">
-              <div class="ingr-inner">
+              <div class="expand-content">
+                <div class="expand-meta">Standard · Bar · 60g serving</div>
                 <div class="expand-buy-row"><a href="https://www.amazon.com/dp/B0F15WQYWY?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a><a href="https://www.questnutrition.com/collections/protein-bars/products/birthday-cake-protein-bar" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a></div>
-                <div class="ingr-macros"><span><strong>Protein</strong>20g</span><span><strong>Calories</strong>180</span><span><strong>Sugar</strong>1g</span><span><strong>Fiber</strong>12g</span><span><strong>Fat</strong>7g</span><span><strong>Sodium</strong>250mg</span></div>
-                <strong>Ingredients: </strong>Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Erythritol, Almonds, Palm Kernel Oil, Glycerin, Sodium Caseinate, Natural Flavors. Contains Less Than 2% Of The Following: Sea Salt, Gum Arabic, Spirulina Extract (Color), Red Cabbage Extract (Color), Turmeric Extract (Color), Radish Extract (Color), Sucralose, Lecithin (Sunflower And/or Soy Lecithin)
-                <div class="ingr-chips"><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Artificial Sweeteners</span><span class="bchip con elev">Sugar Alcohols</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+                <div class="macro-rank-grid"><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Protein</span>
+      <span class="macro-rank-val">20g</span>
+      <span class="macro-rank-tag rank-green">#238 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Calories</span>
+      <span class="macro-rank-val">180</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Sugar</span>
+      <span class="macro-rank-val">1g</span>
+      <span class="macro-rank-tag rank-green">#46 lowest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fiber</span>
+      <span class="macro-rank-val">12g</span>
+      <span class="macro-rank-tag rank-green">#46 highest</span>
+    </div><div class="macro-rank-cell">
+      <span class="macro-rank-lbl">Fat</span>
+      <span class="macro-rank-val">7g</span>
+      <span class="macro-rank-tag rank-gray">#258 of 1028</span>
+    </div></div>
+                <div class="expand-columns">
+                  <div class="nutr-panel">
+                    <div class="nutr-panel-title">Nutrition Facts</div>
+                    
+      <div class="nutr-row">
+        <span class="nutr-label">Calories</span>
+        <span class="nutr-val">180</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Protein</span>
+        <span class="nutr-val">20g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Fat</span>
+        <span class="nutr-val">7g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Saturated Fat</span>
+        <span class="nutr-val">4g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Trans Fat</span>
+        <span class="nutr-val">0g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Cholesterol</span>
+        <span class="nutr-val">5mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sodium</span>
+        <span class="nutr-val">250mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Total Carbs</span>
+        <span class="nutr-val">25g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Dietary Fiber</span>
+        <span class="nutr-val">12g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugars</span>
+        <span class="nutr-val">1g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Sugar Alcohol</span>
+        <span class="nutr-val">9g</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Potassium</span>
+        <span class="nutr-val">90mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Calcium</span>
+        <span class="nutr-val">160mg</span>
+      </div>
+      <div class="nutr-row">
+        <span class="nutr-label">Iron</span>
+        <span class="nutr-val">0.3mg</span>
+      </div>
+                  </div>
+                  <div class="expand-right">
+                    
+    <div class="score-tile score-band-C">
+      <div class="score-tile-header">
+        <div class="score-grade-block">
+          <div class="score-header-label">Ingredient Quality Grade</div>
+          <div class="score-grade-row">
+            <span class="score-band-badge">C</span>
+            <span class="score-band-label">Okay</span>
+          </div>
+        </div>
+        <div class="score-num-block">
+          <div class="score-header-label">Ingredient Quality Score</div>
+          <div class="score-number">1.7</div>
+        </div>
+      </div>
+      
+    <div class="score-breakdown">
+      <div class="score-breakdown-bar">
+        <div class="sbd-pos" style="width:57%" title="Positive contributions: +7.2"></div>
+        <div class="sbd-neg" style="width:43%" title="Concern contributions: -5.5"></div>
+      </div>
+      <div class="score-breakdown-labels">
+        <span class="sbd-label-pos">+7.2 positive</span>
+        <span class="sbd-label-neg">-5.5 concerns</span>
+      </div>
+    </div>
+      <div class="score-chips"><span class="insight-chip chip-positive">Quality Protein Source</span><span class="insight-chip chip-concern chip-elevated">Artificial Sweeteners</span><span class="insight-chip chip-concern chip-elevated">Sugar Alcohols</span><span class="insight-chip chip-concern chip-elevated">Processed Oils</span><span class="insight-chip chip-concern chip-elevated">Sweetener Heavy</span></div>
+      <div class="score-ingr-cols">
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+      <div class="ingr-col-item">Whey Protein Isolate</div><div class="ingr-col-item">Milk Protein Isolate</div><div class="ingr-col-item">Almonds</div>
+    </div>
+    <div class="ingr-col">
+      <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+      <div class="ingr-col-item">Palm Kernel Oil</div><div class="ingr-col-item">Polydextrose</div><div class="ingr-col-item">Erythritol</div>
+    </div></div>
+    </div>
+                    
+                    <div class="ingr-block">
+                      <div class="ingr-label">Ingredients</div><div class="ingr-text">Protein Blend (Milk Protein Isolate, Whey Protein Isolate), Polydextrose (Prebiotic Fiber), Water, Erythritol, Almonds, Palm Kernel Oil, Glycerin, Sodium Caseinate, Natural Flavors. Contains Less Than 2% Of The Following: Sea Salt, Gum Arabic, Spirulina Extract (Color), Red Cabbage Extract (Color), Turmeric Extract (Color), Radish Extract (Color), Sucralose, Lecithin (Sunflower And/or Soy Lecithin)</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>

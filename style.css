@@ -3083,6 +3083,16 @@ body.overlay-open { overflow: hidden; }
   color: #444;
   line-height: 1.7;
 }
+.macro-grid-footnote {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+.macro-grid-footnote strong { color: var(--muted); font-weight: 600; }
 
 /* Explore more — 3 descriptive link cards */
 .explore-more-grid {
