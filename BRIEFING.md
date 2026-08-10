@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: 2026-08-09 — consolidated with README.md/DEPLOY.md and TEMPLATE_BRAND.html rebuilt in the same pass, see Locked Global Rules below*
+*Last updated: May 2026*
 
 ---
 
@@ -16,41 +16,6 @@ KnowYourBar.com is a protein bar database and finder tool. We scored 1,000+ prot
 
 ---
 
-## Locked global rules — read this section even if nothing else
-*Added 2026-08-09 because the "1,000+" rule below lived only in GUIDE_CRITERIA.md,
-a file not on the mandatory upload list, and a brand-page session had no way to
-discover it. These are the rules that cause real damage if missed, gathered in
-the one file every session actually loads. Full detail and rationale for each
-stays in its original section/file; this is the index, not a replacement.*
-
-- **Never state the exact database size.** Always "1,000+" as the total bar
-  count, everywhere: copy, meta tags, JSON-LD. Specific per-guide qualifying
-  counts ("714 bars qualify") are fine and should stay specific. Full detail: GUIDE_CRITERIA.md.
-- **Never write a grade, score, macro range, percentile, or ingredient pattern
-  claim without running `verify_brand_data.py` first.** See "MANDATORY: run
-  verify_brand_data.py" below. This is what quest-bars.html violated on 2026-08-09.
-- **Run `diff_bars_upload.py` the moment a new bars.js is uploaded**, before
-  touching any page. See "When a new bars.js is uploaded" below.
-- **Never use regex for content or structural edits.** Literal string
-  replacement only. Regex bulk edits have caused site damage before.
-- **Every structural HTML edit needs a div/section/tr/td tag-balance count
-  before and after**, with comments stripped before counting (comments can
-  contain example tags that look like real markup and produce false mismatches).
-- **No em dashes anywhere.** Not in copy, not in meta descriptions, not in
-  JSON-LD. Full writing rules below under "Writing rules."
-- **File delivery is scoped to only the files actually changed.** Don't
-  re-send untouched files.
-- **`style.css` caches for 1 hour, not 1 week.** If any document says a week,
-  that document is stale — the Cache Headers table under Deploy Process is
-  the current, verified truth (checked against the live `_headers` file).
-- **Certification fields that are `null` in bars.js mean "not tracked," not
-  "confirmed No."** Never write a percentage (including 0%) for untracked data.
-- **FAQPage JSON-LD must match the visible FAQ text on the page, word for
-  word.** Not yet true on every page as of 2026-08-09 — audit before assuming
-  it's already correct on a page you didn't just touch.
-
----
-
 ## File structure
 
 ```
@@ -58,45 +23,21 @@ index.html              — Main bar finder tool (homepage)
 app.js                  — All filter, search, sort, compare, expand logic
 bars.js                 — Full bar database (1,000+ bars)
 style.css               — ALL shared styles — single source of truth
-_headers                — Cloudflare Pages cache + security headers. See Cache Headers
-                           table under Deploy Process for current values — do not trust
-                           a remembered value, re-check this file if it matters.
-TEMPLATE_BRAND.html     — Master template for brand review pages. Rebuilt 2026-08-09 to
-                           the "Option A" static-table architecture — see the note at the
-                           top of that file before using it.
+_headers                — Cloudflare Pages cache + security headers
+TEMPLATE_BRAND.html     — Master template for brand review pages
 TEMPLATE_GUIDE.html     — Master template for lifestyle guide pages
-TEMPLATE_VS.html        — Master template for brand-vs-brand comparison pages
 score_and_export.py     — Scoring pipeline script
-verify_brand_data.py    — Data verification script. Run before writing ANY brand/guide
-                           page copy that cites grades, scores, macros, or ingredient
-                           patterns. See "MANDATORY: run verify_brand_data.py" below.
-diff_bars_upload.py     — Diffs old vs. new bars.js on every database upload to see what
-                           actually changed. See "When a new bars.js is uploaded" below.
 knowyourbar_scoring_schema_v4.xlsx — Ingredient scoring schema
 sitemap.xml
 robots.txt
 llms.txt             — LLM crawler discovery file (do not delete)
-BRIEFING.md             — This file (upload to every Claude session). Single source of
-                           truth for process/rules — README.md, QA.md, GUIDE_CRITERIA.md,
-                           and BRAND_STANDARDS.md hold detail that belongs to them
-                           specifically, but this file is the index and the one place
-                           locked global rules are guaranteed to be visible.
-README.md               — Public-facing repo overview. Points here for anything process-
-                           related rather than duplicating it, to avoid the two files
-                           drifting apart the way they did before 2026-08-09.
-QA.md                   — QA checklist, including Section 0 (data accuracy, run before
-                           writing copy) and the automated pre-upload checks
-GUIDE_CRITERIA.md       — Guide-page-specific filter formulas and live counts. The
-                           site-wide "1,000+" rule is centralized in this file's Locked
-                           Global Rules section, not here — this file covers only what's
-                           specific to guide pages.
-BRAND_STANDARDS.md      — Locked v1 visual system (--bs-* tokens in style.css), text form.
-                           Migration in progress, not complete — see "Brand Standards v1
-                           migration" section below before touching colors, buttons, or
-                           type on any page.
-brand-standards.html    — Same content as BRAND_STANDARDS.md, rendered with swatches and
-                           type specimens. Keep both in sync if either changes; BRAND_STANDARDS.md
-                           is the one meant for reliable text retrieval.
+BRIEFING.md             — This file (upload to every Claude session)
+README.md               — Technical documentation
+DEPLOY.md               — Deploy process
+QA.md                   — QA checklist
+BRAND_STANDARDS.md      — Locked v1 visual system (--bs-* tokens in style.css). Migration in progress, not
+                           complete — see "Brand Standards v1 migration" section below before touching colors,
+                           buttons, or type on any page.
 
 Brand review pages (all rebuilt from TEMPLATE_BRAND.html):
   quest-bars.html
@@ -130,21 +71,21 @@ Other:
 
 ## Brand review pages — TEMPLATE_BRAND.html
 
-**Template rebuilt 2026-08-09 to the Bar Finder-mirrored architecture.** quest-bars.html was rebuilt first and used to validate the design (Playwright-tested at 1400px/390px, zero console errors), then TEMPLATE_BRAND.html itself was updated to match — see the architecture note at the top of that file. RXBAR, Clif, Barebells, and KIND still need the same rebuild; they currently carry the old 6-column table and 3-stat scorecard. Before rebuilding any of them: run `verify_brand_data.py` for that brand first, do not port numbers or structure from the existing live page.
+**⚠ Scheduled for rebuild (August 2026) — do not treat the section order below as final.** Once Bar Finder's redesign is locked, this template gets: (1) the scorecard snapshot section replaced with an expanded macro/cert/sweetener-status card, replacing the current low-value "flavors scored / grade range / sweetener %" stat bar, (2) the best/worst flavor cards standardized (clear grade badge, six key macros, Good/Concerning ingredient chip groups, buy buttons on both cards), (3) the full flavor table rebuilt to mirror Bar Finder's table exactly (see "Brand page table architecture decision" below for how). Until that rebuild happens, the section order below is what's actually live.
 
-Only quest-bars.html currently matches TEMPLATE_BRAND.html's live structure. RXBAR, Clif, Barebells, and KIND were built from an earlier version of this template and still need the 2026-08-09 rebuild applied. Every future brand page must use the current template.
+All brand pages have been rebuilt from scratch using TEMPLATE_BRAND.html. This is the locked standard. Every future brand page must use this template.
 
 ### Template section order
 1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
 2. Nav
 3. Hero (H1 + short answer paragraph)
-4. Scorecard snapshot (5 stats: flavors, grade range, artificial sweetener %, sugar alcohol % + avg, certifications)
+4. Scorecard snapshot (6 stats: flavors, grade range, score range, protein, calories, sweetener status)
 5. Overview summary (2-3 paragraphs)
 6. Grade distribution bar
-7. Best and worst flavor cards (grade badge, six macros, Good/Concerning chip groups, buy buttons on both)
+7. Best and worst flavor cards (with chips)
 8. Macro breakdown grid (6 macros) + SEO blurb
-9. Ingredient quality patterns (chip frequency, from real score_insights data only)
-10. Full flavor table (11 columns mirroring Bar Finder: BAR, CAL, PROT, P/100, FAT, CARB, FIBR, SGR, SGR ALC, CERTS, GRADE)
+9. Ingredient quality patterns (chip frequency)
+10. Full flavor table (6 columns: Flavor, Grade, Score, Protein, Cal, Sugar)
 11. Bottom line (2 paragraphs)
 12. Explore all bars CTA (dark tile, p tag not h2, 3 filter buttons)
 13. Explore more (3 link cards with descriptions, div not h2)
@@ -152,12 +93,11 @@ Only quest-bars.html currently matches TEMPLATE_BRAND.html's live structure. RXB
 15. Footer (brand-block left, nav right, copy div OUTSIDE site-footer-inner)
 
 ### Flavor table structure
-- 11 columns, mirroring Bar Finder exactly minus the brand-name line and minus the compare column
-- Chips live inside the expand row (.ingr-chips), never in the visible table
-- Expand row contains, in order: buy buttons (.expand-buy-row, .amazon-link/.visit-link), ingr-macros strip, ingredient list, ingr-chips
-- colspan must be 11 on every ingr row — if a column is added or removed, update every row's colspan, not just the first
-- toggleIngr index starts at 0 and increments per row with no gaps, ordered cleanest (best score) to worst
-- Every chip name must come from verify_brand_data.py's chip frequency output — never invented
+- 6 columns only — no Insights column in the table header
+- Chips live inside the expand row (.ingr-chips), not in the table
+- Expand row contains: ingr-macros strip, ingredient list, ingr-chips, ingr-buy button
+- colspan must be 6 on all ingr rows
+- toggleIngr index starts at 0 and increments per row
 
 ### JSON-LD schemas required on every brand page
 1. Article (with url, image, datePublished, dateModified, about)
@@ -384,56 +324,6 @@ When building or rebuilding a brand page, always extract data directly from bars
 3. Use exact ingredient text, amazon affiliate URL, and macro data from the database
 4. Build rows using the template row pattern from TEMPLATE_BRAND.html
 
-### MANDATORY: run verify_brand_data.py before writing ANY page copy
-**Incident (2026-08-09):** a Quest rebuild found every editorial claim on the live
-quest-bars.html was stale or fabricated. Claimed grade range B->A, actual B->C.
-Claimed scores 4.4-9.3, actual 1.7-6.2. Claimed best flavor at grade A/9.3, actual
-grade B/6.2. Two ingredient chips referenced in copy ("Protein Leads", "Long
-Ingredient List") don't apply to any of Quest's 16 flavors in the real
-score_insights data (they're real, defined chips used elsewhere in the database
-— Quest's specific ingredient lists just never trigger them) — the copy was
-either generic/borrowed rather than checked against Quest's actual data. This
-had been live and indexed by Google for an unknown period.
-
-To prevent this from recurring, `verify_brand_data.py` (repo root) computes
-ground-truth stats directly from bars.js: grade distribution, score range,
-best/worst flavor with real chips, macro ranges/averages, percentile rankings
-against the full 1,000+ bar database, real ingredient chip frequency, and
-artificial sweetener / sugar alcohol / certification prevalence.
-
-**Run it before writing or approving a single sentence of brand or guide page
-copy that cites a grade, score, percentile, macro range, or ingredient pattern:**
-```
-python3 verify_brand_data.py "Quest"
-python3 verify_brand_data.py "Clif" --include-subbrands
-```
-Cross-check every number in the draft against the script's output. If a number
-in existing copy doesn't match, the existing copy is wrong — bars.js is always
-the source of truth, never the other way around. Certification fields that are
-`null` (not `"No"`) must be reported as "not tracked," never asserted as 0%.
-Chip names that don't appear in the script's chip frequency table for that brand
-must not appear anywhere in that brand's page copy, even if the chip is real and
-used elsewhere in the database — a chip that's valid for one brand isn't
-automatically valid for another, and it isn't automatically valid for this one.
-
-This applies to every brand page rebuild still pending (RXBAR, Clif, Barebells,
-KIND) and to any future one.
-
-### When a new bars.js is uploaded
-Before doing anything else with a newly uploaded bars.js:
-1. Run `diff_bars_upload.py old_bars.js new_bars.js` (keep the previous bars.js
-   around specifically to make this possible) to see exactly what changed —
-   added bars, removed bars, and any bar whose score, grade, macros,
-   ingredients, or score_insights changed. It prints which brands are affected.
-2. For every brand the diff flags as affected, re-run `verify_brand_data.py`
-   before touching that brand's page, even if the page was rebuilt recently.
-   Scores and grades can shift between scoring-pipeline runs — a page that was
-   accurate last month is not guaranteed accurate today.
-3. If a brand's grade distribution or score range changed since its page was
-   last written, flag it to the person before making any other edit. Don't
-   silently rewrite the copy — they may want to review the change themselves,
-   same as the quest-bars.html discovery on 2026-08-09.
-
 ---
 
 ## Scoring pipeline
@@ -540,8 +430,6 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 - Footer layout on brand pages may still have a stacking issue — verify on mobile before marking resolved
 
 ### Content
-- RXBAR, Clif, Barebells, KIND brand pages still on the pre-2026-08-09 template (old 6-column table, 3-stat scorecard, unverified copy). Rebuild each against `verify_brand_data.py` output, not the existing page.
-- FAQPage JSON-LD does not match visible FAQ text word-for-word on at least quest-bars.html (confirmed 2026-08-09, predates that session). Other pages not yet audited — check before assuming any page is compliant with the "must match exactly" rule.
 - KIND Minis and Thins not yet in database — pending scoring
 - Some duplicate ASINs in bars.js: Barebells Caramel Peanut/Salted Peanut Caramel share B0DT7KS2QB; Clif ZBar Chocolate Mint and Clif Bar Cool Mint Chocolate share B0CXQ71XY8; Clif Builders Chocolatey Peanut Butter and Crispy Peanut Butter Chocolate share B09QHBBGJT
 - Trust strip on homepage uses founder statement placeholder — swap for a real external quote (Reddit mention, press) when available
@@ -558,105 +446,17 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 ---
 
 ## Deploy process
-*Consolidated from the former DEPLOY.md (deleted 2026-08-09 — this section is now the only copy).*
 
-### Any change
 1. Make changes in Claude
-2. Run QA script from QA.md — must pass before upload (Section 0's data checks run even earlier, before copy is written)
+2. Run QA script from QA.md — must pass before upload
 3. Download files from Claude
 4. Upload to GitHub repo (drag and drop to repo root)
 5. Cloudflare Pages auto-deploys within ~60 seconds
-6. Test with `?v=N` query string to bypass browser cache during testing
-7. Purge Cloudflare cache manually only if step 6 still shows stale content after the relevant file's cache window (see Cache Headers below) — for most files this resolves itself within the hour without a manual purge
+6. Purge Cloudflare cache if changes not showing
+7. Test with `?v=N` query string to bypass browser cache during testing
 
-**Rollback:** GitHub → file → History → find last working commit → download raw → re-upload.
-
-### Standard bar database update
-Use whenever bars are added, affiliate links change, or ingredient data is fixed.
-1. Update the bar database Excel
-2. Upload both files to Claude: the bar database Excel, and `knowyourbar_scoring_schema_v4.xlsx`
-3. Say "run score_and_export"
-4. **Run `diff_bars_upload.py` against the previous bars.js before doing anything else** — see "When a new bars.js is uploaded" above. This replaces any manual eyeballing of what changed.
-5. Download bars.js and upload to GitHub
-6. Do NOT search-and-replace an exact bar count into HTML files. The site's copy rule is "1,000+" as the denominator everywhere (see Locked Global Rules) — the only time any number changes is if the *threshold* itself is crossed (e.g. "1,000+" becomes "2,000+"), which is a deliberate copy decision, not a mechanical find-and-replace.
-
-Requires locally: `pip install pandas openpyxl` (only needed if running `score_and_export.py` outside Claude).
-
-### How the scoring pipeline works (settled — do not change)
-All bars are scored from raw ingredient text using a single unified code path. Only `Canonical_Ingredients` and `Alias_Map` are loaded from the schema; the schema's `Ingredient_Lines` and `Products` sheets are not used. Sub-ingredients inside parentheses get 60% weight (present in smaller amounts than top-level ingredients). Every scored bar gets insight chips generated using the same logic. This was settled after multiple sessions of iteration — if a future session suggests reverting to schema pre-parsed scoring, point it here.
-
-### Adding a new brand review page
-1. Run the pipeline first (fresh bars.js)
-2. Run `verify_brand_data.py "<Brand Name>"` before writing any copy
-3. Generate the page from `TEMPLATE_BRAND.html`
-4. Update the nav dropdown on ALL existing pages (nav is inline in each HTML file)
-5. Add to `sitemap.xml`
-6. Upload all changed files
-7. Request indexing in Google Search Console
-
-### Adding a new SEO guide page
-1. Run `verify_brand_data.py` for any brand named in the guide, and cross-check filter-formula counts in `GUIDE_CRITERIA.md`
-2. Generate from `TEMPLATE_GUIDE.html`
-3. Update the nav Guides dropdown on all pages
-4. Add to `sitemap.xml`
-5. Upload and request indexing
-
-### Updating the scoring schema
-1. Edit `knowyourbar_scoring_schema_v4.xlsx` — add rows to `Canonical_Ingredients` and `Alias_Map`
-2. Upload updated schema + bar database to Claude, say "run score_and_export"
-3. Run `diff_bars_upload.py` against the previous bars.js to see the actual before/after grade distribution — do not compare against a hardcoded historical snapshot, grade counts change over time as the database grows and get stale as documentation the moment they're written down
-4. Upload bars.js
-
-### Files that change together
-| What changed | Files to upload |
-|---|---|
-| New bars or affiliate links | bars.js |
-| Filter logic, presets, similar bars, rank | app.js |
-| Visual changes | style.css + affected .html files |
-| New brand page added | new .html + sitemap.xml + nav on all pages |
-| Scoring schema updated | Re-run pipeline, then bars.js |
-
-Note: bar count is never a reason to touch HTML files (see the "1,000+" rule) — it's not in this table because it doesn't trigger any file changes on its own.
-
-### Deployment stack
-| Component | Service |
-|---|---|
-| Hosting | Cloudflare Pages (free tier, auto-deploys from GitHub) |
-| Repo | GitHub — jbooth22 |
-| Domain | GoDaddy (DNS pointed to Cloudflare) |
-| Analytics | GA4 — G-SW4MNP5W7J (in index.html) |
-| Fonts | Google Fonts — DM Sans, DM Mono, Barlow Condensed, IBM Plex Mono |
-| Charts | Chart.js v4.4.0 via jsDelivr CDN (clean-protein-bars.html only) |
-
-### Cache headers (`_headers` file at repo root — verified against the live file 2026-08-09)
-| File(s) | max-age | In practice |
-|---|---|---|
-| `*.html`, `/` | 1 hour (3600s) | Content pages refresh fast |
-| `bars.js` | 1 hour (3600s) | New scores/data go live quickly |
-| `style.css` | 1 hour (3600s) | Fixed 2026 from a previous 1-week setting that caused persistent mobile caching complaints — **if any document says style.css caches for a week, that document is wrong, this table is the current truth** |
-| `app.js` | 1 day (86400s) | Logic changes need up to 24h or a manual purge to reach all visitors |
-| `bar_hero.png`, other images | 30 days (2592000s) | Rarely change |
-| `sitemap.xml`, `robots.txt`, `llms.txt` | 1 day (86400s) | |
-
-All entries use `must-revalidate`, so nothing is served stale forever, but `max-age` means the browser won't even check with the server until it expires. If a change genuinely isn't showing within the window above, manually purge (Cloudflare dashboard → Caching → Configuration → Purge Everything) rather than waiting.
-
-### GitHub upload (current manual workflow)
-1. Go to github.com — jbooth22 repo
-2. Drag updated files into the repo browser
-3. Cloudflare detects the commit and deploys (~60 seconds)
-4. Check status at cloudflare.com under Pages
-
-Planned: set up local Git so deployment is `git add . && git commit -m "..." && git push`.
-
-### Google Search Console
-After uploading new or changed pages:
-1. Go to Search Console for knowyourbar.com
-2. Paste URL into the inspection bar, click "Request Indexing"
-3. Re-submit sitemap.xml if new pages were added (Sitemaps section)
-
-### Known data gaps (verify against current bars.js before citing counts — these are a snapshot, not live)
-Bars with missing ingredient data (show in tool with no grade): Power Crunch | Chocolate Strawberry; MET-Rx | Peanut Butter Granola; MET-Rx | Chocolate Chip Granola; MET-Rx | Mint Super Cookie.
-Bars without affiliate links: check current count with a script, don't reuse an old number here — this file listed "~263 of 817" as of an earlier bars.js version, which is already a different total than the current database.
+### Rollback
+Go to GitHub → file → History → find last working commit → download raw → re-upload
 
 ---
 
@@ -669,9 +469,6 @@ Bars without affiliate links: check current count with a script, don't reuse an 
 
 **During session:**
 - Claude works from uploaded files, not memory
-- Before writing or editing any brand/guide page copy, run `verify_brand_data.py`
-  for the relevant brand(s) and cross-check every grade/score/macro/pattern
-  claim against it — see "MANDATORY: run verify_brand_data.py" above
 - Claude runs verification checks before presenting output files
 - Upload and verify before moving to the next change
 

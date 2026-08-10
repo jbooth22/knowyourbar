@@ -775,17 +775,23 @@
   <!-- 9.5 ALL BRAND REVIEWS — scalable link-out, not a fixed-count card grid,
        so it holds up as more brand pages get added instead of relying on the
        footer to list every brand (footer scalability concern raised 2026-08-10).
-       List every OTHER brand page that exists (not this page's own brand),
-       plus a link to the full brand directory. Update this list whenever a
-       new brand page is added — it will not update itself. -->
+       DO NOT hand-write this list. Add the new brand's name + slug to
+       brands_manifest.json, then run `python3 generate_brand_links.py` — it
+       rewrites the BRAND_LINKS_START...END block and the "is one of N brands"
+       count on every existing brand page automatically, so you never have to
+       go back and edit N-1 other pages by hand when a page is added. The
+       markers below must stay intact for the script to find this block. -->
   <section class="section">
     <h2>Every brand we've reviewed</h2>
     <p>@@BRAND@@ is one of @@TOTAL_BRAND_COUNT@@ brands we've scored in full. Browse the rest below.</p>
+    <!-- BRAND_LINKS_START -->
     <div class="brand-link-grid">
-      <!-- one <a class="brand-link-pill" href="/@@OTHER_BRAND_SLUG@@.html">@@OTHER_BRAND_NAME@@</a> per
-           other existing brand page, then: -->
-      <a href="/all-protein-bar-brands.html" class="brand-link-pill brand-link-pill-all">See all @@TOTAL_DB_BRAND_COUNT@@+ brands &rarr;</a>
+      <!-- Placeholder only — generate_brand_links.py overwrites everything
+           between the markers above and below. Do not hand-edit this block;
+           it will be replaced the next time the script runs regardless. -->
+      <a href="/all-protein-bar-brands.html" class="brand-link-pill brand-link-pill-all">See all @@TOTAL_DB_BRAND_COUNT@@ brands &rarr;</a>
     </div>
+    <!-- BRAND_LINKS_END -->
   </section>
 
 </div><!-- /content -->
