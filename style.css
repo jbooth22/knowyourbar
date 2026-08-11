@@ -2617,6 +2617,14 @@ body.overlay-open { overflow: hidden; }
 .page-guide .hero-inner {
   max-width: 820px;
   margin: 0 auto;
+  /* Base .hero-inner carries its own padding-bottom: 2rem (for the two-column
+     homepage hero layout). .hero itself ALSO carries padding-bottom: 2rem for
+     brand/guide pages, so without this override the two stack and add ~32px
+     of dead space nobody intended between hero-sub and the first section.
+     Confirmed via headless-browser box-model inspection on 2026-08-10 (also
+     reproduced identically on the live quest-bars.html, so this is a shared
+     style.css bug, not page-specific). */
+  padding-bottom: 0;
 }
 .page-brand .hero-title,
 .page-guide .hero-title {
@@ -2738,6 +2746,15 @@ body.overlay-open { overflow: hidden; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 14px;
+  /* 136px covers the tallest case we see in practice (a wrapped two-line
+     verdict string like "Bottom 15%, below average"), so every card on the
+     page clamps to the same height whether its own row needed the extra
+     room or not — confirmed via headless-browser measurement across both
+     row breaks on rxbar-review.html and quest-bars.html on 2026-08-10. */
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .macro-label {
   font-family: var(--font-mono);
@@ -2754,6 +2771,26 @@ body.overlay-open { overflow: hidden; }
 }
 .macro-avg { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin: 2px 0 6px; }
 .macro-verdict { font-family: var(--font-mono); font-size: 10px; font-weight: 500; }
+
+/* Situational pick tiles — reuses .macro-card/.macro-label for the outer shell
+   and grid so it inherits the uniform-height fix and brand-v1 theming for free;
+   only the flavor-name line needs its own rule. */
+.pick-tile-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.pick-tile {
+  /* Reason paragraphs run 2-3 lines depending on content; floor set to the
+     tallest real case (the "most protein" pick, which has the longest
+     paragraph) so every situational pick card matches regardless of which
+     row it lands in. Confirmed via headless-browser measurement. */
+  min-height: 242px;
+}
+.pick-tile-flavor {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 2px 0 8px;
+}
+.pick-tile p { font-size: 0.85rem; line-height: 1.55; margin: 0; }
+.brand-v1 .pick-tile-flavor { color: var(--bs-ink); font-family: var(--bs-font-body) !important; }
 
 /* Ingredient chip styles */
 .chip-group-label {
