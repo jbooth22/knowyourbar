@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 
-  <!-- Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,7 +22,6 @@
 
   <link rel="stylesheet" href="/style.css">
 
-  <!-- JSON-LD: Article -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -36,7 +34,6 @@
   }
   </script>
 
-  <!-- JSON-LD: Dataset -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -48,7 +45,6 @@
   }
   </script>
 
-  <!-- JSON-LD: BreadcrumbList -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -60,7 +56,6 @@
   }
   </script>
 
-  <!-- JSON-LD: FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -175,7 +170,7 @@
         <div class="brk-formula-bar-wrap"><div class="brk-formula-bar" style="width:15%;"></div></div>
         <span class="brk-formula-pct">15%</span>
       </div>
-      <div class="brk-formula-note">We call this the <strong>KYB Brand Score</strong>, on a 0-100 scale. It weights ingredient quality (our A-F score, averaged across every flavor a brand makes) the most, because clean ingredients are the whole reason this site exists. Protein per 100 calories and average fiber get the rest, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar. Every brand's rank on this page comes directly from this score, recalculated from the live database, not hand-ranked.</div>
+      <div class="brk-formula-note">We call this the <strong>KYB Brand Score</strong>, on a 0-100 scale. It weights ingredient quality (our A-F score, averaged across every flavor a brand makes) the most, because clean ingredients are the whole reason this site exists. Protein per 100 calories and average fiber get the rest, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar. Vitamins, creatine, and caffeine aren't part of the score on purpose: they're personal-preference signals, not quality signals, so they show up as badges on each card instead of a hidden thumb on the scale. Every brand's rank on this page comes directly from this score, recalculated from the live database, not hand-ranked.</div>
     </div>
     <p>Two more things worth knowing. First, <strong>a small lineup can beat a huge one.</strong> RXBAR (12 flavors) currently outranks Quest (16 flavors) because its ingredient list stays cleaner across the board, even though Quest has more flavors and a bigger marketing budget. Second, <strong>sub-brands are scored separately.</strong> KIND and KIND Protein Max, or Clif Bar and Clif Builders, use different formulas and land in different spots on this list. Averaging them together would hide real differences, so we don't.</p>
   </section>
@@ -5354,7 +5349,6 @@
 </footer>
 
 <script>
-  /* FAQ accordion */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
@@ -5364,7 +5358,6 @@
     });
   });
 
-  /* Mobile nav toggle */
   const navToggle = document.getElementById('nav-toggle');
   if (navToggle) {
     navToggle.addEventListener('click', () => {
@@ -5372,7 +5365,6 @@
     });
   }
 
-  /* GA4 affiliate / tool click tracking */
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href*="amazon.com"]').forEach(function(link) {
       link.addEventListener('click', function() {
@@ -5383,7 +5375,6 @@
     });
   });
 
-  /* ---- Brand ranking filter / sort / search ---- */
   (function() {
     const list = document.getElementById('brk-list');
     const cards = Array.from(list.querySelectorAll('.brk-card'));
