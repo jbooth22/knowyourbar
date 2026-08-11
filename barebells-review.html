@@ -200,7 +200,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">Brand Review</div>
     <h1 class="hero-title">Are <em>Barebells</em> Bars Healthy? We Scored All 25 Flavors</h1>
-    <p class="hero-sub">Barebells splits into two products wearing the same label. The core dairy-protein lineup (21 of 25 flavors) grades B or C and ranks in the top 25% for protein across 1,000+ bars we track. The 4-flavor vegan line grades D or F, the worst in the lineup. Sugar stays low across the board, top 18% lowest in our database, but sugar alcohol runs high: Barebells lands in the bottom 10% of every bar we've scored. Scores range from -3.8 to 7.9. Here is the full breakdown, flavor by flavor.</p>
+    <p class="hero-sub">Barebells splits into two products wearing the same label. The core dairy-protein lineup (21 of 25 flavors) grades B or C and ranks in the top 25% for protein across 1,000+ bars we track. The 4-flavor vegan line grades D or F, the worst in the lineup, built around a lower-protein formula with heavier sweetener stacking. Sugar stays low across the board, top 18% lowest in our database, but sugar alcohol runs high: Barebells lands in the bottom 10% of every bar we've scored. Here is the full breakdown, flavor by flavor.</p>
   </div>
 </section>
 
@@ -269,9 +269,9 @@
   <!-- 2. OVERVIEW SUMMARY -->
   <section class="section">
     <h2>What the data shows across all 25 Barebells flavors</h2>
-    <p>Barebells is really two products sharing a wrapper design. The core dairy line, 21 of 25 flavors, leads with a milk protein blend of whey protein isolate, casein, and calcium caseinate. That is a quality protein source, and it earns real credit in our scoring even with the maltitol and sucralose that follow close behind. These flavors land B or C, with macros that are consistent across the board: 15 to 20g protein, 1 to 2g sugar, 200 to 220 calories.</p>
-    <p>The 4-flavor vegan line, Hazlenut Nougat, Caramel Peanut, Fudge Brownie, and Caramel Choco Chip, is a different story. All four swap the milk protein blend for one built mainly around hydrolyzed wheat gluten and soy protein isolate, a more processed protein source that scores poorly in our system. These are also, not coincidentally, the four lowest-scoring flavors in the entire lineup, grading D or F. They lose the Collagen Protein concern chip entirely since collagen is animal-derived, but that one improvement isn't enough to offset the rest of the formula.</p>
-    <p>The gap between best and worst is 11.7 points (7.9 vs. -3.8), the widest spread we've seen in a single-brand lineup so far. If you're buying Barebells for its protein numbers, the core dairy flavors deliver. If ingredient quality across the whole lineup matters to you, the vegan line is worth skipping.</p>
+    <p>Barebells is really two products sharing a wrapper design, and the split shows up in the numbers, not just the vegan label. The core dairy line, 21 of 25 flavors, leads with a milk protein blend of whey protein isolate, casein, and calcium caseinate, and it delivers real protein: 16 to 20g per bar, averaging 19g. The 4-flavor vegan line leads with hydrolyzed wheat gluten and soy protein isolate instead, and every single one of those four flavors sits flat at 15g of protein, no exceptions. That's a real, measurable protein-volume gap between the two lines, not just an ingredient-quality one.</p>
+    <p>The sweetener load tells the same story from a different angle. Only 1 of the 21 dairy-line flavors stacks a second sugar alcohol source (maltitol plus maltitol syrup) on top of its base sweetening. In the vegan line, 3 of 4 flavors do exactly that, and it shows: those three average 11.7g of sugar alcohol per bar against a dairy-line average of 7g. The one vegan flavor that skips the second sugar alcohol source, Hazlenut Nougat, is also the highest-graded of the four. The pattern is consistent enough that it's not a coincidence: more sweetener stacking tracks directly with a lower grade, inside the vegan line and out.</p>
+    <p>Practically, this means the two lines aren't interchangeable. If you're buying Barebells for its protein numbers, the dairy line is where that reputation comes from. If you need the vegan line specifically, Hazlenut Nougat is the one to reach for over the other three.</p>
   </section>
 
   <!-- 3. GRADE DISTRIBUTION -->
@@ -4190,6 +4190,35 @@
     <h2>Bottom line on Barebells</h2>
     <p>Barebells earns its reputation as a high-protein, low-sugar option, at least for 21 of its 25 flavors. Averaging 18.4g of protein and just 1.4g of sugar per bar is a genuinely strong combination, and the core dairy line's milk protein blend is a quality source that scores well in our system. But the ingredient story has a real asterisk: sugar alcohol content lands in the bottom 10% of every bar we track, worse than 90% of the database, and that holds true across the entire lineup, dairy and vegan alike.</p>
     <p>The bigger decision is which line you're buying. The vegan flavors, Hazlenut Nougat, Caramel Peanut, Fudge Brownie, and Caramel Choco Chip, grade D or F and are meaningfully different products from an ingredient standpoint, built around hydrolyzed wheat gluten instead of dairy protein. If you want Barebells' protein numbers without that gap, start with Marshmallow Peanut Road or Peanut Butter. Both lead the lineup at B grade and carry the milk protein blend with the shortest list of concerns.</p>
+  </section>
+
+  <!-- 7.5 WHICH FLAVOR FOR WHICH SITUATION, uses .pick-tile-grid/.pick-tile,
+       which reuse .macro-card's uniform-height shell (see style.css). -->
+  <section class="section">
+    <h2>Which Barebells flavor should you actually buy</h2>
+    <p>With a 25-flavor lineup spanning F to B, "which Barebells bar" doesn't have one answer. Here's how we'd sort it depending on what you're optimizing for, based on what's actually in the data above rather than the best- or worst-flavor snapshot alone.</p>
+    <div class="macro-grid pick-tile-grid">
+      <div class="macro-card pick-tile">
+        <div class="macro-label">Highest protein</div>
+        <div class="pick-tile-flavor">Peanut Butter</div>
+        <p>Eight flavors tie at 20g protein, the top of the lineup. Peanut Butter grades highest of that group (B, the #2 flavor overall), so it's the one to start with if protein-per-bar is the deciding factor.</p>
+      </div>
+      <div class="macro-card pick-tile">
+        <div class="macro-label">Least sugar alcohol</div>
+        <div class="pick-tile-flavor">Caramel Cashew, Cookies &amp; Cream, or Salty Peanut</div>
+        <p>All three tie at 5g, the lowest any Barebells flavor gets. None break out of C grade, so this is a tradeoff against ingredient quality, not a free win, but it's the floor for sugar alcohol on this brand.</p>
+      </div>
+      <div class="macro-card pick-tile">
+        <div class="macro-label">Need the vegan line</div>
+        <div class="pick-tile-flavor">Hazlenut Nougat</div>
+        <p>Still a D grade, but the only one of the four vegan flavors that skips the second sugar-alcohol source (maltitol syrup on top of maltitol), keeping it at 6g against 11 to 12g for the other three.</p>
+      </div>
+      <div class="macro-card pick-tile">
+        <div class="macro-label">Skip regardless of diet</div>
+        <div class="pick-tile-flavor">Fudge Brownie, Caramel Peanut, Caramel Choco Chip</div>
+        <p>Stack two separate sugar alcohol sources, carry the lowest protein in the lineup at 15g, and grade D or F. The only flavors that combine all three weaknesses at once.</p>
+      </div>
+    </div>
   </section>
 
   <!-- 8. DISCOVER MODULE -->
