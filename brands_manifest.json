@@ -1,6 +1,6 @@
 {
   "_comment": "Single source of truth for which brand review pages exist on the site. Update THIS file when a brand page is added or removed, then run generate_brand_links.py to push the change into every page's 'Every brand we've reviewed' section. Do not hand-edit the BRAND_LINKS block in any HTML file directly - it will be overwritten the next time this script runs, and it will drift from this manifest if you do.",
-  "total_db_brand_count": "133+",
+  "total_db_brand_count": "148+",
   "brands": [
     { "name": "Quest", "slug": "quest-bars" },
     { "name": "RXBAR", "slug": "rxbar-review" },
