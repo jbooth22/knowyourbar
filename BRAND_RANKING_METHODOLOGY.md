@@ -10,9 +10,11 @@ Run from the repo root. Then: (1) update `brands_manifest.json`'s `total_db_bran
 
 ---
 
-## The KYB Brand Score (locked 2026-08-10)
+## The ranking formula (locked 2026-08-10, updated 2026-08-11)
 
-0-100 composite. Drives the page's 1-to-N rank directly — there is no manual override.
+0-100 composite score, internally called `kyb_score` in the code (see `data-score` attribute on each card and the `render_page()` function). **This is deliberately not branded or surfaced as a named metric on the page** — no "KYB Brand Score" badge, no boxed formula UI. Jeff's call: the page should explain how the ranking works, not turn the underlying number into something people are meant to know or care about by name. If you're tempted to name-and-brand it again, don't — just describe the weighting in plain prose/bullets, the way `render_page()` currently does in the "How we ranked" section.
+
+Drives the page's 1-to-N rank directly — there is no manual override.
 
 | Factor | Weight | What it measures |
 |---|---|---|

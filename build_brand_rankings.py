@@ -355,7 +355,7 @@ def render_card(r):
     {'<div class="brk-flag-row">' + flags + '</div>' if flags else ''}
     <p class="brk-blurb">{esc(s1)} {esc(s2)}</p>
     <div class="brk-card-foot">
-      <span class="brk-kyb-score">KYB Brand Score: <b>{r['kyb_score']}</b>/100 &middot; ingredient score avg {fmt1(r['avg_score'])}</span>
+      <span class="brk-kyb-score">Ingredient score avg: <b>{fmt1(r['avg_score'])}</b></span>
       <a href="/bar-finder.html?brand={r['slug']}" class="brk-finder-link">See all {r['flavors']} flavors in Bar Finder &rarr;</a>
     </div>
   </div>'''
@@ -494,7 +494,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {{ "@type": "Question", "name": "How is the brand ranking calculated?", "acceptedAnswer": {{ "@type": "Answer", "text": "Every brand gets a 0-100 KYB Brand Score: 60% average ingredient quality score across every flavor we've scored, 25% protein efficiency (grams of protein per 100 calories), and 15% average fiber. Price is not part of the formula because we don't track live pricing." }} }},
+      {{ "@type": "Question", "name": "How is the brand ranking calculated?", "acceptedAnswer": {{ "@type": "Answer", "text": "Each brand's rank is based on three weighted inputs: 60% average ingredient quality score across every flavor we've scored, 25% protein efficiency (grams of protein per 100 calories), and 15% average fiber. Price is not part of the formula because we don't track live pricing." }} }},
       {{ "@type": "Question", "name": "What do Widely Available, Mid-Size, and Small & Online mean?", "acceptedAnswer": {{ "@type": "Answer", "text": "These are editorial distribution categories, not something we calculate from ingredient data. Widely Available means you can generally find the brand at a regular grocery store or convenience store. Mid-Size covers specialty grocery, regional chains, and gyms. Small & Online covers brands that sell mostly direct-to-consumer or through specialty retailers." }} }},
       {{ "@type": "Question", "name": "What are the Protein First, Solid Macro Profile, and Whole Food categories?", "acceptedAnswer": {{ "@type": "Answer", "text": "Protein First brands average at least 9g of protein per 100 calories. Whole Food / High Fiber brands average at least 6g of fiber per bar without hitting that protein efficiency bar. Everything else, which is most of the market, falls into Solid Macro Profile." }} }},
       {{ "@type": "Question", "name": "Does a higher rank mean a brand is healthier for everyone?", "acceptedAnswer": {{ "@type": "Answer", "text": "No. The rank reflects ingredient quality, protein efficiency, and fiber averaged across a brand's full lineup. It doesn't account for your personal goals, allergies, taste preference, or price. A lower-ranked brand can still be the right choice for a specific diet or flavor you like." }} }},
@@ -587,106 +587,127 @@ def render_page(rows, total_db_brand_count_display="148+"):
 <div class="content">
 
   <section class="section">
-    <h2>How we ranked {TOTAL_BRANDS} brands</h2>
-    <p>Every brand on this page gets averaged across every flavor we've scored: ingredient quality, protein efficiency, fiber, sugar, net carbs, all of it. This is not a "best flavor wins" list. A brand with one great flavor and nine mediocre ones will not out-rank a brand that's solid top to bottom. The one thing we can't factor in is price, since we don't track live pricing across retailers.</p>
-    <div class="brk-formula-box">
-      <div class="brk-formula-row">
-        <span style="min-width:170px;">Ingredient quality</span>
-        <div class="brk-formula-bar-wrap"><div class="brk-formula-bar" style="width:60%;"></div></div>
-        <span class="brk-formula-pct">60%</span>
+    <div class="section-inner">
+      <h2 class="section-title">How we ranked {TOTAL_BRANDS} brands</h2>
+      <div class="section-body">
+        <p>Every brand gets averaged across every flavor we've scored: ingredient quality, protein efficiency, fiber, sugar, net carbs, all of it. This isn't a "best flavor wins" list &mdash; a brand with one great flavor and nine mediocre ones won't out-rank a brand that's solid top to bottom. The one thing we can't factor in is price, since we don't track live pricing across retailers.</p>
+        <p>Each brand's rank comes from three inputs, weighted like this:</p>
+        <ul class="verdict-items">
+          <li><strong>Ingredient quality &mdash; 60%.</strong> Our A-F score, averaged across every flavor a brand makes. This carries the most weight because clean ingredients are the whole reason this site exists.</li>
+          <li><strong>Protein efficiency &mdash; 25%.</strong> Grams of protein per 100 calories, averaged across the lineup.</li>
+          <li><strong>Fiber &mdash; 15%.</strong> Average grams of fiber per bar, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar.</li>
+        </ul>
+        <p>Vitamins, creatine, and caffeine aren't part of the formula on purpose. They're personal-preference and use-case signals, not quality signals &mdash; a caffeinated bar isn't a "better" bar, it's a bar for a specific moment, and some people need to actively avoid it. Those show up as badges on each card instead, so you can filter for or against them yourself.</p>
+        <p>Two more things worth knowing:</p>
+        <ul class="verdict-items">
+          <li><strong>A small lineup can beat a huge one.</strong> RXBAR (12 flavors) currently outranks Quest (16 flavors) because its ingredient list stays cleaner across the board, even though Quest has more flavors and a bigger marketing budget.</li>
+          <li><strong>Sub-brands are scored separately.</strong> KIND and KIND Protein Max, or Clif Bar and Clif Builders, land in different spots on this list. Averaging them together would hide real differences, so we don't.</li>
+        </ul>
       </div>
-      <div class="brk-formula-row">
-        <span style="min-width:170px;">Protein efficiency</span>
-        <div class="brk-formula-bar-wrap"><div class="brk-formula-bar" style="width:25%;"></div></div>
-        <span class="brk-formula-pct">25%</span>
-      </div>
-      <div class="brk-formula-row">
-        <span style="min-width:170px;">Fiber</span>
-        <div class="brk-formula-bar-wrap"><div class="brk-formula-bar" style="width:15%;"></div></div>
-        <span class="brk-formula-pct">15%</span>
-      </div>
-      <div class="brk-formula-note">We call this the <strong>KYB Brand Score</strong>, on a 0-100 scale. It weights ingredient quality (our A-F score, averaged across every flavor a brand makes) the most, because clean ingredients are the whole reason this site exists. Protein per 100 calories and average fiber get the rest, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar. Vitamins, creatine, and caffeine aren't part of the score on purpose: they're personal-preference signals, not quality signals, so they show up as badges on each card instead of a hidden thumb on the scale. Every brand's rank on this page comes directly from this score, recalculated from the live database, not hand-ranked.</div>
     </div>
-    <p>Two more things worth knowing. First, <strong>a small lineup can beat a huge one.</strong> RXBAR (12 flavors) currently outranks Quest (16 flavors) because its ingredient list stays cleaner across the board, even though Quest has more flavors and a bigger marketing budget. Second, <strong>sub-brands are scored separately.</strong> KIND and KIND Protein Max, or Clif Bar and Clif Builders, use different formulas and land in different spots on this list. Averaging them together would hide real differences, so we don't.</p>
   </section>
 
   <section class="section">
-    <h2>Widely Available, Mid-Size, or Small &amp; Online</h2>
-    <p>We also tag every brand by how easy it actually is to find, so you can filter for what you can realistically buy nearby versus what you'd need to order online. This is an editorial call based on where these brands actually sell, not something we calculate from the ingredient data, and we're upfront about that. If we've got a brand's distribution wrong, tell us and we'll fix it.</p>
-    <div class="macro-grid" style="grid-template-columns:repeat(3,1fr);">
-      <div class="macro-card">
-        <div class="macro-label">Widely Available</div>
-        <div class="macro-avg">{TIER_COUNTS.get('wide', 0)} brands</div>
-        <div class="macro-verdict">Grocery stores, convenience stores, mass retail. Quest, KIND, Clif, Barebells, Atkins, and similar.</div>
+    <div class="section-inner">
+      <h2 class="section-title">Widely Available, Mid-Size, or Small &amp; Online</h2>
+      <div class="section-body">
+        <p>We also tag every brand by how easy it actually is to find, so you can filter for what you can realistically buy nearby versus what you'd need to order online. This is an editorial call based on where these brands actually sell, not something we calculate from the ingredient data &mdash; if we've got a brand's distribution wrong, tell us and we'll fix it.</p>
       </div>
-      <div class="macro-card">
-        <div class="macro-label">Mid-Size &amp; Specialty</div>
-        <div class="macro-avg">{TIER_COUNTS.get('mid', 0)} brands</div>
-        <div class="macro-verdict">Specialty grocery, natural chains, gyms, some regional retail. Perfect Bar, GoMacro, IQBar, and similar.</div>
+      <div class="macro-grid" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); margin-top:1rem;">
+        <div class="macro-card">
+          <div class="macro-label">Widely Available</div>
+          <div class="macro-avg">{TIER_COUNTS.get('wide', 0)} brands</div>
+          <div class="macro-verdict">Grocery stores, convenience stores, mass retail. Quest, KIND, Clif, Barebells, Atkins, and similar.</div>
+        </div>
+        <div class="macro-card">
+          <div class="macro-label">Mid-Size &amp; Specialty</div>
+          <div class="macro-avg">{TIER_COUNTS.get('mid', 0)} brands</div>
+          <div class="macro-verdict">Specialty grocery, natural chains, gyms, some regional retail. Perfect Bar, GoMacro, IQBar, and similar.</div>
+        </div>
+        <div class="macro-card">
+          <div class="macro-label">Small &amp; Online</div>
+          <div class="macro-avg">{TIER_COUNTS.get('small', 0)} brands</div>
+          <div class="macro-verdict">Mostly direct-to-consumer or specialty-only. The majority of brands in this database fall here.</div>
+        </div>
       </div>
-      <div class="macro-card">
-        <div class="macro-label">Small &amp; Online</div>
-        <div class="macro-avg">{TIER_COUNTS.get('small', 0)} brands</div>
-        <div class="macro-verdict">Mostly direct-to-consumer or specialty-only. The majority of brands in this database fall here.</div>
+      <div class="section-body" style="margin-top:1.25rem;">
+        <p>We also group every brand into one of three flavor-lineup categories, based on what its macros actually look like:</p>
+        <ul class="verdict-items">
+          <li><strong>Protein First</strong> &mdash; {CAT_COUNTS.get('Protein First', 0)} brands averaging 9g+ protein per 100 calories.</li>
+          <li><strong>Whole Food / High Fiber</strong> &mdash; {CAT_COUNTS.get('Whole Food / High Fiber', 0)} brands averaging 6g+ fiber without hitting that protein bar.</li>
+          <li><strong>Solid Macro Profile</strong> &mdash; {CAT_COUNTS.get('Solid Macro Profile', 0)} brands, everything else, which is most of the market.</li>
+        </ul>
+        <p>You can filter by any of these below.</p>
       </div>
     </div>
-    <p style="margin-top:1rem;">We also group every brand into one of three flavor-lineup categories, based on what its macros actually look like: <strong>Protein First</strong> ({CAT_COUNTS.get('Protein First', 0)} brands averaging 9g+ protein per 100 calories), <strong>Whole Food / High Fiber</strong> ({CAT_COUNTS.get('Whole Food / High Fiber', 0)} brands averaging 6g+ fiber without hitting that protein bar), and <strong>Solid Macro Profile</strong> ({CAT_COUNTS.get('Solid Macro Profile', 0)} brands, everything else, which is most of the market). You can filter by any of these below.</p>
   </section>
 
   <section class="section">
-    <h2>What stands out</h2>
-    <p>A few patterns broke the mold enough to call out on their own, in both directions.</p>
-    <div class="brk-highlight-grid">
+    <div class="section-inner">
+      <h2 class="section-title">What stands out</h2>
+      <div class="section-body">
+        <p>A few patterns broke the mold enough to call out on their own, in both directions.</p>
+      </div>
+      <div class="brk-highlight-grid">
 {highlights_html}
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <h2>The best brand in each category</h2>
-    <p>Before the full list, here's the top performer in each slice we track, with a quick note on why it's there.</p>
-    <div class="brk-best-grid">
+    <div class="section-inner">
+      <h2 class="section-title">The best brand in each category</h2>
+      <div class="section-body">
+        <p>Before the full list, here's the top performer in each slice we track, with a quick note on why it's there.</p>
+      </div>
+      <div class="brk-best-grid">
 {best_html}
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <h2>Now here's the entire list</h2>
-    <p>All {TOTAL_BRANDS} brands, ranked 1 to {TOTAL_BRANDS} by KYB Brand Score. Filter by distribution tier or category, sort by any metric, or search for a specific brand. Every card links straight to that brand's flavors in the Bar Finder.</p>
+    <div class="section-inner">
+      <h2 class="section-title">Now here's the entire list</h2>
+      <div class="section-body">
+        <p>All {TOTAL_BRANDS} brands, ranked 1 to {TOTAL_BRANDS}. Filter by distribution tier or category, sort by any metric, or search for a specific brand. Every card links straight to that brand's flavors in the Bar Finder.</p>
+      </div>
 
-    <div class="brk-filter-bar">
-      <div class="brk-filter-row">
-        <span class="brk-filter-label">Tier</span>
-        <button class="brk-filter-btn active" data-filter-type="tier" data-filter-val="all">All</button>
-        <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="wide">Widely Available</button>
-        <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="mid">Mid-Size &amp; Specialty</button>
-        <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="small">Small &amp; Online</button>
+      <div class="brk-filter-bar">
+        <div class="brk-filter-row">
+          <span class="brk-filter-label">Tier</span>
+          <button class="brk-filter-btn active" data-filter-type="tier" data-filter-val="all">All</button>
+          <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="wide">Widely Available</button>
+          <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="mid">Mid-Size &amp; Specialty</button>
+          <button class="brk-filter-btn" data-filter-type="tier" data-filter-val="small">Small &amp; Online</button>
+        </div>
+        <div class="brk-filter-row" style="margin-top:.5rem;">
+          <span class="brk-filter-label">Category</span>
+          <button class="brk-filter-btn active" data-filter-type="cat" data-filter-val="all">All</button>
+          <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Protein First">Protein First</button>
+          <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Solid Macro Profile">Solid Macros</button>
+          <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Whole Food / High Fiber">Whole Food</button>
+        </div>
+        <div class="brk-filter-row" style="margin-top:.5rem;">
+          <span class="brk-filter-label">Sort</span>
+          <select class="brk-sort-select" id="brk-sort">
+            <option value="rank">Our Ranking</option>
+            <option value="protein">Avg Protein (high to low)</option>
+            <option value="fiber">Avg Fiber (high to low)</option>
+            <option value="flavors">Most Flavors</option>
+            <option value="name">Brand Name (A-Z)</option>
+          </select>
+          <input type="text" class="brk-search-input" id="brk-search" placeholder="Search a brand&hellip;">
+        </div>
+        <div class="brk-filter-count" id="brk-count"></div>
       </div>
-      <div class="brk-filter-row" style="margin-top:.5rem;">
-        <span class="brk-filter-label">Category</span>
-        <button class="brk-filter-btn active" data-filter-type="cat" data-filter-val="all">All</button>
-        <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Protein First">Protein First</button>
-        <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Solid Macro Profile">Solid Macros</button>
-        <button class="brk-filter-btn" data-filter-type="cat" data-filter-val="Whole Food / High Fiber">Whole Food</button>
-      </div>
-      <div class="brk-filter-row" style="margin-top:.5rem;">
-        <span class="brk-filter-label">Sort</span>
-        <select class="brk-sort-select" id="brk-sort">
-          <option value="rank">KYB Brand Score (rank)</option>
-          <option value="protein">Avg Protein (high to low)</option>
-          <option value="fiber">Avg Fiber (high to low)</option>
-          <option value="flavors">Most Flavors</option>
-          <option value="name">Brand Name (A-Z)</option>
-        </select>
-        <input type="text" class="brk-search-input" id="brk-search" placeholder="Search a brand&hellip;">
-      </div>
-      <div class="brk-filter-count" id="brk-count"></div>
-    </div>
 
-    <div class="brk-list" id="brk-list">
+      <div class="brk-list" id="brk-list">
 {cards_html}
-    </div>
+      </div>
 
-    <div class="brk-caveat">Distribution tiers (Widely Available / Mid-Size &amp; Specialty / Small &amp; Online) are an editorial call based on where these brands typically sell, not a field we calculate from ingredient data. Category buckets (Protein First / Solid Macro Profile / Whole Food &amp; High Fiber) and the KYB Brand Score itself are both calculated directly from the live database.</div>
+      <div class="brk-caveat">Distribution tiers (Widely Available / Mid-Size &amp; Specialty / Small &amp; Online) are an editorial call based on where these brands typically sell, not a field we calculate from ingredient data. Category buckets (Protein First / Solid Macro Profile / Whole Food &amp; High Fiber) and each brand's rank are both calculated directly from the live database.</div>
+    </div>
   </section>
 
 '''
@@ -728,7 +749,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
       <div class="faq-items">
         <div class="faq-item">
           <button class="faq-q">How is the brand ranking calculated?</button>
-          <div class="faq-a">Every brand gets a 0-100 KYB Brand Score: 60% average ingredient quality score across every flavor we've scored, 25% protein efficiency (grams of protein per 100 calories), and 15% average fiber. Price is not part of the formula because we don't track live pricing.</div>
+          <div class="faq-a">Each brand's rank is based on three weighted inputs: 60% average ingredient quality score across every flavor we've scored, 25% protein efficiency (grams of protein per 100 calories), and 15% average fiber. Price is not part of the formula because we don't track live pricing.</div>
         </div>
         <div class="faq-item">
           <button class="faq-q">What do Widely Available, Mid-Size, and Small &amp; Online mean?</button>
