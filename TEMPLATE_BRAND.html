@@ -4,7 +4,7 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — BRAND REVIEW PAGE TEMPLATE
        File: TEMPLATE_BRAND.html
-       Last updated: April 2026
+       Last updated: August 2026
 
        HOW TO USE THIS TEMPLATE
        ────────────────────────
@@ -33,7 +33,11 @@
        @@FLAVOR_COUNT@@      Number of flavors scored (e.g. 16)
        @@GRADE_RANGE_LOW@@   Worst grade in lineup (e.g. B)
        @@GRADE_RANGE_HIGH@@  Best grade in lineup (e.g. A)
-       @@SCORE_RANGE@@       e.g. 4.4-9.3 (worst to best, matches grade order)
+       @@SCORE_RANGE@@       e.g. 9.3-4.4 (best to worst, matches grade order — see the
+                              grade-range convention in the 2026-08-11 revision notes above.
+                              Per the voice principles in BRIEFING.md, prefer NOT surfacing this
+                              raw number in prose at all; it has no context without the grade
+                              letter next to it. Keep it available for data displays, not narrative.)
        @@SWEETENER_PCT@@     Whole number 0-100, from bars.js score_insights, not estimated
        @@SWEETENER_COLOR@@   #c83020 if @@SWEETENER_PCT@@ > 0, else #2a7a1f
        @@PROTEIN_RANGE@@     e.g. 18-21g (used only in the macro grid section, not the scorecard)
@@ -49,6 +53,13 @@
        @@META_DESCRIPTION@@  Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@    Shorter version for social. No em dashes.
        @@DATE_PUBLISHED@@    e.g. 2026-04-01
+       @@PAGE_TITLE@@        e.g. "Are Barebells Bars Healthy? 25 Flavors Ranked" — goes in
+                              <title>/og:title/twitter:title. Optimize for search, can differ
+                              from @@H1_TEXT@@ below.
+       @@H1_TEXT@@           The literal HTML that goes inside <h1 class="hero-title">, brand
+                              name wrapped in <em>, e.g. Are <em>Barebells</em> Bars Healthy?
+                              We Ranked All 25 Flavors. Also used (as plain text, no <em>) for
+                              the JSON-LD Article headline, since that should match the page.
 
        ═══════════════════════════════════════════════════════
        TABLE ARCHITECTURE DECISION — "Option A" (locked 2026-08-09)
@@ -69,10 +80,44 @@
        Playwright at 1400px and 390px with zero console errors. Before
        rebuilding another brand page, run verify_brand_data.py for that
        brand FIRST — do not port numbers from any existing HTML page, and
-       do not assume the old TEMPLATE_BRAND.html's now-superseded 6-column
-       table (Flavor/Grade/Score/Protein/Cal/Sugar, no CAL/FAT/CARB/FIBR/
-       SGR ALC/CERTS columns) is still correct. It isn't — this file is
-       the update.
+       do not assume an older brand page's table (6-column, no expand-row
+       detail) is still correct. It isn't — this file is the update.
+
+       ═══════════════════════════════════════════════════════
+       2026-08-11 REVISION — Barebells rebuild, now the gold-standard
+       reference. Changes from the 2026-08-09 baseline (quest-bars.html,
+       rxbar-review.html predate all of these):
+       ═══════════════════════════════════════════════════════
+       - Grade Range is now the FIRST tile in the macro grid (not a
+         separate scorecard section — there isn't one anymore).
+       - Ingredient quality patterns are grouped Good/Concerning/Neutral
+         (chip type), not by frequency tier. See section 8 below.
+       - Grade ranges display BEST TO WORST everywhere (e.g. "B to F"),
+         never worst-to-best. This includes the brand-compare-table grade
+         pair badges (best badge first, then arrow, then worst badge) and
+         any prose describing a range.
+       - New section: "Which [Brand] flavor should you actually buy" —
+         3-5 `.pick-tile` cards, situational picks grounded in real
+         per-flavor deltas, placed between Bottom Line and the Discover
+         module. See section 10.5 below.
+       - Page <title> and the visible H1 are two different strings now —
+         optimize the title for search, let the H1 read naturally. Both
+         are templated separately below (@@PAGE_TITLE@@ / @@H1_TEXT@@).
+         JSON-LD headline follows @@H1_TEXT@@, not @@PAGE_TITLE@@.
+       - No local <style>:root{} block — removed entirely (see below).
+         Everything comes from the global :root in style.css.
+       - Voice: don't lean on the raw ingredient score number as a
+         meaningful delta in prose ("the gap is 11.7 points" — no context,
+         not out of 10). Ground "two lines"/sub-brand narratives in
+         specific measurable deltas (protein grams, sweetener counts),
+         not just a label. Full list of voice principles in BRIEFING.md.
+       - Font-family gotcha: several data-element classes only pick up
+         the correct brand-v1 monospace font because of a `.brand-v1`
+         override added 2026-08-11 — if you introduce a NEW numeric/data
+         class, check whether it needs the same override (search style.css
+         for the existing `.brand-v1 .num-cell, .brand-v1 .macro-avg...`
+         rule groups and add to the appropriate one). Full explanation in
+         BRIEFING.md's "Font-family gotcha" section.
        ═══════════════════════════════════════════════════════ -->
 
   <!-- Analytics -->
@@ -87,7 +132,7 @@
   <!-- Core meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors | Know Your Bar</title>
+  <title>@@PAGE_TITLE@@ | Know Your Bar</title>
   <meta name="description" content="@@META_DESCRIPTION@@">
   <link rel="canonical" href="https://knowyourbar.com/@@BRAND_SLUG@@.html">
 
@@ -107,29 +152,19 @@
   <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
 
-  <!-- CSS variables -->
-  <style>
-    :root {
-      --black:     #0e0e0e;
-      --white:     #f7f5f0;
-      --off-white: #efece6;
-      --accent:    #d4f000;
-      --muted:     #888880;
-      --border:    #d6d3cc;
-      --font-display: 'DM Sans', sans-serif;
-      --font-mono:    'DM Mono', monospace;
-      --font-body:    'DM Sans', sans-serif;
-      --radius:    6px;
-      --radius-lg: 10px;
-    }
-  </style>
+  <!-- No local :root override. Every brand page carried a full duplicate
+       :root block here until the August 2026 cleanup pass — it redeclared
+       tokens that already exist in style.css's global :root and caused real
+       bugs (see BRIEFING.md's "Brand page cleanup pass" section). Do not
+       reintroduce one. If a page genuinely needs a page-specific value,
+       scope it to that page's own class, don't touch :root. -->
 
   <!-- JSON-LD: Article -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors",
+    "headline": "@@H1_TEXT@@",
     "description": "@@BRAND@@ protein bars scored A to F by ingredient quality across all @@FLAVOR_COUNT@@ flavors. Full macro breakdown, grade distribution, and best vs. worst flavor callouts.",
     "url": "https://knowyourbar.com/@@BRAND_SLUG@@.html",
     "image": "https://knowyourbar.com/bar_hero.png",
@@ -260,21 +295,27 @@
   <!-- Open Graph — og:type is "article" for brand review pages -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Know Your Bar">
-  <meta property="og:title" content="Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors">
+  <meta property="og:title" content="@@PAGE_TITLE@@">
   <meta property="og:description" content="@@OG_DESCRIPTION@@">
   <meta property="og:url" content="https://knowyourbar.com/@@BRAND_SLUG@@.html">
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Are @@BRAND@@ Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors">
+  <meta name="twitter:title" content="@@PAGE_TITLE@@">
   <meta name="twitter:description" content="@@OG_DESCRIPTION@@">
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
 
 </head>
 <body class="page-brand brand-v1">
 
-<!-- NAV — update dropdown when adding new pages -->
+<!-- NAV — update dropdown when adding new pages. Synced 2026-08-11 to match
+     the nav actually live on Quest/RXBAR/Barebells (this template's copy had
+     drifted — missing the Quest vs RXBAR link, several guide links, and the
+     whole Explore group). NOTE: every existing brand page's nav also carries
+     a duplicated "Caffeine Protein Bars" line (a real, separate bug, not
+     reproduced below) — don't copy that duplication forward onto new pages,
+     and fix it on existing pages when next touching their nav for any reason. -->
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
@@ -286,6 +327,7 @@
         <a href="/clif-bar-review.html">Clif Bar</a>
         <a href="/barebells-review.html">Barebells</a>
         <a href="/kind-bars-review.html">KIND</a>
+        <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
       </div>
     </div>
     <div class="site-nav-group">
@@ -295,8 +337,19 @@
         <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
         <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
         <a href="/no-seed-oils.html">No Seed Oils</a>
-        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+        <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
         <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+        <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
+        <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
+        <a href="/caffeine-protein-bars.html">Caffeine Protein Bars</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Explore</span>
+      <div class="site-nav-dropdown">
+        <a href="/all-protein-bar-brands.html">All Brands</a>
+        <a href="/flavor-map.html">Flavor Map</a>
+        <a href="/brand-quadrant.html">Brand Quadrant</a>
       </div>
     </div>
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
@@ -308,7 +361,7 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">Brand Review</div>
-    <h1 class="hero-title">Are <em>@@BRAND@@</em> Bars Healthy? We Scored All @@FLAVOR_COUNT@@ Flavors</h1>
+    <h1 class="hero-title">@@H1_TEXT@@</h1>
     <p class="hero-sub">@@SHORT_ANSWER@@</p>
   </div>
 </section>
@@ -345,6 +398,14 @@
     <h2>How @@BRAND@@ ranks on macros</h2>
     <p>Rather than labeling macros good or bad, we rank @@BRAND@@ against every bar in our database so you can see where they stand in the full market.</p>
     <div class="macro-grid">
+      <div class="macro-card">
+        <div class="macro-label">Grade range</div>
+        <div class="macro-range">@@GRADE_RANGE_BEST@@&ndash;@@GRADE_RANGE_WORST@@</div>
+        <!-- best grade first, worst last — e.g. "B–F" — see grade-range convention -->
+        <div class="macro-avg">@@FLAVOR_COUNT@@ flavors scored</div>
+        <div class="macro-verdict" style="color:var(--muted)">@@GRADE_BREAKDOWN_COMPACT@@</div>
+        <!-- e.g. "9 B &middot; 10 C &middot; 4 D &middot; 2 F" — omit any grade with 0 flavors -->
+      </div>
       <div class="macro-card">
         <div class="macro-label">Protein</div>
         <div class="macro-range">@@PROTEIN_RANGE@@</div>
@@ -516,43 +577,49 @@
     </div>
   </section>
 
-  <!-- 5. INGREDIENT QUALITY PATTERNS
+  <!-- 5. INGREDIENT QUALITY PATTERNS (regrouped 2026-08-11 — Good/Concerning/
+       Neutral by chip TYPE, not by frequency tier. The original tiered
+       version — "Every flavor / Most flavors / Some flavors" — is retired;
+       don't reintroduce it.
        Every @@PATTERN_NAME@@ here MUST come verbatim from verify_brand_data.py's
        "chip frequency" output — it lists every real chip name in score_insights
-       for this brand, with type (pos/con) and count. Do not invent, generalize,
-       or reuse a chip from another brand's page or from memory ("Protein Leads"
-       and "Long Ingredient List" both appeared on quest-bars.html on 2026-08-09
-       without applying to any of Quest's actual 16 flavors — they're real chips
-       used elsewhere in the database, just not for this brand's ingredients).
-       Tier by percentage, matching the script's own grouping: 100% = "Every
-       flavor", 50-99% = "Most flavors", <50% = "Some flavors". Remove any tier
-       that has no chips. Use "con elev" instead of "con" only if that chip's
-       severity is uniformly "elevated" across every occurrence in the brand's
-       rows — if severity is mixed, use plain "con".
+       for this brand, with type (pos/con/neutral) and count. Do not invent,
+       generalize, or reuse a chip from another brand's page or from memory
+       ("Protein Leads" and "Long Ingredient List" both appeared on
+       quest-bars.html on 2026-08-09 without applying to any of Quest's actual
+       16 flavors — they're real chips used elsewhere in the database, just
+       not for this brand's ingredients).
+       Sort each group most-frequent-first. Omit the Neutral group entirely if
+       the brand has no neutral-type chips. Use "con elev" instead of "con"
+       only if that chip's severity is uniformly "elevated" across every
+       occurrence in the brand's rows — if severity is mixed, use plain "con".
        chip-freq-fill width% = (N / total) * 100, rounded. -->
   <section class="section">
-    <h2>Ingredient quality patterns across the lineup</h2>
+    <h2>Ingredient quality patterns across the @@BRAND@@ lineup</h2>
     <p>@@PATTERNS_INTRO@@</p>
 
-    <div class="chip-group-label">Every flavor</div>
+    <div class="chip-group-label">Good qualities</div>
     <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip pos">@@PATTERN_NAME@@</span></div>
-        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:100%"></div></div>
-        <div class="chip-freq-pct">@@FLAVOR_COUNT@@/@@FLAVOR_COUNT@@</div>
+        <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:@@PCT@@%"></div></div>
+        <div class="chip-freq-pct">@@N@@/@@FLAVOR_COUNT@@</div>
       </div>
+      <!-- repeat per positive-type chip, most frequent first -->
     </div>
 
-    <div class="chip-group-label">Most flavors</div>
+    <div class="chip-group-label">Concerning qualities</div>
     <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip con">@@PATTERN_NAME@@</span></div>
         <div class="chip-freq-bar"><div class="chip-freq-fill" style="width:@@PCT@@%"></div></div>
         <div class="chip-freq-pct">@@N@@/@@FLAVOR_COUNT@@</div>
       </div>
+      <!-- repeat per concern-type chip, most frequent first -->
     </div>
 
-    <div class="chip-group-label">Some flavors</div>
+    <!-- omit this whole block if the brand has zero neutral-type chips -->
+    <div class="chip-group-label">Neutral</div>
     <div class="chip-freq-row">
       <div class="chip-freq-item">
         <div class="chip-freq-name"><span class="bchip neu">@@PATTERN_NAME@@</span></div>
@@ -624,29 +691,91 @@
             </tr>
             <tr class="ingr-row" id="ingr-0">
               <td colspan="11" class="ingr-cell">
-                <div class="ingr-inner">
+                <div class="expand-content">
+                  <div class="expand-meta">@@SIZE@@ &middot; @@TYPE@@ &middot; @@SERVING@@g serving</div>
                   <div class="expand-buy-row">
                     <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20"
                        target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
                     <a href="@@BRAND_SITE_URL@@"
                        target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
-                    <!-- drop the visit-link entirely if bars.js has no Website value for this flavor -->
+                    <!-- drop either link entirely if bars.js has no value for it — never fabricate -->
                   </div>
-                  <div class="ingr-macros">
-                    <span><strong>Protein</strong>@@PROTEIN@@g</span>
-                    <span><strong>Calories</strong>@@CALORIES@@</span>
-                    <span><strong>Sugar</strong>@@SUGAR@@g</span>
-                    <span><strong>Fiber</strong>@@FIBER@@g</span>
-                    <span><strong>Fat</strong>@@FAT@@g</span>
-                    <span><strong>Sodium</strong>@@SODIUM@@mg</span>
+
+                  <!-- Macro rank grid — 5 metrics (Protein, Calories, Sugar, Fiber, Fat) ranked
+                       against the FULL live bars.js database (~1,088+ bars, get the real count),
+                       computed at build time, never hand-typed or ported from another brand's
+                       page. Protein/Fiber: rank 1 = highest value ("#N highest"). Calories/Sugar:
+                       rank 1 = lowest value ("#N lowest"). Fat: always neutral/gray, never gets
+                       the directional green treatment even if it would technically qualify —
+                       fat isn't inherently good or bad the way the other four are.
+                       Green tag if rank <= 25% of total bars, gray otherwise ("#N of TOTAL"). -->
+                  <div class="macro-rank-grid">
+                    <div class="macro-rank-cell">
+                      <span class="macro-rank-lbl">Protein</span>
+                      <span class="macro-rank-val">@@PROTEIN@@g</span>
+                      <span class="macro-rank-tag @@RANK_CLASS@@">@@RANK_TEXT@@</span>
+                    </div>
+                    <!-- repeat cell for Calories, Sugar, Fiber, Fat -->
                   </div>
-                  <strong>Ingredients: </strong>@@FULL_INGREDIENT_LIST@@
-                  <div class="ingr-chips">
-                    <span class="bchip pos">@@CHIP@@</span>
-                    <span class="bchip con elev">@@CHIP@@</span>
-                    <!-- one span per real chip from score_insights, pos or con (+ elev if severity
-                         is "elevated"). Never write a chip name that isn't in verify_brand_data.py's
-                         chip frequency output. -->
+
+                  <div class="expand-columns">
+                    <div class="nutr-panel">
+                      <div class="nutr-panel-title">Nutrition Facts</div>
+                      <div class="nutr-row"><span class="nutr-label">Calories</span><span class="nutr-val">@@CALORIES@@</span></div>
+                      <!-- repeat nutr-row for Protein, Total Fat, Saturated Fat, Trans Fat,
+                           Cholesterol, Sodium, Total Carbs, Dietary Fiber, Sugars, Sugar Alcohol,
+                           Potassium, Calcium, Iron — pull every value from bars.js, never estimate -->
+                    </div>
+                    <div class="expand-right">
+                      <div class="score-tile score-band-@@GRADE@@">
+                        <div class="score-tile-header">
+                          <div class="score-grade-block">
+                            <div class="score-header-label">Ingredient Quality Grade</div>
+                            <div class="score-grade-row">
+                              <span class="score-band-badge">@@GRADE@@</span>
+                              <span class="score-band-label">@@GRADE_DEF@@</span>
+                            </div>
+                          </div>
+                          <div class="score-num-block">
+                            <div class="score-header-label">Ingredient Quality Score</div>
+                            <div class="score-number">@@SCORE@@</div>
+                          </div>
+                        </div>
+                        <div class="score-breakdown">
+                          <div class="score-breakdown-bar">
+                            <div class="sbd-pos" style="width:@@POS_PCT@@%"></div>
+                            <div class="sbd-neg" style="width:@@NEG_PCT@@%"></div>
+                          </div>
+                          <div class="score-breakdown-labels">
+                            <span class="sbd-label-pos">+@@SCORE_POS@@ positive</span>
+                            <span class="sbd-label-neg">-@@SCORE_NEG@@ concerns</span>
+                          </div>
+                        </div>
+                        <div class="score-chips">
+                          <span class="insight-chip chip-positive">@@CHIP@@</span>
+                          <span class="insight-chip chip-concern chip-elevated">@@CHIP@@</span>
+                          <!-- one span per real chip: chip-positive / chip-neutral / chip-concern
+                               (+ chip-elevated if severity is "elevated"). Same rule as everywhere
+                               else — never write a chip that isn't in verify_brand_data.py's output. -->
+                        </div>
+                        <div class="score-ingr-cols">
+                          <div class="ingr-col">
+                            <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+                            <div class="ingr-col-item">@@POSITIVE_INGREDIENT@@</div>
+                          </div>
+                          <div class="ingr-col">
+                            <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+                            <div class="ingr-col-item">@@CONCERN_INGREDIENT@@</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ingr-block">
+                        <div class="ingr-label">Ingredients</div>
+                        <div class="ingr-text">@@FULL_INGREDIENT_LIST_TITLE_CASE@@</div>
+                        <!-- title-case the raw ALL-CAPS bars.js Ingredients field for display,
+                             don't just lowercase or leave it shouting -->
+                      </div>
+                    </div>
                   </div>
                 </div>
               </td>
@@ -668,6 +797,39 @@
     <p>@@BOTTOM_LINE_P2@@</p>
   </section>
 
+  <!-- 7.5 WHICH [BRAND] FLAVOR SHOULD YOU ACTUALLY BUY (added 2026-08-11)
+       3-5 situational picks, NOT a repeat of the best/worst cards above.
+       Real Barebells examples: a tie-breaker among several flavors sharing
+       the best macro on some dimension, the floor for a specific problem
+       macro, the best option within a disadvantaged sub-line, and what to
+       skip outright. Every claim must trace back to verify_brand_data.py
+       output or a direct computation from bars.js, same as everywhere else
+       on the page — this section is not exempt from the data-accuracy rule
+       just because it's framed as "picks."
+       Markup reuses .macro-card's shell via class="macro-card pick-tile" so
+       it inherits the uniform-height fix and brand-v1 theming for free —
+       only .pick-tile-flavor needs its own styling.
+       When a tile recommends more than one flavor, put each on its own
+       line with <br> — comma-separated lists inside a tile are hard to
+       scan (this is exactly what Barebells' first draft got wrong). Avoid
+       a tile telling the reader to skip a flavor that a DIFFERENT tile
+       then recommends for another use case — check for that contradiction
+       before finalizing (Barebells' first vegan-line draft did this: "avoid
+       these 4 vegan flavors" followed immediately by "the vegan pick is
+       [one of those same 4]"). -->
+  <section class="section">
+    <h2>Which @@BRAND@@ flavor should you actually buy</h2>
+    <p>@@PICKS_INTRO@@</p>
+    <div class="macro-grid pick-tile-grid">
+      <div class="macro-card pick-tile">
+        <div class="macro-label">@@PICK_1_LABEL@@</div>
+        <div class="pick-tile-flavor">@@PICK_1_FLAVOR@@</div>
+        <p>@@PICK_1_REASON@@</p>
+      </div>
+      <!-- repeat pick-tile per situational pick, 3-5 total -->
+    </div>
+  </section>
+
   <!-- 8. DISCOVER MODULE — fuses the "explore the tool" CTA (dark) with
        "related reading" (light) into ONE rounded card with two zones,
        so they read as a single "where to go next" module instead of two
@@ -682,17 +844,23 @@
       <div class="explore-cta-eyebrow">Know Your Bar</div>
       <p class="explore-cta-title">Explore all 1,000+ bars</p>
       <p class="explore-cta-sub">Filter by protein, sugar, fiber, calories, or specific ingredients. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
-      <!-- VALID PRESET SLUGS — only these 5 values work in app.js:
+      <!-- VALID PRESET SLUGS — only these 6 values work in app.js's PRESETS
+           object (verify against app.js directly if this list and the live
+           file ever disagree, the file is canonical):
            lose_weight   → 20g+ protein, under 200 cal, under 3g sugar, A/B grade
            clean         → A grade, 12g+ protein, no artificial sweeteners or sugar alcohols
            skip_sugar    → under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade
            high_protein  → highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade
            keto          → under 5g net carbs, 10g+ fat, A/B grade
-           DO NOT invent slugs — only these keys are defined in app.js PRESETS. -->
+           glp1          → 15g+ protein, under 200 cal, under 4g sugar, 3g+ fiber, no sugar
+                            alcohols, A/B grade
+           DO NOT invent slugs — only these keys are defined in app.js PRESETS.
+           Link target is /bar-finder.html, NOT /? — bar-finder.html is the
+           actual tool page, index.html is a separate homepage. -->
       <div class="explore-cta-btns">
-        <a href="/?preset=@@PRESET_1_SLUG@@" class="explore-cta-btn">@@PRESET_1_LABEL@@</a>
-        <a href="/?preset=@@PRESET_2_SLUG@@" class="explore-cta-btn">@@PRESET_2_LABEL@@</a>
-        <a href="/?preset=@@PRESET_3_SLUG@@" class="explore-cta-btn">@@PRESET_3_LABEL@@</a>
+        <a href="/bar-finder.html?preset=@@PRESET_1_SLUG@@" class="explore-cta-btn">@@PRESET_1_LABEL@@</a>
+        <a href="/bar-finder.html?preset=@@PRESET_2_SLUG@@" class="explore-cta-btn">@@PRESET_2_LABEL@@</a>
+        <a href="/bar-finder.html?preset=@@PRESET_3_SLUG@@" class="explore-cta-btn">@@PRESET_3_LABEL@@</a>
       </div>
     </div>
     <div class="discover-more">
@@ -742,7 +910,7 @@
   <section class="section brand-compare">
     <div class="brand-compare-inner">
       <h2 class="brand-compare-title">@@COMPARE_TITLE@@</h2>
-      <div class="brand-compare-sub">All figures are per-brand averages across every flavor we've scored, not a single cherry-picked bar, and grade ranges show the full spread from that brand's worst to best flavor.</div>
+      <div class="brand-compare-sub">All figures are per-brand averages across every flavor we've scored, not a single cherry-picked bar, and grade ranges show the full spread from that brand's best flavor to its worst.</div>
       <div class="brand-compare-table-wrap">
         <table class="brand-compare-table">
           <thead>
@@ -753,10 +921,10 @@
               <td class="name">@@COMPARE_ROW_NAME@@</td>
               <td class="ctr">@@COMPARE_ROW_GRADE_PAIR@@</td>
               <!-- @@COMPARE_ROW_GRADE_PAIR@@ = single <span class="table-grade-badge grade-X">X</span> if
-                   worst==best, otherwise:
-                   <span class="brand-compare-grade-pair"><span class="table-grade-badge grade-WORST">WORST</span>
+                   worst==best, otherwise BEST FIRST (grade-range convention, locked 2026-08-11):
+                   <span class="brand-compare-grade-pair"><span class="table-grade-badge grade-BEST">BEST</span>
                    <span class="brand-compare-grade-arrow">&rarr;</span>
-                   <span class="table-grade-badge grade-BEST">BEST</span></span> -->
+                   <span class="table-grade-badge grade-WORST">WORST</span></span> -->
               <td class="ctr">@@COMPARE_ROW_P100@@g</td>
               <td class="ctr col-hide-mobile">@@COMPARE_ROW_FIBER@@g</td>
               <td class="ctr col-hide-mobile">@@COMPARE_ROW_SUGAR@@g</td>
@@ -861,7 +1029,7 @@
       <a href="/barebells-review.html">Barebells Review</a>
     </nav>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated @@LAST_UPDATED_MONTH_YEAR@@</div>
 </footer>
 
 <!-- JAVASCRIPT — do not modify this block -->

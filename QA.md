@@ -1,5 +1,5 @@
 # KnowYourBar.com — QA Checklist
-*Last updated: May 2026*
+*Last updated: August 2026*
 
 Run this before every upload to GitHub. If any check fails, fix it before deploying.
 
@@ -228,6 +228,29 @@ print('\nPASS' if not failures else f'\nFAIL: {failures}')
 **After removing any wrapper div from HTML, always run the div balance check.**
 Removing a wrapper with regex leaves behind its closing `</div>`, which silently
 breaks page structure. The div balance check catches this before upload.
+
+## Rule added after 2026-08-11 (Barebells rebuild — layout, font, and voice pass)
+
+**Layout/alignment must be verified with `getBoundingClientRect()` in a headless browser, not by eye.** The hero H1 and the first section's H2 looked aligned in casual review but were actually 24px apart — `.hero-inner` and `.content` used different box models to reach the same outer edge. Screenshot review alone did not catch this; measuring left-edge position in Playwright did. Check `.hero-title` vs. the first `.content .section h2`'s `getBoundingClientRect().left` — they must match exactly.
+
+**Font-family must be verified per-element with `getComputedStyle()`, not assumed from the `<link>` tag being present.** A working Google Fonts link does not mean every element is actually using the intended font — several data/numeric classes referenced the old `--font-mono` token with no `.brand-v1` override and silently rendered in the wrong (but visually similar) monospace font. Catch this with a full-page leaf-node scan:
+```javascript
+document.querySelectorAll('body *').forEach(el => {
+  if (el.children.length > 0) return;
+  const ff = getComputedStyle(el).fontFamily;
+  if (ff.startsWith('"DM Mono"')) console.log(el.className || el.tagName);
+});
+```
+Any hit means that class needs a `.brand-v1` font-family override in style.css (or, if it's an inline `style="font-family:..."`, fix it directly in the HTML — a CSS class override cannot beat an inline style).
+
+- [ ] Grade ranges in copy and in the brand-comparison table read best-to-worst (e.g. "B to F"), never worst-to-best
+- [ ] Ingredient quality patterns are grouped Good/Concerning/Neutral by chip type, not by frequency tier
+- [ ] Page `<title>` and the visible H1 are reviewed as two separate strings, not assumed identical — JSON-LD `headline` matches the H1
+- [ ] No comma-separated flavor list inside a single `.pick-tile` or similar callout — one flavor per line
+- [ ] No section recommends avoiding a flavor that another section on the same page then recommends for a different use case — read the "which flavor should you buy" section against the sub-line/vegan-line callouts for this exact contradiction
+- [ ] Any percentile or grade-composition claim spanning more than one metric or more than one grade tier (e.g. "the vegan line is the D and F grades") is checked against the actual per-flavor list, not inferred from a simpler adjacent fact
+- [ ] Flavor names are spelled identically everywhere on the page — grep the exact name from bars.js and confirm every occurrence matches
+- [ ] Brand name takes singular verb agreement throughout ("Barebells is/lands/carries," not "are/land/carry")
 
 ## Rule added after 2026-08-09 incident
 **Every editorial claim (grade, score, macro range, percentile, ingredient

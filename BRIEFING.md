@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: May 2026*
+*Last updated: August 2026*
 
 ---
 
@@ -19,7 +19,10 @@ KnowYourBar.com is a protein bar database and finder tool. We scored 1,000+ prot
 ## File structure
 
 ```
-index.html              — Main bar finder tool (homepage)
+index.html              — Homepage. Links out to bar-finder.html for the actual tool; do not
+                           confuse the two, see "Preset deep links" below for a bug this caused.
+bar-finder.html         — The actual bar finder tool (filter/search/sort/compare UI, loads app.js).
+                           Preset deep links (`?preset=SLUG`) point here, not at index.html.
 app.js                  — All filter, search, sort, compare, expand logic
 bars.js                 — Full bar database (1,000+ bars)
 style.css               — ALL shared styles — single source of truth
@@ -76,46 +79,66 @@ Other:
 
 ## Brand review pages — TEMPLATE_BRAND.html
 
-**⚠ Scheduled for rebuild (August 2026) — do not treat the section order below as final.** Once Bar Finder's redesign is locked, this template gets: (1) the scorecard snapshot section replaced with an expanded macro/cert/sweetener-status card, replacing the current low-value "flavors scored / grade range / sweetener %" stat bar, (2) the best/worst flavor cards standardized (clear grade badge, six key macros, Good/Concerning ingredient chip groups, buy buttons on both cards), (3) the full flavor table rebuilt to mirror Bar Finder's table exactly (see "Brand page table architecture decision" below for how). Until that rebuild happens, the section order below is what's actually live.
+**Status as of 2026-08-11: barebells-review.html is the gold-standard reference for this template** — layout, font consistency, editorial grouping, and voice have all been through a full verification pass (headless-browser computed-style checks, not eyeballing) and a real content-quality revision. `quest-bars.html` and `rxbar-review.html` were rebuilt to the *structural* template earlier (2026-08-09) but predate the fixes below — they're on the known-issues list to bring up to the same standard, one page per session (see "Known issues" below). TEMPLATE_BRAND.html itself has been updated to match Barebells; **treat any older brand page as a reference for content only, never for markup or CSS pattern.**
 
-All brand pages have been rebuilt from scratch using TEMPLATE_BRAND.html. This is the locked standard. Every future brand page must use this template.
+All brand pages use TEMPLATE_BRAND.html. This is the locked standard. Every future brand page (Clif, KIND, and any new brand) must use this template as it stands today, not a copy of an older live page.
 
 ### Template section order
-1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
+1. Head: page title (`<title>`/og/twitter — SEO-optimized), meta description, canonical, 4 JSON-LD schemas (headline uses the H1 text, not the page title — see "Title vs. H1" below)
 2. Nav
-3. Hero (H1 + short answer paragraph)
-4. Scorecard snapshot (6 stats: flavors, grade range, score range, protein, calories, sweetener status)
-5. Overview summary (2-3 paragraphs)
+3. Hero (H1 + short answer paragraph — H1 text can differ from the `<title>` tag, see below)
+4. Macro breakdown grid (9 tiles: **Grade Range first**, then Protein, Protein/100cal, Calories, Total Sugar, Sugar Alcohol, Fiber, Total Fat, Net Carbs) + SEO blurb. There is no separate "scorecard snapshot" section — this grid replaced it entirely; do not recreate a stat strip above it.
+5. Overview summary (2-3 paragraphs, grounded in specific measurable deltas — see "Voice and analysis principles" below)
 6. Grade distribution bar
 7. Best and worst flavor cards (with chips)
-8. Macro breakdown grid (6 macros) + SEO blurb
-9. Ingredient quality patterns (chip frequency)
-10. Full flavor table (6 columns: Flavor, Grade, Score, Protein, Cal, Sugar)
-11. Bottom line (2 paragraphs)
-12. Explore all bars CTA (dark tile, p tag not h2, 3 filter buttons)
-13. Explore more (3 link cards with descriptions, div not h2)
-14. FAQ section (7 questions minimum)
-15. Footer (brand-block left, nav right, copy div OUTSIDE site-footer-inner)
+8. Ingredient quality patterns — grouped **Good qualities / Concerning qualities / Neutral**, not by frequency tier (see below)
+9. Full flavor table (11 columns, rich expand rows — see "Flavor table structure")
+10. Bottom line (2 paragraphs)
+11. **Which [Brand] flavor should you actually buy** (`.pick-tile-grid`/`.pick-tile`, 3-5 situational picks grounded in real per-flavor deltas — new section added 2026-08-11, see below)
+12. Discover module (CTA + related reading, one fused card)
+13. Brand comparison table (grade ranges shown **best to worst**, e.g. "B → F", not worst to best — see below)
+14. Every brand we've reviewed (scalable pill-grid, `.brand-link-pill` uses `border-radius: var(--bs-radius)` on brand-v1 pages, not a full capsule — see CSS gotchas)
+15. FAQ section (7 questions minimum)
+16. Footer (brand-block left, nav right, copy div OUTSIDE site-footer-inner)
+
+### Grade range display convention (locked 2026-08-11)
+**Always show grade ranges best-to-worst** (e.g. "B to F", "A to B"), never worst-to-best ("F to B"). This applies everywhere a range appears: hero copy, FAQ answers (JSON-LD and visible, keep them in sync), the picks-section intro, and every row of the brand-comparison table's grade-pair badges (`<span class="table-grade-badge grade-BEST">` first, arrow, then `grade-WORST`). It reads more naturally and matches how a person would actually describe "how good does this get, and how bad."
+
+### Ingredient quality patterns grouping (locked 2026-08-11)
+Group chips by **type** — "Good qualities" (positive), "Concerning qualities" (concern), "Neutral" (neutral, omit the group if there are none) — sorted most-frequent-first within each group. **Do not** group by frequency tier ("Every flavor / Most flavors / Some flavors"); that was the original approach and reads worse than grouping by what actually matters to the reader, which is whether the pattern helps or hurts. Every chip name and count still must come verbatim from `verify_brand_data.py`'s chip-frequency output — grouping changed, data-sourcing rule didn't.
+
+### Title vs. H1 (separated 2026-08-11)
+The page `<title>` (and og:title/twitter:title) and the visible H1 no longer have to be identical strings — optimize the meta title for search/social, and let the H1 read naturally as the actual page heading. Example from Barebells: title "Are Barebells Bars Healthy? 25 Flavors Ranked", H1 "Are Barebells Bars Healthy? We Ranked All 25 Flavors". The JSON-LD Article `headline` field should match the **H1**, not the meta title, since that's what's actually on the page.
 
 ### Flavor table structure
-- 6 columns only — no Insights column in the table header
-- Chips live inside the expand row (.ingr-chips), not in the table
-- Expand row contains: ingr-macros strip, ingredient list, ingr-chips, ingr-buy button
-- colspan must be 6 on all ingr rows
-- toggleIngr index starts at 0 and increments per row
+- 11 columns: BAR, CAL, PROT, P/100, FAT, CARB, FIBR, SGR, SGR ALC, CERTS, GRADE — same column set and classes as Bar Finder's table, minus the brand-name line and compare column
+- Expand rows are rich, not a simple macro strip: `.expand-meta` (size/type/serving), `.expand-buy-row`, `.macro-rank-grid` (5 metrics — Protein/Calories/Sugar/Fiber/Fat — each ranked against the full ~1,088-bar database, green tag if in the top 25%, gray otherwise; Fat never gets the directional green treatment, it's always neutral), `.nutr-panel` (full nutrition facts), `.score-tile` (grade badge, score, positive/negative breakdown bar, chips, positive/concern ingredient columns), `.ingr-block` (full title-cased ingredient list)
+- Percentile ranks in `.macro-rank-grid` must be computed against the live `bars.js` database at build time (see Barebells' `build.py` pattern) — never hand-typed or copied from another brand's page, the database size and every bar's standing changes between rebuilds
+- colspan must be 11 on all ingr rows
+- toggleIngr index starts at 0 and increments per row with no gaps
 
 ### JSON-LD schemas required on every brand page
-1. Article (with url, image, datePublished, dateModified, about)
+1. Article (with url, image, datePublished, dateModified, about — headline matches H1, see above)
 2. Dataset (static, same on every page)
 3. BreadcrumbList (3 levels: Home > Brand Reviews > Page)
-4. FAQPage (minimum 7 questions, must match visible FAQ exactly)
+4. FAQPage (minimum 7 questions, must match visible FAQ exactly, word for word)
 
 ### SEO rules
 - og:type must be "article" on brand pages (not "website")
-- Title formula: "Are [BRAND] Bars Healthy? We Scored All [N] Flavors | Know Your Bar"
+- Page title formula: "Are [BRAND] Bars Healthy? [N] Flavors Ranked | Know Your Bar" (can vary slightly per brand for SEO fit — doesn't have to match H1, see above)
+- H1 formula: "Are [BRAND] Bars Healthy? We Ranked All [N] Flavors" (or close variant — this is what a reader sees, optimize for that, not for keyword density)
 - Meta description: lead with a specific data point, under 155 chars, no em dashes
-- H1: one per page, matches title formula
+- H1: one per page
 - H2: content sections only — CTA title uses p tag, Explore More uses div
+
+### Voice and analysis principles (added 2026-08-11, from the Barebells rewrite pass)
+- **Don't lean on the raw ingredient score number as if it means something on its own.** It isn't out of 10 and has no external context. Explain *why* there's a gap (different protein source, more sweetener stacking, etc.), not "the gap is 11.7 points." Grade letters and specific ingredient/macro facts carry the argument; the raw score is supplementary data, not the story.
+- **Ground "two lines"/sub-brand narratives in measurable deltas, not just a label.** "The vegan line scores worse" is weak. "The vegan line averages 4g less protein per bar (a 21% drop) and 3 of 4 vegan flavors stack a second sugar alcohol source that only 1 of 21 dairy flavors uses" is the actual finding. If a brand has no official sub-brand distinction, say so plainly rather than implying one exists ("Barebells doesn't officially split into sub-brands, but the data shows two distinct formulas hiding under one label").
+- **Add a genuine "which flavor for which situation" analysis**, not just best/worst. Real examples from Barebells: highest-protein tie-breaker, lowest floor for a specific problem macro, best option within a disadvantaged sub-line, and what to skip outright. Every claim in that section still needs to trace back to `verify_brand_data.py` output or a direct computation from `bars.js` — same rule as everywhere else.
+- **Keep percentile claims separated by metric.** Protein and sugar can both be "top 25%" by coincidence, but don't write one sentence that implies they share a percentile when they don't — pull each number from its own verified figure.
+- **Verify compound claims, not just simple ones.** "All D grades belong to the vegan line" is a claim about grade *composition*, and it's easy to get wrong by pattern-matching from the F grades. Check it against the actual per-flavor list before writing it, the same as any other data claim.
+- **Flavor names must match `bars.js` exactly, including spelling.** Don't let a flavor name drift across a rewrite pass (e.g. "Hazlenut Nougat" becoming "Hazelnut Nougat" or "Hazel Nougat" partway through a page). Grep the final file for the exact name to confirm consistency.
+- **Treat the brand name as a singular entity** in verb agreement ("Barebells is," "Barebells lands," "Barebells carries"), not plural ("Barebells are," "Barebells have") — matches how the rest of the site already refers to brands.
 
 ---
 
@@ -225,6 +248,16 @@ These exist in style.css and should not be duplicated:
 
 ### New CSS classes added in July 2026
 - `.boost-badges`, `.boost-badge` — small indigo pills under the flavor name in the bar-finder results table, flagging Caffeine / Creatine / Vitamins as differentiators. Vitamin badge triggers at >2% DV on any single vitamin (not mineral) field — see `VITAMIN_DV_THRESHOLD` constant in `app.js`. Do not reuse this color for anything else; it's reserved for these three supplement flags.
+
+### New CSS classes added in August 2026 (Barebells rebuild)
+- `.pick-tile-grid`, `.pick-tile`, `.pick-tile-flavor` — the "which flavor for which situation" section. Reuses `.macro-card`'s shell (border, padding, uniform-height mechanism) via `class="macro-card pick-tile"` on each tile, so it inherits the font/height fixes below for free. When a tile recommends more than one flavor, put each name on its own line with `<br>` — comma-separated flavor lists inside a tile are hard to scan.
+- `.macro-rank-grid`, `.macro-rank-cell`, `.macro-rank-lbl`, `.macro-rank-val`, `.macro-rank-tag` (`.rank-green`/`.rank-gray`), `.nutr-panel`, `.nutr-row`, `.nutr-label`, `.nutr-val`, `.score-tile`, `.score-tile-header`, `.score-breakdown`, `.score-breakdown-bar`, `.sbd-pos`/`.sbd-neg`, `.score-chips`, `.score-ingr-cols`, `.ingr-col`, `.ingr-col-label`, `.ingr-col-item` — the rich flavor-table expand row. All of these already exist in style.css from the Quest rebuild; they were just never fully documented here.
+
+### Font-family gotcha — brand-v1 data elements (fixed 2026-08-11)
+A number of data/numeric classes reference the old `--font-mono` variable (`'DM Mono'`) directly with no `.brand-v1` override, so on brand-v1 pages they silently render in the wrong monospace font instead of the brand-v1 standard (`--bs-font-data` = `'IBM Plex Mono'`) — visually inconsistent with everything around them but easy to miss since both are still "a mono font." **This was not caught by any automated check — it took a full leaf-node computed-style scan of the live page in a headless browser to find every instance.** Fixed classes: `.num-cell`, `.macro-avg`, `.bw-score`, `.col-num`, `.cert-badge`, `.bw-chip-group-label`, `.ingr-macros span`, `.macro-rank-val`, `.macro-rank-tag`, `.score-number`, `.sbd-label-pos`, `.sbd-label-neg`, `.nutr-val` — see the two `.brand-v1` rule groups in style.css right after the macro-card section (one group also normalizes color to `--bs-text-dim`, the other is font-only because those elements carry semantic colors like rank-green/gray or pos/neg green/orange that a forced color would erase). **If a future brand-v1 element looks like it's in "the old font," check whether it has a `.brand-v1` override for `font-family` before assuming style.css didn't load — it's very likely this exact bug pattern, not a loading problem.** Also check for inline `style="font-family:var(--font-mono)"` — CSS class overrides can't touch those; fix them directly in the HTML (the grade-distribution breakdown line under the grade bar had exactly this bug).
+
+### Hero/content alignment gotcha (fixed 2026-08-11)
+`.hero-inner` and `.content` are both centered 820px boxes, but historically `.hero` supplied horizontal padding as an *outer* wrapper while `.content` supplied its own horizontal padding *inside* its own box. Both boxes land at the same outer edge (the centering math works out identical either way), but the actual text inside them started at different x-positions — the H1 sat 24px to the left of every H2 below it. Fixed by moving the horizontal padding onto `.hero-inner` to match `.content`'s box model exactly (`.page-brand .hero`/`.page-guide .hero` now has `padding: 2.25rem 0 2rem`, no left/right; `.page-brand .hero-inner`/`.page-guide .hero-inner` now has `padding: 0 1.5rem`). Verified with `getBoundingClientRect().left` in a headless browser at both desktop and mobile widths, not by eye. **Don't reintroduce left/right padding on `.hero` directly — it belongs on `.hero-inner` now.**
 
 ### Buy button conventions (locked July 2026 — do not deviate)
 Every "buy" link on the site follows one of exactly two styles, regardless of page:
@@ -391,17 +424,18 @@ To rescore: upload new bar Excel + schema file and say "run score_and_export"
 - Exclude ingredients: text input, XSS-safe
 
 ### Preset deep links — VALID SLUGS ONLY
-Brand and guide pages link to the bar finder with `/?preset=SLUG`. Only these 5 slugs are defined in `app.js` — any other value silently does nothing:
+Brand and guide pages link to the bar finder tool with `/bar-finder.html?preset=SLUG` (**not** `/?preset=SLUG` — `bar-finder.html` is the actual finder page; `index.html` is a separate homepage that itself links out to `/bar-finder.html?preset=...` for its own goal cards. A stray `/?preset=` link exists in index.html's FAQ and appears to be stale — don't copy that pattern). Only these 6 slugs are defined in `app.js`'s `PRESETS` object — any other value silently does nothing:
 
 | Slug | Label | Criteria |
 |------|-------|----------|
 | `lose_weight` | Lose Weight | 20g+ protein, under 200 cal, under 3g sugar, A/B grade |
 | `clean` | Clean Ingredients | A grade, 12g+ protein, no artificial sweeteners or sugar alcohols |
 | `skip_sugar` | Skip the Sugar | Under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade |
-| `high_protein` | High Protein | Highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade |
+| `high_protein` | Most Protein Per Calorie | Protein efficiency ranked, 15g+ protein, A/B/C grade |
 | `keto` | Keto Friendly | Under 5g net carbs, 10g+ fat, A/B grade |
+| `glp1` | GLP-1 Friendly | 15g+ protein, under 200 cal, under 4g sugar, 3g+ fiber, no sugar alcohols, A/B grade (added, undocumented until 2026-08-11 — verify against `app.js` directly if this list and the live file ever disagree, the file is canonical) |
 
-**Never invent preset slugs.** If a guide topic doesn't map cleanly to one of these, use the closest match or link to `/?` (unfiltered) with a relevant label.
+**Never invent preset slugs.** If a guide topic doesn't map cleanly to one of these, use the closest match or link to `/bar-finder.html` (unfiltered) with a relevant label.
 
 ### Results table columns
 BAR | CAL | PROT | P/100 | FAT | CARB | FIBR | SGR | SGR ALC | CERTS | GRADE | CMP
@@ -448,6 +482,9 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 ---
 
 ## Known issues / next priorities
+
+### Brand pages needing the 2026-08-11 standard applied
+`quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild (sub-brand scoping decision required first for both — Clif Bar vs. Clif Builders, KIND vs. KIND Protein Max).
 
 ### CSS
 - Footer layout on brand pages may still have a stacking issue — verify on mobile before marking resolved
