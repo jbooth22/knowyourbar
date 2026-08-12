@@ -67,9 +67,19 @@ SKIP_PREFIXES  = [
     'contains 2 or less of ', 'contains 2 percent or less of ',
 ]
 SKIP_CLAUSES   = [
-    'contains less than', 'less than', 'may contain', 'contains:',
+    'may contain', 'contains:',
     'manufactured in', 'processed in', 'made in',
 ]
+# "Contains less than 2% of the following: X, Y, Z" (and variants: "and less
+# than 2% of X", "Water and Less than 2%: X", "Less than 2% of each of the
+# following: X") is standard FDA labeling for real minor ingredients — NOT
+# an allergen/cross-contact disclaimer. It must not be truncated away; only
+# the boilerplate lead-in phrase is stripped so the real ingredients after
+# it continue to be parsed normally.
+LESS_THAN_RE = re.compile(
+    r'(contains\s+|and\s+)?less\s+than\s+[\d.]+\s*%\s*(of\s+(each\s+of\s+)?(the\s+following)?)?:?\s*',
+    re.IGNORECASE,
+)
 PCT_DV_COLS    = [
     'Vitamin A (% DV)', 'Vitamin C (% DV)', 'Vitamin D (% DV)',
     'Vitamin E (% DV)', 'Vitamin K (% DV)', 'Thiamin / B1 (% DV)',
@@ -177,6 +187,30 @@ def lookup_ingredient(norm, al, cl):
     return best
 
 
+def find_depth0_clause(text, clause):
+    """Find the first occurrence of `clause` (case-insensitive) that sits
+    outside any parenthetical group. A clause matched inside a nested
+    parenthetical (e.g. an ingredient's own '(... may contain X ...)'
+    qualifier) is a component-level note, not a trailing whole-product
+    disclaimer, and must not trigger truncation of real ingredients that
+    follow it."""
+    lower = text.lower()
+    start = 0
+    while True:
+        idx = lower.find(clause, start)
+        if idx == -1:
+            return -1
+        depth = 0
+        for ch in text[:idx]:
+            if ch == '(':
+                depth += 1
+            elif ch == ')':
+                depth = max(0, depth - 1)
+        if depth == 0:
+            return idx
+        start = idx + 1
+
+
 def parse_ingredients(raw):
     """
     Parse ingredient string into (text, top_level_position, weight_multiplier).
@@ -188,12 +222,11 @@ def parse_ingredients(raw):
     if not raw or pd.isna(raw):
         return []
     text = str(raw).strip()
-    lower = text.lower()
+    text = LESS_THAN_RE.sub(', ', text)
     for clause in SKIP_CLAUSES:
-        idx = lower.find(clause)
+        idx = find_depth0_clause(text, clause)
         if idx > 0:
             text = text[:idx]
-            lower = text.lower()
 
     items = []
     top_pos = 0
@@ -214,6 +247,13 @@ def parse_ingredients(raw):
                 current_top = []
                 current_sub = []
         elif ch == ')':
+            if depth == 0:
+                # Stray closing paren with no matching open in the source
+                # data — ignore it rather than letting depth go negative,
+                # which would otherwise corrupt parsing for the rest of
+                # the ingredient list.
+                i += 1
+                continue
             depth -= 1
             if depth == 0:
                 sub_text = ''.join(current_sub).strip()
@@ -239,6 +279,17 @@ def parse_ingredients(raw):
     if top_text:
         top_pos += 1
         items.append((top_text, top_pos, 1.0))
+
+    # Unclosed parenthetical at end of string (more '(' than ')' in the
+    # source data) — recover whatever was accumulated inside it instead
+    # of silently dropping it.
+    if depth > 0 and current_sub:
+        sub_text = ''.join(current_sub).strip()
+        if sub_text:
+            for sub_part in re.split(r'[,;]', sub_text):
+                sub_part = sub_part.strip()
+                if sub_part:
+                    items.append((sub_part, top_pos, 0.6))
 
     return items
 
