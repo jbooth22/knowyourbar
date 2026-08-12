@@ -30,6 +30,7 @@ import json
 import os
 import re
 import sys
+import unicodedata
 from collections import Counter
 
 import pandas as pd
@@ -60,9 +61,10 @@ OIL_KEYWORDS   = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
 HIGH_OLEIC_EX  = ['high oleic']
 SKIP_PREFIXES  = [
     'organic ', 'natural ', 'pure ', 'raw ', 'whole ', 'roasted ',
-    'unsweetened ', 'dried ', 'dehydrated ', 'grass fed ', 'grass-fed ',
+    'unsweetened ', 'dried ', 'freeze dried ', 'dehydrated ', 'grass fed ', 'grass-fed ',
     'non gmo ', 'certified ', 'reduced fat ', 'low fat ', 'instant ',
     'enriched ', 'unbleached ', 'pasteurized ', 'homogenized ',
+    'contains 2 or less of ', 'contains 2 percent or less of ',
 ]
 SKIP_CLAUSES   = [
     'contains less than', 'less than', 'may contain', 'contains:',
@@ -122,6 +124,11 @@ def normalize(text):
     text = str(text).lower().strip()
     text = re.sub(r'\*+', '', text)
     text = re.sub(r'\(.*?\)', '', text)
+    # Transliterate accented letters (e.g. jalapeño -> jalapeno) instead of
+    # deleting them, so accented ingredient names don't get split into
+    # broken tokens by the character-strip step below.
+    text = unicodedata.normalize('NFKD', text)
+    text = text.encode('ascii', 'ignore').decode('ascii')
     text = re.sub(r'[^a-z0-9\s]', ' ', text)
     return re.sub(r'\s+', ' ', text).strip()
 
