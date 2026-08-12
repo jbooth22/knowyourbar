@@ -29,8 +29,11 @@ style.css               — ALL shared styles — single source of truth
 _headers                — Cloudflare Pages cache + security headers
 TEMPLATE_BRAND.html     — Master template for brand review pages
 TEMPLATE_GUIDE.html     — Master template for lifestyle guide pages
-score_and_export.py     — Scoring pipeline script
-knowyourbar_scoring_schema_v4.xlsx — Ingredient scoring schema
+score_and_export.py     — Scoring pipeline script. As of 2026-08-12 this includes parser-resilience
+                           fixes (unbalanced parentheses, "contains less than 2%" handling, depth-aware
+                           clause matching, accented-character normalization) — see "Scoring pipeline
+                           integrity" below before treating an older copy of this script as current.
+knowyourbar_scoring_schema_v5.xlsx — Ingredient scoring schema (v5, released 2026-08-12 — see below)
 build_brand_rankings.py — Regenerates all-protein-bar-brands.html from bars.js. Run this instead of
                            hand-editing that page. See BRAND_RANKING_METHODOLOGY.md before touching it.
 sitemap.xml
@@ -74,6 +77,28 @@ Other:
   ingredient_scoring.html      — How we score page
   flavor-map.html              — Sankey diagram visualization
 ```
+
+---
+
+## Scoring pipeline integrity (schema v5, 2026-08-12)
+
+A routine database update surfaced several real bugs in the scoring pipeline, not just missing schema coverage. All are fixed in `knowyourbar_scoring_schema_v5.xlsx` + the current `score_and_export.py` — **always use these, never an older v4 copy of either file.**
+
+**What was wrong:**
+1. **Alias/canonical desync** — 307 rows in `Alias_Map` carried `base_score=0` instead of inheriting their canonical's real score (Beef, Pork, Butter, Quinoa, etc. all scored as neutral instead of their true value). Fixed via full alias-to-canonical sync; also fixed 453 rows with drifted category/subcategory (chip-display only, no score impact).
+2. **93 previously-unmatched ingredients** added to the schema.
+3. **Accented characters** (jalapeño, etc.) were being deleted instead of transliterated by `normalize()`, breaking words into unmatched tokens.
+4. **Malformed source data crashed parsing silently** — a single stray or unbalanced parenthesis anywhere in an `Ingredients` string would corrupt bracket-depth tracking and drop everything after it (15 bars affected). Parser now clamps depth at 0 and recovers unclosed trailing groups instead of failing silently.
+5. **Biggest one: "Contains less than 2% of the following: X, Y, Z"** is standard FDA labeling for real minor ingredients, but the parser treated it like an allergen/cross-contact disclaimer and silently truncated everything after it — deleting things like Sucralose from nearly every affected flavor (89 bars hit). Fixed by stripping only the boilerplate lead-in phrase and continuing to parse the real ingredients after it. The same fix made all remaining truncation clauses (`may contain`, `contains:`, `manufactured in`, etc.) depth-aware, so a clause nested inside a sub-ingredient's own parenthetical no longer wrongly truncates the rest of the list (9 bars affected).
+
+**Net effect on the full database:** grade distribution moved from A=160/B=382/C=339/D=172/F=31 to A=214/B=405/C=323/D=155/F=32.
+
+**Pages with stale copy as a result — data accuracy, separate from the structural/voice work below:**
+- `barebells-review.html` — nearly every flavor's grade/score shifted. Needs `verify_brand_data.py` + full copy refresh.
+- `quest-bars.html` — all 13 tracked flavors shifted; this wasn't caught until fix #5 above landed. Sucralose was specifically being dropped from Chocolate Chip Cookie Dough. Needs the same treatment.
+- `rxbar-review.html` — one flavor ticked up slightly, stayed A grade. No refresh needed.
+
+**Known low-priority cleanup:** 15 bars in the source database (`Ingredients` column) have genuine typos — stray or missing parentheses — that the parser now works around but that should ideally be fixed at the source for data cleanliness. Not urgent.
 
 ---
 
@@ -485,6 +510,9 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 
 ### Brand pages needing the 2026-08-11 standard applied
 `quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild (sub-brand scoping decision required first for both — Clif Bar vs. Clif Builders, KIND vs. KIND Protein Max).
+
+### Data accuracy — separate issue from the above
+`barebells-review.html` and `quest-bars.html` also need a `verify_brand_data.py` pass and copy refresh for a completely different reason: the schema v5 pipeline fix changed their underlying grades/scores. This is independent of the structural-standard work above — do the data refresh regardless of whether the structural rebuild has happened yet. See "Scoring pipeline integrity" section above for full detail.
 
 ### CSS
 - Footer layout on brand pages may still have a stacking issue — verify on mobile before marking resolved
