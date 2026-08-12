@@ -2611,12 +2611,13 @@ body.overlay-open { overflow: hidden; }
 /* Hero — consistent across all brand pages */
 .page-brand .hero,
 .page-guide .hero {
-  padding: 2.25rem 1.5rem 2rem;
+  padding: 2.25rem 0 2rem;
 }
 .page-brand .hero-inner,
 .page-guide .hero-inner {
   max-width: 820px;
   margin: 0 auto;
+  padding: 0 1.5rem;
   /* Base .hero-inner carries its own padding-bottom: 2rem (for the two-column
      homepage hero layout). .hero itself ALSO carries padding-bottom: 2rem for
      brand/guide pages, so without this override the two stack and add ~32px
@@ -3188,7 +3189,7 @@ body.overlay-open { overflow: hidden; }
 .brand-link-pill:hover { background: var(--black); color: var(--white); }
 .brand-link-pill-all { border-style: dashed; color: var(--muted); border-color: var(--border); }
 .brand-link-pill-all:hover { background: var(--black); color: var(--white); border-color: var(--black); }
-.brand-v1 .brand-link-pill { border-color: var(--bs-ink); color: var(--bs-ink); font-family: var(--bs-font-body); }
+.brand-v1 .brand-link-pill { border-color: var(--bs-ink); color: var(--bs-ink); font-family: var(--bs-font-body); border-width: 1.5px; border-radius: var(--bs-radius); }
 .brand-v1 .brand-link-pill:hover { background: var(--bs-ink); color: var(--bs-paper); }
 .brand-v1 .brand-link-pill-all { color: var(--bs-text-dim); border-color: var(--bs-line-soft); }
 .brand-v1 .brand-link-pill-all:hover { background: var(--bs-ink); color: var(--bs-paper); border-color: var(--bs-ink); }
@@ -4225,7 +4226,14 @@ body.overlay-open { overflow: hidden; }
   color: var(--bs-ink);
 }
 .brand-v1.page-brand p { color: var(--bs-text-dim) !important; }
-.brand-v1 .num-cell, .brand-v1 .macro-avg, .brand-v1 .bw-score { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim); }
+.brand-v1 .num-cell, .brand-v1 .macro-avg, .brand-v1 .bw-score, .brand-v1 .col-num,
+.brand-v1 .cert-badge, .brand-v1 .bw-chip-group-label, .brand-v1 .ingr-macros span
+{ font-family: var(--bs-font-data) !important; color: var(--bs-text-dim); }
+/* Same font fix, but these carry semantic (pos/neg, rank) colors or are meant to
+   read as prominent bold numbers, so font-family only, no forced color. */
+.brand-v1 .macro-rank-val, .brand-v1 .macro-rank-tag, .brand-v1 .score-number,
+.brand-v1 .sbd-label-pos, .brand-v1 .sbd-label-neg, .brand-v1 .nutr-val
+{ font-family: var(--bs-font-data) !important; }
 
 /* Grade distribution bar — keep grade colors (functional), fix font only */
 .brand-v1 .grade-seg { font-family: var(--bs-font-body) !important; font-weight: 700; }
