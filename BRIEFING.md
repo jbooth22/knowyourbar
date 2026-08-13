@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: August 2026*
+*Last updated: 2026-08-13*
 
 ---
 
@@ -33,7 +33,11 @@ score_and_export.py     — Scoring pipeline script. As of 2026-08-12 this inclu
                            fixes (unbalanced parentheses, "contains less than 2%" handling, depth-aware
                            clause matching, accented-character normalization) — see "Scoring pipeline
                            integrity" below before treating an older copy of this script as current.
-knowyourbar_scoring_schema_v5.xlsx — Ingredient scoring schema (v5, released 2026-08-12 — see below)
+                           The script itself takes the schema file as a --schema argument, so it does
+                           not need code changes when the schema version bumps (v5 -> v6 etc.) — only
+                           the schema file and this briefing need to reference the current version.
+knowyourbar_scoring_schema_v6.xlsx — Ingredient scoring schema (v6, released 2026-08-13 — see below).
+                           Always use this, never an older v5/v4 copy.
 build_brand_rankings.py — Regenerates all-protein-bar-brands.html from bars.js. Run this instead of
                            hand-editing that page. See BRAND_RANKING_METHODOLOGY.md before touching it.
 sitemap.xml
@@ -80,6 +84,25 @@ Other:
 
 ---
 
+## Scoring pipeline integrity (schema v6, 2026-08-13)
+
+A routine database update (33 new bars, 3 new brands: Floura, Glove Crafted, and a renamed/corrected Met-RX) surfaced a second bug class beyond simple schema gaps: **the fallback substring matcher can silently mismatch an unmapped ingredient to an unrelated canonical entry that happens to share a substring.** `lookup_ingredient()` in `score_and_export.py` only reaches this fallback path when there's no exact alias/canonical match, so the fix in every case was adding the missing exact-match canonical/alias — no code change needed.
+
+**Confirmed real mismatches found and fixed in v6:**
+- **Honeydew** was matching "honey" and scoring **-2** instead of a fruit's **+2** (affected all 7 new Floura bars).
+- **Buckwheat** / **Buckwheat Flour** were matching "wheat" and scoring **0** instead of **+2**/**+1** (affected 15 bars including KIND).
+- **Isomaltooligosaccharide** (a prebiotic fiber) was matching "isomalt" (a sugar alcohol) and scoring **-3** instead of **+1** (4 bars).
+- **"Non-Alcoholic"** (a qualifier phrase inside a parenthetical, e.g. "chocolate liquor (non-alcoholic)") was matching "alcohol" → glycerin and getting a false **-1** (8 G2G bars).
+- **Fermented Watermelon Rind** was matching "water" (harmless, score 0 either way, fixed for correctness anyway).
+
+**12 genuinely new ingredients scored:** amaranth, raisin paste, Floura SuperFiber Flour Mix, cantaloupe, white chia flour, potassium carbonate, rose extract, rooibos tea leaf, mango concentrate, honeydew, fermented watermelon rind, monoglyceride (singular form; plural already existed).
+
+**Process note for future database updates:** don't just run the schema-gap audit (`audit_schema_gaps()` — catches only *zero*-match ingredients). Also scan for substring-fallback matches across the full database and eyeball the list for category-level mismatches (a real bug) vs. reasonable approximations (expected, e.g. "Diced Almonds" → "almonds" is fine). The full audit script used for this pass is not yet a checked-in file — ask Claude to re-run the fallback-path scan (compares `al`/`cl` exact-match hits vs. the substring-fallback hits) on any future upload before trusting the schema-gap audit alone.
+
+**Net effect on the full database (v5 -> v6, same 1,157-bar upload):** grade distribution moved from A=215/B=413/C=342/D=155/F=32 to A=221/B=418/C=331/D=155/F=32 after the fixes above. Zero bars saw a 2+ letter grade swing between the pre-fix and post-fix run — spot-checked programmatically, not just eyeballed.
+
+---
+
 ## Scoring pipeline integrity (schema v5, 2026-08-12)
 
 A routine database update surfaced several real bugs in the scoring pipeline, not just missing schema coverage. All are fixed in `knowyourbar_scoring_schema_v5.xlsx` + the current `score_and_export.py` — **always use these, never an older v4 copy of either file.**
@@ -99,6 +122,12 @@ A routine database update surfaced several real bugs in the scoring pipeline, no
 - `rxbar-review.html` — one flavor ticked up slightly, stayed A grade. No refresh needed.
 
 **Known low-priority cleanup:** 15 bars in the source database (`Ingredients` column) have genuine typos — stray or missing parentheses — that the parser now works around but that should ideally be fixed at the source for data cleanliness. Not urgent.
+
+**v6 update (2026-08-13):** Quest, RXBAR, and Barebells had zero data changes in the v6 database upload — their page copy from the v5 refresh (where applicable) is still accurate, no new refresh needed on their account. The pages that DO need a `verify_brand_data.py` pass + copy refresh from this upload: `kind-bars-review.html` (see KIND sub-brand merge note below — this is now urgent, not just a structural rebuild candidate) and any future Clif/Met-RX/1st Phorm/etc. pages if built. Full brand-level diff is in the 2026-08-13 diff report; ask Claude to re-run `diff_bars_upload.py` against the current live `bars.js` if that report isn't handy.
+
+**KIND sub-brand merge (2026-08-13):** the "KIND Protein Max" sub-brand no longer exists as a separate `Brand Name` in the database — its 4 flavors (Crispy Chocolate Peanut Butter, Sweet and Salty Caramel Peanut Crisp, Dark Chocolate Crisp, Raspberry Cocoa Crisp) now appear under plain "KIND". 11 new KIND flavors were also added (Almond Butter, Apple Cinnamon, Blueberry Almond, Blueberry Vanilla Cashew, Caramel Peanut, Crunchy Peanut Butter, Dark Chocolate Cocoa, Dark Chocolate Nut, Honey Oat, Maple Glazed Pecan and Sea Salt, Peanut Butter, Peanut Butter Banana Dark Chocolate) — this appears to be the "KIND Minis and Thins not yet in database" item from the Content known-issues list finally landing. **This resolves the KIND sub-brand scoping question** noted below as a rebuild blocker — treat all KIND flavors as one brand going forward, no more "KIND" vs. "KIND Protein Max" split.
+
+**Met-RX brand rename (2026-08-13):** the old "MET-Rx" brand name/casing and its 3 previously-unscored placeholder bars (Peanut Butter Granola, Chocolate Chip Granola, Mint Super Cookie — all had `ingredient_score: null`) are gone, replaced by "Met-RX" (capitalization fixed) with 6 bars, all now scored with real ingredient data. No page exists for this brand yet.
 
 ---
 
@@ -409,13 +438,13 @@ When building or rebuilding a brand page, always extract data directly from bars
 
 ## Scoring pipeline
 
-Bars scored using `score_and_export.py` against `knowyourbar_scoring_schema_v4.xlsx`
-- 1,163 canonical ingredients
-- 2,194 aliases
+Bars scored using `score_and_export.py` against `knowyourbar_scoring_schema_v6.xlsx`
+- 1,278 canonical ingredients
+- 2,312 aliases
 - Sub-ingredients in parentheses get 60% weight
-- 150+ A-rated bars in current database
+- 220+ A-rated bars in current database (1,157 total bars as of 2026-08-13)
 
-### Grade bands (v4 schema)
+### Grade bands (current schema)
 | Grade | Label | Score range |
 |-------|-------|-------------|
 | A | Clean | >= 8.0 |
@@ -509,7 +538,7 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 ## Known issues / next priorities
 
 ### Brand pages needing the 2026-08-11 standard applied
-`quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild (sub-brand scoping decision required first for both — Clif Bar vs. Clif Builders, KIND vs. KIND Protein Max).
+`quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild. Clif still needs a sub-brand scoping decision (Clif Bar vs. Clif Builders). **KIND's scoping question is resolved as of the 2026-08-13 database update** — "KIND Protein Max" no longer exists as a separate brand, its 4 flavors merged into plain "KIND" alongside 11 newly-added KIND flavors — see "Scoring pipeline integrity (schema v6)" above. KIND's rebuild is otherwise unblocked and should also get a `verify_brand_data.py` pass for the new/merged flavors regardless of when the structural rebuild happens.
 
 ### Data accuracy — separate issue from the above
 `barebells-review.html` and `quest-bars.html` also need a `verify_brand_data.py` pass and copy refresh for a completely different reason: the schema v5 pipeline fix changed their underlying grades/scores. This is independent of the structural-standard work above — do the data refresh regardless of whether the structural rebuild has happened yet. See "Scoring pipeline integrity" section above for full detail.

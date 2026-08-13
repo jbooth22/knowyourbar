@@ -6,7 +6,7 @@ Scores all bars from raw ingredient text and exports bars.js.
 Usage:
     python score_and_export.py \
         --db "KYB - New Protein Bar Database (2026).xlsx" \
-        --schema "knowyourbar_scoring_schema_v3.xlsx"
+        --schema "knowyourbar_scoring_schema_v6.xlsx"
 
 Output:
     bars.js  (written to current directory)
@@ -466,7 +466,7 @@ def audit_schema_gaps(df, al, cl):
 def main():
     parser = argparse.ArgumentParser(description='Score protein bars and export bars.js')
     parser.add_argument('--db',     required=True, help='Bar database Excel file')
-    parser.add_argument('--schema', required=True, help='Scoring schema Excel file (v3)')
+    parser.add_argument('--schema', required=True, help='Scoring schema Excel file (current: v6)')
     parser.add_argument('--out',    default='bars.js', help='Output file (default: bars.js)')
     parser.add_argument('--no-audit', action='store_true', help='Skip schema gap audit')
     args = parser.parse_args()
