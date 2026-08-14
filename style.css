@@ -3973,3 +3973,24 @@ body.overlay-open { overflow: hidden; }
 .brk-caveat { background: var(--bs-cream); border-radius: var(--bs-radius); padding: 1rem 1.25rem; font-size: .82rem; color: var(--bs-text-dim); line-height: 1.6; margin-top: 1rem; }
 
 .brk-hidden { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE NAV FIX — 2026-08-14
+   The unconditional desktop rules for .site-nav-links,
+   .site-nav-mobile-toggle, and .site-nav-mobile-bar-finder were
+   added lower in this file than the `@media (max-width: 700px)`
+   block that's supposed to collapse the nav on mobile. Since both
+   sets of rules share the same specificity, source order decided
+   the winner — the desktop rules, appearing later, silently beat
+   the mobile media query on every page. Result: on phones, the
+   full desktop nav row tried to render at full width instead of
+   collapsing into the hamburger menu, forcing horizontal scroll
+   site-wide. This block re-asserts the intended mobile behavior;
+   it does not edit or remove the original rules.
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .site-nav-links { display: none; }
+  .site-nav-links.open { display: flex; }
+  .site-nav-mobile-toggle { display: block; }
+  .site-nav-mobile-bar-finder { display: inline-flex; }
+}
