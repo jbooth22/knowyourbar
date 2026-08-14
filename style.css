@@ -887,7 +887,6 @@ tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); co
 }
 
 
-
 .nutr-label {
   color: var(--black);
   flex: 1;
@@ -1263,6 +1262,197 @@ tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); co
 
 @media (max-width: 700px) {
   .score-ingr-cols { grid-template-columns: 1fr; }
+
+  /* Stack expand vertically */
+  .expand-columns {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Compact the nutrition panel on mobile */
+  .nutr-panel { padding: 10px; }
+  .nutr-panel-title { font-size: 14px; }
+  .nutr-row { font-size: 11px; }
+
+
+  /* Single column vitamins/minerals on small screens */
+  .micro-grid { grid-template-columns: 1fr; }
+
+  /* Tighter expand padding */
+  .expand-content { padding: 12px 10px; }
+
+  /* Hide less critical columns in the table on mobile */
+  .col-hide-mobile { display: none; }
+
+  /* Make bar name column narrower */
+  .col-bar { min-width: 130px; }
+  .bar-flavor { max-width: 130px; font-size: 12px; }
+  .bar-brand { font-size: 9px; }
+
+  /* Tighter number columns */
+  .col-num { width: 40px; font-size: 11px; padding: 8px 5px; }
+  th { padding: 8px 5px; font-size: 8px; }
+  th.col-num { font-size: 8px; }
+  td { padding: 8px 5px; }
+
+  /* Buy buttons stay side by side on mobile — confirmed to fit at 390px */
+
+  .col-compare { width: 30px; }
+  .compare-cb { width: 22px; height: 22px; }
+  .tray-inner { padding: 8px 12px; gap: 8px; }
+  .tray-bar-name { max-width: 100px; }
+
+  #compare-overlay {
+    padding: 0;
+    align-items: flex-start;
+  }
+  .cmp-overlay-inner {
+    border-radius: 0;
+    min-height: 100dvh;
+    width: 100%;
+    overflow: hidden;  /* clip last column back inside on mobile */
+  }
+  /* On mobile the scroll is on the overlay, inner needs to allow it */
+  .cmp-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* On mobile: no sticky header — causes button float/overlap */
+  .cmp-table thead {
+    position: static;
+  }
+  .cmp-row-label { font-size: 9px; padding: 7px 6px; white-space: normal; }
+  .cmp-cell { padding: 7px 6px; font-size: 11px; }
+  .cmp-bar-header-cell { padding: 10px 6px; }
+  .cmp-flavor { font-size: 11px; }
+  .cmp-brand { font-size: 8px; }
+
+  /* Fixed grid zones — smaller on mobile */
+  .cmp-bar-card-inner {
+    grid-template-rows:
+      14px    /* brand */
+      40px    /* flavor name */
+      26px    /* grade */
+      auto;   /* buttons */
+    row-gap: 4px;
+  }
+
+  /* Chips must stay within their column — prevent overflow */
+  .cmp-chips-cell {
+    overflow: hidden;
+  }
+  .cmp-chips-cell .insight-chip {
+    font-size: 8px;
+    padding: 2px 4px;
+    max-width: 100%;
+  }
+
+  .site-nav { padding: 0 1.25rem; }
+  .site-nav-links { display: none; }
+  .site-nav-mobile-bar-finder {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: .75rem;
+    font-family: var(--bs-font-body);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--bs-ink);
+    background: var(--bs-paper);
+    padding: .35rem .75rem;
+    border-radius: var(--bs-radius);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .site-nav-links.open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    right: 0;
+    background: var(--bs-ink-2);
+    border-bottom: 1px solid #ffffff18;
+    padding: 8px 0;
+    gap: 0;
+    z-index: 200;
+  }
+  .site-nav-links.open .site-nav-group,
+  .site-nav-links.open .site-nav-link {
+    width: 100%;
+    height: auto;
+  }
+  .site-nav-links.open .site-nav-group-label {
+    height: auto;
+    padding: 10px 1.25rem;
+    pointer-events: none;
+    color: #ffffff44;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .site-nav-links.open .site-nav-group-label::after { display: none; }
+  .site-nav-links.open .site-nav-dropdown {
+    display: block;
+    position: static;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .site-nav-links.open .site-nav-dropdown a {
+    padding: 9px 1.25rem 9px 2rem;
+    font-size: 12px;
+  }
+  .site-nav-links.open .site-nav-link {
+    padding: 10px 1.25rem;
+    font-size: 12px;
+    border-top: 1px solid #ffffff08;
+  }
+  .site-nav-links.open a[href="/bar-finder.html"].site-nav-link { display: none; }
+  .site-nav-mobile-toggle { display: block; }
+
+  .macro-rank-grid { grid-template-columns: repeat(3, 1fr); padding: 10px 1rem 0; }
+
+  .cmp-overlay {
+    padding: 0;
+  }
+  .cmp-header {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cmp-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  /* Fixed equal-width data columns */
+  .cmp-table colgroup col:not(:first-child) {
+    width: calc((100% - 60px) / var(--cmp-cols, 4));
+  }
+  .cmp-bar-card {
+    padding: 8px 6px;
+  }
+  .cmp-cell {
+    padding: 7px 5px;
+    font-size: 11px;
+  }
+  .cmp-row-label {
+    font-size: 9px;
+    padding: 7px 5px;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .cmp-section-header td {
+    padding: 4px 5px;
+    font-size: 8px;
+  }
+
+  .similar-cards { grid-template-columns: 1fr; }
+  .similar-section { padding: 12px 1rem 14px; }
 }
 
 /* No results */
@@ -1375,41 +1565,6 @@ tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); co
   .hero-headline { font-size: 3rem; }
 }
 
-@media (max-width: 700px) {
-  /* Stack expand vertically */
-  .expand-columns {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  /* Compact the nutrition panel on mobile */
-  .nutr-panel { padding: 10px; }
-  .nutr-panel-title { font-size: 14px; }
-  .nutr-row { font-size: 11px; }
-
-
-  /* Single column vitamins/minerals on small screens */
-  .micro-grid { grid-template-columns: 1fr; }
-
-  /* Tighter expand padding */
-  .expand-content { padding: 12px 10px; }
-
-  /* Hide less critical columns in the table on mobile */
-  .col-hide-mobile { display: none; }
-
-  /* Make bar name column narrower */
-  .col-bar { min-width: 130px; }
-  .bar-flavor { max-width: 130px; font-size: 12px; }
-  .bar-brand { font-size: 9px; }
-
-  /* Tighter number columns */
-  .col-num { width: 40px; font-size: 11px; padding: 8px 5px; }
-  th { padding: 8px 5px; font-size: 8px; }
-  th.col-num { font-size: 8px; }
-  td { padding: 8px 5px; }
-
-  /* Buy buttons stay side by side on mobile — confirmed to fit at 390px */
-}
 
 @media (max-width: 600px) {
   .results-toolbar { gap: 8px; }
@@ -1705,58 +1860,6 @@ tr.bar-row.open .row-expand-icon { transform: translateY(-50%) rotate(90deg); co
 
 body.overlay-open { overflow: hidden; }
 
-@media (max-width: 700px) {
-  .col-compare { width: 30px; }
-  .compare-cb { width: 22px; height: 22px; }
-  .tray-inner { padding: 8px 12px; gap: 8px; }
-  .tray-bar-name { max-width: 100px; }
-
-  #compare-overlay {
-    padding: 0;
-    align-items: flex-start;
-  }
-  .cmp-overlay-inner {
-    border-radius: 0;
-    min-height: 100dvh;
-    width: 100%;
-    overflow: hidden;  /* clip last column back inside on mobile */
-  }
-  /* On mobile the scroll is on the overlay, inner needs to allow it */
-  .cmp-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* On mobile: no sticky header — causes button float/overlap */
-  .cmp-table thead {
-    position: static;
-  }
-  .cmp-row-label { font-size: 9px; padding: 7px 6px; white-space: normal; }
-  .cmp-cell { padding: 7px 6px; font-size: 11px; }
-  .cmp-bar-header-cell { padding: 10px 6px; }
-  .cmp-flavor { font-size: 11px; }
-  .cmp-brand { font-size: 8px; }
-
-  /* Fixed grid zones — smaller on mobile */
-  .cmp-bar-card-inner {
-    grid-template-rows:
-      14px    /* brand */
-      40px    /* flavor name */
-      26px    /* grade */
-      auto;   /* buttons */
-    row-gap: 4px;
-  }
-
-  /* Chips must stay within their column — prevent overflow */
-  .cmp-chips-cell {
-    overflow: hidden;
-  }
-  .cmp-chips-cell .insight-chip {
-    font-size: 8px;
-    padding: 2px 4px;
-    max-width: 100%;
-  }
-}
 
 /* ─── FAQ Accordion ─────────────────────────────── */
 .faq-section {
@@ -1978,74 +2081,6 @@ body.overlay-open { overflow: hidden; }
   margin: 0;
 }
 
-@media (max-width: 700px) {
-  .site-nav { padding: 0 1.25rem; }
-  .site-nav-links { display: none; }
-  .site-nav-mobile-bar-finder {
-    display: inline-flex;
-    align-items: center;
-    margin-left: auto;
-    margin-right: .75rem;
-    font-family: var(--bs-font-body);
-    font-size: .78rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    color: var(--bs-ink);
-    background: var(--bs-paper);
-    padding: .35rem .75rem;
-    border-radius: var(--bs-radius);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .site-nav-links.open {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    top: 52px;
-    left: 0;
-    right: 0;
-    background: var(--bs-ink-2);
-    border-bottom: 1px solid #ffffff18;
-    padding: 8px 0;
-    gap: 0;
-    z-index: 200;
-  }
-  .site-nav-links.open .site-nav-group,
-  .site-nav-links.open .site-nav-link {
-    width: 100%;
-    height: auto;
-  }
-  .site-nav-links.open .site-nav-group-label {
-    height: auto;
-    padding: 10px 1.25rem;
-    pointer-events: none;
-    color: #ffffff44;
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .site-nav-links.open .site-nav-group-label::after { display: none; }
-  .site-nav-links.open .site-nav-dropdown {
-    display: block;
-    position: static;
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-  }
-  .site-nav-links.open .site-nav-dropdown a {
-    padding: 9px 1.25rem 9px 2rem;
-    font-size: 12px;
-  }
-  .site-nav-links.open .site-nav-link {
-    padding: 10px 1.25rem;
-    font-size: 12px;
-    border-top: 1px solid #ffffff08;
-  }
-  .site-nav-links.open a[href="/bar-finder.html"].site-nav-link { display: none; }
-  .site-nav-mobile-toggle { display: block; }
-}
 
 /* ─── Advanced Filter Toggle ─────────────────────── */
 .panel-section--actions-top {
@@ -2115,46 +2150,8 @@ body.overlay-open { overflow: hidden; }
 .rank-amber { background: #fff3d6; color: #7a4a00; }
 .rank-gray  { background: var(--off-white); color: var(--muted); border: 1px solid var(--border); }
 
-@media (max-width: 700px) {
-  .macro-rank-grid { grid-template-columns: repeat(3, 1fr); padding: 10px 1rem 0; }
-}
 
 /* ─── Comparison mobile fixes ─────────────────────── */
-@media (max-width: 700px) {
-  .cmp-overlay {
-    padding: 0;
-  }
-  .cmp-header {
-    padding: 10px 12px;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .cmp-table {
-    table-layout: fixed;
-    width: 100%;
-  }
-  /* Fixed equal-width data columns */
-  .cmp-table colgroup col:not(:first-child) {
-    width: calc((100% - 60px) / var(--cmp-cols, 4));
-  }
-  .cmp-bar-card {
-    padding: 8px 6px;
-  }
-  .cmp-cell {
-    padding: 7px 5px;
-    font-size: 11px;
-  }
-  .cmp-row-label {
-    font-size: 9px;
-    padding: 7px 5px;
-    white-space: normal;
-    word-break: break-word;
-  }
-  .cmp-section-header td {
-    padding: 4px 5px;
-    font-size: 8px;
-  }
-}
 
 /* ─── Similar Bars ──────────────────────────────── */
 .similar-section {
@@ -2260,10 +2257,6 @@ body.overlay-open { overflow: hidden; }
   font-style: italic;
 }
 
-@media (max-width: 700px) {
-  .similar-cards { grid-template-columns: 1fr; }
-  .similar-section { padding: 12px 1rem 14px; }
-}
 
 /* ─── Sim card bucket label ─────────────────────── */
 .sim-bucket-label {
@@ -2394,6 +2387,52 @@ body.overlay-open { overflow: hidden; }
 @media (max-width: 640px) {
   .site-footer-inner { flex-direction: column; gap: 1.25rem; }
   .site-footer-links { justify-content: flex-start; }
+
+  .explore-more-grid { grid-template-columns: 1fr; }
+
+  .bestworst { grid-template-columns: 1fr; }
+  .chip-freq-item { grid-template-columns: 1fr; gap: 4px; }
+  .macro-grid { grid-template-columns: 1fr 1fr; }
+  .bar-table-wrap th.hide-mobile,
+  .bar-table-wrap td.hide-mobile { display: none; }
+  /* Mobile brand table — 6 columns, all visible */
+  .page-brand .bar-table-wrap th:nth-child(1) { width: 40%; }
+  .page-brand .bar-table-wrap th:nth-child(2) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(3) { width: 13%; }
+  .page-brand .bar-table-wrap th:nth-child(4) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(5) { width: 12%; }
+  .page-brand .bar-table-wrap th:nth-child(6) { width: 11%; }
+  .explore-cta-inner { padding: 1.5rem 1.25rem; }
+  .explore-cta-title { font-size: 1.25rem; }
+
+  .page-guide .picks-grid { grid-template-columns: 1fr; }
+  .insights-grid { grid-template-columns: 1fr; }
+
+  /* Fix guide bar table overlap on mobile — keep buy/site links and the
+     expand hint visible, just let them wrap onto their own line instead
+     of overlapping the bar name. */
+  .page-guide .bar-table-wrap table { table-layout: auto; }
+  .page-guide .bar-name-cell { min-width: 0; max-width: none; word-break: break-word; }
+  .page-guide .bar-name-cell > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-top: 6px;
+  }
+  .page-guide .buy-btn,
+  .page-guide .bar-link-site,
+  .page-guide .expand-hint {
+    margin-left: 0 !important;
+  }
+
+  .verdict-inner { grid-template-columns: 1fr; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 1.5rem; }
+
+
+  .vs-scorecard { grid-template-columns: 1fr; }
+  .vs-divider { display: none; }
 }
 
 /* ─── Guide page FAQ — consistent look ───────────────────── */
@@ -2957,9 +2996,6 @@ body.overlay-open { overflow: hidden; }
   color: var(--muted);
   line-height: 1.55;
 }
-@media (max-width: 640px) {
-  .explore-more-grid { grid-template-columns: 1fr; }
-}
 
 /* Ingredient expand — macro mini-strip */
 .ingr-macros {
@@ -3149,22 +3185,6 @@ body.overlay-open { overflow: hidden; }
 .page-brand .bar-table-wrap th:nth-child(6) { width: 12%; } /* Sugar   */
 
 /* Mobile */
-@media (max-width: 640px) {
-  .bestworst { grid-template-columns: 1fr; }
-  .chip-freq-item { grid-template-columns: 1fr; gap: 4px; }
-  .macro-grid { grid-template-columns: 1fr 1fr; }
-  .bar-table-wrap th.hide-mobile,
-  .bar-table-wrap td.hide-mobile { display: none; }
-  /* Mobile brand table — 6 columns, all visible */
-  .page-brand .bar-table-wrap th:nth-child(1) { width: 40%; }
-  .page-brand .bar-table-wrap th:nth-child(2) { width: 12%; }
-  .page-brand .bar-table-wrap th:nth-child(3) { width: 13%; }
-  .page-brand .bar-table-wrap th:nth-child(4) { width: 12%; }
-  .page-brand .bar-table-wrap th:nth-child(5) { width: 12%; }
-  .page-brand .bar-table-wrap th:nth-child(6) { width: 11%; }
-  .explore-cta-inner { padding: 1.5rem 1.25rem; }
-  .explore-cta-title { font-size: 1.25rem; }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    GUIDE PAGE TEMPLATE
@@ -3339,28 +3359,6 @@ body.overlay-open { overflow: hidden; }
 .insight-text { font-size: 0.88rem; color: #d0ccC4; line-height: 1.6; }
 .insight-text strong { color: var(--white); }
 
-@media (max-width: 640px) {
-  .page-guide .picks-grid { grid-template-columns: 1fr; }
-  .insights-grid { grid-template-columns: 1fr; }
-
-  /* Fix guide bar table overlap on mobile — keep buy/site links and the
-     expand hint visible, just let them wrap onto their own line instead
-     of overlapping the bar name. */
-  .page-guide .bar-table-wrap table { table-layout: auto; }
-  .page-guide .bar-name-cell { min-width: 0; max-width: none; word-break: break-word; }
-  .page-guide .bar-name-cell > div:last-child {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 10px;
-    margin-top: 6px;
-  }
-  .page-guide .buy-btn,
-  .page-guide .bar-link-site,
-  .page-guide .expand-hint {
-    margin-left: 0 !important;
-  }
-}
 
 /* ── Missing brand page classes ─────────────────────────────── */
 .bar-name-cell {
@@ -3481,11 +3479,6 @@ body.overlay-open { overflow: hidden; }
 }
 .cta-btn:hover { opacity: 0.9; }
 
-@media (max-width: 640px) {
-  .verdict-inner { grid-template-columns: 1fr; }
-  .score-grid { grid-template-columns: 1fr 1fr; }
-  .hero-stats { gap: 1.5rem; }
-}
 
 /* ── Guide page bar card classes (missing from style.css) ─── */
 .bar-rank {
@@ -3547,8 +3540,6 @@ body.overlay-open { overflow: hidden; }
 .show-more-btn { font-family: var(--font-mono); font-size: 11px; padding: 8px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: transparent; cursor: pointer; color: var(--black); }
 .show-more-btn:hover { background: var(--off-white); }
 
-@media (max-width: 640px) {
-}
 .grade-label {
   font-family: var(--font-mono);
   font-size: 9px;
@@ -3823,10 +3814,6 @@ body.overlay-open { overflow: hidden; }
 .vs-stat-label { font-family: var(--bs-font-body); font-size: .82rem; color: var(--bs-text-dim); }
 .vs-stat-val { font-family: var(--bs-font-data); font-size: .88rem; font-weight: 500; color: var(--bs-ink); }
 .vs-divider { display: flex; align-items: center; justify-content: center; font-family: var(--bs-font-display); font-size: 1.5rem; font-weight: 800; color: var(--bs-text-dim); padding-top: 1rem; }
-@media (max-width: 640px) {
-  .vs-scorecard { grid-template-columns: 1fr; }
-  .vs-divider { display: none; }
-}
 
 /* Comparison table */
 .compare-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: .88rem; table-layout: fixed; }
@@ -3846,7 +3833,13 @@ body.overlay-open { overflow: hidden; }
 
 /* Grade distribution side by side */
 .vs-grade-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.25rem; }
-@media (max-width: 580px) { .vs-grade-pair { grid-template-columns: 1fr; } }
+@media (max-width: 580px) {
+.vs-grade-pair { grid-template-columns: 1fr; }
+
+.vs-best-pair { grid-template-columns: 1fr; }
+
+.vs-buy-pair { grid-template-columns: 1fr; }
+}
 .vs-grade-block-label { font-family: var(--bs-font-body); font-size: .85rem; font-weight: 700; margin-bottom: .6rem; }
 .vs-grade-block-label.brand-a { color: var(--brand-a); }
 .vs-grade-block-label.brand-b { color: var(--brand-b); }
@@ -3855,7 +3848,6 @@ body.overlay-open { overflow: hidden; }
 
 /* Best flavor cards */
 .vs-best-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.25rem; }
-@media (max-width: 580px) { .vs-best-pair { grid-template-columns: 1fr; } }
 .vs-best-card { background: var(--bs-cream); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); padding: 1.1rem 1.1rem .9rem; }
 .vs-best-card.brand-a { border-top: 3px solid var(--brand-a); }
 .vs-best-card.brand-b { border-top: 3px solid var(--brand-b); }
@@ -3873,7 +3865,6 @@ body.overlay-open { overflow: hidden; }
 
 /* Who should buy */
 .vs-buy-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.25rem; }
-@media (max-width: 580px) { .vs-buy-pair { grid-template-columns: 1fr; } }
 .vs-buy-card { background: var(--bs-paper); border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); padding: 1.25rem; }
 .vs-buy-card.brand-a { border-left: 4px solid var(--brand-a); }
 .vs-buy-card.brand-b { border-left: 4px solid var(--brand-b); }
