@@ -4258,6 +4258,7 @@ body.overlay-open { overflow: hidden; }
 .brand-v1 .chip-freq-fill { background: var(--bs-ink); }
 .brand-v1 .chip-freq-pct { font-family: var(--bs-font-data) !important; color: var(--bs-text-dim); }
 .brand-v1 .bchip { font-family: var(--bs-font-body); }
+.brand-v1 .bw-chip-none { font-family: var(--bs-font-body); }
 
 /* Explore CTA (dark tile) */
 .brand-v1 .explore-cta-inner { background: var(--bs-ink) !important; }
