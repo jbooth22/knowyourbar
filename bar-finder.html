@@ -39,28 +39,13 @@
       line-height: 1.5;
     }
   </style>
-  <!-- Google tag (gtag.js) - deferred until first user interaction -->
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
   <script>
-    (function () {
-      var GA_ID = 'G-SW4MNP5W7J';
-      var loaded = false;
-      function loadGA() {
-        if (loaded) return;
-        loaded = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', GA_ID);
-      }
-      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (evt) {
-        window.addEventListener(evt, loadGA, { once: true, passive: true });
-      });
-    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
   </script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
@@ -320,7 +305,7 @@
       <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
     </nav>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated August 2026</div>
 </footer>
 
   <script src="bars.js"></script>

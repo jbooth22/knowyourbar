@@ -25,27 +25,13 @@
 
   <link rel="stylesheet" href="style.css">
 
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
   <script>
-    (function () {
-      var GA_ID = 'G-SW4MNP5W7J';
-      var loaded = false;
-      function loadGA() {
-        if (loaded) return;
-        loaded = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', GA_ID);
-      }
-      ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (evt) {
-        window.addEventListener(evt, loadGA, { once: true, passive: true });
-      });
-    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
   </script>
 
   <script type="application/ld+json">
@@ -696,7 +682,7 @@
 
     <div class="faq-item">
       <h3 class="faq-q">What is the healthiest protein bar?</h3>
-      <div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. RXBAR and Perfect Bar are the most consistent larger brands, every flavor in each lineup scores B or higher. A few smaller names do too, Gryp is one worth knowing before it shows up in stores. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to <a href="/?preset=clean">Grade A bars using the Protein Bar Finder</a>.</p></div>
+      <div class="faq-a"><p>There is no single healthiest protein bar because it depends on your goals. RXBAR and Perfect Bar are the most consistent larger brands, every flavor in each lineup scores B or higher. A few smaller names do too, Gryp is one worth knowing before it shows up in stores. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to <a href="/bar-finder.html?preset=clean">Grade A bars using the Protein Bar Finder</a>.</p></div>
     </div>
     <div class="faq-item">
       <h3 class="faq-q">What protein bar has the cleanest ingredients?</h3>
@@ -763,7 +749,7 @@
         <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
       </div>
     </div>
-    <div class="home-footer-copy">knowyourbar.com &middot; Updated May 2026</div>
+    <div class="home-footer-copy">knowyourbar.com &middot; Updated August 2026</div>
   </div>
 </footer>
 
