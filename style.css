@@ -4209,3 +4209,128 @@ table.brand-table tr:hover td { background: var(--off-white); }
    each chip independently instead of exclusive single-select. */
 .gd-chip[aria-pressed="true"] { background: var(--black); border-color: var(--black); color: var(--white); }
 .brand-v1 .gd-chip[aria-pressed="true"] { background: var(--bs-ink); border-color: var(--bs-ink); color: var(--bs-paper); }
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE ADDITIONS — 2026-08-15 round 3 (Jeff feedback pass 2)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Pick tile: flex column so the button row pins to the bottom of
+   every card regardless of how much reason text sits above it, and
+   a real content hierarchy so category / brand / flavor read as
+   three distinct things instead of blending into one line. */
+.top-picks-6 .pick-tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.pick-tile-body { flex: 1; }
+.pick-tile-category {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.pick-tile-brand {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--black);
+  margin-bottom: 2px;
+}
+.pick-tile-flavor-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.pick-tile-reason {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--black);
+  margin: 0;
+}
+.pick-tile-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.pick-tile-quality {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.pick-tile-quality-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.pick-tile-quality-word {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--black);
+}
+.brand-v1 .pick-tile-category { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .pick-tile-brand { font-family: var(--bs-font-display); color: var(--bs-ink); }
+.brand-v1 .pick-tile-flavor-name { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .pick-tile-reason { color: var(--bs-ink); }
+.brand-v1 .pick-tile-footer { border-top-color: var(--bs-ink); }
+.brand-v1 .pick-tile-quality-label { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .pick-tile-quality-word { font-family: var(--bs-font-body); color: var(--bs-ink); }
+
+/* Oil explainer cards: push the label and count further apart from
+   the old score-card treatment and make room for a % alongside the
+   raw count. */
+.brand-v1 .score-card-label { font-size: 13px !important; }
+.oil-card-pct {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--black);
+  background: var(--accent);
+  padding: 1px 7px;
+  border-radius: 100px;
+  margin-left: 6px;
+}
+.brand-v1 .oil-card-pct { font-family: var(--bs-font-body); background: var(--bs-ink); color: var(--bs-paper); }
+
+/* Brand-jump links: force-reset default browser button chrome.
+   Without an explicit appearance reset, Safari in particular renders
+   a <button> with its own gray gradient box regardless of the other
+   background/border overrides already set. */
+.brand-jump {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-shadow: none;
+}
+
+/* Brand table block spacing + larger, clearer section titles. The
+   old .brand-table-label (13px) read as another small system tag;
+   these are real section headers within the Brands section and
+   should look like it. */
+.brand-table-block { margin-top: 2.5rem; }
+.brand-table-block:first-of-type { margin-top: 1.5rem; }
+.brand-table-label {
+  font-family: var(--font-display) !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  margin-bottom: 0.75rem !important;
+  border-left-width: 4px !important;
+  padding-left: 12px !important;
+}
+.brand-table-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: -0.4rem 0 0.75rem 12px;
+}
+.brand-v1 .brand-table-label { font-family: var(--bs-font-display) !important; color: var(--bs-ink); }
+.brand-v1 .brand-table-note { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.grade-range-sep { font-family: var(--font-body); font-weight: 700; color: var(--muted); margin: 0 2px; }

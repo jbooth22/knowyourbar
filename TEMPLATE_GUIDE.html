@@ -4,17 +4,73 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: 2026-08-15 (rev 4 — typography root-cause fix,
-       6-tile picks, full oil/factor breakdown, brand tables with
-       jump-to-filter links, multi-select grade chips, FAQ accordion
-       fix, title/H1 rewrite)
+       Last updated: 2026-08-15 (rev 5 — pick tile hierarchy + button
+       fix, oil card % highlight, featured-brand callout rule, brand
+       table header/range clarity, bar table ranking copy)
 
        STATUS: this is the locked standard as of the no-seed-oils.html
-       rebuild (2026-08-14 through 2026-08-15). Every guide page should
-       be brought up to this standard — see BRIEFING.md "Known issues"
-       for the rebuild queue. Treat any older live guide page as a
-       reference for content only, never for markup or CSS pattern
-       (same rule as TEMPLATE_BRAND.html).
+       rebuild (2026-08-14 through 2026-08-15, three feedback passes).
+       Every guide page should be brought up to this standard — see
+       BRIEFING.md "Known issues" for the rebuild queue. Treat any
+       older live guide page as a reference for content only, never
+       for markup or CSS pattern (same rule as TEMPLATE_BRAND.html).
+
+       WHY REV 5 CHANGED FROM REV 4
+       ──────────────────────────────
+       Rev 4 fixed label size/weight/tracking, which was a real bug,
+       but "the labels are still small and AI-looking" feedback
+       persisted into rev 5 even with correct computed CSS. The actual
+       remaining issue wasn't the labels in isolation — it was that
+       category label, brand name, and flavor name all sat at similar
+       visual weight with nothing to separate them, so a reader's eye
+       couldn't tell them apart at a glance even though each one was
+       individually legible. Rev 5's fix is a real hierarchy, not a
+       bigger label: category label small and muted (it's metadata),
+       brand name large and bold (it's the headline), flavor name
+       medium and muted (it's a subtitle). Keep this principle in mind
+       generally -- "make the font bigger" is often not the fix when
+       the real problem is that several different kinds of text don't
+       look different from each other.
+
+       Also found and fixed in rev 5: the pick tiles were using an
+       OLD button class (.bar-link-amz / .bar-link-site -- 10px mono
+       font) while the main bar table already used a correct, current
+       one (.amazon-link / .visit-link -- 12px DM Sans, 2px border).
+       Two button styles for the same action existed side by side on
+       the same page. Always check whether a "these buttons look off"
+       complaint is actually two different button classes disagreeing
+       with each other before restyling either one -- grep for both
+       class names across the page first.
+
+       Also: if a "weird gray box" complaint doesn't match what you
+       see in your own Chromium screenshot, consider a Safari-specific
+       default. Safari renders unstyled <button> elements with its own
+       chrome regardless of background/border CSS unless appearance is
+       explicitly reset (appearance: none; -webkit-appearance: none;).
+       Any interactive element built from a real <button> tag (not an
+       <a>) needs this reset as standard practice on this site now.
+
+       ALSO NEW IN REV 5
+       ────────────────────
+       - Oil/factor explainer cards show a % of the full database next
+         to the raw count, not just the raw count. See CATEGORY
+         EXPLAINER below.
+       - Prose callouts (findings insight, FAQ "what has X") that
+         single out one specific worst-case brand should use a
+         recognizable, popular brand, not whichever brand happens to
+         have the statistically highest raw count if that brand is
+         obscure. See FINDINGS SECTION below for the featured-brand
+         pattern.
+       - Brand table "Grade" column shows a real range (e.g. "A-B"),
+         computed from min/max grade letter across the relevant flavor
+         set -- not a single dominant/mode grade, which reads as more
+         precise than it is. Column headers spell out what they mean
+         ("Ingredient Quality Grade," "Flavors with Seed Oils") rather
+         than a bare word like "Grade" or "Disqualified." See BRAND
+         LISTS below.
+       - Bar table section intro states what the default rank is
+         (ingredient quality) and that it's changeable via the sort
+         dropdown, rather than just saying "ranked."
 
        WHY REV 4 CHANGED FROM REV 3
        ──────────────────────────────
@@ -145,6 +201,47 @@
        .pick-tile-grid alone auto-fits and won't reliably land as 2
        clean rows of 3.
 
+       Each tile is flex-column (.pick-tile-body flex:1, .pick-tile-
+       footer pinned below it) so the button row aligns at the bottom
+       of every card in a row regardless of how long that card's
+       reason text is — don't let cards in the same row have buttons
+       floating at different heights.
+
+       Content hierarchy inside each tile, in order, each visually
+       distinct from the others (size/weight/color, not just size):
+         .pick-tile-category  — small, muted, bold (metadata: what
+                                 goal this pick serves)
+         .pick-tile-brand     — large, bold, Barlow Condensed (the
+                                 headline — this is what the reader
+                                 should see first)
+         .pick-tile-flavor-name — medium, muted (a subtitle to the
+                                 brand, not equal weight with it)
+         .pick-tile-reason    — the reasoning paragraph
+         .pick-tile-footer    — a bordered-off block containing:
+           .pick-tile-quality — "Ingredient Quality" label + grade
+                                 badge + grade word (e.g. "Clean"),
+                                 never a bare grade letter with no
+                                 label — see @@PICK_N_GRADE_WORD@@
+           buy buttons (.amazon-link / .visit-link — see BUTTONS
+                                 note below)
+       If a future round of feedback says these labels are "still
+       small / still AI," check whether the underlying complaint is
+       actually about hierarchy (nothing visually separates from
+       nothing else) rather than the label's own size — bumping a
+       label's font size in isolation didn't fix this the first time
+       it came up.
+
+       BUTTONS: use .amazon-link and .visit-link (defined in
+       style.css, DM Sans, 12px, 600 weight, 2px border on visit-
+       link) — NOT .bar-link-amz / .bar-link-site, which is an older
+       10px mono-font button class that predates the brand-v1 pass.
+       Both class pairs exist in style.css; only the first is current.
+       This mismatch is exactly what caused the pick tiles' buttons to
+       look inconsistent with the main bar table's buttons in an
+       earlier draft of this page — if a future "buttons look off"
+       complaint comes in, check for duplicate/legacy button classes
+       before restyling anything.
+
        Six is the standard count, chosen to balance into 2 full rows.
        Suggested categories (swap in/out based on what the guide's
        criteria actually supports): Best Overall, Best Protein/Calorie
@@ -174,6 +271,7 @@
 
        @@PICK_N_LABEL@@   Situational label (e.g. "Best for cutting")
        @@PICK_N_GRADE@@   A / B / C / D
+       @@PICK_N_GRADE_WORD@@  The bar's own score_band_label (e.g. "Clean", "Good") — pull from data, never invent
        @@PICK_N_BRAND@@ / @@PICK_N_FLAVOR@@
        @@PICK_N_REASON@@  1-2 sentences, real numbers, tradeoffs included where real, no filler
        @@PICK_N_AMAZON_URL@@ / @@PICK_N_SITE_URL@@   Omit either button if bars.js has no value
@@ -184,12 +282,15 @@
        ingredients or factors (seed oils, artificial sweeteners, sugar
        alcohols, etc.), the explainer cards below the intro paragraph
        should list EVERY item in the screen, not just the top 3-4. Each
-       card gets the real count of bars containing it and a short,
-       concrete note on where it usually hides (a coating, a crisp
-       layer, a moisture retainer) — this is the single most useful
-       reference block on the page and it should be complete, not a
-       highlight reel. .score-grid already wraps to as many rows as
-       needed, so there's no layout reason to truncate the list.
+       card gets the real count of bars containing it AND that count's
+       percentage of the full database (.oil-card-pct, or equivalent —
+       the raw count alone doesn't tell a reader how big a deal it is)
+       plus a short, concrete note on where it usually hides (a
+       coating, a crisp layer, a moisture retainer) — this is the
+       single most useful reference block on the page and it should be
+       complete, not a highlight reel. .score-grid already wraps to as
+       many rows as needed, so there's no layout reason to truncate
+       the list.
 
        FINDINGS SECTION
        ────────────────
@@ -215,7 +316,18 @@
          found only 2% of bars containing its top oil listed it as a
          trace amount) that's worth leading with.
        - A specific worst-offender brand with its real numbers and the
-         specific ingredient(s) driving it.
+         specific ingredient(s) driving it. Pick a brand a typical
+         reader would recognize, not just whichever brand happens to
+         have the statistically highest raw disqualified count — the
+         no-seed-oils.html rebuild initially led with Wonderslim
+         (accurate, but an obscure brand few readers have heard of)
+         before swapping to Barebells for the same insight with the
+         same underlying honesty. Build a FEATURED_AVOID (or
+         equivalent) variable that searches your ranked list for a
+         known recognizable name first, falling back to the top
+         statistical result only if none of your recognizable
+         candidates qualify — don't hardcode a brand name that might
+         not exist in a future database refresh.
        - A whole-category observation (which kind of brand dominates
          the qualifying pool and why, in ingredient terms).
 
@@ -227,15 +339,33 @@
        reflect ingredient quality only, same disclaimer as the top
        picks section.
 
-       Standard columns, consistent across all three tables so a reader
-       can compare at a glance:
-         Brand | Flavors (qualify/total, or disqualified/total for the
-         Avoid table) | Grade (a single letter — dominant/most common
-         grade among the relevant flavor set, not a score) | Avg
-         Protein | Avg Sugar (or Avg Fiber if more relevant to the
-         guide's criteria) | Note (one short ingredient-overview phrase
-         for Target/Mixed, or the specific oil/ingredient(s) found for
-         Avoid)
+       Standard columns, consistent in spirit (exact header wording
+       varies per table since each needs to say what it's counting):
+         Brand | flavor count column (see note below on wording) |
+         Ingredient Quality Grade (a real range, e.g. "A-B", computed
+         from min/max grade letter across the relevant flavor set —
+         grade letters already sort correctly alphabetically so
+         min()/max() gives the true range with no extra mapping; a
+         single dominant/mode letter reads as more precise than the
+         data actually is, don't use it) | Avg Protein | Avg Sugar (or
+         Avg Fiber if more relevant to the guide's criteria) | Note
+         (one short ingredient-overview phrase for Target/Mixed, or
+         the specific oil/ingredient(s) found for Avoid)
+
+       Column headers must say what they mean, not just "Grade" or
+       "Disqualified" — spell it out: "Ingredient Quality Grade,"
+       "Flavors with Seed Oils," "Flavors without Seed Oils." A header
+       that needs the surrounding context to be understood is a header
+       that needs rewriting. Add one line under each table's title
+       stating its plain-English meaning too (.brand-table-note).
+
+       The flavor-count column's format depends on whether the ratio
+       is actually informative for that table: the Consider table's
+       brands are, by construction, ~100% qualifying — showing "15/15"
+       is a redundant ratio when it's always X/X, so just show the
+       total ("15") under a header like "Total Flavors." The Avoid and
+       Mixed tables' ratios are genuinely informative (not always X/X)
+       and should keep the fraction format.
 
        NEVER show an average ingredient score anywhere in this guide.
        A "10.2" or "13.6" means nothing to a reader without our scoring
@@ -260,6 +390,12 @@
          Mixed threshold — don't let the same brand show up in two
          tables that contradict each other.
 
+       Give real spacing between the three table blocks (.brand-table-
+       block margin-top ~2.5rem) and a real section-header-sized title
+       per table (.brand-table-label, 22px Barlow Condensed) — at 13px
+       these read as just another small system label and the three
+       tables run together visually.
+
        Brand name is a real <button class="brand-jump" data-brand="...">,
        not plain text and not a link to bar-finder.html. Clicking it
        scrolls to the bar table below, clears any active grade filter,
@@ -273,8 +409,23 @@
        search. Keep it this way unless there's a specific reason a
        given guide needs to link out to bar-finder.html instead.
 
+       The .brand-jump CSS includes an explicit appearance reset
+       (appearance: none; -webkit-appearance: none;) — don't drop this
+       when reusing the class. Without it, Safari renders its own gray
+       default button chrome regardless of the background/border rules
+       set elsewhere, which reads as "weird box" styling that doesn't
+       show up in a Chromium-based screenshot during QA.
+
        BAR TABLE
        ─────────
+       State what the default rank is and that it's changeable, right
+       in the section intro — "N bars, ranked" on its own doesn't tell
+       a reader what they're ranked BY or that they can change it.
+       Pattern: "N bars ranked by ingredient quality" as the H2, and a
+       body line naming the sort dropdown and grade filter explicitly
+       ("Use the sort dropdown to re-rank by protein, calories, or
+       sugar instead, or filter by grade").
+
        Rows are hybrid, not uniformly rich. Rendering full brand-page-
        richness expand markup (macro-rank-grid, nutrition panel, score-
        tile, ingredient columns) for every qualifying bar up front means
@@ -577,15 +728,27 @@
 
         <!-- PICK TILE PATTERN — copy per pick, 6 total. No decimals
              (14g not 14.0g). Include the tradeoff in the reason text
-             where there's a real one, not just the strengths. -->
+             where there's a real one, not just the strengths. Uses
+             .amazon-link / .visit-link for buttons — NOT
+             .bar-link-amz / .bar-link-site, see "BUTTONS" note above. -->
         <div class="macro-card pick-tile">
-          <div class="macro-label">@@PICK_1_LABEL@@</div>
-          <div class="pick-tile-flavor"><span class="table-grade-badge grade-@@PICK_1_GRADE@@" style="margin-right:6px;">@@PICK_1_GRADE@@</span>@@PICK_1_BRAND@@ &middot; @@PICK_1_FLAVOR@@</div>
-          <p>@@PICK_1_REASON@@</p>
-          <div class="bar-links" style="margin-top:0.65rem;">
-            <a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Shop on Amazon</a>
-            <a href="@@PICK_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Shop on Brand Site</a>
-            <!-- drop either link entirely if bars.js has no value, never fabricate -->
+          <div class="pick-tile-body">
+            <div class="pick-tile-category">@@PICK_1_LABEL@@</div>
+            <div class="pick-tile-brand">@@PICK_1_BRAND@@</div>
+            <div class="pick-tile-flavor-name">@@PICK_1_FLAVOR@@</div>
+            <p class="pick-tile-reason">@@PICK_1_REASON@@</p>
+          </div>
+          <div class="pick-tile-footer">
+            <div class="pick-tile-quality">
+              <span class="pick-tile-quality-label">Ingredient Quality</span>
+              <span class="table-grade-badge grade-@@PICK_1_GRADE@@">@@PICK_1_GRADE@@</span>
+              <span class="pick-tile-quality-word">@@PICK_1_GRADE_WORD@@</span>
+            </div>
+            <div class="bar-links">
+              <a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
+              <a href="@@PICK_1_SITE_URL@@" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
+              <!-- drop either link entirely if bars.js has no value, never fabricate -->
+            </div>
           </div>
         </div>
         <!-- END PICK TILE PATTERN -->
@@ -652,21 +815,26 @@
     <div class="section-inner">
       <h2 class="section-title">@@BRAND_LISTS_TITLE@@</h2>
       <div class="section-body">
-        <p>@@BRAND_LISTS_INTRO@@ Grades reflect ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.</p>
+        <p>@@BRAND_LISTS_INTRO@@ Grade columns show ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.</p>
       </div>
 
-      <!-- CONSIDER TABLE -->
+      <!-- CONSIDER TABLE — flavor count is a bare total, not a ratio,
+           since this table's brands are ~100% qualifying by
+           construction (always X/X, so the ratio is redundant). -->
       <div class="brand-table-block">
         <div class="brand-table-label pro">Brands to Consider</div>
+        <div class="brand-table-note">Every flavor from these brands is free of @@GUIDE_EYEBROW@@.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Flavors</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Note</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Total Flavors</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Note</th></tr></thead>
             <tbody>
-              <!-- one row per brand, as many as the data supports -->
+              <!-- one row per brand, as many as the data supports. Grade
+                   cell uses grade_range_html() — a real "A-B" range, not
+                   a single dominant letter. -->
               <tr>
                 <td><button type="button" class="brand-jump" data-brand="@@TARGET_BRAND_1@@">@@TARGET_BRAND_1@@</button></td>
-                <td>@@TARGET_BRAND_1_QUAL@@/@@TARGET_BRAND_1_TOTAL@@</td>
-                <td><span class="table-grade-badge grade-@@TARGET_BRAND_1_GRADE@@">@@TARGET_BRAND_1_GRADE@@</span></td>
+                <td>@@TARGET_BRAND_1_TOTAL@@</td>
+                <td>@@TARGET_BRAND_1_GRADE_RANGE_HTML@@</td>
                 <td>@@TARGET_BRAND_1_AVG_PROTEIN@@g</td>
                 <td>@@TARGET_BRAND_1_AVG_SUGAR@@g</td>
                 <td>@@TARGET_BRAND_1_NOTE@@</td>
@@ -676,17 +844,19 @@
         </div>
       </div>
 
-      <!-- AVOID TABLE -->
+      <!-- AVOID TABLE — ratio format kept since it's genuinely
+           informative here (not always X/X). -->
       <div class="brand-table-block">
         <div class="brand-table-label con">Brands to Avoid</div>
+        <div class="brand-table-note">These brands lean on @@GUIDE_EYEBROW@@ across most or all of their lineup.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Disqualified</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Oils/Ingredients Found</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors with @@FACTOR_PLURAL@@</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>@@FACTOR_PLURAL@@ Found</th></tr></thead>
             <tbody>
               <tr>
                 <td><button type="button" class="brand-jump" data-brand="@@AVOID_BRAND_1@@">@@AVOID_BRAND_1@@</button></td>
                 <td>@@AVOID_BRAND_1_DISQUAL@@/@@AVOID_BRAND_1_TOTAL@@</td>
-                <td><span class="table-grade-badge grade-@@AVOID_BRAND_1_GRADE@@">@@AVOID_BRAND_1_GRADE@@</span></td>
+                <td>@@AVOID_BRAND_1_GRADE_RANGE_HTML@@</td>
                 <td>@@AVOID_BRAND_1_AVG_PROTEIN@@g</td>
                 <td>@@AVOID_BRAND_1_AVG_SUGAR@@g</td>
                 <td>@@AVOID_BRAND_1_CULPRITS@@</td>
@@ -701,14 +871,15 @@
            criteria doesn't produce real splits. -->
       <div class="brand-table-block">
         <div class="brand-table-label mixed">Mixed Lineups, Check the Flavor</div>
+        <div class="brand-table-note">Some flavors qualify, some don't. Check the specific flavor before buying.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Qualify</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Clean Pick</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors without @@FACTOR_PLURAL@@</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Clean Pick</th></tr></thead>
             <tbody>
               <tr>
                 <td><button type="button" class="brand-jump" data-brand="@@MIXED_BRAND_1@@">@@MIXED_BRAND_1@@</button></td>
                 <td>@@MIXED_BRAND_1_QUAL@@/@@MIXED_BRAND_1_TOTAL@@</td>
-                <td><span class="table-grade-badge grade-@@MIXED_BRAND_1_BEST_GRADE@@">@@MIXED_BRAND_1_BEST_GRADE@@</span></td>
+                <td>@@MIXED_BRAND_1_GRADE_RANGE_HTML@@</td>
                 <td>@@MIXED_BRAND_1_AVG_PROTEIN@@g</td>
                 <td>@@MIXED_BRAND_1_AVG_SUGAR@@g</td>
                 <td>@@MIXED_BRAND_1_BEST_FLAVOR@@ is the clean pick</td>
@@ -734,8 +905,8 @@
        ─────────────────────────────────────────────────────────── -->
   <section class="bars-section">
     <div class="bars-section-inner">
-      <h2 class="section-title">@@BARS_QUALIFY@@ bars @@GUIDE_TABLE_SUBTITLE@@, ranked</h2>
-      <p class="section-body">@@BAR_TABLE_INTRO@@</p>
+      <h2 class="section-title">@@BARS_QUALIFY@@ bars @@GUIDE_TABLE_SUBTITLE@@, ranked by ingredient quality</h2>
+      <p class="section-body">@@BAR_TABLE_INTRO@@ Use the sort dropdown to re-rank by protein, calories, or sugar instead, or filter by grade.</p>
 
       <!-- Filter/sort bar — omit if qualifying set is small. Chips are
            multi-select (aria-pressed per chip, not a single .active
