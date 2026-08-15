@@ -4154,12 +4154,27 @@ table.brand-table th {
   font-weight: 700;
   font-size: 11.5px;
   color: var(--black);
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 1.3;
 }
 table.brand-table td {
   padding: 9px 12px;
   border-bottom: 1px solid var(--border);
   font-family: var(--font-body);
   vertical-align: middle;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+@media (min-width: 701px) {
+  table.brand-table { table-layout: fixed; }
+  table.brand-table th:nth-child(1), table.brand-table td:nth-child(1) { width: 19%; }
+  table.brand-table th:nth-child(2), table.brand-table td:nth-child(2) { width: 12%; }
+  table.brand-table th:nth-child(3), table.brand-table td:nth-child(3) { width: 14%; }
+  table.brand-table th:nth-child(4), table.brand-table td:nth-child(4) { width: 12%; }
+  table.brand-table th:nth-child(5), table.brand-table td:nth-child(5) { width: 12%; }
+  table.brand-table th:nth-child(6), table.brand-table td:nth-child(6) { width: 31%; }
 }
 table.brand-table tr:last-child td { border-bottom: none; }
 table.brand-table tr:hover td { background: var(--off-white); }
@@ -4334,3 +4349,58 @@ table.brand-table tr:hover td { background: var(--off-white); }
 .brand-v1 .brand-table-label { font-family: var(--bs-font-display) !important; color: var(--bs-ink); }
 .brand-v1 .brand-table-note { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
 .grade-range-sep { font-family: var(--font-body); font-weight: 700; color: var(--muted); margin: 0 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE ADDITIONS — 2026-08-15 round 4 (Jeff feedback pass 3)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Plain (non-clickable) brand name for the Avoid table -- these
+   brands have zero (or near-zero) qualifying flavors, so a
+   jump-to-filter link would land on an empty result set. Visually
+   matches .brand-jump's weight/color minus the underline/cursor. */
+.brand-name-static {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--black);
+}
+.brand-v1 .brand-name-static { font-family: var(--bs-font-body); color: var(--bs-ink); }
+
+/* Search box clear (×) button */
+.gd-search-wrap { position: relative; display: inline-flex; }
+.gd-search-wrap .gd-search { padding-right: 28px; }
+.gd-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.gd-search-clear:hover { color: var(--black); }
+.gd-search-wrap.has-value .gd-search-clear { display: flex; }
+.brand-v1 .gd-search-clear:hover { color: var(--bs-ink); }
+
+/* Findings section: tone down the accent-lime bullet dot to a
+   neutral cream so it doesn't read as an unrelated color choice
+   dropped into an otherwise light-toned guide, and align its card
+   radius/border treatment with the rest of the page's card family
+   (score-card, verdict-card, macro-card all use --radius-lg /
+   1px border already -- insight-item was slightly different). */
+.insight-dot { background: #d8d2c2; }
+.brand-v1 .insight-dot { background: #d8d2c2 !important; }
+.insight-item {
+  border-radius: var(--radius-lg);
+  border-color: rgba(255,255,255,0.12);
+}
+.big-stat { border-radius: var(--radius-lg); }

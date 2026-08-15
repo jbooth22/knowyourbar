@@ -4,16 +4,48 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: 2026-08-15 (rev 5 — pick tile hierarchy + button
-       fix, oil card % highlight, featured-brand callout rule, brand
-       table header/range clarity, bar table ranking copy)
+       Last updated: 2026-08-15 (rev 6 — brand table overflow fix,
+       ratio/link consistency, search clear button, findings-dot color
+       bug)
 
        STATUS: this is the locked standard as of the no-seed-oils.html
-       rebuild (2026-08-14 through 2026-08-15, three feedback passes).
+       rebuild (2026-08-14 through 2026-08-15, four feedback passes).
        Every guide page should be brought up to this standard — see
        BRIEFING.md "Known issues" for the rebuild queue. Treat any
        older live guide page as a reference for content only, never
        for markup or CSS pattern (same rule as TEMPLATE_BRAND.html).
+
+       WHY REV 6 CHANGED FROM REV 5
+       ──────────────────────────────
+       Real bug found this round: a pre-existing .brand-v1 .insight-
+       dot rule (background: #e0a238, an amber/orange) was silently
+       overriding the plain .insight-dot color -- it had higher
+       specificity and nothing in this template's own CSS beat it.
+       This is why the findings-section bullet dots kept reading as
+       an unrelated "weird" accent color no matter what got changed
+       elsewhere on the page. LESSON: before assuming a color/style
+       fix didn't take effect, grep the WHOLE of style.css for every
+       rule targeting that selector (including .brand-v1-prefixed
+       versions), not just the base rule you last touched -- a higher-
+       specificity override sitting somewhere else in the file will
+       silently win. This selector happened to be guide-page-only
+       (brand pages don't use .findings), so tightening it was safe
+       with no cross-page impact; verify that before doing the same
+       elsewhere.
+
+       Also this round: brand tables were overflowing into horizontal
+       scroll on desktop. Root cause was default table-layout: auto,
+       which lets the browser stretch column width to fit unwrapped
+       content rather than wrapping it -- there was no bug in the
+       wrapping CSS itself, wrapping was never actually engaged.
+       Fixed with table-layout: fixed + explicit per-column % widths,
+       scoped to a min-width: 701px media query. IMPORTANT: fixed
+       layout + narrow mobile viewport width causes ugly mid-word
+       character breaking (a 6-column table has no room per column
+       below ~400px) -- don't apply table-layout: fixed unconditionally.
+       Mobile keeps the default auto layout and relies on the existing
+       .table-scroll horizontal-scroll wrapper, same pattern the main
+       bar table already uses on mobile. See BRAND LISTS below.
 
        WHY REV 5 CHANGED FROM REV 4
        ──────────────────────────────
@@ -65,7 +97,7 @@
          computed from min/max grade letter across the relevant flavor
          set -- not a single dominant/mode grade, which reads as more
          precise than it is. Column headers spell out what they mean
-         ("Ingredient Quality Grade," "Flavors with Seed Oils") rather
+         ("Ingredient Quality," "Flavors with Seed Oils") rather
          than a bare word like "Grade" or "Disqualified." See BRAND
          LISTS below.
        - Bar table section intro states what the default rank is
@@ -360,12 +392,18 @@
        stating its plain-English meaning too (.brand-table-note).
 
        The flavor-count column's format depends on whether the ratio
-       is actually informative for that table: the Consider table's
-       brands are, by construction, ~100% qualifying — showing "15/15"
-       is a redundant ratio when it's always X/X, so just show the
-       total ("15") under a header like "Total Flavors." The Avoid and
-       Mixed tables' ratios are genuinely informative (not always X/X)
-       and should keep the fraction format.
+       is structurally meaningful for that table. The Consider table's
+       brands are, by construction, ~100% qualifying — every row would
+       read "X/X," so just show the total ("15") under a header like
+       "Total Flavors" instead of a redundant self-equal ratio. The
+       Avoid and Mixed tables' ratios are genuinely informative (some
+       rows are X/X, some aren't), so ALWAYS show the fraction there —
+       including the rows that happen to be X/X. Don't special-case a
+       bare number for equal values within the same table; a reader
+       scanning down the column needs every row in the same format or
+       the inconsistency itself becomes a distraction (this was a real
+       bug in an earlier draft: some Avoid rows showed "23" and others
+       showed "23/25" depending on whether disqual == total).
 
        NEVER show an average ingredient score anywhere in this guide.
        A "10.2" or "13.6" means nothing to a reader without our scoring
@@ -382,6 +420,13 @@
          (roughly 80%+) AND fewer than ~3 qualifying flavors — i.e. not
          worth a per-flavor callout. Name the specific oil(s)/
          ingredient(s) driving the disqualification in the Note column.
+         Brand name here is PLAIN TEXT (.brand-name-static), not a
+         jump-to-filter link — these brands have zero or near-zero
+         qualifying flavors, so clicking through would land on an
+         empty or near-empty result in the table below, which doesn't
+         make sense to offer as an action. Only Consider and Mixed
+         table brand names are clickable, since those brands always
+         have real qualifying flavors to show.
        - Mixed Lineups (third table): brands with a meaningful
          population on BOTH sides (roughly 3+ qualifying and 3+
          disqualified). Note column names the single best qualifying
@@ -396,7 +441,25 @@
        these read as just another small system label and the three
        tables run together visually.
 
-       Brand name is a real <button class="brand-jump" data-brand="...">,
+       DESKTOP OVERFLOW: use table-layout: fixed with explicit
+       per-column % widths (Brand 19%, count col 12%, Ingredient
+       Quality 14%, Avg Protein 12%, Avg Sugar 12%, last/Note col
+       31%) inside a min-width: 701px media query — NOT applied
+       unconditionally. table-layout: auto (the default) lets the
+       browser stretch the table wider than its container to avoid
+       wrapping "Ingredient Quality" and similar multi-word headers,
+       which is what actually causes the horizontal scroll — the fix
+       is forcing fixed column widths so the browser has no choice but
+       to wrap, not adding any wrapping CSS that wasn't already there.
+       Below 701px, leave table-layout at its default auto and let the
+       existing .table-scroll wrapper handle horizontal scroll, same
+       as the main bar table already does on mobile — fixed layout at
+       narrow mobile widths causes ugly mid-word character breaking
+       since a 6-column table has too little width per column to wrap
+       normally.
+
+       Brand name is a real <button class="brand-jump" data-brand="...">
+       (Consider and Mixed tables only — see Brands to Avoid above),
        not plain text and not a link to bar-finder.html. Clicking it
        scrolls to the bar table below, clears any active grade filter,
        and searches for that brand name — see the jumpToBrand() function
@@ -826,7 +889,7 @@
         <div class="brand-table-note">Every flavor from these brands is free of @@GUIDE_EYEBROW@@.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Total Flavors</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Note</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Total Flavors</th><th>Ingredient Quality</th><th>Avg Protein</th><th>Avg Sugar</th><th>Note</th></tr></thead>
             <tbody>
               <!-- one row per brand, as many as the data supports. Grade
                    cell uses grade_range_html() — a real "A-B" range, not
@@ -851,7 +914,7 @@
         <div class="brand-table-note">These brands lean on @@GUIDE_EYEBROW@@ across most or all of their lineup.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Flavors with @@FACTOR_PLURAL@@</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>@@FACTOR_PLURAL@@ Found</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors with @@FACTOR_PLURAL@@</th><th>Ingredient Quality</th><th>Avg Protein</th><th>Avg Sugar</th><th>@@FACTOR_PLURAL@@ Found</th></tr></thead>
             <tbody>
               <tr>
                 <td><button type="button" class="brand-jump" data-brand="@@AVOID_BRAND_1@@">@@AVOID_BRAND_1@@</button></td>
@@ -874,7 +937,7 @@
         <div class="brand-table-note">Some flavors qualify, some don't. Check the specific flavor before buying.</div>
         <div class="table-scroll">
           <table class="brand-table">
-            <thead><tr><th>Brand</th><th>Flavors without @@FACTOR_PLURAL@@</th><th>Ingredient Quality Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Clean Pick</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors without @@FACTOR_PLURAL@@</th><th>Ingredient Quality</th><th>Avg Protein</th><th>Avg Sugar</th><th>Clean Pick</th></tr></thead>
             <tbody>
               <tr>
                 <td><button type="button" class="brand-jump" data-brand="@@MIXED_BRAND_1@@">@@MIXED_BRAND_1@@</button></td>
