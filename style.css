@@ -4162,7 +4162,7 @@ table.brand-table td {
   padding: 9px 12px;
   border-bottom: 1px solid var(--border);
   font-family: var(--font-body);
-  vertical-align: middle;
+  vertical-align: top;
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -4186,6 +4186,7 @@ table.brand-table tr:hover td { background: var(--off-white); }
   background: none;
   border: none;
   padding: 0;
+  text-align: left;
   text-decoration: underline;
   text-decoration-color: var(--border);
   text-underline-offset: 3px;
@@ -4323,6 +4324,7 @@ table.brand-table tr:hover td { background: var(--off-white); }
   -webkit-appearance: none;
   -moz-appearance: none;
   box-shadow: none;
+  text-align: left;
 }
 
 /* Brand table block spacing + larger, clearer section titles. The
@@ -4404,3 +4406,167 @@ table.brand-table tr:hover td { background: var(--off-white); }
   border-color: rgba(255,255,255,0.12);
 }
 .big-stat { border-radius: var(--radius-lg); }
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE ADDITIONS — 2026-08-15 round 5 (Jeff feedback pass 4)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Oil card "Found in: Brand, Brand, Brand, and N more" line. Native
+   <details>/<summary> for the overflow list -- no JS, fully
+   accessible, and the full brand list stays in the DOM (just
+   visually collapsed) so it's still crawlable for search/AI answer
+   engines even before a reader clicks. */
+.oil-card-brands {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.oil-card-brands-label { font-weight: 700; color: var(--black); }
+.oil-card-more { display: inline; }
+.oil-card-more summary {
+  display: inline;
+  cursor: pointer;
+  color: var(--black);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 2px;
+  list-style: none;
+}
+.oil-card-more summary::-webkit-details-marker { display: none; }
+.oil-card-more summary:hover { text-decoration-color: var(--black); }
+.oil-card-more[open] summary { margin-right: 4px; }
+.oil-card-more-list { display: inline; }
+.brand-v1 .oil-card-brands { border-top-color: var(--bs-line-soft); color: var(--bs-text-dim); }
+.brand-v1 .oil-card-brands-label,
+.brand-v1 .oil-card-more summary { color: var(--bs-ink); font-family: var(--bs-font-body); }
+
+/* Findings insight cards: headline on its own line, detail text
+   below it, instead of running together as one inline paragraph.
+   Matches the title-then-description pattern already used by
+   score-card / macro-card elsewhere on the page. */
+.insight-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+.insight-item .insight-dot { display: none; }
+.insight-head {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.4;
+}
+.insight-detail { font-size: 0.88rem; color: #d0ccc4; line-height: 1.6; }
+.brand-v1 .insight-head { font-family: var(--bs-font-body); color: var(--bs-paper); }
+.brand-v1 .insight-detail { font-family: var(--bs-font-body); color: #d8d2c2; }
+
+/* Bar Finder primary CTA button -- ported from index.html's
+   .finder-hero-btn (previously only defined inline on the homepage)
+   so it can be reused consistently on guide pages too. */
+.finder-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 1.1rem 2.4rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.finder-cta-btn:hover { opacity: 0.88; }
+.brand-v1 .finder-cta-btn { background: var(--bs-ink); color: var(--bs-paper); border-radius: var(--bs-radius); }
+
+/* Guide-page Bar Finder CTA section wrapper -- deliberately NOT
+   reusing .explore-cta, which is a shared dark-background class also
+   used on brand pages. This is a light/cream card instead, matching
+   the homepage's .finder-hero-section treatment. */
+.guide-finder-cta {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2rem;
+  margin-bottom: 2.5rem;
+}
+.brand-v1 .guide-finder-cta { background: var(--bs-cream); border-color: var(--bs-line-soft); border-radius: var(--bs-radius); }
+
+/* Explore CTA section: two-column -- primary Bar Finder card (left,
+   larger) and a lighter "How We Score" text link + bullets (right). */
+.explore-cta-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+  align-items: start;
+}
+.explore-cta-main-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.explore-cta-main-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--black);
+  margin: 0 0 0.6rem;
+  line-height: 1.15;
+}
+.explore-cta-main-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
+  max-width: 480px;
+}
+.explore-cta-side {
+  border-left: 1px solid var(--border);
+  padding-left: 1.75rem;
+}
+.explore-cta-side-link {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--black);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+.explore-cta-side-link:hover { text-decoration: underline; }
+.explore-cta-side-list { list-style: none; margin: 0; padding: 0; }
+.explore-cta-side-list li {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+.explore-cta-side-list li::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--muted);
+  position: absolute;
+  left: 0; top: 7px;
+}
+.brand-v1 .explore-cta-main-label { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .explore-cta-main-heading { font-family: var(--bs-font-display); color: var(--bs-ink); }
+.brand-v1 .explore-cta-main-desc { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .explore-cta-side { border-left-color: var(--bs-line-soft); }
+.brand-v1 .explore-cta-side-link { font-family: var(--bs-font-display); color: var(--bs-ink); }
+.brand-v1 .explore-cta-side-list li { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+.brand-v1 .explore-cta-side-list li::before { background: var(--bs-text-dim); }
+
+@media (max-width: 700px) {
+  .explore-cta-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .explore-cta-side { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+  .brand-v1 .explore-cta-side { border-top-color: var(--bs-line-soft); }
+}

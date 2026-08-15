@@ -4,16 +4,57 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: 2026-08-15 (rev 6 — brand table overflow fix,
-       ratio/link consistency, search clear button, findings-dot color
-       bug)
+       Last updated: 2026-08-15 (rev 7 — brand-jump text-align bug,
+       oil-brand disclosure lists, findings headline/detail split,
+       Bar Finder CTA redesign)
 
        STATUS: this is the locked standard as of the no-seed-oils.html
-       rebuild (2026-08-14 through 2026-08-15, four feedback passes).
+       rebuild (2026-08-14 through 2026-08-15, five feedback passes).
        Every guide page should be brought up to this standard — see
        BRIEFING.md "Known issues" for the rebuild queue. Treat any
        older live guide page as a reference for content only, never
        for markup or CSS pattern (same rule as TEMPLATE_BRAND.html).
+
+       WHY REV 7 CHANGED FROM REV 6
+       ──────────────────────────────
+       Real bug found this round: .brand-jump is a real <button>, and
+       buttons have a browser-default text-align: center that only
+       becomes visible once the button's text wraps to a second line
+       (a short brand name never revealed it). Fixed with an explicit
+       text-align: left, plus switching the brand table's cell
+       vertical-align from middle to top so a wrapped two-line brand
+       name doesn't throw off row alignment relative to its single-
+       line neighbors. LESSON: any real <button> or <input> element
+       used as a styled link/label needs its text-align set explicitly
+       -- don't assume unstyled browser defaults are neutral, several
+       of them aren't (center-aligned buttons, this round; unreset
+       appearance chrome on Safari, rev 5).
+
+       Three additions this round:
+       - Oil/factor explainer cards now include a "Found in: Brand,
+         Brand, Brand, Brand, and N more" line using a native
+         <details>/<summary> disclosure for the overflow -- no JS,
+         and the full brand list stays in the DOM even collapsed, so
+         it's crawlable by search/AI answer engines either way. See
+         CATEGORY EXPLAINER below.
+       - Findings insight cards split the headline onto its own line
+         above the detail text (.insight-head / .insight-detail)
+         instead of a single run-on "<strong>Headline.</strong> Detail
+         text..." sentence -- reads as a scannable list of distinct
+         findings rather than a wall of similar-weight text, and
+         matches the title-then-description pattern the rest of the
+         page's cards already use. See FINDINGS SECTION below.
+       - The closing CTA section was rebuilt around the homepage's
+         actual Bar Finder button style (.finder-hero-btn, which
+         previously only existed as inline CSS on index.html -- ported
+         into style.css as .finder-cta-btn so it's reusable here and
+         on future guide pages) with a two-column layout: a large
+         primary Bar Finder card on the left, a lighter "How We Score"
+         link with 3 mechanic bullets on the right. This uses a NEW
+         wrapper class, .guide-finder-cta, deliberately NOT the shared
+         .explore-cta class -- that class has a dark background also
+         used on brand pages, and reusing it here would have changed
+         brand pages too. See EXPLORE CTA below.
 
        WHY REV 6 CHANGED FROM REV 5
        ──────────────────────────────
@@ -324,13 +365,40 @@
        many rows as needed, so there's no layout reason to truncate
        the list.
 
+       Add a "Found in: Brand, Brand, Brand, Brand" line under each
+       card's description (.oil-card-brands) — the first 4 unique
+       brands containing that ingredient, comma-separated. If more
+       than 4, add a native <details class="oil-card-more"><summary>
+       and N more</summary>...</details> disclosure with the rest —
+       no JS needed, it's accessible by default, and critically the
+       full list stays in the page's DOM even while visually
+       collapsed, so it's crawlable by search and AI answer engines
+       either way. This is good, specific, uncommon data (which exact
+       brands contain X) that's worth surfacing for its own sake, not
+       just decoration. Compute the brand set the same way as
+       oil_freq — a plain dict of ingredient label -> sorted unique
+       brand names, built alongside the existing frequency count.
+
        FINDINGS SECTION
        ────────────────
        @@FINDINGS_TITLE@@   H2, e.g. "What we found screening N bars"
        @@BIG_STAT_NUM@@     Computed percentage, not estimated
        @@BIG_STAT_HEAD@@    Heading next to the big number
        @@BIG_STAT_DETAIL@@  1-2 sentences of real context
-       @@INSIGHT_N@@        4-6 supporting observations
+       @@INSIGHT_N_HEAD@@   Short headline, own line, no filler
+       @@INSIGHT_N_DETAIL@@ 1-2 sentences of real supporting detail, separate line below the headline
+
+       Structure each insight as a headline on its own line followed
+       by its detail text on the next (.insight-head / .insight-
+       detail), not one run-on "<strong>Headline.</strong> Detail
+       text..." sentence. The single-sentence version reads as a wall
+       of similar-weight text where the headline doesn't stand out;
+       splitting it matches the title-then-description pattern the
+       rest of the page's cards (.score-card, .macro-card) already
+       use, and is easier to scan. Build each card through one small
+       helper function (insight_card(head, detail) in the reference
+       implementation) rather than hand-writing the HTML per insight —
+       cheaper to keep 6 of them consistent.
 
        Every insight here must be NEW information, not a restatement of
        something already said in the category-explainer section above
@@ -552,6 +620,32 @@
 
        EXPLORE CTA
        ───────────
+       This is a real prominent CTA now, not a small dark strip of
+       text links — built around the homepage's actual Bar Finder
+       button style. Two-column layout (.explore-cta-grid): a larger
+       primary card on the left with a heading, a short paragraph
+       explaining that the Bar Finder covers the FULL database (not
+       just this guide's qualifying subset) and that the reader
+       controls the filters, and a large button (.finder-cta-btn,
+       ported from index.html's .finder-hero-btn so it doesn't need
+       re-defining per guide). A lighter secondary column on the right
+       (.explore-cta-side) with a "How We Score →" text link (not a
+       button — it's the secondary action) and 3 short bullets on the
+       core scoring mechanics (ingredient-level scoring, position-in-
+       list weighting, single letter grade output — adjust wording
+       only if the actual mechanics documented in ingredient_scoring
+       .html change, don't invent new ones).
+
+       Wrapper section uses class="guide-finder-cta", NOT the shared
+       .explore-cta class — that class has a dark background also
+       used unchanged on brand pages, and this CTA is a light/cream
+       card instead (matching the homepage's .finder-hero-section).
+       Reusing .explore-cta here would have silently changed brand
+       pages' styling too. If a future redesign wants this section to
+       visually match .explore-cta instead, that's a deliberate call
+       to make explicitly, not something to reach for by default
+       because the class name is already sitting right there.
+
        @@PRESET_SLUG@@   Preset slug for the bar finder URL — verify this
                           key actually exists in app.js's PRESETS object
                           AND that its `apply()` filter logic actually
@@ -560,12 +654,14 @@
                           linked to `?preset=clean`, which turned out to
                           mean "no artificial sweeteners" in app.js, not
                           "no seed oils" — there was no seed-oil preset
-                          at all. If no matching preset exists, link to
-                          plain /bar-finder.html instead of guessing, and
-                          flag the missing preset as a follow-up rather
-                          than shipping a mismatched deep link.
-       @@PRESET_LABEL@@  Label for the main CTA button (omit the button
-                          entirely if there's no matching preset)
+                          at all. If no matching preset exists, link the
+                          main button to plain /bar-finder.html instead
+                          of guessing, and flag the missing preset as a
+                          follow-up rather than shipping a mismatched
+                          deep link.
+       @@PRESET_LABEL@@  Only relevant once a real matching preset
+                          exists — until then the button just says
+                          "Open the Bar Finder"
 
        FAQ (7 minimum, must match JSON-LD exactly)
        ──────────────────────────────────────────
@@ -835,11 +931,19 @@
         <p>@@CATEGORY_EXPLAINER_P2@@ (should include the computed disqualification rate and top 1-2 offending ingredients/oils with real counts, not estimates)</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
-        <!-- FACTOR CARD PATTERN — 3-4 cards -->
+        <!-- FACTOR CARD PATTERN — one per screened factor, EVERY factor
+             not just 3-4 (see "CATEGORY EXPLAINER" in the header comment
+             above). "Found in" line + <details> disclosure computed the
+             same way as oil_freq -- see build_no_seed_oils.py. -->
         <div class="score-card">
           <div class="score-card-label">@@FACTOR_1_LABEL@@</div>
-          <div class="score-card-val">@@FACTOR_1_VAL@@</div>
+          <div class="score-card-val">@@FACTOR_1_VAL@@<span class="oil-card-pct">@@FACTOR_1_PCT@@%</span></div>
           <div class="score-card-desc">@@FACTOR_1_DESC@@</div>
+          <div class="oil-card-brands">
+            <span class="oil-card-brands-label">Found in:</span> @@FACTOR_1_BRAND_1@@, @@FACTOR_1_BRAND_2@@, @@FACTOR_1_BRAND_3@@, @@FACTOR_1_BRAND_4@@
+            <details class="oil-card-more"><summary>and @@FACTOR_1_MORE_COUNT@@ more</summary><span class="oil-card-more-list">, @@FACTOR_1_REMAINING_BRANDS_CSV@@</span></details>
+            <!-- omit the <details> entirely if 4 or fewer brands total -->
+          </div>
         </div>
       </div>
     </div>
@@ -849,7 +953,9 @@
        No visible eyebrow div (brand-v1 hides .findings-eyebrow
        already, but cleanest to just omit it from markup entirely).
        .big-stat and .insights-grid already carry brand-v1 dark-band
-       styling correctly, no changes needed here from rev 2.
+       styling correctly. Insight cards split headline/detail onto
+       separate lines — see "FINDINGS SECTION" in the header comment
+       above; don't revert to the single-sentence <strong> pattern.
        ─────────────────────────────────────────────────────────── -->
   <section class="findings">
     <div class="findings-inner">
@@ -862,8 +968,12 @@
         </div>
       </div>
       <div class="insights-grid">
-        <!-- INSIGHT PATTERN — 4-6 items, each traceable to a computed stat -->
-        <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>@@INSIGHT_1_HEAD@@</strong> @@INSIGHT_1_BODY@@</div></div>
+        <!-- INSIGHT PATTERN — 4-6 items, each traceable to a computed
+             stat and genuinely new (not a repeat of the category
+             explainer above). Build via a small helper function
+             (insight_card(head, detail) in the reference
+             implementation) rather than hand-writing each one. -->
+        <div class="insight-item"><div class="insight-dot"></div><div class="insight-head">@@INSIGHT_1_HEAD@@</div><div class="insight-detail">@@INSIGHT_1_DETAIL@@</div></div>
       </div>
     </div>
   </section>
@@ -1182,20 +1292,33 @@
     </div>
   </section>
 
-  <!-- ─── 8. BAR FINDER CTA ─────────────────────────────────────
-       Unchanged from rev 2. No visible eyebrow div.
+  <!-- ─── 8. BAR FINDER CTA — rebuilt rev 7 ─────────────────────
+       Real prominent CTA, not a dark strip of text links. Uses
+       .guide-finder-cta (NOT the shared .explore-cta, which has a
+       dark background also used unchanged on brand pages — see
+       "EXPLORE CTA" in the header comment above for why).
        ─────────────────────────────────────────────────────────── -->
-  <section class="section explore-cta">
-    <div class="explore-cta-inner">
-      <p class="explore-cta-title">See all bars that meet these criteria</p>
-      <p class="explore-cta-sub">Filter all 1,000+ bars by the exact metrics that matter for @@GUIDE_EYEBROW@@. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
-      <div class="explore-cta-btns">
-        <a href="/bar-finder.html?preset=@@PRESET_SLUG@@" class="explore-cta-btn">@@PRESET_LABEL@@</a>
-        <!-- omit the line above entirely if no PRESETS key in app.js
-             actually matches this guide's criteria — link to plain
-             /bar-finder.html below and stop there rather than guess -->
-        <a href="/bar-finder.html" class="explore-cta-btn">Browse all bars</a>
-        <a href="/ingredient_scoring.html" class="explore-cta-btn">How we score</a>
+  <section class="section guide-finder-cta">
+    <div class="explore-cta-grid">
+      <div class="explore-cta-main">
+        <div class="explore-cta-main-label">Protein Bar Finder</div>
+        <h2 class="explore-cta-main-heading">See every bar that fits, not just the @@BARS_QUALIFY@@ on this page</h2>
+        <p class="explore-cta-main-desc">This guide covers @@GUIDE_EYEBROW@@ specifically. The Bar Finder covers all 1,000+ bars in the database, and you set the filters: protein, sugar, fiber, calories, ingredient grade, brand, certifications, and specific ingredients to exclude. No sponsored picks, no subjective taste tests. You decide what matters.</p>
+        <a href="/bar-finder.html@@PRESET_QUERY@@" class="finder-cta-btn">Open the Bar Finder &rarr;</a>
+        <!-- @@PRESET_QUERY@@ is "?preset=@@PRESET_SLUG@@" only if that
+             preset key actually exists in app.js's PRESETS object and
+             its filter logic actually matches this guide's criteria —
+             otherwise leave it empty and link to plain /bar-finder.html.
+             See "EXPLORE CTA" in the header comment above; this bit the
+             no-seed-oils.html rebuild once already. -->
+      </div>
+      <div class="explore-cta-side">
+        <a href="/ingredient_scoring.html" class="explore-cta-side-link">How we score &rarr;</a>
+        <ul class="explore-cta-side-list">
+          <li>Every ingredient is scored individually against a canonical database, not just flagged good or bad</li>
+          <li>Position in the ingredient list matters, earlier ingredients carry more weight</li>
+          <li>Each bar's total becomes a single letter grade, A through F</li>
+        </ul>
       </div>
     </div>
   </section>
