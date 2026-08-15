@@ -4,16 +4,53 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: 2026-08-15 (rev 7 — brand-jump text-align bug,
-       oil-brand disclosure lists, findings headline/detail split,
-       Bar Finder CTA redesign)
+       Last updated: 2026-08-15 (rev 8 — details/summary toggle text,
+       mini-header eyebrow removal, guide-page font audit, semantic
+       <main> landmark, ItemList schema, sitemap lastmod)
 
        STATUS: this is the locked standard as of the no-seed-oils.html
-       rebuild (2026-08-14 through 2026-08-15, five feedback passes).
+       rebuild (2026-08-14 through 2026-08-15, six feedback passes).
        Every guide page should be brought up to this standard — see
        BRIEFING.md "Known issues" for the rebuild queue. Treat any
        older live guide page as a reference for content only, never
        for markup or CSS pattern (same rule as TEMPLATE_BRAND.html).
+
+       WHY REV 8 CHANGED FROM REV 7
+       ──────────────────────────────
+       Real bug: native <details>/<summary> does not change its own
+       text on open by default. A "Found in: ... and N more" pattern
+       left "and N more" sitting in place after opening, immediately
+       followed by the now-visible full list — reads like it's still
+       offering more beyond what's already showing. Fixed with two
+       spans inside <summary> (.oil-card-more-text / .oil-card-less-
+       text) toggled via CSS :not/[open] rather than JS — "and N more"
+       swaps to "Hide" in the same position. Any future <details>-based
+       disclosure on this site should use this same two-span pattern,
+       not a static summary label.
+
+       Also this round: a full audit of every mono-font selector
+       actually rendered on the guide page (not just ones touched in
+       past rounds) turned up two more real bugs — .bar-brand (the
+       brand-name line above every flavor name in the big table) and
+       .show-more-btn were both still DM Mono with no brand-v1 font-
+       family override. Both are guide-page-only classes, confirmed by
+       checking whether they exist on a live brand page at all (they
+       don't) before touching them — see FONT AUDIT METHODOLOGY below.
+       .cert-badge was checked too and left alone: it's deliberately
+       mono on brand pages as well, a real shared design choice, not
+       an oversight.
+
+       Also removed the "Protein Bar Finder" eyebrow label sitting
+       above the Bar Finder CTA's main heading — a small label
+       directly above a big heading it doesn't add information to is
+       the same "mini header" pattern already killed elsewhere on this
+       template (hero eyebrow, findings eyebrow). Don't reintroduce
+       this pattern in new sections; if a section needs a label, ask
+       whether the label is doing any real work or just repeating what
+       the heading already says.
+
+       Also did a full SEO structural pass — see SEO CHECKLIST below,
+       new this revision.
 
        WHY REV 7 CHANGED FROM REV 6
        ──────────────────────────────
@@ -368,11 +405,11 @@
        Add a "Found in: Brand, Brand, Brand, Brand" line under each
        card's description (.oil-card-brands) — the first 4 unique
        brands containing that ingredient, comma-separated. If more
-       than 4, add a native <details class="oil-card-more"><summary>
-       and N more</summary>...</details> disclosure with the rest —
-       no JS needed, it's accessible by default, and critically the
-       full list stays in the page's DOM even while visually
-       collapsed, so it's crawlable by search and AI answer engines
+       than 4, add a native <details class="oil-card-more"> disclosure
+       with the rest — no JS needed, it's accessible by default, and
+       critically the full list stays in the page's DOM even while
+       visually collapsed, so it's crawlable by search and AI answer
+       engines
        either way. This is good, specific, uncommon data (which exact
        brands contain X) that's worth surfacing for its own sake, not
        just decoration. Compute the brand set the same way as
@@ -682,6 +719,76 @@
        block and every FAQ question was completely unclickable in
        production. Copy that script verbatim; don't assume it's
        already wired up because the markup looks complete.
+
+       FONT AUDIT METHODOLOGY
+       ───────────────────────
+       "This still looks like the old system font" complaints kept
+       resurfacing across multiple rounds even after fixes that looked
+       correct in the CSS source. Don't trust a grep of the stylesheet
+       to settle a font complaint — a selector can have a correct rule
+       AND still render wrong if a higher-specificity rule elsewhere in
+       the file (a stray .brand-v1-prefixed override, for instance)
+       wins. The reliable check is a real computed style in a live
+       browser:
+
+         1. Extract every class actually used on the page:
+            `re.findall(r'class="([^"]+)"', html)`, split on
+            whitespace, dedupe.
+         2. Grep style.css for every selector using var(--font-mono)
+            whose class appears in that set.
+         3. For each match, check `getComputedStyle(el).fontFamily`
+            in a live Playwright page — not what the CSS source says,
+            what the browser actually resolved.
+         4. Before "fixing" a mono-font class, check whether it's also
+            used on a live brand page (fetch one, check the same
+            selector). If it renders mono there too, it may be a
+            deliberate shared design choice (data values, cert badges)
+            — verify with BRAND_STANDARDS.md before changing it
+            sitewide. If the class doesn't exist on a brand page at
+            all, it's guide-specific and safe to fix without
+            cross-page risk.
+
+       Numeric/data values (.col-num, .nutr-val, .score-number,
+       .macro-rank-val, .macro-rank-tag) are SUPPOSED to be mono —
+       that's the nutrition-label data-vs-label distinction the whole
+       brand-v1 system is built on. Only text labels and buttons
+       (.bar-brand, .show-more-btn were the real bugs found this way)
+       should ever get flagged.
+
+       SEO CHECKLIST — run before shipping any guide page
+       ─────────────────────────────────────────────────
+       Structural items verified on the no-seed-oils.html rebuild,
+       check all of these on every new guide page:
+       - Exactly one <h1>, matching @@GUIDE_H1@@
+       - Logical, non-skipping heading order (h1 → h2 → h2 → h2...)
+       - Entire visible content wrapped in a single <main> element,
+         including the FAQ section — it's core page content, not a
+         footer-adjacent afterthought. A previous draft of this
+         template had the FAQ section as a sibling after </main>
+         instead of inside it.
+       - <link rel="canonical"> present and matching the live URL
+       - <meta name="description"> under 155 characters, leads with a
+         real number
+       - Open Graph: og:type, og:site_name, og:title, og:description,
+         og:url, og:image all present
+       - Twitter card: twitter:card, twitter:title, twitter:description,
+         twitter:image all present
+       - <html lang="en">
+       - All JSON-LD blocks parse (json.loads each one in the build
+         script before shipping, not just eyeballing them) — Article,
+         Dataset, BreadcrumbList, FAQPage at minimum. Add ItemList for
+         the Top Picks tiles specifically (schema.org ItemList with
+         Product-typed ListItems) — a good, low-effort fit for a
+         curated set of 4-6 items, don't bother for the full 600-bar
+         table.
+       - FAQPage visible text matches the FAQPage JSON-LD word for
+         word (existing rule, still applies)
+       - After deploying, update the corresponding <lastmod> entry in
+         sitemap.xml to the actual ship date — a stale lastmod
+         undercuts the freshness signal the whole point of dropping
+         the year from the title was trying to achieve. Easy to
+         forget since sitemap.xml lives outside this template
+         entirely; make it the last step of the deploy checklist.
        ═══════════════════════════════════════════════════════ -->
 
   <!-- Analytics -->
@@ -871,7 +978,7 @@
 </section>
 
 <!-- MAIN CONTENT WRAPPER -->
-<div class="content">
+<main class="content">
 
   <!-- ─── 3. TOP PICKS — reuses TEMPLATE_BRAND.html's pick-tile
        pattern (macro-card shell) so the top of a guide page and
@@ -941,7 +1048,18 @@
           <div class="score-card-desc">@@FACTOR_1_DESC@@</div>
           <div class="oil-card-brands">
             <span class="oil-card-brands-label">Found in:</span> @@FACTOR_1_BRAND_1@@, @@FACTOR_1_BRAND_2@@, @@FACTOR_1_BRAND_3@@, @@FACTOR_1_BRAND_4@@
-            <details class="oil-card-more"><summary>and @@FACTOR_1_MORE_COUNT@@ more</summary><span class="oil-card-more-list">, @@FACTOR_1_REMAINING_BRANDS_CSV@@</span></details>
+            <!-- .oil-card-more uses two spans inside <summary>, toggled
+                 via CSS on the [open] state, so the label actually
+                 switches from "and N more" to "Hide" instead of both
+                 staying visible at once next to the now-expanded list
+                 — see "WHY REV 8" in the header comment above. -->
+            <details class="oil-card-more">
+              <summary>
+                <span class="oil-card-more-text">and @@FACTOR_1_MORE_COUNT@@ more</span>
+                <span class="oil-card-less-text">Hide</span>
+              </summary>
+              <span class="oil-card-more-list">, @@FACTOR_1_REMAINING_BRANDS_CSV@@</span>
+            </details>
             <!-- omit the <details> entirely if 4 or fewer brands total -->
           </div>
         </div>
@@ -1292,16 +1410,17 @@
     </div>
   </section>
 
-  <!-- ─── 8. BAR FINDER CTA — rebuilt rev 7 ─────────────────────
+  <!-- ─── 8. BAR FINDER CTA — rebuilt rev 7, label removed rev 8 ─
        Real prominent CTA, not a dark strip of text links. Uses
        .guide-finder-cta (NOT the shared .explore-cta, which has a
        dark background also used unchanged on brand pages — see
-       "EXPLORE CTA" in the header comment above for why).
+       "EXPLORE CTA" in the header comment above for why). No small
+       label above the main heading — see "WHY REV 8" above on why
+       that pattern got cut; don't reintroduce it here or elsewhere.
        ─────────────────────────────────────────────────────────── -->
   <section class="section guide-finder-cta">
     <div class="explore-cta-grid">
       <div class="explore-cta-main">
-        <div class="explore-cta-main-label">Protein Bar Finder</div>
         <h2 class="explore-cta-main-heading">See every bar that fits, not just the @@BARS_QUALIFY@@ on this page</h2>
         <p class="explore-cta-main-desc">This guide covers @@GUIDE_EYEBROW@@ specifically. The Bar Finder covers all 1,000+ bars in the database, and you set the filters: protein, sugar, fiber, calories, ingredient grade, brand, certifications, and specific ingredients to exclude. No sponsored picks, no subjective taste tests. You decide what matters.</p>
         <a href="/bar-finder.html@@PRESET_QUERY@@" class="finder-cta-btn">Open the Bar Finder &rarr;</a>
@@ -1311,6 +1430,11 @@
              otherwise leave it empty and link to plain /bar-finder.html.
              See "EXPLORE CTA" in the header comment above; this bit the
              no-seed-oils.html rebuild once already. -->
+        <!-- "How We Score" in the side column (below) aligns to the
+             top of this heading automatically via the grid's
+             align-items: start, now that there's no label pushing
+             this heading down. If a label ever gets added back to
+             one column, check the other column's alignment too. -->
       </div>
       <div class="explore-cta-side">
         <a href="/ingredient_scoring.html" class="explore-cta-side-link">How we score &rarr;</a>
@@ -1346,26 +1470,28 @@
     </div>
   </section>
 
-</div><!-- /content -->
-
-<!-- ─── 10. FAQ ───────────────────────────────────────────────
-     Min 7 questions, must match JSON-LD exactly. If the page has a
-     Mixed Lineups section, add a question like "Can a brand have
-     some flavors with X and some without?" — see no-seed-oils.html.
-     Use .section-title on the heading, not an inline style.
-     ─────────────────────────────────────────────────────────── -->
-<section class="guide-faq">
-  <div class="guide-faq-inner">
-    <h2 class="section-title">Frequently asked questions</h2>
-    <div class="faq-items">
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q1@@</button>
-        <div class="faq-a">@@FAQ_A1@@</div>
+  <!-- ─── 10. FAQ ───────────────────────────────────────────────
+       Min 7 questions, must match JSON-LD exactly. If the page has a
+       Mixed Lineups section, add a question like "Can a brand have
+       some flavors with X and some without?" — see no-seed-oils.html.
+       Use .section-title on the heading, not an inline style. Stays
+       INSIDE <main> (see "SEO CHECKLIST" in the header comment above)
+       — it's core page content, not a footer-adjacent afterthought.
+       ─────────────────────────────────────────────────────────── -->
+  <section class="guide-faq">
+    <div class="guide-faq-inner">
+      <h2 class="section-title">Frequently asked questions</h2>
+      <div class="faq-items">
+        <div class="faq-item">
+          <button class="faq-q">@@FAQ_Q1@@</button>
+          <div class="faq-a">@@FAQ_A1@@</div>
+        </div>
+        <!-- repeat per question, 7 minimum -->
       </div>
-      <!-- repeat per question, 7 minimum -->
     </div>
-  </div>
-</section>
+  </section>
+
+</main><!-- /content -->
 
 <!-- ─── FOOTER ───────────────────────────────────────────────
      Copy verbatim from any current live page. site-footer-copy is

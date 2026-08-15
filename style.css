@@ -4439,6 +4439,14 @@ table.brand-table tr:hover td { background: var(--off-white); }
 .oil-card-more summary::-webkit-details-marker { display: none; }
 .oil-card-more summary:hover { text-decoration-color: var(--black); }
 .oil-card-more[open] summary { margin-right: 4px; }
+/* Toggle the summary's own text on open/close -- "and N more" reads
+   fine collapsed, but once the full list is showing, leaving "and N
+   more" sitting there too (immediately followed by the full list) is
+   confusing: it looks like it's still offering more beyond what's now
+   visible. Swap to "Hide" instead of leaving stale text in place. */
+.oil-card-less-text { display: none; }
+.oil-card-more[open] .oil-card-more-text { display: none; }
+.oil-card-more[open] .oil-card-less-text { display: inline; }
 .oil-card-more-list { display: inline; }
 .brand-v1 .oil-card-brands { border-top-color: var(--bs-line-soft); color: var(--bs-text-dim); }
 .brand-v1 .oil-card-brands-label,
@@ -4570,3 +4578,19 @@ table.brand-table tr:hover td { background: var(--off-white); }
   .explore-cta-side { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 1.25rem; }
   .brand-v1 .explore-cta-side { border-top-color: var(--bs-line-soft); }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE ADDITIONS — 2026-08-15 round 6 (Jeff feedback pass 5)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Real font bugs found by auditing every mono-font selector actually
+   used on the guide page against its computed style: .bar-brand and
+   .show-more-btn are both guide-page-only classes (they don't exist
+   on brand pages) whose base rule uses --font-mono with no
+   brand-v1 font-family override -- so every brand name in the big
+   table, and the "Show more bars" button, were rendering in DM Mono
+   instead of DM Sans. .cert-badge was also checked and left alone:
+   it's intentionally mono on brand pages too (a deliberate "data tag"
+   style used consistently sitewide), not a bug. */
+.brand-v1 .bar-brand { font-family: var(--bs-font-body) !important; }
+.brand-v1 .show-more-btn { font-family: var(--bs-font-body) !important; }
