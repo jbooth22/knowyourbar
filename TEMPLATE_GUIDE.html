@@ -4,78 +4,195 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: April 2026 (rev 2 — bar row links, explore-more fix)
+       Last updated: 2026-08-14 (rev 3 — brand-v1 voice/styling pass,
+       filter/sort table, expanded brand lists, mixed-lineup section)
+
+       STATUS: this is the locked standard as of the no-seed-oils.html
+       rebuild (2026-08-14). Every guide page should be brought up to
+       this standard — see BRIEFING.md "Known issues" for the rebuild
+       queue. Treat any older live guide page as a reference for
+       content only, never for markup or CSS pattern (same rule as
+       TEMPLATE_BRAND.html).
+
+       WHY THIS CHANGED FROM REV 2
+       ────────────────────────────
+       The old template used raw inline styles for headings and table
+       headers ("Inter", uppercase mono labels with inline style=
+       attributes) instead of the site's real .section-title / .bar-
+       table-wrap classes. Those classes already have brand-v1
+       overrides in style.css (Barlow Condensed headings, no uppercase
+       mono "eyebrow" labels, IBM Plex Mono only on numeric data) — the
+       inline styles were silently bypassing all of it, which is what
+       produced the generic "AI-generated site" look on live guide
+       pages. Fix is almost entirely about REUSING the classes that
+       already exist on TEMPLATE_BRAND.html rather than inventing new
+       CSS. If a heading or label still looks "off," check for a stray
+       inline style attribute before assuming style.css is missing
+       something — see BRIEFING.md's font-family gotcha section, same
+       bug pattern.
 
        HOW TO USE THIS TEMPLATE
        ────────────────────────
        1. Copy this file, rename it: [guide-slug].html
-       2. Replace every @@PLACEHOLDER@@ with real data
-       3. Populate the metric highlights (3–5 stats)
-       4. Populate the top picks (3 goal cards)
-       5. Populate the findings section with real data
-       6. Write the bar list rows (aim for 40–60 bars)
-       7. Update all JSON-LD schemas
-       8. Add to sitemap.xml; verify nav links on all pages
+       2. Write (or reuse) a Python build script that loads live
+          bars.js, applies this guide's qualification screen, and
+          generates the bar table rows + brand aggregates. See
+          build_no_seed_oils.py / assemble_page.py for the reference
+          pattern — do not hand-type rows for anything over ~40 bars.
+       3. Replace every @@PLACEHOLDER@@ with real data.
+       4. Populate top picks (see TOP PICKS below — 3-5 tiles).
+       5. Populate the findings section with real, computed data.
+       6. Populate Brands to Target / Brands to Avoid / Mixed Lineups
+          (see BRAND LISTS below) — aim for 10+ each on target/avoid
+          where the data supports it, not the old 3-5. No "Sleeper
+          Pick" labeling — fold every real brand into the plain list.
+       7. Generate the bar table (see BAR TABLE below). If the
+          qualifying set is large (100+), include the filter/sort bar;
+          if it's small (under ~40), the filter bar is optional but the
+          rich per-row expand content is not.
+       8. Update all JSON-LD schemas.
+       9. Add to sitemap.xml; verify nav links on all pages.
+       10. Run the QA checklist in QA.md, including a Playwright pass
+           at 1400px and 390px, before delivering.
 
        WRITING RULES — apply to every guide page
        ──────────────────────────────────────────
-       - No em dashes anywhere (not in copy, not in meta)
+       - No em dashes anywhere (not in copy, not in meta, not as a
+         brand/flavor separator — use "&middot;" instead)
        - No AI patterns: "it is worth noting", "furthermore",
-         "it is important to", "delve", "robust", "leverage"
+         "it is important to", "delve", "robust", "leverage", "explore"
        - Write like a knowledgeable person, not a press release
-       - Short sentences. Direct claims. Specific numbers.
+       - Short sentences. Direct claims. Specific numbers pulled from
+         a real computation, never estimated or carried over from a
+         prior session's data
        - Hero sub text color must have strong contrast (use #e8e4dc)
+       - Every count, percentage, and brand stat on the page must trace
+         back to a script run against the live bars.js, same rule as
+         brand pages — see BRIEFING.md "Voice and analysis principles"
 
        PLACEHOLDER KEY
        ───────────────
-       @@GUIDE_TITLE@@         H1 headline (SEO-driven, unique per guide)
-       @@GUIDE_SLUG@@          URL slug (e.g. clean-protein-bars)
-       @@GUIDE_EYEBROW@@       Short category label (e.g. "Clean Eating Guide")
+       @@GUIDE_TITLE@@         H1 / <title> text (can differ, see below)
+       @@GUIDE_H1@@            Visible H1 (optimize for the reader, not just SEO)
+       @@GUIDE_SLUG@@          URL slug (e.g. no-seed-oils)
        @@GUIDE_SHORT@@         1–2 sentence plain-English summary below H1
        @@META_DESCRIPTION@@    Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@      Shorter version for social. No em dashes.
-       @@DATE_PUBLISHED@@      e.g. 2026-04-01
-       @@BARS_TOTAL@@          Total bars in the database (1,048+)
+       @@DATE_PUBLISHED@@      Original publish date, e.g. 2026-04-01
+       @@DATE_MODIFIED@@       Date of this rebuild/refresh
+       @@BARS_TOTAL@@          Total bars in the live database at build time
        @@BARS_QUALIFY@@        # of bars that meet this guide's criteria
-       @@PCT_QUALIFY@@         Percentage of total that qualify (e.g. 23%)
+       @@BARS_DISQUALIFY@@     @@BARS_TOTAL@@ minus @@BARS_QUALIFY@@
+       @@PCT_QUALIFY@@ / @@PCT_DISQUALIFY@@   Computed, not estimated
 
-       METRIC HIGHLIGHTS (3–5 stats in the snapshot bar)
-       ──────────────────────────────────────────────────
-       @@METRIC_1_VAL@@   @@METRIC_1_LBL@@
-       @@METRIC_2_VAL@@   @@METRIC_2_LBL@@
-       @@METRIC_3_VAL@@   @@METRIC_3_LBL@@
-       @@METRIC_4_VAL@@   @@METRIC_4_LBL@@   (optional)
-       @@METRIC_5_VAL@@   @@METRIC_5_LBL@@   (optional)
+       Note: the hero no longer carries a visible eyebrow div — dropped
+       sitewide per BRAND_STANDARDS.md (no uppercase mono "eyebrow"
+       labels). Don't reintroduce one.
 
-       TOP PICKS — 3 goal cards
-       ────────────────────────
-       @@GOAL_1_LABEL@@   Goal label (e.g. "Best Overall")
-       @@GOAL_1_BRAND@@   Brand name
-       @@GOAL_1_FLAVOR@@  Flavor name
-       @@GOAL_1_GRADE@@   A / B / C
-       @@GOAL_1_GRADE_COLOR@@  Hex color for grade
-       @@GOAL_1_M1_VAL@@ / @@GOAL_1_M1_LBL@@   Macro 1
-       @@GOAL_1_M2_VAL@@ / @@GOAL_1_M2_LBL@@   Macro 2
-       @@GOAL_1_M3_VAL@@ / @@GOAL_1_M3_LBL@@   Macro 3
-       @@GOAL_1_AMAZON_URL@@   Amazon Affiliate column from DB. Omit button if empty.
-       @@GOAL_1_SITE_URL@@     Website column from DB. Omit button if empty.
-       (Repeat _2_ and _3_ for cards 2 and 3)
+       TOP PICKS — 3-5 situational tiles
+       ──────────────────────────────────
+       Reuses TEMPLATE_BRAND.html's .macro-card.pick-tile pattern
+       instead of the old standalone .pick-card component, so the top
+       of a guide page now visually matches the top of a brand page as
+       requested. Each pick must be a real computed max/min over the
+       qualifying set (highest score, highest protein among A/B grade,
+       lowest calorie among a protein floor, shortest ingredient list
+       among A grade, etc.) — never a hand-picked favorite. Ground the
+       reason paragraph in the bar's actual numbers, same rule as the
+       brand-page "which flavor should you buy" section.
+
+       @@PICK_N_LABEL@@   Situational label (e.g. "Best for cutting")
+       @@PICK_N_GRADE@@   A / B / C / D
+       @@PICK_N_BRAND@@ / @@PICK_N_FLAVOR@@
+       @@PICK_N_REASON@@  1-2 sentences, real numbers, no filler
+       @@PICK_N_AMAZON_URL@@ / @@PICK_N_SITE_URL@@   Omit either button if bars.js has no value
 
        FINDINGS SECTION
        ────────────────
-       @@FINDINGS_TITLE@@   H2 for the dark findings section
-       @@BIG_STAT_NUM@@     Large accent number (e.g. "23%")
+       @@FINDINGS_TITLE@@   H2, e.g. "What we found screening N bars"
+       @@BIG_STAT_NUM@@     Computed percentage, not estimated
        @@BIG_STAT_HEAD@@    Heading next to the big number
-       @@BIG_STAT_DETAIL@@  1–2 sentences of context
+       @@BIG_STAT_DETAIL@@  1-2 sentences of real context
+       @@INSIGHT_N@@        4-6 supporting observations, each traceable to a computed stat
+
+       BRAND LISTS — Brands to Target / Brands to Avoid / Mixed Lineups
+       ────────────────────────────────────────────────────────────────
+       Three cards, not two. This is the structural change from rev 2:
+       - Brands to Target: brands where every (or nearly every) flavor
+         qualifies. Rank by average score among qualifying flavors.
+         List as many as the data supports — this guide's rebuild used
+         14, not the old 3-5. Cut the "Sleeper Pick" label entirely;
+         a lesser-known brand just goes in the list like any other.
+       - Brands to Avoid: brands with a very high disqualification rate
+         (roughly 80%+) AND fewer than ~3 qualifying flavors — i.e. not
+         worth a per-flavor callout. Name the specific oil(s)/ingredient(s)
+         driving the disqualification, not just a percentage.
+       - Mixed Lineups (new section, third card): brands with a
+         meaningful population on BOTH sides (roughly 3+ qualifying and
+         3+ disqualified). Call out the specific best qualifying flavor
+         by name so the reader has something actionable, and say
+         plainly that the rest of the line doesn't share its status.
+         A brand can appear in both Avoid and Mixed only if it doesn't
+         meet the Mixed threshold — don't let the same brand show up in
+         two lists that contradict each other.
+
+       BAR TABLE
+       ─────────
+       Rows are hybrid, not uniformly rich. Rendering full brand-page-
+       richness expand markup (macro-rank-grid, nutrition panel, score-
+       tile, ingredient columns) for every qualifying bar up front means
+       the browser has to construct and then instantly discard tens of
+       thousands of DOM nodes on every page load once a guide's
+       qualifying set gets past a couple hundred bars — this is what the
+       no-seed-oils.html rebuild got wrong on its first pass (600 bars,
+       ~90,000 transient nodes) before being corrected same-day. The fix,
+       now the standard:
+
+       - RICH_BATCH (60 bars, roughly two default pages worth): rendered
+         with full pre-built expand markup, same as a brand page's rows.
+         These work with zero JS and are immediately crawlable.
+       - Everything past RICH_BATCH: the .bar-row renders normally (name,
+         brand, macros, grade — this is what actually needs to be
+         crawlable for SEO, and it always ships for every qualifying bar,
+         no matter how many there are). Its .ingr-row is an empty
+         placeholder with data-lazy="1". The bar's full data is instead
+         serialized into a compact JSON record and embedded once in a
+         single <script type="application/json" id="gd-bar-data"> block
+         near the table. The first time that row is clicked, toggleIngr()
+         calls buildLazyExpand() (see the script block at the bottom of
+         this template, copy verbatim) which builds the same rich markup
+         from the JSON record and injects it, then marks the row built so
+         it never rebuilds. This mirrors the pattern app.js already uses
+         for the main bar-finder tool (ships compact JSON, builds rows
+         via JS, never pre-renders more than it needs to).
+       - For guides with fewer than ~100 qualifying bars, RICH_BATCH can
+         just equal the full count and the lazy path never triggers —
+         no need to build the JSON blob machinery for a small guide.
+       - Always verify with real numbers before shipping: file size raw
+         and gzipped, and DOM node count via a quick Playwright
+         `document.querySelectorAll('*').length` check pre- and post-JS.
+         Don't guess at whether a page "feels big."
 
        EXPLORE CTA
        ───────────
-       @@PRESET_SLUG@@   Preset slug for the bar finder URL
-       @@PRESET_LABEL@@  Label for main CTA button
+       @@PRESET_SLUG@@   Preset slug for the bar finder URL — verify this
+                          key actually exists in app.js's PRESETS object
+                          AND that its `apply()` filter logic actually
+                          matches this guide's criteria before linking to
+                          it. The no-seed-oils.html rebuild initially
+                          linked to `?preset=clean`, which turned out to
+                          mean "no artificial sweeteners" in app.js, not
+                          "no seed oils" — there was no seed-oil preset
+                          at all. If no matching preset exists, link to
+                          plain /bar-finder.html instead of guessing, and
+                          flag the missing preset as a follow-up rather
+                          than shipping a mismatched deep link.
+       @@PRESET_LABEL@@  Label for the main CTA button (omit the button
+                          entirely if there's no matching preset)
 
        FAQ (7 minimum, must match JSON-LD exactly)
        ──────────────────────────────────────────
-       @@FAQ_Q1@@ / @@FAQ_A1@@  through  @@FAQ_Q7@@ / @@FAQ_A7@@
+       @@FAQ_Q1@@ / @@FAQ_A1@@  through  @@FAQ_Q7+@@ / @@FAQ_A7+@@
        ═══════════════════════════════════════════════════════ -->
 
   <!-- Analytics -->
@@ -90,14 +207,17 @@
   <!-- Core meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@@GUIDE_TITLE@@ | Know Your Bar</title>
+  <title>@@GUIDE_TITLE@@</title>
   <meta name="description" content="@@META_DESCRIPTION@@">
   <link rel="canonical" href="https://knowyourbar.com/@@GUIDE_SLUG@@.html">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Note: the old 'Inter' import is gone. Inter was only ever used by
+       the inline-styled headings/table headers this rebuild removed.
+       Do not reintroduce it. -->
 
   <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
@@ -111,7 +231,7 @@
       --accent:    #d4f000;
       --muted:     #888880;
       --border:    #d6d3cc;
-      --font-display: 'Inter', system-ui, sans-serif;
+      --font-display: 'DM Sans', sans-serif;
       --font-mono:    'DM Mono', monospace;
       --font-body:    'DM Sans', sans-serif;
       --radius:    6px;
@@ -124,30 +244,16 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "@@GUIDE_TITLE@@",
+    "headline": "@@GUIDE_H1@@",
     "description": "@@META_DESCRIPTION@@",
     "url": "https://knowyourbar.com/@@GUIDE_SLUG@@.html",
     "image": "https://knowyourbar.com/bar_hero.png",
     "datePublished": "@@DATE_PUBLISHED@@",
-    "dateModified": "@@DATE_PUBLISHED@@",
-    "author": {
-      "@type": "Organization",
-      "name": "Know Your Bar",
-      "url": "https://knowyourbar.com"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Know Your Bar",
-      "url": "https://knowyourbar.com"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://knowyourbar.com/@@GUIDE_SLUG@@.html"
-    },
-    "about": {
-      "@type": "Thing",
-      "name": "@@GUIDE_EYEBROW@@"
-    }
+    "dateModified": "@@DATE_MODIFIED@@",
+    "author": { "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" },
+    "publisher": { "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://knowyourbar.com/@@GUIDE_SLUG@@.html" },
+    "about": { "@type": "Thing", "name": "@@GUIDE_EYEBROW@@" }
   }
   </script>
 
@@ -157,21 +263,12 @@
     "@context": "https://schema.org",
     "@type": "Dataset",
     "name": "Know Your Bar Protein Bar Ingredient Quality Database",
-    "description": "1,000+ protein bars across 95+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
+    "description": "1,000+ protein bars across 150+ brands scored A through F for ingredient quality. Each bar is parsed ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, ingredient scores, and insight chips for every bar.",
     "url": "https://knowyourbar.com",
-    "creator": {
-      "@type": "Organization",
-      "name": "Know Your Bar",
-      "url": "https://knowyourbar.com"
-    },
-    "dateModified": "@@DATE_PUBLISHED@@",
+    "creator": { "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" },
+    "dateModified": "@@DATE_MODIFIED@@",
     "license": "https://creativecommons.org/licenses/by-nc/4.0/",
-    "variableMeasured": [
-      "Ingredient quality grade (A through F)",
-      "Ingredient quality score",
-      "Macronutrients",
-      "Dietary certifications"
-    ],
+    "variableMeasured": ["Ingredient quality grade (A through F)", "Ingredient quality score", "Macronutrients", "Dietary certifications"],
     "measurementTechnique": "Proprietary ingredient scoring algorithm mapping each ingredient to a canonical base score weighted by position in ingredient list",
     "spatialCoverage": "United States",
     "temporalCoverage": "2026"
@@ -184,24 +281,9 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Know Your Bar",
-        "item": "https://knowyourbar.com"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Lifestyle Guides",
-        "item": "https://knowyourbar.com"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "@@GUIDE_TITLE@@",
-        "item": "https://knowyourbar.com/@@GUIDE_SLUG@@.html"
-      }
+      { "@type": "ListItem", "position": 1, "name": "Know Your Bar", "item": "https://knowyourbar.com" },
+      { "@type": "ListItem", "position": 2, "name": "Lifestyle Guides", "item": "https://knowyourbar.com" },
+      { "@type": "ListItem", "position": 3, "name": "@@GUIDE_H1@@", "item": "https://knowyourbar.com/@@GUIDE_SLUG@@.html" }
     ]
   }
   </script>
@@ -212,44 +294,20 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q1@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A1@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q2@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A2@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q3@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A3@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q4@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A4@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q5@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A5@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q6@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A6@@" }
-      },
-      {
-        "@type": "Question",
-        "name": "@@FAQ_Q7@@",
-        "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A7@@" }
-      }
+      { "@type": "Question", "name": "@@FAQ_Q1@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A1@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q2@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A2@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q3@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A3@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q4@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A4@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q5@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A5@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q6@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A6@@" } },
+      { "@type": "Question", "name": "@@FAQ_Q7@@", "acceptedAnswer": { "@type": "Answer", "text": "@@FAQ_A7@@" } }
     ]
   }
   </script>
+  <!-- add up to 3 more guide-specific questions as additional objects in
+       the array above; no-seed-oils.html used 10 total including a "can
+       a brand be mixed" question. Add one like it whenever the guide has
+       a Mixed Lineups section, since readers will ask exactly that. -->
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
@@ -266,31 +324,30 @@
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
 
 </head>
-<body class="page-guide">
+<body class="page-guide brand-v1">
 
-<!-- NAV — update dropdown when adding new pages -->
+<!-- NAV — copy verbatim from any current live page, update dropdown when adding new pages -->
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
     <div class="site-nav-group">
       <span class="site-nav-group-label">Brand Reviews</span>
       <div class="site-nav-dropdown">
-        <a href="/quest-bars.html">Quest</a>
-        <a href="/rxbar-review.html">RXBAR</a>
-        <a href="/clif-bar-review.html">Clif Bar</a>
-        <a href="/barebells-review.html">Barebells</a>
-        <a href="/kind-bars-review.html">KIND</a>
+        <!-- one <a> per live brand review page -->
       </div>
     </div>
     <div class="site-nav-group">
       <span class="site-nav-group-label">Guides</span>
       <div class="site-nav-dropdown">
-        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
-        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-        <a href="/no-seed-oils.html">No Seed Oils</a>
-        <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
-        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+        <!-- one <a> per live guide page, including this one -->
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Explore</span>
+      <div class="site-nav-dropdown">
+        <a href="/all-protein-bar-brands.html">All Brands</a>
+        <a href="/flavor-map.html">Flavor Map</a>
+        <a href="/brand-quadrant.html">Brand Quadrant</a>
       </div>
     </div>
     <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
@@ -299,219 +356,95 @@
 </nav>
 
 <!-- ─── 1. HERO ───────────────────────────────────────────────
-     H1 must be unique to this guide. SEO-driven. No em dashes.
+     H1 must be unique to this guide. No em dashes. No visible
+     eyebrow div (dropped sitewide, see BRAND_STANDARDS.md).
      hero-sub text color is hardcoded #e8e4dc for contrast.
      ─────────────────────────────────────────────────────────── -->
 <section class="hero page-guide">
   <div class="hero-inner">
-    <div class="hero-eyebrow">@@GUIDE_EYEBROW@@</div>
-    <h1 class="hero-title">@@GUIDE_TITLE@@</h1>
+    <h1 class="hero-title">@@GUIDE_H1@@</h1>
     <p class="hero-sub" style="color:#e8e4dc;">@@GUIDE_SHORT@@</p>
   </div>
 </section>
 
 <!-- ─── 2. METRIC HIGHLIGHTS ─────────────────────────────────
-     3–5 stats. Real data only — no marketing claims.
-     Use .snap-item pattern from brand pages.
-     Examples: # bars qualifying, % with no sweeteners, avg protein, etc.
+     3-5 stats, computed at build time. Use .snap-item, same as
+     brand pages — no change from rev 2 here.
      ─────────────────────────────────────────────────────────── -->
 <section class="snapshot">
   <div class="snapshot-inner">
-
-    <div class="snap-item">
-      <div class="snap-value">@@METRIC_1_VAL@@</div>
-      <div class="snap-label">@@METRIC_1_LBL@@</div>
-    </div>
-
-    <div class="snap-item">
-      <div class="snap-value">@@METRIC_2_VAL@@</div>
-      <div class="snap-label">@@METRIC_2_LBL@@</div>
-    </div>
-
-    <div class="snap-item">
-      <div class="snap-value">@@METRIC_3_VAL@@</div>
-      <div class="snap-label">@@METRIC_3_LBL@@</div>
-    </div>
-
-    <!-- Optional 4th metric — remove if only 3 -->
-    <div class="snap-item">
-      <div class="snap-value">@@METRIC_4_VAL@@</div>
-      <div class="snap-label">@@METRIC_4_LBL@@</div>
-    </div>
-
-    <!-- Optional 5th metric — remove if not needed -->
-    <div class="snap-item">
-      <div class="snap-value">@@METRIC_5_VAL@@</div>
-      <div class="snap-label">@@METRIC_5_LBL@@</div>
-    </div>
-
+    <div class="snap-item"><div class="snap-value">@@BARS_QUALIFY@@</div><div class="snap-label">Bars qualify</div></div>
+    <div class="snap-item"><div class="snap-value">@@BARS_DISQUALIFY@@</div><div class="snap-label">Bars disqualified</div></div>
+    <div class="snap-item"><div class="snap-value">@@METRIC_3_VAL@@</div><div class="snap-label">@@METRIC_3_LBL@@</div></div>
+    <div class="snap-item"><div class="snap-value">@@METRIC_4_VAL@@</div><div class="snap-label">@@METRIC_4_LBL@@</div></div>
+    <div class="snap-item"><div class="snap-value">@@METRIC_5_VAL@@</div><div class="snap-label">@@METRIC_5_LBL@@</div></div>
   </div>
 </section>
 
 <!-- MAIN CONTENT WRAPPER -->
 <div class="content">
 
-  <!-- ─── 3. TOP PICKS: 3 GOAL CARDS ──────────────────────────
-       Each card = one user goal for this lifestyle category.
-       Include: goal label, brand, flavor, grade badge, key macros,
-       and minimalist Amazon + site links.
-       Tone: direct. State what makes this bar the best fit.
+  <!-- ─── 3. TOP PICKS — reuses TEMPLATE_BRAND.html's pick-tile
+       pattern (macro-card shell) so the top of a guide page and
+       the top of a brand page share the same visual language.
+       3-5 tiles, every one a real computed max/min, not a hand
+       favorite. See "TOP PICKS" in the header comment above.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
     <div class="section-inner">
       <h2 class="section-title">Top picks for @@GUIDE_EYEBROW@@</h2>
-      <p class="section-body">Three goals, three different answers. Here is the best bar for each.</p>
+      <p class="section-body">@@PICKS_INTRO@@</p>
+      <div class="macro-grid pick-tile-grid">
 
-      <div class="picks-grid">
-
-        <!-- GOAL CARD 1 -->
-        <div class="pick-card">
-          <div class="pick-label">@@GOAL_1_LABEL@@</div>
-          <span class="pick-grade" style="background:@@GOAL_1_GRADE_COLOR@@">@@GOAL_1_GRADE@@</span>
-          <div class="pick-brand">@@GOAL_1_BRAND@@</div>
-          <div class="pick-flavor">@@GOAL_1_FLAVOR@@</div>
-          <div class="pick-macros">
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_1_M1_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_1_M1_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_1_M2_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_1_M2_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_1_M3_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_1_M3_LBL@@</span>
-            </div>
-          </div>
+        <!-- PICK TILE PATTERN — copy per pick, 3-5 total -->
+        <div class="macro-card pick-tile">
+          <div class="macro-label">@@PICK_1_LABEL@@</div>
+          <div class="pick-tile-flavor"><span class="table-grade-badge grade-@@PICK_1_GRADE@@" style="margin-right:6px;">@@PICK_1_GRADE@@</span>@@PICK_1_BRAND@@ &middot; @@PICK_1_FLAVOR@@</div>
+          <p>@@PICK_1_REASON@@</p>
           <div class="bar-links" style="margin-top:0.65rem;">
-            <a href="@@GOAL_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
-            <!-- Remove site link if no brand URL -->
-            <a href="@@GOAL_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Buy from Brand</a>
+            <a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
+            <a href="@@PICK_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Buy from Brand</a>
+            <!-- drop either link entirely if bars.js has no value, never fabricate -->
           </div>
         </div>
-
-        <!-- GOAL CARD 2 -->
-        <div class="pick-card">
-          <div class="pick-label">@@GOAL_2_LABEL@@</div>
-          <span class="pick-grade" style="background:@@GOAL_2_GRADE_COLOR@@">@@GOAL_2_GRADE@@</span>
-          <div class="pick-brand">@@GOAL_2_BRAND@@</div>
-          <div class="pick-flavor">@@GOAL_2_FLAVOR@@</div>
-          <div class="pick-macros">
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_2_M1_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_2_M1_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_2_M2_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_2_M2_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_2_M3_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_2_M3_LBL@@</span>
-            </div>
-          </div>
-          <div class="bar-links" style="margin-top:0.65rem;">
-            <a href="@@GOAL_2_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
-            <a href="@@GOAL_2_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Buy from Brand</a>
-          </div>
-        </div>
-
-        <!-- GOAL CARD 3 -->
-        <div class="pick-card">
-          <div class="pick-label">@@GOAL_3_LABEL@@</div>
-          <span class="pick-grade" style="background:@@GOAL_3_GRADE_COLOR@@">@@GOAL_3_GRADE@@</span>
-          <div class="pick-brand">@@GOAL_3_BRAND@@</div>
-          <div class="pick-flavor">@@GOAL_3_FLAVOR@@</div>
-          <div class="pick-macros">
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_3_M1_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_3_M1_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_3_M2_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_3_M2_LBL@@</span>
-            </div>
-            <div class="pick-macro">
-              <span class="pick-macro-val">@@GOAL_3_M3_VAL@@</span>
-              <span class="pick-macro-lbl">@@GOAL_3_M3_LBL@@</span>
-            </div>
-          </div>
-          <div class="bar-links" style="margin-top:0.65rem;">
-            <a href="@@GOAL_3_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
-            <a href="@@GOAL_3_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Buy from Brand</a>
-          </div>
-        </div>
+        <!-- END PICK TILE PATTERN -->
 
       </div>
     </div>
   </section>
 
   <!-- ─── 4. CATEGORY EXPLAINER + KEY FACTORS ──────────────────
-       Short paragraph explaining what this lifestyle category means.
-       Then 3–5 key factors as named callouts with brief explanations.
-       Include calculations (e.g. Net Carbs formula) or notable
-       ingredient definitions where relevant.
-       Score grid uses existing .score-grid / .score-card classes.
+       Unchanged from rev 2 structurally — .score-grid / .score-card
+       already carry brand-v1 styling correctly. Just don't wrap the
+       heading in an inline style attribute; use .section-title.
        ─────────────────────────────────────────────────────────── -->
   <section class="section off">
     <div class="section-inner">
-      <h2 class="section-title">What "@@GUIDE_EYEBROW@@" actually means</h2>
+      <h2 class="section-title">@@CATEGORY_EXPLAINER_TITLE@@</h2>
       <div class="section-body">
-        <p>@@EXPLAINER_PARAGRAPH@@</p>
-        <!-- Add a second paragraph if a calculation or definition note is needed -->
-        <!-- <p>@@EXPLAINER_NOTE@@</p> -->
+        <p>@@CATEGORY_EXPLAINER_P1@@</p>
+        <p>@@CATEGORY_EXPLAINER_P2@@ (should include the computed disqualification rate and top 1-2 offending ingredients/oils with real counts, not estimates)</p>
       </div>
-
       <div class="score-grid" style="margin-top:1.5rem;">
-
-        <!-- FACTOR CARD 1 -->
+        <!-- FACTOR CARD PATTERN — 3-4 cards -->
         <div class="score-card">
           <div class="score-card-label">@@FACTOR_1_LABEL@@</div>
-          <div class="score-card-val">@@FACTOR_1_STAT@@</div>
+          <div class="score-card-val">@@FACTOR_1_VAL@@</div>
           <div class="score-card-desc">@@FACTOR_1_DESC@@</div>
         </div>
-
-        <!-- FACTOR CARD 2 -->
-        <div class="score-card">
-          <div class="score-card-label">@@FACTOR_2_LABEL@@</div>
-          <div class="score-card-val">@@FACTOR_2_STAT@@</div>
-          <div class="score-card-desc">@@FACTOR_2_DESC@@</div>
-        </div>
-
-        <!-- FACTOR CARD 3 -->
-        <div class="score-card">
-          <div class="score-card-label">@@FACTOR_3_LABEL@@</div>
-          <div class="score-card-val">@@FACTOR_3_STAT@@</div>
-          <div class="score-card-desc">@@FACTOR_3_DESC@@</div>
-        </div>
-
-        <!-- FACTOR CARD 4 (optional — remove if not needed) -->
-        <div class="score-card">
-          <div class="score-card-label">@@FACTOR_4_LABEL@@</div>
-          <div class="score-card-val">@@FACTOR_4_STAT@@</div>
-          <div class="score-card-desc">@@FACTOR_4_DESC@@</div>
-        </div>
-
       </div>
     </div>
   </section>
 
   <!-- ─── 5. FINDINGS (DARK SECTION) ───────────────────────────
-       Lead with the big headline stat (# bars, % of total).
-       Follow with observations: key brands, brands to avoid,
-       most common ingredients, other patterns worth noting.
-       Optional: include a simple inline chart or visual
-       (bar chart of grade distribution, ingredient frequency, etc.)
-       Use .big-stat for the headline number.
-       Use .insights-grid for the supporting observations.
+       No visible eyebrow div (brand-v1 hides .findings-eyebrow
+       already, but cleanest to just omit it from markup entirely).
+       .big-stat and .insights-grid already carry brand-v1 dark-band
+       styling correctly, no changes needed here from rev 2.
        ─────────────────────────────────────────────────────────── -->
   <section class="findings">
     <div class="findings-inner">
-      <div class="findings-eyebrow" style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#888880;margin-bottom:.75rem;">What the data shows</div>
       <h2 class="findings-title">@@FINDINGS_TITLE@@</h2>
-
-      <!-- Big headline stat -->
       <div class="big-stat">
         <div class="big-stat-num">@@BIG_STAT_NUM@@</div>
         <div>
@@ -519,248 +452,318 @@
           <div class="big-stat-detail">@@BIG_STAT_DETAIL@@</div>
         </div>
       </div>
-
-      <!-- Supporting observations (4–6 items) -->
       <div class="insights-grid">
-
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_1_HEAD@@</strong> @@INSIGHT_1_BODY@@</div>
-        </div>
-
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_2_HEAD@@</strong> @@INSIGHT_2_BODY@@</div>
-        </div>
-
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_3_HEAD@@</strong> @@INSIGHT_3_BODY@@</div>
-        </div>
-
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_4_HEAD@@</strong> @@INSIGHT_4_BODY@@</div>
-        </div>
-
-        <!-- Optional 5th insight -->
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_5_HEAD@@</strong> @@INSIGHT_5_BODY@@</div>
-        </div>
-
-        <!-- Optional 6th insight -->
-        <div class="insight-item">
-          <div class="insight-dot"></div>
-          <div class="insight-text"><strong>@@INSIGHT_6_HEAD@@</strong> @@INSIGHT_6_BODY@@</div>
-        </div>
-
+        <!-- INSIGHT PATTERN — 4-6 items, each traceable to a computed stat -->
+        <div class="insight-item"><div class="insight-dot"></div><div class="insight-text"><strong>@@INSIGHT_1_HEAD@@</strong> @@INSIGHT_1_BODY@@</div></div>
       </div>
-
-      <!-- Optional: inline chart/visual — use a simple SVG bar chart or grade distribution
-           Only include if it adds genuine clarity. Keep it clean and labeled.
-           Example: grade distribution among qualifying bars.
-      <div style="margin-top:2rem;">
-        @@OPTIONAL_VISUAL@@
-      </div>
-      -->
-
     </div>
   </section>
 
-  <!-- ─── 6. BEST BRANDS / BRANDS TO AVOID ─────────────────────
-       Highlight best brands for this category.
-       Name a "sleeper" brand (lesser-known, worth knowing).
-       Name brands to avoid and briefly say why.
-       Keep it factual and data-backed. No vague verdicts.
+  <!-- ─── 6. BRAND LISTS: TARGET / AVOID / MIXED ───────────────
+       Three cards now, not two. See "BRAND LISTS" in the header
+       comment above for the selection rules for each list. No
+       "Sleeper Pick" labeling anywhere — every brand gets the same
+       plain <li><strong>Name</strong> reason.</li> treatment.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
     <div class="section-inner">
-      <h2 class="section-title">Best brands for @@GUIDE_EYEBROW@@</h2>
+      <h2 class="section-title">@@BRAND_LISTS_TITLE@@</h2>
       <div class="section-body">
-        <p>@@BRANDS_INTRO@@</p>
+        <p>@@BRAND_LISTS_INTRO@@</p>
       </div>
 
       <div class="verdict-inner" style="margin-top:1.25rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-
         <div class="verdict-card pro">
           <div class="verdict-label pro">Brands to target</div>
           <ul class="verdict-items">
-            <!-- Add 3–5 brands. Include a brief reason for each. -->
-            <li><strong>@@BRAND_GOOD_1@@</strong> @@BRAND_GOOD_1_REASON@@</li>
-            <li><strong>@@BRAND_GOOD_2@@</strong> @@BRAND_GOOD_2_REASON@@</li>
-            <li><strong>@@BRAND_GOOD_3@@</strong> @@BRAND_GOOD_3_REASON@@</li>
-            <!-- Optional sleeper brand — mark it clearly -->
-            <li><strong>@@BRAND_SLEEPER@@ (Sleeper Pick)</strong> @@BRAND_SLEEPER_REASON@@</li>
+            <!-- as many as the data supports, each with a real reason -->
+            <li><strong>@@TARGET_BRAND_1@@</strong> @@TARGET_BRAND_1_REASON@@</li>
           </ul>
         </div>
-
         <div class="verdict-card con">
           <div class="verdict-label con">Brands to avoid</div>
           <ul class="verdict-items">
-            <!-- Add 2–4 brands with specific reasons (ingredient, sweetener, etc.) -->
-            <li><strong>@@BRAND_BAD_1@@</strong> @@BRAND_BAD_1_REASON@@</li>
-            <li><strong>@@BRAND_BAD_2@@</strong> @@BRAND_BAD_2_REASON@@</li>
-            <li><strong>@@BRAND_BAD_3@@</strong> @@BRAND_BAD_3_REASON@@</li>
+            <li><strong>@@AVOID_BRAND_1@@</strong> @@AVOID_BRAND_1_REASON@@</li>
           </ul>
         </div>
+      </div>
 
+      <!-- Mixed lineups card — new in rev 3. Only include this card if
+           at least 2-3 brands genuinely meet the mixed threshold; don't
+           force it if the guide's criteria doesn't produce real splits. -->
+      <div style="margin-top:1.25rem;">
+        <div class="verdict-card" style="border-left:3px solid #b89a00;">
+          <div class="verdict-label" style="color:#b89a00;">Mixed lineups, check the flavor</div>
+          <ul class="verdict-items">
+            <li><strong>@@MIXED_BRAND_1@@</strong> @@MIXED_BRAND_1_QUAL@@ of @@MIXED_BRAND_1_TOTAL@@ flavors qualify, @@MIXED_BRAND_1_DISQUAL@@ do not. <strong>@@MIXED_BRAND_1_BEST_FLAVOR@@</strong> (@@MIXED_BRAND_1_BEST_GRADE@@ grade) is the clean pick, but check the label flavor by flavor.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ─── 7. BAR LIST ───────────────────────────────────────────
-       Target 40–60 bars. Sorted by ingredient_score descending.
-       Each bar = one .bar-card with expand behavior.
-       Table columns match brand pages: Bar, Grade, Score, Protein, Cal, Sugar.
-       Pagination toggle is included — initially shows first 25, "Show more"
-       reveals the rest. No JS dependency beyond the inline script below.
+       Full brand-page-richness rows for EVERY qualifying bar,
+       generated programmatically — see build_no_seed_oils.py /
+       assemble_page.py for the reference pipeline. Do not hand-type
+       rows past a handful. Percentile ranks computed against the
+       full live database at build time, same rule as brand pages.
+
+       Include the .gd-filter-bar when the qualifying set is roughly
+       100+ bars. For smaller sets it's optional but the rich expand
+       content per row is not — never fall back to the old flat
+       6-column table.
        ─────────────────────────────────────────────────────────── -->
   <section class="bars-section">
     <div class="bars-section-inner">
-      <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.4rem;">@@BARS_LIST_TITLE@@</h2>
-      <p style="color:#4a4a45;font-size:0.9rem;margin-bottom:1.25rem;">@@BARS_LIST_SUBTITLE@@</p>
+      <h2 class="section-title">@@BARS_QUALIFY@@ bars @@GUIDE_TABLE_SUBTITLE@@, ranked</h2>
+      <p class="section-body">@@BAR_TABLE_INTRO@@</p>
 
-      <div class="bar-table-wrap" style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
-          <thead>
-            <tr style="border-bottom:2px solid var(--border);">
-              <th style="text-align:left;padding:8px 10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:44%;">Bar</th>
-              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:10%;">Grade</th>
-              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:11%;">Score</th>
-              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:12%;">Protein</th>
-              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:11%;">Cal</th>
-              <th style="text-align:center;padding:8px 6px;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:12%;">Sugar</th>
-            </tr>
-          </thead>
-          <tbody id="guide-bar-tbody">
+      <!-- Filter/sort bar — omit if qualifying set is small -->
+      <div class="gd-filter-bar">
+        <div class="gd-filter-chips" id="gd-grade-chips">
+          <button class="gd-chip active" data-grade="all">All grades</button>
+          <button class="gd-chip" data-grade="A">A</button>
+          <button class="gd-chip" data-grade="B">B</button>
+          <button class="gd-chip" data-grade="C">C</button>
+          <button class="gd-chip" data-grade="D">D</button>
+          <!-- omit grades with zero qualifying bars -->
+        </div>
+        <div class="gd-filter-controls">
+          <input type="text" id="gd-search" class="gd-search" placeholder="Search brand or flavor">
+          <select id="gd-sort" class="gd-sort">
+            <option value="score-desc">Sort: Best ingredient score</option>
+            <option value="protein-desc">Sort: Most protein</option>
+            <option value="cal-asc">Sort: Fewest calories</option>
+            <option value="sugar-asc">Sort: Lowest sugar</option>
+            <option value="p100-desc">Sort: Best protein per 100 cal</option>
+          </select>
+        </div>
+      </div>
+      <div class="gd-result-count" id="gd-result-count">Showing 30 of @@BARS_QUALIFY@@ bars</div>
 
-            <!-- ══════════════════════════════════════════════════════
-                 ROW PATTERN — copy and paste for each bar.
-                 Increment the data-idx value (0, 1, 2, ...).
-                 First 25 rows have no class. Rows 26+ get class="hidden-bar"
-                 ══════════════════════════════════════════════════════ -->
+      <div class="bar-table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-bar">BAR</th>
+                <th class="col-num col-hide-mobile" title="Calories">CAL</th>
+                <th class="col-num" title="Protein (g)">PROT</th>
+                <th class="col-num col-hide-mobile" title="Protein per 100 calories">P/100</th>
+                <th class="col-num" title="Total Fat (g)">FAT</th>
+                <th class="col-num col-hide-mobile" title="Total Carbohydrates (g)">CARB</th>
+                <th class="col-num" title="Dietary Fiber (g)">FIBR</th>
+                <th class="col-num" title="Sugars (g)">SGR</th>
+                <th class="col-num col-hide-mobile" title="Sugar Alcohol (g)">SGR ALC</th>
+                <th class="col-certs col-hide-mobile">CERTS</th>
+                <th class="col-grade" title="Ingredient Quality Grade">GRADE</th>
+              </tr>
+            </thead>
+            <tbody id="gd-tbody">
 
-            <!-- ROWS 1–25: visible by default (no class needed) -->
-            <!-- @@AMAZON_URL@@ = Amazon Affiliate column from DB -->
-            <!-- @@SITE_URL@@   = Website column from DB -->
-            <!-- Omit the Amazon <a> entirely if no affiliate URL exists -->
-            <!-- Omit the Brand site <a> entirely if no website URL exists -->
-            <tr class="bar-row" data-idx="0" onclick="toggleGuideBar(0, this)">
-              <td class="bar-name-cell" style="padding:9px 10px;">
-                <div style="font-size:0.88rem;font-weight:600;color:var(--black);line-height:1.3;">@@BRAND_NAME@@ @@FLAVOR_NAME@@</div>
-                <div style="margin-top:3px;">
-                  <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="buy-btn" onclick="event.stopPropagation()">Buy on Amazon</a>
-                  <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:6px;" onclick="event.stopPropagation()">Buy from Brand</a>
-                  <span class="expand-hint" style="margin-left:8px;">tap for details</span>
-                </div>
-              </td>
-              <td style="text-align:center;padding:9px 6px;">
-                <span class="grade-badge" style="background:@@GRADE_COLOR@@" title="@@GRADE_DEF@@">@@GRADE@@</span>
-              </td>
-              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);">@@SCORE@@</td>
-              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@PROTEIN@@g</td>
-              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@CALORIES@@</td>
-              <td style="text-align:center;padding:9px 6px;font-family:var(--font-mono);font-size:0.82rem;">@@SUGAR@@g</td>
-            </tr>
-            <tr class="ingr-row" id="guide-ingr-0">
-              <td colspan="6" class="ingr-cell">
-                <div class="ingr-inner">
-                  <div class="ingr-macros">
-                    <span><strong>Protein</strong> @@PROTEIN@@g</span>
-                    <span><strong>Calories</strong> @@CALORIES@@</span>
-                    <span><strong>Fat</strong> @@FAT@@g</span>
-                    <span><strong>Carbs</strong> @@CARBS@@g</span>
-                    <span><strong>Fiber</strong> @@FIBER@@g</span>
-                    <span><strong>Sugar</strong> @@SUGAR@@g</span>
-                    <!-- Include Net Carbs if guide is keto -->
-                    <!-- <span><strong>Net Carbs</strong> @@NET_CARBS@@g</span> -->
-                    <span><strong>Sugar Alc</strong> @@SUGAR_ALC@@g</span>
-                    <span><strong>Sodium</strong> @@SODIUM@@mg</span>
+              <!-- RICH ROW PATTERN — used for idx 0 through RICH_BATCH-1 (60).
+                   One bar-row + one fully pre-rendered ingr-row per bar,
+                   generated programmatically. idx starts at 0, increments
+                   with no gaps across the WHOLE table (rich rows and light
+                   rows below share one idx sequence). Multi-brand guide
+                   pages show the brand name above the flavor name
+                   (.bar-brand) since a guide spans many brands, unlike a
+                   brand page's single-brand table. -->
+              <tr class="bar-row" data-idx="0" data-score="@@SCORE@@" data-grade="@@GRADE@@" data-protein="@@PROTEIN@@" data-cal="@@CALORIES@@" data-sugar="@@SUGAR@@" data-p100="@@P100@@" data-search="@@BRAND_LOWER@@ @@FLAVOR_LOWER@@" onclick="toggleIngr(0, this)">
+                <td class="col-bar">
+                  <div class="bar-brand">@@BRAND_NAME@@</div>
+                  <div class="bar-flavor">@@FLAVOR_NAME@@</div>
+                  <svg class="row-expand-icon" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </td>
+                <td class="col-num col-hide-mobile">@@CALORIES@@</td>
+                <td class="col-num">@@PROTEIN@@</td>
+                <td class="col-num col-hide-mobile">@@P100@@</td>
+                <td class="col-num">@@FAT@@</td>
+                <td class="col-num col-hide-mobile">@@CARBS@@</td>
+                <td class="col-num">@@FIBER@@</td>
+                <td class="col-num">@@SUGAR@@</td>
+                <td class="col-num col-hide-mobile">@@SUGAR_ALCOHOL@@</td>
+                <td class="col-certs col-hide-mobile"><div class="cert-badges"><!-- one span.cert-badge per Y cert field --></div></td>
+                <td class="col-grade"><span class="table-grade-badge grade-@@GRADE@@" title="@@GRADE_DEF@@ &middot; score @@SCORE@@">@@GRADE@@</span></td>
+              </tr>
+              <tr class="ingr-row" id="ingr-0">
+                <td colspan="11" class="ingr-cell">
+                  <div class="expand-content">
+                    <div class="expand-meta">@@SIZE@@ &middot; @@TYPE@@ &middot; @@SERVING@@g serving</div>
+                    <div class="expand-buy-row">
+                      <a href="https://www.amazon.com/dp/@@ASIN@@?tag=knowyourbar0f-20" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>
+                      <a href="@@BRAND_SITE_URL@@" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>
+                      <!-- drop either link entirely if bars.js has no value, never fabricate -->
+                    </div>
+                    <!-- macro-rank-grid: 5 metrics ranked against the FULL live
+                         database at build time. Protein/Fiber: rank 1 = highest.
+                         Calories/Sugar: rank 1 = lowest. Fat: always neutral gray.
+                         Green tag if rank <= 25% of total bars. -->
+                    <div class="macro-rank-grid">
+                      <div class="macro-rank-cell">
+                        <span class="macro-rank-lbl">Protein</span>
+                        <span class="macro-rank-val">@@PROTEIN@@g</span>
+                        <span class="macro-rank-tag @@RANK_CLASS@@">@@RANK_TEXT@@</span>
+                      </div>
+                      <!-- repeat for Calories, Sugar, Fiber, Fat -->
+                    </div>
+                    <div class="expand-columns">
+                      <div class="nutr-panel">
+                        <div class="nutr-panel-title">Nutrition Facts</div>
+                        <div class="nutr-row"><span class="nutr-label">Calories</span><span class="nutr-val">@@CALORIES@@</span></div>
+                        <!-- repeat for Protein, Total Fat, Saturated Fat, Trans Fat,
+                             Cholesterol, Sodium, Total Carbs, Dietary Fiber, Sugars,
+                             Sugar Alcohol, Potassium, Calcium, Iron -->
+                      </div>
+                      <div class="expand-right">
+                        <div class="score-tile score-band-@@GRADE@@">
+                          <div class="score-tile-header">
+                            <div class="score-grade-block">
+                              <div class="score-header-label">Ingredient Quality Grade</div>
+                              <div class="score-grade-row">
+                                <span class="score-band-badge">@@GRADE@@</span>
+                                <span class="score-band-label">@@GRADE_DEF@@</span>
+                              </div>
+                            </div>
+                            <div class="score-num-block">
+                              <div class="score-header-label">Ingredient Quality Score</div>
+                              <div class="score-number">@@SCORE@@</div>
+                            </div>
+                          </div>
+                          <div class="score-breakdown">
+                            <div class="score-breakdown-bar">
+                              <div class="sbd-pos" style="width:@@POS_PCT@@%"></div>
+                              <div class="sbd-neg" style="width:@@NEG_PCT@@%"></div>
+                            </div>
+                            <div class="score-breakdown-labels">
+                              <span class="sbd-label-pos">+@@SCORE_POS@@ positive</span>
+                              <span class="sbd-label-neg">@@SCORE_NEG@@ concerns</span>
+                            </div>
+                          </div>
+                          <div class="score-chips">
+                            <!-- one span.insight-chip per real chip from score_insights,
+                                 never invented -->
+                          </div>
+                          <div class="score-ingr-cols">
+                            <div class="ingr-col">
+                              <div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>
+                              <!-- one .ingr-col-item per positive_ingredients entry -->
+                            </div>
+                            <div class="ingr-col">
+                              <div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>
+                              <!-- one .ingr-col-item per concern_ingredients entry, or
+                                   a single "None flagged" item if there are none -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ingr-block">
+                          <div class="ingr-label">Ingredients</div>
+                          <div class="ingr-text">@@FULL_INGREDIENT_LIST@@</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <strong style="font-size:0.82rem;">Ingredients: </strong>
-                  <span style="font-size:0.82rem;color:#444;line-height:1.7;">@@INGREDIENTS@@</span>
-                  <div class="ingr-chips" style="margin-top:0.6rem;">
-                    <!-- Add relevant chips. Use pos for positive, con elev for concerns. -->
-                    <span class="bchip pos">@@POSITIVE_CHIP@@</span>
-                    <span class="bchip con elev">@@CONCERN_CHIP@@</span>
-                  </div>
-                  <div class="ingr-buy" style="margin-top:0.7rem;">
-                    <a href="@@AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="cta-amazon">Buy on Amazon</a>
-                    <a href="@@SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site" style="margin-left:7px;">Buy from Brand</a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <!-- END ROW PATTERN -->
+                </td>
+              </tr>
+              <!-- END RICH ROW PATTERN -->
 
-            <!-- ROWS 26+: add class="hidden-bar" to the tr pairs beyond 25 -->
-            <!-- Example:
-            <tr class="bar-row hidden-bar" data-idx="25" onclick="toggleGuideBar(25, this)">
-              ...
-            </tr>
-            <tr class="ingr-row hidden-bar" id="guide-ingr-25">
-              ...
-            </tr>
-            -->
+              <!-- LIGHT ROW PATTERN — used for idx RICH_BATCH (60) onward.
+                   The bar-row is identical in structure to the rich pattern
+                   above (same data-* attributes, same visible cells) — it
+                   must render normally since the full 600-row list of names/
+                   brands/macros/grades is the actual crawlable SEO content.
+                   Only the ingr-row differs: an empty placeholder instead of
+                   pre-built markup. -->
+              <tr class="bar-row" data-idx="60" data-score="@@SCORE@@" data-grade="@@GRADE@@" data-protein="@@PROTEIN@@" data-cal="@@CALORIES@@" data-sugar="@@SUGAR@@" data-p100="@@P100@@" data-search="@@BRAND_LOWER@@ @@FLAVOR_LOWER@@" onclick="toggleIngr(60, this)">
+                <td class="col-bar">
+                  <div class="bar-brand">@@BRAND_NAME@@</div>
+                  <div class="bar-flavor">@@FLAVOR_NAME@@</div>
+                  <svg class="row-expand-icon" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </td>
+                <td class="col-num col-hide-mobile">@@CALORIES@@</td>
+                <td class="col-num">@@PROTEIN@@</td>
+                <td class="col-num col-hide-mobile">@@P100@@</td>
+                <td class="col-num">@@FAT@@</td>
+                <td class="col-num col-hide-mobile">@@CARBS@@</td>
+                <td class="col-num">@@FIBER@@</td>
+                <td class="col-num">@@SUGAR@@</td>
+                <td class="col-num col-hide-mobile">@@SUGAR_ALCOHOL@@</td>
+                <td class="col-certs col-hide-mobile"><div class="cert-badges"></div></td>
+                <td class="col-grade"><span class="table-grade-badge grade-@@GRADE@@" title="@@GRADE_DEF@@ &middot; score @@SCORE@@">@@GRADE@@</span></td>
+              </tr>
+              <tr class="ingr-row" id="ingr-60" data-lazy="1">
+                <td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1"></div></td>
+              </tr>
+              <!-- END LIGHT ROW PATTERN -->
 
-          </tbody>
-        </table>
+              <!-- Below the table (or anywhere before </body>), embed the
+                   compact JSON records for every light row in one block:
+                   <script type="application/json" id="gd-bar-data">[{...},{...}]</script>
+                   One record per light row, keyed by the same idx used in
+                   its data-idx / ingr-N id. Field shape mirrors what
+                   buildLazyExpand() (bottom of this template) expects —
+                   see build_json_record() in build_no_seed_oils.py for the
+                   reference implementation: size/type/serving, amazon/site
+                   URLs, macro ranks per metric, the 14 nutrition rows,
+                   grade/score/breakdown percentages, chips, positive/concern
+                   ingredient lists, and the full ingredient text. Rich rows
+                   (idx < RICH_BATCH) do NOT need a JSON record, their
+                   content is already in the HTML. -->
+
+
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Show more / show less toggle -->
+      <!-- Show more / show less toggle — only needed if not using the
+           filter bar's built-in pagination. If the filter bar above is
+           present, this button is wired up by the inline script and
+           text updates automatically ("Show more bars (N left)"). -->
       <div class="show-more-wrap" id="show-more-wrap">
-        <button class="show-more-btn" id="show-more-btn" onclick="toggleShowMore()">Show more bars</button>
+        <button class="show-more-btn" id="gd-show-more">Show more bars</button>
       </div>
 
     </div>
   </section>
 
   <!-- ─── 8. BAR FINDER CTA ─────────────────────────────────────
-       Link to the main tool with a pre-filtered URL that matches
-       this guide's criteria. Use the explore-cta pattern.
-       @@PRESET_SLUG@@ MUST be one of these 5 valid keys from app.js:
-         lose_weight   → 20g+ protein, under 200 cal, under 3g sugar, A/B grade
-         clean         → A grade, 12g+ protein, no artificial sweeteners or sugar alcohols
-         skip_sugar    → under 2g sugar, under 4g sugar alcohol, no maltitol/sorbitol, A/B grade
-         high_protein  → highest protein efficiency (g per calorie), 15g+ protein, A/B/C grade
-         keto          → under 5g net carbs, 10g+ fat, A/B grade
-       DO NOT invent slugs — only these keys are defined in app.js PRESETS.
+       Unchanged from rev 2. No visible eyebrow div.
        ─────────────────────────────────────────────────────────── -->
   <section class="section explore-cta">
     <div class="explore-cta-inner">
-      <div class="explore-cta-eyebrow">Know Your Bar</div>
       <p class="explore-cta-title">See all bars that meet these criteria</p>
       <p class="explore-cta-sub">Filter all 1,000+ bars by the exact metrics that matter for @@GUIDE_EYEBROW@@. Every bar scored A-F by ingredient quality. No sponsored picks.</p>
       <div class="explore-cta-btns">
-        <a href="/?preset=@@PRESET_SLUG@@" class="explore-cta-btn">@@PRESET_LABEL@@</a>
-        <a href="/" class="explore-cta-btn">Browse all bars</a>
+        <a href="/bar-finder.html?preset=@@PRESET_SLUG@@" class="explore-cta-btn">@@PRESET_LABEL@@</a>
+        <!-- omit the line above entirely if no PRESETS key in app.js
+             actually matches this guide's criteria — link to plain
+             /bar-finder.html below and stop there rather than guess -->
+        <a href="/bar-finder.html" class="explore-cta-btn">Browse all bars</a>
         <a href="/ingredient_scoring.html" class="explore-cta-btn">How we score</a>
       </div>
     </div>
   </section>
 
   <!-- ─── 9. EXPLORE MORE (3 links) ────────────────────────────
-       Card 1: a related guide (most topically close)
-       Card 2: another guide or relevant brand review
-       Card 3: a brand review or the main tool
-       section-inner constrains to 820px — matches brand template.
+       Unchanged from rev 2.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
     <div class="section-inner">
       <div class="explore-more-label">Explore more</div>
       <div class="explore-more-grid">
-        <a href="/@@EXPLORE_1_SLUG@@.html" class="explore-more-card">
-          <div class="explore-more-title">@@EXPLORE_1_TITLE@@</div>
-          <div class="explore-more-desc">@@EXPLORE_1_DESC@@</div>
+        <a href="@@RELATED_1_URL@@" class="explore-more-card">
+          <div class="explore-more-title">@@RELATED_1_TITLE@@</div>
+          <div class="explore-more-desc">@@RELATED_1_DESC@@</div>
         </a>
-        <a href="/@@EXPLORE_2_SLUG@@.html" class="explore-more-card">
-          <div class="explore-more-title">@@EXPLORE_2_TITLE@@</div>
-          <div class="explore-more-desc">@@EXPLORE_2_DESC@@</div>
+        <a href="@@RELATED_2_URL@@" class="explore-more-card">
+          <div class="explore-more-title">@@RELATED_2_TITLE@@</div>
+          <div class="explore-more-desc">@@RELATED_2_DESC@@</div>
         </a>
-        <a href="/@@EXPLORE_3_SLUG@@.html" class="explore-more-card">
-          <div class="explore-more-title">@@EXPLORE_3_TITLE@@</div>
-          <div class="explore-more-desc">@@EXPLORE_3_DESC@@</div>
+        <a href="@@RELATED_3_URL@@" class="explore-more-card">
+          <div class="explore-more-title">@@RELATED_3_TITLE@@</div>
+          <div class="explore-more-desc">@@RELATED_3_DESC@@</div>
         </a>
       </div>
     </div>
@@ -769,138 +772,240 @@
 </div><!-- /content -->
 
 <!-- ─── 10. FAQ ───────────────────────────────────────────────
-     Min 7 questions. Must match JSON-LD schema exactly.
-     Questions should be unique to this guide. No generic filler.
-     Use the same accordion style as brand pages.
+     Min 7 questions, must match JSON-LD exactly. If the page has a
+     Mixed Lineups section, add a question like "Can a brand have
+     some flavors with X and some without?" — see no-seed-oils.html.
+     Use .section-title on the heading, not an inline style.
      ─────────────────────────────────────────────────────────── -->
 <section class="guide-faq">
   <div class="guide-faq-inner">
-    <h2 style="font-family:'Inter',system-ui,sans-serif;font-size:clamp(1.2rem,2.5vw,1.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:1.1rem;">Frequently asked questions</h2>
+    <h2 class="section-title">Frequently asked questions</h2>
     <div class="faq-items">
-
       <div class="faq-item">
         <button class="faq-q">@@FAQ_Q1@@</button>
         <div class="faq-a">@@FAQ_A1@@</div>
       </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q2@@</button>
-        <div class="faq-a">@@FAQ_A2@@</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q3@@</button>
-        <div class="faq-a">@@FAQ_A3@@</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q4@@</button>
-        <div class="faq-a">@@FAQ_A4@@</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q5@@</button>
-        <div class="faq-a">@@FAQ_A5@@</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q6@@</button>
-        <div class="faq-a">@@FAQ_A6@@</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q">@@FAQ_Q7@@</button>
-        <div class="faq-a">@@FAQ_A7@@</div>
-      </div>
-
-      <!-- Add up to 3 guide-specific extra questions here -->
-
+      <!-- repeat per question, 7 minimum -->
     </div>
   </div>
 </section>
 
 <!-- ─── FOOTER ───────────────────────────────────────────────
-     site-footer-copy is OUTSIDE site-footer-inner.
-     Footer links should be a short, useful set — not exhaustive.
+     Copy verbatim from any current live page. site-footer-copy is
+     OUTSIDE site-footer-inner.
      ─────────────────────────────────────────────────────────── -->
 <footer class="site-footer">
   <div class="site-footer-inner">
     <div class="site-footer-brand-block">
       <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
-      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsors. No BS.</div>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
     </div>
     <nav class="site-footer-links">
-      <a href="/">Bar Finder</a>
-      <a href="/ingredient_scoring.html">How We Score</a>
-      <a href="/clean-protein-bars.html">Clean Bars</a>
-      <a href="/no-artificial-sweeteners.html">No Sweeteners</a>
-      <a href="/keto-protein-bars.html">Keto Bars</a>
-      <a href="/low-sugar-high-protein.html">Low Sugar High Protein</a>
+      <!-- short, useful set of links — not exhaustive -->
     </nav>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated @@DATE_MODIFIED@@</div>
 </footer>
 
-<!-- ─── JAVASCRIPT ────────────────────────────────────────────
-     Do not modify. Handles FAQ accordion, bar expand/collapse,
-     show more/less toggle, mobile nav, and GA4 affiliate tracking.
+<!-- ─── FILTER/SORT + EXPAND SCRIPT ───────────────────────────
+     Generic, copy verbatim — no placeholders needed inside. Drives
+     the .gd-filter-bar above against the server-rendered rows. All
+     rows stay in the initial HTML for SEO; this only reorders/hides
+     them and paginates the visible slice. toggleIngr() uses
+     nextElementSibling rather than a fixed id lookup so it keeps
+     working after rows get reordered by a sort.
      ─────────────────────────────────────────────────────────── -->
 <script>
-  /* ── Mobile nav toggle ── */
-  const navToggle = document.getElementById('nav-toggle');
-  const navLinks  = document.querySelector('.site-nav-links');
-  if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  }
-
-  /* ── FAQ accordion ── */
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item   = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+(function() {
+  var tbody = document.getElementById('gd-tbody');
+  if (!tbody) return; // no filter bar on this guide, skip
+  var pairs = [];
+  var barRows = Array.prototype.slice.call(tbody.querySelectorAll('tr.bar-row'));
+  barRows.forEach(function(row) {
+    pairs.push({
+      bar: row,
+      ingr: row.nextElementSibling,
+      score: parseFloat(row.dataset.score) || 0,
+      grade: row.dataset.grade,
+      protein: parseFloat(row.dataset.protein) || 0,
+      cal: parseFloat(row.dataset.cal) || 0,
+      sugar: parseFloat(row.dataset.sugar) || 0,
+      p100: parseFloat(row.dataset.p100) || 0,
+      search: row.dataset.search || ''
     });
   });
 
-  /* ── Guide bar expand/collapse ── */
-  function toggleGuideBar(idx, row) {
-    const ingrRow = document.getElementById('guide-ingr-' + idx);
-    if (!ingrRow) return;
-    const isOpen = ingrRow.classList.contains('open');
-    document.querySelectorAll('.ingr-row').forEach(r => r.classList.remove('open'));
-    document.querySelectorAll('.bar-row').forEach(r => r.classList.remove('open'));
-    if (!isOpen) {
-      ingrRow.classList.add('open');
-      row.classList.add('open');
+  var state = { grade: 'all', query: '', sort: 'score-desc', visible: 30 };
+  var PAGE_SIZE = 30;
+
+  var sorters = {
+    'score-desc': function(a, b) { return b.score - a.score; },
+    'protein-desc': function(a, b) { return b.protein - a.protein; },
+    'cal-asc': function(a, b) { return a.cal - b.cal; },
+    'sugar-asc': function(a, b) { return a.sugar - b.sugar; },
+    'p100-desc': function(a, b) { return b.p100 - a.p100; }
+  };
+
+  function render() {
+    var filtered = pairs.filter(function(p) {
+      var gradeOk = state.grade === 'all' || p.grade === state.grade;
+      var queryOk = state.query === '' || p.search.indexOf(state.query) !== -1;
+      return gradeOk && queryOk;
+    });
+    filtered.sort(sorters[state.sort]);
+
+    tbody.innerHTML = '';
+    var shown = filtered.slice(0, state.visible);
+    shown.forEach(function(p) {
+      p.ingr.style.display = 'none';
+      p.bar.classList.remove('row-open');
+      tbody.appendChild(p.bar);
+      tbody.appendChild(p.ingr);
+    });
+
+    var countEl = document.getElementById('gd-result-count');
+    if (countEl) countEl.textContent = 'Showing ' + shown.length + ' of ' + filtered.length + ' bars';
+
+    var moreBtn = document.getElementById('gd-show-more');
+    if (moreBtn) {
+      if (filtered.length > state.visible) {
+        moreBtn.style.display = '';
+        moreBtn.textContent = 'Show more bars (' + (filtered.length - state.visible) + ' left)';
+      } else {
+        moreBtn.style.display = 'none';
+      }
     }
   }
 
-  /* ── Show more / show less (bar list pagination) ── */
-  let showingAll = false;
-  function toggleShowMore() {
-    const hiddenRows = document.querySelectorAll('.hidden-bar');
-    const btn = document.getElementById('show-more-btn');
-    showingAll = !showingAll;
-    hiddenRows.forEach(r => {
-      r.style.display = showingAll ? '' : 'none';
+  var chipWrap = document.getElementById('gd-grade-chips');
+  if (chipWrap) {
+    chipWrap.addEventListener('click', function(e) {
+      var btn = e.target.closest('.gd-chip');
+      if (!btn) return;
+      chipWrap.querySelectorAll('.gd-chip').forEach(function(c) { c.classList.remove('active'); });
+      btn.classList.add('active');
+      state.grade = btn.dataset.grade;
+      state.visible = PAGE_SIZE;
+      render();
     });
-    btn.textContent = showingAll ? 'Show fewer bars' : 'Show more bars';
   }
-  /* Initialize — hide overflow rows on load */
-  document.querySelectorAll('.hidden-bar').forEach(r => r.style.display = 'none');
 
-  /* ── GA4 affiliate tracking ── */
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('a[href*="amazon.com"]').forEach(function (link) {
-      link.addEventListener('click', function () {
-        gtag('event', 'affiliate_click', {
-          'event_category': 'Amazon',
-          'event_label': window.location.pathname
-        });
-      });
+  var searchTimer;
+  var searchEl = document.getElementById('gd-search');
+  if (searchEl) {
+    searchEl.addEventListener('input', function(e) {
+      clearTimeout(searchTimer);
+      var val = e.target.value.toLowerCase();
+      searchTimer = setTimeout(function() {
+        state.query = val;
+        state.visible = PAGE_SIZE;
+        render();
+      }, 150);
     });
-  });
+  }
+
+  var sortEl = document.getElementById('gd-sort');
+  if (sortEl) {
+    sortEl.addEventListener('change', function(e) {
+      state.sort = e.target.value;
+      render();
+    });
+  }
+
+  var moreBtnEl = document.getElementById('gd-show-more');
+  if (moreBtnEl) {
+    moreBtnEl.addEventListener('click', function() {
+      state.visible += PAGE_SIZE;
+      render();
+    });
+  }
+
+  render();
+})();
+
+function toggleIngr(idx, rowEl) {
+  var ingr = rowEl.nextElementSibling;
+  if (!ingr) return;
+  if (ingr.dataset.lazy === '1') {
+    buildLazyExpand(idx, ingr);
+  }
+  var isOpen = ingr.style.display === 'table-row';
+  ingr.style.display = isOpen ? 'none' : 'table-row';
+  rowEl.classList.toggle('row-open', !isOpen);
+}
+
+var _gdBarData = null;
+function _gdGetBarData() {
+  if (_gdBarData === null) {
+    var el = document.getElementById('gd-bar-data');
+    var list = el ? JSON.parse(el.textContent) : [];
+    _gdBarData = {};
+    list.forEach(function(r) { _gdBarData[r.i] = r; });
+  }
+  return _gdBarData;
+}
+
+function _gdRankTag(pair) {
+  return '<span class="macro-rank-tag ' + pair[1] + '">' + pair[0] + '</span>';
+}
+
+function buildLazyExpand(idx, ingrEl) {
+  var data = _gdGetBarData();
+  var r = data[idx];
+  var content = ingrEl.querySelector('.expand-content');
+  if (!r || !content) return;
+
+  var buyLinks = '';
+  if (r.az) buyLinks += '<a href="' + r.az + '" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>';
+  if (r.ws) buyLinks += '<a href="' + r.ws + '" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>';
+
+  var macroRanks =
+    '<div class="macro-rank-cell"><span class="macro-rank-lbl">Protein</span><span class="macro-rank-val">' + r.pv + 'g</span>' + _gdRankTag(r.rk.p) + '</div>' +
+    '<div class="macro-rank-cell"><span class="macro-rank-lbl">Calories</span><span class="macro-rank-val">' + r.cv + '</span>' + _gdRankTag(r.rk.c) + '</div>' +
+    '<div class="macro-rank-cell"><span class="macro-rank-lbl">Sugar</span><span class="macro-rank-val">' + r.sv2 + 'g</span>' + _gdRankTag(r.rk.s) + '</div>' +
+    '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fiber</span><span class="macro-rank-val">' + r.fv + 'g</span>' + _gdRankTag(r.rk.f) + '</div>' +
+    '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fat</span><span class="macro-rank-val">' + r.ftv + 'g</span>' + _gdRankTag(r.rk.ft) + '</div>';
+
+  var nutrRows = r.nu.map(function(pair) {
+    return '<div class="nutr-row"><span class="nutr-label">' + pair[0] + '</span><span class="nutr-val">' + pair[1] + '</span></div>';
+  }).join('');
+
+  var chips = r.ch.map(function(c) {
+    return '<span class="insight-chip ' + c[1] + '">' + c[0] + '</span>';
+  }).join('');
+
+  var posIngr = r.pi.map(function(x) { return '<div class="ingr-col-item">' + x + '</div>'; }).join('');
+  var negIngr = r.ni.map(function(x) { return '<div class="ingr-col-item">' + x + '</div>'; }).join('');
+
+  content.innerHTML =
+    '<div class="expand-meta">' + r.sz + ' &middot; ' + r.ty + ' &middot; ' + r.sv + 'g serving</div>' +
+    '<div class="expand-buy-row">' + buyLinks + '</div>' +
+    '<div class="macro-rank-grid">' + macroRanks + '</div>' +
+    '<div class="expand-columns">' +
+      '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutrRows + '</div>' +
+      '<div class="expand-right">' +
+        '<div class="score-tile score-band-' + r.gr + '">' +
+          '<div class="score-tile-header">' +
+            '<div class="score-grade-block"><div class="score-header-label">Ingredient Quality Grade</div>' +
+              '<div class="score-grade-row"><span class="score-band-badge">' + r.gr + '</span><span class="score-band-label">' + r.gl + '</span></div></div>' +
+            '<div class="score-num-block"><div class="score-header-label">Ingredient Quality Score</div><div class="score-number">' + r.sc + '</div></div>' +
+          '</div>' +
+          '<div class="score-breakdown"><div class="score-breakdown-bar">' +
+            '<div class="sbd-pos" style="width:' + r.pp + '%"></div><div class="sbd-neg" style="width:' + r.np + '%"></div></div>' +
+            '<div class="score-breakdown-labels"><span class="sbd-label-pos">+' + r.ps + ' positive</span><span class="sbd-label-neg">' + r.ns + ' concerns</span></div></div>' +
+          '<div class="score-chips">' + chips + '</div>' +
+          '<div class="score-ingr-cols">' +
+            '<div class="ingr-col"><div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>' + posIngr + '</div>' +
+            '<div class="ingr-col"><div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>' + negIngr + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="ingr-block"><div class="ingr-label">Ingredients</div><div class="ingr-text">' + r.ing + '</div></div>' +
+      '</div>' +
+    '</div>';
+
+  content.removeAttribute('data-pending');
+  ingrEl.dataset.lazy = '0';
+}
 </script>
 
 </body>

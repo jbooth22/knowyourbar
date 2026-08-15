@@ -3994,3 +3994,80 @@ body.overlay-open { overflow: hidden; }
   .site-nav-mobile-toggle { display: block; }
   .site-nav-mobile-bar-finder { display: inline-flex; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE FILTER/SORT BAR — 2026-08-14
+   Added for no-seed-oils.html and future high-volume guide pages
+   (500+ bar tables). Grade chips + search + sort, all driving a
+   client-side re-render of server-rendered rows (see inline script
+   at the bottom of no-seed-oils.html). Follows the same visual
+   language as .verdict-card / .bar-table-wrap rather than
+   introducing a new component family.
+   ═══════════════════════════════════════════════════════════════ */
+.gd-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 1rem 0 0.6rem;
+  padding: 0.9rem 1rem;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.gd-filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.gd-chip {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 13px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  cursor: pointer;
+}
+.gd-chip:hover { border-color: var(--black); color: var(--black); }
+.gd-chip.active { background: var(--black); border-color: var(--black); color: var(--white); }
+.gd-filter-controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.gd-search, .gd-sort {
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--black);
+}
+.gd-search { min-width: 180px; }
+.gd-sort { cursor: pointer; }
+.gd-search:focus, .gd-sort:focus { outline: none; border-color: var(--black); }
+.gd-result-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.brand-v1 .gd-result-count { font-family: var(--bs-font-body); letter-spacing: 0; text-transform: none; }
+.brand-v1 .gd-chip { font-family: var(--bs-font-body); border-radius: var(--bs-radius); }
+.brand-v1 .gd-chip.active { background: var(--bs-ink); border-color: var(--bs-ink); color: var(--bs-paper); }
+.brand-v1 .gd-chip:hover { border-color: var(--bs-ink); color: var(--bs-ink); }
+.brand-v1 .gd-search, .brand-v1 .gd-sort { font-family: var(--bs-font-body); border-radius: var(--bs-radius); color: var(--bs-ink); }
+.brand-v1 .gd-search:focus, .brand-v1 .gd-sort:focus { border-color: var(--bs-ink); }
+
+@media (max-width: 700px) {
+  .gd-filter-bar { flex-direction: column; align-items: stretch; }
+  .gd-filter-controls { flex-direction: column; }
+  .gd-search, .gd-sort { width: 100%; }
+}
+
+/* verdict-label — retire the last uppercase letter-spaced mono
+   "eyebrow" pattern on brand-v1 pages (matches the .bw-label /
+   .macro-label / .chip-group-label treatment already in place). */
+.brand-v1 .verdict-label {
+  font-family: var(--bs-font-body) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  font-weight: 700;
+}
