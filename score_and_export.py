@@ -70,6 +70,18 @@ SKIP_CLAUSES   = [
     'may contain', 'contains:',
     'manufactured in', 'processed in', 'made in',
 ]
+# Diminishing returns on stacked protein sources (added schema v7, 2026-08-14):
+# each additional *separately top-level-listed* protein ingredient beyond the
+# single best-scoring one counts at this fraction of its normal weighted
+# value. This does NOT apply to protein sources decomposed from the same
+# parenthetical blend label (e.g. "Protein Blend (Milk Protein Isolate, Whey
+# Protein Isolate)") - those are one FDA-labeled blend, not competing claims,
+# and are already down-weighted via the 0.6 sub-ingredient multiplier. It
+# only targets distinct top-level protein ingredients (e.g. Whey Protein
+# Isolate ... Collagen ... Milk Protein Concentrate listed as separate top-
+# level items), so a second or third source no longer adds nearly as much
+# credit as the first just by being listed.
+PROTEIN_STACK_DISCOUNT = 0.5
 # "Contains less than 2% of the following: X, Y, Z" (and variants: "and less
 # than 2% of X", "Water and Less than 2%: X", "Less than 2% of each of the
 # following: X") is standard FDA labeling for real minor ingredients — NOT
@@ -327,6 +339,14 @@ def score_bar(raw, al, cl):
 
     if not matched:
         return None, None, None, '', '', None, None, ''
+
+    # Diminishing returns on stacked protein sources (schema v7) — see
+    # PROTEIN_STACK_DISCOUNT above. Only top-level (non-sub) protein-category
+    # matches are eligible; the single best-scoring one keeps full weight.
+    prot_top = [m for m in matched if m['category'] == 'protein' and not m['is_sub']]
+    for i, m in enumerate(sorted(prot_top, key=lambda x: x['weighted'], reverse=True)):
+        if i > 0:
+            m['weighted'] *= PROTEIN_STACK_DISCOUNT
 
     top_level_count = max((m['position'] for m in matched), default=0)
     final = sum(m['weighted'] for m in matched) + get_count_adj(top_level_count)
