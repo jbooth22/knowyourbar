@@ -4071,3 +4071,141 @@ body.overlay-open { overflow: hidden; }
   text-transform: none !important;
   font-weight: 700;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   NUTRITION-LABEL LABEL TREATMENT — 2026-08-15
+   Root-cause fix for the "still looks AI" complaint that survived
+   the 2026-08-14 pass. The earlier .brand-v1 overrides fixed
+   font-family and color on these small label elements but left
+   their SIZE (9px), letter-spacing (0.1-0.12em), and uppercase
+   transform untouched -- and a 9px letter-spaced uppercase tag
+   reads as a generic dashboard/AI label no matter what typeface
+   it's set in. This strengthens the existing .brand-v1 overrides
+   to match an actual nutrition label's sub-headers: bold, small
+   but legible, sentence case, no tracking. Applies wherever
+   .brand-v1 is already active, which today is every brand page
+   and every guide page -- this fixes the same visual bug in both
+   places at once rather than leaving brand pages behind.
+   ═══════════════════════════════════════════════════════════════ */
+.brand-v1 .snap-label,
+.brand-v1 .macro-label,
+.brand-v1 .score-card-label,
+.brand-v1 .verdict-label {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--bs-ink) !important;
+}
+.brand-v1 .bar-table-wrap th {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GUIDE PAGE ADDITIONS — 2026-08-15 round 2 (Jeff feedback pass)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 6-tile top picks grid: explicit 3-column layout, not auto-fit,
+   so it reliably lands as 2 even rows of 3 at desktop width. */
+.top-picks-6 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) {
+  .top-picks-6 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .top-picks-6 { grid-template-columns: 1fr; }
+}
+
+/* Brand tables (Consider / Avoid / Mixed) -- nutrition-label style:
+   bold black headers, clean borders, no letter-spacing eyebrow look.
+   Brand name is a real <button> so it can jump to + filter the main
+   table below without navigating away or duplicating bar-finder. */
+.brand-table-block { margin-top: 1.5rem; }
+.brand-table-block:first-of-type { margin-top: 1.25rem; }
+.brand-table-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  padding-left: 2px;
+  border-left: 3px solid var(--border);
+  padding-left: 10px;
+}
+.brand-table-label.pro { border-left-color: #2a7a1f; color: #2a7a1f; }
+.brand-table-label.con { border-left-color: #c83020; color: #c83020; }
+.brand-table-label.mixed { border-left-color: #b89a00; color: #b89a00; }
+table.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-size: 13px;
+}
+table.brand-table th {
+  text-align: left;
+  padding: 9px 12px;
+  background: var(--off-white);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--black);
+}
+table.brand-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+  vertical-align: middle;
+}
+table.brand-table tr:last-child td { border-bottom: none; }
+table.brand-table tr:hover td { background: var(--off-white); }
+.brand-jump {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--black);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.brand-jump:hover { text-decoration-color: var(--black); }
+.brand-v1 .brand-table-label { font-family: var(--bs-font-body); }
+.brand-v1 table.brand-table th { font-family: var(--bs-font-body); color: var(--bs-ink); }
+.brand-v1 table.brand-table td { font-family: var(--bs-font-body); color: var(--bs-ink); }
+.brand-v1 .brand-jump { font-family: var(--bs-font-body); color: var(--bs-ink); }
+
+@media (max-width: 700px) {
+  table.brand-table { font-size: 12px; }
+  table.brand-table th, table.brand-table td { padding: 7px 8px; }
+}
+
+/* Cert badges: cap visible badges in the main table column so a bar
+   with 5 certs doesn't blow out that row's height relative to its
+   neighbors. Full list still shown as one line in the expand panel. */
+.col-certs .cert-badges { max-height: 20px; overflow: hidden; }
+.cert-badge-more {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 2px 5px;
+}
+.expand-certs-line {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0.4rem 0 0.8rem;
+}
+.brand-v1 .expand-certs-line { font-family: var(--bs-font-body); color: var(--bs-text-dim); }
+
+/* Multi-select grade chips: same visual as before, JS now toggles
+   each chip independently instead of exclusive single-select. */
+.gd-chip[aria-pressed="true"] { background: var(--black); border-color: var(--black); color: var(--white); }
+.brand-v1 .gd-chip[aria-pressed="true"] { background: var(--bs-ink); border-color: var(--bs-ink); color: var(--bs-paper); }

@@ -4,32 +4,50 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — LIFESTYLE GUIDE PAGE TEMPLATE
        File: TEMPLATE_GUIDE.html
-       Last updated: 2026-08-14 (rev 3 — brand-v1 voice/styling pass,
-       filter/sort table, expanded brand lists, mixed-lineup section)
+       Last updated: 2026-08-15 (rev 4 — typography root-cause fix,
+       6-tile picks, full oil/factor breakdown, brand tables with
+       jump-to-filter links, multi-select grade chips, FAQ accordion
+       fix, title/H1 rewrite)
 
        STATUS: this is the locked standard as of the no-seed-oils.html
-       rebuild (2026-08-14). Every guide page should be brought up to
-       this standard — see BRIEFING.md "Known issues" for the rebuild
-       queue. Treat any older live guide page as a reference for
-       content only, never for markup or CSS pattern (same rule as
-       TEMPLATE_BRAND.html).
+       rebuild (2026-08-14 through 2026-08-15). Every guide page should
+       be brought up to this standard — see BRIEFING.md "Known issues"
+       for the rebuild queue. Treat any older live guide page as a
+       reference for content only, never for markup or CSS pattern
+       (same rule as TEMPLATE_BRAND.html).
 
-       WHY THIS CHANGED FROM REV 2
-       ────────────────────────────
-       The old template used raw inline styles for headings and table
-       headers ("Inter", uppercase mono labels with inline style=
-       attributes) instead of the site's real .section-title / .bar-
-       table-wrap classes. Those classes already have brand-v1
-       overrides in style.css (Barlow Condensed headings, no uppercase
-       mono "eyebrow" labels, IBM Plex Mono only on numeric data) — the
-       inline styles were silently bypassing all of it, which is what
-       produced the generic "AI-generated site" look on live guide
-       pages. Fix is almost entirely about REUSING the classes that
-       already exist on TEMPLATE_BRAND.html rather than inventing new
-       CSS. If a heading or label still looks "off," check for a stray
-       inline style attribute before assuming style.css is missing
-       something — see BRIEFING.md's font-family gotcha section, same
-       bug pattern.
+       WHY REV 4 CHANGED FROM REV 3
+       ──────────────────────────────
+       Rev 3 fixed font-FAMILY on the small label elements (.snap-
+       label, .macro-label, .score-card-label, .verdict-label, table
+       headers) but left their SIZE (9px), letter-spacing, and
+       uppercase transform untouched. A 9px letter-spaced uppercase
+       tag reads as a generic dashboard/AI label no matter what
+       typeface it's in — that's what kept looking "AI" through two
+       rounds of feedback even after the font swap. Rev 4 strengthens
+       the existing .brand-v1 overrides on those exact classes: 12px,
+       bold, sentence case, no tracking. This is a .brand-v1-scoped
+       change, not .page-guide-scoped, so it also fixes the same bug
+       on brand pages — check any brand page rebuilt before 2026-08-15
+       against this if it still looks "off."
+
+       If a heading or label still looks "off" after this, check
+       computed font-size and letter-spacing in devtools before
+       assuming it's a font-family problem — see BRIEFING.md's
+       font-family gotcha section, same bug family, one layer deeper.
+
+       ALSO NEW IN REV 4
+       ──────────────────
+       - Top picks: 6 tiles (2 rows of 3), not 3-5. See TOP PICKS below.
+       - Title/H1: no year in the title (see TITLE/H1 below).
+       - Brands to Target/Avoid/Mixed are real <table> elements now,
+         not <ul> lists, and never show an average ingredient score —
+         letter grades only. See BRAND LISTS below.
+       - FAQ accordion script is REQUIRED, not optional — the
+         no-seed-oils.html rebuild shipped once without it and the
+         questions were unclickable. It's in the script block at the
+         bottom of this template; don't drop it when copying sections.
+       - Grade filter chips are multi-select. See BAR TABLE below.
 
        HOW TO USE THIS TEMPLATE
        ────────────────────────
@@ -40,12 +58,17 @@
           build_no_seed_oils.py / assemble_page.py for the reference
           pattern — do not hand-type rows for anything over ~40 bars.
        3. Replace every @@PLACEHOLDER@@ with real data.
-       4. Populate top picks (see TOP PICKS below — 3-5 tiles).
-       5. Populate the findings section with real, computed data.
+       4. Populate top picks (see TOP PICKS below — 6 tiles).
+       5. Populate the findings section with real, computed data —
+          make every insight genuinely new information, not a
+          restatement of something already said in the section above
+          it (see FINDINGS SECTION below).
        6. Populate Brands to Target / Brands to Avoid / Mixed Lineups
-          (see BRAND LISTS below) — aim for 10+ each on target/avoid
-          where the data supports it, not the old 3-5. No "Sleeper
-          Pick" labeling — fold every real brand into the plain list.
+          as tables (see BRAND LISTS below) — aim for 10+ each on
+          target/avoid where the data supports it, not the old 3-5. No
+          "Sleeper Pick" labeling — fold every real brand into the
+          plain table. No average ingredient scores, ever — letter
+          grades only, people don't know what a "10.2" means.
        7. Generate the bar table (see BAR TABLE below). If the
           qualifying set is large (100+), include the filter/sort bar;
           if it's small (under ~40), the filter bar is optional but the
@@ -72,10 +95,10 @@
 
        PLACEHOLDER KEY
        ───────────────
-       @@GUIDE_TITLE@@         H1 / <title> text (can differ, see below)
-       @@GUIDE_H1@@            Visible H1 (optimize for the reader, not just SEO)
+       @@GUIDE_TITLE@@         <title> text — see TITLE/H1 below for format
+       @@GUIDE_H1@@            Visible H1 — see TITLE/H1 below for format
        @@GUIDE_SLUG@@          URL slug (e.g. no-seed-oils)
-       @@GUIDE_SHORT@@         1–2 sentence plain-English summary below H1
+       @@GUIDE_SHORT@@         Hero paragraph below H1 — see TITLE/H1 below
        @@META_DESCRIPTION@@    Under 155 chars. Lead with data. No em dashes.
        @@OG_DESCRIPTION@@      Shorter version for social. No em dashes.
        @@DATE_PUBLISHED@@      Original publish date, e.g. 2026-04-01
@@ -89,23 +112,84 @@
        sitewide per BRAND_STANDARDS.md (no uppercase mono "eyebrow"
        labels). Don't reintroduce one.
 
-       TOP PICKS — 3-5 situational tiles
-       ──────────────────────────────────
+       TITLE / H1 / HERO PARAGRAPH
+       ─────────────────────────────
+       No year in the title or H1 — "(2026)" tested badly for CTR and
+       reads as a freshness gimmick rather than a freshness signal.
+       Freshness to Google comes from @@DATE_MODIFIED@@ in the JSON-LD
+       and the sitemap lastmod, not the visible title. Format, locked
+       from the no-seed-oils.html rewrite:
+         Title: "Best Protein Bars [Criteria] - Ranking N+ Bars"
+         H1:    "Best Protein Bars [Criteria] - Ranking N+ Qualified Bars"
+       Round N down to the nearest 10 and append "+" (600 qualifying ->
+       "600+") so the title doesn't need updating on every minor
+       database refresh. Hyphen, not em dash.
+
+       Hero paragraph: state what was screened (with the real database
+       count), the real qualifying rate as a plain percentage ("about
+       X% do NOT have..."), and what the page delivers. Don't list
+       screened items as "and N others" without naming them or using
+       "several" — "seven others" unnamed reads strangely; either name
+       them or say "several other X oils." Close with a line that sets
+       this guide apart from a listicle, e.g. "Not just us telling you
+       the flavors we like" — the page delivers computed rankings, say
+       so plainly.
+
+       TOP PICKS — 6 situational tiles, 2 rows of 3
+       ───────────────────────────────────────────────
        Reuses TEMPLATE_BRAND.html's .macro-card.pick-tile pattern
        instead of the old standalone .pick-card component, so the top
        of a guide page now visually matches the top of a brand page as
-       requested. Each pick must be a real computed max/min over the
-       qualifying set (highest score, highest protein among A/B grade,
-       lowest calorie among a protein floor, shortest ingredient list
-       among A grade, etc.) — never a hand-picked favorite. Ground the
-       reason paragraph in the bar's actual numbers, same rule as the
-       brand-page "which flavor should you buy" section.
+       requested. Wrap the tile grid in class="top-picks-6" (defined in
+       style.css) for the explicit 3-column layout — plain
+       .pick-tile-grid alone auto-fits and won't reliably land as 2
+       clean rows of 3.
+
+       Six is the standard count, chosen to balance into 2 full rows.
+       Suggested categories (swap in/out based on what the guide's
+       criteria actually supports): Best Overall, Best Protein/Calorie
+       Ratio, Best Total Protein, Cleanest Ingredient List, Most Fiber,
+       Best for Keto (ranked by net carbs = total carbs minus fiber
+       minus sugar alcohol). Every pick must be a real computed max/min
+       over the qualifying set — never a hand-picked favorite.
+
+       Directly under the section H2, add one line making explicit that
+       grades reflect ingredient quality only, not an overall bar
+       rating — people otherwise read an A/B/C grade as "how good is
+       this bar" rather than "how clean is the ingredient list," and
+       those are different questions.
+
+       Ground each reason in real numbers, and where the pick has a
+       genuine tradeoff, say so plainly rather than only listing
+       strengths — e.g. a cleanest-ingredient-list pick that's also low
+       in protein should say "the tradeoff is protein: only Ng, low if
+       you're after a protein stack rather than a whole-food snack."
+       This is the same honesty standard as brand-page FAQ answers.
+
+       No decimals unless it's a computed average and the decimal is
+       meaningful (protein-per-100-calories, for instance). A single
+       bar's protein count should read "14g," never "14.0g" — write
+       numbers through a formatter that drops trailing ".0" rather than
+       interpolating the raw float.
 
        @@PICK_N_LABEL@@   Situational label (e.g. "Best for cutting")
        @@PICK_N_GRADE@@   A / B / C / D
        @@PICK_N_BRAND@@ / @@PICK_N_FLAVOR@@
-       @@PICK_N_REASON@@  1-2 sentences, real numbers, no filler
+       @@PICK_N_REASON@@  1-2 sentences, real numbers, tradeoffs included where real, no filler
        @@PICK_N_AMAZON_URL@@ / @@PICK_N_SITE_URL@@   Omit either button if bars.js has no value
+
+       CATEGORY EXPLAINER — list every screened factor, not a sample
+       ──────────────────────────────────────────────────────────────
+       If the guide's criteria involves screening for a set of
+       ingredients or factors (seed oils, artificial sweeteners, sugar
+       alcohols, etc.), the explainer cards below the intro paragraph
+       should list EVERY item in the screen, not just the top 3-4. Each
+       card gets the real count of bars containing it and a short,
+       concrete note on where it usually hides (a coating, a crisp
+       layer, a moisture retainer) — this is the single most useful
+       reference block on the page and it should be complete, not a
+       highlight reel. .score-grid already wraps to as many rows as
+       needed, so there's no layout reason to truncate the list.
 
        FINDINGS SECTION
        ────────────────
@@ -113,28 +197,81 @@
        @@BIG_STAT_NUM@@     Computed percentage, not estimated
        @@BIG_STAT_HEAD@@    Heading next to the big number
        @@BIG_STAT_DETAIL@@  1-2 sentences of real context
-       @@INSIGHT_N@@        4-6 supporting observations, each traceable to a computed stat
+       @@INSIGHT_N@@        4-6 supporting observations
 
-       BRAND LISTS — Brands to Target / Brands to Avoid / Mixed Lineups
-       ────────────────────────────────────────────────────────────────
-       Three cards, not two. This is the structural change from rev 2:
-       - Brands to Target: brands where every (or nearly every) flavor
-         qualifies. Rank by average score among qualifying flavors.
-         List as many as the data supports — this guide's rebuild used
-         14, not the old 3-5. Cut the "Sleeper Pick" label entirely;
-         a lesser-known brand just goes in the list like any other.
+       Every insight here must be NEW information, not a restatement of
+       something already said in the category-explainer section above
+       it. The no-seed-oils.html rebuild's first pass repeated "X oil
+       hides in the coating" and "canola is sneaky" as findings-section
+       insights when that exact claim was already made two sections up
+       — cut on the second pass. Good replacement patterns, both
+       computed from the data, not asserted:
+       - Ingredient-list POSITION as a signal of quantity: for the most
+         common disqualifying ingredient, compute where it falls in the
+         ingredient list (early = more of it) versus whether it's
+         named inside a "contains less than 2%" clause (trace amount).
+         Cite 2-3 real flavor names for each pattern. This tends to
+         produce a genuinely surprising stat (the no-seed-oils rebuild
+         found only 2% of bars containing its top oil listed it as a
+         trace amount) that's worth leading with.
+       - A specific worst-offender brand with its real numbers and the
+         specific ingredient(s) driving it.
+       - A whole-category observation (which kind of brand dominates
+         the qualifying pool and why, in ingredient terms).
+
+       BRAND LISTS — Brands to Consider / Brands to Avoid / Mixed Lineups
+       ──────────────────────────────────────────────────────────────────
+       Three real <table> elements, not <ul> lists and not just two
+       cards. Header the section something like "Best Brands of [Bar
+       Type] for [Criteria]," and state directly under it that grades
+       reflect ingredient quality only, same disclaimer as the top
+       picks section.
+
+       Standard columns, consistent across all three tables so a reader
+       can compare at a glance:
+         Brand | Flavors (qualify/total, or disqualified/total for the
+         Avoid table) | Grade (a single letter — dominant/most common
+         grade among the relevant flavor set, not a score) | Avg
+         Protein | Avg Sugar (or Avg Fiber if more relevant to the
+         guide's criteria) | Note (one short ingredient-overview phrase
+         for Target/Mixed, or the specific oil/ingredient(s) found for
+         Avoid)
+
+       NEVER show an average ingredient score anywhere in this guide.
+       A "10.2" or "13.6" means nothing to a reader without our scoring
+       docs open in another tab — letter grades are the only score
+       representation people actually use. This is a hard rule, not a
+       style preference.
+
+       - Brands to Consider: brands where every (or nearly every)
+         flavor qualifies. List as many as the data supports — this
+         guide's rebuild used 14, not the old 3-5. Cut "Sleeper Pick"
+         labeling entirely; a lesser-known brand just goes in the table
+         like any other.
        - Brands to Avoid: brands with a very high disqualification rate
          (roughly 80%+) AND fewer than ~3 qualifying flavors — i.e. not
-         worth a per-flavor callout. Name the specific oil(s)/ingredient(s)
-         driving the disqualification, not just a percentage.
-       - Mixed Lineups (new section, third card): brands with a
-         meaningful population on BOTH sides (roughly 3+ qualifying and
-         3+ disqualified). Call out the specific best qualifying flavor
-         by name so the reader has something actionable, and say
-         plainly that the rest of the line doesn't share its status.
-         A brand can appear in both Avoid and Mixed only if it doesn't
-         meet the Mixed threshold — don't let the same brand show up in
-         two lists that contradict each other.
+         worth a per-flavor callout. Name the specific oil(s)/
+         ingredient(s) driving the disqualification in the Note column.
+       - Mixed Lineups (third table): brands with a meaningful
+         population on BOTH sides (roughly 3+ qualifying and 3+
+         disqualified). Note column names the single best qualifying
+         flavor so the reader has something actionable. A brand can
+         appear in both Avoid and Mixed only if it doesn't meet the
+         Mixed threshold — don't let the same brand show up in two
+         tables that contradict each other.
+
+       Brand name is a real <button class="brand-jump" data-brand="...">,
+       not plain text and not a link to bar-finder.html. Clicking it
+       scrolls to the bar table below, clears any active grade filter,
+       and searches for that brand name — see the jumpToBrand() function
+       in the script block at the bottom of this template, copy
+       verbatim. This was a deliberate choice over linking out to
+       bar-finder.html or converting the table search to a brand
+       dropdown: it reuses the exact filter/search state machine
+       already on the page, requires no navigation, and doesn't need a
+       second UI pattern (a dropdown) alongside the existing text
+       search. Keep it this way unless there's a specific reason a
+       given guide needs to link out to bar-finder.html instead.
 
        BAR TABLE
        ─────────
@@ -173,6 +310,32 @@
          `document.querySelectorAll('*').length` check pre- and post-JS.
          Don't guess at whether a page "feels big."
 
+       Grade filter chips are multi-select, not single-select. Most
+       readers want "A and B" together, not one grade at a time — a
+       single-select filter forces them to check twice. Each chip
+       toggles independently via aria-pressed; the "All grades" chip
+       clears the selection rather than being just another option. See
+       the gd-grade-chips click handler in the script block at the
+       bottom of this template.
+
+       Cert badges: cap the visible badges in the main table's CERTS
+       column to 2, with a "+N" indicator for the rest (.cert-badge-more,
+       defined in style.css) — a bar with 5 Y-certs otherwise makes that
+       one row much taller than its neighbors and breaks the table's
+       visual rhythm. Don't drop the certs, just don't let them stack
+       vertically in the compact column. The full list still shows as
+       one line ("Certifications: X, Y, Z") in the expand panel via
+       .expand-certs-line, so nothing is lost, it just isn't crammed
+       into a 80px-wide column.
+
+       On whether sort belongs in the filter bar versus per-column
+       header clicks: keep it in the dropdown. Per-column sort needs
+       up/down indicator state per column, more DOM to keep in sync
+       with the existing multi-select grade filter, and delivers little
+       the dropdown doesn't already cover for a table with this many
+       rows. Revisit only if a specific guide's readers are asking for
+       it, not as a default upgrade.
+
        EXPLORE CTA
        ───────────
        @@PRESET_SLUG@@   Preset slug for the bar finder URL — verify this
@@ -193,6 +356,22 @@
        FAQ (7 minimum, must match JSON-LD exactly)
        ──────────────────────────────────────────
        @@FAQ_Q1@@ / @@FAQ_A1@@  through  @@FAQ_Q7+@@ / @@FAQ_A7+@@
+
+       Include 2 broad, direct search-intent questions in addition to
+       the specific ones — "What [bar type] don't have [thing]?" and
+       "What [bar type] have [thing]?" — phrased the way someone would
+       actually type it into a search bar, not just brand-specific
+       variants of the same question.
+
+       CRITICAL: the FAQ accordion requires its click handler, in the
+       script block at the very bottom of this template (search for
+       "FAQ accordion" in the comments there). This is NOT decorative —
+       the .faq-a answer text is hidden by CSS by default and only
+       reveals via a JS-added .open class on .faq-item. The
+       no-seed-oils.html rebuild shipped once without this script
+       block and every FAQ question was completely unclickable in
+       production. Copy that script verbatim; don't assume it's
+       already wired up because the markup looks complete.
        ═══════════════════════════════════════════════════════ -->
 
   <!-- Analytics -->
@@ -387,23 +566,25 @@
   <!-- ─── 3. TOP PICKS — reuses TEMPLATE_BRAND.html's pick-tile
        pattern (macro-card shell) so the top of a guide page and
        the top of a brand page share the same visual language.
-       3-5 tiles, every one a real computed max/min, not a hand
-       favorite. See "TOP PICKS" in the header comment above.
+       6 tiles (2 rows of 3), every one a real computed max/min, not a
+       hand favorite. See "TOP PICKS" in the header comment above.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
     <div class="section-inner">
       <h2 class="section-title">Top picks for @@GUIDE_EYEBROW@@</h2>
-      <p class="section-body">@@PICKS_INTRO@@</p>
-      <div class="macro-grid pick-tile-grid">
+      <p class="section-body">@@PICKS_INTRO@@ Grades below reflect ingredient quality only, not an overall bar rating.</p>
+      <div class="macro-grid pick-tile-grid top-picks-6">
 
-        <!-- PICK TILE PATTERN — copy per pick, 3-5 total -->
+        <!-- PICK TILE PATTERN — copy per pick, 6 total. No decimals
+             (14g not 14.0g). Include the tradeoff in the reason text
+             where there's a real one, not just the strengths. -->
         <div class="macro-card pick-tile">
           <div class="macro-label">@@PICK_1_LABEL@@</div>
           <div class="pick-tile-flavor"><span class="table-grade-badge grade-@@PICK_1_GRADE@@" style="margin-right:6px;">@@PICK_1_GRADE@@</span>@@PICK_1_BRAND@@ &middot; @@PICK_1_FLAVOR@@</div>
           <p>@@PICK_1_REASON@@</p>
           <div class="bar-links" style="margin-top:0.65rem;">
-            <a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Buy on Amazon</a>
-            <a href="@@PICK_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Buy from Brand</a>
+            <a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="bar-link-amz">Shop on Amazon</a>
+            <a href="@@PICK_1_SITE_URL@@" target="_blank" rel="noopener" class="bar-link-site">Shop on Brand Site</a>
             <!-- drop either link entirely if bars.js has no value, never fabricate -->
           </div>
         </div>
@@ -414,9 +595,11 @@
   </section>
 
   <!-- ─── 4. CATEGORY EXPLAINER + KEY FACTORS ──────────────────
-       Unchanged from rev 2 structurally — .score-grid / .score-card
-       already carry brand-v1 styling correctly. Just don't wrap the
-       heading in an inline style attribute; use .section-title.
+       .score-grid / .score-card already carry brand-v1 styling
+       correctly. Just don't wrap the heading in an inline style
+       attribute; use .section-title. List EVERY screened factor here,
+       not a top-4 sample — see "CATEGORY EXPLAINER" in the header
+       comment above.
        ─────────────────────────────────────────────────────────── -->
   <section class="section off">
     <div class="section-inner">
@@ -459,44 +642,79 @@
     </div>
   </section>
 
-  <!-- ─── 6. BRAND LISTS: TARGET / AVOID / MIXED ───────────────
-       Three cards now, not two. See "BRAND LISTS" in the header
-       comment above for the selection rules for each list. No
-       "Sleeper Pick" labeling anywhere — every brand gets the same
-       plain <li><strong>Name</strong> reason.</li> treatment.
+  <!-- ─── 6. BRAND LISTS: CONSIDER / AVOID / MIXED ──────────────
+       Three real tables now, not <ul> lists. See "BRAND LISTS" in the
+       header comment above for the selection rules and column
+       standard. No "Sleeper Pick" labeling anywhere. NEVER show an
+       average ingredient score — letter grades only.
        ─────────────────────────────────────────────────────────── -->
   <section class="section">
     <div class="section-inner">
       <h2 class="section-title">@@BRAND_LISTS_TITLE@@</h2>
       <div class="section-body">
-        <p>@@BRAND_LISTS_INTRO@@</p>
+        <p>@@BRAND_LISTS_INTRO@@ Grades reflect ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.</p>
       </div>
 
-      <div class="verdict-inner" style="margin-top:1.25rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-        <div class="verdict-card pro">
-          <div class="verdict-label pro">Brands to target</div>
-          <ul class="verdict-items">
-            <!-- as many as the data supports, each with a real reason -->
-            <li><strong>@@TARGET_BRAND_1@@</strong> @@TARGET_BRAND_1_REASON@@</li>
-          </ul>
-        </div>
-        <div class="verdict-card con">
-          <div class="verdict-label con">Brands to avoid</div>
-          <ul class="verdict-items">
-            <li><strong>@@AVOID_BRAND_1@@</strong> @@AVOID_BRAND_1_REASON@@</li>
-          </ul>
+      <!-- CONSIDER TABLE -->
+      <div class="brand-table-block">
+        <div class="brand-table-label pro">Brands to Consider</div>
+        <div class="table-scroll">
+          <table class="brand-table">
+            <thead><tr><th>Brand</th><th>Flavors</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Note</th></tr></thead>
+            <tbody>
+              <!-- one row per brand, as many as the data supports -->
+              <tr>
+                <td><button type="button" class="brand-jump" data-brand="@@TARGET_BRAND_1@@">@@TARGET_BRAND_1@@</button></td>
+                <td>@@TARGET_BRAND_1_QUAL@@/@@TARGET_BRAND_1_TOTAL@@</td>
+                <td><span class="table-grade-badge grade-@@TARGET_BRAND_1_GRADE@@">@@TARGET_BRAND_1_GRADE@@</span></td>
+                <td>@@TARGET_BRAND_1_AVG_PROTEIN@@g</td>
+                <td>@@TARGET_BRAND_1_AVG_SUGAR@@g</td>
+                <td>@@TARGET_BRAND_1_NOTE@@</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Mixed lineups card — new in rev 3. Only include this card if
-           at least 2-3 brands genuinely meet the mixed threshold; don't
-           force it if the guide's criteria doesn't produce real splits. -->
-      <div style="margin-top:1.25rem;">
-        <div class="verdict-card" style="border-left:3px solid #b89a00;">
-          <div class="verdict-label" style="color:#b89a00;">Mixed lineups, check the flavor</div>
-          <ul class="verdict-items">
-            <li><strong>@@MIXED_BRAND_1@@</strong> @@MIXED_BRAND_1_QUAL@@ of @@MIXED_BRAND_1_TOTAL@@ flavors qualify, @@MIXED_BRAND_1_DISQUAL@@ do not. <strong>@@MIXED_BRAND_1_BEST_FLAVOR@@</strong> (@@MIXED_BRAND_1_BEST_GRADE@@ grade) is the clean pick, but check the label flavor by flavor.</li>
-          </ul>
+      <!-- AVOID TABLE -->
+      <div class="brand-table-block">
+        <div class="brand-table-label con">Brands to Avoid</div>
+        <div class="table-scroll">
+          <table class="brand-table">
+            <thead><tr><th>Brand</th><th>Disqualified</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Oils/Ingredients Found</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><button type="button" class="brand-jump" data-brand="@@AVOID_BRAND_1@@">@@AVOID_BRAND_1@@</button></td>
+                <td>@@AVOID_BRAND_1_DISQUAL@@/@@AVOID_BRAND_1_TOTAL@@</td>
+                <td><span class="table-grade-badge grade-@@AVOID_BRAND_1_GRADE@@">@@AVOID_BRAND_1_GRADE@@</span></td>
+                <td>@@AVOID_BRAND_1_AVG_PROTEIN@@g</td>
+                <td>@@AVOID_BRAND_1_AVG_SUGAR@@g</td>
+                <td>@@AVOID_BRAND_1_CULPRITS@@</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MIXED TABLE — only include if at least 2-3 brands genuinely
+           meet the mixed threshold; don't force it if the guide's
+           criteria doesn't produce real splits. -->
+      <div class="brand-table-block">
+        <div class="brand-table-label mixed">Mixed Lineups, Check the Flavor</div>
+        <div class="table-scroll">
+          <table class="brand-table">
+            <thead><tr><th>Brand</th><th>Qualify</th><th>Grade</th><th>Avg Protein</th><th>Avg Sugar</th><th>Clean Pick</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><button type="button" class="brand-jump" data-brand="@@MIXED_BRAND_1@@">@@MIXED_BRAND_1@@</button></td>
+                <td>@@MIXED_BRAND_1_QUAL@@/@@MIXED_BRAND_1_TOTAL@@</td>
+                <td><span class="table-grade-badge grade-@@MIXED_BRAND_1_BEST_GRADE@@">@@MIXED_BRAND_1_BEST_GRADE@@</span></td>
+                <td>@@MIXED_BRAND_1_AVG_PROTEIN@@g</td>
+                <td>@@MIXED_BRAND_1_AVG_SUGAR@@g</td>
+                <td>@@MIXED_BRAND_1_BEST_FLAVOR@@ is the clean pick</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -519,14 +737,16 @@
       <h2 class="section-title">@@BARS_QUALIFY@@ bars @@GUIDE_TABLE_SUBTITLE@@, ranked</h2>
       <p class="section-body">@@BAR_TABLE_INTRO@@</p>
 
-      <!-- Filter/sort bar — omit if qualifying set is small -->
+      <!-- Filter/sort bar — omit if qualifying set is small. Chips are
+           multi-select (aria-pressed per chip, not a single .active
+           class) -- most readers want A+B together. -->
       <div class="gd-filter-bar">
         <div class="gd-filter-chips" id="gd-grade-chips">
-          <button class="gd-chip active" data-grade="all">All grades</button>
-          <button class="gd-chip" data-grade="A">A</button>
-          <button class="gd-chip" data-grade="B">B</button>
-          <button class="gd-chip" data-grade="C">C</button>
-          <button class="gd-chip" data-grade="D">D</button>
+          <button class="gd-chip" data-grade="all" aria-pressed="true">All grades</button>
+          <button class="gd-chip" data-grade="A" aria-pressed="false">A</button>
+          <button class="gd-chip" data-grade="B" aria-pressed="false">B</button>
+          <button class="gd-chip" data-grade="C" aria-pressed="false">C</button>
+          <button class="gd-chip" data-grade="D" aria-pressed="false">D</button>
           <!-- omit grades with zero qualifying bars -->
         </div>
         <div class="gd-filter-controls">
@@ -835,7 +1055,7 @@
     });
   });
 
-  var state = { grade: 'all', query: '', sort: 'score-desc', visible: 30 };
+  var state = { grades: [], query: '', sort: 'score-desc', visible: 30 };
   var PAGE_SIZE = 30;
 
   var sorters = {
@@ -848,7 +1068,7 @@
 
   function render() {
     var filtered = pairs.filter(function(p) {
-      var gradeOk = state.grade === 'all' || p.grade === state.grade;
+      var gradeOk = state.grades.length === 0 || state.grades.indexOf(p.grade) !== -1;
       var queryOk = state.query === '' || p.search.indexOf(state.query) !== -1;
       return gradeOk && queryOk;
     });
@@ -877,14 +1097,31 @@
     }
   }
 
+  /* Grade chips are multi-select -- most people want A + B together,
+     not just one grade at a time. "All grades" clears the selection
+     (an empty state.grades array means "no filter", matched above). */
   var chipWrap = document.getElementById('gd-grade-chips');
   if (chipWrap) {
     chipWrap.addEventListener('click', function(e) {
       var btn = e.target.closest('.gd-chip');
       if (!btn) return;
-      chipWrap.querySelectorAll('.gd-chip').forEach(function(c) { c.classList.remove('active'); });
-      btn.classList.add('active');
-      state.grade = btn.dataset.grade;
+      var grade = btn.dataset.grade;
+
+      if (grade === 'all') {
+        state.grades = [];
+      } else {
+        var idx = state.grades.indexOf(grade);
+        if (idx === -1) { state.grades.push(grade); } else { state.grades.splice(idx, 1); }
+      }
+
+      chipWrap.querySelectorAll('.gd-chip').forEach(function(c) {
+        if (c.dataset.grade === 'all') {
+          c.setAttribute('aria-pressed', state.grades.length === 0 ? 'true' : 'false');
+        } else {
+          c.setAttribute('aria-pressed', state.grades.indexOf(c.dataset.grade) !== -1 ? 'true' : 'false');
+        }
+      });
+
       state.visible = PAGE_SIZE;
       render();
     });
@@ -919,6 +1156,30 @@
       render();
     });
   }
+
+  /* Brand-list "jump to table" links: scroll down, clear the grade
+     filter (so a brand's B/C flavors aren't hidden by a stale A-only
+     filter), and search for the brand name. Reuses the same search
+     box and state machine already on the page -- no dropdown, no
+     navigation to bar-finder.html. See "BRAND LISTS" in the header
+     comment above for why this approach over the alternatives. */
+  window.jumpToBrand = function(name) {
+    state.grades = [];
+    state.query = name.toLowerCase();
+    state.visible = PAGE_SIZE;
+    if (chipWrap) {
+      chipWrap.querySelectorAll('.gd-chip').forEach(function(c) {
+        c.setAttribute('aria-pressed', c.dataset.grade === 'all' ? 'true' : 'false');
+      });
+    }
+    if (searchEl) searchEl.value = name;
+    render();
+    var section = document.querySelector('.bars-section');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  document.querySelectorAll('.brand-jump').forEach(function(btn) {
+    btn.addEventListener('click', function() { window.jumpToBrand(btn.dataset.brand); });
+  });
 
   render();
 })();
@@ -1006,6 +1267,21 @@ function buildLazyExpand(idx, ingrEl) {
   content.removeAttribute('data-pending');
   ingrEl.dataset.lazy = '0';
 }
+</script>
+
+<!-- FAQ accordion -- REQUIRED, not optional. See "FAQ" in the header
+     comment above: the .faq-a answer text is hidden by CSS by default
+     and only reveals via this script adding .open to .faq-item. Same
+     script brand pages already use; copy verbatim. -->
+<script>
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
 </script>
 
 </body>
