@@ -192,6 +192,15 @@
   </div>
   <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
+<script>
+(function() {
+  var navToggle = document.getElementById('nav-toggle');
+  var navLinks = document.querySelector('.site-nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+  }
+})();
+</script>
 <section class="hero page-guide">
   <div class="hero-inner">
     <h1 class="hero-title">Best Clean Protein Bars - Ranking 485 Bars by Ingredient Quality</h1>

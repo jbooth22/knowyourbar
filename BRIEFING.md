@@ -84,6 +84,18 @@ Other:
 
 ---
 
+## Scoring pipeline integrity (schema v7, 2026-08-14)
+
+`score_and_export.py` gained a new scoring rule: **diminishing returns on stacked protein sources.** Each additional *separately top-level-listed* protein ingredient beyond the single best-scoring one now counts at `PROTEIN_STACK_DISCOUNT = 0.5` (half weight) instead of full weight. This does NOT apply to protein sources decomposed from the same parenthetical blend label (e.g. "Protein Blend (Milk Protein Isolate, Whey Protein Isolate)") — those are one FDA-labeled blend, not competing claims, and are already down-weighted via the existing 0.6 sub-ingredient multiplier. It only targets distinct top-level protein ingredients (e.g. Whey Protein Isolate ... Collagen ... Milk Protein Concentrate listed as separate top-level items), so a second or third protein source no longer adds nearly as much credit as the first just by being listed. The single best-scoring protein match always keeps full weight.
+
+**10 new canonical ingredients added (`v7_manual` in `Canonical_Ingredients`):** camu camu (whole_food, +2), mesquite powder (whole_food, +1), dandelion root powder (whole_food, +1), s.officinarum prebiotic fibre — UK spelling variant (fiber_or_functional_carb, +1), potassium chloride (seasoning, neutral), chili (seasoning, neutral), plus 4 neutral `ingredient_group` coating entries (cocoa/strawberry/lemon/vanilla flavored coating).
+
+**Database size:** 1,181 bars as of this schema (up from 1,157 at v6).
+
+**Pages affected:** spot-check any brand page with a multi-protein-source bar (e.g. a bar listing whey protein isolate AND collagen AND milk protein concentrate as separate top-level ingredients) before trusting its current copy — the stacking discount can shift its score even if nothing else changed. Barebells and Quest were checked against live `bars.js` on 2026-08-18 and their existing copy (last refreshed 2026-08-12, pre-dating this rule) still matches current grades exactly, so no v7-driven refresh was needed for either. Always use `knowyourbar_scoring_schema_v7.xlsx` + the current `score_and_export.py` going forward, not an older copy of either file.
+
+---
+
 ## Scoring pipeline integrity (schema v6, 2026-08-13)
 
 A routine database update (33 new bars, 3 new brands: Floura, Glove Crafted, and a renamed/corrected Met-RX) surfaced a second bug class beyond simple schema gaps: **the fallback substring matcher can silently mismatch an unmapped ingredient to an unrelated canonical entry that happens to share a substring.** `lookup_ingredient()` in `score_and_export.py` only reaches this fallback path when there's no exact alias/canonical match, so the fix in every case was adding the missing exact-match canonical/alias — no code change needed.
@@ -117,8 +129,8 @@ A routine database update surfaced several real bugs in the scoring pipeline, no
 **Net effect on the full database:** grade distribution moved from A=160/B=382/C=339/D=172/F=31 to A=214/B=405/C=323/D=155/F=32.
 
 **Pages with stale copy as a result — data accuracy, separate from the structural/voice work below:**
-- `barebells-review.html` — nearly every flavor's grade/score shifted. Needs `verify_brand_data.py` + full copy refresh.
-- `quest-bars.html` — all 13 tracked flavors shifted; this wasn't caught until fix #5 above landed. Sucralose was specifically being dropped from Chocolate Chip Cookie Dough. Needs the same treatment.
+- `barebells-review.html` — nearly every flavor's grade/score shifted. **Refresh is DONE** (verified against live `bars.js` on 2026-08-18, page dateModified 2026-08-12 — copy matches current scores exactly, including the 4 vegan flavors grading D/F and Marshmallow Peanut Road leading at B).
+- `quest-bars.html` — all 13 tracked flavors shifted; this wasn't caught until fix #5 above landed. Sucralose was specifically being dropped from Chocolate Chip Cookie Dough. **Refresh is DONE** (verified against live `bars.js` on 2026-08-18, page dateModified 2026-08-12 — copy matches current scores exactly).
 - `rxbar-review.html` — one flavor ticked up slightly, stayed A grade. No refresh needed.
 
 **Known low-priority cleanup:** 15 bars in the source database (`Ingredients` column) have genuine typos — stray or missing parentheses — that the parser now works around but that should ideally be fixed at the source for data cleanliness. Not urgent.
@@ -218,7 +230,9 @@ Full rebuild, not an incremental edit. Old version had a static table with a han
 
 All lifestyle guide pages have been rebuilt from TEMPLATE_GUIDE.html. This is the locked standard for all guide pages including the diabetics page.
 
-**Rev 8 rebuild status (as of 2026-08-17):** `no-seed-oils.html` and `no-sugar-alcohols.html` were rebuilt to TEMPLATE_GUIDE.html rev 8 on 2026-08-14/15. `no-artificial-sweeteners.html` was rebuilt to the same rev 8 standard on 2026-08-17 — 940 of 1181 bars qualify (79.6%), screened for sucralose, acesulfame potassium, aspartame, and saccharin (sucralose accounts for nearly all disqualifications; zero bars currently contain aspartame or saccharin). All three now share the rev 8 section order, filter/sort bar table, and lazy-loaded expand rows. The remaining guide pages (`clean-protein-bars.html`, `low-sugar-high-protein.html`, `keto-protein-bars.html`, `best-bars-for-diabetics.html`, `caffeine-protein-bars.html`, `glp1-protein-bars.html`) are still on an older structure — see the "Template section order" list just below, which describes that older pattern, not rev 8. Treat `no-sugar-alcohols.html` or `no-artificial-sweeteners.html` as the structural/voice reference for any future guide rebuild, not this section's section-order list, which predates rev 8 and needs a rewrite pass of its own.
+**Rev 8 rebuild status (as of 2026-08-18):** `no-seed-oils.html` and `no-sugar-alcohols.html` were rebuilt to TEMPLATE_GUIDE.html rev 8 on 2026-08-14/15. `no-artificial-sweeteners.html` was rebuilt to the same rev 8 standard on 2026-08-17 — 940 of 1181 bars qualify (79.6%), screened for sucralose, acesulfame potassium, aspartame, and saccharin (sucralose accounts for nearly all disqualifications; zero bars currently contain aspartame or saccharin). `clean-protein-bars.html` was rebuilt to rev 8 on 2026-08-18 — 485 of 1181 bars qualify (41.1%), screened for A/B ingredient grade + no artificial sweeteners + no processed oils (up from the stale 340/983 that had been live since April). All four now share the rev 8 section order, filter/sort bar table, and lazy-loaded expand rows. The remaining guide pages (`low-sugar-high-protein.html`, `keto-protein-bars.html`, `best-bars-for-diabetics.html`, `caffeine-protein-bars.html`, `glp1-protein-bars.html`) are still on an older structure — see the "Template section order" list just below, which describes that older pattern, not rev 8. Treat `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, or `clean-protein-bars.html` as the structural/voice reference for any future guide rebuild, not this section's section-order list, which predates rev 8 and needs a rewrite pass of its own. **`best-bars-for-diabetics.html` is next up for the rev 8 rebuild.**
+
+**Mobile nav toggle fixed (2026-08-18):** all four rev 8 pages had the `#nav-toggle` hamburger button in the nav markup but no click handler wired up, so the mobile menu didn't open. Fixed by adding a small inline script right after `</nav>` on each page (`navToggle.addEventListener('click', () => navLinks.classList.toggle('open'))`) — the `.site-nav-links.open` CSS was already in `style.css` and needed no changes. Verified working on all four via Playwright at 390px. Any future rev 8 guide rebuild should include this handler from the start rather than needing this same fix again.
 
 ### Template section order
 1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
@@ -528,7 +542,8 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 - Filter panel and bar expand on desktop
 - XSS patched (exclusion tags use DOM methods)
 - Brand review pages all rebuilt to consistent TEMPLATE_BRAND.html
-- Guide pages all rebuilt to consistent TEMPLATE_GUIDE.html
+- Guide pages all rebuilt to consistent TEMPLATE_GUIDE.html (4 of 9 — `no-seed-oils.html`, `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, `clean-protein-bars.html` — now on the newer rev 8 standard; see "Guide pages" section above for the rest)
+- Mobile hamburger menu now functional on all 4 rev 8 guide pages (fixed 2026-08-18 — was rendering but not wired up to open on click)
 - SEO schemas complete on all brand and guide pages
 - ingredient_scoring.html fixed (horizontal scroll, grade bands table, copy)
 - Sitemap updated — all live pages indexed
@@ -543,9 +558,10 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 `quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild. Clif still needs a sub-brand scoping decision (Clif Bar vs. Clif Builders). **KIND's scoping question is resolved as of the 2026-08-13 database update** — "KIND Protein Max" no longer exists as a separate brand, its 4 flavors merged into plain "KIND" alongside 11 newly-added KIND flavors — see "Scoring pipeline integrity (schema v6)" above. KIND's rebuild is otherwise unblocked and should also get a `verify_brand_data.py` pass for the new/merged flavors regardless of when the structural rebuild happens.
 
 ### Data accuracy — separate issue from the above
-`barebells-review.html` and `quest-bars.html` also need a `verify_brand_data.py` pass and copy refresh for a completely different reason: the schema v5 pipeline fix changed their underlying grades/scores. This is independent of the structural-standard work above — do the data refresh regardless of whether the structural rebuild has happened yet. See "Scoring pipeline integrity" section above for full detail.
+`barebells-review.html` and `quest-bars.html` needed a `verify_brand_data.py` pass and copy refresh after the schema v5 pipeline fix changed their underlying grades/scores. **This is done as of 2026-08-12** (re-verified against live `bars.js` on 2026-08-18, still accurate through schema v7). See "Scoring pipeline integrity" sections above for full detail.
 
 ### CSS
+- ~~Stray duplicate `</body>` closing tag at the very end of `no-sugar-alcohols.html`~~ — fixed 2026-08-18, tag balance now passes clean on all 4 rev 8 guide pages.
 - Footer layout on brand pages may still have a stacking issue — verify on mobile before marking resolved
 
 ### Content
