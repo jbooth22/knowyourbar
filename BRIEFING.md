@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: 2026-08-13*
+*Last updated: 2026-08-17*
 
 ---
 
@@ -217,6 +217,8 @@ Full rebuild, not an incremental edit. Old version had a static table with a han
 ## Guide pages — TEMPLATE_GUIDE.html
 
 All lifestyle guide pages have been rebuilt from TEMPLATE_GUIDE.html. This is the locked standard for all guide pages including the diabetics page.
+
+**Rev 8 rebuild status (as of 2026-08-17):** `no-seed-oils.html` and `no-sugar-alcohols.html` were rebuilt to TEMPLATE_GUIDE.html rev 8 on 2026-08-14/15. `no-artificial-sweeteners.html` was rebuilt to the same rev 8 standard on 2026-08-17 — 940 of 1181 bars qualify (79.6%), screened for sucralose, acesulfame potassium, aspartame, and saccharin (sucralose accounts for nearly all disqualifications; zero bars currently contain aspartame or saccharin). All three now share the rev 8 section order, filter/sort bar table, and lazy-loaded expand rows. The remaining guide pages (`clean-protein-bars.html`, `low-sugar-high-protein.html`, `keto-protein-bars.html`, `best-bars-for-diabetics.html`, `caffeine-protein-bars.html`, `glp1-protein-bars.html`) are still on an older structure — see the "Template section order" list just below, which describes that older pattern, not rev 8. Treat `no-sugar-alcohols.html` or `no-artificial-sweeteners.html` as the structural/voice reference for any future guide rebuild, not this section's section-order list, which predates rev 8 and needs a rewrite pass of its own.
 
 ### Template section order
 1. Head: title, meta description, canonical, 4 JSON-LD schemas, OG/Twitter tags
