@@ -355,7 +355,6 @@ function init() {
   const footerCountEl = document.getElementById('footer-count');
   if (footerCountEl) footerCountEl.textContent = BARS.length;
   applyFilters();
-  checkAdvancedState();
 }
 
 function readURLParams() {
@@ -1909,30 +1908,4 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ─── Advanced Filter Toggle ──────────────────────
-function toggleAdvanced() {
-  const panel  = document.getElementById('panel-advanced');
-  const toggle = document.getElementById('advanced-toggle');
-  const icon   = document.getElementById('advanced-icon');
-  if (!panel) return;
-  const isOpen = panel.classList.contains('open');
-  panel.classList.toggle('open', !isOpen);
-  toggle.classList.toggle('open', !isOpen);
-  if (icon) icon.textContent = isOpen ? '+' : '+';
-}
 
-// Auto-open advanced if any advanced filter is active (on page load from URL state)
-function checkAdvancedState() {
-  const hasSliders = Object.values(sliderValues).some((v, i) => {
-    const cfg = SLIDERS_CFG[i];
-    return cfg && v !== cfg.default;
-  });
-  const hasCerts   = Object.values(activeCerts).some(Boolean);
-  const hasExcl    = exclusions.length > 0;
-  if (hasSliders || hasCerts || hasExcl) {
-    const panel  = document.getElementById('panel-advanced');
-    const toggle = document.getElementById('advanced-toggle');
-    if (panel)  panel.classList.add('open');
-    if (toggle) toggle.classList.add('open');
-  }
-}

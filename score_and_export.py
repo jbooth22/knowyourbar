@@ -6,7 +6,7 @@ Scores all bars from raw ingredient text and exports bars.js.
 Usage:
     python score_and_export.py \
         --db "KYB - New Protein Bar Database (2026).xlsx" \
-        --schema "knowyourbar_scoring_schema_v6.xlsx"
+        --schema "knowyourbar_scoring_schema_v7.xlsx"
 
 Output:
     bars.js  (written to current directory)
