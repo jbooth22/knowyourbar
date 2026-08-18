@@ -1,6 +1,6 @@
 # KnowYourBar.com — Project Briefing
 *Upload this file at the start of every new Claude session.*
-*Last updated: 2026-08-17*
+*Last updated: 2026-08-18*
 
 ---
 
@@ -230,7 +230,7 @@ Full rebuild, not an incremental edit. Old version had a static table with a han
 
 All lifestyle guide pages have been rebuilt from TEMPLATE_GUIDE.html. This is the locked standard for all guide pages including the diabetics page.
 
-**Rev 8 rebuild status (as of 2026-08-18):** `no-seed-oils.html` and `no-sugar-alcohols.html` were rebuilt to TEMPLATE_GUIDE.html rev 8 on 2026-08-14/15. `no-artificial-sweeteners.html` was rebuilt to the same rev 8 standard on 2026-08-17 — 940 of 1181 bars qualify (79.6%), screened for sucralose, acesulfame potassium, aspartame, and saccharin (sucralose accounts for nearly all disqualifications; zero bars currently contain aspartame or saccharin). `clean-protein-bars.html` was rebuilt to rev 8 on 2026-08-18 — 485 of 1181 bars qualify (41.1%), screened for A/B ingredient grade + no artificial sweeteners + no processed oils (up from the stale 340/983 that had been live since April). All four now share the rev 8 section order, filter/sort bar table, and lazy-loaded expand rows. The remaining guide pages (`low-sugar-high-protein.html`, `keto-protein-bars.html`, `best-bars-for-diabetics.html`, `caffeine-protein-bars.html`, `glp1-protein-bars.html`) are still on an older structure — see the "Template section order" list just below, which describes that older pattern, not rev 8. Treat `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, or `clean-protein-bars.html` as the structural/voice reference for any future guide rebuild, not this section's section-order list, which predates rev 8 and needs a rewrite pass of its own. **`best-bars-for-diabetics.html` is next up for the rev 8 rebuild.**
+**Rev 8 rebuild status (as of 2026-08-18):** `no-seed-oils.html` and `no-sugar-alcohols.html` were rebuilt to TEMPLATE_GUIDE.html rev 8 on 2026-08-14/15. `no-artificial-sweeteners.html` was rebuilt to the same rev 8 standard on 2026-08-17 — 940 of 1181 bars qualify (79.6%), screened for sucralose, acesulfame potassium, aspartame, and saccharin (sucralose accounts for nearly all disqualifications; zero bars currently contain aspartame or saccharin). `clean-protein-bars.html` was rebuilt to rev 8 on 2026-08-18 — 485 of 1181 bars qualify (41.1%), screened for A/B ingredient grade + no artificial sweeteners + no processed oils (up from the stale 340/983 that had been live since April). `best-bars-for-diabetics.html` was rebuilt to rev 8 on 2026-08-18 — 104 of 1181 bars qualify (8.8%), screened for sugar, net carbs, fiber, protein, grade, and the maltitol family (see GUIDE_CRITERIA.md's "Maltitol family exclusion" section for the research and exact term list). This rebuild also added a new "Is your brand good for diabetics?" section: a per-brand table (all 165 tracked brands, not just qualifying bars) rating each Likely / Mixed / Less Likely based on what share of its flavors clear the full screen, with reasoning text and avg sugar/net carbs/fiber/sugar-alcohol columns, plus the required "we are not doctors or dietitians" disclaimer. All five now share the rev 8 section order, filter/sort bar table, and lazy-loaded expand rows. The remaining guide pages (`low-sugar-high-protein.html`, `keto-protein-bars.html`, `caffeine-protein-bars.html`, `glp1-protein-bars.html`) are still on an older structure — see the "Template section order" list just below, which describes that older pattern, not rev 8. Treat `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, `clean-protein-bars.html`, or `best-bars-for-diabetics.html` as the structural/voice reference for any future guide rebuild, not this section's section-order list, which predates rev 8 and needs a rewrite pass of its own. **`keto-protein-bars.html` is next up for the rev 8 rebuild** (and should reuse the maltitol-family exclusion logic from Diabetics, since Keto's net carbs math has the same sugar-alcohol nuance).
 
 **Mobile nav toggle fixed (2026-08-18):** all four rev 8 pages had the `#nav-toggle` hamburger button in the nav markup but no click handler wired up, so the mobile menu didn't open. Fixed by adding a small inline script right after `</nav>` on each page (`navToggle.addEventListener('click', () => navLinks.classList.toggle('open'))`) — the `.site-nav-links.open` CSS was already in `style.css` and needed no changes. Verified working on all four via Playwright at 390px. Any future rev 8 guide rebuild should include this handler from the start rather than needing this same fix again.
 
@@ -252,7 +252,7 @@ All lifestyle guide pages have been rebuilt from TEMPLATE_GUIDE.html. This is th
 ### Guide table notes
 - First 25 rows visible, rows 26+ hidden with class="hidden-bar" and Show More toggle
 - Keto guide uses Fat + Net Carbs columns instead of Calories + Sugar — patch manually if template is updated
-- Diabetics guide uses 5-filter criteria: sugar, net carbs, fiber, no maltitol
+- Diabetics guide uses 6-filter criteria: sugar, net carbs, fiber, protein, ingredient grade, no maltitol family (maltitol, maltitol syrup, polyglycitol, hydrogenated starch hydrolysates — see GUIDE_CRITERIA.md for why these are a hard exclude instead of a math adjustment). Also has a per-brand "is this brand good for diabetics" table below the main bar list — see GUIDE_CRITERIA.md and the "Rev 8 rebuild status" note above.
 
 ### JSON-LD schemas required on every guide page
 1. Article
@@ -441,7 +441,7 @@ Non-GMO (Y/N), Nut Free (Y/N), Kosher (Y/N)
 Grade colors: A=#2a7a1f, B=#5a8a2f, C=#b89a00, D=#c87020, F=#c83020
 Grade definitions: A=Clean, B=Good, C=Okay, D=Poor, F=Avoid
 
-Net carbs formula: Total Carbs - Fiber - (Sugar Alcohol / 2)
+Net carbs formula: Total Carbs - Fiber - Sugar Alcohol (full subtraction, not divided by 2 — this line previously said "/2" which was wrong and caused a conflict with GUIDE_CRITERIA.md; see that file's "Net carbs formula" and "Maltitol family exclusion" sections for the full formula and the research behind it, corrected 2026-08-18)
 
 ### Building brand pages from bars.js
 When building or rebuilding a brand page, always extract data directly from bars.js using node or Python. Do not rely on the old HTML page for ingredient data — it may be inaccurate. The pipeline:
@@ -542,7 +542,7 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 - Filter panel and bar expand on desktop
 - XSS patched (exclusion tags use DOM methods)
 - Brand review pages all rebuilt to consistent TEMPLATE_BRAND.html
-- Guide pages all rebuilt to consistent TEMPLATE_GUIDE.html (4 of 9 — `no-seed-oils.html`, `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, `clean-protein-bars.html` — now on the newer rev 8 standard; see "Guide pages" section above for the rest)
+- Guide pages all rebuilt to consistent TEMPLATE_GUIDE.html (5 of 9 — `no-seed-oils.html`, `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, `clean-protein-bars.html`, `best-bars-for-diabetics.html` — now on the newer rev 8 standard; see "Guide pages" section above for the rest)
 - Mobile hamburger menu now functional on all 4 rev 8 guide pages (fixed 2026-08-18 — was rendering but not wired up to open on click)
 - SEO schemas complete on all brand and guide pages
 - ingredient_scoring.html fixed (horizontal scroll, grade bands table, copy)
