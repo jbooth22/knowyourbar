@@ -84,6 +84,49 @@ Other:
 
 ---
 
+## Data-integrity incident: broken brand-site links on keto-protein-bars.html (2026-08-19)
+
+`keto-protein-bars.html` had 14 broken "Shop on Brand Site" links across the
+page — `href="Yes"` instead of a real URL. Root cause: whatever generated
+the page read `Custom Referral Link`'s raw Y/N value into the site-link slot
+instead of always using `Website`. Breakdown:
+- **10 in the `gd-bar-data` lazy-load JSON block** (`"ws": "Yes"`), at `i`
+  indices 33, 34, 42, 43, 44, 52, 57, 58, 60, 63 — all 10 IQ Bar flavors
+  (Toasted Coconut Chip, Peanut Butter Chip, Chocolate Sea Salt, Chocolate
+  Mint Chip, Almond Butter Chip, Banana Nut, Salted Caramel Chip, Lemon
+  Blueberry, Matcha Chai, Wild Blueberry).
+- **4 in server-rendered markup**, found only by re-scanning structurally
+  rather than trusting the index list handed into the session: one
+  `.pick-tile` featured card (IQ Bar Toasted Coconut Chip — the same bar as
+  index 33 above, broken a second time in a different section of the page)
+  and 3 `.ingr-row` expand panels for B.T.R. Nation (Cinnamon Cashew Crunch,
+  Coffee Cashew Crunch, Peanut Butter Crunch — `data-idx` 2, 3, 5).
+
+All 14 broken links belonged to bars where `Custom Referral Link == "Yes"`
+(our highest-revenue-driving affiliate relationships), so this was actively
+costing revenue, not cosmetic. Every one of the 14 also had a working Amazon
+link, so nothing was a total dead end. Fixed via literal string replacement
+keyed on each entry's unique Amazon product code to guarantee a 1:1 match;
+all 14 verified against `Website` in live `bars.js` before writing. Full
+repo-wide scan for `href="Yes"`, `href="None"`, `"ws": "Yes"`, `"ws":
+"None"`, `"az": "None"` came back clean everywhere else — no other page
+affected as of this date.
+
+**44 bars across 10 brands currently carry `Custom Referral Link == "Yes"`
+and are at elevated risk if any future guide/brand page rebuild reuses
+whatever produced this bug:** B.T.R. Nation, Gryp, IQ Bar, Jesse's
+GOODNITE!, Jesse's WAKEUP!, Lineage Provisions, Off the Farm, Real Food Bar,
+Redefine, Takeaways. Any page including flavors from these brands should get
+the broken-link-field scan (now in `QA.md` section 1) run against it
+specifically, not just a generic pass.
+
+`QA.md` and this file were both updated with the field-level warning and an
+automated scan (`href="Yes"` / `href="None"` / `"ws": "Yes"` / `"ws":
+"None"` / `"az": "None"`) so this class of bug is caught automatically
+before future uploads rather than found by chance.
+
+---
+
 ## Scoring pipeline integrity (schema v7, 2026-08-14)
 
 `score_and_export.py` gained a new scoring rule: **diminishing returns on stacked protein sources.** Each additional *separately top-level-listed* protein ingredient beyond the single best-scoring one now counts at `PROTEIN_STACK_DISCOUNT = 0.5` (half weight) instead of full weight. This does NOT apply to protein sources decomposed from the same parenthetical blend label (e.g. "Protein Blend (Milk Protein Isolate, Whey Protein Isolate)") — those are one FDA-labeled blend, not competing claims, and are already down-weighted via the existing 0.6 sub-ingredient multiplier. It only targets distinct top-level protein ingredients (e.g. Whey Protein Isolate ... Collagen ... Milk Protein Concentrate listed as separate top-level items), so a second or third protein source no longer adds nearly as much credit as the first just by being listed. The single best-scoring protein match always keeps full weight.
@@ -437,10 +480,20 @@ Brand Name, Flavor Name, score_band (A/B/C/D/F), ingredient_score (numeric),
 Calories, Protein (g), Total Fat (g), Saturated Fat (g), Total Carbohydrates (g),
 Dietary Fiber (g), Sugars (g), Sugar Alcohol (g), Sodium (mg), Cholesterol (mg),
 Ingredients (full text), Amazon Affiliate (URL), Website (URL),
+Custom Referral Link (Y/N flag — "Yes" or "None", NOT a URL, see warning below),
 positive_ingredients, concern_ingredients,
 Vegan (Y/N), Gluten Free (Y/N), Dairy Free (Y/N), Soy Free (Y/N),
 Non-GMO (Y/N), Nut Free (Y/N), Kosher (Y/N)
 ```
+
+**`Custom Referral Link` is a boolean flag, not a URL — never write its raw
+value into a link/href.** It marks whether this bar's brand relationship is
+one of our highest-revenue-driving affiliate deals; the actual outbound URL
+for "Shop on Brand Site" always comes from `Website`, regardless of what
+`Custom Referral Link` says. Any page generator that reads this field must
+use it only as a boolean gate (e.g. to decide styling/priority), never as
+the href value itself. See "Known issues" below for the 2026-08-19 incident
+this caused and the list of brands most at risk of a repeat.
 
 Grade colors: A=#2a7a1f, B=#5a8a2f, C=#b89a00, D=#c87020, F=#c83020
 Grade definitions: A=Clean, B=Good, C=Okay, D=Poor, F=Avoid
@@ -560,6 +613,17 @@ Meta description strategy: lead with a specific surprising data point, not a gen
 
 ### Brand pages needing the 2026-08-11 standard applied
 `quest-bars.html` and `rxbar-review.html` were rebuilt to the structural template on 2026-08-09, before the alignment fix, font-family fix, grade-range tile, Good/Concerning patterns grouping, best-to-worst grade ordering, the "which flavor should you buy" section, and the voice/analysis pass documented above. They still work and the CSS fixes in style.css already apply to them (those were shared-file fixes, not per-page), but their **content and section list** predate all of it. Bring each up to the Barebells standard, one page per session, using Barebells as the structural and voice reference — not a from-scratch rebuild, since the underlying data/table architecture is already correct on both. `clif-bar-review.html` and `kind-bars-review.html` are still on the older pre-2026-08-09 template entirely and need the full rebuild. Clif still needs a sub-brand scoping decision (Clif Bar vs. Clif Builders). **KIND's scoping question is resolved as of the 2026-08-13 database update** — "KIND Protein Max" no longer exists as a separate brand, its 4 flavors merged into plain "KIND" alongside 11 newly-added KIND flavors — see "Scoring pipeline integrity (schema v6)" above. KIND's rebuild is otherwise unblocked and should also get a `verify_brand_data.py` pass for the new/merged flavors regardless of when the structural rebuild happens.
+
+### Link integrity — brands at risk of the 2026-08-19 broken-link bug
+44 bars across 10 brands (B.T.R. Nation, Gryp, IQ Bar, Jesse's GOODNITE!,
+Jesse's WAKEUP!, Lineage Provisions, Off the Farm, Real Food Bar, Redefine,
+Takeaways) have `Custom Referral Link == "Yes"` in bars.js. See the
+"Data-integrity incident" section above for full detail. Only
+`keto-protein-bars.html` was affected as of 2026-08-19, but any future
+guide or brand page rebuild that includes flavors from these 10 brands
+should get the broken-link-field scan from `QA.md` section 1 run against it
+before presenting, since the underlying page generator that caused this bug
+is not ruled out as reused elsewhere.
 
 ### Data accuracy — separate issue from the above
 `barebells-review.html` and `quest-bars.html` needed a `verify_brand_data.py` pass and copy refresh after the schema v5 pipeline fix changed their underlying grades/scores. **This is done as of 2026-08-12** (re-verified against live `bars.js` on 2026-08-18, still accurate through schema v7). See "Scoring pipeline integrity" sections above for full detail.

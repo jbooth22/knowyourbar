@@ -79,6 +79,28 @@ for filename in pages:
 print('\nPASS' if all_pass else '\nFAIL — fix before uploading')
 ```
 
+**Broken link-field scan (added after 2026-08-19 incident) — run on every
+page, every upload:**
+```python
+# Catches raw field values (e.g. a Y/N flag) leaking into a link/href slot
+# instead of the real URL. See "Rule added after 2026-08-19 incident" below.
+import re, os
+
+pages_dir = '/mnt/user-data/outputs/kyb-site'
+BROKEN_PATTERNS = ['href="Yes"', 'href="None"', '"ws": "Yes"', '"ws": "None"', '"az": "None"', '"az": "Yes"']
+
+all_clean = True
+for filename in sorted(f for f in os.listdir(pages_dir) if f.endswith('.html')):
+    html = open(f'{pages_dir}/{filename}').read()
+    for pat in BROKEN_PATTERNS:
+        n = html.count(pat)
+        if n:
+            print(f'FAIL {filename}: {pat} found {n}x')
+            all_clean = False
+
+print('\nPASS — zero broken link-field values' if all_clean else '\nFAIL — fix before uploading')
+```
+
 ---
 
 ## 2. Visual QA — check these manually after uploading
@@ -266,3 +288,45 @@ whether the copy is *true* — only whether the HTML is valid. See section 0
 above. This applies to every remaining brand page rebuild (RXBAR, Clif,
 Barebells, KIND) and every guide page — run the check on pages that "haven't
 been touched recently" too, since bars.js itself can change between sessions.
+
+## Rule added after 2026-08-19 incident (keto-protein-bars.html broken brand-site links)
+**`Custom Referral Link` in bars.js is a Y/N flag ("Yes" or "None"), not a
+URL — the real URL always lives in `Website`.** Whatever generated
+keto-protein-bars.html read `Custom Referral Link`'s raw value into the
+"Shop on Brand Site" href slot instead of always using `Website`. This
+produced 14 broken `href="Yes"` links across the page (10 in the
+`gd-bar-data` lazy-load JSON block, plus 4 in server-rendered markup: one
+`.pick-tile` featured card and 3 `.ingr-row` expand panels) — all 14 for
+brands where `Custom Referral Link == "Yes"` (our highest-revenue-driving
+affiliate relationships), which is exactly what made this a revenue bug and
+not just a cosmetic one. Fixed 2026-08-19 via literal string replacement,
+keyed on each entry's unique Amazon `dp/` product code to guarantee a
+1:1 match before writing.
+
+**Any page generator (existing or future) that references
+`Custom Referral Link` for anything other than a boolean gate must be
+treated as suspect.** The 10 brands currently flagged `Custom Referral
+Link == "Yes"` are: B.T.R. Nation, Gryp, IQ Bar, Jesse's GOODNITE!, Jesse's
+WAKEUP!, Lineage Provisions, Off the Farm, Real Food Bar, Redefine, and
+Takeaways (44 bars total). Any future guide or brand page rebuild that
+includes flavors from these 10 brands is at elevated risk if it reuses
+whatever produced this bug — run the check below on that page specifically,
+not just on keto.
+
+- [ ] Before presenting any new or rebuilt page, scan it for
+  `href="Yes"`, `href="None"`, `"ws": "Yes"`, `"ws": "None"`, `"az": "None"`
+  (and any other raw field value that could leak into a link slot) —
+  zero hits required:
+  ```python
+  import re
+  for pat in ['href="Yes"', 'href="None"', '"ws": "Yes"', '"ws": "None"', '"az": "None"']:
+      hits = re.findall(pat, html)
+      if hits:
+          print(f'FAIL: {pat} found {len(hits)}x')
+  ```
+- [ ] Run this scan repo-wide (`grep -rl` across all `.html` files), not
+  just on the page being worked on — bugs in a shared generator function
+  can silently reappear on unrelated pages between sessions.
+- [ ] If a page includes any bar from the 10-brand list above, additionally
+  spot-check that page's "Shop on Brand Site" links resolve to a real
+  `Website`-field URL, not the literal string from `Custom Referral Link`.
