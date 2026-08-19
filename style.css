@@ -4594,3 +4594,22 @@ table.brand-table tr:hover td { background: var(--off-white); }
    style used consistently sitewide), not a bug. */
 .brand-v1 .bar-brand { font-family: var(--bs-font-body) !important; }
 .brand-v1 .show-more-btn { font-family: var(--bs-font-body) !important; }
+
+/* ─── Bar Finder mobile overflow fix ───────────────────────────
+   .macro-rank-grid and .similar-cards each have an unconditional
+   (always-applies) rule further up the file — at .macro-rank-grid's
+   original definition and .similar-cards' original definition —
+   that sits AFTER this file's existing @media (max-width: 700px)
+   mobile-override block for those same two classes. Because both
+   rules have identical specificity, the one later in source order
+   wins the cascade tie, so on mobile the desktop 5-column /
+   3-column grids were winning instead of the intended mobile
+   layout. That forced the expanded bar-finder row wider than the
+   viewport, which in turn stretched the whole results table and
+   produced the horizontal scroll on mobile. Re-declaring the
+   mobile values here, after both unconditional rules, restores
+   the intended mobile layout without editing the earlier rules. */
+@media (max-width: 700px) {
+  .macro-rank-grid { grid-template-columns: repeat(3, 1fr); padding: 10px 1rem 0; }
+  .similar-cards { grid-template-columns: 1fr; }
+}
