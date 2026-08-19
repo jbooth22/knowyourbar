@@ -4,7 +4,7 @@
 
 **Global rule:** the site-wide "never state the exact database size, always '1,000+'" rule now lives in `BRIEFING.md`'s Locked Global Rules section (moved there 2026-08-09 so it's visible in every session, not just guide-page sessions — it was previously only here, which is why a brand-page session had no way to know about it). This file covers only what's specific to guide pages: qualifying counts per guide, which stay specific ("714 bars qualify") and are the credibility-building detail — only the total-database denominator gets the "1,000+" treatment.
 
-**Live count as of this doc:** 1,028 bars in `bars.js`, 133 distinct brands as of the last time this line was updated. Treat this as a snapshot, not a live value — re-check with `bars.js` directly (or `verify_brand_data.py`/`diff_bars_upload.py`) whenever it matters, rather than trusting this number. It will go stale the moment the database changes and nobody is required to update this line.
+**Live count as of this doc:** 1,181 bars in `bars.js`, 165 distinct brands as of the last time this line was updated (2026-08-19). Treat this as a snapshot, not a live value — re-check with `bars.js` directly (or `verify_brand_data.py`/`diff_bars_upload.py`) whenever it matters, rather than trusting this number. It will go stale the moment the database changes and nobody is required to update this line.
 
 ---
 
@@ -27,11 +27,13 @@
 | Low Sugar + High Protein | `Sugars (g)` ≤ 5 AND `Protein (g)` ≥ 15 | 265 | 26% |
 | Best Bars for Diabetics | `Sugars (g)` ≤ 5 AND net carbs ≤ 10 AND `Dietary Fiber (g)` ≥ 5 AND `Protein (g)` ≥ 10 AND `score_band` in (A, B) AND ingredients do not contain the maltitol family (see below) | 104 | 8.8% |
 | GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` < 200 AND `Sugars (g)` < 4 AND `Dietary Fiber (g)` ≥ 3 AND no `Sugar Alcohols` tag | 26 | 3% |
-| **Keto** | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8, where **net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol** | **109** | **11%** |
+| **Keto** | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8 AND ingredients do not contain the maltitol family (see below), where **net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol** | **97** | **8.2%** |
 
-Note: rows above other than Keto were pulled from each page's own stated criteria and cross-checked for plausibility against the prior (983-bar) published numbers — the deltas are consistent with normal database growth (983 → 1,028 bars added over time), not formula errors. Keto is confirmed broken; the rest are just due for a routine refresh.
+Note: rows above other than Keto and Diabetics were pulled from each page's own stated criteria and cross-checked for plausibility against the prior (983-bar) published numbers — the deltas are consistent with normal database growth (983 → 1,028 bars added over time), not formula errors. These are still due for a routine refresh against 1,181-bar data; `low-sugar-high-protein.html` in particular has not been touched since 2026-04-01, predating the v5/v6/v7 scoring pipeline fixes, so its published count should be treated as unreliable until refreshed, not just stale.
 
-**Best Bars for Diabetics was recomputed against the 1,181-bar live database on 2026-08-18** (schema v7) as part of the guide's rev 8 rebuild — 104 of 1,181 bars qualify (8.8%). This row is current as of that date; the other rows in this table are not and still need their own routine refresh against 1,181-bar data.
+**Best Bars for Diabetics was recomputed against the 1,181-bar live database on 2026-08-18** (schema v7) as part of the guide's rev 8 rebuild — 104 of 1,181 bars qualify (8.8%).
+
+**Keto was recomputed against the 1,181-bar live database on 2026-08-18** (schema v7) as part of the guide's rev 8 rebuild — 97 of 1,181 bars qualify (8.2%). This is a formula change, not just a data refresh: the old Keto page (and the row above prior to this update) used net carbs + protein + fat only, with no maltitol screen. Adding the maltitol-family exclusion (same logic as Diabetics, see below) drops the qualifying count from 127 to 97 — 30 bars hit the macro thresholds on paper but still contain maltitol, mostly Barebells and FITCRUNCH flavors. Jeff signed off on applying the exclusion (2026-08-19): narrower and more defensible is the right tradeoff here. Both this row and the Diabetics row are current as of that date; the other rows in this table are not.
 
 ### `score_insights` tag vocabulary (from `bars.js`)
 Used by the tag-based filters above. Current tags in the live export:
@@ -43,7 +45,7 @@ net_carbs = Total Carbohydrates (g) − Dietary Fiber (g) − Sugar Alcohol (g)
 ```
 All three fields come straight off the nutrition panel data in `bars.js`. Do not compute net carbs as just `carbs − fiber` — sugar alcohols matter and dropping them is what broke Keto. This is a **full subtraction, no halving** — do not divide `Sugar Alcohol (g)` by 2 anywhere in this formula. (BRIEFING.md previously had a stray note suggesting `Sugar Alcohol / 2`; that was wrong and has been corrected — this file is the source of truth for the formula.)
 
-### Maltitol family exclusion (used by Diabetics; decided 2026-08-18)
+### Maltitol family exclusion (used by Diabetics and Keto; decided 2026-08-18, extended to Keto 2026-08-19)
 
 We looked into whether net carbs should be adjusted per sugar-alcohol type (some sources suggest dividing by 2 for certain ones) instead of using one flat formula. Research into published glycemic index (GI) values for sugar alcohols showed:
 
@@ -62,13 +64,15 @@ Six of the eight (mannitol, erythritol, lactitol, sorbitol, isomalt, xylitol) cl
 
 **Decision: exclude rather than adjust.** Building a formula with different fractions for eight different molecules is more precision than we can responsibly claim as non-experts, and it invites errors. Instead, the Diabetics guide hard-excludes any bar whose ingredients contain the maltitol family. A hard exclude is something we can state with confidence; a per-molecule formula is not.
 
-**Maltitol family exclusion check** (Diabetics guide only) — ingredients string contains any of:
+**Maltitol family exclusion check** (Diabetics and Keto guides) — ingredients string contains any of:
 ```
 maltitol                              (also catches "maltitol syrup")
 polyglycitol
 hydrogenated starch hydrolysate       (substring also catches plural "hydrolysates")
 ```
 Do not add a bare `hsh` abbreviation check — too high a false-positive risk against unrelated bracket text in ingredient strings. As of the 2026-08-18 database (1,181 bars), 200 bars contain a term in this list, all currently caught by "maltitol" alone — no bar yet uses polyglycitol or HSH without also listing maltitol/maltitol syrup. The broadened check is a forward-looking safeguard, not a change to today's qualifying count.
+
+**Extended to Keto (2026-08-19):** the Keto rebuild reused this exact check rather than building a separate one, since Keto's net-carbs math has the same sugar-alcohol nuance as Diabetics. If a future guide also filters on net carbs, reuse this check again rather than writing a new one.
 
 ---
 
