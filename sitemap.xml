@@ -78,34 +78,44 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://knowyourbar.com/all-protein-bar-brands</loc>
+    <loc>https://knowyourbar.com/all-protein-bar-brands.html</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://knowyourbar.com/brand-quadrant</loc>
+    <loc>https://knowyourbar.com/brand-quadrant.html</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://knowyourbar.com/best-bars-for-diabetics</loc>
+    <loc>https://knowyourbar.com/best-bars-for-diabetics.html</loc>
     <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://knowyourbar.com/glp1-protein-bars</loc>
+    <loc>https://knowyourbar.com/glp1-protein-bars.html</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://knowyourbar.com/caffeine-protein-bars</loc>
+    <loc>https://knowyourbar.com/caffeine-protein-bars.html</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://knowyourbar.com/bar-finder.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://knowyourbar.com/flavor-map.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://knowyourbar.com/all-ingredients.html</loc>
