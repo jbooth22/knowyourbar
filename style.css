@@ -4613,3 +4613,87 @@ table.brand-table tr:hover td { background: var(--off-white); }
   .macro-rank-grid { grid-template-columns: repeat(3, 1fr); padding: 10px 1rem 0; }
   .similar-cards { grid-template-columns: 1fr; }
 }
+
+/* ─── Guide "jump to bar list" CTA ─────────────────────────────
+   Shared across guide pages with a full bar-list section further
+   down the page (Keto, Diabetics, GLP-1). Placed just below Top
+   Picks so a reader doesn't have to scroll past the brand tables
+   to reach the ranked list. Generalizes the pattern first built
+   page-locally as .diab-jump-link on best-bars-for-diabetics.html. */
+.guide-jump-row { margin: 1.25rem 0 0; }
+.guide-jump-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--black);
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+}
+.guide-jump-link:hover { background: var(--accent); border-color: var(--accent); }
+
+/* ─── Brand table "show more" toggle ────────────────────────────
+   For static (non-lazy-loaded) brand tables where the qualifying
+   population is large -- e.g. a low-pass-rate guide's Avoid table,
+   which can run 100+ rows. Rows past the initial visible slice are
+   server-rendered with display:none and .brand-row-hidden; the
+   button removes both and updates its own label. Deliberately not
+   the gd-show-more/PAGE_SIZE mechanism used for the main ranked bar
+   list -- that machinery exists to work with search/sort/grade-filter
+   state on a lazy-loaded dataset, which a static brand table doesn't
+   have, so reusing it here would add a state machine for nothing. */
+.brand-table-show-more {
+  display: block;
+  margin: 1rem auto 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--black);
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  cursor: pointer;
+}
+.brand-table-show-more:hover { background: var(--accent); border-color: var(--accent); }
+.brand-table-show-more.is-hidden { display: none; }
+
+/* ─── Mobile brand-table horizontal scroll fix ──────────────────
+   Real bug, not new: table.brand-table's mobile block (max-width:
+   700px, defined earlier in this file) only touched font-size and
+   padding. The base `table { width: 100%; }` rule plus
+   `table.brand-table td { white-space: normal; word-wrap:
+   break-word; }` (both defined earlier, unconditional) meant that
+   below 701px -- with the fixed-percentage column widths gated to
+   min-width:701px and no longer applying -- the table had nothing
+   forcing it wider than its container, so it just respected 100%
+   and squeezed every column down to near-unreadable widths with
+   every word wrapping onto its own line. This affects every
+   already-live guide using .brand-table (No Sugar Alcohols, No
+   Artificial Sweeteners, Clean Protein Bars, Diabetics), not just
+   this page's build -- confirmed via mobile screenshot before
+   writing this fix. The .table-scroll wrapper already had
+   overflow-x:auto, it just never had anything inside it worth
+   scrolling to. Fix: below 701px, let the table size to its
+   content (width:max-content, min-width:100% so short tables
+   still fill the block) with short columns kept on one line, and
+   only the last column (always the longest, free-text Note/Why
+   column) allowed to wrap, within a fixed width band so it reads
+   as a paragraph instead of one word per line. This mirrors how
+   the main ranked bar list already handles mobile overflow via
+   .table-scroll, just without that table's column-hiding approach
+   since brand-table's columns are all needed at every width. */
+@media (max-width: 700px) {
+  table.brand-table { table-layout: auto; width: max-content; min-width: 100%; }
+  table.brand-table th, table.brand-table td { white-space: nowrap; }
+  table.brand-table th:last-child, table.brand-table td:last-child {
+    white-space: normal;
+    min-width: 200px;
+    max-width: 260px;
+  }
+}
