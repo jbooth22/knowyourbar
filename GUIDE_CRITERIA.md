@@ -28,6 +28,7 @@
 | Best Bars for Diabetics | `Sugars (g)` ≤ 5 AND net carbs ≤ 10 AND `Dietary Fiber (g)` ≥ 5 AND `Protein (g)` ≥ 10 AND `score_band` in (A, B) AND ingredients do not contain the maltitol family (see below) | 104 | 8.8% |
 | GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 4 AND `Dietary Fiber (g)` ≥ 3 AND `Sugar Alcohol (g)` = 0 AND `score_band` in (A, B) | **28** | **2.4%** |
 | **Keto** | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8 AND ingredients do not contain the maltitol family (see below), where **net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol** | **97** | **8.2%** |
+| **Caffeine** | `Caffeine (mg)` > 0 (any declared amount qualifies, no minimum dose or ingredient-quality gate) | **42** | **3.6%** |
 
 Note: rows above other than Keto and Diabetics were pulled from each page's own stated criteria and cross-checked for plausibility against the prior (983-bar) published numbers — the deltas are consistent with normal database growth (983 → 1,028 bars added over time), not formula errors. These are still due for a routine refresh against 1,181-bar data; `low-sugar-high-protein.html` in particular has not been touched since 2026-04-01, predating the v5/v6/v7 scoring pipeline fixes, so its published count should be treated as unreliable until refreshed, not just stale.
 
