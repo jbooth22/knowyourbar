@@ -498,6 +498,18 @@ def main():
     df = df.drop_duplicates(subset=['Brand Name', 'Flavor Name'], keep='last')
     print(f'  {len(df)} bars after deduplication')
 
+    # Backfill missing/blank Key values so every bar has a stable unique
+    # identifier, matching the fallback diff_bars_upload.py's key() function
+    # already uses ("Brand Name | Flavor Name"). This only fills rows where
+    # Key is missing/blank — existing Key values are never overwritten.
+    if 'Key' in df.columns:
+        missing_key = df['Key'].isna() | (df['Key'].astype(str).str.strip().isin(['', 'nan', 'None']))
+        if missing_key.any():
+            df.loc[missing_key, 'Key'] = df.loc[missing_key].apply(
+                lambda r: f"{r['Brand Name']} | {r['Flavor Name']}", axis=1
+            )
+            print(f'  Backfilled {int(missing_key.sum())} missing Key values (Brand Name | Flavor Name fallback)')
+
     # Load schema (Canonical_Ingredients and Alias_Map only)
     print(f'Loading schema: {args.schema}')
     xl = pd.ExcelFile(args.schema)
