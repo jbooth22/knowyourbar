@@ -51,18 +51,6 @@
       line-height: 1.7;
     }
     .callout-box strong { color: var(--black); }
-    .diab-tier-badge {
-      display: inline-block;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .diab-tier-likely { background: #e2f0d9; color: #2a7a1f; }
-    .diab-tier-mixed  { background: #fbeecb; color: #8a6100; }
-    .diab-tier-less   { background: #f5dcd8; color: #a3312a; }
     .diab-reason { font-size: 0.82rem; line-height: 1.55; color: #333; }
     .sa-yes { color: #a3312a; font-weight: 600; }
     .sa-no  { color: #2a7a1f; font-weight: 600; }
@@ -87,22 +75,6 @@
       table.diab-brand-table th:nth-child(6), table.diab-brand-table td:nth-child(6) { width: 9%; }
       table.diab-brand-table th:nth-child(7), table.diab-brand-table td:nth-child(7) { width: 41%; }
     }
-    .diab-jump-row { margin: 1rem 0 0.5rem; }
-    .diab-jump-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--black);
-      background: var(--off-white);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.45rem 0.9rem;
-      text-decoration: none;
-    }
-    .diab-jump-link:hover { background: var(--accent); border-color: var(--accent); }
     .diab-tap-hint {
       font-size: 0.82rem;
       color: var(--muted);
@@ -381,23 +353,23 @@
     <div class="section-inner">
       <h2 class="section-title">Is your brand good for diabetics?</h2>
       <div class="section-body">
-        <p>We are not doctors or dietitians, and this is not medical advice. What follows is our own read of the numbers: for every brand we track, we checked what share of its flavors clear the same six-criteria screen used above, then averaged the sugar, net carbs, and fiber across its whole lineup. A brand can average well and still have one bad flavor, or average poorly and still have one good one, so the rating below is a starting point for your own label-reading, not a verdict.</p>
-        <p><strong>Likely</strong> means half or more of the brand's tracked flavors clear our full screen. <strong>Mixed</strong> means some flavors clear it and some do not, so the specific flavor matters. <strong>Less Likely</strong> means none of the brand's tracked flavors currently clear it, usually on sugar, net carbs, or fiber rather than any one thing.</p>
+        <p>We are not doctors or dietitians, and this is not medical advice. What follows is our own read of the numbers: for every brand we track, we checked what share of its flavors clear the same six-criteria screen used above, then averaged the sugar, net carbs, and fiber across its whole lineup. A brand can average well and still have one bad flavor, or average poorly and still have one good one, so the table below is a starting point for your own label-reading, not a verdict. Click any brand name to jump to its flavors in the table below.</p>
+        <p><strong>Consider</strong> means half or more of the brand's tracked flavors clear our full screen. <strong>Mixed</strong> means some flavors clear it and some do not, so the specific flavor matters. <strong>Avoid</strong> means none of the brand's tracked flavors currently clear it, usually on sugar, net carbs, or fiber rather than any one thing.</p>
       </div>
-      <div class="diab-jump-row">
-        <a href="#bar-list" class="diab-jump-link">Jump to the 104 bars &darr;</a>
+      <div class="guide-jump-row">
+        <a href="#bar-list" class="guide-jump-link">Jump straight to all 104 bars &darr;</a>
       </div>
 
       <div class="brand-table-block">
-        <div class="brand-table-label pro">Likely a Good Fit</div>
+        <div class="brand-table-label pro">Brands to Consider</div>
         <div class="brand-table-note">Half or more of these brands' tracked flavors clear our full sugar, net carb, fiber, protein, grade, and maltitol screen.</div>
         <div class="table-scroll">
           <table class="brand-table diab-brand-table">
-            <thead><tr><th>Brand</th><th>Rating</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors That Qualify</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
             <tbody>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="IQ Bar">IQ Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>10/10</td>
 <td>1.3g</td>
 <td>2.5g</td>
 <td>7.2g</td>
@@ -406,7 +378,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Magic Spoon">Magic Spoon</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>8/8</td>
 <td>1.1g</td>
 <td>9.8g</td>
 <td>7.0g</td>
@@ -415,7 +387,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Posana">Posana</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>3/3</td>
 <td>3.7g</td>
 <td>9.3g</td>
 <td>8.3g</td>
@@ -424,7 +396,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="War On Sugar">War On Sugar</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>3/3</td>
 <td>2.0g</td>
 <td>7.0g</td>
 <td>12.3g</td>
@@ -433,7 +405,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Bullet Proof">Bullet Proof</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>2/2</td>
 <td>2.0g</td>
 <td>4.0g</td>
 <td>8.0g</td>
@@ -442,7 +414,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Stars and Honey">Stars and Honey</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>8/10</td>
 <td>2.0g</td>
 <td>9.8g</td>
 <td>5.6g</td>
@@ -451,7 +423,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Nick&#x27;s">Nick&#x27;s</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>4/5</td>
 <td>2.4g</td>
 <td>3.2g</td>
 <td>4.8g</td>
@@ -460,7 +432,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Paleo Valley">Paleo Valley</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>3/4</td>
 <td>4.8g</td>
 <td>8.5g</td>
 <td>12.8g</td>
@@ -469,7 +441,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Mosh">Mosh</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>7/10</td>
 <td>2.7g</td>
 <td>6.8g</td>
 <td>7.0g</td>
@@ -478,7 +450,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="BalanceDiet">BalanceDiet</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>8/12</td>
 <td>2.8g</td>
 <td>6.3g</td>
 <td>9.9g</td>
@@ -487,7 +459,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Atlas">Atlas</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>2/3</td>
 <td>1.0g</td>
 <td>10.3g</td>
 <td>10.0g</td>
@@ -496,7 +468,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Linear">Linear</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>2/3</td>
 <td>4.3g</td>
 <td>9.7g</td>
 <td>9.0g</td>
@@ -505,7 +477,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Simply Protein">Simply Protein</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>5/8</td>
 <td>2.4g</td>
 <td>7.1g</td>
 <td>5.9g</td>
@@ -514,7 +486,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Julian Bakery">Julian Bakery</button></td>
-<td><span class="diab-tier-badge diab-tier-likely">Likely</span></td>
+<td>2/4</td>
 <td>1.0g</td>
 <td>5.2g</td>
 <td>17.8g</td>
@@ -527,15 +499,15 @@
       </div>
 
       <div class="brand-table-block">
-        <div class="brand-table-label mixed">Mixed, Check the Flavor</div>
-        <div class="brand-table-note">Some flavors from these brands clear our screen, some do not. The specific flavor you pick matters more than the brand name.</div>
+        <div class="brand-table-label mixed">Mixed Lineups, Check the Flavor</div>
+        <div class="brand-table-note">Some flavors from these brands clear the screen, some do not. The specific flavor matters more than the brand name.</div>
         <div class="table-scroll">
           <table class="brand-table diab-brand-table">
-            <thead><tr><th>Brand</th><th>Rating</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
+            <thead><tr><th>Brand</th><th>Flavors That Qualify</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
             <tbody>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Genius Gourmet">Genius Gourmet</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>4/9</td>
 <td>1.4g</td>
 <td>3.2g</td>
 <td>3.9g</td>
@@ -544,7 +516,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="B.T.R. Nation">B.T.R. Nation</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>3/7</td>
 <td>2.3g</td>
 <td>5.4g</td>
 <td>8.1g</td>
@@ -553,7 +525,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Quest">Quest</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>6/16</td>
 <td>1.2g</td>
 <td>3.8g</td>
 <td>12.1g</td>
@@ -562,7 +534,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="The Feel Bar">The Feel Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>4/11</td>
 <td>5.5g</td>
 <td>5.9g</td>
 <td>5.7g</td>
@@ -571,7 +543,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Perfect Keto">Perfect Keto</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>3/9</td>
 <td>1.1g</td>
 <td>5.8g</td>
 <td>6.2g</td>
@@ -580,7 +552,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Gryp">Gryp</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/3</td>
 <td>2.7g</td>
 <td>12.3g</td>
 <td>6.0g</td>
@@ -589,7 +561,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Santa Cruz Paleo">Santa Cruz Paleo</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/3</td>
 <td>8.0g</td>
 <td>11.7g</td>
 <td>9.0g</td>
@@ -598,7 +570,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Daryl&#x27;s Bars">Daryl&#x27;s Bars</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>6/19</td>
 <td>4.3g</td>
 <td>10.1g</td>
 <td>9.2g</td>
@@ -607,7 +579,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Wonderslim">Wonderslim</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>4/23</td>
 <td>7.0g</td>
 <td>11.4g</td>
 <td>4.0g</td>
@@ -616,7 +588,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Chief">Chief</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/8</td>
 <td>2.8g</td>
 <td>6.0g</td>
 <td>4.0g</td>
@@ -625,7 +597,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="No Cow">No Cow</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/9</td>
 <td>1.0g</td>
 <td>4.2g</td>
 <td>14.8g</td>
@@ -634,7 +606,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Love Good">Love Good</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/12</td>
 <td>1.8g</td>
 <td>5.3g</td>
 <td>7.8g</td>
@@ -643,7 +615,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="Healthy Eating on the Go">Healthy Eating on the Go</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/15</td>
 <td>6.1g</td>
 <td>13.6g</td>
 <td>4.8g</td>
@@ -652,7 +624,7 @@
 </tr>
 <tr>
 <td><button type="button" class="brand-jump" data-brand="NuGo">NuGo</button></td>
-<td><span class="diab-tier-badge diab-tier-mixed">Mixed</span></td>
+<td>1/30</td>
 <td>9.9g</td>
 <td>18.7g</td>
 <td>4.7g</td>
@@ -665,1239 +637,1239 @@
       </div>
 
       <div class="brand-table-block">
-        <div class="brand-table-label con">Less Likely a Good Fit</div>
-        <div class="brand-table-note">None of these brands' tracked flavors currently clear all six criteria. That does not mean every flavor is bad for you, only that none pass our specific screen today.</div>
+        <div class="brand-table-label con">Brands to Avoid</div>
+        <div class="brand-table-note">None of these brands' tracked flavors clear the full sugar, net carb, fiber, protein, grade, and maltitol screen.</div>
         <div class="table-scroll">
-          <table class="brand-table diab-brand-table">
-            <thead><tr><th>Brand</th><th>Rating</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
+          <table class="brand-table diab-brand-table" id="diab-avoid-table">
+            <thead><tr><th>Brand</th><th>Flavors That Qualify</th><th>Avg Sugar</th><th>Avg Net Carbs</th><th>Avg Fiber</th><th>Sugar Alcohol?</th><th>Why</th></tr></thead>
             <tbody>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="KIND">KIND</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/31</td>
 <td>6.4g</td>
 <td>15.2g</td>
 <td>5.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 31 tracked KIND flavors clear our screen. Net carbs average 15.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Larabar">Larabar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/26</td>
 <td>16.5g</td>
 <td>21.5g</td>
 <td>3.6g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 26 tracked Larabar flavors clear our screen. Sugar averages 16.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Barebells">Barebells</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/25</td>
 <td>1.4g</td>
 <td>9.9g</td>
 <td>3.4g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 25 tracked Barebells flavors clear our screen. Fiber averages just 3.4g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="think!">think!</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/22</td>
 <td>2.1g</td>
 <td>12.2g</td>
 <td>3.1g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 22 tracked think! flavors clear our screen. Net carbs average 12.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Bobo&#x27;s">Bobo&#x27;s</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/21</td>
 <td>11.4g</td>
 <td>26.8g</td>
 <td>2.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 21 tracked Bobo&#x27;s flavors clear our screen. Sugar averages 11.4g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="1st Phorm">1st Phorm</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/19</td>
 <td>6.5g</td>
 <td>18.8g</td>
 <td>2.4g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 19 tracked 1st Phorm flavors clear our screen. Net carbs average 18.8g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Aloha">Aloha</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/18</td>
 <td>4.5g</td>
 <td>15.3g</td>
 <td>9.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 18 tracked Aloha flavors clear our screen. Net carbs average 15.3g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Pure Protein">Pure Protein</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/18</td>
 <td>2.7g</td>
 <td>10.4g</td>
 <td>2.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 18 tracked Pure Protein flavors clear our screen. Net carbs average 10.4g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="FITCRUNCH">FITCRUNCH</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/17</td>
 <td>3.8g</td>
 <td>6.0g</td>
 <td>1.3g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 17 tracked FITCRUNCH flavors clear our screen. Fiber averages just 1.3g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="GoMacro">GoMacro</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/17</td>
 <td>8.3g</td>
 <td>33.9g</td>
 <td>2.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 17 tracked GoMacro flavors clear our screen. Net carbs average 33.9g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Perfect Bar">Perfect Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/17</td>
 <td>13.1g</td>
 <td>16.9g</td>
 <td>2.8g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 17 tracked Perfect Bar flavors clear our screen. Sugar averages 13.1g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Fro Pro">Fro Pro</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/15</td>
 <td>9.9g</td>
 <td>15.5g</td>
 <td>2.9g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 15 tracked Fro Pro flavors clear our screen. Net carbs average 15.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="Legendary">Legendary</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/15</td>
 <td>0.4g</td>
 <td>5.1g</td>
 <td>8.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 15 tracked Legendary flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="One">One</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/15</td>
 <td>1.3g</td>
 <td>13.0g</td>
 <td>6.3g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 15 tracked One flavors clear our screen. Net carbs average 13.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row">
 <td><button type="button" class="brand-jump" data-brand="CLIF Bar">CLIF Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/14</td>
 <td>17.2g</td>
 <td>37.1g</td>
 <td>5.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 14 tracked CLIF Bar flavors clear our screen. Sugar averages 17.2g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Lenny &amp; Larry&#x27;s">Lenny &amp; Larry&#x27;s</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/14</td>
 <td>12.1g</td>
 <td>30.1g</td>
 <td>6.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 14 tracked Lenny &amp; Larry&#x27;s flavors clear our screen. Sugar averages 12.1g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Thunderbird">Thunderbird</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/14</td>
 <td>16.8g</td>
 <td>19.2g</td>
 <td>3.9g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 14 tracked Thunderbird flavors clear our screen. Sugar averages 16.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Built">Built</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/13</td>
 <td>7.5g</td>
 <td>15.3g</td>
 <td>0.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 13 tracked Built flavors clear our screen. Net carbs average 15.3g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Promix">Promix</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/13</td>
 <td>4.5g</td>
 <td>11.8g</td>
 <td>5.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 13 tracked Promix flavors clear our screen. Net carbs average 11.8g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Bearded Bros">Bearded Bros</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>16.8g</td>
 <td>19.5g</td>
 <td>4.4g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked Bearded Bros flavors clear our screen. Sugar averages 16.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="David">David</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>0.0g</td>
 <td>3.5g</td>
 <td>2.2g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 12 tracked David flavors clear our screen. Fiber averages just 2.2g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Kate&#x27;s Real Food">Kate&#x27;s Real Food</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>15.9g</td>
 <td>28.2g</td>
 <td>3.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked Kate&#x27;s Real Food flavors clear our screen. Sugar averages 15.9g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Kize">Kize</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>11.9g</td>
 <td>16.4g</td>
 <td>2.6g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked Kize flavors clear our screen. Sugar averages 11.9g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="RXBAR">RXBAR</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>14.2g</td>
 <td>19.8g</td>
 <td>4.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked RXBAR flavors clear our screen. Sugar averages 14.2g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Trubar">Trubar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>7.1g</td>
 <td>11.2g</td>
 <td>11.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked Trubar flavors clear our screen. Net carbs average 11.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Truvani">Truvani</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/12</td>
 <td>15.0g</td>
 <td>19.3g</td>
 <td>3.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 12 tracked Truvani flavors clear our screen. Sugar averages 15.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="G2G">G2G</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/11</td>
 <td>13.0g</td>
 <td>20.0g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 11 tracked G2G flavors clear our screen. Sugar averages 13.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Power Crunch">Power Crunch</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/11</td>
 <td>5.7g</td>
 <td>10.4g</td>
 <td>0.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 11 tracked Power Crunch flavors clear our screen. Net carbs average 10.4g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Verb">Verb</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/11</td>
 <td>8.4g</td>
 <td>15.6g</td>
 <td>2.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 11 tracked Verb flavors clear our screen. Net carbs average 15.6g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Clif Builders">Clif Builders</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/10</td>
 <td>13.0g</td>
 <td>22.8g</td>
 <td>2.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 10 tracked Clif Builders flavors clear our screen. Sugar averages 13.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Epic">Epic</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/10</td>
 <td>1.3g</td>
 <td>2.1g</td>
 <td>1.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 10 tracked Epic flavors clear our screen. Fiber averages just 1.7g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="JiMMYBAR!">JiMMYBAR!</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/10</td>
 <td>5.4g</td>
 <td>20.4g</td>
 <td>1.4g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 10 tracked JiMMYBAR! flavors clear our screen. Net carbs average 20.4g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Atkins">Atkins</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/9</td>
 <td>1.7g</td>
 <td>9.3g</td>
 <td>10.4g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 9 tracked Atkins flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Luna">Luna</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/9</td>
 <td>9.2g</td>
 <td>24.9g</td>
 <td>2.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 9 tracked Luna flavors clear our screen. Net carbs average 24.9g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Munk Pack">Munk Pack</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/9</td>
 <td>1.0g</td>
 <td>16.6g</td>
 <td>5.4g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 9 tracked Munk Pack flavors clear our screen. Net carbs average 16.6g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Amirita">Amirita</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/8</td>
 <td>8.5g</td>
 <td>17.1g</td>
 <td>10.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 8 tracked Amirita flavors clear our screen. Net carbs average 17.1g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jonesbar">Jonesbar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/8</td>
 <td>19.5g</td>
 <td>21.2g</td>
 <td>4.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 8 tracked Jonesbar flavors clear our screen. Sugar averages 19.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Ready">Ready</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/8</td>
 <td>10.8g</td>
 <td>17.8g</td>
 <td>7.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 8 tracked Ready flavors clear our screen. Sugar averages 10.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Tosi">Tosi</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/8</td>
 <td>3.4g</td>
 <td>7.9g</td>
 <td>2.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 8 tracked Tosi flavors clear our screen. Fiber averages just 2.5g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Anabar">Anabar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>21.7g</td>
 <td>28.1g</td>
 <td>1.4g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 7 tracked Anabar flavors clear our screen. Sugar averages 21.7g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Floura">Floura</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>6.9g</td>
 <td>14.4g</td>
 <td>15.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 7 tracked Floura flavors clear our screen. Net carbs average 14.4g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Laird">Laird</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>7.7g</td>
 <td>14.1g</td>
 <td>6.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 7 tracked Laird flavors clear our screen. Net carbs average 14.1g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Mezcla">Mezcla</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>3.7g</td>
 <td>14.4g</td>
 <td>4.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 7 tracked Mezcla flavors clear our screen. Net carbs average 14.4g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Misfits">Misfits</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>1.0g</td>
 <td>11.1g</td>
 <td>4.6g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 7 tracked Misfits flavors clear our screen. Net carbs average 11.1g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Transparent Labs">Transparent Labs</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/7</td>
 <td>11.1g</td>
 <td>18.4g</td>
 <td>3.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 7 tracked Transparent Labs flavors clear our screen. Sugar averages 11.1g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Addra Labs">Addra Labs</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>8.8g</td>
 <td>18.3g</td>
 <td>2.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Addra Labs flavors clear our screen. Net carbs average 18.3g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Elemental">Elemental</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>8.3g</td>
 <td>12.2g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Elemental flavors clear our screen. Net carbs average 12.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="MTN OPS">MTN OPS</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>10.7g</td>
 <td>22.3g</td>
 <td>2.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked MTN OPS flavors clear our screen. Sugar averages 10.7g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Melo">Melo</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>6.0g</td>
 <td>9.0g</td>
 <td>2.8g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 6 tracked Melo flavors clear our screen. Fiber averages just 2.8g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Met-RX">Met-RX</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>25.2g</td>
 <td>44.8g</td>
 <td>1.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Met-RX flavors clear our screen. Sugar averages 25.2g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Musashi">Musashi</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>2.2g</td>
 <td>3.2g</td>
 <td>2.8g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 6 tracked Musashi flavors clear our screen. Fiber averages just 2.8g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Nature Valley">Nature Valley</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>6.5g</td>
 <td>10.3g</td>
 <td>5.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Nature Valley flavors clear our screen. Net carbs average 10.3g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="PROBar">PROBar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>12.8g</td>
 <td>30.7g</td>
 <td>2.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked PROBar flavors clear our screen. Sugar averages 12.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Pro Bar">Pro Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>12.8g</td>
 <td>18.2g</td>
 <td>2.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 6 tracked Pro Bar flavors clear our screen. Sugar averages 12.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Quantum">Quantum</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>11.0g</td>
 <td>17.3g</td>
 <td>3.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Quantum flavors clear our screen. Sugar averages 11.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Real Food Bar">Real Food Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>8.5g</td>
 <td>13.2g</td>
 <td>10.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Real Food Bar flavors clear our screen. Net carbs average 13.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Rise">Rise</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/6</td>
 <td>15.5g</td>
 <td>18.7g</td>
 <td>3.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 6 tracked Rise flavors clear our screen. Sugar averages 15.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Afar">Afar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>3.0g</td>
 <td>14.0g</td>
 <td>2.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Afar flavors clear our screen. Net carbs average 14.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Battle Bars">Battle Bars</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>7.0g</td>
 <td>24.2g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Battle Bars flavors clear our screen. Net carbs average 24.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Bob&#x27;s Red Mill">Bob&#x27;s Red Mill</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>10.0g</td>
 <td>24.2g</td>
 <td>3.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Bob&#x27;s Red Mill flavors clear our screen. Sugar averages 10.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Fulfil">Fulfil</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>1.2g</td>
 <td>7.6g</td>
 <td>1.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 5 tracked Fulfil flavors clear our screen. Fiber averages just 1.0g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Junkless">Junkless</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>3.2g</td>
 <td>14.2g</td>
 <td>7.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Junkless flavors clear our screen. Net carbs average 14.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="MRE BAR">MRE BAR</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>1.0g</td>
 <td>12.8g</td>
 <td>4.6g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked MRE BAR flavors clear our screen. Net carbs average 12.8g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Neoh">Neoh</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>1.0g</td>
 <td>5.6g</td>
 <td>6.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Neoh flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Off the Farm">Off the Farm</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>15.6g</td>
 <td>29.8g</td>
 <td>4.6g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Off the Farm flavors clear our screen. Sugar averages 15.6g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Prime Bar">Prime Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>18.0g</td>
 <td>20.0g</td>
 <td>1.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Prime Bar flavors clear our screen. Sugar averages 18.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="The Gluten Free Brothers">The Gluten Free Brothers</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>11.6g</td>
 <td>25.4g</td>
 <td>3.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked The Gluten Free Brothers flavors clear our screen. Sugar averages 11.6g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Wild Zora">Wild Zora</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>6.4g</td>
 <td>7.8g</td>
 <td>1.6g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Wild Zora flavors clear our screen. Fiber averages just 1.6g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Zing">Zing</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/5</td>
 <td>7.4g</td>
 <td>17.0g</td>
 <td>4.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 5 tracked Zing flavors clear our screen. Net carbs average 17.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Alani">Alani</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>7.0g</td>
 <td>17.5g</td>
 <td>1.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Alani flavors clear our screen. Net carbs average 17.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="BSN">BSN</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>3.8g</td>
 <td>8.5g</td>
 <td>5.8g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 4 tracked BSN flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Clif ZBar">Clif ZBar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>9.0g</td>
 <td>21.0g</td>
 <td>2.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Clif ZBar flavors clear our screen. Net carbs average 21.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Elavi">Elavi</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>8.0g</td>
 <td>15.0g</td>
 <td>10.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Elavi flavors clear our screen. Net carbs average 15.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Equate">Equate</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>1.2g</td>
 <td>2.5g</td>
 <td>6.5g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 4 tracked Equate flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Fiber One">Fiber One</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>1.0g</td>
 <td>5.0g</td>
 <td>5.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Fiber One flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Forward">Forward</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>12.5g</td>
 <td>13.5g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Forward flavors clear our screen. Sugar averages 12.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="GNC Total Lean">GNC Total Lean</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>3.5g</td>
 <td>13.2g</td>
 <td>1.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked GNC Total Lean flavors clear our screen. Net carbs average 13.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Gatorade">Gatorade</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>26.5g</td>
 <td>39.5g</td>
 <td>0.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Gatorade flavors clear our screen. Sugar averages 26.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Glove Crafted">Glove Crafted</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>12.5g</td>
 <td>17.5g</td>
 <td>8.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Glove Crafted flavors clear our screen. Sugar averages 12.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Good Word">Good Word</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>9.2g</td>
 <td>11.0g</td>
 <td>5.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Good Word flavors clear our screen. Net carbs average 11.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jambar">Jambar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>14.0g</td>
 <td>30.0g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Jambar flavors clear our screen. Sugar averages 14.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Just Ingredients">Just Ingredients</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>14.8g</td>
 <td>19.0g</td>
 <td>3.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Just Ingredients flavors clear our screen. Sugar averages 14.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="JustNosh">JustNosh</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>5.0g</td>
 <td>14.8g</td>
 <td>3.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked JustNosh flavors clear our screen. Net carbs average 14.8g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="No Nuts!">No Nuts!</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>9.2g</td>
 <td>19.2g</td>
 <td>9.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked No Nuts! flavors clear our screen. Net carbs average 19.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="NutRaw">NutRaw</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>9.0g</td>
 <td>11.5g</td>
 <td>4.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked NutRaw flavors clear our screen. Net carbs average 11.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Orgain">Orgain</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>5.5g</td>
 <td>14.5g</td>
 <td>1.2g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 4 tracked Orgain flavors clear our screen. Net carbs average 14.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Prima">Prima</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>12.8g</td>
 <td>14.2g</td>
 <td>1.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Prima flavors clear our screen. Sugar averages 12.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Raw Rev">Raw Rev</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>3.0g</td>
 <td>16.2g</td>
 <td>2.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Raw Rev flavors clear our screen. Net carbs average 16.2g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Redefine">Redefine</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>5.5g</td>
 <td>20.8g</td>
 <td>10.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Redefine flavors clear our screen. Net carbs average 20.8g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Send">Send</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>15.5g</td>
 <td>21.2g</td>
 <td>4.2g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Send flavors clear our screen. Sugar averages 15.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="UNiTE">UNiTE</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>8.2g</td>
 <td>13.0g</td>
 <td>5.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked UNiTE flavors clear our screen. Net carbs average 13.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Wise Bar">Wise Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/4</td>
 <td>13.8g</td>
 <td>26.0g</td>
 <td>3.8g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 4 tracked Wise Bar flavors clear our screen. Sugar averages 13.8g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Act Bar">Act Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>7.7g</td>
 <td>13.0g</td>
 <td>5.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Act Bar flavors clear our screen. Net carbs average 13.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Alio">Alio</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>2.0g</td>
 <td>14.0g</td>
 <td>9.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Alio flavors clear our screen. Net carbs average 14.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Bahamii">Bahamii</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>16.3g</td>
 <td>17.3g</td>
 <td>3.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Bahamii flavors clear our screen. Sugar averages 16.3g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Be Free Bar">Be Free Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>9.7g</td>
 <td>12.7g</td>
 <td>6.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Be Free Bar flavors clear our screen. Net carbs average 12.7g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Blake&#x27;s">Blake&#x27;s</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>8.3g</td>
 <td>12.7g</td>
 <td>1.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Blake&#x27;s flavors clear our screen. Net carbs average 12.7g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Crave">Crave</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>2.0g</td>
 <td>10.3g</td>
 <td>2.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 3 tracked Crave flavors clear our screen. Net carbs average 10.3g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Defender">Defender</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>5.7g</td>
 <td>11.7g</td>
 <td>7.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Defender flavors clear our screen. Net carbs average 11.7g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Genesee Nutrition">Genesee Nutrition</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>13.0g</td>
 <td>15.0g</td>
 <td>1.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Genesee Nutrition flavors clear our screen. Sugar averages 13.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Ghost">Ghost</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>2.0g</td>
 <td>8.0g</td>
 <td>8.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 3 tracked Ghost flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="HOL">HOL</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>16.0g</td>
 <td>22.7g</td>
 <td>4.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked HOL flavors clear our screen. Sugar averages 16.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Honey Stinger">Honey Stinger</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>14.0g</td>
 <td>18.0g</td>
 <td>1.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Honey Stinger flavors clear our screen. Sugar averages 14.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jacob">Jacob</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>10.0g</td>
 <td>11.0g</td>
 <td>9.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Jacob flavors clear our screen. Sugar averages 10.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jesse&#x27;s WAKEUP! ">Jesse&#x27;s WAKEUP! </button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>11.3g</td>
 <td>17.7g</td>
 <td>0.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Jesse&#x27;s WAKEUP!  flavors clear our screen. Sugar averages 11.3g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Kailo">Kailo</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>14.0g</td>
 <td>20.3g</td>
 <td>3.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Kailo flavors clear our screen. Sugar averages 14.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="KetoBars.com">KetoBars.com</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>0.7g</td>
 <td>3.7g</td>
 <td>5.7g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 3 tracked KetoBars.com flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Mush">Mush</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>12.0g</td>
 <td>19.7g</td>
 <td>3.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Mush flavors clear our screen. Sugar averages 12.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="MyProtein">MyProtein</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>6.7g</td>
 <td>14.7g</td>
 <td>4.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked MyProtein flavors clear our screen. Net carbs average 14.7g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="PEAK Protein">PEAK Protein</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>7.3g</td>
 <td>9.3g</td>
 <td>8.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked PEAK Protein flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="PROGO">PROGO</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>6.3g</td>
 <td>11.0g</td>
 <td>6.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked PROGO flavors clear our screen. Net carbs average 11.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Possible">Possible</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>22.3g</td>
 <td>26.3g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Possible flavors clear our screen. Sugar averages 22.3g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Skout">Skout</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>17.7g</td>
 <td>24.0g</td>
 <td>5.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Skout flavors clear our screen. Sugar averages 17.7g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Supervibe">Supervibe</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>1.3g</td>
 <td>12.0g</td>
 <td>3.3g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Supervibe flavors clear our screen. Net carbs average 12.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Takeaways">Takeaways</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>1.3g</td>
 <td>7.0g</td>
 <td>3.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked Takeaways flavors clear our screen. Fiber averages just 3.0g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="The Maple Brothers">The Maple Brothers</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/3</td>
 <td>5.7g</td>
 <td>16.7g</td>
 <td>2.7g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 3 tracked The Maple Brothers flavors clear our screen. Net carbs average 16.7g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="88 Acres">88 Acres</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>8.5g</td>
 <td>15.0g</td>
 <td>3.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked 88 Acres flavors clear our screen. Net carbs average 15.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Blueprint">Blueprint</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>1.0g</td>
 <td>4.0g</td>
 <td>1.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Blueprint flavors clear our screen. Fiber averages just 1.0g per bar, below our 5g minimum.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Daily Bar">Daily Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>9.5g</td>
 <td>19.5g</td>
 <td>9.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Daily Bar flavors clear our screen. Net carbs average 19.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Einstein">Einstein</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>9.5g</td>
 <td>13.0g</td>
 <td>1.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Einstein flavors clear our screen. Net carbs average 13.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Go Bar">Go Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>14.5g</td>
 <td>32.5g</td>
 <td>2.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Go Bar flavors clear our screen. Sugar averages 14.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jacked Granny">Jacked Granny</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>19.5g</td>
 <td>20.0g</td>
 <td>4.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Jacked Granny flavors clear our screen. Sugar averages 19.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Lineage Provisions">Lineage Provisions</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>10.5g</td>
 <td>12.0g</td>
 <td>2.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Lineage Provisions flavors clear our screen. Sugar averages 10.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="PBFit">PBFit</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>11.5g</td>
 <td>27.5g</td>
 <td>1.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked PBFit flavors clear our screen. Sugar averages 11.5g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Ratio">Ratio</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>1.0g</td>
 <td>4.0g</td>
 <td>6.0g</td>
 <td><span class="sa-yes">Yes</span></td>
 <td class="diab-reason">None of 2 tracked Ratio flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Rello">Rello</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>12.0g</td>
 <td>13.5g</td>
 <td>9.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Rello flavors clear our screen. Sugar averages 12.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="SOAR">SOAR</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>1.5g</td>
 <td>16.5g</td>
 <td>7.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked SOAR flavors clear our screen. Net carbs average 16.5g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Tilt">Tilt</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>2.0g</td>
 <td>13.0g</td>
 <td>6.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Tilt flavors clear our screen. Net carbs average 13.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Tusol">Tusol</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/2</td>
 <td>7.5g</td>
 <td>9.5g</td>
 <td>10.5g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 2 tracked Tusol flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Brave Bar">Brave Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>18.0g</td>
 <td>21.0g</td>
 <td>7.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Brave Bar flavors clear our screen. Sugar averages 18.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Immortal">Immortal</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>10.0g</td>
 <td>10.0g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Immortal flavors clear our screen. Sugar averages 10.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Jesse&#x27;s GOODNITE!">Jesse&#x27;s GOODNITE!</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>13.0g</td>
 <td>22.0g</td>
 <td>1.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Jesse&#x27;s GOODNITE! flavors clear our screen. Sugar averages 13.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Legion">Legion</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>4.0g</td>
 <td>14.0g</td>
 <td>9.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Legion flavors clear our screen. Net carbs average 14.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Nulla">Nulla</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>15.0g</td>
 <td>25.0g</td>
 <td>3.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Nulla flavors clear our screen. Sugar averages 15.0g per bar, well above our 5g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Par Bar">Par Bar</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>9.0g</td>
 <td>16.0g</td>
 <td>4.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Par Bar flavors clear our screen. Net carbs average 16.0g per bar, above our 10g cutoff.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Perfect Amino">Perfect Amino</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>4.0g</td>
 <td>10.0g</td>
 <td>7.0g</td>
 <td><span class="sa-no">No</span></td>
 <td class="diab-reason">None of 1 tracked Perfect Amino flavors clear our full five-criteria screen, usually on grade or protein rather than sugar alone.</td>
 </tr>
-<tr>
+<tr class="avoid-row brand-row-hidden" style="display:none;">
 <td><button type="button" class="brand-jump" data-brand="Unhinged">Unhinged</button></td>
-<td><span class="diab-tier-badge diab-tier-less">Less Likely</span></td>
+<td>0/1</td>
 <td>7.0g</td>
 <td>13.0g</td>
 <td>8.0g</td>
@@ -1907,7 +1879,24 @@
             </tbody>
           </table>
         </div>
+        <button type="button" class="brand-table-show-more" id="diab-avoid-show-more" data-hidden-count="122">Show 122 more brands</button>
       </div>
+      <script>
+      (function() {
+        var btn = document.getElementById('diab-avoid-show-more');
+        var table = document.getElementById('diab-avoid-table');
+        if (!btn || !table) return;
+        btn.addEventListener('click', function() {
+          var hidden = table.querySelectorAll('.brand-row-hidden');
+          hidden.forEach(function(row) {
+            row.style.display = '';
+            row.classList.remove('brand-row-hidden');
+          });
+          btn.classList.add('is-hidden');
+        });
+      })();
+      </script>
+
       <div class="callout-box">We are not doctors or dietitians. These are the qualities we see people managing diabetes look for, so that is what we filtered on. This page is not medical advice. Talk to your doctor or a registered dietitian about what actually fits your treatment plan.</div>
     </div>
   </section>
