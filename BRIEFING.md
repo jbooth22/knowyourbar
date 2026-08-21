@@ -84,7 +84,39 @@ Other:
 
 ---
 
-## Data-integrity incident: broken brand-site links on keto-protein-bars.html (2026-08-19)
+## Database update: 1,181 → 1,245 bars, 165 → 185 brands (2026-08-21)
+
+Monthly database update per the cadence policy set 2026-08-21 (updates run monthly, not ad hoc). New `bars.js` (1,245 bars, 185 brands) supplied pre-built against schema v8 — this session did not run `score_and_export.py`, only consumed the already-exported `bars.js`.
+
+**`glp1-protein-bars.html` refreshed 2026-08-21** — recomputed from the new 1,245-bar database using the unchanged formula (Protein ≥15g, Calories ≤200, Sugars ≤4g, Fiber ≥3g, Sugar Alcohol =0, grade A/B). **28 → 41 qualifying bars (2.4% → 3.3%)**. This was a pure data refresh, no formula change.
+
+What changed on the page:
+- All header/meta/JSON-LD counts (title, description, OG/Twitter tags, Article/BreadcrumbList/FAQPage JSON-LD, H1, hero subtitle, snapshot stats, findings section, score-grid fail-rate cards)
+- **Brand tables:** Consider grew from 1 brand (Junkless) to 5 (Junkless, Main Event, Ration, Fello, form — four new brands entered the database and immediately qualified). Mixed stayed the same 4 brands (NuGo, Wonderslim, Promix, BalanceDiet) with updated ratios/averages. Avoid grew from 165 to 176 brands.
+- **Top Picks tiles:** "Best protein per calorie" and "Highest protein" both changed — the new brand **Ration** (25g protein per bar) now beats the old Wonderslim (15g) and Atlas (20g) picks on both counts. Caught this by recomputing each tile's winner fresh against the new 41-bar set rather than assuming the tiles were static; they are not — they need to be re-derived on every data refresh, same as the counts. **Add this check to the guide-refresh routine going forward** — it's easy to update the headline count and miss that a superlative pick (best/highest/most/lowest anything) has silently gone stale.
+- **`gd-bar-data` script tag** (the lazy-expand JSON data source consumed by `toggleIngr`/`buildLazyExpand` in the page's inline JS) was also stale at the old 28-bar set with old `#N of 1181` rank text. Regenerated for all 41 bars. This tag isn't visually obvious on the page (it's a hidden `<script type="application/json">` block) — **check for it on every future guide-page data refresh**, since a normal visual QA pass won't catch it.
+- Bar-list table body (41 rows, main + expand) rebuilt from scratch using a Python port of `app.js`'s `MACRO_RANKS` percentile-based rank-tag algorithm (`#N lowest/highest` vs `#N of 1245`), validated against the app.js source line-by-line before use.
+
+QA performed: `verify_brand_data.py` spot-checks (Junkless, NuGo) matched generated table values exactly; broken-link scan on all 10 at-risk affiliate brands (0 flagged); all 4 JSON-LD blocks + the `gd-bar-data` JSON validated with `json.loads`; `node --check` on all 5 inline `<script>` blocks; tag-balance check (tr/td/table/div/section all balanced); Playwright screenshots at 1400px and 390px including an expanded bar row and an opened FAQ item.
+
+**Bug caught during this refresh (fixed, not shipped):** my first pass at the Avoid-table generator rendered brands as clickable "jump to flavor" buttons whenever they had ≥1 qualifying flavor, but 3 small-lineup brands (Alio, Atlas, Julian Bakery — 2-4 tracked flavors each, 1-2 qualifying) belong in the Avoid table per the existing site convention, which always uses static (non-clickable) brand-name cells in the Avoid table regardless of qualifying count. Confirmed against the old page's actual markup before fixing.
+
+**Remaining guide pages not yet refreshed against the new 1,245-bar database:** `no-seed-oils.html`, `no-sugar-alcohols.html`, `no-artificial-sweeteners.html`, `clean-protein-bars.html`, `best-bars-for-diabetics.html`, `keto-protein-bars.html`, `caffeine-protein-bars.html`. Fresh filter counts against the new database (no page edits made yet, computed for planning only):
+
+| Guide | Old count | New count |
+|---|---|---|
+| No Sugar Alcohols | 729 | 919 |
+| No Artificial Sweeteners | 810 | 1,004 |
+| No Seed Oils | 587 | 759 |
+| Clean Protein Bars | 351 | 530 |
+| Low Sugar + High Protein | 265 | 318 (page slated for deletion, not refresh) |
+| Best Bars for Diabetics | 104 | 112 |
+| Keto | 97 | 102 |
+| Caffeine | 42 | 42 |
+
+`all-protein-bar-brands.html` also needs a rebuild via `build_brand_rankings.py` against the new `bars.js`. Given the same level of care GLP-1 needed (superlative picks, lazy-load JSON, brand-table edge cases), each remaining guide page should get its own focused session rather than a bulk pass.
+
+
 
 `keto-protein-bars.html` had 14 broken "Shop on Brand Site" links across the
 page — `href="Yes"` instead of a real URL. Root cause: whatever generated
