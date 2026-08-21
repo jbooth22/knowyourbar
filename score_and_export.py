@@ -6,7 +6,7 @@ Scores all bars from raw ingredient text and exports bars.js.
 Usage:
     python score_and_export.py \
         --db "KYB - New Protein Bar Database (2026).xlsx" \
-        --schema "knowyourbar_scoring_schema_v7.xlsx"
+        --schema "knowyourbar_scoring_schema_v8.xlsx"
 
 Output:
     bars.js  (written to current directory)
@@ -201,11 +201,18 @@ def lookup_ingredient(norm, al, cl):
 
 def find_depth0_clause(text, clause):
     """Find the first occurrence of `clause` (case-insensitive) that sits
-    outside any parenthetical group. A clause matched inside a nested
-    parenthetical (e.g. an ingredient's own '(... may contain X ...)'
-    qualifier) is a component-level note, not a trailing whole-product
-    disclaimer, and must not trigger truncation of real ingredients that
-    follow it."""
+    outside any parenthetical OR bracketed group. A clause matched inside a
+    nested parenthetical/bracket (e.g. an ingredient's own '(... may contain
+    X ...)' qualifier, or a bracketed sub-ingredient breakdown like
+    '[... contains 2% or less of ...]') is a component-level note, not a
+    trailing whole-product disclaimer, and must not trigger truncation of
+    real ingredients that follow it.
+
+    Schema v8 (2026-08-21): '[' and ']' are now tracked as depth markers
+    identically to '(' and ')'. Square brackets are common in compound-
+    ingredient labeling (e.g. "cookie crumble [sugar, palm oil]") and were
+    previously invisible to this function, same bug as parse_ingredients()
+    below — see that function's docstring for the full explanation."""
     lower = text.lower()
     start = 0
     while True:
@@ -214,9 +221,9 @@ def find_depth0_clause(text, clause):
             return -1
         depth = 0
         for ch in text[:idx]:
-            if ch == '(':
+            if ch in '([':
                 depth += 1
-            elif ch == ')':
+            elif ch in ')]':
                 depth = max(0, depth - 1)
         if depth == 0:
             return idx
@@ -228,8 +235,27 @@ def parse_ingredients(raw):
     Parse ingredient string into (text, top_level_position, weight_multiplier).
 
     Top-level ingredients get weight_multiplier=1.0.
-    Sub-ingredients inside parentheses get weight_multiplier=0.6 — they are
-    present in smaller amounts than their parent ingredient.
+    Sub-ingredients inside parentheses OR square brackets get
+    weight_multiplier=0.6 — they are present in smaller amounts than their
+    parent ingredient.
+
+    Schema v8 fix (2026-08-21): '[' and ']' are now tracked as nesting
+    depth markers identically to '(' and ')'. Previously only parens were
+    tracked, so bracketed compound-ingredient breakdowns (e.g. "cookie
+    crumble [sugar (cane sugar, tapioca syrup), pea starch, shortening
+    [palm oil, modified palm oil]]" — a common labeling style, especially
+    on imported/EU-formatted bars) had their contents comma-split and
+    scored as independent top-level, full-weight ingredients instead of
+    sub-ingredients of their bracketed parent. That inflated the position
+    count and applied full (1.0) weight to what are actually minor
+    sub-components, which could meaningfully skew both the position-based
+    weighting and, when a scored sub-component (e.g. palm oil) was
+    involved, the letter grade itself. Found while auditing the 2026-08-21
+    database update: 163 bars in the live database contain square
+    brackets; 22 of those had their score shift by >=0.5 once brackets
+    were depth-tracked, and 5 changed letter grade band entirely. Treating
+    '[' / ']' exactly like '(' / ')' throughout this function (and in
+    find_depth0_clause above) fixes this with no separate code path.
     """
     if not raw or pd.isna(raw):
         return []
@@ -249,7 +275,7 @@ def parse_ingredients(raw):
 
     while i < len(text):
         ch = text[i]
-        if ch == '(':
+        if ch in '([':
             depth += 1
             if depth == 1:
                 top_text = ''.join(current_top).strip().rstrip(',').strip()
@@ -258,12 +284,12 @@ def parse_ingredients(raw):
                     items.append((top_text, top_pos, 1.0))
                 current_top = []
                 current_sub = []
-        elif ch == ')':
+        elif ch in ')]':
             if depth == 0:
-                # Stray closing paren with no matching open in the source
-                # data — ignore it rather than letting depth go negative,
-                # which would otherwise corrupt parsing for the rest of
-                # the ingredient list.
+                # Stray closing bracket/paren with no matching open in the
+                # source data — ignore it rather than letting depth go
+                # negative, which would otherwise corrupt parsing for the
+                # rest of the ingredient list.
                 i += 1
                 continue
             depth -= 1
@@ -292,9 +318,9 @@ def parse_ingredients(raw):
         top_pos += 1
         items.append((top_text, top_pos, 1.0))
 
-    # Unclosed parenthetical at end of string (more '(' than ')' in the
-    # source data) — recover whatever was accumulated inside it instead
-    # of silently dropping it.
+    # Unclosed parenthetical/bracket at end of string (more openers than
+    # closers in the source data) — recover whatever was accumulated
+    # inside it instead of silently dropping it.
     if depth > 0 and current_sub:
         sub_text = ''.join(current_sub).strip()
         if sub_text:
