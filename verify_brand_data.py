@@ -103,10 +103,12 @@ def rng(vals):
 
 
 def net_carbs(bar):
+    # Full subtraction, no halving. See GUIDE_CRITERIA.md "Net carbs formula" —
+    # dividing sugar alcohols by 2 was a stray error that broke Keto once already.
     tc = bar.get('Total Carbohydrates (g)') or 0
     fib = bar.get('Dietary Fiber (g)') or 0
     sa = bar.get('Sugar Alcohol (g)') or 0
-    return tc - fib - sa / 2
+    return tc - fib - sa
 
 
 CERT_FIELDS = ['Vegan (Y/N)', 'Gluten Free (Y/N)', 'Dairy Free (Y/N)',
