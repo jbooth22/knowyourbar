@@ -57,7 +57,10 @@ ARTIFICIAL_SW  = ['sucralose', 'acesulfame', 'aspartame', 'saccharin']
 SA_KEYWORDS    = ['erythritol', 'maltitol', 'xylitol', 'sorbitol',
                   'mannitol', 'isomalt', 'lactitol']
 OIL_KEYWORDS   = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
-                  'hydrogenated', 'partially hydrogenated', 'palm fruit oil']
+                  'hydrogenated', 'partially hydrogenated', 'palm fruit oil',
+                  'sunflower oil', 'safflower oil', 'vegetable oil',
+                  'rapeseed oil', 'cottonseed oil', 'corn oil',
+                  'grapeseed oil', 'rice bran oil']
 HIGH_OLEIC_EX  = ['high oleic']
 SKIP_PREFIXES  = [
     'organic ', 'natural ', 'pure ', 'raw ', 'whole ', 'roasted ',
