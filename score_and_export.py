@@ -515,7 +515,7 @@ def audit_schema_gaps(df, al, cl):
 def main():
     parser = argparse.ArgumentParser(description='Score protein bars and export bars.js')
     parser.add_argument('--db',     required=True, help='Bar database Excel file')
-    parser.add_argument('--schema', required=True, help='Scoring schema Excel file (current: v6)')
+    parser.add_argument('--schema', required=True, help='Scoring schema Excel file — always use the current knowyourbar_scoring_schema_vN.xlsx, check BRIEFING.md for which version is current')
     parser.add_argument('--out',    default='bars.js', help='Output file (default: bars.js)')
     parser.add_argument('--no-audit', action='store_true', help='Skip schema gap audit')
     args = parser.parse_args()
