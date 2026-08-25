@@ -12,10 +12,6 @@ const CERT_MAP = {
   'Kosher':     'Kosher (Y/N)',
 };
 
-const CERT_FULL = {
-  'GF': 'Gluten Free',
-};
-
 const SLIDERS_CFG = [
   { key: 'Protein (g)',                label: 'Min Protein',      min: 0,  max: 30,  step: 1,  dir: 'min', unit: 'g',   default: 0 },
   { key: 'Calories',                   label: 'Max Calories',      min: 90, max: 410, step: 10, dir: 'max', unit: 'cal', default: 410 },
@@ -1287,11 +1283,6 @@ function closeExpand() {
   }
   window._activeBarSlug = null;
   serializeState();
-}
-
-function nf(v, unit) {
-  if (v === null || v === undefined) return null;
-  return `${v}${unit}`;
 }
 
 function toggleExpand(bar, row) {
