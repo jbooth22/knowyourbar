@@ -2,6 +2,14 @@
    KYB App Logic
    =================================================== */
 
+// Thin wrapper around the shared analytics.js helper (loaded on every
+// page, including this one) — never throws if analytics.js didn't load.
+function kybTrack(name, params) {
+  if (window.KYB && typeof window.KYB.track === 'function') {
+    window.KYB.track(name, params);
+  }
+}
+
 const CERT_MAP = {
   'Vegan':      'Vegan (Y/N)',
   'GF':         'Gluten Free (Y/N)',
@@ -603,6 +611,11 @@ function buildGradeFilter() {
       container.querySelectorAll('.grade-filter-btn').forEach(b => {
         b.classList.toggle('active', activeGrades.has(b.dataset.grade));
       });
+      kybTrack('filter_change', {
+        filter_type: 'grade',
+        filter_value: [...activeGrades].join(',') || 'none',
+        active_preset: activePreset,
+      });
       scheduleFilter();
     });
     container.appendChild(btn);
@@ -631,6 +644,11 @@ function toggleBrand(brand, checked) {
   if (checked) selectedBrands.add(brand);
   else selectedBrands.delete(brand);
   updateBrandCount();
+  kybTrack('filter_change', {
+    filter_type: 'brand',
+    filter_value: brand,
+    active_preset: activePreset,
+  });
   scheduleFilter();
 }
 
@@ -681,6 +699,11 @@ function buildCertChips() {
       activeCerts[label] = !activeCerts[label];
       chip.classList.toggle('active', activeCerts[label]);
       chip.setAttribute('aria-pressed', String(activeCerts[label]));
+      kybTrack('filter_change', {
+        filter_type: 'cert',
+        filter_value: label,
+        active_preset: activePreset,
+      });
       scheduleFilter();
     });
     grid.appendChild(chip);
@@ -701,11 +724,21 @@ function buildSliders() {
       <input type="range" min="${cfg.min}" max="${cfg.max}" step="${cfg.step}"
              value="${cfg.default}" id="sl-${cfg.key}" aria-label="${cfg.label}">`;
     list.appendChild(row);
-    row.querySelector('input').addEventListener('input', e => {
+    const sliderInput = row.querySelector('input');
+    sliderInput.addEventListener('input', e => {
       const val = parseFloat(e.target.value);
       sliderValues[cfg.key] = val;
       document.getElementById('sv-' + cfg.key).textContent = val + cfg.unit;
       scheduleFilter();
+    });
+    // Fire tracking on 'change' (release/commit), not 'input' (every tick
+    // while dragging) — same value already applied by the listener above.
+    sliderInput.addEventListener('change', e => {
+      kybTrack('filter_change', {
+        filter_type: 'slider',
+        filter_value: `${cfg.label}:${e.target.value}${cfg.unit}`,
+        active_preset: activePreset,
+      });
     });
   });
 }
@@ -862,6 +895,16 @@ function applyPreset(presetKey) {
       if (colEl) colEl.value = presetSort.col;
       if (dirEl) dirEl.value = presetSort.dir;
     }
+    // Fire once the filter/render cycle (scheduleFilter, below) has
+    // updated #result-count — small delay so the count isn't stale.
+    setTimeout(() => {
+      const countEl = document.getElementById('result-count');
+      kybTrack('preset_apply', {
+        preset_slug: presetKey,
+        preset_label: PRESETS[presetKey]?.label || presetKey,
+        result_count: countEl ? countEl.textContent.trim() : null,
+      });
+    }, 60);
     // On mobile: collapse filter panel so user sees results immediately
     if (window.innerWidth <= 900) {
       const panel = document.getElementById('filter-panel');
@@ -912,6 +955,11 @@ function addExclusion() {
   if (!exclusions.includes(term)) {
     exclusions.push(term);
     renderExclTags();
+    kybTrack('filter_change', {
+      filter_type: 'exclude',
+      filter_value: term,
+      active_preset: activePreset,
+    });
     scheduleFilter();
   }
   inp.value = '';
@@ -1581,6 +1629,11 @@ function toggleCompare(bar) {
       return;
     }
     compareSet.set(key, bar);
+    kybTrack('bar_compare_add', {
+      bar_brand: bar['Brand Name'],
+      bar_flavor: bar['Flavor Name'],
+      bar_grade: bar['score_band'],
+    });
   }
   updateAllCompareButtons();
   updateCompareTray();
