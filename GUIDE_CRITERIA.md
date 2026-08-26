@@ -27,6 +27,8 @@
 | GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 4 AND `Dietary Fiber (g)` ≥ 3 AND `Sugar Alcohol (g)` = 0 AND `score_band` in (A, B) |
 | Keto | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8 AND ingredients do not contain the maltitol family (see below), where net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol |
 | Caffeine | `Caffeine (mg)` > 0 (any declared amount qualifies, no minimum dose or ingredient-quality gate) |
+| Vegan | `Vegan (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate) |
+| Gluten Free | `Gluten Free (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate, same pattern as Vegan) |
 
 Note on sugar-alcohol screens: Keto and Diabetics exclude the maltitol family specifically (glycemic-index rationale, see below). GLP-1 is stricter and excludes ALL sugar alcohols (`Sugar Alcohol (g)` must equal exactly 0) — the rationale there is GI tolerance (bloating, digestive discomfort), not glycemic index. Do not reuse the maltitol-only check for GLP-1 or vice versa; confirm against `app.js`'s canonical presets before reusing either check on a new guide.
 
@@ -68,6 +70,20 @@ hydrogenated starch hydrolysate       (substring also catches plural "hydrolysat
 Do not add a bare `hsh` abbreviation check — too high a false-positive risk against unrelated bracket text in ingredient strings.
 
 If a future guide also filters on net carbs, reuse this exact check rather than writing a new one.
+
+### Gluten Free guide — gluten-source screen (category explainer content, not the qualification filter)
+
+The qualification filter is just `Gluten Free (Y/N) = Yes` (see table above), same pattern as Vegan. The category-explainer section additionally cross-checks ingredient text for named gluten sources, purely to explain what's actually driving disqualification, this does not affect who qualifies:
+```
+wheat            (\bwheat\b, word-boundary — excludes "wheatgrass" style compounds)
+barley / malt    (\bbarley\b, \bmalt extract\b, \bmalt syrup\b, \bmalted barley\b, \bbarley malt\b —
+                  do NOT use a bare \bmalt\b check, it false-positives against maltitol and maltodextrin)
+```
+Compute both checks only against the DISQUALIFIED set (`Gluten Free (Y/N)` != Yes), not the full database — a bar can contain the word "wheat" in a "made in a facility that also processes wheat" cross-contact disclaimer while still being labeled gluten free itself, and that's a real case in the live data (Honey Stinger). Restricting the match to the disqualified set filters this out automatically without extra logic.
+
+The remainder of the disqualified set (roughly 84% of it in the 2026-08-26 build) shows no wheat or barley in its own ingredient list at all — those bars simply haven't been labeled or certified gluten free by the brand, which is a different claim from actually containing gluten. Present this as its own explainer card ("Not labeled gluten free"), not folded into the Wheat or Barley counts, and don't claim or imply these bars contain gluten. If a future refresh changes bars.js, recompute this split fresh rather than reusing prior counts, same rule as every other guide.
+
+Do not use a bare `oats` check as a disqualifying factor — oats are naturally gluten-free and only cross-contaminate during farming/milling; roughly 71% of oat-mentioning bars in the 2026-08-26 build are still labeled gluten free (several explicitly state "gluten-free oats"), so an oats-based screen would produce a majority-false-positive card.
 
 ---
 
