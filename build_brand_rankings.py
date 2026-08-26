@@ -72,7 +72,7 @@ WIDE = {
     "RXBAR", "Barebells", "Larabar", "Pure Protein", "think!", "Atkins", "Fiber One",
     "Nature Valley", "Luna", "Power Crunch", "Gatorade", "MET-Rx", "Lenny & Larry's",
     "FITCRUNCH", "Alani", "Ghost", "Orgain", "Equate", "GNC Total Lean",
-    "Honey Stinger", "Bobo's", "Epic",
+    "Honey Stinger", "Bobo's", "Epic", "Met-RX", "One",
 }
 MID = {
     "Perfect Bar", "GoMacro", "NuGo", "Aloha", "IQ Bar", "Munk Pack", "Simply Protein",
@@ -80,8 +80,13 @@ MID = {
     "Built", "1st Phorm", "Thunderbird", "Kate's Real Food", "Genesee Nutrition",
     "Verb", "Wild Zora", "Neoh", "Truvani", "PROBar", "Pro Bar", "Tosi", "Rise",
     "Bearded Bros", "Daryl's Bars", "Trubar", "Battle Bars", "Transparent Labs",
-    "Perfect Keto", "Jonesbar", "Redefine", "Nick's",
+    "Perfect Keto", "Jonesbar", "Redefine", "Nick's", "Bullet Proof",
 }
+# NOTE: bars.js's brand-name capitalization for MET-Rx changed to "Met-RX" in
+# this database update. Updated here to match, or this brand silently drops
+# out of the Widely Available tier. If bars.js renames a WIDE/MID brand again,
+# this tier() lookup will silently miscategorize it since it's a plain string
+# match, not a fuzzy one -- worth a spot-check after any brand-name-heavy diff.
 
 TIER_LABEL = {"wide": "Widely Available", "mid": "Mid-Size & Specialty", "small": "Small & Online"}
 CATEGORY_INTRO = {
@@ -590,14 +595,14 @@ def render_page(rows, total_db_brand_count_display="148+"):
     <div class="section-inner">
       <h2 class="section-title">How we ranked {TOTAL_BRANDS} brands</h2>
       <div class="section-body">
-        <p>Every brand gets averaged across every flavor we've scored: ingredient quality, protein efficiency, fiber, sugar, net carbs, all of it. This isn't a "best flavor wins" list &mdash; a brand with one great flavor and nine mediocre ones won't out-rank a brand that's solid top to bottom. The one thing we can't factor in is price, since we don't track live pricing across retailers.</p>
+        <p>Every brand gets averaged across every flavor we've scored: ingredient quality, protein efficiency, fiber, sugar, net carbs, all of it. This isn't a "best flavor wins" list. A brand with one great flavor and nine mediocre ones won't out-rank a brand that's solid top to bottom. The one thing we can't factor in is price, since we don't track live pricing across retailers.</p>
         <p>Each brand's rank comes from three inputs, weighted like this:</p>
         <ul class="verdict-items">
-          <li><strong>Ingredient quality &mdash; 60%.</strong> Our A-F score, averaged across every flavor a brand makes. This carries the most weight because clean ingredients are the whole reason this site exists.</li>
-          <li><strong>Protein efficiency &mdash; 25%.</strong> Grams of protein per 100 calories, averaged across the lineup.</li>
-          <li><strong>Fiber &mdash; 15%.</strong> Average grams of fiber per bar, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar.</li>
+          <li><strong>Ingredient quality: 60%.</strong> Our A-F score, averaged across every flavor a brand makes. This carries the most weight because clean ingredients are the whole reason this site exists.</li>
+          <li><strong>Protein efficiency: 25%.</strong> Grams of protein per 100 calories, averaged across the lineup.</li>
+          <li><strong>Fiber: 15%.</strong> Average grams of fiber per bar, because a bar that's technically "clean" but does nothing for satiety isn't actually a great bar.</li>
         </ul>
-        <p>Vitamins, creatine, and caffeine aren't part of the formula on purpose. They're personal-preference and use-case signals, not quality signals &mdash; a caffeinated bar isn't a "better" bar, it's a bar for a specific moment, and some people need to actively avoid it. Those show up as badges on each card instead, so you can filter for or against them yourself.</p>
+        <p>Vitamins, creatine, and caffeine aren't part of the formula on purpose. They're personal-preference and use-case signals, not quality signals. A caffeinated bar isn't a "better" bar, it's a bar for a specific moment, and some people need to actively avoid it. Those show up as badges on each card instead, so you can filter for or against them yourself.</p>
         <p>Two more things worth knowing:</p>
         <ul class="verdict-items">
           <li><strong>A small lineup can beat a huge one.</strong> RXBAR (12 flavors) currently outranks Quest (16 flavors) because its ingredient list stays cleaner across the board, even though Quest has more flavors and a bigger marketing budget.</li>
@@ -611,7 +616,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     <div class="section-inner">
       <h2 class="section-title">Widely Available, Mid-Size, or Small &amp; Online</h2>
       <div class="section-body">
-        <p>We also tag every brand by how easy it actually is to find, so you can filter for what you can realistically buy nearby versus what you'd need to order online. This is an editorial call based on where these brands actually sell, not something we calculate from the ingredient data &mdash; if we've got a brand's distribution wrong, tell us and we'll fix it.</p>
+        <p>We also tag every brand by how easy it actually is to find, so you can filter for what you can realistically buy nearby versus what you'd need to order online. This is an editorial call based on where these brands actually sell, not something we calculate from the ingredient data. If we've got a brand's distribution wrong, tell us and we'll fix it.</p>
       </div>
       <div class="macro-grid" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); margin-top:1rem;">
         <div class="macro-card">
@@ -633,9 +638,9 @@ def render_page(rows, total_db_brand_count_display="148+"):
       <div class="section-body" style="margin-top:1.25rem;">
         <p>We also group every brand into one of three flavor-lineup categories, based on what its macros actually look like:</p>
         <ul class="verdict-items">
-          <li><strong>Protein First</strong> &mdash; {CAT_COUNTS.get('Protein First', 0)} brands averaging 9g+ protein per 100 calories.</li>
-          <li><strong>Whole Food / High Fiber</strong> &mdash; {CAT_COUNTS.get('Whole Food / High Fiber', 0)} brands averaging 6g+ fiber without hitting that protein bar.</li>
-          <li><strong>Solid Macro Profile</strong> &mdash; {CAT_COUNTS.get('Solid Macro Profile', 0)} brands, everything else, which is most of the market.</li>
+          <li><strong>Protein First:</strong> {CAT_COUNTS.get('Protein First', 0)} brands averaging 9g+ protein per 100 calories.</li>
+          <li><strong>Whole Food / High Fiber:</strong> {CAT_COUNTS.get('Whole Food / High Fiber', 0)} brands averaging 6g+ fiber without hitting that protein bar.</li>
+          <li><strong>Solid Macro Profile:</strong> {CAT_COUNTS.get('Solid Macro Profile', 0)} brands, everything else, which is most of the market.</li>
         </ul>
         <p>You can filter by any of these below.</p>
       </div>
@@ -773,7 +778,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
         </div>
         <div class="faq-item">
           <button class="faq-q">How many brands and flavors does this cover?</button>
-          <div class="faq-a">This ranking covers every one of the 148 distinct protein bar brands in our database, spanning 1,000+ scored flavors, updated as we add new bars.</div>
+          <div class="faq-a">This ranking covers every one of the __TOTAL_BRANDS__ distinct protein bar brands in our database, spanning 1,000+ scored flavors, updated as we add new bars.</div>
         </div>
       </div>
     </div>
@@ -903,7 +908,8 @@ def render_page(rows, total_db_brand_count_display="148+"):
 </body>
 </html>
 '''
-    return HEAD + METHODOLOGY + FAQ_FOOTER
+    faq_footer = FAQ_FOOTER.replace('__TOTAL_BRANDS__', str(TOTAL_BRANDS))
+    return HEAD + METHODOLOGY + faq_footer
 
 
 if __name__ == '__main__':
