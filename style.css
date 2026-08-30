@@ -4496,3 +4496,30 @@ table.brand-table tr:hover td { background: var(--off-white); }
     max-width: 260px;
   }
 }
+
+/* Shared "what to look for" depth-section components (callout box + checklist),
+   promoted to style.css 2026-08-30 so future guide pages reuse these instead of
+   redefining a page-scoped .diab-criteria-list / .kt-criteria-list variant each
+   time. Visually identical to the box/list pattern used on
+   best-bars-for-diabetics.html and keto-protein-bars.html. */
+.callout-box {
+  background: #f7f5f0;
+  border-left: 3px solid var(--black);
+  border-radius: 0 6px 6px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0 0.5rem;
+  font-size: 0.88rem;
+  color: #333;
+  line-height: 1.7;
+}
+.callout-box strong { color: var(--black); }
+.criteria-list {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  color: #4a4a45;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 680px;
+}
+.criteria-list li { margin-bottom: 0.35rem; }
+.criteria-list li strong { color: var(--black); }
