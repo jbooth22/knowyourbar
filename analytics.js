@@ -83,6 +83,19 @@
         bar_grade: text(card.querySelector('.top-bar-badge')),
       };
     }
+    // "Highest / lowest ingredient quality" pick cards on brand pages
+    // (.bw-card.best / .bw-card.worst). These don't carry a brand name of
+    // their own since the whole page is one brand — fall back to the first
+    // .bar-brand text anywhere on the page (the flavor table further down).
+    var bwCard = el.closest('.bw-card');
+    if (bwCard) {
+      var pageBrandEl = document.querySelector('.bar-brand');
+      return {
+        bar_brand: pageBrandEl ? text(pageBrandEl) : null,
+        bar_flavor: text(bwCard.querySelector('.bw-flavor')),
+        bar_grade: text(bwCard.querySelector('.grade-badge')),
+      };
+    }
     return { bar_brand: null, bar_flavor: null, bar_grade: null };
   }
 
