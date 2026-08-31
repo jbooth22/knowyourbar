@@ -135,8 +135,12 @@ body {
 .finder {
   display: grid;
   grid-template-columns: 280px 1fr;
-  /* 52px nav + ~130px compact hero. Adjust if hero height changes. */
-  height: calc(100dvh - 52px - 130px);
+  /* Sized to its content (filters + up to 50 result rows), not locked to
+     the viewport — the page scrolls normally past it to the footer, rather
+     than the filter/results panels being boxed into a fixed-height shell
+     with their own internal scrollbars. Grid's default align-items:stretch
+     still makes the shorter column's background/border extend to match the
+     taller one, so the two-column look is unchanged. */
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -150,13 +154,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  height: 100%;
-  min-height: 0;
-  overflow-y: auto;
-  /* Without this, scrolling the panel past its own end "chains" into the
-     page scroll, dragging the whole viewport-locked .finder layout up and
-     permanently exposing the footer underneath. */
-  overscroll-behavior-y: contain;
 }
 
 .panel-section {
@@ -587,10 +584,6 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 .results-panel {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-  min-height: 0;
-  overscroll-behavior-y: contain;
 }
 
 .results-toolbar {
@@ -699,10 +692,9 @@ select:focus { border-color: var(--black); }
 
 /* Table */
 .table-scroll {
+  /* Horizontal-only — the table itself no longer scrolls vertically inside
+     a boxed panel, the whole page scrolls past it (see .finder above). */
   overflow-x: auto;
-  overflow-y: auto;
-  flex: 1;
-  overscroll-behavior-y: contain;
 }
 
 table {
@@ -713,7 +705,9 @@ table {
 
 thead {
   position: sticky;
-  top: 0;
+  /* Sticks just below the site nav (.site-nav is a fixed 52px) now that the
+     page itself is the scrolling container, not top:0 of a boxed panel. */
+  top: 52px;
   z-index: 10;
   background: var(--off-white);
 }
