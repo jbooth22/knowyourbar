@@ -103,7 +103,7 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
   Bars with under 5g net carbs and 10g+ fat, graded A or B on ingredients.
 
 - **Best Bars for Diabetics** — https://knowyourbar.com/best-bars-for-diabetics.html
-  Low glycemic impact bars: low sugar, no maltitol, moderate carbs, clean ingredients.
+  120 of 1,298 bars (about 9%) meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient grade, and no maltitol family sugar alcohols, spanning 34 brands. Top picks include IQ Bar, Magic Spoon, and Stars and Honey.
 
 - **GLP-1 Protein Bars** — https://knowyourbar.com/glp1-protein-bars.html
   43 of 1,298 bars with 15g+ protein, under 200 calories, under 4g sugar, 3g+ fiber, and zero sugar alcohols, graded A or B on ingredients.
