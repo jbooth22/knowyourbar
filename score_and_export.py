@@ -287,6 +287,31 @@ def parse_ingredients(raw):
                     items.append((top_text, top_pos, 1.0))
                 current_top = []
                 current_sub = []
+            else:
+                # Opening a NESTED parenthetical/bracket (depth >= 2 after
+                # this increment) inside an already-open sub-group, e.g.
+                # "fruit and veggie juice concentrate (grape, date, lemon)"
+                # sitting inside a "Grape layer (...)" wrapper. Flush
+                # whatever text has accumulated in current_sub up to this
+                # point as its own sub-ingredient(s) before starting to
+                # accumulate the nested group's contents separately.
+                # Schema v9 fix (2026-08-31 database update): previously
+                # only the outermost paren boundary (depth 0<->1) ever
+                # flushed anything, so a nested opener with no comma
+                # immediately before it silently glued the parent phrase to
+                # the first item inside the nested group once everything
+                # finally flushed together at the outer close (e.g.
+                # "fruit and veggie juice concentrate" + "grape" -> the
+                # single unmatched token "fruit and veggie juice
+                # concentrate grape"). Found auditing the schema-gap report
+                # from this update; see claude/DATABASE_UPDATE_TRIAGE_2026-08-31.md.
+                sub_text = ''.join(current_sub).strip().rstrip(',').strip()
+                if sub_text:
+                    for sub_part in re.split(r'[,;]', sub_text):
+                        sub_part = sub_part.strip()
+                        if sub_part:
+                            items.append((sub_part, top_pos, 0.6))
+                current_sub = []
         elif ch in ')]':
             if depth == 0:
                 # Stray closing bracket/paren with no matching open in the
@@ -297,6 +322,19 @@ def parse_ingredients(raw):
                 continue
             depth -= 1
             if depth == 0:
+                sub_text = ''.join(current_sub).strip()
+                if sub_text:
+                    for sub_part in re.split(r'[,;]', sub_text):
+                        sub_part = sub_part.strip()
+                        if sub_part:
+                            items.append((sub_part, top_pos, 0.6))
+                current_sub = []
+            else:
+                # Closing a NESTED parenthetical/bracket (depth still >= 1
+                # after this decrement) -- flush its own contents as
+                # sub-ingredients now, same reasoning as the nested-open
+                # case above, rather than letting them run together with
+                # whatever text follows before the outer group closes.
                 sub_text = ''.join(current_sub).strip()
                 if sub_text:
                     for sub_part in re.split(r'[,;]', sub_text):

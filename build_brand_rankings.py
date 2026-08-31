@@ -78,15 +78,21 @@ MID = {
     "Perfect Bar", "GoMacro", "NuGo", "Aloha", "IQ Bar", "Munk Pack", "Simply Protein",
     "Raw Rev", "Bob's Red Mill", "Musashi", "Zing", "Fulfil", "No Cow", "Magic Spoon",
     "Built", "1st Phorm", "Thunderbird", "Kate's Real Food", "Genesee Nutrition",
-    "Verb", "Wild Zora", "Neoh", "Truvani", "PROBar", "Pro Bar", "Tosi", "Rise",
+    "Verb", "Wild Zora", "Neoh", "Truvani", "PROBar", "PROBAR", "Pro Bar", "Tosi", "Rise",
     "Bearded Bros", "Daryl's Bars", "Trubar", "Battle Bars", "Transparent Labs",
     "Perfect Keto", "Jonesbar", "Redefine", "Nick's", "Bullet Proof",
 }
-# NOTE: bars.js's brand-name capitalization for MET-Rx changed to "Met-RX" in
-# this database update. Updated here to match, or this brand silently drops
-# out of the Widely Available tier. If bars.js renames a WIDE/MID brand again,
-# this tier() lookup will silently miscategorize it since it's a plain string
-# match, not a fuzzy one -- worth a spot-check after any brand-name-heavy diff.
+# NOTE: bars.js's brand-name capitalization has flip-flopped twice now, both times
+# a plain-string-match gotcha for tier(): MET-Rx -> "Met-RX" (2026-08-13 update,
+# see CHANGELOG) -> back to "MET-Rx" (this 2026-08-31 update). WIDE carries both
+# "MET-Rx" and "Met-RX" so either casing lands correctly. Same issue hit PROBAR:
+# this update renamed "Pro Bar" to the all-caps "PROBAR", which matched neither
+# the existing "PROBar" nor "Pro Bar" entries and would have silently dropped it
+# into the "small" tier by default -- added "PROBAR" alongside the older variants
+# rather than replacing them, same approach as MET-Rx. If bars.js renames a
+# WIDE/MID brand again, this tier() lookup will silently miscategorize it since
+# it's a plain string match, not a fuzzy one -- worth a spot-check after any
+# brand-name-heavy diff (this is now the second time it's bitten a real update).
 
 TIER_LABEL = {"wide": "Widely Available", "mid": "Mid-Size & Specialty", "small": "Small & Online"}
 CATEGORY_INTRO = {
