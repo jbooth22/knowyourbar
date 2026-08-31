@@ -404,14 +404,14 @@ function readURLParams() {
   // sliders — only non-default values serialized
   // keys: protein, cal, fat, carbs, sugar, sa, fiber, sodium
   const sliderMap = {
-    protein: 'Protein (g)',
-    cal:     'Calories',
-    fat:     'Total Fat (g)',
-    carbs:   'Total Carbohydrates (g)',
-    sugar:   'Sugars (g)',
-    sa:      'Sugar Alcohol (g)',
-    fiber:   'Dietary Fiber (g)',
-    sodium:  'Sodium (mg)',
+    protein:  'Protein (g)',
+    cal:      'Calories',
+    fat:      'Total Fat (g)',
+    carbs:    'Total Carbohydrates (g)',
+    sugar:    'Sugars (g)',
+    sa:       'Sugar Alcohol (g)',
+    fiber:    'Dietary Fiber (g)',
+    netcarbs: '_netCarbs',
   };
   Object.entries(sliderMap).forEach(([urlKey, stateKey]) => {
     const val = params.get(urlKey);
@@ -530,14 +530,14 @@ function serializeState() {
 
   // sliders — only non-default values
   const sliderMap = {
-    protein: 'Protein (g)',
-    cal:     'Calories',
-    fat:     'Total Fat (g)',
-    carbs:   'Total Carbohydrates (g)',
-    sugar:   'Sugars (g)',
-    sa:      'Sugar Alcohol (g)',
-    fiber:   'Dietary Fiber (g)',
-    sodium:  'Sodium (mg)',
+    protein:  'Protein (g)',
+    cal:      'Calories',
+    fat:      'Total Fat (g)',
+    carbs:    'Total Carbohydrates (g)',
+    sugar:    'Sugars (g)',
+    sa:       'Sugar Alcohol (g)',
+    fiber:    'Dietary Fiber (g)',
+    netcarbs: '_netCarbs',
   };
   Object.entries(sliderMap).forEach(([urlKey, stateKey]) => {
     const cfg = SLIDERS_CFG.find(c => c.key === stateKey);
@@ -870,8 +870,53 @@ const PRESETS = {
       return prot >= 15 && cal <= 200 && sug <= 4 && fib >= 3 && (band === 'A' || band === 'B');
     },
     sort: { col: 'Protein (g)', dir: 'desc' }
+  },
+  no_sugar_alcohol: {
+    label: 'No Sugar Alcohol',
+    emoji: '🍬',
+    tagline: 'Zero erythritol, maltitol, xylitol, or any other sugar alcohol',
+    why: 'Sugar alcohols are the most common culprit behind bloating and GI discomfort from protein bars. These results have zero grams of sugar alcohol on the label, full stop, matching our No Sugar Alcohols guide.',
+    criteria: '0g sugar alcohol',
+    apply: (bar) => {
+      const sa = bar['Sugar Alcohol (g)'];
+      return sa === null || sa === undefined || sa === 0;
+    },
+    sort: { col: 'Sugars (g)', dir: 'asc' }
+  },
+  no_seed_oil: {
+    label: 'No Seed Oil',
+    emoji: '🫒',
+    tagline: 'No canola, soybean, palm, sunflower, or other seed/vegetable oils',
+    why: 'We screen every ingredient list for canola, rapeseed, soybean, palm, palm kernel, sunflower, safflower, cottonseed, corn, grapeseed, and rice bran oil, plus any hydrogenated fat or generic "vegetable oil." High-oleic sunflower and safflower oil are allowed, same screen used on our No Seed Oils guide.',
+    criteria: 'No screened seed or vegetable oils in the ingredient list',
+    apply: (bar) => !hasSeedOil(bar),
+    sort: { col: 'ingredient_score', dir: 'desc' }
   }
 };
+
+// ─── Seed oil screen (mirrors OIL_KEYWORDS / HIGH_OLEIC_EX in score_and_export.py) ───
+// Kept in sync with the Python scoring pipeline so the "No Seed Oil" preset
+// here and the /no-seed-oils.html guide always agree on what qualifies.
+const SEED_OIL_KEYWORDS = [
+  'palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
+  'hydrogenated', 'partially hydrogenated', 'palm fruit oil',
+  'sunflower oil', 'safflower oil', 'vegetable oil',
+  'rapeseed oil', 'cottonseed oil', 'corn oil',
+  'grapeseed oil', 'rice bran oil',
+];
+function hasSeedOil(bar) {
+  const ingr = (bar['Ingredients'] || '').toLowerCase();
+  for (const kw of SEED_OIL_KEYWORDS) {
+    const idx = ingr.indexOf(kw);
+    if (idx === -1) continue;
+    // Skip the high-oleic exception (e.g. "high oleic sunflower oil"),
+    // same 20-char lookback window used server-side.
+    const ctx = ingr.slice(Math.max(0, idx - 20), idx + kw.length);
+    if (ctx.includes('high oleic')) continue;
+    return true;
+  }
+  return false;
+}
 
 function applyPreset(presetKey) {
   const btn = document.querySelector(`[data-preset="${presetKey}"]`);

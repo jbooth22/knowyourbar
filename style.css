@@ -153,6 +153,10 @@ body {
   height: 100%;
   min-height: 0;
   overflow-y: auto;
+  /* Without this, scrolling the panel past its own end "chains" into the
+     page scroll, dragging the whole viewport-locked .finder layout up and
+     permanently exposing the footer underneath. */
+  overscroll-behavior-y: contain;
 }
 
 .panel-section {
@@ -300,6 +304,7 @@ body {
 .brand-list {
   max-height: 200px;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: white;
@@ -585,6 +590,7 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   overflow: hidden;
   height: 100%;
   min-height: 0;
+  overscroll-behavior-y: contain;
 }
 
 .results-toolbar {
@@ -696,6 +702,7 @@ select:focus { border-color: var(--black); }
   overflow-x: auto;
   overflow-y: auto;
   flex: 1;
+  overscroll-behavior-y: contain;
 }
 
 table {
@@ -2322,7 +2329,7 @@ body.overlay-open { overflow: hidden; }
 .site-footer {
   background: var(--bs-ink);
   border-top: 1px solid #ffffff12;
-  padding: 2rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   color: #ffffff44;
 }
 .site-footer-inner {
@@ -2331,7 +2338,7 @@ body.overlay-open { overflow: hidden; }
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
 }
@@ -2372,12 +2379,51 @@ body.overlay-open { overflow: hidden; }
   transition: color .12s;
 }
 .site-footer-links a:hover { color: var(--bs-paper); }
+
+/* Collapsible disclosure around the full guide/brand link list — collapsed
+   by default so the footer reads as one compact line on every page, but the
+   full link list stays in the DOM (Google indexes accordion/disclosure
+   content the same as visible content, so this keeps the internal-linking
+   SEO value while cutting the footer's on-screen footprint). */
+.site-footer-links-toggle {
+  flex-shrink: 0;
+}
+.site-footer-links-summary {
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--bs-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: #a39d8c;
+  white-space: nowrap;
+  transition: color .12s;
+}
+.site-footer-links-summary:hover { color: var(--bs-paper); }
+.site-footer-links-summary::-webkit-details-marker { display: none; }
+.site-footer-links-summary::before {
+  content: '+ ';
+  color: #a39d8c;
+}
+.site-footer-links-toggle[open] .site-footer-links-summary::before {
+  content: '\2212 '; /* minus sign */
+}
+.site-footer-links-toggle[open] .site-footer-links-summary {
+  display: block;
+  margin-bottom: .6rem;
+}
+.site-footer-links-toggle .site-footer-links {
+  justify-content: flex-end;
+}
+@media (max-width: 640px) {
+  .site-footer-links-toggle .site-footer-links { justify-content: flex-start; }
+}
+
 .site-footer-copy {
   max-width: 980px;
   margin: 0 auto;
   border-top: 1px solid #ffffff0a;
-  padding-top: .85rem;
-  margin-top: 1.25rem;
+  padding-top: .6rem;
+  margin-top: .85rem;
   font-family: var(--bs-font-data);
   font-size: 10px;
   color: #83795f;
