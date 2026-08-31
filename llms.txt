@@ -100,7 +100,7 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
   Bars with 15g+ protein and under 5g sugar, filtered by ingredient grade.
 
 - **Keto Protein Bars** — https://knowyourbar.com/keto-protein-bars.html
-  Bars with under 5g net carbs and 10g+ fat, graded A or B on ingredients.
+  102 of 1,298 bars clear a net carb, protein, fat, and maltitol screen (8g or less net carbs, 10g or more protein, 8g or more fat, no maltitol or its close relatives), spanning 26 brands. Top picks include Healthy Eating on the Go, IQ Bar, and Perfect Keto.
 
 - **Best Bars for Diabetics** — https://knowyourbar.com/best-bars-for-diabetics.html
   120 of 1,298 bars (about 9%) meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient grade, and no maltitol family sugar alcohols, spanning 34 brands. Top picks include IQ Bar, Magic Spoon, and Stars and Honey.
