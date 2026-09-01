@@ -43,6 +43,13 @@
     return el ? el.textContent.trim() : null;
   }
 
+  // Brand pages set <body data-brand="..."> (see analytics.js changelog) —
+  // the one reliable, page-level source of the brand name for markup on
+  // those pages (like .bar-row and .bw-card) that doesn't repeat it per row.
+  function pageBrand() {
+    return document.body.getAttribute('data-brand') || null;
+  }
+
   // Resolve bar_brand/bar_flavor/bar_grade for a clicked element across
   // every markup pattern on the site: the finder table, brand/guide
   // tables, the compare overlay, and the homepage top-bar cards.
@@ -50,7 +57,7 @@
     var row = el.closest('.bar-row');
     if (row) {
       return {
-        bar_brand: text(row.querySelector('.bar-brand')),
+        bar_brand: text(row.querySelector('.bar-brand')) || pageBrand(),
         bar_flavor: text(row.querySelector('.bar-flavor')),
         bar_grade: row.dataset.grade || text(row.querySelector('.table-grade-badge')),
       };
@@ -62,7 +69,7 @@
         tr.previousElementSibling.classList.contains('bar-row')) {
       var prev = tr.previousElementSibling;
       return {
-        bar_brand: text(prev.querySelector('.bar-brand')),
+        bar_brand: text(prev.querySelector('.bar-brand')) || pageBrand(),
         bar_flavor: text(prev.querySelector('.bar-flavor')),
         bar_grade: prev.dataset.grade || text(prev.querySelector('.table-grade-badge')),
       };
@@ -85,15 +92,26 @@
     }
     // "Highest / lowest ingredient quality" pick cards on brand pages
     // (.bw-card.best / .bw-card.worst). These don't carry a brand name of
-    // their own since the whole page is one brand — fall back to the first
-    // .bar-brand text anywhere on the page (the flavor table further down).
+    // their own since the whole page is one brand — use the page's
+    // data-brand attribute.
     var bwCard = el.closest('.bw-card');
     if (bwCard) {
-      var pageBrandEl = document.querySelector('.bar-brand');
       return {
-        bar_brand: pageBrandEl ? text(pageBrandEl) : null,
+        bar_brand: pageBrand(),
         bar_flavor: text(bwCard.querySelector('.bw-flavor')),
         bar_grade: text(bwCard.querySelector('.grade-badge')),
+      };
+    }
+    // "Top picks" tiles on guide pages (.pick-tile) — the compact grid at
+    // the top of each guide (Best overall / Best protein-calorie ratio /
+    // etc.) with its own brand+flavor labels, separate from the full
+    // .bar-row table further down the page.
+    var pickTile = el.closest('.pick-tile');
+    if (pickTile) {
+      return {
+        bar_brand: text(pickTile.querySelector('.pick-tile-brand')),
+        bar_flavor: text(pickTile.querySelector('.pick-tile-flavor-name')),
+        bar_grade: text(pickTile.querySelector('.table-grade-badge')),
       };
     }
     return { bar_brand: null, bar_flavor: null, bar_grade: null };
