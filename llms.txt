@@ -112,7 +112,7 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
   44 of 1,298 bars have a declared caffeine amount, spanning 16 brands. Any nonzero amount qualifies; there's no minimum dose or ingredient-quality gate.
 
 - **Vegan Protein Bars** — https://knowyourbar.com/vegan-protein-bars.html
-  262 of 1,298 bars are fully vegan, spanning 46 brands. Whey protein is the most common reason a bar disqualifies, present in about 41% of the full database. Larabar and GoMacro are entirely vegan across their lineups.
+  262 of 1,298 bars are fully vegan, spanning 46 brands. Whey protein is the most common reason a bar disqualifies, present in about 40% of the full database. Larabar and GoMacro are entirely vegan across their lineups.
 
 - **Gluten Free Protein Bars** — https://knowyourbar.com/gluten-free-protein-bars.html
   829 of 1,298 bars are labeled gluten free, spanning 133 brands. Wheat is the most common named gluten source, present in about 5% of the full database. Larabar and think! are entirely gluten free across their lineups.
