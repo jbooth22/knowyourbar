@@ -115,7 +115,7 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
   262 of 1,298 bars are fully vegan, spanning 46 brands. Whey protein is the most common reason a bar disqualifies, present in about 40% of the full database. Larabar and GoMacro are entirely vegan across their lineups.
 
 - **Gluten Free Protein Bars** — https://knowyourbar.com/gluten-free-protein-bars.html
-  829 of 1,298 bars are labeled gluten free, spanning 133 brands. Wheat is the most common named gluten source, present in about 5% of the full database. Larabar and think! are entirely gluten free across their lineups.
+  830 of 1,298 bars are labeled gluten free, spanning 133 brands. Wheat is the most common named gluten source, present in about 5% of the full database. Larabar and think! are entirely gluten free across their lineups.
 
 ---
 
@@ -156,4 +156,4 @@ https://knowyourbar.com/ingredient_scoring.html explains the full A–F system, 
 - Scoring Methodology: https://knowyourbar.com/ingredient_scoring.html
 - Sitemap: https://knowyourbar.com/sitemap.xml
 
-Last updated: 2026-08-31
+Last updated: 2026-09-01
