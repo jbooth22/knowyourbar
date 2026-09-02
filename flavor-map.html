@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SW4MNP5W7J');
-  </script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SW4MNP5W7J');
+/* Delay loading the GA4 library itself until after the page has finished
+   loading (or after 4s as a fallback), so its ~170KB doesn't compete with
+   first paint on slow connections. dataLayer.push already queues events
+   fired before this loads (via analytics.js / app.js), so nothing is lost
+   -- gtag('config',...) above still fires the pageview once the real
+   script arrives and drains the queue. See PERFORMANCE_AND_BLOAT_AUDIT. */
+(function(){
+  var loaded = false;
+  function loadGtag(){
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J';
+    document.head.appendChild(s);
+  }
+  if (document.readyState === 'complete') {
+    loadGtag();
+  } else {
+    window.addEventListener('load', loadGtag);
+  }
+  setTimeout(loadGtag, 4000);
+})();
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Protein Bar Flavor Map: 908 Bars Visualized | Know Your Bar</title>

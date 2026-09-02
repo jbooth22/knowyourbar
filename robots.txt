@@ -18,4 +18,3 @@ User-agent: cohere-ai
 Allow: /
 
 Sitemap: https://knowyourbar.com/sitemap.xml
-X-llms-txt: https://knowyourbar.com/llms.txt
