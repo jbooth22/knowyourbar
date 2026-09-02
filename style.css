@@ -704,11 +704,24 @@ table {
 }
 
 thead {
-  position: sticky;
-  /* Sticks just below the site nav (.site-nav is a fixed 52px) now that the
-     page itself is the scrolling container, not top:0 of a boxed panel. */
-  top: 52px;
-  z-index: 10;
+  /* 2026-09-02: was `position: sticky; top: 52px; z-index: 10;`.
+     A sticky <thead> (a table-header-group) on this site's border-collapse:
+     collapse tables makes the first tbody row render overlapping/above the
+     header instead of below it. Confirmed this reproduces even in the
+     pre-existing codebase before any recent changes, and confirmed two
+     alternative fixes don't work cleanly: switching to border-collapse:
+     separate doesn't remove the overlap, and moving position:sticky onto
+     each `th` individually fixes the overlap at the top of a table but
+     breaks header stickiness on any real scroll (the header detaches and
+     disappears after ~1 row of scrolling, because each th's sticky
+     containing block becomes its own row instead of the whole table).
+     This is the same bug class already worked around on .cmp-table's
+     mobile styles ("no sticky header — causes button float/overlap").
+     Static is the safe, verified fix until someone rebuilds the
+     sticky-header pattern properly (e.g. a non-table-based header, or a
+     dedicated sticky wrapper outside the table) and tests it across scroll
+     depths, not just the top of the list. */
+  position: static;
   background: var(--off-white);
 }
 
