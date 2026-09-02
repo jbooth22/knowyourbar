@@ -2701,6 +2701,15 @@ body.overlay-open { overflow: hidden; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;  /* clips border-radius correctly */
+  /* 2026-09-01: a content-visibility:auto + contain-intrinsic-size rule was
+     added here to defer off-screen table rendering (see
+     claude/PERFORMANCE_AND_BLOAT_AUDIT_2026-09-01.md) and then REVERTED the
+     same day after it broke live table/header rendering sitewide — size
+     containment doesn't play safely with this table's auto layout algorithm
+     and sticky thead. Do not re-add content-visibility to this rule without
+     testing it against a real guide page's sticky header and column-width
+     behavior first, not just checking CSS syntax.
+  */
 }
 /* Inner scroll wrapper — only the thead/tbody rows scroll, not ingr rows */
 .bar-table-wrap table {
