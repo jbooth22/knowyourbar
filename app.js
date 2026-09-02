@@ -160,118 +160,133 @@ function renderMacroRankGrid(bar) {
   return `<div class="macro-rank-grid">${cells}</div>`;
 }
 
-// ─── Three-Bucket Bar Comparison Precomputation ───────
-// Computed once at load. Cross-brand only. Three distinct comparisons per bar:
+// ─── Three-Bucket Bar Comparison ──────────────────────
+// Computed lazily, one bar at a time, the first time that bar's row is
+// expanded (then cached). Cross-brand only. Three distinct comparisons per bar:
 //   B1: Same nutrition  — closest macro profile, any grade
 //   B2: Same taste, better macros — same flavor category, higher composite macro score
 //   B3: Same nutrition, cleaner  — similar macros, better ingredient grade
 //                                  (if already A: other A-grade bars with similar macros)
-const COMPARISON_BARS = (function() {
-  const GRADE_SCORE = { A: 4, B: 3, C: 2, D: 1, F: 0 };
-  const MAX = { protein: 35, calories: 400, sugar: 30, fiber: 20, fat: 25 };
-  const MW  = { protein: 0.35, calories: 0.25, sugar: 0.20, fiber: 0.10, fat: 0.10 };
+//
+// 2026-09-02: this used to be an IIFE that precomputed all three buckets for
+// EVERY bar at page load (scored.forEach over ~1,300 bars, each doing an
+// O(n) cross-comparison against the other ~1,300) -- an unintentional O(n^2)
+// that measured at 9+ seconds of main-thread JS on mobile (see
+// PERFORMANCE_AND_BLOAT_AUDIT). renderSimilarBars() only ever needs ONE
+// bar's result at a time (when its row is expanded), so this is now computed
+// on demand and memoized -- same output, ~1,300x less work in the common
+// case of a user expanding a handful of rows per session.
+const COMPARISON_BARS_CACHE = {};
+const CMP_GRADE_SCORE = { A: 4, B: 3, C: 2, D: 1, F: 0 };
+const CMP_MAX = { protein: 35, calories: 400, sugar: 30, fiber: 20, fat: 25 };
+const CMP_MW  = { protein: 0.35, calories: 0.25, sugar: 0.20, fiber: 0.10, fat: 0.10 };
 
-  // Flavor categories — order matters, first match wins
-  const FLAVOR_CATS = [
-    ['peanut butter', ['peanut butter', 'pb&j', 'peanut']],
-    ['chocolate',     ['chocolate', 'cocoa', 'cacao', 'brownie', 'fudge', 'mocha']],
-    ['vanilla',       ['vanilla', 'white chocolate', 'birthday cake',
-                       'cookies & cream', 'cookies and cream', 'cookie dough', 'cake']],
-    ['caramel',       ['caramel', 'toffee', 'butterscotch']],
-    ['mint',          ['mint', 'peppermint']],
-    ['coconut',       ['coconut']],
-    ['fruit',         ['strawberry','blueberry','raspberry','cherry','lemon','lime',
-                       'mango','peach','apple','banana','berry','citrus','orange','pineapple','grape']],
-    ['nut',           ['almond','cashew','walnut','hazelnut','pecan','pistachio','macadamia']],
-    ['cinnamon',      ['cinnamon','snickerdoodle','churro','spice']],
-    ['oat',           ['oatmeal','granola']],
-  ];
+// Flavor categories — order matters, first match wins
+const CMP_FLAVOR_CATS = [
+  ['peanut butter', ['peanut butter', 'pb&j', 'peanut']],
+  ['chocolate',     ['chocolate', 'cocoa', 'cacao', 'brownie', 'fudge', 'mocha']],
+  ['vanilla',       ['vanilla', 'white chocolate', 'birthday cake',
+                     'cookies & cream', 'cookies and cream', 'cookie dough', 'cake']],
+  ['caramel',       ['caramel', 'toffee', 'butterscotch']],
+  ['mint',          ['mint', 'peppermint']],
+  ['coconut',       ['coconut']],
+  ['fruit',         ['strawberry','blueberry','raspberry','cherry','lemon','lime',
+                     'mango','peach','apple','banana','berry','citrus','orange','pineapple','grape']],
+  ['nut',           ['almond','cashew','walnut','hazelnut','pecan','pistachio','macadamia']],
+  ['cinnamon',      ['cinnamon','snickerdoodle','churro','spice']],
+  ['oat',           ['oatmeal','granola']],
+];
 
-  function flavorCat(name) {
-    const lower = name.toLowerCase();
-    for (const [cat, kws] of FLAVOR_CATS) {
-      if (kws.some(k => lower.includes(k))) return cat;
-    }
-    return 'other';
+function cmpFlavorCat(name) {
+  const lower = name.toLowerCase();
+  for (const [cat, kws] of CMP_FLAVOR_CATS) {
+    if (kws.some(k => lower.includes(k))) return cat;
   }
+  return 'other';
+}
 
-  function normMacros(b) {
-    return {
-      protein:  (b['Protein (g)']      || 0) / MAX.protein,
-      calories: (b['Calories']          || 0) / MAX.calories,
-      sugar:    (b['Sugars (g)']        || 0) / MAX.sugar,
-      fiber:    (b['Dietary Fiber (g)'] || 0) / MAX.fiber,
-      fat:      (b['Total Fat (g)']     || 0) / MAX.fat,
-    };
-  }
+function cmpNormMacros(b) {
+  return {
+    protein:  (b['Protein (g)']      || 0) / CMP_MAX.protein,
+    calories: (b['Calories']          || 0) / CMP_MAX.calories,
+    sugar:    (b['Sugars (g)']        || 0) / CMP_MAX.sugar,
+    fiber:    (b['Dietary Fiber (g)'] || 0) / CMP_MAX.fiber,
+    fat:      (b['Total Fat (g)']     || 0) / CMP_MAX.fat,
+  };
+}
 
-  function macroDist(a, b) {
-    const na = normMacros(a), nb = normMacros(b);
-    return Math.sqrt(Object.keys(MW).reduce((s, k) => s + MW[k] * Math.pow(na[k] - nb[k], 2), 0));
-  }
+function cmpMacroDist(a, b) {
+  const na = cmpNormMacros(a), nb = cmpNormMacros(b);
+  return Math.sqrt(Object.keys(CMP_MW).reduce((s, k) => s + CMP_MW[k] * Math.pow(na[k] - nb[k], 2), 0));
+}
 
-  // Composite macro quality score — higher = better macros
-  // Protein efficiency 60%, low sugar 25%, high fiber 15%
-  function macroScore(b) {
-    const prot = b['Protein (g)'] || 0;
-    const cal  = b['Calories']    || 200;
-    const sug  = b['Sugars (g)']  || 0;
-    const fib  = b['Dietary Fiber (g)'] || 0;
-    const eff  = prot * 4 / cal;
-    return Math.min(eff / 0.6, 1) * 0.60 +
-           Math.max(0, 1 - sug / 30) * 0.25 +
-           Math.min(fib / 20, 1) * 0.15;
-  }
+// Composite macro quality score — higher = better macros
+// Protein efficiency 60%, low sugar 25%, high fiber 15%
+function cmpMacroScore(b) {
+  const prot = b['Protein (g)'] || 0;
+  const cal  = b['Calories']    || 200;
+  const sug  = b['Sugars (g)']  || 0;
+  const fib  = b['Dietary Fiber (g)'] || 0;
+  const eff  = prot * 4 / cal;
+  return Math.min(eff / 0.6, 1) * 0.60 +
+         Math.max(0, 1 - sug / 30) * 0.25 +
+         Math.min(fib / 20, 1) * 0.15;
+}
 
-  const map = {};
-  const scored = BARS.filter(b => b['Protein (g)'] && b['Calories'] && b.score_band);
+// Candidate pool — same filter as before, still O(n), computed once.
+const CMP_SCORED = BARS.filter(b => b['Protein (g)'] && b['Calories'] && b.score_band);
 
-  scored.forEach(target => {
-    const tKey   = target['Brand Name'] + '|' + target['Flavor Name'];
-    const tCat   = flavorCat(target['Flavor Name']);
-    const tGrade = GRADE_SCORE[target.score_band] ?? 2;
-    const tMacro = macroScore(target);
-    const cross  = scored.filter(b => b['Brand Name'] !== target['Brand Name']);
-    const used   = new Set();
+function computeSimilarBars(target) {
+  // Preserve original behavior: a bar missing protein/calories/grade never
+  // had an entry in the old precomputed map, so renderSimilarBars() got
+  // undefined and rendered nothing for it. Match that here.
+  if (!(target['Protein (g)'] && target['Calories'] && target.score_band)) return null;
 
-    // B1: Same nutrition — closest macro distance, grade proximity included
-    const b1 = cross
-      .map(b => ({ b, d: macroDist(target, b) + Math.abs((GRADE_SCORE[b.score_band]??2) - tGrade) * 0.06 }))
-      .sort((a, b) => a.d - b.d)[0];
-    const b1bar = b1 ? b1.b : null;
-    if (b1bar) used.add(b1bar['Brand Name'] + '|' + b1bar['Flavor Name']);
+  const tKey   = target['Brand Name'] + '|' + target['Flavor Name'];
+  if (COMPARISON_BARS_CACHE[tKey]) return COMPARISON_BARS_CACHE[tKey];
 
-    // B2: Same taste, better macros — flavor category match, higher macroScore
-    const sameCat = cross.filter(b => flavorCat(b['Flavor Name']) === tCat);
-    const b2pool  = (sameCat.length >= 3 ? sameCat : cross)
-      .filter(b => macroScore(b) > tMacro && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
-    const b2bar   = b2pool.length
-      ? b2pool.sort((a, b) => macroScore(b) - macroScore(a))[0]
-      : (sameCat.length
-          ? sameCat.filter(b => !used.has(b['Brand Name']+'|'+b['Flavor Name']))
-                   .sort((a, b) => macroScore(b) - macroScore(a))[0]
-          : null);
-    if (b2bar) used.add(b2bar['Brand Name'] + '|' + b2bar['Flavor Name']);
+  const tCat   = cmpFlavorCat(target['Flavor Name']);
+  const tGrade = CMP_GRADE_SCORE[target.score_band] ?? 2;
+  const tMacro = cmpMacroScore(target);
+  const cross  = CMP_SCORED.filter(b => b['Brand Name'] !== target['Brand Name']);
+  const used   = new Set();
 
-    // B3: Same nutrition, cleaner ingredients
-    // If already A: other A-grade bars with similar macros, labeled differently
-    const isAlreadyA = tGrade >= 4;
-    const b3pool = isAlreadyA
-      ? cross.filter(b => b.score_band === 'A' && !used.has(b['Brand Name']+'|'+b['Flavor Name']))
-      : cross.filter(b => (GRADE_SCORE[b.score_band]??0) > tGrade && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
-    const b3bar = b3pool.length
-      ? b3pool.sort((a, b) => macroDist(target, a) - macroDist(target, b))[0]
-      : null;
+  // B1: Same nutrition — closest macro distance, grade proximity included
+  const b1 = cross
+    .map(b => ({ b, d: cmpMacroDist(target, b) + Math.abs((CMP_GRADE_SCORE[b.score_band]??2) - tGrade) * 0.06 }))
+    .sort((a, b) => a.d - b.d)[0];
+  const b1bar = b1 ? b1.b : null;
+  if (b1bar) used.add(b1bar['Brand Name'] + '|' + b1bar['Flavor Name']);
 
-    map[tKey] = { b1: b1bar, b2: b2bar, b3: b3bar, isAlreadyA, tCat };
-  });
+  // B2: Same taste, better macros — flavor category match, higher macroScore
+  const sameCat = cross.filter(b => cmpFlavorCat(b['Flavor Name']) === tCat);
+  const b2pool  = (sameCat.length >= 3 ? sameCat : cross)
+    .filter(b => cmpMacroScore(b) > tMacro && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
+  const b2bar   = b2pool.length
+    ? b2pool.sort((a, b) => cmpMacroScore(b) - cmpMacroScore(a))[0]
+    : (sameCat.length
+        ? sameCat.filter(b => !used.has(b['Brand Name']+'|'+b['Flavor Name']))
+                 .sort((a, b) => cmpMacroScore(b) - cmpMacroScore(a))[0]
+        : null);
+  if (b2bar) used.add(b2bar['Brand Name'] + '|' + b2bar['Flavor Name']);
 
-  return map;
-})();
+  // B3: Same nutrition, cleaner ingredients
+  // If already A: other A-grade bars with similar macros, labeled differently
+  const isAlreadyA = tGrade >= 4;
+  const b3pool = isAlreadyA
+    ? cross.filter(b => b.score_band === 'A' && !used.has(b['Brand Name']+'|'+b['Flavor Name']))
+    : cross.filter(b => (CMP_GRADE_SCORE[b.score_band]??0) > tGrade && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
+  const b3bar = b3pool.length
+    ? b3pool.sort((a, b) => cmpMacroDist(target, a) - cmpMacroDist(target, b))[0]
+    : null;
+
+  const result = { b1: b1bar, b2: b2bar, b3: b3bar, isAlreadyA, tCat };
+  COMPARISON_BARS_CACHE[tKey] = result;
+  return result;
+}
 
 function renderSimilarBars(bar) {
-  const key  = bar['Brand Name'] + '|' + bar['Flavor Name'];
-  const comp = COMPARISON_BARS[key];
+  const comp = computeSimilarBars(bar);
   if (!comp) return '';
 
   const GRADE_COLORS = { A:'#2a7a1f', B:'#5a8a2f', C:'#b89a00', D:'#c87020', F:'#c83020' };
