@@ -201,7 +201,22 @@ gtag('config', 'G-SW4MNP5W7J');
 
       <div class="panel-section">
         <div class="panel-label">Ingredient Quality Grade</div>
-        <div class="grade-filter-btns" id="grade-filter-btns"></div>
+        <!-- 2026-09-02: rendered statically instead of built by app.js on load.
+             This is a fixed A-F set that never changes, so there was no reason
+             it was JS-built -- doing so left this box at 0 height until app.js
+             ran, then it snapped to full size, causing a real layout shift
+             (CLS) once the earlier bar-finder JS perf bug was fixed and the
+             page started painting fast enough for that shift to be visible.
+             See PERFORMANCE_AND_BLOAT_AUDIT. Click handlers are still attached
+             by buildGradeFilter() in app.js -- keep this markup in sync with
+             that function if the grade list or labels ever change. -->
+        <div class="grade-filter-btns" id="grade-filter-btns">
+          <button class="grade-filter-btn" data-grade="A" aria-label="Filter by grade A — Clean"><span class="grade-filter-badge" style="background:#2a7a1f">A</span><span class="grade-filter-label">Clean</span></button>
+          <button class="grade-filter-btn" data-grade="B" aria-label="Filter by grade B — Good"><span class="grade-filter-badge" style="background:#5a8a2f">B</span><span class="grade-filter-label">Good</span></button>
+          <button class="grade-filter-btn" data-grade="C" aria-label="Filter by grade C — Okay"><span class="grade-filter-badge" style="background:#b89a00">C</span><span class="grade-filter-label">Okay</span></button>
+          <button class="grade-filter-btn" data-grade="D" aria-label="Filter by grade D — Poor"><span class="grade-filter-badge" style="background:#c87020">D</span><span class="grade-filter-label">Poor</span></button>
+          <button class="grade-filter-btn" data-grade="F" aria-label="Filter by grade F — Avoid"><span class="grade-filter-badge" style="background:#c83020">F</span><span class="grade-filter-label">Avoid</span></button>
+        </div>
       </div>
 
       <div class="panel-section">
@@ -275,7 +290,7 @@ gtag('config', 'G-SW4MNP5W7J');
             <option value="_p100">Protein/100cal</option>
             <option value="brand">Brand A–Z</option>
           </select>
-          <select id="sort-dir" aria-label="Sort direction">
+          <select id="sort-dir">
             <option value="desc">High → Low</option>
             <option value="asc">Low → High</option>
           </select>

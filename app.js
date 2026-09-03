@@ -602,21 +602,16 @@ function bindPresets() {
 }
 
 function buildGradeFilter() {
+  // 2026-09-02: the five grade buttons are now rendered statically in
+  // bar-finder.html (a fixed A-F set that never changes -- building them
+  // here on every load left the container at 0 height until this ran,
+  // which caused a real layout shift once page load got fast enough for
+  // it to be visible; see PERFORMANCE_AND_BLOAT_AUDIT). This just wires up
+  // the click handlers on the existing markup instead of creating it.
   const container = document.getElementById('grade-filter-btns');
   if (!container) return;
-  const grades = [
-    { band: 'A', label: 'Clean',  color: '#2a7a1f' },
-    { band: 'B', label: 'Good',   color: '#5a8a2f' },
-    { band: 'C', label: 'Okay',   color: '#b89a00' },
-    { band: 'D', label: 'Poor',   color: '#c87020' },
-    { band: 'F', label: 'Avoid',  color: '#c83020' },
-  ];
-  grades.forEach(({ band, label, color }) => {
-    const btn = document.createElement('button');
-    btn.className = 'grade-filter-btn';
-    btn.dataset.grade = band;
-    btn.setAttribute('aria-label', `Filter by grade ${band} — ${label}`);
-    btn.innerHTML = `<span class="grade-filter-badge" style="background:${color}">${band}</span><span class="grade-filter-label">${label}</span>`;
+  container.querySelectorAll('.grade-filter-btn').forEach(btn => {
+    const band = btn.dataset.grade;
     btn.addEventListener('click', () => {
       if (activeGrades.has(band)) {
         activeGrades.delete(band);
@@ -633,7 +628,6 @@ function buildGradeFilter() {
       });
       scheduleFilter();
     });
-    container.appendChild(btn);
   });
 }
 
