@@ -88,10 +88,10 @@ Curated bar lists filtered by specific dietary goals, each with ingredient quali
   530 of 1,298 bars carry an A or B ingredient grade with no artificial sweeteners and no processed oils (sugar alcohols like erythritol are allowed and don't disqualify a bar). Top picks include Healthy Eating on the Go, RXBAR, Gryp, Tilt, and IQ Bar.
 
 - **No Artificial Sweeteners** — [https://knowyourbar.com/no-artificial-sweeteners.html](https://knowyourbar.com/no-artificial-sweeteners.html)
-  1,057 of 1,298 bars (about 81%) contain no artificial sweeteners. Top brands: RXBAR, Larabar, GoMacro, Simply Protein, Munk Pack, KIND Nut bars.
+  1,059 of 1,298 bars (about 82%) contain no artificial sweeteners. Top brands: RXBAR, Larabar, GoMacro, Simply Protein, Munk Pack, KIND Nut bars.
 
 - **No Sugar Alcohols** — [https://knowyourbar.com/no-sugar-alcohols.html](https://knowyourbar.com/no-sugar-alcohols.html)
-  964 of 1,298 bars (about 74%) are free of maltitol, erythritol, isomalto-oligosaccharides (IMO), sorbitol, xylitol, and isomalt, spanning 167 brands. Top picks include Healthy Eating on the Go, Gryp, and MET-Rx.
+  967 of 1,298 bars (about 75%) are free of maltitol, erythritol, isomalto-oligosaccharides (IMO), sorbitol, xylitol, and isomalt, spanning 167 brands. Top picks include Healthy Eating on the Go, Gryp, and MET-Rx.
 
 - **No Seed Oils** — [https://knowyourbar.com/no-seed-oils.html](https://knowyourbar.com/no-seed-oils.html)
   695 of 1,298 bars (about 54%) are free of canola, soybean, sunflower, palm, and other screened oils, spanning 144 brands. Top picks include RXBAR, Perfect Bar, Healthy Eating on the Go, and Thunderbird.

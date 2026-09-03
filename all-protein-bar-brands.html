@@ -1,38 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J"></script>
   <script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-SW4MNP5W7J');
-/* Delay loading the GA4 library itself until after the page has finished
-   loading (or after 4s as a fallback), so its ~170KB doesn't compete with
-   first paint on slow connections. dataLayer.push already queues events
-   fired before this loads (via analytics.js / app.js), so nothing is lost
-   -- gtag('config',...) above still fires the pageview once the real
-   script arrives and drains the queue. See PERFORMANCE_AND_BLOAT_AUDIT. */
-(function(){
-  var loaded = false;
-  function loadGtag(){
-    if (loaded) return;
-    loaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J';
-    document.head.appendChild(s);
-  }
-  if (document.readyState === 'complete') {
-    loadGtag();
-  } else {
-    window.addEventListener('load', loadGtag);
-  }
-  setTimeout(loadGtag, 4000);
-})();
-</script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SW4MNP5W7J');
+  </script>
 
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>198 Protein Bar Brands Ranked by Ingredients, Macros & Flavor Quality | Know Your Bar</title>
   <meta name="description" content="Every one of the 198 brands we've scored, ranked 1 to 198 on ingredient quality, protein efficiency, and fiber. No price, no sponsorships, links to every flavor.">
@@ -40,9 +18,7 @@ gtag('config', 'G-SW4MNP5W7J');
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/style.css">
 
@@ -254,7 +230,7 @@ gtag('config', 'G-SW4MNP5W7J');
     <div class="brk-highlight-card bad">
       <div class="brk-highlight-tag">Lowlight</div>
       <div class="brk-highlight-title">Legacy brands, middling grades</div>
-      <div class="brk-highlight-body">CLIF Bar (rank #183) and Clif Builders (rank #188) sit near the bottom of every widely-available brand we've scored, despite decades on grocery shelves. Both lean on sweetener-heavy formulas and processed oils across most flavors, and Clif Builders' worst flavor grades an F. Shelf presence and ingredient quality aren't the same thing.</div>
+      <div class="brk-highlight-body">CLIF Bar (rank #183) and Clif Builders (rank #187) sit near the bottom of every widely-available brand we've scored, despite decades on grocery shelves. Both lean on sweetener-heavy formulas and processed oils across most flavors, and Clif Builders' worst flavor grades an F. Shelf presence and ingredient quality aren't the same thing.</div>
     </div>
 
     <div class="brk-highlight-card good">
@@ -391,7 +367,7 @@ gtag('config', 'G-SW4MNP5W7J');
         </div>
         <div class="brk-filter-row" style="margin-top:.5rem;">
           <span class="brk-filter-label">Sort</span>
-          <select class="brk-sort-select" id="brk-sort" aria-label="Sort brands by">
+          <select class="brk-sort-select" id="brk-sort">
             <option value="rank">Our Ranking</option>
             <option value="protein">Avg Protein (high to low)</option>
             <option value="fiber">Avg Fiber (high to low)</option>
@@ -1500,7 +1476,7 @@ gtag('config', 'G-SW4MNP5W7J');
     <div class="brk-card-head">
       <div class="brk-card-id">
         <span class="brk-rank">#34</span>
-        <span class="brk-card-name">HIgherBar</span>
+        <span class="brk-card-name">HigherBar</span>
       </div>
       <div class="brk-badges">
         <span class="brk-badge tier-small">Small & Online</span>
@@ -1520,7 +1496,7 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
     <div class="brk-chip-row"><span class="bchip pos">Whole Food Forward</span><span class="cert-badge">Gluten-Free</span><span class="cert-badge">Dairy-Free</span><span class="cert-badge">Soy-Free</span></div>
     
-    <p class="brk-blurb">HIgherBar runs a 1-flavor, fiber-forward, whole-food-leaning lineup averaging 10g protein and 200 calories per bar (5g protein per 100 calories). Every flavor grades A. Most flavors lean on whole food forward. No recurring ingredient concern shows up across the lineup.</p>
+    <p class="brk-blurb">HigherBar runs a 1-flavor, fiber-forward, whole-food-leaning lineup averaging 10g protein and 200 calories per bar (5g protein per 100 calories). Every flavor grades A. Most flavors lean on whole food forward. No recurring ingredient concern shows up across the lineup.</p>
     <div class="brk-card-foot">
       <span class="brk-kyb-score">Ingredient score avg: <b>9.2</b></span>
       <a href="/bar-finder.html?brand=higherbar" class="brk-finder-link">See all 1 flavors in Bar Finder &rarr;</a>
@@ -6477,45 +6453,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="185"
-       data-protein="20.0" data-fiber="1.4" data-flavors="7"
-       data-score="33.2" data-name="anabar">
-    <div class="brk-card-head">
-      <div class="brk-card-id">
-        <span class="brk-rank">#185</span>
-        <span class="brk-card-name">Anabar</span>
-      </div>
-      <div class="brk-badges">
-        <span class="brk-badge tier-small">Small & Online</span>
-        <span class="brk-badge">Solid Macro Profile</span>
-        <span class="brk-grade-range"><span class="brand-compare-grade-pair"><span class="table-grade-badge grade-F">F</span><span class="brand-compare-grade-arrow">&rarr;</span><span class="table-grade-badge grade-C">C</span></span></span>
-      </div>
-    </div>
-    <div class="brk-stat-strip">
-      <span><span class="lbl">Flavors</span><b>7</b></span>
-      <span><span class="lbl">Protein/100cal</span><b>7g</b></span>
-      <span><span class="lbl">Avg Protein</span><b>20g</b></span>
-      <span><span class="lbl">Avg Cal</span><b>285.7</b></span>
-      <span><span class="lbl">Avg Fiber</span><b>1.4g</b></span>
-      <span><span class="lbl">Net Carbs</span><b>28.1g</b></span>
-      <span><span class="lbl">Sugar</span><b>21.7g</b></span>
-      <span><span class="lbl">Sugar Alcohol</span><b>43% of flavors</b></span>
-    </div>
-    <div class="brk-chip-row"><span class="bchip pos">Protein Leads</span><span class="bchip pos">Quality Protein Source</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
-    
-    <p class="brk-blurb">Anabar runs a 7-flavor, balanced macro lineup averaging 20g protein and 285.7 calories per bar (7g protein per 100 calories). Ingredient grades run F to C across the lineup. Most flavors lean on protein leads. The most common concern is processed oils, showing up in 7 of 7 flavors.</p>
-    <div class="brk-card-foot">
-      <span class="brk-kyb-score">Ingredient score avg: <b>-0.9</b></span>
-      <a href="/bar-finder.html?brand=anabar" class="brk-finder-link">See all 7 flavors in Bar Finder &rarr;</a>
-    </div>
-  </div>
-
-  <div class="brk-card" data-tier="mid" data-category="Protein First" data-rank="186"
+  <div class="brk-card" data-tier="mid" data-category="Protein First" data-rank="185"
        data-protein="15.9" data-fiber="0" data-flavors="13"
        data-score="32.8" data-name="built">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#186</span>
+        <span class="brk-rank">#185</span>
         <span class="brk-card-name">Built</span>
       </div>
       <div class="brk-badges">
@@ -6543,12 +6486,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="187"
+  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="186"
        data-protein="5.0" data-fiber="1.7" data-flavors="3"
        data-score="32.6" data-name="blake&#x27;s">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#187</span>
+        <span class="brk-rank">#186</span>
         <span class="brk-card-name">Blake&#x27;s</span>
       </div>
       <div class="brk-badges">
@@ -6576,12 +6519,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="wide" data-category="Solid Macro Profile" data-rank="188"
+  <div class="brk-card" data-tier="wide" data-category="Solid Macro Profile" data-rank="187"
        data-protein="17.2" data-fiber="2.7" data-flavors="10"
        data-score="32.0" data-name="clif builders">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#188</span>
+        <span class="brk-rank">#187</span>
         <span class="brk-card-name">Clif Builders</span>
       </div>
       <div class="brk-badges">
@@ -6609,12 +6552,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="189"
+  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="188"
        data-protein="9.2" data-fiber="4.0" data-flavors="5"
        data-score="29.7" data-name="1st tee">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#189</span>
+        <span class="brk-rank">#188</span>
         <span class="brk-card-name">1st Tee</span>
       </div>
       <div class="brk-badges">
@@ -6642,12 +6585,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="190"
+  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="189"
        data-protein="2.3" data-fiber="2.7" data-flavors="3"
        data-score="29.2" data-name="the maple brothers">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#190</span>
+        <span class="brk-rank">#189</span>
         <span class="brk-card-name">The Maple Brothers</span>
       </div>
       <div class="brk-badges">
@@ -6675,12 +6618,12 @@ gtag('config', 'G-SW4MNP5W7J');
     </div>
   </div>
 
-  <div class="brk-card" data-tier="wide" data-category="Solid Macro Profile" data-rank="191"
+  <div class="brk-card" data-tier="wide" data-category="Solid Macro Profile" data-rank="190"
        data-protein="15.8" data-fiber="1.2" data-flavors="4"
        data-score="27.9" data-name="alani">
     <div class="brk-card-head">
       <div class="brk-card-id">
-        <span class="brk-rank">#191</span>
+        <span class="brk-rank">#190</span>
         <span class="brk-card-name">Alani</span>
       </div>
       <div class="brk-badges">
@@ -6705,6 +6648,39 @@ gtag('config', 'G-SW4MNP5W7J');
     <div class="brk-card-foot">
       <span class="brk-kyb-score">Ingredient score avg: <b>-3.2</b></span>
       <a href="/bar-finder.html?brand=alani" class="brk-finder-link">See all 4 flavors in Bar Finder &rarr;</a>
+    </div>
+  </div>
+
+  <div class="brk-card" data-tier="small" data-category="Solid Macro Profile" data-rank="191"
+       data-protein="20.0" data-fiber="0.9" data-flavors="7"
+       data-score="26.7" data-name="anabar">
+    <div class="brk-card-head">
+      <div class="brk-card-id">
+        <span class="brk-rank">#191</span>
+        <span class="brk-card-name">Anabar</span>
+      </div>
+      <div class="brk-badges">
+        <span class="brk-badge tier-small">Small & Online</span>
+        <span class="brk-badge">Solid Macro Profile</span>
+        <span class="brk-grade-range"><span class="brand-compare-grade-pair"><span class="table-grade-badge grade-F">F</span><span class="brand-compare-grade-arrow">&rarr;</span><span class="table-grade-badge grade-D">D</span></span></span>
+      </div>
+    </div>
+    <div class="brk-stat-strip">
+      <span><span class="lbl">Flavors</span><b>7</b></span>
+      <span><span class="lbl">Protein/100cal</span><b>6.9g</b></span>
+      <span><span class="lbl">Avg Protein</span><b>20g</b></span>
+      <span><span class="lbl">Avg Cal</span><b>288.6</b></span>
+      <span><span class="lbl">Avg Fiber</span><b>0.9g</b></span>
+      <span><span class="lbl">Net Carbs</span><b>28.6g</b></span>
+      <span><span class="lbl">Sugar</span><b>21.3g</b></span>
+      <span><span class="lbl">Sugar Alcohol</span><b>none</b></span>
+    </div>
+    <div class="brk-chip-row"><span class="bchip pos">Quality Protein Source</span><span class="bchip pos">Protein Leads</span><span class="bchip con elev">Processed Oils</span><span class="bchip con elev">Sweetener Heavy</span></div>
+    
+    <p class="brk-blurb">Anabar runs a 7-flavor, balanced macro lineup averaging 20g protein and 288.6 calories per bar (6.9g protein per 100 calories). Ingredient grades run F to D across the lineup. Most flavors lean on quality protein source. The most common concern is processed oils, showing up in 7 of 7 flavors.</p>
+    <div class="brk-card-foot">
+      <span class="brk-kyb-score">Ingredient score avg: <b>-3.1</b></span>
+      <a href="/bar-finder.html?brand=anabar" class="brk-finder-link">See all 7 flavors in Bar Finder &rarr;</a>
     </div>
   </div>
 
@@ -7135,6 +7111,5 @@ gtag('config', 'G-SW4MNP5W7J');
   })();
 </script>
 
-<script src="analytics.js" defer></script>
 </body>
 </html>
