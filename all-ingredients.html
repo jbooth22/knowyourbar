@@ -48,17 +48,15 @@ gtag('config', 'G-SW4MNP5W7J');
 
   <style>
     :root {
-      --black:     #0e0e0e;
-      --white:     #f7f5f0;
-      --off-white: #efece6;
-      --accent:    #d4f000;
-      --muted:     #888880;
-      --border:    #d6d3cc;
+      /* 2026-09-03: removed the duplicate --black/--white/--off-white/--accent/
+         --border/--font-mono/--font-body/--radius/--radius-lg declarations here --
+         they were stale copies of the values already set globally in style.css
+         (and --muted was an old value, #888880, that had already been updated
+         site-wide to #5a5a54 -- this page was quietly stuck on the old gray).
+         --font-display is kept: this page intentionally uses Barlow Condensed
+         for its headings/badges via --bs-font-display, ahead of the rest of the
+         site's BRAND_STANDARDS.md migration. */
       --font-display: var(--bs-font-display);
-      --font-mono:    'DM Mono', monospace;
-      --font-body:    'DM Sans', sans-serif;
-      --radius:    6px;
-      --radius-lg: 10px;
     }
 
     /* ── Category nav ── */
