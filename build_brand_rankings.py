@@ -367,7 +367,7 @@ def render_card(r):
     <p class="brk-blurb">{esc(s1)} {esc(s2)}</p>
     <div class="brk-card-foot">
       <span class="brk-kyb-score">Ingredient score avg: <b>{fmt1(r['avg_score'])}</b></span>
-      <a href="/bar-finder.html?brand={r['slug']}" class="brk-finder-link">See all {r['flavors']} flavors in Bar Finder &rarr;</a>
+      <a href="/bar-finder?brand={r['slug']}" class="brk-finder-link">See all {r['flavors']} flavors in Bar Finder &rarr;</a>
     </div>
   </div>'''
 
@@ -385,7 +385,7 @@ def best_card(label, brand, note, by_name):
         <span>{fmt1(r['avg_p100'])}g protein/100cal</span>
       </div>
       <p class="brk-best-body">{esc(note)}</p>
-      <a href="/bar-finder.html?brand={r['slug']}" class="brk-best-link">See all {r['flavors']} flavors &rarr;</a>
+      <a href="/bar-finder?brand={r['slug']}" class="brk-best-link">See all {r['flavors']} flavors &rarr;</a>
     </div>'''
 
 
@@ -458,7 +458,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{TITLE} | Know Your Bar</title>
   <meta name="description" content="{DESC}">
-  <link rel="canonical" href="https://knowyourbar.com/all-protein-bar-brands.html">
+  <link rel="canonical" href="https://knowyourbar.com/all-protein-bar-brands">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -474,7 +474,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     "description": "{DESC}",
     "author": {{ "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" }},
     "publisher": {{ "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" }},
-    "mainEntityOfPage": {{ "@type": "WebPage", "@id": "https://knowyourbar.com/all-protein-bar-brands.html" }}
+    "mainEntityOfPage": {{ "@type": "WebPage", "@id": "https://knowyourbar.com/all-protein-bar-brands" }}
   }}
   </script>
 
@@ -485,7 +485,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     "name": "Know Your Bar Protein Bar Brand Rankings",
     "description": "Ingredient-quality and macro data for 1,000+ protein bars across {total_db_brand_count_display} brands, scored with a transparent rule-based system.",
     "creator": {{ "@type": "Organization", "name": "Know Your Bar", "url": "https://knowyourbar.com" }},
-    "url": "https://knowyourbar.com/all-protein-bar-brands.html"
+    "url": "https://knowyourbar.com/all-protein-bar-brands"
   }}
   </script>
 
@@ -495,7 +495,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     "@type": "BreadcrumbList",
     "itemListElement": [
       {{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://knowyourbar.com/" }},
-      {{ "@type": "ListItem", "position": 2, "name": "All Protein Bar Brands", "item": "https://knowyourbar.com/all-protein-bar-brands.html" }}
+      {{ "@type": "ListItem", "position": 2, "name": "All Protein Bar Brands", "item": "https://knowyourbar.com/all-protein-bar-brands" }}
     ]
   }}
   </script>
@@ -525,37 +525,37 @@ def render_page(rows, total_db_brand_count_display="148+"):
     <div class="site-nav-group">
       <span class="site-nav-group-label">Brand Reviews</span>
       <div class="site-nav-dropdown">
-        <a href="/quest-bars.html">Quest</a>
-        <a href="/rxbar-review.html">RXBAR</a>
-        <a href="/clif-bar-review.html">Clif Bar</a>
-        <a href="/barebells-review.html">Barebells</a>
-        <a href="/kind-bars-review.html">KIND</a>
-        <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
+        <a href="/quest-bars">Quest</a>
+        <a href="/rxbar-review">RXBAR</a>
+        <a href="/clif-bar-review">Clif Bar</a>
+        <a href="/barebells-review">Barebells</a>
+        <a href="/kind-bars-review">KIND</a>
+        <a href="/quest-vs-rxbar">Quest vs RXBAR</a>
       </div>
     </div>
     <div class="site-nav-group">
       <span class="site-nav-group-label">Guides</span>
       <div class="site-nav-dropdown">
-        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
-        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-        <a href="/no-seed-oils.html">No Seed Oils</a>
-        <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
-        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
-        <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
-        <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
-        <a href="/caffeine-protein-bars.html">Caffeine Protein Bars</a>
+        <a href="/clean-protein-bars">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols">No Sugar Alcohols</a>
+        <a href="/no-seed-oils">No Seed Oils</a>
+        <a href="/low-sugar-high-protein">Low Sugar + High Protein</a>
+        <a href="/keto-protein-bars">Keto Protein Bars</a>
+        <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
+        <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+        <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
       </div>
     </div>
     <div class="site-nav-group">
       <span class="site-nav-group-label">Explore</span>
       <div class="site-nav-dropdown">
-        <a href="/all-protein-bar-brands.html">All Brands</a>
-        <a href="/flavor-map.html">Flavor Map</a>
-        <a href="/brand-quadrant.html">Brand Quadrant</a>
+        <a href="/all-protein-bar-brands">All Brands</a>
+        <a href="/flavor-map">Flavor Map</a>
+        <a href="/brand-quadrant">Brand Quadrant</a>
       </div>
     </div>
-    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+    <a href="/ingredient_scoring" class="site-nav-link">How We Score</a>
   </div>
   <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
 </nav>
@@ -730,23 +730,23 @@ def render_page(rows, total_db_brand_count_display="148+"):
       <p class="explore-cta-title">Want to filter the full database yourself?</p>
       <p class="explore-cta-sub">Use the Bar Finder to filter by grade, protein, sugar, sugar alcohols, and more across every bar we've scored.</p>
       <div class="explore-cta-btns">
-        <a href="/bar-finder.html?preset=high_protein" class="explore-cta-btn">Most Protein Per Calorie</a>
-        <a href="/bar-finder.html?preset=clean" class="explore-cta-btn">Clean Ingredients</a>
-        <a href="/bar-finder.html?preset=skip_sugar" class="explore-cta-btn">Skip the Sugar</a>
+        <a href="/bar-finder?preset=high_protein" class="explore-cta-btn">Most Protein Per Calorie</a>
+        <a href="/bar-finder?preset=clean" class="explore-cta-btn">Clean Ingredients</a>
+        <a href="/bar-finder?preset=skip_sugar" class="explore-cta-btn">Skip the Sugar</a>
       </div>
     </div>
     <div class="discover-more">
       <div class="discover-more-label">Related reading</div>
       <div class="explore-more-grid">
-        <a href="/brand-quadrant.html" class="explore-more-card">
+        <a href="/brand-quadrant" class="explore-more-card">
           <div class="explore-more-title">Brand Quadrant</div>
           <div class="explore-more-desc">See macro efficiency plotted against ingredient quality for every brand.</div>
         </a>
-        <a href="/quest-vs-rxbar.html" class="explore-more-card">
+        <a href="/quest-vs-rxbar" class="explore-more-card">
           <div class="explore-more-title">Quest vs RXBAR</div>
           <div class="explore-more-desc">A head-to-head look at two of the most popular bars on the shelf.</div>
         </a>
-        <a href="/ingredient_scoring.html" class="explore-more-card">
+        <a href="/ingredient_scoring" class="explore-more-card">
           <div class="explore-more-title">How We Score</div>
           <div class="explore-more-desc">The full rule-based system behind every grade on this site.</div>
         </a>
@@ -801,24 +801,24 @@ def render_page(rows, total_db_brand_count_display="148+"):
     <details class="site-footer-links-toggle">
       <summary class="site-footer-links-summary">More guides &amp; brand reviews</summary>
       <nav class="site-footer-links">
-      <a href="/bar-finder.html">Protein Bar Finder</a>
-      <a href="/ingredient_scoring.html">How We Score</a>
-      <a href="/all-protein-bar-brands.html">All Brands</a>
-      <a href="/brand-quadrant.html">Brand Quadrant</a>
-      <a href="/quest-bars.html">Quest</a>
-      <a href="/rxbar-review.html">RXBAR</a>
-      <a href="/clif-bar-review.html">Clif Bar</a>
-      <a href="/barebells-review.html">Barebells</a>
-      <a href="/kind-bars-review.html">KIND</a>
-      <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
-      <a href="/clean-protein-bars.html">Clean Bars</a>
-      <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
-      <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
-      <a href="/no-seed-oils.html">No Seed Oils</a>
-      <a href="/low-sugar-high-protein.html">Low Sugar + High Protein</a>
-      <a href="/keto-protein-bars.html">Keto Protein Bars</a>
-      <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
-      <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
+      <a href="/bar-finder">Protein Bar Finder</a>
+      <a href="/ingredient_scoring">How We Score</a>
+      <a href="/all-protein-bar-brands">All Brands</a>
+      <a href="/brand-quadrant">Brand Quadrant</a>
+      <a href="/quest-bars">Quest</a>
+      <a href="/rxbar-review">RXBAR</a>
+      <a href="/clif-bar-review">Clif Bar</a>
+      <a href="/barebells-review">Barebells</a>
+      <a href="/kind-bars-review">KIND</a>
+      <a href="/quest-vs-rxbar">Quest vs RXBAR</a>
+      <a href="/clean-protein-bars">Clean Bars</a>
+      <a href="/no-artificial-sweeteners">No Artificial Sweeteners</a>
+      <a href="/no-sugar-alcohols">No Sugar Alcohols</a>
+      <a href="/no-seed-oils">No Seed Oils</a>
+      <a href="/low-sugar-high-protein">Low Sugar + High Protein</a>
+      <a href="/keto-protein-bars">Keto Protein Bars</a>
+      <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
+      <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
     </nav>
     </details>
   </div>

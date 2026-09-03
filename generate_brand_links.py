@@ -52,9 +52,9 @@ def build_pill_block(manifest, self_slug):
     others = [b for b in manifest['brands'] if b['slug'] != self_slug]
     lines = ['    <div class="brand-link-grid">']
     for b in others:
-        lines.append(f'      <a href="/{b["slug"]}.html" class="brand-link-pill">{b["name"]}</a>')
+        lines.append(f'      <a href="/{b["slug"]}" class="brand-link-pill">{b["name"]}</a>')
     total = manifest.get('total_db_brand_count', '1,000+')
-    lines.append(f'      <a href="/all-protein-bar-brands.html" class="brand-link-pill brand-link-pill-all">See all {total} brands &rarr;</a>')
+    lines.append(f'      <a href="/all-protein-bar-brands" class="brand-link-pill brand-link-pill-all">See all {total} brands &rarr;</a>')
     lines.append('    </div>')
     return '\n'.join(lines)
 
