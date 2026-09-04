@@ -85,37 +85,40 @@ Flavor-by-flavor ingredient quality breakdowns for major protein bar brands. Eac
 Curated bar lists filtered by specific dietary goals, each with ingredient quality grading and macro data.
 
 - **Clean Protein Bars** — [https://knowyourbar.com/clean-protein-bars](https://knowyourbar.com/clean-protein-bars)
-  530 of 1,298 bars carry an A or B ingredient grade with no artificial sweeteners and no processed oils (sugar alcohols like erythritol are allowed and don't disqualify a bar). Top picks include Healthy Eating on the Go, RXBAR, Gryp, Tilt, and IQ Bar.
+  531 of 1,308 bars carry an A or B ingredient grade with no artificial sweeteners and no processed oils (sugar alcohols like erythritol are allowed and don't disqualify a bar). Top picks include Healthy Eating on the Go, RXBAR, Gryp, Tilt, and IQ Bar.
 
 - **No Artificial Sweeteners** — [https://knowyourbar.com/no-artificial-sweeteners](https://knowyourbar.com/no-artificial-sweeteners)
-  1,059 of 1,298 bars (about 82%) contain no artificial sweeteners. Top brands: RXBAR, Larabar, GoMacro, Simply Protein, Munk Pack, KIND Nut bars.
+  1,063 of 1,308 bars (about 81%) contain no artificial sweeteners. Top brands: RXBAR, Larabar, GoMacro, Simply Protein, Munk Pack, KIND Nut bars.
 
 - **No Sugar Alcohols** — [https://knowyourbar.com/no-sugar-alcohols](https://knowyourbar.com/no-sugar-alcohols)
-  967 of 1,298 bars (about 75%) are free of maltitol, erythritol, isomalto-oligosaccharides (IMO), sorbitol, xylitol, and isomalt, spanning 167 brands. Top picks include Healthy Eating on the Go, Gryp, and MET-Rx.
+  972 of 1,308 bars (about 74%) are free of maltitol, erythritol, isomalto-oligosaccharides (IMO), sorbitol, xylitol, and isomalt, spanning 167 brands. Top picks include Healthy Eating on the Go, Gryp, and MET-Rx.
 
 - **No Seed Oils** — [https://knowyourbar.com/no-seed-oils](https://knowyourbar.com/no-seed-oils)
-  695 of 1,298 bars (about 54%) are free of canola, soybean, sunflower, palm, and other screened oils, spanning 144 brands. Top picks include RXBAR, Perfect Bar, Healthy Eating on the Go, and Thunderbird.
+  697 of 1,308 bars (about 53%) are free of canola, soybean, sunflower, palm, and other screened oils, spanning 144 brands. Top picks include RXBAR, Perfect Bar, Healthy Eating on the Go, and Thunderbird.
 
 - **Low Sugar + High Protein** — [https://knowyourbar.com/low-sugar-high-protein](https://knowyourbar.com/low-sugar-high-protein)
   Bars with 15g+ protein and under 5g sugar, filtered by ingredient grade.
 
 - **Keto Protein Bars** — [https://knowyourbar.com/keto-protein-bars](https://knowyourbar.com/keto-protein-bars)
-  102 of 1,298 bars clear a net carb, protein, fat, and maltitol screen (8g or less net carbs, 10g or more protein, 8g or more fat, no maltitol or its close relatives), spanning 26 brands. Top picks include Healthy Eating on the Go, IQ Bar, and Perfect Keto.
+  102 of 1,308 bars clear a net carb, protein, fat, and maltitol screen (8g or less net carbs, 10g or more protein, 8g or more fat, no maltitol or its close relatives), spanning 26 brands. Top picks include Healthy Eating on the Go, IQ Bar, and Perfect Keto.
 
 - **Best Bars for Diabetics** — [https://knowyourbar.com/best-bars-for-diabetics](https://knowyourbar.com/best-bars-for-diabetics)
-  120 of 1,298 bars (about 9%) meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient grade, and no maltitol family sugar alcohols, spanning 34 brands. Top picks include IQ Bar, Magic Spoon, and Stars and Honey.
+  120 of 1,308 bars (about 9%) meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient grade, and no maltitol family sugar alcohols, spanning 34 brands. Top picks include IQ Bar, Magic Spoon, and Stars and Honey.
 
 - **GLP-1 Protein Bars** — [https://knowyourbar.com/glp1-protein-bars](https://knowyourbar.com/glp1-protein-bars)
-  43 of 1,298 bars with 15g+ protein, under 200 calories, under 4g sugar, 3g+ fiber, and zero sugar alcohols, graded A or B on ingredients.
+  43 of 1,308 bars with 15g+ protein, under 200 calories, under 4g sugar, 3g+ fiber, and zero sugar alcohols, graded A or B on ingredients.
 
 - **Caffeine Protein Bars** — [https://knowyourbar.com/caffeine-protein-bars](https://knowyourbar.com/caffeine-protein-bars)
-  44 of 1,298 bars have a declared caffeine amount, spanning 16 brands. Any nonzero amount qualifies; there's no minimum dose or ingredient-quality gate.
+  43 of 1,308 bars have a declared caffeine amount, spanning 16 brands. Any nonzero amount qualifies; there's no minimum dose or ingredient-quality gate.
 
 - **Vegan Protein Bars** — [https://knowyourbar.com/vegan-protein-bars](https://knowyourbar.com/vegan-protein-bars)
-  262 of 1,298 bars are fully vegan, spanning 46 brands. Whey protein is the most common reason a bar disqualifies, present in about 40% of the full database. Larabar and GoMacro are entirely vegan across their lineups.
+  266 of 1,308 bars are fully vegan, spanning 46 brands. Whey protein is the most common reason a bar disqualifies, present in about 41% of the full database. Larabar and GoMacro are entirely vegan across their lineups.
 
 - **Gluten Free Protein Bars** — [https://knowyourbar.com/gluten-free-protein-bars](https://knowyourbar.com/gluten-free-protein-bars)
-  830 of 1,298 bars are labeled gluten free, spanning 133 brands. Wheat is the most common named gluten source, present in about 5% of the full database. Larabar and think! are entirely gluten free across their lineups.
+  839 of 1,308 bars are labeled gluten free, spanning 133 brands. Wheat is the most common named gluten source, present in about 5% of the full database. Larabar and think! are entirely gluten free across their lineups.
+
+- **Dairy Free Protein Bars** — [https://knowyourbar.com/dairy-free-protein-bars](https://knowyourbar.com/dairy-free-protein-bars)
+  247 of 1,308 bars are labeled dairy free, spanning 44 brands. Whey is the most common named dairy source, present in about 41% of the full database. Aloha and Trubar are entirely dairy free across their lineups.
 
 ---
 
@@ -156,4 +159,4 @@ Link to the relevant guide page (keto, no sweeteners, no seed oils, etc.). Each 
 - Scoring Methodology: [https://knowyourbar.com/ingredient_scoring](https://knowyourbar.com/ingredient_scoring)
 - Sitemap: [https://knowyourbar.com/sitemap.xml](https://knowyourbar.com/sitemap.xml)
 
-Last updated: 2026-09-01
+Last updated: 2026-09-04

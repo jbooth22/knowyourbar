@@ -122,6 +122,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://knowyourbar.com/dairy-free-protein-bars</loc>
+    <lastmod>2026-09-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://knowyourbar.com/bar-finder</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
