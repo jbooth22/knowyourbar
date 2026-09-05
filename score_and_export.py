@@ -221,35 +221,69 @@ def lookup_ingredient(norm, al, cl):
     return best
 
 
-def find_depth0_clause(text, clause):
-    """Find the first occurrence of `clause` (case-insensitive) that sits
-    outside any parenthetical OR bracketed group. A clause matched inside a
-    nested parenthetical/bracket (e.g. an ingredient's own '(... may contain
-    X ...)' qualifier, or a bracketed sub-ingredient breakdown like
-    '[... contains 2% or less of ...]') is a component-level note, not a
-    trailing whole-product disclaimer, and must not trigger truncation of
-    real ingredients that follow it.
+def strip_disclaimer_clause(text, clause):
+    """Strip every occurrence of `clause` (case-insensitive, e.g. "may
+    contain", "made in") from `text`, regardless of what paren/bracket
+    depth it sits at.
 
-    Schema v8 (2026-08-21): '[' and ']' are now tracked as depth markers
-    identically to '(' and ')'. Square brackets are common in compound-
-    ingredient labeling (e.g. "cookie crumble [sugar, palm oil]") and were
-    previously invisible to this function, same bug as parse_ingredients()
-    below — see that function's docstring for the full explanation."""
-    lower = text.lower()
-    start = 0
+    - A clause found at depth 0 is trailing whole-product disclaimer
+      boilerplate: everything from the clause to the end of the string is
+      dropped, same as the old depth-0-only behavior.
+    - A clause found at depth >= 1 (schema v12 fix, this update) means the
+      disclaimer itself is wrapped in a parenthetical/bracket — e.g. an
+      ingredient's own "(Sugar, Cocoa Butter, May contain Sunflower
+      Lecithin, Vanilla)" sub-breakdown, or a plain "(Contains milk and
+      peanuts, made in a facility that also processes tree nuts)" aside.
+      Only the disclaimer's own span is excised — from the clause to the
+      bracket that closes its immediately-enclosing group — leaving any
+      real sibling sub-ingredients earlier in that same group (e.g.
+      "Sugar", "Cocoa Butter" above) and anything after the group's close
+      untouched. Previously `find_depth0_clause` only ever matched a
+      depth-0 occurrence, so a disclaimer wrapped in its own parentheses
+      never truncated at all — its contents got comma-split like any
+      other sub-ingredient group, producing fake top-level-looking
+      canonical entries such as "may contain sunflower lecithin" or
+      "milk and peanuts made in a facility that also processes tree nuts"
+      (see BRIEFING.md's `allergen_or_contains_statement` category).
+
+    Loops until no more occurrences of `clause` are found, since the same
+    clause phrase can appear more than once in one ingredient string (e.g.
+    two different sub-ingredient parentheticals each with their own "may
+    contain" aside)."""
     while True:
-        idx = lower.find(clause, start)
-        if idx == -1:
-            return -1
+        lower = text.lower()
+        idx = lower.find(clause)
+        if idx <= 0:
+            return text
         depth = 0
+        stack = []
         for ch in text[:idx]:
             if ch in '([':
                 depth += 1
+                stack.append(ch)
             elif ch in ')]':
+                if stack:
+                    stack.pop()
                 depth = max(0, depth - 1)
         if depth == 0:
-            return idx
-        start = idx + 1
+            text = text[:idx]
+            continue
+        # Depth >= 1: find the bracket that closes the group we're
+        # currently inside (not necessarily the outermost one) by tracking
+        # depth locally from idx forward — the first unmatched close we
+        # hit is the one that ends this group.
+        local_depth = 0
+        close_idx = len(text)
+        for j in range(idx, len(text)):
+            ch = text[j]
+            if ch in '([':
+                local_depth += 1
+            elif ch in ')]':
+                if local_depth == 0:
+                    close_idx = j
+                    break
+                local_depth -= 1
+        text = text[:idx] + text[close_idx:]
 
 
 def parse_ingredients(raw):
@@ -277,16 +311,19 @@ def parse_ingredients(raw):
     brackets; 22 of those had their score shift by >=0.5 once brackets
     were depth-tracked, and 5 changed letter grade band entirely. Treating
     '[' / ']' exactly like '(' / ')' throughout this function (and in
-    find_depth0_clause above) fixes this with no separate code path.
+    strip_disclaimer_clause above) fixes this with no separate code path.
+
+    Schema v12 fix (this update): allergen/processing disclaimer clauses
+    ("may contain", "contains:", "manufactured in", "processed in", "made
+    in") are now stripped via `strip_disclaimer_clause` wherever they
+    occur, not just at depth 0 — see that function's docstring.
     """
     if not raw or pd.isna(raw):
         return []
     text = str(raw).strip()
     text = LESS_THAN_RE.sub(', ', text)
     for clause in SKIP_CLAUSES:
-        idx = find_depth0_clause(text, clause)
-        if idx > 0:
-            text = text[:idx]
+        text = strip_disclaimer_clause(text, clause)
 
     items = []
     top_pos = 0
