@@ -158,8 +158,25 @@ def normalize(text):
     return re.sub(r'\s+', ' ', text).strip()
 
 
+SKIP_METHODS = {'ignore_clause', 'ignore_qualifier'}
+
+
 def build_lookup(alias_map, canonical):
-    """Build alias and canonical lookup dicts."""
+    """Build alias and canonical lookup dicts.
+
+    Schema v11 fix: entries tagged ignore_clause/ignore_qualifier (allergen
+    "contains"/"may contain"/"manufactured in" disclaimer fragments, and
+    processing-note qualifiers like "for color"/"to preserve freshness")
+    were previously included in `cl`/`al` like any real ingredient, just
+    with base_score=0. That made them score-neutral, which looked harmless,
+    but they still counted as a matched ingredient toward top_level_count
+    (the ingredient-count adjustment) and showed up in the ingredient
+    encyclopedia as if they were real foods (e.g. bare "almond"/"peanut"
+    fragments sliced out of a "Contains: almonds, peanuts" statement). These
+    are marked 'skip': True here and score_bar() now excludes them from
+    `matched` entirely, instead of counting them as a real, if neutral,
+    ingredient.
+    """
     al, cl = {}, {}
     for _, row in alias_map.iterrows():
         key = normalize(str(row['normalized_alias_text']))
@@ -168,6 +185,7 @@ def build_lookup(alias_map, canonical):
                 'canonical_name': row['canonical_name'],
                 'category': str(row.get('category', 'other')),
                 'base_score': float(row['base_score']) if pd.notna(row['base_score']) else 0,
+                'skip': str(row.get('score_method', '')) in SKIP_METHODS,
             }
     for _, row in canonical.iterrows():
         key = normalize(str(row['canonical_name']))
@@ -176,6 +194,7 @@ def build_lookup(alias_map, canonical):
                 'canonical_name': row['canonical_name'],
                 'category': str(row.get('category', 'other')),
                 'base_score': float(row['base_score']) if pd.notna(row['base_score']) else 0,
+                'skip': str(row.get('score_method_default', '')) in SKIP_METHODS,
             }
     return al, cl
 
@@ -393,6 +412,11 @@ def score_bar(raw, al, cl):
         if not norm or len(norm) < 2:
             continue
         res = lookup_ingredient(norm, al, cl)
+        if res and res.get('skip'):
+            # Allergen "contains"/qualifier-note fragment (schema v11) —
+            # not a real ingredient. Excluded from matched entirely so it
+            # can't inflate top_level_count or appear in the encyclopedia.
+            continue
         if res:
             pw = position_weight(top_pos) * weight_mult
             matched.append({
