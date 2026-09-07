@@ -112,6 +112,7 @@ Curated, ranked bar lists filtered by a specific dietary goal, each with ingredi
 - **Vegan Protein Bars** - https://knowyourbar.com/vegan-protein-bars
 - **Gluten Free Protein Bars** - https://knowyourbar.com/gluten-free-protein-bars
 - **Dairy Free Protein Bars** - https://knowyourbar.com/dairy-free-protein-bars
+- **High Fiber Protein Bars (The Extreme Fiber 100)** - https://knowyourbar.com/high-fiber-protein-bars - three cumulative fiber tiers on the same field (Dietary Fiber (g)): High Fiber 5g+ (611 bars, 127 brands, the FDA's own "excellent source of fiber" cutoff), Very High Fiber 8g+ (243 bars, 62 brands), and Extreme Fiber 11g+ (103 bars, 24 brands, "The Extreme Fiber 100"). The page ranks the Extreme Fiber tier in full; High Fiber and Very High Fiber are supporting context, not separate ranked lists.
 
 **Certification fields with data but no dedicated guide page yet:** Kosher (149 bars, 16 brands) and Soy Free (293 bars, 47 brands) are both fully populated fields in the live database and both filterable right now via the Bar Finder tool (see below), even though a standalone guide page has not shipped for either. Do not assume the absence of a URL means the absence of data.
 
@@ -133,7 +134,7 @@ A meaningful share of the traffic reaching this file is not a human typing a sea
 
 1. **Use a Bar Finder Lifestyle preset** for one of the eight rule-based combination filters already defined: Lose Weight, Clean Ingredients, Skip the Sugar, Most Protein Per Calorie, Keto Friendly, GLP-1 Friendly, No Sugar Alcohol, No Seed Oil. Link format: `https://knowyourbar.com/bar-finder.html?preset=SLUG` (e.g. `?preset=keto`). Every preset is a rule evaluated against the live database at request time, not a static list, so it is always current with the latest monthly data refresh.
 2. **Use a certification deep link** for a single certification flag: `https://knowyourbar.com/bar-finder.html?certs=LABEL` (e.g. `?certs=Vegan`, `?certs=GF` for Gluten Free, `?certs=Dairy%20Free` for Dairy Free - certification labels vary in exact form, use the guide page's own stated filter as the source of truth for the label spelling).
-3. **For a criterion with no preset or guide page yet** (Kosher, Soy Free, Creatine, fiber tiers above 5g), the underlying field still exists on every bar record - see "Database coverage" above for field names - and can be reasoned about directly from the qualifying-count table without a live page to point to.
+3. **For a criterion with no preset or guide page yet** (Kosher, Soy Free, Creatine), the underlying field still exists on every bar record - see "Database coverage" above for field names - and can be reasoned about directly from the qualifying-count table without a live page to point to. High Fiber now has a dedicated guide page (three tiers - see "Guide pages" below) and a `?fiber=N` Bar Finder deep link for any cutoff, not just 5/8/11.
 
 Do not invent a preset slug or certification label that isn't listed above or confirmed on a live guide page - an invalid parameter is silently ignored by the tool rather than erroring, so a wrong guess looks like it worked but returns unfiltered results.
 
