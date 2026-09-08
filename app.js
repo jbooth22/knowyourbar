@@ -251,15 +251,23 @@ function computeSimilarBars(target) {
   const cross  = CMP_SCORED.filter(b => b['Brand Name'] !== target['Brand Name']);
   const used   = new Set();
 
-  // B1: Same nutrition — closest macro distance, grade proximity included
-  const b1 = cross
+  // Same-category pool, shared by all three buckets. A soft preference, not a
+  // hard filter: only used when there's enough of a same-category selection
+  // to choose from (>=3 candidates), same threshold B2 already used, so a
+  // bucket never gets starved down to one or two options just to keep flavor
+  // matching.
+  const sameCat = cross.filter(b => cmpFlavorCat(b['Flavor Name']) === tCat);
+
+  // B1: Same nutrition — very close macros, flavor can differ, but prefer a
+  // same-category match when there's a real choice within it.
+  const b1pool = sameCat.length >= 3 ? sameCat : cross;
+  const b1 = b1pool
     .map(b => ({ b, d: cmpMacroDist(target, b) + Math.abs((CMP_GRADE_SCORE[b.score_band]??2) - tGrade) * 0.06 }))
     .sort((a, b) => a.d - b.d)[0];
   const b1bar = b1 ? b1.b : null;
   if (b1bar) used.add(b1bar['Brand Name'] + '|' + b1bar['Flavor Name']);
 
   // B2: Same taste, better macros — flavor category match, higher macroScore
-  const sameCat = cross.filter(b => cmpFlavorCat(b['Flavor Name']) === tCat);
   const b2pool  = (sameCat.length >= 3 ? sameCat : cross)
     .filter(b => cmpMacroScore(b) > tMacro && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
   const b2bar   = b2pool.length
@@ -270,12 +278,18 @@ function computeSimilarBars(target) {
         : null);
   if (b2bar) used.add(b2bar['Brand Name'] + '|' + b2bar['Flavor Name']);
 
-  // B3: Same nutrition, cleaner ingredients
+  // B3: Same nutrition, cleaner ingredients — very close macros, higher grade.
+  // Same-category match preferred (same flavor with better ingredients is the
+  // best possible answer), but the grade improvement matters more than the
+  // flavor match, so only prefer category when there are enough qualifying
+  // same-category candidates to pick a genuinely close macro match from.
   // If already A: other A-grade bars with similar macros, labeled differently
   const isAlreadyA = tGrade >= 4;
-  const b3pool = isAlreadyA
+  const b3base = isAlreadyA
     ? cross.filter(b => b.score_band === 'A' && !used.has(b['Brand Name']+'|'+b['Flavor Name']))
     : cross.filter(b => (CMP_GRADE_SCORE[b.score_band]??0) > tGrade && !used.has(b['Brand Name']+'|'+b['Flavor Name']));
+  const b3sameCat = b3base.filter(b => cmpFlavorCat(b['Flavor Name']) === tCat);
+  const b3pool = b3sameCat.length >= 3 ? b3sameCat : b3base;
   const b3bar = b3pool.length
     ? b3pool.sort((a, b) => cmpMacroDist(target, a) - cmpMacroDist(target, b))[0]
     : null;
@@ -330,31 +344,70 @@ function renderSimilarBars(bar) {
   </div>`;
 }
 
+// Expand a row and scroll so the row AND the top of its expand panel land
+// together just under the sticky nav — not "centered" (which stops meaning
+// anything once the panel below the row changes the page's height).
+function openAndScrollTo(row, scrollTarget) {
+  row.click(); // synchronously inserts the expand-detail row right after it
+  requestAnimationFrame(() => {
+    (scrollTarget || row).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    row.classList.add('jump-flash');
+    setTimeout(() => row.classList.remove('jump-flash'), 1100);
+  });
+}
+
+// Pin a bar's row (plus a small banner explaining why it's there) to the very
+// top of the results table, independent of whatever filters/sort/pagination
+// the table is currently showing. This is what makes a comparison card's bar
+// reachable even when it isn't one of the (at most 50) rows currently
+// rendered — resetting filters isn't enough on its own, since a bar can still
+// sit past the 50-row render cap even in the unfiltered list.
+function showSpotlightBar(bar) {
+  clearSpotlightBar();
+  const tbody = document.getElementById('results-body');
+  if (!tbody) return;
+
+  const row = buildBarRow(bar);
+  row.classList.add('spotlight-row');
+
+  const banner = document.createElement('tr');
+  banner.className = 'spotlight-banner';
+  banner.innerHTML = `<td colspan="13">
+    <span>Showing a bar from outside your current filters/results.</span>
+    <button type="button" class="spotlight-dismiss" onclick="clearSpotlightBar()">Back to your results ✕</button>
+  </td>`;
+
+  tbody.prepend(row);
+  tbody.prepend(banner);
+  // Scroll to the banner, not the row, so the "why is this bar here" context
+  // stays on screen together with the bar itself.
+  openAndScrollTo(row, banner);
+}
+
+function clearSpotlightBar() {
+  const row = document.querySelector('.spotlight-row');
+  if (row && row.classList.contains('expanded')) closeExpand();
+  document.querySelectorAll('.spotlight-banner, .spotlight-row').forEach(el => el.remove());
+}
+
 function jumpToBar(barKey) {
-  if (expandedRow) {
-    expandedRow.remove();
-    expandedRow = null;
-  }
+  closeExpand();
+
+  // Fast path: the bar is already one of the currently rendered rows.
   const rows = document.querySelectorAll('tr.bar-row');
   for (const row of rows) {
     if (row.dataset.key === barKey) {
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(() => row.click(), 300);
+      openAndScrollTo(row);
       return;
     }
   }
-  // Not in current filtered view — reset and try again
-  resetAll();
-  setTimeout(() => {
-    const rows2 = document.querySelectorAll('tr.bar-row');
-    for (const row of rows2) {
-      if (row.dataset.key === barKey) {
-        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => row.click(), 300);
-        return;
-      }
-    }
-  }, 500);
+
+  // Not currently rendered (filtered out, or past the render cap). Look it
+  // up directly and spotlight it instead of clearing the user's filters —
+  // clearing filters doesn't reliably help anyway, since renderTable() only
+  // ever renders the first 50 results of whatever set is active.
+  const bar = BARS.find(b => (b['Brand Name'] + '|' + b['Flavor Name']) === barKey);
+  if (bar) showSpotlightBar(bar);
 }
 
 function init() {
@@ -1844,7 +1897,7 @@ function openCompareOverlay() {
           <span class="cmp-grade-badge" style="background:${color}">${band || '?'}</span>
           <span class="cmp-grade-label">${BAND_LABELS[band] || ''} &middot; ${b['ingredient_score'] ?? '&mdash;'}</span>
         </div>
-        <div class="cmp-btns">${site}${buy}</div>
+        <div class="cmp-btns">${buy}${site}</div>
       </div>
     </th>`;
   }).join('');
