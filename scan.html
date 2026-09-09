@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ═══════════════════════════════════════════════════════
+       KNOW YOUR BAR — BARCODE SCAN PAGE
+       File: scan.html  →  deploy as /scan.html
+       Built 2026-09-09 as the parallel track to the UPC mapping
+       cleanup (see claude/SCAN_FEATURE_UPC_MAPPING.md).
+
+       WHAT THIS PAGE NEEDS THAT ISN'T WIRED UP YET
+       ──────────────────────────────────────────────
+       This page is built entirely from the confirmed markup/classes in
+       TEMPLATE_BRAND.html and TEMPLATE_GUIDE.html (score-tile, macro-rank-grid,
+       nutr-panel, ingr-block, chips — same DOM shape as every bar-detail
+       expand row already live on the site) so it should visually match the
+       rest of the site once style.css loads. Three things are still
+       assumptions, marked inline with "ADAPTER —" comments, because this
+       session doesn't have bars.js or app.js to check against:
+
+       1. bars.js's actual global variable name. This file expects a global
+          `BARS` array matching the schema documented in BRIEFING.md/README.md.
+          If bars.js defines something else (e.g. `window.bars`, an ES module
+          export), add one line right after loading bars.js:
+              <script>const BARS = /* whatever bars.js actually exports */;</script>
+       2. score_insights' exact per-chip shape. BRIEFING.md just says "chip
+          data" — this file assumes each entry is either {name, type} or a
+          [name, type] pair (type being "positive"/"concern"/"neutral" and an
+          optional "elevated" flag) mirroring the buildLazyExpand() pattern in
+          TEMPLATE_GUIDE.html. normalizeChips() below is the one place to fix
+          if the real shape differs.
+       3. "Comparable bars" is a same-brand-first, same-grade-band-second
+          client-side approximation (see computeSimilarBars()) since app.js's
+          real Bar Finder similar-bars logic wasn't available to copy here.
+          Swap it for the real algorithm once app.js is in hand.
+
+       Also not yet done, both are one-line changes once decided:
+       - MISSING_UPC_CONTACT_EMAIL below is a placeholder. Set it to whatever
+         inbox should receive "we don't have this product yet" reports.
+       - Add a /scan.html link to the nav's Explore dropdown on every other
+         live page (same rollout step every new page gets, see BRIEFING.md's
+         pattern for e.g. vegan-protein-bars.html), and to sitemap.xml.
+
+       DATA FLOW
+       ──────────
+       Camera → html5-qrcode decodes a UPC-A/UPC-E/EAN-13/EAN-8 barcode →
+       normalizeUpc() cleans it the same way build_upc_map.py did (11-digit
+       leading-zero repair) → look up in UPC_MAP (upc_map.js, generated from
+       the KYB UPC Live Mapping Workbook — see claude/SCAN_FEATURE_UPC_MAPPING.md
+       for its current coverage and known gaps) → resolve the KYB Key to a
+       bar record in BARS → render the same detail markup as a brand/guide
+       page's expand row, computed client-side (macro ranks against the full
+       live BARS array, exactly like buildLazyExpand()'s server-computed
+       version, just done in the browser since this page has no build step).
+       ═══════════════════════════════════════════════════════ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan a Protein Bar - Instant Ingredient Quality Lookup | Know Your Bar</title>
+  <meta name="description" content="Scan any protein bar's barcode to see its ingredient quality grade, full macro breakdown, and comparable bars instantly, right from your phone's browser.">
+  <link rel="canonical" href="https://knowyourbar.com/scan.html">
+
+  <!-- Fonts, same imports as every other page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Page-specific CSS for the camera/scan UI only — no component like this
+       exists in style.css yet. Same pattern BRIEFING.md documents for other
+       pages that need genuine page-specific components (a scoped <style>
+       block rather than touching style.css's shared rules). Built entirely
+       from the documented :root tokens (--black/--white/--accent/--muted/
+       --border/--radius/--font-display/--font-mono/--font-body) so it stays
+       visually consistent even though the real style.css wasn't available
+       to check against directly. -->
+  <style>
+    #scan-app { max-width: 640px; margin: 0 auto; }
+
+    #scan-camera-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      max-height: 70vh;
+      background: var(--black, #0e0e0e);
+      border-radius: var(--radius-lg, 10px);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    #scan-reader { width: 100%; height: 100%; }
+    #scan-reader video { width: 100% !important; height: 100% !important; object-fit: cover; }
+    /* html5-qrcode injects its own canvas/video; the qrbox option it's
+       configured with below already draws a scan-region box on top of the
+       video feed, so #scan-frame-overlay just adds the dimmed surround +
+       corner brackets for the DoorDash-style "put it in the box" look. */
+    #scan-frame-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scan-frame-box {
+      width: 78%;
+      aspect-ratio: 1.6 / 1;
+      border: 3px solid var(--accent, #d4f000);
+      border-radius: 12px;
+      box-shadow: 0 0 0 2000px rgba(14,14,14,0.55);
+    }
+    .scan-frame-hint {
+      position: absolute;
+      bottom: 14px;
+      left: 0; right: 0;
+      text-align: center;
+      color: #f7f5f0;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-size: 13px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    #scan-controls { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .scan-btn-secondary {
+      display: inline-block;
+      padding: 0.7rem 1.4rem;
+      border: 2px solid var(--black, #0e0e0e);
+      border-radius: var(--radius, 6px);
+      background: transparent;
+      color: var(--black, #0e0e0e);
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .scan-status {
+      font-family: var(--font-mono, 'DM Mono', monospace);
+      font-size: 13px;
+      color: var(--muted, #5a5a54);
+      min-height: 1.2em;
+      margin: 0 0 1rem;
+    }
+    .scan-status.err { color: #c83020; }
+    .scan-status.ok { color: #2a7a1f; }
+
+    #scan-manual { margin-bottom: 1.5rem; }
+    #scan-manual summary {
+      cursor: pointer;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-size: 14px;
+      color: var(--muted, #5a5a54);
+      font-weight: 600;
+    }
+    .scan-manual-body { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    .scan-manual-body input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--border, #d6d3cc);
+      border-radius: var(--radius, 6px);
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-size: 14px;
+    }
+    .scan-manual-results {
+      margin-top: 0.75rem;
+      border: 1px solid var(--border, #d6d3cc);
+      border-radius: var(--radius, 6px);
+      overflow: hidden;
+    }
+    .scan-manual-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--border, #d6d3cc);
+      cursor: pointer;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-size: 14px;
+    }
+    .scan-manual-result-row:last-child { border-bottom: none; }
+    .scan-manual-result-row:hover { background: var(--off-white, #efece6); }
+
+    .scan-result-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .scan-result-title { font-family: var(--font-display, 'Barlow Condensed', sans-serif); }
+    .scan-result-brand { font-size: 15px; color: var(--muted, #5a5a54); font-weight: 600; }
+    .scan-result-flavor { font-size: 28px; font-weight: 700; line-height: 1.1; }
+    .scan-rescan-btn {
+      flex-shrink: 0;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--black, #0e0e0e);
+      border-radius: var(--radius, 6px);
+      background: transparent;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .scan-similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .scan-similar-card {
+      border: 1px solid var(--border, #d6d3cc);
+      border-radius: var(--radius, 6px);
+      padding: 0.9rem;
+      cursor: pointer;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+    }
+    .scan-similar-card:hover { border-color: var(--black, #0e0e0e); }
+    .scan-similar-brand { font-size: 12px; color: var(--muted, #5a5a54); font-weight: 600; }
+    .scan-similar-flavor { font-size: 16px; font-weight: 700; margin: 0.15rem 0 0.5rem; }
+    .scan-similar-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+    .scan-not-found-box {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border: 1px dashed var(--border, #d6d3cc);
+      border-radius: var(--radius-lg, 10px);
+    }
+    .scan-not-found-code {
+      font-family: var(--font-mono, 'DM Mono', monospace);
+      font-size: 15px;
+      background: var(--off-white, #efece6);
+      display: inline-block;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius, 6px);
+      margin: 0.5rem 0 1rem;
+    }
+  </style>
+</head>
+<body class="page-guide brand-v1 page-scan">
+
+<!-- NAV — copied verbatim from TEMPLATE_BRAND.html/TEMPLATE_GUIDE.html.
+     TODO once this ships: add a Scan link here (and to every other live
+     page's nav), same rollout step BRIEFING.md documents for prior new
+     pages. Left out of the dropdown edits below since that means touching
+     every other live page's file, not just this one. -->
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">Know Your Bar</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars.html">Quest</a>
+        <a href="/rxbar-review.html">RXBAR</a>
+        <a href="/clif-bar-review.html">Clif Bar</a>
+        <a href="/barebells-review.html">Barebells</a>
+        <a href="/kind-bars-review.html">KIND</a>
+        <a href="/quest-vs-rxbar.html">Quest vs RXBAR</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars.html">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners.html">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols.html">No Sugar Alcohols</a>
+        <a href="/no-seed-oils.html">No Seed Oils</a>
+        <a href="/keto-protein-bars.html">Keto Protein Bars</a>
+        <a href="/best-bars-for-diabetics.html">Best Bars for Diabetics</a>
+        <a href="/glp1-protein-bars.html">GLP-1 Protein Bars</a>
+        <a href="/caffeine-protein-bars.html">Caffeine Protein Bars</a>
+        <a href="/vegan-protein-bars.html">Vegan Protein Bars</a>
+        <a href="/gluten-free-protein-bars.html">Gluten Free Protein Bars</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Explore</span>
+      <div class="site-nav-dropdown">
+        <a href="/all-protein-bar-brands.html">All Brands</a>
+        <a href="/flavor-map.html">Flavor Map</a>
+        <a href="/brand-quadrant.html">Brand Quadrant</a>
+        <a href="/scan.html">Scan a Bar</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring.html" class="site-nav-link">How We Score</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero page-guide">
+  <div class="hero-inner">
+    <h1 class="hero-title">Scan a bar. Get the full ingredient breakdown instantly.</h1>
+    <p class="hero-sub" style="color:#e8e4dc;">Point your camera at the barcode. We'll match it against our database of 1,000+ bars and show you the same ingredient quality grade, macros, and analysis as everywhere else on the site.</p>
+  </div>
+</section>
+
+<main class="content">
+  <section class="section">
+    <div class="section-inner">
+      <div id="scan-app">
+
+        <!-- ── SCANNER STAGE ──────────────────────────────────── -->
+        <div id="scan-stage">
+          <div id="scan-camera-wrap">
+            <div id="scan-reader"></div>
+            <div id="scan-frame-overlay">
+              <div class="scan-frame-box"></div>
+              <div class="scan-frame-hint">Center the barcode in the box</div>
+            </div>
+          </div>
+          <div id="scan-controls">
+            <button id="scan-start-btn" class="finder-cta-btn" type="button">Start camera</button>
+            <button id="scan-stop-btn" class="scan-btn-secondary" type="button" hidden>Stop scanning</button>
+          </div>
+          <p id="scan-status" class="scan-status"></p>
+
+          <details id="scan-manual">
+            <summary>Camera not working? Search by brand or flavor instead</summary>
+            <div class="scan-manual-body">
+              <input type="text" id="scan-manual-input" placeholder="e.g. Quest Chocolate Chip Cookie Dough" autocomplete="off">
+              <button id="scan-manual-btn" type="button" class="visit-link">Search</button>
+            </div>
+            <div id="scan-manual-results" class="scan-manual-results" hidden></div>
+          </details>
+        </div>
+
+        <!-- ── RESULT: FOUND ───────────────────────────────────
+             Filled in by renderBarDetail() below. Markup structure
+             mirrors TEMPLATE_BRAND.html's expand-content block exactly
+             (macro-rank-grid / nutr-panel / score-tile / ingr-block) so
+             it inherits the site's existing CSS with no new component
+             classes needed for this part. -->
+        <div id="scan-result" hidden></div>
+
+        <!-- ── RESULT: NOT FOUND ───────────────────────────────── -->
+        <div id="scan-not-found" hidden>
+          <div class="scan-not-found-box">
+            <p><strong>We don't have this one mapped yet.</strong></p>
+            <p>Scanned code:</p>
+            <div class="scan-not-found-code" id="scan-not-found-code"></div>
+            <p style="color:var(--muted);font-size:14px;">Our barcode coverage is still growing. Try searching by brand or flavor above, or check back soon, we're adding new UPCs regularly.</p>
+            <button id="scan-not-found-rescan" class="finder-cta-btn" type="button" style="margin-top:1rem;">Scan another bar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER — copied verbatim -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <details class="site-footer-links-toggle">
+      <summary class="site-footer-links-summary">More guides &amp; brand reviews</summary>
+      <nav class="site-footer-links">
+        <a href="/">Bar Finder</a>
+        <a href="/ingredient_scoring.html">How We Score</a>
+        <a href="/clean-protein-bars.html">Clean Bars Guide</a>
+        <a href="/quest-bars.html">Quest Review</a>
+        <a href="/rxbar-review.html">RXBAR Review</a>
+        <a href="/barebells-review.html">Barebells Review</a>
+      </nav>
+    </details>
+  </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated September 2026</div>
+</footer>
+
+<!-- Barcode scanning library. Pinned version, UMD build, from the
+     allowed CDN. Decodes UPC-A/UPC-E/EAN-13/EAN-8 via getUserMedia,
+     no native BarcodeDetector dependency — works on iOS Safari, which
+     doesn't support BarcodeDetector, unlike relying on that API alone
+     would. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+
+<!-- Site data. bars.js must be loaded before this page's own script.
+     ADAPTER: this file expects bars.js to expose a global `BARS` array
+     matching the schema in BRIEFING.md/README.md (Brand Name, Flavor
+     Name, Key, score_band, ingredient_score, macros, Ingredients,
+     score_insights, positive_ingredients, concern_ingredients, cert
+     Y/N fields, Amazon Affiliate, Website). If bars.js's real export is
+     named differently, add a one-line bridge script tag right after it:
+       <script>const BARS = /* actual bars.js export */;</script>
+     upc_map.js must define a global `UPC_MAP` object (UPC string ->
+     KYB Key "Brand Name | Flavor Name") — see build_upc_map.py and
+     claude/SCAN_FEATURE_UPC_MAPPING.md for how it's generated. -->
+<script src="/bars.js"></script>
+<script src="/upc_map.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── CONFIG ────────────────────────────────────────────────────────
+  var MISSING_UPC_CONTACT_EMAIL = ''; // set this to receive "not found" reports by email link
+  var GRADE_COLORS = { A: '#2a7a1f', B: '#5a8a2f', C: '#b89a00', D: '#c87020', F: '#c83020' };
+  var GRADE_LABELS = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Poor', F: 'Avoid' };
+
+  // ── DATA LAYER ───────────────────────────────────────────────────
+  function getBars() {
+    // ADAPTER: see file header comment #1. Falls back to an empty array
+    // rather than throwing if bars.js hasn't loaded or exports a
+    // different global, so the rest of the page still renders.
+    if (typeof BARS !== 'undefined' && Array.isArray(BARS)) return BARS;
+    if (typeof window.BARS !== 'undefined' && Array.isArray(window.BARS)) return window.BARS;
+    if (typeof window.bars !== 'undefined' && Array.isArray(window.bars)) return window.bars;
+    console.warn('[scan] Could not find a BARS array. Check the ADAPTER note in scan.html\'s <head> comment.');
+    return [];
+  }
+  function getUpcMap() {
+    if (typeof UPC_MAP !== 'undefined') return UPC_MAP;
+    if (typeof window.UPC_MAP !== 'undefined') return window.UPC_MAP;
+    console.warn('[scan] Could not find a UPC_MAP object. Check that upc_map.js loaded.');
+    return {};
+  }
+  function barKey(bar) {
+    return bar.Key || (bar['Brand Name'] + ' | ' + bar['Flavor Name']);
+  }
+
+  // ── UPC NORMALIZATION — mirrors build_upc_map.py's normalize_upc() ──
+  function normalizeUpc(raw) {
+    var digits = String(raw).replace(/\D/g, '');
+    if (!digits) return null;
+    if (digits.length === 11) return digits.padStart(12, '0'); // recover a dropped leading zero
+    if ([8, 12, 13, 14].indexOf(digits.length) !== -1) return digits;
+    return digits; // return as-is; lookupBar() will just fail to find it, handled as "not found"
+  }
+
+  function lookupBarByCode(rawCode) {
+    var upcMap = getUpcMap();
+    var candidates = [];
+    var norm = normalizeUpc(rawCode);
+    if (norm) candidates.push(norm);
+    candidates.push(String(rawCode));
+    // A scanner can hand back a 12-digit UPC-A for a barcode that's
+    // stored as its 13-digit EAN-13 form (leading 0) or vice versa —
+    // try both directions before giving up.
+    if (norm && norm.length === 12) candidates.push('0' + norm);
+    if (norm && norm.length === 13 && norm[0] === '0') candidates.push(norm.slice(1));
+
+    var key = null;
+    for (var i = 0; i < candidates.length; i++) {
+      if (upcMap[candidates[i]]) { key = upcMap[candidates[i]]; break; }
+    }
+    if (!key) return null;
+
+    var bars = getBars();
+    for (var j = 0; j < bars.length; j++) {
+      if (barKey(bars[j]) === key) return bars[j];
+    }
+    return null; // mapped to a key that isn't in the live bars.js (stale mapping)
+  }
+
+  // ── MACRO RANK — same directional rule as every expand row on the
+  // site (see TEMPLATE_GUIDE.html's macro-rank-grid comment): Protein/
+  // Fiber rank 1 = highest, Calories/Sugar rank 1 = lowest, Fat is
+  // always neutral gray. Computed client-side here since this page has
+  // no build step, unlike a brand/guide page's precomputed version. ──
+  function computeRank(bars, field, higherIsBetter) {
+    var vals = bars
+      .map(function(b) { return typeof b[field] === 'number' ? b[field] : parseFloat(b[field]); })
+      .filter(function(v) { return !isNaN(v); });
+    vals.sort(function(a, b) { return higherIsBetter ? b - a : a - b; });
+    return function(value) {
+      var v = typeof value === 'number' ? value : parseFloat(value);
+      if (isNaN(v) || vals.length === 0) return null;
+      var rank = vals.indexOf(v) + 1;
+      if (rank === 0) {
+        // exact value not found (rare edge case) — estimate position
+        rank = vals.filter(function(x) { return higherIsBetter ? x > v : x < v; }).length + 1;
+      }
+      var pct = rank / vals.length;
+      return { rank: rank, total: vals.length, top: pct <= 0.25 };
+    };
+  }
+
+  function rankTag(rankInfo) {
+    if (!rankInfo) return '<span class="macro-rank-tag">&mdash;</span>';
+    var cls = rankInfo.top ? 'top' : 'mid';
+    var text = '#' + rankInfo.rank + ' of ' + rankInfo.total;
+    return '<span class="macro-rank-tag ' + cls + '">' + text + '</span>';
+  }
+
+  // ── CHIPS — ADAPTER: see file header comment #2. Normalizes either
+  // {name, type} objects or [name, type] pairs into one shape. ──
+  function normalizeChips(scoreInsights) {
+    if (!Array.isArray(scoreInsights)) return [];
+    return scoreInsights.map(function(c) {
+      if (Array.isArray(c)) return { name: c[0], type: c[1] || 'neutral', elevated: !!c[2] };
+      if (c && typeof c === 'object') return { name: c.name || c.label || String(c), type: c.type || 'neutral', elevated: !!c.elevated };
+      return { name: String(c), type: 'neutral', elevated: false };
+    });
+  }
+  function chipClass(chip) {
+    var t = chip.type === 'positive' || chip.type === 'pos' ? 'chip-positive'
+          : chip.type === 'concern' || chip.type === 'con' ? 'chip-concern'
+          : 'chip-neutral';
+    return t + (chip.elevated ? ' chip-elevated' : '');
+  }
+
+  // ── SIMILAR BARS — approximation, see file header comment #3.
+  // Same brand first (other flavors), then filled with same-grade-band
+  // bars closest in protein. Swap for the real app.js algorithm once
+  // available. ──
+  function computeSimilarBars(bar, bars, limit) {
+    limit = limit || 4;
+    var key = barKey(bar);
+    var brand = bar['Brand Name'];
+    var band = bar.score_band;
+    var protein = parseFloat(bar['Protein (g)']);
+
+    var sameBrand = bars.filter(function(b) {
+      return b['Brand Name'] === brand && barKey(b) !== key;
+    });
+
+    var rest = bars.filter(function(b) {
+      return b['Brand Name'] !== brand && b.score_band === band;
+    });
+    rest.sort(function(a, b) {
+      var da = Math.abs(parseFloat(a['Protein (g)']) - protein);
+      var db = Math.abs(parseFloat(b['Protein (g)']) - protein);
+      return da - db;
+    });
+
+    return sameBrand.concat(rest).slice(0, limit);
+  }
+
+  // ── RENDER: bar detail — mirrors TEMPLATE_BRAND.html's expand-content
+  // block field for field, same classes, so it inherits the site's
+  // existing CSS instead of needing new styling. ──
+  function renderBarDetail(bar, bars) {
+    var grade = bar.score_band || 'C';
+    var gradeColor = GRADE_COLORS[grade] || 'var(--muted)';
+    var gradeLabel = GRADE_LABELS[grade] || '';
+    var score = bar.ingredient_score;
+
+    var rankers = {
+      protein: computeRank(bars, 'Protein (g)', true),
+      cal: computeRank(bars, 'Calories', false),
+      sugar: computeRank(bars, 'Sugars (g)', false),
+      fiber: computeRank(bars, 'Dietary Fiber (g)', true)
+    };
+    var protein = bar['Protein (g)'], cal = bar.Calories, sugar = bar['Sugars (g)'],
+        fiber = bar['Dietary Fiber (g)'], fat = bar['Total Fat (g)'];
+
+    var macroRankGrid =
+      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Protein</span><span class="macro-rank-val">' + protein + 'g</span>' + rankTag(rankers.protein(protein)) + '</div>' +
+      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Calories</span><span class="macro-rank-val">' + cal + '</span>' + rankTag(rankers.cal(cal)) + '</div>' +
+      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Sugar</span><span class="macro-rank-val">' + sugar + 'g</span>' + rankTag(rankers.sugar(sugar)) + '</div>' +
+      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fiber</span><span class="macro-rank-val">' + fiber + 'g</span>' + rankTag(rankers.fiber(fiber)) + '</div>' +
+      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fat</span><span class="macro-rank-val">' + fat + 'g</span><span class="macro-rank-tag">&mdash;</span></div>';
+
+    var nutrRows = [
+      ['Calories', cal], ['Protein', protein + 'g'], ['Total Fat', fat + 'g'],
+      ['Saturated Fat', bar['Saturated Fat (g)'] + 'g'], ['Cholesterol', bar['Cholesterol (mg)'] + 'mg'],
+      ['Sodium', bar['Sodium (mg)'] + 'mg'], ['Total Carbohydrates', bar['Total Carbohydrates (g)'] + 'g'],
+      ['Dietary Fiber', fiber + 'g'], ['Sugars', sugar + 'g'], ['Sugar Alcohol', bar['Sugar Alcohol (g)'] + 'g']
+    ].map(function(pair) {
+      return '<div class="nutr-row"><span class="nutr-label">' + pair[0] + '</span><span class="nutr-val">' + pair[1] + '</span></div>';
+    }).join('');
+
+    var chips = normalizeChips(bar.score_insights).map(function(c) {
+      return '<span class="insight-chip ' + chipClass(c) + '">' + escapeHtml(c.name) + '</span>';
+    }).join('');
+
+    var posIngr = (bar.positive_ingredients || []).map(function(x) { return '<div class="ingr-col-item">' + escapeHtml(x) + '</div>'; }).join('') || '<div class="ingr-col-item">None flagged</div>';
+    var negIngr = (bar.concern_ingredients || []).map(function(x) { return '<div class="ingr-col-item">' + escapeHtml(x) + '</div>'; }).join('') || '<div class="ingr-col-item">None flagged</div>';
+
+    var certFields = ['Vegan', 'Gluten Free', 'Dairy Free', 'Soy Free', 'Non-GMO', 'Nut Free', 'Kosher'];
+    var certBadges = certFields.filter(function(f) { return bar[f] === 'Y' || bar[f] === 'Yes'; })
+      .map(function(f) { return '<span class="cert-badge">' + f + '</span>'; }).join('');
+
+    var buyLinks = '';
+    if (bar['Amazon Affiliate']) buyLinks += '<a href="' + bar['Amazon Affiliate'] + '" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>';
+    if (bar['Website']) buyLinks += '<a href="' + bar['Website'] + '" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>';
+
+    var similar = computeSimilarBars(bar, bars);
+    var similarCards = similar.map(function(sb) {
+      return '<div class="scan-similar-card" data-key="' + escapeHtml(barKey(sb)) + '">' +
+        '<div class="scan-similar-brand">' + escapeHtml(sb['Brand Name']) + '</div>' +
+        '<div class="scan-similar-flavor">' + escapeHtml(sb['Flavor Name']) + '</div>' +
+        '<div class="scan-similar-meta"><span class="table-grade-badge grade-' + sb.score_band + '">' + sb.score_band + '</span><span>' + sb['Protein (g)'] + 'g protein</span></div>' +
+      '</div>';
+    }).join('');
+
+    return '' +
+      '<div class="scan-result-head">' +
+        '<div>' +
+          '<div class="scan-result-brand">' + escapeHtml(bar['Brand Name']) + '</div>' +
+          '<div class="scan-result-title scan-result-flavor">' + escapeHtml(bar['Flavor Name']) + '</div>' +
+          (certBadges ? '<div class="cert-badges" style="margin-top:0.4rem;">' + certBadges + '</div>' : '') +
+        '</div>' +
+        '<button class="scan-rescan-btn" type="button" onclick="window.__scanReset()">Scan another</button>' +
+      '</div>' +
+      '<div class="expand-buy-row">' + buyLinks + '</div>' +
+      '<div class="macro-rank-grid">' + macroRankGrid + '</div>' +
+      '<div class="expand-columns">' +
+        '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutrRows + '</div>' +
+        '<div class="expand-right">' +
+          '<div class="score-tile score-band-' + grade + '">' +
+            '<div class="score-tile-header">' +
+              '<div class="score-grade-block"><div class="score-header-label">Ingredient Quality Grade</div>' +
+                '<div class="score-grade-row"><span class="score-band-badge" style="background:' + gradeColor + '">' + grade + '</span><span class="score-band-label">' + gradeLabel + '</span></div></div>' +
+              '<div class="score-num-block"><div class="score-header-label">Ingredient Quality Score</div><div class="score-number">' + score + '</div></div>' +
+            '</div>' +
+            '<div class="score-chips">' + chips + '</div>' +
+            '<div class="score-ingr-cols">' +
+              '<div class="ingr-col"><div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>' + posIngr + '</div>' +
+              '<div class="ingr-col"><div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>' + negIngr + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="ingr-block"><div class="ingr-label">Ingredients</div><div class="ingr-text">' + escapeHtml(bar.Ingredients || '') + '</div></div>' +
+        '</div>' +
+      '</div>' +
+      (similarCards ? '<h2 class="section-title" style="margin-top:2rem;">Comparable bars</h2><div class="scan-similar-grid">' + similarCards + '</div>' : '');
+  }
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // ── UI WIRING ────────────────────────────────────────────────────
+  var stageEl = document.getElementById('scan-stage');
+  var resultEl = document.getElementById('scan-result');
+  var notFoundEl = document.getElementById('scan-not-found');
+  var statusEl = document.getElementById('scan-status');
+  var startBtn = document.getElementById('scan-start-btn');
+  var stopBtn = document.getElementById('scan-stop-btn');
+  var html5QrCode = null;
+  var scanning = false;
+
+  function setStatus(text, cls) {
+    statusEl.textContent = text || '';
+    statusEl.className = 'scan-status' + (cls ? ' ' + cls : '');
+  }
+
+  function showResultFor(bar) {
+    stopScanning();
+    stageEl.hidden = true;
+    notFoundEl.hidden = true;
+    resultEl.hidden = false;
+    resultEl.innerHTML = renderBarDetail(bar, getBars());
+    resultEl.querySelectorAll('.scan-similar-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var key = card.getAttribute('data-key');
+        var match = getBars().filter(function(b) { return barKey(b) === key; })[0];
+        if (match) showResultFor(match);
+      });
+    });
+  }
+
+  function showNotFound(code) {
+    stopScanning();
+    stageEl.hidden = true;
+    resultEl.hidden = true;
+    notFoundEl.hidden = false;
+    document.getElementById('scan-not-found-code').textContent = code;
+  }
+
+  window.__scanReset = function() {
+    resultEl.hidden = true;
+    notFoundEl.hidden = true;
+    stageEl.hidden = false;
+    setStatus('');
+  };
+  document.getElementById('scan-not-found-rescan').addEventListener('click', window.__scanReset);
+
+  function onDecoded(decodedText) {
+    if (!scanning) return; // ignore duplicate callbacks after we've already handled one
+    scanning = false;
+    var bar = lookupBarByCode(decodedText);
+    if (bar) {
+      setStatus('Match found', 'ok');
+      showResultFor(bar);
+    } else {
+      showNotFound(decodedText);
+    }
+  }
+
+  function startScanning() {
+    if (typeof Html5Qrcode === 'undefined') {
+      setStatus('Scanner library failed to load. Check your connection and reload.', 'err');
+      return;
+    }
+    setStatus('Requesting camera access...');
+    html5QrCode = new Html5Qrcode('scan-reader', {
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8
+      ],
+      verbose: false
+    });
+    var config = { fps: 10, qrbox: { width: 260, height: 160 }, aspectRatio: 1.0 };
+    html5QrCode.start(
+      { facingMode: 'environment' },
+      config,
+      function(decodedText) { onDecoded(decodedText); },
+      function() { /* per-frame decode failure, expected constantly while aiming — ignore */ }
+    ).then(function() {
+      scanning = true;
+      setStatus('Scanning... center the barcode in the box.');
+      startBtn.hidden = true;
+      stopBtn.hidden = false;
+    }).catch(function(err) {
+      console.error('[scan] camera start failed', err);
+      setStatus('Could not access the camera. Check that camera permission is allowed for this site, and that no other app is using it.', 'err');
+    });
+  }
+
+  function stopScanning() {
+    scanning = false;
+    startBtn.hidden = false;
+    stopBtn.hidden = true;
+    if (html5QrCode) {
+      html5QrCode.stop().then(function() {
+        html5QrCode.clear();
+        html5QrCode = null;
+      }).catch(function() { html5QrCode = null; });
+    }
+  }
+
+  startBtn.addEventListener('click', startScanning);
+  stopBtn.addEventListener('click', function() { stopScanning(); setStatus(''); });
+
+  // ── MANUAL SEARCH FALLBACK ──────────────────────────────────────
+  var manualInput = document.getElementById('scan-manual-input');
+  var manualBtn = document.getElementById('scan-manual-btn');
+  var manualResults = document.getElementById('scan-manual-results');
+
+  function runManualSearch() {
+    var q = manualInput.value.trim().toLowerCase();
+    manualResults.innerHTML = '';
+    if (!q) { manualResults.hidden = true; return; }
+
+    // A raw digit string is almost certainly a UPC — try that path first.
+    if (/^\d{6,14}$/.test(q)) {
+      var byCode = lookupBarByCode(q);
+      if (byCode) { showResultFor(byCode); return; }
+    }
+
+    var bars = getBars();
+    var matches = bars.filter(function(b) {
+      var hay = (b['Brand Name'] + ' ' + b['Flavor Name']).toLowerCase();
+      return hay.indexOf(q) !== -1;
+    }).slice(0, 8);
+
+    if (matches.length === 0) {
+      manualResults.hidden = false;
+      manualResults.innerHTML = '<div class="scan-manual-result-row">No matches. Try a different brand or flavor spelling.</div>';
+      return;
+    }
+    manualResults.hidden = false;
+    matches.forEach(function(b) {
+      var row = document.createElement('div');
+      row.className = 'scan-manual-result-row';
+      row.innerHTML = '<span>' + escapeHtml(b['Brand Name']) + ' &middot; ' + escapeHtml(b['Flavor Name']) + '</span>' +
+        '<span class="table-grade-badge grade-' + b.score_band + '">' + b.score_band + '</span>';
+      row.addEventListener('click', function() { showResultFor(b); });
+      manualResults.appendChild(row);
+    });
+  }
+  manualBtn.addEventListener('click', runManualSearch);
+  manualInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') runManualSearch(); });
+
+  // Stop the camera if the visitor navigates away without clicking Stop.
+  window.addEventListener('beforeunload', function() { if (scanning) stopScanning(); });
+})();
+</script>
+
+<script src="analytics.js" defer></script>
+</body>
+</html>
