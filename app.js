@@ -1275,11 +1275,14 @@ function buildBarRow(bar) {
 
   const badgeHTML = '<div class="cert-badges">' + certBadges.map(b => `<span class="cert-badge">${b}</span>`).join('') + '</div>';
 
-  // Boost badges — differentiators that deserve to stand out on the main view
+  // Boost badges — differentiators that deserve to stand out on the main view.
+  // Flat text tags matching the site's cert-badge language, no emoji or fill
+  // color — see the 2026-09-09 pass (the old icon+lavender-pill style used
+  // the one off-palette color pairing on the whole page).
   const boostBadges = [];
-  if (bar['Caffeine (mg)'] > 0) boostBadges.push({ icon: '\u2615', label: 'Caffeine' });
-  if (bar['Creatine (g)'] > 0)  boostBadges.push({ icon: '\uD83D\uDCAA', label: 'Creatine' });
-  if (bar['Melatonin (mg)'] > 0) boostBadges.push({ icon: '\uD83C\uDF19', label: 'Melatonin' });
+  if (bar['Caffeine (mg)'] > 0) boostBadges.push('Caffeine');
+  if (bar['Creatine (g)'] > 0)  boostBadges.push('Creatine');
+  if (bar['Melatonin (mg)'] > 0) boostBadges.push('Melatonin');
   const VITAMIN_FIELDS = [
     'Vitamin A (% DV)', 'Vitamin C (% DV)', 'Vitamin D (% DV)', 'Vitamin E (% DV)', 'Vitamin K (% DV)',
     'Thiamin / B1 (% DV)', 'Riboflavin / B2 (% DV)', 'Niacin / B3 (% DV)', 'Vitamin B6 (% DV)',
@@ -1289,9 +1292,9 @@ function buildBarRow(bar) {
   // adjust VITAMIN_DV_THRESHOLD if this should be looser (e.g. 1) or stricter.
   const VITAMIN_DV_THRESHOLD = 2;
   const hasVitamins = VITAMIN_FIELDS.some(f => bar[f] !== null && bar[f] !== undefined && bar[f] > VITAMIN_DV_THRESHOLD);
-  if (hasVitamins) boostBadges.push({ icon: '\uD83D\uDC8A', label: 'Vitamins' });
+  if (hasVitamins) boostBadges.push('Vitamins');
   const boostHTML = boostBadges.length
-    ? '<div class="boost-badges">' + boostBadges.map(b => `<span class="boost-badge" title="${b.label}">${b.icon} ${b.label}</span>`).join('') + '</div>'
+    ? '<div class="boost-badges">' + boostBadges.map(label => `<span class="boost-badge" title="${label}">${label}</span>`).join('') + '</div>'
     : '';
 
   const band = bar['score_band'];
