@@ -221,6 +221,20 @@
       border-radius: var(--radius, 6px);
       margin: 0.5rem 0 1rem;
     }
+    .scan-result-actions { display: flex; gap: 0.5rem; flex-shrink: 0; flex-wrap: wrap; }
+    .scan-hint {
+      font-size: 12px;
+      color: var(--muted, #5a5a54);
+      margin: -0.4rem 0 0.75rem;
+    }
+
+    /* This page shows one bar at a time (macros+ranking, then ingredient
+       quality/scoring, then nutrition facts, then raw ingredients) so the
+       reading order matters more than it does on a brand page's two-column
+       expand row — stack it in that exact order at every width instead of
+       style.css's 260px/1fr desktop split, which was built for that
+       two-column case. */
+    #scan-app .expand-columns { grid-template-columns: 1fr; }
   </style>
 </head>
 <body class="page-guide brand-v1 page-scan">
@@ -296,6 +310,7 @@
             <button id="scan-start-btn" class="finder-cta-btn" type="button">Start camera</button>
             <button id="scan-stop-btn" class="scan-btn-secondary" type="button" hidden>Stop scanning</button>
           </div>
+          <p class="scan-hint">The camera stays on between scans, no need to tap Start again. Tap "Turn off camera" on a result when you're done.</p>
           <p id="scan-status" class="scan-status"></p>
 
           <details id="scan-manual">
@@ -322,7 +337,10 @@
             <p>Scanned code:</p>
             <div class="scan-not-found-code" id="scan-not-found-code"></div>
             <p style="color:var(--muted);font-size:14px;">Our barcode coverage is still growing. Try searching by brand or flavor above, or check back soon, we're adding new UPCs regularly.</p>
-            <button id="scan-not-found-rescan" class="finder-cta-btn" type="button" style="margin-top:1rem;">Scan another bar</button>
+            <div class="scan-result-actions" style="justify-content:center;margin-top:1rem;">
+              <button id="scan-not-found-rescan" class="finder-cta-btn" type="button">Scan another bar</button>
+              <button id="scan-not-found-stop" class="scan-btn-secondary" type="button">Turn off camera</button>
+            </div>
           </div>
         </div>
 
@@ -781,14 +799,26 @@
     return '' +
       '<div class="scan-result-head">' +
         '<div><div class="scan-result-brand">' + escapeHtml(bar['Brand Name']) + '</div><div class="scan-result-flavor">' + escapeHtml(bar['Flavor Name']) + '</div></div>' +
-        '<button class="scan-rescan-btn" type="button" id="scan-rescan-inline">Scan another</button>' +
+        '<div class="scan-result-actions">' +
+          '<button class="scan-rescan-btn" type="button" id="scan-rescan-inline">Scan another</button>' +
+          '<button class="scan-rescan-btn" type="button" id="scan-stop-inline">Turn off camera</button>' +
+        '</div>' +
       '</div>' +
       '<div class="expand-meta">' + sizeServing + '</div>' +
       buyButtonsHTML +
       renderMacroRankGrid(bar, macroRanks) +
+      // Order below is deliberate: ingredient quality/scoring, THEN
+      // nutrition facts, THEN raw ingredients. Nutrition facts are already
+      // printed on the wrapper someone's holding — the ingredient-quality
+      // read is the thing this page adds that the label doesn't show, so
+      // it goes right after the macro ranking instead of after a panel
+      // they can just look down at. #scan-app's .expand-columns override
+      // above stacks these full-width in DOM order at every width.
       '<div class="expand-columns">' +
+        scoreSection +
+        (certPills ? '<div class="cert-strip">' + certPills + '</div>' : '') +
         '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutrRows + vitMinSection + '</div>' +
-        '<div class="expand-right">' + scoreSection + (certPills ? '<div class="cert-strip">' + certPills + '</div>' : '') + '<div class="ingr-block">' + ingrSection + '</div></div>' +
+        '<div class="ingr-block">' + ingrSection + '</div>' +
       '</div>' +
       renderSimilarBars(bar, bars);
   }
@@ -802,20 +832,50 @@
   var stopBtn = document.getElementById('scan-stop-btn');
   var html5QrCode = null;
   var scanning = false;
+  var paused = false; // camera stream still live, decode loop paused between scans
+  var hintTimer = null;
 
   function setStatus(text, cls) {
     statusEl.textContent = text || '';
     statusEl.className = 'scan-status' + (cls ? ' ' + cls : '');
   }
 
+  // A few seconds of no successful decode is exactly what a worn/faded/
+  // crumpled barcode looks like, and it's also what a phone that hasn't
+  // settled its autofocus yet looks like. Nudge with concrete advice
+  // instead of leaving people staring at "Scanning..." with no feedback.
+  function armHint() {
+    clearHint();
+    hintTimer = setTimeout(function() {
+      if (scanning) setStatus('Still looking... hold steady, move a little closer, and make sure the barcode is well lit.');
+    }, 6000);
+  }
+  function clearHint() {
+    if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+  }
+
+  // Pauses decoding but leaves the camera stream running, so the next scan
+  // doesn't have to re-request getUserMedia (slow, and on iOS especially
+  // re-triggers the autofocus/exposure settle from scratch every time).
+  function pauseCamera() {
+    scanning = false;
+    clearHint();
+    if (html5QrCode) {
+      try { html5QrCode.pause(); paused = true; }
+      catch (e) { /* already paused/stopped elsewhere; nothing to do */ }
+    }
+  }
+
   function showBar(bar) {
-    stopScanning();
+    pauseCamera();
     stageEl.hidden = true;
     notFoundEl.hidden = true;
     resultEl.hidden = false;
     resultEl.innerHTML = renderScanResult(bar, getBars());
     var rescanBtn = document.getElementById('scan-rescan-inline');
     if (rescanBtn) rescanBtn.addEventListener('click', window.__scanReset);
+    var stopInlineBtn = document.getElementById('scan-stop-inline');
+    if (stopInlineBtn) stopInlineBtn.addEventListener('click', window.__scanStop);
     resultEl.querySelectorAll('.sim-card').forEach(function(card) {
       card.addEventListener('click', function() {
         var simKey = card.getAttribute('data-simkey');
@@ -826,20 +886,44 @@
   }
 
   function showNotFound(code) {
-    stopScanning();
+    pauseCamera();
     stageEl.hidden = true;
     resultEl.hidden = true;
     notFoundEl.hidden = false;
     document.getElementById('scan-not-found-code').textContent = code;
   }
 
+  // "Scan another" — resumes the already-live stream when we have one
+  // (instant, no permission prompt), and only falls back to a fresh
+  // startScanning() if the camera was fully stopped for some reason.
   window.__scanReset = function() {
     resultEl.hidden = true;
     notFoundEl.hidden = true;
     stageEl.hidden = false;
-    setStatus('');
+    if (html5QrCode && paused) {
+      try {
+        html5QrCode.resume();
+        paused = false;
+        scanning = true;
+        setStatus('Scanning... center the barcode in the box.');
+        armHint();
+        return;
+      } catch (e) { /* fall through to a fresh start below */ }
+    }
+    startScanning();
   };
   document.getElementById('scan-not-found-rescan').addEventListener('click', window.__scanReset);
+
+  // Explicit, full release of the camera — for when someone's actually
+  // done scanning, not just between bars.
+  window.__scanStop = function() {
+    stopScanning();
+    resultEl.hidden = true;
+    notFoundEl.hidden = true;
+    stageEl.hidden = false;
+    setStatus('Camera off. Tap "Start camera" when you\'re ready to scan again.');
+  };
+  document.getElementById('scan-not-found-stop').addEventListener('click', window.__scanStop);
 
   function onDecoded(decodedText) {
     if (!scanning) return;
@@ -868,7 +952,25 @@
       ],
       verbose: false
     });
-    var config = { fps: 10, qrbox: { width: 260, height: 160 }, aspectRatio: 1.0 };
+    var config = {
+      fps: 10,
+      qrbox: { width: 280, height: 180 },
+      aspectRatio: 1.0,
+      // videoConstraints (not the cameraIdOrConfig 1st arg below, which
+      // only accepts a bare facingMode/deviceId) is html5-qrcode's
+      // documented escape hatch for extra MediaTrackConstraints — passed
+      // through to getUserMedia as-is. Capping resolution keeps decoding
+      // fast on high-megapixel phone cameras; the advanced focusMode hint
+      // is a no-cost try — Chrome/Android honors it, iOS Safari currently
+      // has no web API for camera focus control at all and just ignores
+      // unsupported "advanced" entries rather than failing.
+      videoConstraints: {
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        advanced: [{ focusMode: 'continuous' }]
+      }
+    };
     html5QrCode.start(
       { facingMode: 'environment' },
       config,
@@ -876,7 +978,9 @@
       function() { /* per-frame decode failure, expected constantly while aiming — ignore */ }
     ).then(function() {
       scanning = true;
+      paused = false;
       setStatus('Scanning... center the barcode in the box.');
+      armHint();
       startBtn.hidden = true;
       stopBtn.hidden = false;
     }).catch(function(err) {
@@ -887,6 +991,8 @@
 
   function stopScanning() {
     scanning = false;
+    paused = false;
+    clearHint();
     startBtn.hidden = false;
     stopBtn.hidden = true;
     if (html5QrCode) {
@@ -899,6 +1005,15 @@
 
   startBtn.addEventListener('click', startScanning);
   stopBtn.addEventListener('click', function() { stopScanning(); setStatus(''); });
+
+  // Release the camera if the tab/app is backgrounded — covers phone
+  // lock, app switch, etc. where the live-between-scans stream above
+  // would otherwise just keep running unattended. beforeunload (below)
+  // doesn't fire reliably on mobile Safari, so this is the real safety
+  // net on iOS.
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden && html5QrCode) stopScanning();
+  });
 
   // ── MANUAL SEARCH FALLBACK ──────────────────────────────────────
   var manualInput = document.getElementById('scan-manual-input');
