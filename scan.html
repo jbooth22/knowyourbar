@@ -309,8 +309,20 @@
           <div id="scan-controls">
             <button id="scan-start-btn" class="finder-cta-btn" type="button">Start camera</button>
             <button id="scan-stop-btn" class="scan-btn-secondary" type="button" hidden>Stop scanning</button>
+            <button id="scan-photo-btn" class="scan-btn-secondary" type="button">Take a photo instead</button>
           </div>
-          <p class="scan-hint">The camera stays on between scans, no need to tap Start again. Tap "Turn off camera" on a result when you're done.</p>
+          <!-- iOS Safari doesn't give the web a way to control camera focus
+               at all (no focusMode/focusDistance capability, unlike Chrome
+               on Android) — a live preview here is stuck with whatever the
+               browser's autofocus decides on its own, which real-device
+               testing showed can fail outright on some iPhones. Routing
+               through the NATIVE camera app instead (full tap-to-focus,
+               zoom, flash) and decoding the resulting photo sidesteps that
+               entirely. capture="environment" opens the rear camera
+               directly on iOS/Android; scanFile() below decodes it with the
+               same library/format config as live scanning. -->
+          <input type="file" accept="image/*" capture="environment" id="scan-photo-input" hidden>
+          <p class="scan-hint">The camera stays on between scans, no need to tap Start again. Tap "Turn off camera" on a result when you're done. If live scanning won't focus, "Take a photo instead" is usually far more reliable, especially on iPhone.</p>
           <p id="scan-status" class="scan-status"></p>
 
           <details id="scan-manual">
@@ -847,7 +859,7 @@
   function armHint() {
     clearHint();
     hintTimer = setTimeout(function() {
-      if (scanning) setStatus('Still looking... hold steady, move a little closer, and make sure the barcode is well lit.');
+      if (scanning) setStatus('Still looking... try "Take a photo instead" below for a sharper, better-focused shot.');
     }, 6000);
   }
   function clearHint() {
@@ -925,9 +937,9 @@
   };
   document.getElementById('scan-not-found-stop').addEventListener('click', window.__scanStop);
 
-  function onDecoded(decodedText) {
-    if (!scanning) return;
-    scanning = false;
+  // Shared by both the live decode callback and the photo-fallback path
+  // below, so a match/no-match looks and behaves identically either way.
+  function handleDecodedCode(decodedText) {
     var bar = lookupBarByCode(decodedText);
     if (bar) {
       setStatus('Match found', 'ok');
@@ -937,21 +949,29 @@
     }
   }
 
+  function onDecoded(decodedText) {
+    if (!scanning) return;
+    scanning = false;
+    handleDecodedCode(decodedText);
+  }
+
+  var QR_FORMATS_CONFIG = {
+    formatsToSupport: [
+      Html5QrcodeSupportedFormats.UPC_A,
+      Html5QrcodeSupportedFormats.UPC_E,
+      Html5QrcodeSupportedFormats.EAN_13,
+      Html5QrcodeSupportedFormats.EAN_8
+    ],
+    verbose: false
+  };
+
   function startScanning() {
     if (typeof Html5Qrcode === 'undefined') {
       setStatus('Scanner library failed to load. Check your connection and reload.', 'err');
       return;
     }
     setStatus('Requesting camera access...');
-    html5QrCode = new Html5Qrcode('scan-reader', {
-      formatsToSupport: [
-        Html5QrcodeSupportedFormats.UPC_A,
-        Html5QrcodeSupportedFormats.UPC_E,
-        Html5QrcodeSupportedFormats.EAN_13,
-        Html5QrcodeSupportedFormats.EAN_8
-      ],
-      verbose: false
-    });
+    html5QrCode = new Html5Qrcode('scan-reader', QR_FORMATS_CONFIG);
     var config = {
       fps: 10,
       qrbox: { width: 280, height: 180 },
@@ -959,15 +979,18 @@
       // videoConstraints (not the cameraIdOrConfig 1st arg below, which
       // only accepts a bare facingMode/deviceId) is html5-qrcode's
       // documented escape hatch for extra MediaTrackConstraints — passed
-      // through to getUserMedia as-is. Capping resolution keeps decoding
-      // fast on high-megapixel phone cameras; the advanced focusMode hint
-      // is a no-cost try — Chrome/Android honors it, iOS Safari currently
-      // has no web API for camera focus control at all and just ignores
-      // unsupported "advanced" entries rather than failing.
+      // through to getUserMedia as-is. 1080p gives the decoder meaningfully
+      // more pixels per barcode bar than 720p, which matters for narrow 1D
+      // barcodes. The advanced focusMode hint is a no-cost try — Chrome/
+      // Android honors it; iOS Safari has no web API for camera focus
+      // control at all (confirmed: no focusMode/focusDistance capability
+      // in WebKit, unlike Chrome), so it's silently ignored there rather
+      // than failing. That's also why "Take a photo instead" exists below
+      // — it's the only way to get real (native) autofocus on iPhone.
       videoConstraints: {
         facingMode: 'environment',
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
         advanced: [{ focusMode: 'continuous' }]
       }
     };
@@ -1005,6 +1028,36 @@
 
   startBtn.addEventListener('click', startScanning);
   stopBtn.addEventListener('click', function() { stopScanning(); setStatus(''); });
+
+  // ── PHOTO FALLBACK — routes through the native camera app instead of
+  // the live web preview, so focus is the phone's own (real) autofocus,
+  // not whatever iOS Safari's getUserMedia pipeline decides on its own. ──
+  var photoBtn = document.getElementById('scan-photo-btn');
+  var photoInput = document.getElementById('scan-photo-input');
+  photoBtn.addEventListener('click', function() {
+    // scanFile() is mutually exclusive with an active camera stream per
+    // html5-qrcode's own docs, so fully release the live one first if
+    // it's running.
+    if (html5QrCode) stopScanning();
+    photoInput.click();
+  });
+  photoInput.addEventListener('change', function(e) {
+    var file = e.target.files && e.target.files[0];
+    e.target.value = ''; // so picking the same photo again still fires 'change'
+    if (!file) return;
+    if (typeof Html5Qrcode === 'undefined') {
+      setStatus('Scanner library failed to load. Check your connection and reload.', 'err');
+      return;
+    }
+    setStatus('Reading photo...');
+    if (!html5QrCode) html5QrCode = new Html5Qrcode('scan-reader', QR_FORMATS_CONFIG);
+    html5QrCode.scanFile(file, false).then(function(decodedText) {
+      handleDecodedCode(decodedText);
+    }).catch(function(err) {
+      console.warn('[scan] photo decode failed', err);
+      setStatus('Couldn\'t find a barcode in that photo. Try filling more of the frame with the barcode, keeping it flat, and good lighting, then try again.', 'err');
+    });
+  });
 
   // Release the camera if the tab/app is backgrounded — covers phone
   // lock, app switch, etc. where the live-between-scans stream above
