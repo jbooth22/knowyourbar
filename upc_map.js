@@ -8,11 +8,9 @@
 // and 3 entries were dropped as genuinely unmatched
 // (see claude/SCAN_FEATURE_UPC_MAPPING.md for the excluded list).
 // 2026-09-10: added 2 manually from KYB_UPC_QC_Cleaned_UPDATED.xlsx
-// (Takeaways | Cheese Pizza, Takeaways | Pepper Jack) - both had General-format
-// numeric UPC cells that dropped a leading zero; repadded to 12 digits per the
-// same convention as the workbook's own Leading Zero Review sheet. Could not
-// independently verify against an external UPC database (Takeaways is a new
-// 2026 brand, not yet indexed).
+// (Takeaways | Cheese Pizza: 860015034014, Takeaways | Pepper Jack: 860015034007),
+// confirmed correct by Jeff directly (not a leading-zero case - an earlier
+// pass here had a typo on the Cheese Pizza code, since fixed).
 const UPC_MAP = {
   "007789051004": "NuGo | Chocolate Brownie",
   "013562000661": "Fiber One | Chocolate Chip",
@@ -192,7 +190,6 @@ const UPC_MAP = {
   "085002585009": "Mosh | Peanut Butter Chocolate Crunch",
   "085239085097": "Julian Bakery | Dark Chocolate",
   "085239166048": "NuGo | Chocolate Brownie",
-  "086001534014": "Takeaways | Cheese Pizza",
   "088849000227": "Quest | White Chocolate Raspberry",
   "088884900522": "Quest | Blueberry Muffin",
   "088889003891": "Quest | S'Mores",
@@ -977,6 +974,7 @@ const UPC_MAP = {
   "860003034125": "Mezcla | Hot Chocolate",
   "860004294160": "Atlas | Peanut Butter Chocolate Chip",
   "860015034007": "Takeaways | Pepper Jack",
+  "860015034014": "Takeaways | Cheese Pizza",
   "865497000045": "Jonesbar | Coconut Almond",
   "865497000076": "Jonesbar | Peanut Butter",
   "866675000109": "Wild Zora | BBQ Beef",
