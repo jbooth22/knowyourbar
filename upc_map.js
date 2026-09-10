@@ -7,6 +7,12 @@
 // size-variant flavor name bars.js actually uses but the workbook did not carry,
 // and 3 entries were dropped as genuinely unmatched
 // (see claude/SCAN_FEATURE_UPC_MAPPING.md for the excluded list).
+// 2026-09-10: added 2 manually from KYB_UPC_QC_Cleaned_UPDATED.xlsx
+// (Takeaways | Cheese Pizza, Takeaways | Pepper Jack) - both had General-format
+// numeric UPC cells that dropped a leading zero; repadded to 12 digits per the
+// same convention as the workbook's own Leading Zero Review sheet. Could not
+// independently verify against an external UPC database (Takeaways is a new
+// 2026 brand, not yet indexed).
 const UPC_MAP = {
   "007789051004": "NuGo | Chocolate Brownie",
   "013562000661": "Fiber One | Chocolate Chip",
@@ -186,6 +192,7 @@ const UPC_MAP = {
   "085002585009": "Mosh | Peanut Butter Chocolate Crunch",
   "085239085097": "Julian Bakery | Dark Chocolate",
   "085239166048": "NuGo | Chocolate Brownie",
+  "086001534014": "Takeaways | Cheese Pizza",
   "088849000227": "Quest | White Chocolate Raspberry",
   "088884900522": "Quest | Blueberry Muffin",
   "088889003891": "Quest | S'Mores",
@@ -969,6 +976,7 @@ const UPC_MAP = {
   "860003034101": "Mezcla | Matcha Vanilla",
   "860003034125": "Mezcla | Hot Chocolate",
   "860004294160": "Atlas | Peanut Butter Chocolate Chip",
+  "860015034007": "Takeaways | Pepper Jack",
   "865497000045": "Jonesbar | Coconut Almond",
   "865497000076": "Jonesbar | Peanut Butter",
   "866675000109": "Wild Zora | BBQ Beef",
@@ -1024,5 +1032,5 @@ const UPC_MAP = {
   "899587003197": "Raw Rev | Chocolate Chip Cookie Dough",
   "899587003227": "Raw Rev | Chocolate Chip Cookie Dough",
   "899587003241": "Raw Rev | Double Chocolate Brownie Batter",
-  "899587003258": "Raw Rev | Double Chocolate Brownie Batter"
+  "899587003258": "Raw Rev | Double Chocolate Brownie Batter",
 };
