@@ -4,53 +4,65 @@
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — BARCODE SCAN PAGE
        File: scan.html  →  deploy as /scan.html
-       Built 2026-09-09 as the parallel track to the UPC mapping
-       cleanup (see claude/SCAN_FEATURE_UPC_MAPPING.md).
+       Built 2026-09-09. Rebuilt 2026-09-09 (v2) after Jeff uploaded the
+       real site zip — the render logic below is now a direct port of
+       app.js's actual toggleExpand()/renderMacroRankGrid()/
+       computeSimilarBars()/renderSimilarBars() functions (confirmed field
+       names, chip format, cert handling, rank tag classes), not a
+       best-guess reconstruction. See claude/SCAN_FEATURE_UPC_MAPPING.md
+       for the full history.
 
-       WHAT THIS PAGE NEEDS THAT ISN'T WIRED UP YET
-       ──────────────────────────────────────────────
-       This page is built entirely from the confirmed markup/classes in
-       TEMPLATE_BRAND.html and TEMPLATE_GUIDE.html (score-tile, macro-rank-grid,
-       nutr-panel, ingr-block, chips — same DOM shape as every bar-detail
-       expand row already live on the site) so it should visually match the
-       rest of the site once style.css loads. Three things are still
-       assumptions, marked inline with "ADAPTER —" comments, because this
-       session doesn't have bars.js or app.js to check against:
+       CONFIRMED AGAINST THE REAL bars.js / app.js (v2 fixes)
+       ──────────────────────────────────────────────────────
+       - bars.js does expose `const BARS = [...]` globally — the v1
+         assumption was correct, no bridge script needed.
+       - score_insights is a pipe-delimited string, "Name:type:severity"
+         per chip (severity optional), e.g.
+         "Whole Food Forward:positive|Sweetener Heavy:concern:elevated" —
+         NOT an array. v1 guessed wrong here; fixed by porting app.js's
+         actual parser verbatim (parseInsightChips() below), including its
+         fallback chip-derivation logic for bars with no score_insights.
+       - positive_ingredients / concern_ingredients are comma-delimited
+         STRINGS ("pumpkin seeds, banana, cinnamon"), not arrays. Fixed.
+       - Certification fields are named with a "(Y/N)" suffix (e.g.
+         "Vegan (Y/N)"), not the bare label v1 assumed, and the value to
+         check is the string "Yes" (case-insensitive, trimmed) or null.
+         Fixed — ported the exact certFull-building loop from toggleExpand().
+       - The macro-rank-tag classes are rank-green/rank-amber/rank-gray
+         (v1 invented "top"/"mid", which don't exist in style.css) and the
+         tag text is "#N highest" / "#N lowest" / "#N of TOTAL" depending
+         on percentile — ported renderMacroRankGrid()'s exact algorithm,
+         including its tie handling and the "count from the top" display
+         rank flip for the "highest" case.
+       - score-band-badge gets its color from the wrapping
+         `.score-tile.score-band-${grade}` CSS class, not an inline style —
+         v1 incorrectly hardcoded an inline background color on the badge
+         itself; removed to match the real markup.
+       - "Comparable bars" now ports app.js's actual three-bucket algorithm
+         (computeSimilarBars/renderSimilarBars: same-nutrition /
+         same-taste-better-macros / same-nutrition-cleaner, cross-brand
+         only, with flavor-category matching) instead of the v1
+         approximation. Click targets now resolve directly against BARS
+         instead of app.js's jumpToBar(), which is bar-finder-table-
+         specific and doesn't apply on this page.
+       - Ingredient list and positive/concern ingredient items are now
+         title-cased the same way toTitleCase() does in app.js, matching
+         how they render everywhere else on the site.
 
-       1. bars.js's actual global variable name. This file expects a global
-          `BARS` array matching the schema documented in BRIEFING.md/README.md.
-          If bars.js defines something else (e.g. `window.bars`, an ES module
-          export), add one line right after loading bars.js:
-              <script>const BARS = /* whatever bars.js actually exports */;</script>
-       2. score_insights' exact per-chip shape. BRIEFING.md just says "chip
-          data" — this file assumes each entry is either {name, type} or a
-          [name, type] pair (type being "positive"/"concern"/"neutral" and an
-          optional "elevated" flag) mirroring the buildLazyExpand() pattern in
-          TEMPLATE_GUIDE.html. normalizeChips() below is the one place to fix
-          if the real shape differs.
-       3. "Comparable bars" is a same-brand-first, same-grade-band-second
-          client-side approximation (see computeSimilarBars()) since app.js's
-          real Bar Finder similar-bars logic wasn't available to copy here.
-          Swap it for the real algorithm once app.js is in hand.
-
-       Also not yet done, both are one-line changes once decided:
-       - MISSING_UPC_CONTACT_EMAIL below is a placeholder. Set it to whatever
-         inbox should receive "we don't have this product yet" reports.
-       - Add a /scan.html link to the nav's Explore dropdown on every other
-         live page (same rollout step every new page gets, see BRIEFING.md's
-         pattern for e.g. vegan-protein-bars.html), and to sitemap.xml.
-
-       DATA FLOW
-       ──────────
-       Camera → html5-qrcode decodes a UPC-A/UPC-E/EAN-13/EAN-8 barcode →
-       normalizeUpc() cleans it the same way build_upc_map.py did (11-digit
-       leading-zero repair) → look up in UPC_MAP (upc_map.js, generated from
-       the KYB UPC Live Mapping Workbook — see claude/SCAN_FEATURE_UPC_MAPPING.md
-       for its current coverage and known gaps) → resolve the KYB Key to a
-       bar record in BARS → render the same detail markup as a brand/guide
-       page's expand row, computed client-side (macro ranks against the full
-       live BARS array, exactly like buildLazyExpand()'s server-computed
-       version, just done in the browser since this page has no build step).
+       STILL NOT WIRED UP
+       ────────────────────
+       - upc_map.js was not included in the uploaded zip — this page will
+         load and the camera will work, but every scan will resolve to
+         "not found" until upc_map.js exists at the site root. See
+         claude/SCAN_FEATURE_UPC_MAPPING.md for where that stands.
+       - MISSING_UPC_CONTACT_EMAIL below is still an empty placeholder.
+       - "Add to comparison" (the bar-finder cross-page compare tray) was
+         deliberately left out — it's tied to bar-finder.html's own
+         compareSet/localStorage state machine, out of scope for a v1 scan
+         page. Can be added later if wanted.
+       - Not yet added to the nav dropdown on any OTHER live page, or to
+         sitemap.xml (scan.html's own nav already links to itself).
+       - Not tested on a real device yet.
        ═══════════════════════════════════════════════════════ -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,22 +70,19 @@
   <meta name="description" content="Scan any protein bar's barcode to see its ingredient quality grade, full macro breakdown, and comparable bars instantly, right from your phone's browser.">
   <link rel="canonical" href="https://knowyourbar.com/scan.html">
 
-  <!-- Fonts, same imports as every other page -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="/style.css">
 
-  <!-- Page-specific CSS for the camera/scan UI only — no component like this
-       exists in style.css yet. Same pattern BRIEFING.md documents for other
-       pages that need genuine page-specific components (a scoped <style>
-       block rather than touching style.css's shared rules). Built entirely
-       from the documented :root tokens (--black/--white/--accent/--muted/
-       --border/--radius/--font-display/--font-mono/--font-body) so it stays
-       visually consistent even though the real style.css wasn't available
-       to check against directly. -->
+  <!-- Page-specific CSS for the camera/scan UI only — every class used in
+       the RESULT markup below (score-tile, macro-rank-grid, nutr-panel,
+       sim-card, cert-pill, etc.) already exists in the live style.css;
+       confirmed by grepping the actual file. This block covers only the
+       genuinely new camera-scanning components that have no existing
+       equivalent, same convention as the other pages that carry a small
+       page-specific <style> block. -->
   <style>
     #scan-app { max-width: 640px; margin: 0 auto; }
 
@@ -89,10 +98,6 @@
     }
     #scan-reader { width: 100%; height: 100%; }
     #scan-reader video { width: 100% !important; height: 100% !important; object-fit: cover; }
-    /* html5-qrcode injects its own canvas/video; the qrbox option it's
-       configured with below already draws a scan-region box on top of the
-       video feed, so #scan-frame-overlay just adds the dimmed surround +
-       corner brackets for the DoorDash-style "put it in the box" look. */
     #scan-frame-overlay {
       position: absolute;
       inset: 0;
@@ -187,9 +192,8 @@
       gap: 1rem;
       margin-bottom: 1rem;
     }
-    .scan-result-title { font-family: var(--font-display, 'Barlow Condensed', sans-serif); }
     .scan-result-brand { font-size: 15px; color: var(--muted, #5a5a54); font-weight: 600; }
-    .scan-result-flavor { font-size: 28px; font-weight: 700; line-height: 1.1; }
+    .scan-result-flavor { font-family: var(--font-display, 'Barlow Condensed', sans-serif); font-size: 28px; font-weight: 700; line-height: 1.1; }
     .scan-rescan-btn {
       flex-shrink: 0;
       padding: 0.5rem 1rem;
@@ -201,24 +205,6 @@
       font-size: 13px;
       cursor: pointer;
     }
-
-    .scan-similar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 0.75rem;
-    }
-    .scan-similar-card {
-      border: 1px solid var(--border, #d6d3cc);
-      border-radius: var(--radius, 6px);
-      padding: 0.9rem;
-      cursor: pointer;
-      font-family: var(--font-body, 'DM Sans', sans-serif);
-    }
-    .scan-similar-card:hover { border-color: var(--black, #0e0e0e); }
-    .scan-similar-brand { font-size: 12px; color: var(--muted, #5a5a54); font-weight: 600; }
-    .scan-similar-flavor { font-size: 16px; font-weight: 700; margin: 0.15rem 0 0.5rem; }
-    .scan-similar-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
 
     .scan-not-found-box {
       text-align: center;
@@ -239,11 +225,8 @@
 </head>
 <body class="page-guide brand-v1 page-scan">
 
-<!-- NAV — copied verbatim from TEMPLATE_BRAND.html/TEMPLATE_GUIDE.html.
-     TODO once this ships: add a Scan link here (and to every other live
-     page's nav), same rollout step BRIEFING.md documents for prior new
-     pages. Left out of the dropdown edits below since that means touching
-     every other live page's file, not just this one. -->
+<!-- NAV — copied verbatim. TODO: add a Scan link on every OTHER live
+     page's nav too, same rollout step every new page gets. -->
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">Know Your Bar</a>
   <div class="site-nav-links">
@@ -326,11 +309,10 @@
         </div>
 
         <!-- ── RESULT: FOUND ───────────────────────────────────
-             Filled in by renderBarDetail() below. Markup structure
-             mirrors TEMPLATE_BRAND.html's expand-content block exactly
-             (macro-rank-grid / nutr-panel / score-tile / ingr-block) so
-             it inherits the site's existing CSS with no new component
-             classes needed for this part. -->
+             Filled in by renderScanResult() below — a direct port of
+             app.js's toggleExpand()/renderMacroRankGrid()/
+             renderSimilarBars(), so the DOM shape and classes match the
+             real expand row exactly. -->
         <div id="scan-result" hidden></div>
 
         <!-- ── RESULT: NOT FOUND ───────────────────────────────── -->
@@ -372,23 +354,15 @@
 </footer>
 
 <!-- Barcode scanning library. Pinned version, UMD build, from the
-     allowed CDN. Decodes UPC-A/UPC-E/EAN-13/EAN-8 via getUserMedia,
-     no native BarcodeDetector dependency — works on iOS Safari, which
-     doesn't support BarcodeDetector, unlike relying on that API alone
-     would. -->
+     allowed CDN. Decodes UPC-A/UPC-E/EAN-13/EAN-8 via getUserMedia — no
+     native BarcodeDetector dependency, so it works on iOS Safari too. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
-<!-- Site data. bars.js must be loaded before this page's own script.
-     ADAPTER: this file expects bars.js to expose a global `BARS` array
-     matching the schema in BRIEFING.md/README.md (Brand Name, Flavor
-     Name, Key, score_band, ingredient_score, macros, Ingredients,
-     score_insights, positive_ingredients, concern_ingredients, cert
-     Y/N fields, Amazon Affiliate, Website). If bars.js's real export is
-     named differently, add a one-line bridge script tag right after it:
-       <script>const BARS = /* actual bars.js export */;</script>
-     upc_map.js must define a global `UPC_MAP` object (UPC string ->
-     KYB Key "Brand Name | Flavor Name") — see build_upc_map.py and
-     claude/SCAN_FEATURE_UPC_MAPPING.md for how it's generated. -->
+<!-- Site data. bars.js confirmed to expose a global `const BARS = [...]`
+     array — no bridge script needed. upc_map.js must define a global
+     `UPC_MAP` object (UPC string -> KYB Key "Brand Name | Flavor Name").
+     upc_map.js does not exist at the site root yet as of this build — see
+     claude/SCAN_FEATURE_UPC_MAPPING.md. -->
 <script src="/bars.js"></script>
 <script src="/upc_map.js"></script>
 
@@ -397,38 +371,47 @@
   'use strict';
 
   // ── CONFIG ────────────────────────────────────────────────────────
-  var MISSING_UPC_CONTACT_EMAIL = ''; // set this to receive "not found" reports by email link
-  var GRADE_COLORS = { A: '#2a7a1f', B: '#5a8a2f', C: '#b89a00', D: '#c87020', F: '#c83020' };
-  var GRADE_LABELS = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Poor', F: 'Avoid' };
+  var MISSING_UPC_CONTACT_EMAIL = ''; // set to receive "not found" reports by email link
 
-  // ── DATA LAYER ───────────────────────────────────────────────────
   function getBars() {
-    // ADAPTER: see file header comment #1. Falls back to an empty array
-    // rather than throwing if bars.js hasn't loaded or exports a
-    // different global, so the rest of the page still renders.
     if (typeof BARS !== 'undefined' && Array.isArray(BARS)) return BARS;
-    if (typeof window.BARS !== 'undefined' && Array.isArray(window.BARS)) return window.BARS;
-    if (typeof window.bars !== 'undefined' && Array.isArray(window.bars)) return window.bars;
-    console.warn('[scan] Could not find a BARS array. Check the ADAPTER note in scan.html\'s <head> comment.');
+    console.warn('[scan] BARS is not defined — bars.js failed to load?');
     return [];
   }
   function getUpcMap() {
     if (typeof UPC_MAP !== 'undefined') return UPC_MAP;
-    if (typeof window.UPC_MAP !== 'undefined') return window.UPC_MAP;
-    console.warn('[scan] Could not find a UPC_MAP object. Check that upc_map.js loaded.');
+    console.warn('[scan] UPC_MAP is not defined — upc_map.js is missing or failed to load.');
     return {};
   }
-  function barKey(bar) {
+  function barKeyPipe(bar) {
+    // Matches app.js's own in-memory key format exactly (Brand|Flavor,
+    // pipe-separated, no spaces) — used internally for rank/similar-bar
+    // lookups, distinct from bars.js's own "Brand | Flavor" `Key` field
+    // (space-padded) used for UPC_MAP matching below.
+    return bar['Brand Name'] + '|' + bar['Flavor Name'];
+  }
+  function barKeySpaced(bar) {
     return bar.Key || (bar['Brand Name'] + ' | ' + bar['Flavor Name']);
+  }
+
+  // ── toTitleCase — ported verbatim from app.js ──────────────────────
+  function toTitleCase(str) {
+    if (!str) return str;
+    return str.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+  }
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function(c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
   }
 
   // ── UPC NORMALIZATION — mirrors build_upc_map.py's normalize_upc() ──
   function normalizeUpc(raw) {
     var digits = String(raw).replace(/\D/g, '');
     if (!digits) return null;
-    if (digits.length === 11) return digits.padStart(12, '0'); // recover a dropped leading zero
-    if ([8, 12, 13, 14].indexOf(digits.length) !== -1) return digits;
-    return digits; // return as-is; lookupBar() will just fail to find it, handled as "not found"
+    if (digits.length === 11) return digits.padStart(12, '0');
+    return digits;
   }
 
   function lookupBarByCode(rawCode) {
@@ -437,9 +420,6 @@
     var norm = normalizeUpc(rawCode);
     if (norm) candidates.push(norm);
     candidates.push(String(rawCode));
-    // A scanner can hand back a 12-digit UPC-A for a barcode that's
-    // stored as its 13-digit EAN-13 form (leading 0) or vice versa —
-    // try both directions before giving up.
     if (norm && norm.length === 12) candidates.push('0' + norm);
     if (norm && norm.length === 13 && norm[0] === '0') candidates.push(norm.slice(1));
 
@@ -451,179 +431,366 @@
 
     var bars = getBars();
     for (var j = 0; j < bars.length; j++) {
-      if (barKey(bars[j]) === key) return bars[j];
+      if (barKeySpaced(bars[j]) === key) return bars[j];
     }
-    return null; // mapped to a key that isn't in the live bars.js (stale mapping)
+    return null;
   }
 
-  // ── MACRO RANK — same directional rule as every expand row on the
-  // site (see TEMPLATE_GUIDE.html's macro-rank-grid comment): Protein/
-  // Fiber rank 1 = highest, Calories/Sugar rank 1 = lowest, Fat is
-  // always neutral gray. Computed client-side here since this page has
-  // no build step, unlike a brand/guide page's precomputed version. ──
-  function computeRank(bars, field, higherIsBetter) {
-    var vals = bars
-      .map(function(b) { return typeof b[field] === 'number' ? b[field] : parseFloat(b[field]); })
-      .filter(function(v) { return !isNaN(v); });
-    vals.sort(function(a, b) { return higherIsBetter ? b - a : a - b; });
-    return function(value) {
-      var v = typeof value === 'number' ? value : parseFloat(value);
-      if (isNaN(v) || vals.length === 0) return null;
-      var rank = vals.indexOf(v) + 1;
-      if (rank === 0) {
-        // exact value not found (rare edge case) — estimate position
-        rank = vals.filter(function(x) { return higherIsBetter ? x > v : x < v; }).length + 1;
+  // ── MACRO RANK GRID — ported verbatim from app.js's MACRO_RANKS IIFE +
+  // getMacroRank() + getRankTagClass() + renderMacroRankGrid(), just
+  // computed lazily per-call here instead of precomputed at page load
+  // (this page only ever renders one bar at a time, so there's no benefit
+  // to precomputing ranks for all ~1,300 bars up front the way app.js
+  // does for its full table). Same output either way. ──
+  function buildMacroRanks(bars) {
+    var MACROS = [
+      { key: 'Protein (g)',       dir: 'highest' },
+      { key: 'Calories',          dir: 'lowest'  },
+      { key: 'Sugars (g)',        dir: 'lowest'  },
+      { key: 'Dietary Fiber (g)', dir: 'highest' },
+      { key: 'Total Fat (g)',     dir: 'neutral' }
+    ];
+    var ranks = {};
+    MACROS.forEach(function(m) {
+      var vals = bars
+        .map(function(b) { return { val: b[m.key], bar: b }; })
+        .filter(function(x) { return x.val !== null && x.val !== undefined; });
+      vals.sort(function(a, b) { return a.val - b.val; });
+      var rankMap = {};
+      vals.forEach(function(x, i) {
+        var bk = barKeyPipe(x.bar);
+        if (i > 0 && x.val === vals[i - 1].val) {
+          rankMap[bk] = rankMap[barKeyPipe(vals[i - 1].bar)];
+        } else {
+          rankMap[bk] = i + 1;
+        }
+      });
+      ranks[m.key] = { dir: m.dir, rankMap: rankMap, total: vals.length };
+    });
+    return ranks;
+  }
+
+  function getMacroRank(macroRanks, bar, macroKey) {
+    var r = macroRanks[macroKey];
+    if (!r) return null;
+    var rank = r.rankMap[barKeyPipe(bar)];
+    if (!rank) return null;
+    return { rank: rank, total: r.total, dir: r.dir };
+  }
+
+  function getRankTagClass(magnitudeWord, dir) {
+    if (dir === 'neutral' || !magnitudeWord) return 'rank-gray';
+    return magnitudeWord === dir ? 'rank-green' : 'rank-amber';
+  }
+
+  function renderMacroRankGrid(bar, macroRanks) {
+    var CELLS = [
+      { label: 'Protein',  key: 'Protein (g)',       unit: 'g' },
+      { label: 'Calories', key: 'Calories',           unit: ''  },
+      { label: 'Sugar',    key: 'Sugars (g)',          unit: 'g' },
+      { label: 'Fiber',    key: 'Dietary Fiber (g)',   unit: 'g' },
+      { label: 'Fat',      key: 'Total Fat (g)',        unit: 'g' }
+    ];
+    var cells = CELLS.map(function(c) {
+      var val = bar[c.key];
+      if (val === null || val === undefined) return '';
+      var r = getMacroRank(macroRanks, bar, c.key);
+      var rankHtml = '';
+      if (r) {
+        var pct = r.rank / r.total;
+        var magnitudeWord = null, displayRank = r.rank;
+        if (pct <= 0.25) {
+          magnitudeWord = 'lowest';
+        } else if (pct >= 0.75) {
+          magnitudeWord = 'highest';
+          displayRank = r.total - r.rank + 1;
+        }
+        var cls = getRankTagClass(magnitudeWord, r.dir);
+        var dirWord = (r.dir === 'neutral' || !magnitudeWord) ? ('of ' + r.total) : magnitudeWord;
+        rankHtml = '<span class="macro-rank-tag ' + cls + '">#' + displayRank + ' ' + dirWord + '</span>';
       }
-      var pct = rank / vals.length;
-      return { rank: rank, total: vals.length, top: pct <= 0.25 };
+      return '<div class="macro-rank-cell"><span class="macro-rank-lbl">' + c.label + '</span><span class="macro-rank-val">' + val + c.unit + '</span>' + rankHtml + '</div>';
+    }).join('');
+    return '<div class="macro-rank-grid">' + cells + '</div>';
+  }
+
+  // ── SIMILAR BARS — ported verbatim from app.js's cmpFlavorCat/
+  // cmpNormMacros/cmpMacroDist/cmpMacroScore/computeSimilarBars/
+  // renderSimilarBars. Only change: sim-card onclick resolves directly
+  // against BARS and calls showBar() instead of app.js's jumpToBar(),
+  // which assumes a bar-finder table row exists on the page. ──
+  var CMP_GRADE_SCORE = { A: 4, B: 3, C: 2, D: 1, F: 0 };
+  var CMP_MAX = { protein: 35, calories: 400, sugar: 30, fiber: 20, fat: 25 };
+  var CMP_MW  = { protein: 0.35, calories: 0.25, sugar: 0.20, fiber: 0.10, fat: 0.10 };
+  var CMP_FLAVOR_CATS = [
+    ['peanut butter', ['peanut butter', 'pb&j', 'peanut']],
+    ['chocolate',     ['chocolate', 'cocoa', 'cacao', 'brownie', 'fudge', 'mocha']],
+    ['vanilla',       ['vanilla', 'white chocolate', 'birthday cake', 'cookies & cream', 'cookies and cream', 'cookie dough', 'cake']],
+    ['caramel',       ['caramel', 'toffee', 'butterscotch']],
+    ['mint',          ['mint', 'peppermint']],
+    ['coconut',       ['coconut']],
+    ['fruit',         ['strawberry','blueberry','raspberry','cherry','lemon','lime','mango','peach','apple','banana','berry','citrus','orange','pineapple','grape']],
+    ['nut',           ['almond','cashew','walnut','hazelnut','pecan','pistachio','macadamia']],
+    ['cinnamon',      ['cinnamon','snickerdoodle','churro','spice']],
+    ['oat',           ['oatmeal','granola']]
+  ];
+  function cmpFlavorCat(name) {
+    var lower = (name || '').toLowerCase();
+    for (var i = 0; i < CMP_FLAVOR_CATS.length; i++) {
+      var cat = CMP_FLAVOR_CATS[i][0], kws = CMP_FLAVOR_CATS[i][1];
+      if (kws.some(function(k) { return lower.indexOf(k) !== -1; })) return cat;
+    }
+    return 'other';
+  }
+  function cmpNormMacros(b) {
+    return {
+      protein:  (b['Protein (g)']      || 0) / CMP_MAX.protein,
+      calories: (b['Calories']          || 0) / CMP_MAX.calories,
+      sugar:    (b['Sugars (g)']        || 0) / CMP_MAX.sugar,
+      fiber:    (b['Dietary Fiber (g)'] || 0) / CMP_MAX.fiber,
+      fat:      (b['Total Fat (g)']     || 0) / CMP_MAX.fat
     };
   }
-
-  function rankTag(rankInfo) {
-    if (!rankInfo) return '<span class="macro-rank-tag">&mdash;</span>';
-    var cls = rankInfo.top ? 'top' : 'mid';
-    var text = '#' + rankInfo.rank + ' of ' + rankInfo.total;
-    return '<span class="macro-rank-tag ' + cls + '">' + text + '</span>';
+  function cmpMacroDist(a, b) {
+    var na = cmpNormMacros(a), nb = cmpNormMacros(b);
+    var s = 0;
+    Object.keys(CMP_MW).forEach(function(k) { s += CMP_MW[k] * Math.pow(na[k] - nb[k], 2); });
+    return Math.sqrt(s);
   }
-
-  // ── CHIPS — ADAPTER: see file header comment #2. Normalizes either
-  // {name, type} objects or [name, type] pairs into one shape. ──
-  function normalizeChips(scoreInsights) {
-    if (!Array.isArray(scoreInsights)) return [];
-    return scoreInsights.map(function(c) {
-      if (Array.isArray(c)) return { name: c[0], type: c[1] || 'neutral', elevated: !!c[2] };
-      if (c && typeof c === 'object') return { name: c.name || c.label || String(c), type: c.type || 'neutral', elevated: !!c.elevated };
-      return { name: String(c), type: 'neutral', elevated: false };
-    });
+  function cmpMacroScore(b) {
+    var prot = b['Protein (g)'] || 0, cal = b['Calories'] || 200, sug = b['Sugars (g)'] || 0, fib = b['Dietary Fiber (g)'] || 0;
+    var eff = prot * 4 / cal;
+    return Math.min(eff / 0.6, 1) * 0.60 + Math.max(0, 1 - sug / 30) * 0.25 + Math.min(fib / 20, 1) * 0.15;
   }
-  function chipClass(chip) {
-    var t = chip.type === 'positive' || chip.type === 'pos' ? 'chip-positive'
-          : chip.type === 'concern' || chip.type === 'con' ? 'chip-concern'
-          : 'chip-neutral';
-    return t + (chip.elevated ? ' chip-elevated' : '');
+  function computeSimilarBars(target, bars) {
+    if (!(target['Protein (g)'] && target['Calories'] && target.score_band)) return null;
+    var tCat = cmpFlavorCat(target['Flavor Name']);
+    var tGrade = CMP_GRADE_SCORE[target.score_band] != null ? CMP_GRADE_SCORE[target.score_band] : 2;
+    var tMacro = cmpMacroScore(target);
+    var scored = bars.filter(function(b) { return b['Protein (g)'] && b['Calories'] && b.score_band; });
+    var cross = scored.filter(function(b) { return b['Brand Name'] !== target['Brand Name']; });
+    var used = {};
+
+    var sameCat = cross.filter(function(b) { return cmpFlavorCat(b['Flavor Name']) === tCat; });
+
+    var b1pool = sameCat.length >= 3 ? sameCat : cross;
+    var b1sorted = b1pool
+      .map(function(b) { return { b: b, d: cmpMacroDist(target, b) + Math.abs((CMP_GRADE_SCORE[b.score_band] != null ? CMP_GRADE_SCORE[b.score_band] : 2) - tGrade) * 0.06 }; })
+      .sort(function(a, b) { return a.d - b.d; });
+    var b1bar = b1sorted.length ? b1sorted[0].b : null;
+    if (b1bar) used[barKeyPipe(b1bar)] = true;
+
+    var b2candidates = (sameCat.length >= 3 ? sameCat : cross)
+      .filter(function(b) { return cmpMacroScore(b) > tMacro && !used[barKeyPipe(b)]; });
+    var b2bar = b2candidates.length
+      ? b2candidates.sort(function(a, b) { return cmpMacroScore(b) - cmpMacroScore(a); })[0]
+      : (sameCat.length
+          ? sameCat.filter(function(b) { return !used[barKeyPipe(b)]; }).sort(function(a, b) { return cmpMacroScore(b) - cmpMacroScore(a); })[0] || null
+          : null);
+    if (b2bar) used[barKeyPipe(b2bar)] = true;
+
+    var isAlreadyA = tGrade >= 4;
+    var b3base = isAlreadyA
+      ? cross.filter(function(b) { return b.score_band === 'A' && !used[barKeyPipe(b)]; })
+      : cross.filter(function(b) { return (CMP_GRADE_SCORE[b.score_band] || 0) > tGrade && !used[barKeyPipe(b)]; });
+    var b3sameCat = b3base.filter(function(b) { return cmpFlavorCat(b['Flavor Name']) === tCat; });
+    var b3pool = b3sameCat.length >= 3 ? b3sameCat : b3base;
+    var b3bar = b3pool.length ? b3pool.sort(function(a, b) { return cmpMacroDist(target, a) - cmpMacroDist(target, b); })[0] : null;
+
+    return { b1: b1bar, b2: b2bar, b3: b3bar, isAlreadyA: isAlreadyA, tCat: tCat };
   }
-
-  // ── SIMILAR BARS — approximation, see file header comment #3.
-  // Same brand first (other flavors), then filled with same-grade-band
-  // bars closest in protein. Swap for the real app.js algorithm once
-  // available. ──
-  function computeSimilarBars(bar, bars, limit) {
-    limit = limit || 4;
-    var key = barKey(bar);
-    var brand = bar['Brand Name'];
-    var band = bar.score_band;
-    var protein = parseFloat(bar['Protein (g)']);
-
-    var sameBrand = bars.filter(function(b) {
-      return b['Brand Name'] === brand && barKey(b) !== key;
-    });
-
-    var rest = bars.filter(function(b) {
-      return b['Brand Name'] !== brand && b.score_band === band;
-    });
-    rest.sort(function(a, b) {
-      var da = Math.abs(parseFloat(a['Protein (g)']) - protein);
-      var db = Math.abs(parseFloat(b['Protein (g)']) - protein);
-      return da - db;
-    });
-
-    return sameBrand.concat(rest).slice(0, limit);
-  }
-
-  // ── RENDER: bar detail — mirrors TEMPLATE_BRAND.html's expand-content
-  // block field for field, same classes, so it inherits the site's
-  // existing CSS instead of needing new styling. ──
-  function renderBarDetail(bar, bars) {
-    var grade = bar.score_band || 'C';
-    var gradeColor = GRADE_COLORS[grade] || 'var(--muted)';
-    var gradeLabel = GRADE_LABELS[grade] || '';
-    var score = bar.ingredient_score;
-
-    var rankers = {
-      protein: computeRank(bars, 'Protein (g)', true),
-      cal: computeRank(bars, 'Calories', false),
-      sugar: computeRank(bars, 'Sugars (g)', false),
-      fiber: computeRank(bars, 'Dietary Fiber (g)', true)
-    };
-    var protein = bar['Protein (g)'], cal = bar.Calories, sugar = bar['Sugars (g)'],
-        fiber = bar['Dietary Fiber (g)'], fat = bar['Total Fat (g)'];
-
-    var macroRankGrid =
-      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Protein</span><span class="macro-rank-val">' + protein + 'g</span>' + rankTag(rankers.protein(protein)) + '</div>' +
-      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Calories</span><span class="macro-rank-val">' + cal + '</span>' + rankTag(rankers.cal(cal)) + '</div>' +
-      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Sugar</span><span class="macro-rank-val">' + sugar + 'g</span>' + rankTag(rankers.sugar(sugar)) + '</div>' +
-      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fiber</span><span class="macro-rank-val">' + fiber + 'g</span>' + rankTag(rankers.fiber(fiber)) + '</div>' +
-      '<div class="macro-rank-cell"><span class="macro-rank-lbl">Fat</span><span class="macro-rank-val">' + fat + 'g</span><span class="macro-rank-tag">&mdash;</span></div>';
-
-    var nutrRows = [
-      ['Calories', cal], ['Protein', protein + 'g'], ['Total Fat', fat + 'g'],
-      ['Saturated Fat', bar['Saturated Fat (g)'] + 'g'], ['Cholesterol', bar['Cholesterol (mg)'] + 'mg'],
-      ['Sodium', bar['Sodium (mg)'] + 'mg'], ['Total Carbohydrates', bar['Total Carbohydrates (g)'] + 'g'],
-      ['Dietary Fiber', fiber + 'g'], ['Sugars', sugar + 'g'], ['Sugar Alcohol', bar['Sugar Alcohol (g)'] + 'g']
-    ].map(function(pair) {
-      return '<div class="nutr-row"><span class="nutr-label">' + pair[0] + '</span><span class="nutr-val">' + pair[1] + '</span></div>';
-    }).join('');
-
-    var chips = normalizeChips(bar.score_insights).map(function(c) {
-      return '<span class="insight-chip ' + chipClass(c) + '">' + escapeHtml(c.name) + '</span>';
-    }).join('');
-
-    var posIngr = (bar.positive_ingredients || []).map(function(x) { return '<div class="ingr-col-item">' + escapeHtml(x) + '</div>'; }).join('') || '<div class="ingr-col-item">None flagged</div>';
-    var negIngr = (bar.concern_ingredients || []).map(function(x) { return '<div class="ingr-col-item">' + escapeHtml(x) + '</div>'; }).join('') || '<div class="ingr-col-item">None flagged</div>';
-
-    var certFields = ['Vegan', 'Gluten Free', 'Dairy Free', 'Soy Free', 'Non-GMO', 'Nut Free', 'Kosher'];
-    var certBadges = certFields.filter(function(f) { return bar[f] === 'Y' || bar[f] === 'Yes'; })
-      .map(function(f) { return '<span class="cert-badge">' + f + '</span>'; }).join('');
-
-    var buyLinks = '';
-    if (bar['Amazon Affiliate']) buyLinks += '<a href="' + bar['Amazon Affiliate'] + '" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>';
-    if (bar['Website']) buyLinks += '<a href="' + bar['Website'] + '" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>';
-
-    var similar = computeSimilarBars(bar, bars);
-    var similarCards = similar.map(function(sb) {
-      return '<div class="scan-similar-card" data-key="' + escapeHtml(barKey(sb)) + '">' +
-        '<div class="scan-similar-brand">' + escapeHtml(sb['Brand Name']) + '</div>' +
-        '<div class="scan-similar-flavor">' + escapeHtml(sb['Flavor Name']) + '</div>' +
-        '<div class="scan-similar-meta"><span class="table-grade-badge grade-' + sb.score_band + '">' + sb.score_band + '</span><span>' + sb['Protein (g)'] + 'g protein</span></div>' +
+  var SIM_GRADE_COLORS = { A: '#2a7a1f', B: '#5a8a2f', C: '#b89a00', D: '#c87020', F: '#c83020' };
+  function renderSimilarBars(bar, bars) {
+    var comp = computeSimilarBars(bar, bars);
+    if (!comp) return '';
+    function simCard(b, bucketLabel, bucketSub) {
+      if (!b) return '';
+      var color = SIM_GRADE_COLORS[b.score_band] || '#888';
+      var bkey = barKeyPipe(b).replace(/'/g, "\\'");
+      return '<div class="sim-card" data-simkey="' + escapeHtml(barKeyPipe(b)) + '" title="Click to view this bar">' +
+        '<div class="sim-bucket-label">' + bucketLabel + '</div>' +
+        '<div class="sim-card-top"><span class="sim-brand">' + escapeHtml(b['Brand Name']) + '</span><span class="sim-grade" style="background:' + color + '">' + b.score_band + '</span></div>' +
+        '<div class="sim-flavor">' + escapeHtml(b['Flavor Name']) + '</div>' +
+        '<div class="sim-macros">' +
+          '<div class="sim-macro"><span class="sim-macro-val">' + (b['Protein (g)'] != null ? b['Protein (g)'] : '&mdash;') + 'g</span><span class="sim-macro-lbl">Protein</span></div>' +
+          '<div class="sim-macro"><span class="sim-macro-val">' + (b['Calories'] != null ? b['Calories'] : '&mdash;') + '</span><span class="sim-macro-lbl">Cal</span></div>' +
+          '<div class="sim-macro"><span class="sim-macro-val">' + (b['Sugars (g)'] != null ? b['Sugars (g)'] : '&mdash;') + 'g</span><span class="sim-macro-lbl">Sugar</span></div>' +
+        '</div>' +
+        '<div class="sim-why">' + bucketSub + '</div>' +
       '</div>';
+    }
+    var catLabel = comp.tCat !== 'other' ? comp.tCat : 'similar flavor';
+    var c1 = simCard(comp.b1, 'Same nutrition', 'Closest macro match across all brands');
+    var c2 = simCard(comp.b2, 'Same taste, better macros', 'More protein or less sugar in the ' + catLabel + ' category');
+    var c3 = comp.isAlreadyA
+      ? simCard(comp.b3, 'Equally clean', 'Another A-grade bar with a similar nutritional profile')
+      : simCard(comp.b3, 'Same nutrition, cleaner', 'Similar macros with a higher ingredient quality grade');
+    if (!c1 && !c2 && !c3) return '';
+    return '<div class="similar-section"><div class="similar-label">Compare this bar</div><div class="similar-cards">' + c1 + c2 + c3 + '</div></div>';
+  }
+
+  // ── INSIGHT CHIPS — ported verbatim from app.js's toggleExpand()
+  // parsing block, including its fallback derivation for bars with no
+  // score_insights. ──
+  function parseInsightChips(bar) {
+    var insightsRaw = bar['score_insights'] || '';
+    var chips = insightsRaw
+      ? insightsRaw.split('|').filter(Boolean).map(function(item) {
+          var parts = item.split(':');
+          return { name: parts[0] ? parts[0].trim() : '', type: parts[1] ? parts[1].trim() : 'neutral', severity: parts[2] ? parts[2].trim() : '' };
+        }).filter(function(c) { return c.name && c.name !== 'Sugar Alcohol Early'; })
+      : [];
+
+    if (chips.length === 0 && bar['Ingredients']) {
+      var ingr = (bar['Ingredients'] || '').toLowerCase();
+      var ARTIFICIAL = ['sucralose', 'acesulfame', 'aspartame', 'saccharin'];
+      var SA_KW = ['erythritol', 'maltitol', 'xylitol', 'sorbitol', 'mannitol', 'isomalt', 'lactitol'];
+      var OIL_KW = ['palm kernel oil', 'palm oil', 'canola oil', 'soybean oil', 'hydrogenated'];
+      if (ARTIFICIAL.some(function(k) { return ingr.indexOf(k) !== -1; })) {
+        chips.push({ name: 'Artificial Sweeteners', type: 'concern', severity: 'elevated' });
+      }
+      if (SA_KW.some(function(k) { return ingr.indexOf(k) !== -1; })) {
+        var saPos = Math.min.apply(null, SA_KW.filter(function(k) { return ingr.indexOf(k) !== -1; }).map(function(k) { return ingr.indexOf(k); }));
+        var elevated = saPos < ingr.indexOf(',', ingr.indexOf(',') + 1);
+        chips.push({ name: 'Sugar Alcohols', type: 'concern', severity: elevated ? 'elevated' : 'minor' });
+      }
+      if (OIL_KW.some(function(k) { return ingr.indexOf(k) !== -1 && ingr.indexOf('high oleic') === -1; })) {
+        chips.push({ name: 'Processed Oils', type: 'concern', severity: 'minor' });
+      }
+      var posIngrLower = (bar['positive_ingredients'] || '').toLowerCase();
+      if (posIngrLower.indexOf('protein') !== -1 || posIngrLower.indexOf('whey') !== -1 || posIngrLower.indexOf('egg white') !== -1) {
+        chips.push({ name: 'Quality Protein Source', type: 'positive', severity: '' });
+      }
+      if (bar['score_band'] === 'A' && !ARTIFICIAL.some(function(k) { return ingr.indexOf(k) !== -1; }) && !SA_KW.some(function(k) { return ingr.indexOf(k) !== -1; })) {
+        chips.push({ name: 'Clean Ingredients', type: 'positive', severity: '' });
+      }
+    }
+    return chips;
+  }
+  function renderChips(chips, cssClass) {
+    return chips.map(function(c) {
+      var sevClass = (c.type === 'concern' && c.severity === 'elevated') ? ' chip-elevated' : '';
+      return '<span class="insight-chip ' + cssClass + sevClass + '">' + escapeHtml(c.name) + '</span>';
     }).join('');
+  }
+
+  // ── FULL RESULT RENDER — ported verbatim from app.js's toggleExpand(),
+  // minus the bar-finder-table-specific compare button, restructured as
+  // a standalone card instead of a <tr>/<td> expand row. ──
+  function renderScanResult(bar, bars) {
+    var certFull = [];
+    [['Vegan', 'Vegan (Y/N)'], ['Gluten Free', 'Gluten Free (Y/N)'], ['Dairy Free', 'Dairy Free (Y/N)'],
+     ['Soy Free', 'Soy Free (Y/N)'], ['Non-GMO', 'Non-GMO (Y/N)'], ['Nut Free', 'Nut Free (Y/N)'], ['Kosher', 'Kosher (Y/N)']
+    ].forEach(function(pair) {
+      var label = pair[0], col = pair[1];
+      var v = bar[col];
+      if (v && String(v).trim().toLowerCase() === 'yes') certFull.push(label);
+    });
+    var certPills = certFull.map(function(c) { return '<span class="cert-pill">' + c + '</span>'; }).join('');
+
+    var primary = [
+      { label: 'Calories', value: bar['Calories'], unit: '' },
+      { label: 'Protein', value: bar['Protein (g)'], unit: 'g' },
+      { label: 'Total Fat', value: bar['Total Fat (g)'], unit: 'g' },
+      { label: 'Saturated Fat', value: bar['Saturated Fat (g)'], unit: 'g' },
+      { label: 'Trans Fat', value: bar['Trans Fat (g)'], unit: 'g' },
+      { label: 'Cholesterol', value: bar['Cholesterol (mg)'], unit: 'mg' },
+      { label: 'Sodium', value: bar['Sodium (mg)'], unit: 'mg' },
+      { label: 'Total Carbs', value: bar['Total Carbohydrates (g)'], unit: 'g' },
+      { label: 'Dietary Fiber', value: bar['Dietary Fiber (g)'], unit: 'g' },
+      { label: 'Sugars', value: bar['Sugars (g)'], unit: 'g' },
+      { label: 'Sugar Alcohol', value: bar['Sugar Alcohol (g)'], unit: 'g' },
+      { label: 'Potassium', value: bar['Potassium (mg)'], unit: 'mg' },
+      { label: 'Calcium', value: bar['Calcium (mg)'], unit: 'mg' },
+      { label: 'Iron', value: bar['Iron (mg)'], unit: 'mg' },
+      { label: 'Creatine', value: bar['Creatine (g)'], unit: 'g' },
+      { label: 'Caffeine', value: bar['Caffeine (mg)'], unit: 'mg' },
+      { label: 'Melatonin', value: bar['Melatonin (mg)'], unit: 'mg' }
+    ].filter(function(r) { return r.value !== null && r.value !== undefined; });
+
+    var vitamins = [
+      ['Vitamin A', 'Vitamin A (% DV)'], ['Vitamin C', 'Vitamin C (% DV)'], ['Vitamin D', 'Vitamin D (% DV)'],
+      ['Vitamin E', 'Vitamin E (% DV)'], ['Vitamin K', 'Vitamin K (% DV)'], ['Thiamin (B1)', 'Thiamin / B1 (% DV)'],
+      ['Riboflavin (B2)', 'Riboflavin / B2 (% DV)'], ['Niacin (B3)', 'Niacin / B3 (% DV)'], ['Vitamin B6', 'Vitamin B6 (% DV)'],
+      ['Vitamin B12', 'Vitamin B12 (% DV)'], ['Folic Acid', 'Folic Acid (% DV)'], ['Biotin', 'Biotin (% DV)'],
+      ['Pantothenic Acid', 'Pantothenic Acid (% DV)']
+    ].map(function(p) { return { label: p[0], value: bar[p[1]], unit: '% DV' }; }).filter(function(r) { return r.value !== null && r.value !== undefined; });
+
+    var minerals = [
+      ['Phosphorus', 'Phosphorus (% DV)'], ['Iodine', 'Iodine (% DV)'], ['Magnesium', 'Magnesium (% DV)'],
+      ['Zinc', 'Zinc (% DV)'], ['Selenium', 'Selenium (% DV)'], ['Copper', 'Copper (% DV)'],
+      ['Manganese', 'Manganese (% DV)'], ['Chromium', 'Chromium (% DV)'], ['Molybdenum', 'Molybdenum (% DV)']
+    ].map(function(p) { return { label: p[0], value: bar[p[1]], unit: '% DV' }; }).filter(function(r) { return r.value !== null && r.value !== undefined; });
+
+    var sizeServing = [bar['Size'], bar['Type'], bar['Serving Size (g)'] ? bar['Serving Size (g)'] + 'g serving' : null].filter(Boolean).join(' &middot; ');
+
+    var nutrRows = primary.map(function(r) { return '<div class="nutr-row"><span class="nutr-label">' + r.label + '</span><span class="nutr-val">' + r.value + r.unit + '</span></div>'; }).join('');
+    var microItems = vitamins.concat(minerals).map(function(r) { return '<div class="micro-item"><span class="micro-label">' + r.label + '</span><span class="micro-val">' + r.value + r.unit + '</span></div>'; }).join('');
+    var vitMinSection = (vitamins.length > 0 || minerals.length > 0)
+      ? '<div class="nutr-section-label">Vitamins &amp; Minerals</div><div class="micro-grid">' + microItems + '</div>' : '';
+
+    var rawIngredients = bar['Ingredients'];
+    var ingrSection = rawIngredients
+      ? '<div class="ingr-label">Ingredients</div><div class="ingr-text">' + escapeHtml(toTitleCase(rawIngredients)) + '</div>'
+      : '<div class="ingr-missing">Ingredient list not available for this bar.</div>';
+
+    var band = bar['score_band'], bandLabel = bar['score_band_label'], score = bar['ingredient_score'];
+    var posIngr = bar['positive_ingredients'] || '', negIngr = bar['concern_ingredients'] || '';
+
+    var chips = parseInsightChips(bar);
+    var positiveChips = chips.filter(function(c) { return c.type === 'positive'; });
+    var concernChips  = chips.filter(function(c) { return c.type === 'concern'; });
+    var neutralChips  = chips.filter(function(c) { return c.type === 'neutral'; });
+    var allChipsHTML = renderChips(positiveChips, 'chip-positive') + renderChips(concernChips, 'chip-concern') + renderChips(neutralChips, 'chip-neutral');
+
+    var scorePos = bar['score_pos'], scoreNeg = bar['score_neg'];
+    var scorePosNegHTML = '';
+    if (scorePos != null && scoreNeg != null) {
+      var absPos = Math.abs(scorePos), absNeg = Math.abs(scoreNeg);
+      var total = absPos + absNeg;
+      var posPct = total > 0 ? Math.round(absPos / total * 100) : 50;
+      var negPct = 100 - posPct;
+      scorePosNegHTML = '<div class="score-breakdown"><div class="score-breakdown-bar">' +
+        '<div class="sbd-pos" style="width:' + posPct + '%" title="Positive contributions: +' + scorePos + '"></div>' +
+        '<div class="sbd-neg" style="width:' + negPct + '%" title="Concern contributions: ' + scoreNeg + '"></div></div>' +
+        '<div class="score-breakdown-labels"><span class="sbd-label-pos">+' + scorePos + ' positive</span><span class="sbd-label-neg">' + scoreNeg + ' concerns</span></div></div>';
+    }
+
+    var posItems = posIngr ? posIngr.split(',').map(function(i) { return toTitleCase(i.trim()); }).filter(Boolean) : [];
+    var negItems = negIngr ? negIngr.split(',').map(function(i) { return toTitleCase(i.trim()); }).filter(Boolean) : [];
+    var positivesHTML = posItems.length ? '<div class="ingr-col"><div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>' + posItems.map(function(i) { return '<div class="ingr-col-item">' + escapeHtml(i) + '</div>'; }).join('') + '</div>' : '';
+    var concernsHTML = negItems.length ? '<div class="ingr-col"><div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>' + negItems.map(function(i) { return '<div class="ingr-col-item">' + escapeHtml(i) + '</div>'; }).join('') + '</div>' : '';
+
+    var scoreSection = band ? '<div class="score-tile score-band-' + band + '">' +
+      '<div class="score-tile-header"><div class="score-grade-block"><div class="score-header-label">Ingredient Quality Grade</div>' +
+      '<div class="score-grade-row"><span class="score-band-badge">' + band + '</span><span class="score-band-label">' + bandLabel + '</span></div></div>' +
+      '<div class="score-num-block"><div class="score-header-label">Ingredient Quality Score</div><div class="score-number">' + score + '</div></div></div>' +
+      scorePosNegHTML +
+      (allChipsHTML ? '<div class="score-chips">' + allChipsHTML + '</div>' : '') +
+      ((positivesHTML || concernsHTML) ? '<div class="score-ingr-cols">' + positivesHTML + concernsHTML + '</div>' : '') +
+      '</div>' : '';
+
+    var buyButtonsHTML = (bar['Amazon Affiliate'] || bar['Website'])
+      ? '<div class="expand-buy-row">' +
+        (bar['Amazon Affiliate'] ? '<a href="' + bar['Amazon Affiliate'] + '" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>' : '') +
+        (bar['Website'] ? '<a href="' + bar['Website'] + '" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>' : '') +
+        '</div>' : '';
+
+    var macroRanks = buildMacroRanks(bars);
 
     return '' +
       '<div class="scan-result-head">' +
-        '<div>' +
-          '<div class="scan-result-brand">' + escapeHtml(bar['Brand Name']) + '</div>' +
-          '<div class="scan-result-title scan-result-flavor">' + escapeHtml(bar['Flavor Name']) + '</div>' +
-          (certBadges ? '<div class="cert-badges" style="margin-top:0.4rem;">' + certBadges + '</div>' : '') +
-        '</div>' +
-        '<button class="scan-rescan-btn" type="button" onclick="window.__scanReset()">Scan another</button>' +
+        '<div><div class="scan-result-brand">' + escapeHtml(bar['Brand Name']) + '</div><div class="scan-result-flavor">' + escapeHtml(bar['Flavor Name']) + '</div></div>' +
+        '<button class="scan-rescan-btn" type="button" id="scan-rescan-inline">Scan another</button>' +
       '</div>' +
-      '<div class="expand-buy-row">' + buyLinks + '</div>' +
-      '<div class="macro-rank-grid">' + macroRankGrid + '</div>' +
+      '<div class="expand-meta">' + sizeServing + '</div>' +
+      buyButtonsHTML +
+      renderMacroRankGrid(bar, macroRanks) +
       '<div class="expand-columns">' +
-        '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutrRows + '</div>' +
-        '<div class="expand-right">' +
-          '<div class="score-tile score-band-' + grade + '">' +
-            '<div class="score-tile-header">' +
-              '<div class="score-grade-block"><div class="score-header-label">Ingredient Quality Grade</div>' +
-                '<div class="score-grade-row"><span class="score-band-badge" style="background:' + gradeColor + '">' + grade + '</span><span class="score-band-label">' + gradeLabel + '</span></div></div>' +
-              '<div class="score-num-block"><div class="score-header-label">Ingredient Quality Score</div><div class="score-number">' + score + '</div></div>' +
-            '</div>' +
-            '<div class="score-chips">' + chips + '</div>' +
-            '<div class="score-ingr-cols">' +
-              '<div class="ingr-col"><div class="ingr-col-label ingr-col-pos">Positive Ingredients</div>' + posIngr + '</div>' +
-              '<div class="ingr-col"><div class="ingr-col-label ingr-col-neg">Concern Ingredients</div>' + negIngr + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="ingr-block"><div class="ingr-label">Ingredients</div><div class="ingr-text">' + escapeHtml(bar.Ingredients || '') + '</div></div>' +
-        '</div>' +
+        '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutrRows + vitMinSection + '</div>' +
+        '<div class="expand-right">' + scoreSection + (certPills ? '<div class="cert-strip">' + certPills + '</div>' : '') + '<div class="ingr-block">' + ingrSection + '</div></div>' +
       '</div>' +
-      (similarCards ? '<h2 class="section-title" style="margin-top:2rem;">Comparable bars</h2><div class="scan-similar-grid">' + similarCards + '</div>' : '');
-  }
-
-  function escapeHtml(str) {
-    return String(str == null ? '' : str).replace(/[&<>"']/g, function(c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
+      renderSimilarBars(bar, bars);
   }
 
   // ── UI WIRING ────────────────────────────────────────────────────
@@ -641,17 +808,19 @@
     statusEl.className = 'scan-status' + (cls ? ' ' + cls : '');
   }
 
-  function showResultFor(bar) {
+  function showBar(bar) {
     stopScanning();
     stageEl.hidden = true;
     notFoundEl.hidden = true;
     resultEl.hidden = false;
-    resultEl.innerHTML = renderBarDetail(bar, getBars());
-    resultEl.querySelectorAll('.scan-similar-card').forEach(function(card) {
+    resultEl.innerHTML = renderScanResult(bar, getBars());
+    var rescanBtn = document.getElementById('scan-rescan-inline');
+    if (rescanBtn) rescanBtn.addEventListener('click', window.__scanReset);
+    resultEl.querySelectorAll('.sim-card').forEach(function(card) {
       card.addEventListener('click', function() {
-        var key = card.getAttribute('data-key');
-        var match = getBars().filter(function(b) { return barKey(b) === key; })[0];
-        if (match) showResultFor(match);
+        var simKey = card.getAttribute('data-simkey');
+        var match = getBars().filter(function(b) { return (b['Brand Name'] + '|' + b['Flavor Name']) === simKey; })[0];
+        if (match) showBar(match);
       });
     });
   }
@@ -673,12 +842,12 @@
   document.getElementById('scan-not-found-rescan').addEventListener('click', window.__scanReset);
 
   function onDecoded(decodedText) {
-    if (!scanning) return; // ignore duplicate callbacks after we've already handled one
+    if (!scanning) return;
     scanning = false;
     var bar = lookupBarByCode(decodedText);
     if (bar) {
       setStatus('Match found', 'ok');
-      showResultFor(bar);
+      showBar(bar);
     } else {
       showNotFound(decodedText);
     }
@@ -741,10 +910,9 @@
     manualResults.innerHTML = '';
     if (!q) { manualResults.hidden = true; return; }
 
-    // A raw digit string is almost certainly a UPC — try that path first.
     if (/^\d{6,14}$/.test(q)) {
       var byCode = lookupBarByCode(q);
-      if (byCode) { showResultFor(byCode); return; }
+      if (byCode) { showBar(byCode); return; }
     }
 
     var bars = getBars();
@@ -753,25 +921,23 @@
       return hay.indexOf(q) !== -1;
     }).slice(0, 8);
 
+    manualResults.hidden = false;
     if (matches.length === 0) {
-      manualResults.hidden = false;
       manualResults.innerHTML = '<div class="scan-manual-result-row">No matches. Try a different brand or flavor spelling.</div>';
       return;
     }
-    manualResults.hidden = false;
     matches.forEach(function(b) {
       var row = document.createElement('div');
       row.className = 'scan-manual-result-row';
       row.innerHTML = '<span>' + escapeHtml(b['Brand Name']) + ' &middot; ' + escapeHtml(b['Flavor Name']) + '</span>' +
         '<span class="table-grade-badge grade-' + b.score_band + '">' + b.score_band + '</span>';
-      row.addEventListener('click', function() { showResultFor(b); });
+      row.addEventListener('click', function() { showBar(b); });
       manualResults.appendChild(row);
     });
   }
   manualBtn.addEventListener('click', runManualSearch);
   manualInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') runManualSearch(); });
 
-  // Stop the camera if the visitor navigates away without clicking Stop.
   window.addEventListener('beforeunload', function() { if (scanning) stopScanning(); });
 })();
 </script>
