@@ -63,16 +63,69 @@
        - Not yet added to the nav dropdown on any OTHER live page, or to
          sitemap.xml (scan.html's own nav already links to itself).
        - Not tested on a real device yet.
+
+       v3 (2026-09-12) — UX/SEO pass per Jeff's feedback, no scoring/render
+       logic touched
+       ──────────────────────────────────────────────────────
+       - Added FAQPage + BreadcrumbList JSON-LD, Open Graph tags, and a
+         sharper title/meta description.
+       - "Start camera" → "Start Scanning", moved above the camera box
+         instead of below it, and made full-width/prominent.
+       - Removed "Take a photo instead" entirely (button, hidden file
+         input, normalizePhotoForScan(), the photoInput change handler) —
+         Jeff called it out as not helpful. iOS focus limitations are now
+         just called out in an FAQ answer instead, pointing at manual
+         search as the fallback.
+       - Removed the neon-lime (--accent) rectangle frame overlay; replaced
+         with black/white corner brackets (matches the site's black/white
+         palette used everywhere else, e.g. finder-cta-btn) — the lime
+         accent wasn't doing anything the black/white pair couldn't, and
+         Jeff flagged it directly ("instead of the green box?").
+       - Added a "Got it!" success banner on a match, reusing the existing
+         --success-bg/--success-text pair (same colors as chip-positive /
+         score-band-A) instead of a new color.
+       - Removed the "camera stays on between scans" explainer paragraph
+         and the paragraph below it — Jeff called both out as unnecessary.
+       - "Camera not working?" is no longer a <details> — it's an
+         always-visible card, moved outside #scan-stage so it stays on
+         screen across every state (scanning / found / not found), with
+         copy explicitly saying brand+flavor OR the UPC number both work.
+       - Added an FAQ section (schema.org-matched, sitewide .faq-item
+         markup, same accordion pattern as every guide page) — no FAQ
+         existed on this page before.
+       - Added scan_success / scan_not_found / scan_manual_search GA4
+         events via the existing window.KYB.track() helper (analytics.js),
+         so the KYB team can see which scanned barcodes come back
+         unmatched. Photo capture + a "report this bar" flow for unmatched
+         scans was discussed but is out of scope for this pass — bigger
+         feature, tracked as a follow-up, not built here.
        ═══════════════════════════════════════════════════════ -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scan a Protein Bar - Instant Ingredient Quality Lookup | Know Your Bar</title>
-  <meta name="description" content="Scan any protein bar's barcode to see its ingredient quality grade, full macro breakdown, and comparable bars instantly, right from your phone's browser.">
+  <title>Protein Bar Barcode Scanner - Instant Ingredient Grade | Know Your Bar</title>
+  <meta name="description" content="Scan any protein bar's barcode with your phone to see its A-F ingredient quality grade, full macros, and how it stacks up against 1,000+ other bars. No app, nothing to download.">
   <link rel="canonical" href="https://knowyourbar.com/scan">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Know Your Bar", "item": "https://knowyourbar.com"}, {"@type": "ListItem", "position": 2, "name": "Explore", "item": "https://knowyourbar.com"}, {"@type": "ListItem", "position": 3, "name": "Scan a Bar", "item": "https://knowyourbar.com/scan"}]}
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does the protein bar barcode scanner work?", "acceptedAnswer": {"@type": "Answer", "text": "Point your phone's camera at the barcode on any protein bar. We read the UPC code, match it against our database of 1,000+ bars, and instantly show you the same ingredient quality grade, macros, and analysis we show everywhere else on the site. No app, no download, just your phone's browser."}}, {"@type": "Question", "name": "Do I need to download an app to scan a bar?", "acceptedAnswer": {"@type": "Answer", "text": "No. The scanner runs right in your phone's browser. Tap Start Scanning, allow camera access when asked, and you're scanning. Nothing to install."}}, {"@type": "Question", "name": "What if my barcode won't scan?", "acceptedAnswer": {"@type": "Answer", "text": "Make sure the barcode is flat, well lit, and filling the frame. If it still won't pick up, use the search box below the scanner to look the bar up by brand and flavor, or by typing the UPC number printed under the barcode, either works."}}, {"@type": "Question", "name": "Why does it say the bar isn't found?", "acceptedAnswer": {"@type": "Answer", "text": "Our barcode coverage is still growing. We have ingredient and macro data for 1,000+ bars, but not every UPC is mapped to that data yet. If a scan comes back unmatched, try searching by brand and flavor instead, we're adding new barcodes regularly."}}, {"@type": "Question", "name": "Does the barcode scanner work on iPhone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, though iPhone cameras can be slower to autofocus on a barcode through the browser than on Android. Hold the phone steady a few inches back, make sure there's good light, and give it a couple of seconds. If it's still not catching, the manual search below works just as well."}}, {"@type": "Question", "name": "What barcode formats does the scanner support?", "acceptedAnswer": {"@type": "Answer", "text": "UPC-A, UPC-E, EAN-13, and EAN-8, the formats used on virtually every protein bar sold in the US."}}, {"@type": "Question", "name": "Is the data the same as the rest of the Know Your Bar site?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. A scanned bar pulls from the exact same database and ingredient scoring system used across the site, the same A-F grade, macro rankings, and comparable-bar suggestions you'd see on the full bar finder."}}, {"@type": "Question", "name": "Does scanning save or upload my camera footage?", "acceptedAnswer": {"@type": "Answer", "text": "No. The barcode is decoded right on your phone. We don't record, save, or upload any video or photos from your camera."}}]}
+  </script>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Protein Bar Barcode Scanner - Instant Ingredient Grade | Know Your Bar">
+  <meta property="og:description" content="Scan any protein bar's barcode with your phone to see its A-F ingredient quality grade, full macros, and how it stacks up against 1,000+ other bars.">
+  <meta property="og:url" content="https://knowyourbar.com/scan">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
 
   <link rel="stylesheet" href="/style.css">
 
@@ -106,12 +159,25 @@
       align-items: center;
       justify-content: center;
     }
+    /* Corner-bracket viewfinder instead of a solid neon box — matches the
+       site's black/white palette (finder-cta-btn, nav, etc.) instead of
+       dropping the raw --accent lime in as a full rectangle outline. The
+       lime accent is saved for the "Got it!" success moment below, where
+       it actually signals something. */
     .scan-frame-box {
       width: 78%;
       aspect-ratio: 1.6 / 1;
-      border: 3px solid var(--accent, #d4f000);
-      border-radius: 12px;
+      border-radius: 14px;
       box-shadow: 0 0 0 2000px rgba(14,14,14,0.55);
+      background:
+        linear-gradient(to right, var(--white, #f7f5f0) 3px, transparent 3px) top left / 28px 3px no-repeat,
+        linear-gradient(to bottom, var(--white, #f7f5f0) 3px, transparent 3px) top left / 3px 28px no-repeat,
+        linear-gradient(to left, var(--white, #f7f5f0) 3px, transparent 3px) top right / 28px 3px no-repeat,
+        linear-gradient(to bottom, var(--white, #f7f5f0) 3px, transparent 3px) top right / 3px 28px no-repeat,
+        linear-gradient(to right, var(--white, #f7f5f0) 3px, transparent 3px) bottom left / 28px 3px no-repeat,
+        linear-gradient(to top, var(--white, #f7f5f0) 3px, transparent 3px) bottom left / 3px 28px no-repeat,
+        linear-gradient(to left, var(--white, #f7f5f0) 3px, transparent 3px) bottom right / 28px 3px no-repeat,
+        linear-gradient(to top, var(--white, #f7f5f0) 3px, transparent 3px) bottom right / 3px 28px no-repeat;
     }
     .scan-frame-hint {
       position: absolute;
@@ -124,6 +190,8 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     }
 
+    #scan-start-wrap { margin-bottom: 0.85rem; }
+    #scan-start-wrap .finder-cta-btn { width: 100%; justify-content: center; font-size: 1.1rem; }
     #scan-controls { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .scan-btn-secondary {
       display: inline-block;
@@ -147,13 +215,57 @@
     .scan-status.err { color: #c83020; }
     .scan-status.ok { color: #2a7a1f; }
 
-    #scan-manual { margin-bottom: 1.5rem; }
-    #scan-manual summary {
-      cursor: pointer;
+    /* "We found it!" banner — reuses the site's existing positive/success
+       color pair (same --success-bg/--success-text used on chip-positive
+       and score-band-A) instead of introducing a new color, so it reads
+       as "good news" the same way the rest of the site already does. */
+    .scan-found-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--success-bg, #edfce4);
+      color: var(--success-text, #2a7a1f);
+      border: 1px solid #b8eaa0;
+      border-radius: var(--radius, 6px);
+      padding: 0.6rem 0.9rem;
+      font-family: var(--font-body, 'DM Sans', sans-serif);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 1rem;
+    }
+    .scan-found-banner .scan-found-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--success-text, #2a7a1f);
+      color: #fff;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Manual-search fallback is now always visible on the page (not tucked
+       under a <details> arrow), since it's the primary path for anyone
+       whose camera can't find the barcode. */
+    #scan-manual {
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border, #d6d3cc);
+      border-radius: var(--radius-lg, 10px);
+      background: var(--off-white, #efece6);
+    }
+    #scan-manual-title {
       font-family: var(--font-body, 'DM Sans', sans-serif);
       font-size: 14px;
+      color: var(--black, #0e0e0e);
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    #scan-manual-sub {
+      font-size: 12.5px;
       color: var(--muted, #5a5a54);
-      font-weight: 600;
+      margin-bottom: 0.75rem;
     }
     .scan-manual-body { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
     .scan-manual-body input {
@@ -222,11 +334,6 @@
       margin: 0.5rem 0 1rem;
     }
     .scan-result-actions { display: flex; gap: 0.5rem; flex-shrink: 0; flex-wrap: wrap; }
-    .scan-hint {
-      font-size: 12px;
-      color: var(--muted, #5a5a54);
-      margin: -0.4rem 0 0.75rem;
-    }
 
     /* This page shows one bar at a time (macros+ranking, then ingredient
        quality/scoring, then nutrition facts, then raw ingredients) so the
@@ -235,6 +342,12 @@
        style.css's 260px/1fr desktop split, which was built for that
        two-column case. */
     #scan-app .expand-columns { grid-template-columns: 1fr; }
+
+    /* FAQ block — reuses the sitewide .faq-item/.faq-q/.faq-a rules from
+       style.css as-is (same look as every guide page); this just scopes
+       the section heading/spacing since this page isn't a full guide
+       layout with a .guide-faq band. */
+    #scan-faq { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border, #d6d3cc); }
   </style>
 </head>
 <body class="page-guide brand-v1 page-scan">
@@ -299,6 +412,9 @@
 
         <!-- ── SCANNER STAGE ──────────────────────────────────── -->
         <div id="scan-stage">
+          <div id="scan-start-wrap">
+            <button id="scan-start-btn" class="finder-cta-btn" type="button">Start Scanning</button>
+          </div>
           <div id="scan-camera-wrap">
             <div id="scan-reader"></div>
             <div id="scan-frame-overlay">
@@ -307,32 +423,9 @@
             </div>
           </div>
           <div id="scan-controls">
-            <button id="scan-start-btn" class="finder-cta-btn" type="button">Start camera</button>
             <button id="scan-stop-btn" class="scan-btn-secondary" type="button" hidden>Stop scanning</button>
-            <button id="scan-photo-btn" class="scan-btn-secondary" type="button">Take a photo instead</button>
           </div>
-          <!-- iOS Safari doesn't give the web a way to control camera focus
-               at all (no focusMode/focusDistance capability, unlike Chrome
-               on Android) — a live preview here is stuck with whatever the
-               browser's autofocus decides on its own, which real-device
-               testing showed can fail outright on some iPhones. Routing
-               through the NATIVE camera app instead (full tap-to-focus,
-               zoom, flash) and decoding the resulting photo sidesteps that
-               entirely. capture="environment" opens the rear camera
-               directly on iOS/Android; scanFile() below decodes it with the
-               same library/format config as live scanning. -->
-          <input type="file" accept="image/*" capture="environment" id="scan-photo-input" hidden>
-          <p class="scan-hint">The camera stays on between scans, no need to tap Start again. Tap "Turn off camera" on a result when you're done. If live scanning won't focus, "Take a photo instead" is usually far more reliable, especially on iPhone.</p>
           <p id="scan-status" class="scan-status"></p>
-
-          <details id="scan-manual">
-            <summary>Camera not working? Search by brand or flavor instead</summary>
-            <div class="scan-manual-body">
-              <input type="text" id="scan-manual-input" placeholder="e.g. Quest Chocolate Chip Cookie Dough" autocomplete="off">
-              <button id="scan-manual-btn" type="button" class="visit-link">Search</button>
-            </div>
-            <div id="scan-manual-results" class="scan-manual-results" hidden></div>
-          </details>
         </div>
 
         <!-- ── RESULT: FOUND ───────────────────────────────────
@@ -345,13 +438,66 @@
         <!-- ── RESULT: NOT FOUND ───────────────────────────────── -->
         <div id="scan-not-found" hidden>
           <div class="scan-not-found-box">
-            <p><strong>We don't have this one mapped yet.</strong></p>
+            <p><strong>Don't have that one mapped yet.</strong></p>
             <p>Scanned code:</p>
             <div class="scan-not-found-code" id="scan-not-found-code"></div>
-            <p style="color:var(--muted);font-size:14px;">Our barcode coverage is still growing. Try searching by brand or flavor above, or check back soon, we're adding new UPCs regularly.</p>
+            <p style="color:var(--muted);font-size:14px;">Our barcode coverage is still growing, we're adding new UPCs regularly. Try searching by brand or flavor below in the meantime.</p>
             <div class="scan-result-actions" style="justify-content:center;margin-top:1rem;">
               <button id="scan-not-found-rescan" class="finder-cta-btn" type="button">Scan another bar</button>
               <button id="scan-not-found-stop" class="scan-btn-secondary" type="button">Turn off camera</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── MANUAL SEARCH — always visible (not tucked under a <details>
+             arrow), since it's the main fallback whenever a barcode won't
+             scan or comes back unmatched. Stays on screen across every
+             scan state. ── -->
+        <div id="scan-manual">
+          <div id="scan-manual-title">Camera not working?</div>
+          <div id="scan-manual-sub">Type the brand and flavor, or the UPC number printed under the barcode, either works.</div>
+          <div class="scan-manual-body">
+            <input type="text" id="scan-manual-input" placeholder="e.g. Quest Chocolate Chip Cookie Dough, or 888849000012" autocomplete="off">
+            <button id="scan-manual-btn" type="button" class="visit-link">Search</button>
+          </div>
+          <div id="scan-manual-results" class="scan-manual-results" hidden></div>
+        </div>
+
+        <!-- ── FAQ ──────────────────────────────────────────────── -->
+        <div id="scan-faq">
+          <h2 class="section-title">Frequently asked questions</h2>
+          <div class="faq-items">
+            <div class="faq-item">
+              <button class="faq-q">How does the protein bar barcode scanner work?</button>
+              <div class="faq-a">Point your phone's camera at the barcode on any protein bar. We read the UPC code, match it against our database of 1,000+ bars, and instantly show you the same ingredient quality grade, macros, and analysis we show everywhere else on the site. No app, no download, just your phone's browser.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">Do I need to download an app to scan a bar?</button>
+              <div class="faq-a">No. The scanner runs right in your phone's browser. Tap Start Scanning, allow camera access when asked, and you're scanning. Nothing to install.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">What if my barcode won't scan?</button>
+              <div class="faq-a">Make sure the barcode is flat, well lit, and filling the frame. If it still won't pick up, use the search box below the scanner to look the bar up by brand and flavor, or by typing the UPC number printed under the barcode, either works.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">Why does it say the bar isn't found?</button>
+              <div class="faq-a">Our barcode coverage is still growing. We have ingredient and macro data for 1,000+ bars, but not every UPC is mapped to that data yet. If a scan comes back unmatched, try searching by brand and flavor instead, we're adding new barcodes regularly.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">Does the barcode scanner work on iPhone?</button>
+              <div class="faq-a">Yes, though iPhone cameras can be slower to autofocus on a barcode through the browser than on Android. Hold the phone steady a few inches back, make sure there's good light, and give it a couple of seconds. If it's still not catching, the manual search below works just as well.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">What barcode formats does the scanner support?</button>
+              <div class="faq-a">UPC-A, UPC-E, EAN-13, and EAN-8, the formats used on virtually every protein bar sold in the US.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">Is the data the same as the rest of the Know Your Bar site?</button>
+              <div class="faq-a">Yes. A scanned bar pulls from the exact same database and ingredient scoring system used across the site, the same A-F grade, macro rankings, and comparable-bar suggestions you'd see on the full bar finder.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q">Does scanning save or upload my camera footage?</button>
+              <div class="faq-a">No. The barcode is decoded right on your phone. We don't record, save, or upload any video or photos from your camera.</div>
             </div>
           </div>
         </div>
@@ -434,6 +580,16 @@
     return String(str == null ? '' : str).replace(/[&<>"']/g, function(c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
+  }
+
+  // Funnels through the sitewide KYB.track() helper (analytics.js) when
+  // it's loaded — never throws if analytics.js hasn't parsed yet or gtag
+  // isn't present (ad blockers, local testing), same guarantee KYB.track
+  // itself makes.
+  function trackEvent(name, params) {
+    if (window.KYB && typeof window.KYB.track === 'function') {
+      window.KYB.track(name, params || {});
+    }
   }
 
   // ── UPC NORMALIZATION — mirrors build_upc_map.py's normalize_upc() ──
@@ -809,6 +965,7 @@
     var macroRanks = buildMacroRanks(bars);
 
     return '' +
+      '<div class="scan-found-banner"><span class="scan-found-check">&#10003;</span>Got it! Here\'s the full breakdown.</div>' +
       '<div class="scan-result-head">' +
         '<div><div class="scan-result-brand">' + escapeHtml(bar['Brand Name']) + '</div><div class="scan-result-flavor">' + escapeHtml(bar['Flavor Name']) + '</div></div>' +
         '<div class="scan-result-actions">' +
@@ -840,6 +997,7 @@
   var resultEl = document.getElementById('scan-result');
   var notFoundEl = document.getElementById('scan-not-found');
   var statusEl = document.getElementById('scan-status');
+  var startWrapEl = document.getElementById('scan-start-wrap');
   var startBtn = document.getElementById('scan-start-btn');
   var stopBtn = document.getElementById('scan-stop-btn');
   var html5QrCode = null;
@@ -859,7 +1017,7 @@
   function armHint() {
     clearHint();
     hintTimer = setTimeout(function() {
-      if (scanning) setStatus('Still looking... try "Take a photo instead" below for a sharper, better-focused shot.');
+      if (scanning) setStatus('Still looking... make sure the barcode is flat, well lit, and filling the box. Or search by brand/flavor below.');
     }, 6000);
   }
   function clearHint() {
@@ -933,18 +1091,32 @@
     resultEl.hidden = true;
     notFoundEl.hidden = true;
     stageEl.hidden = false;
-    setStatus('Camera off. Tap "Start camera" when you\'re ready to scan again.');
+    setStatus('Camera off. Tap "Start Scanning" when you\'re ready to scan again.');
   };
   document.getElementById('scan-not-found-stop').addEventListener('click', window.__scanStop);
 
-  // Shared by both the live decode callback and the photo-fallback path
-  // below, so a match/no-match looks and behaves identically either way.
   function handleDecodedCode(decodedText) {
     var bar = lookupBarByCode(decodedText);
     if (bar) {
-      setStatus('Match found', 'ok');
+      setStatus('Got it!', 'ok');
+      trackEvent('scan_success', {
+        scanned_code: decodedText,
+        bar_brand: bar['Brand Name'],
+        bar_flavor: bar['Flavor Name'],
+        page_type: (window.KYB && window.KYB.pageType) ? window.KYB.pageType() : 'scan',
+        page_slug: (window.KYB && window.KYB.pageSlug) ? window.KYB.pageSlug() : 'scan',
+      });
       showBar(bar);
     } else {
+      // Capture every scanned code that didn't resolve so the KYB team can
+      // see which real-world barcodes are still missing from upc_map.js —
+      // this is the analytics half of "not found"; surfacing a photo of
+      // the bar itself for a manual add is a bigger feature for later.
+      trackEvent('scan_not_found', {
+        scanned_code: decodedText,
+        page_type: (window.KYB && window.KYB.pageType) ? window.KYB.pageType() : 'scan',
+        page_slug: (window.KYB && window.KYB.pageSlug) ? window.KYB.pageSlug() : 'scan',
+      });
       showNotFound(decodedText);
     }
   }
@@ -955,23 +1127,32 @@
     handleDecodedCode(decodedText);
   }
 
-  var QR_FORMATS_CONFIG = {
-    formatsToSupport: [
-      Html5QrcodeSupportedFormats.UPC_A,
-      Html5QrcodeSupportedFormats.UPC_E,
-      Html5QrcodeSupportedFormats.EAN_13,
-      Html5QrcodeSupportedFormats.EAN_8
-    ],
-    verbose: false
-  };
+  // Built lazily inside startScanning(), not as a top-level constant —
+  // Html5QrcodeSupportedFormats only exists once the CDN script has
+  // actually loaded, and referencing it eagerly at parse time means a
+  // slow/blocked CDN load throws synchronously and kills the rest of this
+  // IIFE (manual search, the FAQ toggle, everything below it) before any
+  // of it wires up. Guarding it in startScanning() means a CDN hiccup only
+  // takes out the camera, not the whole page.
+  function getQrFormatsConfig() {
+    return {
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8
+      ],
+      verbose: false
+    };
+  }
 
   function startScanning() {
-    if (typeof Html5Qrcode === 'undefined') {
-      setStatus('Scanner library failed to load. Check your connection and reload.', 'err');
+    if (typeof Html5Qrcode === 'undefined' || typeof Html5QrcodeSupportedFormats === 'undefined') {
+      setStatus('Scanner library failed to load. Check your connection and reload, or search by brand/flavor below.', 'err');
       return;
     }
     setStatus('Requesting camera access...');
-    html5QrCode = new Html5Qrcode('scan-reader', QR_FORMATS_CONFIG);
+    html5QrCode = new Html5Qrcode('scan-reader', getQrFormatsConfig());
     var config = {
       fps: 10,
       qrbox: { width: 280, height: 180 },
@@ -985,8 +1166,7 @@
       // Android honors it; iOS Safari has no web API for camera focus
       // control at all (confirmed: no focusMode/focusDistance capability
       // in WebKit, unlike Chrome), so it's silently ignored there rather
-      // than failing. That's also why "Take a photo instead" exists below
-      // — it's the only way to get real (native) autofocus on iPhone.
+      // than failing.
       videoConstraints: {
         facingMode: 'environment',
         width: { ideal: 1920 },
@@ -1004,11 +1184,11 @@
       paused = false;
       setStatus('Scanning... center the barcode in the box.');
       armHint();
-      startBtn.hidden = true;
+      startWrapEl.hidden = true;
       stopBtn.hidden = false;
     }).catch(function(err) {
       console.error('[scan] camera start failed', err);
-      setStatus('Could not access the camera. Check that camera permission is allowed for this site, and that no other app is using it.', 'err');
+      setStatus('Could not access the camera. Check that camera permission is allowed for this site, and that no other app is using it, or search by brand/flavor below.', 'err');
     });
   }
 
@@ -1016,7 +1196,7 @@
     scanning = false;
     paused = false;
     clearHint();
-    startBtn.hidden = false;
+    startWrapEl.hidden = false;
     stopBtn.hidden = true;
     if (html5QrCode) {
       html5QrCode.stop().then(function() {
@@ -1028,75 +1208,6 @@
 
   startBtn.addEventListener('click', startScanning);
   stopBtn.addEventListener('click', function() { stopScanning(); setStatus(''); });
-
-  // ── PHOTO FALLBACK — routes through the native camera app instead of
-  // the live web preview, so focus is the phone's own (real) autofocus,
-  // not whatever iOS Safari's getUserMedia pipeline decides on its own. ──
-  var photoBtn = document.getElementById('scan-photo-btn');
-  var photoInput = document.getElementById('scan-photo-input');
-  photoBtn.addEventListener('click', function() {
-    // scanFile() is mutually exclusive with an active camera stream per
-    // html5-qrcode's own docs, so fully release the live one first if
-    // it's running.
-    if (html5QrCode) stopScanning();
-    photoInput.click();
-  });
-
-  // Modern phone cameras hand back very large photos (12+ MP) with EXIF
-  // rotation metadata rather than physically rotated pixels. Feeding that
-  // straight to the decoder risks it working against a sideways/huge
-  // image. createImageBitmap's imageOrientation:'from-image' bakes the
-  // EXIF rotation in properly, and capping the long edge keeps plenty of
-  // resolution for the barcode (still far more than the live-scan path
-  // ever gets) without handing the decoder something unnecessarily large.
-  // If anything here isn't supported, falls back to the original file —
-  // never blocks a scan attempt on this optimization.
-  function normalizePhotoForScan(file) {
-    if (typeof createImageBitmap !== 'function' || typeof OffscreenCanvas === 'undefined' && typeof document.createElement('canvas').getContext !== 'function') {
-      return Promise.resolve(file);
-    }
-    var MAX_EDGE = 1600;
-    return createImageBitmap(file, { imageOrientation: 'from-image' }).then(function(bitmap) {
-      var scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
-      var w = Math.round(bitmap.width * scale), h = Math.round(bitmap.height * scale);
-      var canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(bitmap, 0, 0, w, h);
-      bitmap.close && bitmap.close();
-      return new Promise(function(resolve) {
-        // scanFile() requires an actual File instance (checks
-        // `instanceof File`), not just any Blob — canvas.toBlob() only
-        // gives a bare Blob, so wrap it.
-        canvas.toBlob(function(blob) {
-          resolve(blob ? new File([blob], 'scan.jpg', { type: 'image/jpeg' }) : file);
-        }, 'image/jpeg', 0.92);
-      });
-    }).catch(function(err) {
-      console.warn('[scan] photo normalization skipped, using original file', err);
-      return file;
-    });
-  }
-
-  photoInput.addEventListener('change', function(e) {
-    var file = e.target.files && e.target.files[0];
-    e.target.value = ''; // so picking the same photo again still fires 'change'
-    if (!file) return;
-    if (typeof Html5Qrcode === 'undefined') {
-      setStatus('Scanner library failed to load. Check your connection and reload.', 'err');
-      return;
-    }
-    setStatus('Reading photo...');
-    if (!html5QrCode) html5QrCode = new Html5Qrcode('scan-reader', QR_FORMATS_CONFIG);
-    normalizePhotoForScan(file).then(function(scanBlob) {
-      return html5QrCode.scanFile(scanBlob, false);
-    }).then(function(decodedText) {
-      handleDecodedCode(decodedText);
-    }).catch(function(err) {
-      console.warn('[scan] photo decode failed', err);
-      setStatus('Couldn\'t find a barcode in that photo. Try filling more of the frame with the barcode, keeping it flat, and good lighting, then try again.', 'err');
-    });
-  });
 
   // Release the camera if the tab/app is backgrounded — covers phone
   // lock, app switch, etc. where the live-between-scans stream above
@@ -1128,6 +1239,13 @@
       return hay.indexOf(q) !== -1;
     }).slice(0, 8);
 
+    trackEvent('scan_manual_search', {
+      query: manualInput.value.trim(),
+      result_count: matches.length,
+      page_type: (window.KYB && window.KYB.pageType) ? window.KYB.pageType() : 'scan',
+      page_slug: (window.KYB && window.KYB.pageSlug) ? window.KYB.pageSlug() : 'scan',
+    });
+
     manualResults.hidden = false;
     if (matches.length === 0) {
       manualResults.innerHTML = '<div class="scan-manual-result-row">No matches. Try a different brand or flavor spelling.</div>';
@@ -1146,6 +1264,19 @@
   manualInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') runManualSearch(); });
 
   window.addEventListener('beforeunload', function() { if (scanning) stopScanning(); });
+
+  // ── FAQ TOGGLE — same accordion behavior as every guide page's inline
+  // faq-q handler (one open at a time); analytics.js's delegated document
+  // click listener already fires faq_open off the .faq-q/.faq-item classes
+  // sitewide, no extra tracking needed here. ──
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('#scan-faq .faq-item').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
 })();
 </script>
 
