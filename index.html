@@ -143,7 +143,7 @@ gtag('config', 'G-SW4MNP5W7J');
     .home-hero {
       background: transparent;
       padding: 3rem 1.5rem 1.5rem;
-      max-width: 1040px;
+      max-width: 1088px;
       margin: 0 auto;
     }
     .home-hero-mark {
@@ -204,6 +204,11 @@ gtag('config', 'G-SW4MNP5W7J');
       gap: .7rem;
     }
     .finder-feature-item::before { content: ""; width: 7px; height: 7px; background: var(--bs-ink); flex-shrink: 0; }
+    .finder-hero-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .9rem;
+    }
     .finder-hero-btn {
       display: inline-flex;
       align-items: center;
@@ -216,6 +221,12 @@ gtag('config', 'G-SW4MNP5W7J');
       padding: 1.2rem 2.6rem;
       border-radius: var(--bs-radius);
       text-decoration: none;
+    }
+    .finder-hero-btn--secondary {
+      background: transparent;
+      color: var(--bs-ink);
+      border: 2px solid var(--bs-ink);
+      padding: calc(1.2rem - 2px) calc(2.6rem - 2px);
     }
     .finder-hero-btn:hover { opacity: .88; }
     .finder-hero-btn-note { font-family: var(--bs-font-body); font-size: .82rem; color: var(--bs-text-dim); margin: .75rem 0 0; }
@@ -402,6 +413,8 @@ gtag('config', 'G-SW4MNP5W7J');
         <a href="/vegan-protein-bars">Vegan Protein Bars</a>
         <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
         <a href="/dairy-free-protein-bars">Dairy Free Protein Bars</a>
+        <a href="/high-fiber-protein-bars">High Fiber Protein Bars</a>
+        <a href="/creatine-protein-bars">Creatine Protein Bars</a>
       </div>
     </div>
     <div class="site-nav-group">
@@ -410,6 +423,9 @@ gtag('config', 'G-SW4MNP5W7J');
         <a href="/all-protein-bar-brands">All Brands</a>
         <a href="/flavor-map">Flavor Map</a>
         <a href="/brand-quadrant">Brand Quadrant</a>
+        <a href="/all-ingredients">All Ingredients</a>
+        <a href="/ingredient-report">Ingredient Report</a>
+        <a href="/scan">Scan Your Bar</a>
       </div>
     </div>
     <a href="/ingredient_scoring" class="site-nav-link">How We Score</a>
@@ -445,6 +461,11 @@ gtag('config', 'G-SW4MNP5W7J');
     <div class="finder-hero-label">Protein Bar Finder</div>
     <h2 class="finder-hero-heading">Search 150+ brands and 1,000+ bars to find one that works for you</h2>
     <p class="finder-hero-desc">I built a tool to filter by protein, sugar, carbs, fiber, calories, ingredient grade, brand, flavor, gluten-free, and specific ingredients to exclude, like peanuts. You might care about protein. Someone else cares about avoiding erythritol. That's why the filters exist. No sponsored lists, no subjective taste tests. You decide what tastes good.</p>
+    <div class="finder-hero-btn-row">
+      <a href="/bar-finder" class="finder-hero-btn">Open the Bar Finder &rarr;</a>
+      <a href="/scan" class="finder-hero-btn finder-hero-btn--secondary">Scan a Bar &rarr;</a>
+    </div>
+    <p class="finder-hero-btn-note">Free. No email, no account, no catch.</p>
     <div class="finder-feature-list">
       <div class="finder-feature-item">Ingredient Grade A&ndash;F</div>
       <div class="finder-feature-item">Protein &amp; Calorie Sliders</div>
@@ -454,8 +475,6 @@ gtag('config', 'G-SW4MNP5W7J');
       <div class="finder-feature-item">Certifications</div>
       <div class="finder-feature-item">Compare Side-by-Side</div>
     </div>
-    <a href="/bar-finder" class="finder-hero-btn">Open the Bar Finder &rarr;</a>
-    <p class="finder-hero-btn-note">Free. No email, no account, no catch.</p>
   </div>
 </section>
 
@@ -749,8 +768,11 @@ gtag('config', 'G-SW4MNP5W7J');
       <div class="home-footer-col">
         <div class="home-footer-col-label">Tools</div>
         <a href="/bar-finder">Protein Bar Finder</a>
+        <a href="/scan">Scan Your Bar</a>
         <a href="/ingredient_scoring">How We Score</a>
         <a href="/all-protein-bar-brands">All Brands</a>
+        <a href="/all-ingredients">All Ingredients</a>
+        <a href="/ingredient-report">Ingredient Report</a>
       </div>
       <div class="home-footer-col">
         <div class="home-footer-col-label">Brand Reviews</div>
@@ -770,6 +792,13 @@ gtag('config', 'G-SW4MNP5W7J');
         <a href="/low-sugar-high-protein">Low Sugar + High Protein</a>
         <a href="/keto-protein-bars">Keto Protein Bars</a>
         <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
+        <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+        <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
+        <a href="/vegan-protein-bars">Vegan Protein Bars</a>
+        <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
+        <a href="/dairy-free-protein-bars">Dairy Free Protein Bars</a>
+        <a href="/high-fiber-protein-bars">High Fiber Protein Bars</a>
+        <a href="/creatine-protein-bars">Creatine Protein Bars</a>
       </div>
     </div>
     <div class="home-footer-copy">knowyourbar.com &middot; Updated August 2026</div>
