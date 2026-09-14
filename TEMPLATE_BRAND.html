@@ -843,7 +843,22 @@ gtag('config', 'G-SW4MNP5W7J');
        then recommends for another use case — check for that contradiction
        before finalizing (Barebells' first vegan-line draft did this: "avoid
        these 4 vegan flavors" followed immediately by "the vegan pick is
-       [one of those same 4]"). -->
+       [one of those same 4]").
+
+       Buy button (added 2026-09-14): every tile that names a specific
+       flavor as a genuine buy recommendation gets a "Shop on Amazon"
+       (.amazon-link) button beneath the reason paragraph, in a
+       .pick-tile-buy wrapper -- one button per flavor named in the tile
+       (see the multi-flavor example below). Pull the URL straight from
+       bars.js's Amazon Affiliate field for that exact flavor, never hand-type
+       it. Do NOT add a button to a tile that is telling the reader to skip,
+       avoid, or be cautious about a flavor (e.g. a "what to skip" pick), and
+       do NOT add an Amazon button to a flavor with a known duplicate/shared
+       ASIN in bars.js if the tile's own copy already tells the reader to buy
+       it via the brand site instead -- check for that kind of caveat in the
+       reason text before adding the button. Skip "Shop on Brand Site" in
+       this section; these are large, established brands where the direct
+       brand link isn't the point (see BRIEFING.md). -->
   <section class="section">
     <h2>Which @@BRAND@@ flavor should you actually buy</h2>
     <p>@@PICKS_INTRO@@</p>
@@ -852,8 +867,16 @@ gtag('config', 'G-SW4MNP5W7J');
         <div class="macro-label">@@PICK_1_LABEL@@</div>
         <div class="pick-tile-flavor">@@PICK_1_FLAVOR@@</div>
         <p>@@PICK_1_REASON@@</p>
+        <div class="pick-tile-buy"><a href="@@PICK_1_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a></div>
       </div>
-      <!-- repeat pick-tile per situational pick, 3-5 total -->
+      <!-- repeat pick-tile per situational pick, 3-5 total. For a tile
+           naming more than one flavor, repeat the button per flavor inside
+           the same .pick-tile-buy wrapper, e.g.:
+      <div class="pick-tile-buy">
+        <a href="@@PICK_N_FLAVOR_A_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="amazon-link">Shop @@PICK_N_FLAVOR_A@@</a>
+        <a href="@@PICK_N_FLAVOR_B_AMAZON_URL@@" target="_blank" rel="noopener sponsored" class="amazon-link">Shop @@PICK_N_FLAVOR_B@@</a>
+      </div>
+      -->
     </div>
   </section>
 
@@ -1060,6 +1083,7 @@ gtag('config', 'G-SW4MNP5W7J');
     </details>
   </div>
   <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated @@LAST_UPDATED_MONTH_YEAR@@</div>
+  <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
 </footer>
 
 <!-- JAVASCRIPT — do not modify this block -->

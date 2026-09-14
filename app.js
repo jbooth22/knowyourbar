@@ -832,7 +832,6 @@ function bindExclInput() {
 const PRESETS = {
   lose_weight: {
     label: 'Lose Weight',
-    emoji: '🎯',
     tagline: 'High protein, low calorie, low sugar',
     why: 'Protein keeps you full longer per calorie. We filtered to bars with at least 20g of protein under 200 calories, with no more than 3g of sugar. These are the bars that work hardest for weight management without loading you up with sweeteners or empty calories.',
     criteria: '20g+ protein &middot; under 200 cal &middot; under 3g sugar &middot; A or B ingredient grade',
@@ -848,7 +847,6 @@ const PRESETS = {
   },
   clean: {
     label: 'Clean Ingredients',
-    emoji: '🌿',
     tagline: 'No artificial sweeteners, no sugar alcohols',
     why: 'About 65% of protein bars contain artificial sweeteners or sugar alcohols. These bars contain neither. Every result here earns an A (Clean) ingredient grade with at least 12g of protein and no sucralose, acesulfame, aspartame, erythritol, maltitol, or xylitol anywhere in the ingredient list.',
     criteria: 'A ingredient grade &middot; 12g+ protein &middot; no artificial sweeteners &middot; no sugar alcohols',
@@ -863,8 +861,7 @@ const PRESETS = {
     sort: { col: 'ingredient_score', dir: 'desc' }
   },
   skip_sugar: {
-    label: 'Skip the Sugar',
-    emoji: '🚫',
+    label: 'Low Sugar',
     tagline: 'Under 2g sugar, no maltitol or sorbitol',
     why: 'Low sugar does not have to mean artificial sweeteners. These bars keep natural sugar under 2g and skip the problematic sugar alcohols (maltitol and sorbitol, which have the highest glycemic impact and worst digestive side effects). A small amount of erythritol is allowed but kept under 4g.',
     criteria: 'Under 2g sugar &middot; under 4g sugar alcohol &middot; no maltitol or sorbitol &middot; A or B grade',
@@ -882,7 +879,6 @@ const PRESETS = {
   },
   high_protein: {
     label: 'Most Protein Per Calorie',
-    emoji: '💪',
     tagline: 'Highest protein efficiency — most protein for your calorie budget',
     why: 'Raw protein grams can be misleading. A bar with 30g protein at 400 calories is less efficient than one with 22g at 180 calories. This filter ranks by protein efficiency: grams of protein divided by total calories. Every result here has at least 15g protein and earns A, B, or C on ingredient quality.',
     criteria: 'Protein efficiency ranked &middot; 15g+ protein &middot; A, B, or C ingredient grade',
@@ -898,7 +894,6 @@ const PRESETS = {
   },
   keto: {
     label: 'Keto Friendly',
-    emoji: '⚡',
     tagline: 'Under 5 net carbs, higher fat',
     why: 'Net carbs = total carbs minus fiber minus sugar alcohols. These bars keep net carbs under 5g and have at least 10g of fat, fitting a ketogenic macro profile. All results earn A or B on ingredient quality so you are not just getting a list of maltitol-heavy options.',
     criteria: 'Under 5g net carbs &middot; 10g+ fat &middot; A or B ingredient grade',
@@ -916,7 +911,6 @@ const PRESETS = {
   },
   glp1: {
     label: 'GLP-1 Friendly',
-    emoji: '💊',
     tagline: 'High protein, low volume, easy on your stomach',
     why: 'Appetite suppression means less food volume, so every bite needs to work harder for protein. We filtered to bars with at least 15g of protein under 200 calories, under 4g of sugar, at least 3g of fiber for satiety, and zero sugar alcohols, since GI tolerance is a common concern on GLP-1 medications. Every result earns an A or B on ingredient quality.',
     criteria: '15g+ protein &middot; under 200 cal &middot; under 4g sugar &middot; 3g+ fiber &middot; no sugar alcohols &middot; A or B ingredient grade',
@@ -935,7 +929,6 @@ const PRESETS = {
   },
   no_sugar_alcohol: {
     label: 'No Sugar Alcohol',
-    emoji: '🍬',
     tagline: 'Zero erythritol, maltitol, xylitol, or any other sugar alcohol',
     why: 'Sugar alcohols are the most common culprit behind bloating and GI discomfort from protein bars. These results have zero grams of sugar alcohol on the label, full stop, matching our No Sugar Alcohols guide.',
     criteria: '0g sugar alcohol',
@@ -947,7 +940,6 @@ const PRESETS = {
   },
   no_seed_oil: {
     label: 'No Seed Oil',
-    emoji: '🫒',
     tagline: 'No canola, soybean, palm, sunflower, or other seed/vegetable oils',
     why: 'We screen every ingredient list for canola, rapeseed, soybean, palm, palm kernel, sunflower, safflower, cottonseed, corn, grapeseed, and rice bran oil, plus any hydrogenated fat or generic "vegetable oil." High-oleic sunflower and safflower oil are allowed, same screen used on our No Seed Oils guide.',
     criteria: 'No screened seed or vegetable oils in the ingredient list',
@@ -1041,7 +1033,6 @@ function updatePresetBanner(filteredCount) {
   banner.innerHTML = `
     <div class="banner-inner">
       <div class="banner-top">
-        <span class="banner-emoji">${preset.emoji}</span>
         <span class="banner-label">${preset.label}</span>
         <span class="banner-count">${filteredCount} bar${filteredCount !== 1 ? 's' : ''} match</span>
         <button class="banner-clear" onclick="resetAll()" aria-label="Clear filter">Clear</button>

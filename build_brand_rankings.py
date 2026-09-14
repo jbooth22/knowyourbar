@@ -823,6 +823,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     </details>
   </div>
   <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated August 2026</div>
+  <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
 </footer>
 
 <script>
