@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Analytics -->
+  <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SW4MNP5W7J');
+/* Delay loading the GA4 library itself until after the page has finished
+   loading (or after 4s as a fallback), so its ~170KB doesn't compete with
+   first paint on slow connections. dataLayer.push already queues events
+   fired before this loads (via analytics.js / app.js), so nothing is lost
+   -- gtag('config',...) above still fires the pageview once the real
+   script arrives and drains the queue. See PERFORMANCE_AND_BLOAT_AUDIT.
+   Standard site-wide snippet -- kept identical to every other page's copy
+   (index.html, every guide/brand page) on purpose; do not fork this. This
+   page was missing it entirely until the 2026-09-15 GA Tag Coverage fix
+   (see claude/CHANGELOG.md), which is why /scan showed as "Not tagged". */
+(function(){
+  var loaded = false;
+  function loadGtag(){
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J';
+    document.head.appendChild(s);
+  }
+  if (document.readyState === 'complete') {
+    loadGtag();
+  } else {
+    window.addEventListener('load', loadGtag);
+  }
+  setTimeout(loadGtag, 4000);
+})();
+</script>
+
   <!-- ═══════════════════════════════════════════════════════
        KNOW YOUR BAR — BARCODE SCAN PAGE
        File: scan.html  →  deploy as /scan.html
@@ -940,8 +975,17 @@
 
   // Shared by both the live decode callback and the photo-fallback path
   // below, so a match/no-match looks and behaves identically either way.
-  function handleDecodedCode(decodedText) {
+  function handleDecodedCode(decodedText, source) {
     var bar = lookupBarByCode(decodedText);
+    if (window.KYB) {
+      window.KYB.track(bar ? 'scan_success' : 'scan_no_match', {
+        scan_source: source || 'camera',
+        bar_brand: bar ? bar['Brand Name'] : null,
+        bar_flavor: bar ? bar['Flavor Name'] : null,
+        bar_grade: bar ? bar.score_band : null,
+        scanned_code: bar ? null : decodedText,
+      });
+    }
     if (bar) {
       setStatus('Match found', 'ok');
       showBar(bar);
@@ -953,7 +997,7 @@
   function onDecoded(decodedText) {
     if (!scanning) return;
     scanning = false;
-    handleDecodedCode(decodedText);
+    handleDecodedCode(decodedText, 'camera');
   }
 
   var QR_FORMATS_CONFIG = {
@@ -972,6 +1016,7 @@
       return;
     }
     setStatus('Requesting camera access...');
+    if (window.KYB) window.KYB.track('scan_camera_start', {});
     html5QrCode = new Html5Qrcode('scan-reader', QR_FORMATS_CONFIG);
     var config = {
       fps: 10,
@@ -1092,9 +1137,10 @@
     normalizePhotoForScan(file).then(function(scanBlob) {
       return html5QrCode.scanFile(scanBlob, false);
     }).then(function(decodedText) {
-      handleDecodedCode(decodedText);
+      handleDecodedCode(decodedText, 'photo');
     }).catch(function(err) {
       console.warn('[scan] photo decode failed', err);
+      if (window.KYB) window.KYB.track('scan_photo_decode_fail', {});
       setStatus('Couldn\'t find a barcode in that photo. Try filling more of the frame with the barcode, keeping it flat, and good lighting, then try again.', 'err');
     });
   });
@@ -1130,6 +1176,12 @@
     }).slice(0, 8);
 
     manualResults.hidden = false;
+    if (window.KYB) {
+      window.KYB.track('scan_manual_search', {
+        query: q,
+        result_count: matches.length,
+      });
+    }
     if (matches.length === 0) {
       manualResults.innerHTML = '<div class="scan-manual-result-row">No matches. Try a different brand or flavor spelling.</div>';
       return;

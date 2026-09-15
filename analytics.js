@@ -16,6 +16,13 @@
    kybTrack() calls there. This file still needs to be loaded on
    bar-finder.html for those calls to resolve.
 
+   Scan-page tracking (scan_camera_start, scan_success, scan_no_match,
+   scan_manual_search, scan_photo_decode_fail) is fired directly from
+   scan.html's own inline script the same way, via window.KYB.track() —
+   this file still needs to be loaded there (it is, via the defer tag at
+   the bottom of scan.html) for buy_click/bar_expand/etc. on that page's
+   results to keep working too.
+
    All events funnel through KYB.track() so naming/params stay consistent.
    Never throws if gtag isn't present (e.g. ad blockers, local testing). */
 (function () {
