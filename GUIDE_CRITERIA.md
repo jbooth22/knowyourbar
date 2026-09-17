@@ -30,7 +30,10 @@
 | Vegan | `Vegan (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate) |
 | Gluten Free | `Gluten Free (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate, same pattern as Vegan) |
 | Dairy Free | `Dairy Free (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate, same pattern as Vegan/Gluten Free) |
+| Soy Free | `Soy Free (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate, same pattern as Vegan/Gluten Free/Dairy Free). Category-explainer section (informational only, does not affect qualification) cross-checks the disqualified set for three named soy sources: soy protein (`soy protein\|textured soy\|soy flour\|isolated soy protein\|proteins?\s*\(soy\b\|\(soy,` — the last two alternatives catch "plant protein(s) (soy, pea, rice, ...)" blend labels), soy lecithin (`soy lecithin\|lecithins?\s*\(soy\)` — the second alternative catches reversed-order labeling common on imported/European-formatted bars, e.g. "lecithin (soy)"), and soybean oil (`soybean oil\|soy oil`). A bare `\bsoy\b` catch-all was tested and dropped: on the 2026-09-17 build (1,307 bars) it only ever fired on top of the three named checks above, except for one "may contain ... wheat, and soy" cross-contact allergen disclaimer (Honey Stinger Chocolate Chocolate Chip), which correctly falls into the unlabeled bucket rather than being counted as a real soy ingredient. **Do not describe soy protein or soy lecithin as "concern" ingredients when writing copy for this guide** — checked against `knowyourbar_scoring_schema_v11.xlsx`'s Canonical_Ingredients sheet: soy protein isolate scores +3, soy protein +2, soy protein concentrate +2 (all positive, protein/plant_protein), soy lecithin scores 0 (neutral, emulsifier); only soybean oil scores -1 (fat_oil/refined_or_seed_oil, same bucket as other seed oils). Soy free bars grade A/B at a notably higher rate than the database average (73.4% vs. 57.7% on the 2026-09-17 build), but that's correlation, not the soy screen itself: soy free bars also carry artificial sweeteners and processed oils at much lower rates than the database as a whole. Don't attribute the grade gap to soy protein/lecithin being penalized — they aren't. |
 | High Fiber (three tiers) | `Dietary Fiber (g)` >= 5 (High Fiber), >= 8 (Very High Fiber), >= 11 (Extreme Fiber). Cumulative cutoffs on the same field, not three separate screens — every Extreme Fiber bar also counts as Very High Fiber and High Fiber. No macro or ingredient-quality gate beyond the fiber threshold itself. `high-fiber-protein-bars.html` leads with the Extreme Fiber (11g+) tier as its primary ranked list and main brand tables; High Fiber and Very High Fiber are presented as supporting context in a section inserted at the guide's standard GSC-keyword-gap insertion point (see "Template section order" in BRIEFING.md). The 5g cutoff matches the FDA's own "excellent source of fiber" labeling threshold — cite that as the rationale for where the High Fiber tier starts, don't invent a different justification. |
+
+| Kosher | `Kosher (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate). Structurally different from Vegan/Gluten Free/Dairy Free/Soy Free: kosher is a supervised-process certification, not primarily an ingredient screen, so most ingredients (whey, milk, soy, wheat, sugar, nuts) don't disqualify a bar by their mere presence. Category-explainer section cross-checks the disqualified set for three ingredients that are almost never kosher without their own certification: gelatin (`\bgelatin\b`, 77 bars on the 2026-09-17 build, usually pork- or non-ritually-slaughtered-animal-derived), confectioner's glaze/shellac (`shellac\|confectioner.?s glaze`, 14 bars, an insect-derived coating resin), and a combined Other bucket for carmine/cochineal and rennet (`\bcarmine\b\|cochineal\|\brennet\b`, 5 bars). On the 2026-09-17 build, only ~7.6% of the 1,158 non-kosher bars contain any of these three factors; the other ~92% simply haven't pursued certification, which is the opposite pattern from Dairy Free/Soy Free (where a majority of the disqualified set has an identifiable disqualifying ingredient). Kosher bars do NOT grade meaningfully higher or lower than the database average (54.4% vs. 57.7% A/B rate on the 2026-09-17 build) — don't reuse Soy Free's "grades higher" framing for this guide, the two guides have genuinely different quality-correlation patterns. |
 
 Note on sugar-alcohol screens: Keto and Diabetics exclude the maltitol family specifically (glycemic-index rationale, see below). GLP-1 is stricter and excludes ALL sugar alcohols (`Sugar Alcohol (g)` must equal exactly 0) — the rationale there is GI tolerance (bloating, digestive discomfort), not glycemic index. Do not reuse the maltitol-only check for GLP-1 or vice versa; confirm against `app.js`'s canonical presets before reusing either check on a new guide.
 
@@ -116,3 +119,65 @@ def tags(b):
 ```
 
 When updating a page, update every place the count appears: hero stat, snapshot bar, H1 (if it includes the number), title tag, meta description, og/twitter tags, JSON-LD, and any derived stats (avg protein/fat of the qualifying set, A-grade count within it, brands represented within it). Don't just swap the headline number and leave supporting stats stale — that's exactly how Keto ended up half-fixed before. Once the refresh is done, update the count in `BRIEFING.md`'s guide-status section — that's the only place a current count should live.
+
+---
+
+## Top Picks Selection (the 6-tile grid at the top of every guide)
+
+### The problem this fixes
+
+Through 2026-09-06, every guide's 6 "Top picks" tiles were selected as a
+pure max/min of raw `ingredient_score` over the guide's qualifying set --
+"Best overall" = highest raw score, etc. That's honest in the sense that
+nothing was hand-picked, but `ingredient_score` is a -4 to +4 directional
+per-ingredient scale, not deeply weighted and not quantity-aware --
+comparing two bars' scores to the decimal claims more precision than the
+scoring system has. In practice this meant one globally excellent bar
+won "Best overall" (and often several other tiles) on nearly every guide
+it qualified for, regardless of the guide's topic.
+
+**This rule was documented but never actually shipped to the build scripts.**
+Confirmed 2026-09-17: `build_dairy_free_protein_bars.py`, and by extension
+the already-live `dairy-free-protein-bars.html`, `gluten-free-protein-bars.html`,
+and `high-fiber-protein-bars.html` pages built from sibling scripts, all still
+select tiles 2 through 6 as a pure max/min over the FULL qualifying set with
+no band restriction. Found while building Soy Free: its unrestricted picks
+included a D-grade "Best protein/calorie ratio" and a D-grade "Best total
+protein" tile sitting right next to an A-grade "Best overall" tile on the
+same page. `build_soy_free_protein_bars.py` and `build_kosher_protein_bars.py`
+were the first to actually implement the band-restriction logic below. If a
+future session refreshes Dairy Free, Gluten Free, or High Fiber, port this
+fix over rather than assuming it's already there because this doc says so.
+
+### The rule, applied fresh each time a guide is built or refreshed
+
+1. **Band, not raw score, is the ingredient-quality signal.** Within the
+   guide's qualifying set, find the best `score_band` actually present
+   (usually A, sometimes B if none qualify at A). Treat every bar in
+   that band as tied on ingredient quality -- per the scoring system's
+   own precision, they are. Never pick a tile by comparing raw
+   `ingredient_score` between two bars.
+2. **Break the tie with a real, guide-specific number** -- net carbs for
+   Keto, calories for GLP-1, caffeine mg for Caffeine, sodium or
+   saturated fat for the free-from guides, and so on. Never break a tie
+   with another ingredient-score comparison.
+3. **Only one of the 6 tiles may be quality-anchored** ("Best overall").
+   The other five must reference something actually distinctive about
+   THAT guide's diet. If a category could be copy-pasted onto an
+   unrelated guide with only the label swapped, replace it -- that
+   genericness is exactly what caused the duplication above.
+4. **No bar repeats across the 6 tiles on one guide.** Once a bar has
+   filled a slot, exclude it from the rest of that guide's picks and
+   move to the next-best bar in the band (fall back to allowing a
+   repeat only if that leaves a category with nothing eligible -- a very
+   small qualifying set). One flavor sweeping 4 of 6 tiles on a page is
+   the same problem as the cross-guide version, just contained to one
+   page.
+
+That's the whole rule -- band, guide-specific tiebreak, no repeats on the
+page. `build_soy_free_protein_bars.py` and `build_kosher_protein_bars.py`
+both implement it with a `BAND_POOL` + `best_in_band()` helper (falls back
+to the full qualifying set only when the top band has zero candidates for
+a specific tile, e.g. Kosher's "Best for keto" tile, which had no A-grade
+bar clearing the keto macro screen and fell back to B). Copy that pattern
+rather than reinventing it.
