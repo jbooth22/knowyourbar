@@ -54,6 +54,8 @@ SCORE_BANDS = [
 
 # ── Ingredient signals ────────────────────────────────────────────────────────
 ARTIFICIAL_SW  = ['sucralose', 'acesulfame', 'aspartame', 'saccharin']
+# Flat per-sweetener penalty, applied regardless of label position (schema v12)
+ARTIFICIAL_SW_PENALTY = -2.0
 SA_KEYWORDS    = ['erythritol', 'maltitol', 'xylitol', 'sorbitol',
                   'mannitol', 'isomalt', 'lactitol']
 OIL_KEYWORDS   = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
@@ -531,6 +533,37 @@ def score_bar(raw, al, cl):
 
     if not matched:
         return None, None, None, '', '', None, None, ''
+
+    # Flat artificial sweetener penalty (schema v12, 2026-09-23). Position
+    # weighting assumes more of an ingredient means more impact. That holds
+    # for bulk ingredients but not for high-intensity sweeteners, which are
+    # used in milligrams and always sit near the end of a label, so under
+    # position weighting sucralose cost a bar a median of -0.27 points.
+    # Now each artificial sweetener named anywhere in the ingredient text
+    # counts a flat ARTIFICIAL_SW_PENALTY once, regardless of position.
+    # Counting keywords in the raw text (not matched ingredients) also
+    # catches combined label phrases like "sucralose and acesulfame
+    # potassium", which only match a single ingredient entry.
+    for m in matched:
+        if any(kw in m['canonical'].lower() for kw in ARTIFICIAL_SW):
+            m['weighted'] = 0.0
+    for kw in ARTIFICIAL_SW:
+        if kw in full_lower:
+            holder = next((m for m in matched
+                           if kw in m['canonical'].lower() and m['weighted'] == 0.0), None)
+            if holder is None:
+                holder = next((m for m in matched if kw in m['canonical'].lower()), None)
+            if holder is not None and holder['weighted'] == 0.0:
+                holder['weighted'] = ARTIFICIAL_SW_PENALTY
+            else:
+                # Named in the text but not matched to an ingredient entry
+                # (e.g. inside a combined phrase). Placed at the last label
+                # position so it can't change the ingredient count.
+                matched.append({
+                    'canonical': kw, 'category': 'sweetener', 'score': ARTIFICIAL_SW_PENALTY,
+                    'weighted': ARTIFICIAL_SW_PENALTY,
+                    'position': max((m['position'] for m in matched), default=1), 'is_sub': True,
+                })
 
     # Diminishing returns on stacked protein sources (schema v7) — see
     # PROTEIN_STACK_DISCOUNT above. Only top-level (non-sub) protein-category
