@@ -196,7 +196,57 @@ def build_lookup(alias_map, canonical):
                 'base_score': float(row['base_score']) if pd.notna(row['base_score']) else 0,
                 'skip': str(row.get('score_method_default', '')) in SKIP_METHODS,
             }
+    # Duplicate-alias guard (schema v12, 2026-09-23): when the same label
+    # name appears on more than one Alias_Map row, only the FIRST row is
+    # used. Before v12 this happened silently: v11 "merge" rows such as
+    # strawberries -> strawberry (+2) were appended at the bottom, but an
+    # older strawberries (+1) row above them kept winning, so the fix never
+    # took effect. Now any duplicate that disagrees on score
+    # stops the run so it gets fixed in the schema instead of hidden.
+    seen, conflicts = {}, []
+    for _, row in alias_map.iterrows():
+        key = normalize(str(row['normalized_alias_text']))
+        if len(key) < 2:
+            continue
+        val = float(row['base_score']) if pd.notna(row['base_score']) else 0
+        if key in seen and seen[key] != val:
+            conflicts.append(f'{key!r}: {seen[key]} vs {val}')
+        seen.setdefault(key, val)
+    if conflicts:
+        raise ValueError('Alias_Map has duplicate label names with different scores '
+                         '(only the first would be used):\n  ' + '\n  '.join(conflicts))
     return al, cl
+
+
+# ── Variant normalization (schema v12) ─────────────────────────────────────
+VARIANT_PREP_WORDS = ['organic','natural','pure','raw','roasted','dry roasted','unsweetened','dried','freeze dried',
+              'dehydrated','sliced','diced','chopped','toasted','wild','fresh','certified organic','non gmo','gluten free']
+def _singular(w):
+    if len(w) <= 3 or w.endswith('ss') or w.endswith('us'): return w
+    if w.endswith('ies'): return w[:-3] + 'y'
+    if w.endswith(('ches','shes','sses','xes','oes')): return w[:-2]
+    if w.endswith('s'): return w[:-1]
+    return w
+def ingredient_variants(norm):
+    """Yield progressively normalized forms of an ingredient: prep words
+    stripped (repeatedly, any order) and the last word singularized."""
+    out = []
+    s = norm
+    changed = True
+    while changed:
+        changed = False
+        if s.startswith('whole ') and not s.startswith('whole grain'):
+            s = s[6:]; changed = True
+        for p in sorted(VARIANT_PREP_WORDS, key=len, reverse=True):
+            if s.startswith(p + ' '):
+                s = s[len(p)+1:]; changed = True
+    for base in dict.fromkeys([norm, s]):
+        words = base.split()
+        if not words: continue
+        sg = ' '.join(words[:-1] + [_singular(words[-1])])
+        for v in (base, sg):
+            if v and v not in out: out.append(v)
+    return out
 
 
 def lookup_ingredient(norm, al, cl):
@@ -214,6 +264,20 @@ def lookup_ingredient(norm, al, cl):
             return cl[stripped]
     if norm in cl:
         return cl[norm]
+    # Variant fallback (schema v12, 2026-09-23): before the substring
+    # fallback below, try the same ingredient with preparation words
+    # stripped (dried, freeze dried, roasted, raw, ...) and the last word
+    # singularized (strawberries -> strawberry). Previously these variants
+    # fell through to the substring matcher or to separately-scored
+    # canonical entries, so the same food could score differently depending
+    # on how a label spelled it (e.g. strawberry +2 vs. strawberries +1).
+    for v in ingredient_variants(norm):
+        if v == norm:
+            continue
+        if v in al:
+            return al[v]
+        if v in cl:
+            return cl[v]
     best, best_len = None, 0
     for key, val in al.items():
         if key in norm and len(key) > best_len and len(key) > 4:
@@ -574,6 +638,72 @@ def generate_insights(matched, full_lower, top_level_count):
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
+def match_method(norm, al, cl):
+    """How lookup_ingredient() resolved `norm`: 'exact', 'variant' or 'partial'."""
+    if norm in al or norm in cl:
+        return 'exact'
+    stripped = norm
+    for prefix in SKIP_PREFIXES:
+        if stripped.startswith(prefix):
+            stripped = stripped[len(prefix):]
+            break
+    if stripped != norm and (stripped in al or stripped in cl):
+        return 'exact'
+    for v in ingredient_variants(norm):
+        if v != norm and (v in al or v in cl):
+            return 'variant'
+    return 'partial'
+
+
+# Words that say what KIND of ingredient a label phrase is. If a phrase
+# containing one of these is resolved by the partial-match fallback to an
+# ingredient of a different kind, it is very likely a false positive
+# (e.g. "tapioca fiber syrup" -> tapioca fiber, "shea butter" -> dairy
+# butter, "natural banana flavor" -> banana). Added schema v12, 2026-09-23.
+PARTIAL_MATCH_SIGNALS = {
+    'syrup': {'sweetener'}, 'sugar': {'sweetener'}, 'nectar': {'sweetener'},
+    'honey': {'sweetener'}, 'oil': {'fat_oil'}, 'butter': {'fat_oil', 'whole_food'},
+    'flavor': {'flavor_additive'}, 'flavour': {'flavor_additive'},
+    'extract': {'flavor_additive', 'botanical_or_functional', 'color_additive'},
+    'juice': {'sweetener', 'color_additive'}, 'concentrate': {'sweetener', 'color_additive', 'protein'},
+    'protein': {'protein', 'ingredient_group'}, 'fiber': {'fiber_or_functional_carb'},
+}
+
+
+def audit_partial_matches(df, al, cl):
+    """List label phrases scored by the partial-match fallback whose own
+    wording points to a different kind of ingredient than the one they
+    matched. Each one should get an explicit Alias_Map row. Run on every
+    database update; an empty list is the goal."""
+    suspects = Counter()
+    for _, row in df.iterrows():
+        raw = str(row.get('Ingredients', ''))
+        if not raw or raw == 'nan':
+            continue
+        for ing_text, _, _ in parse_ingredients(raw):
+            norm = normalize(ing_text)
+            if len(norm) < 2:
+                continue
+            res = lookup_ingredient(norm, al, cl)
+            if not res or res.get('skip') or match_method(norm, al, cl) != 'partial':
+                continue
+            words = set(norm.split())
+            signals = [w for w in PARTIAL_MATCH_SIGNALS if w in words]
+            if not signals:
+                continue
+            allowed = set().union(*(PARTIAL_MATCH_SIGNALS[w] for w in signals))
+            if res['category'] in allowed or any(w in res['canonical_name'].lower() for w in signals):
+                continue
+            suspects[(norm, res['canonical_name'], res['base_score'])] += 1
+    if not suspects:
+        print('  Partial-match audit: no suspicious guesses found.')
+        return
+    print(f'  Partial-match audit: {len(suspects)} label phrases were guessed to a '
+          f'different kind of ingredient. Add explicit Alias_Map rows for these:')
+    for (norm, canon, score), n in suspects.most_common(30):
+        print(f'    {n:3d}x  {norm!r} -> {canon} ({score:+g})')
+
+
 def audit_schema_gaps(df, al, cl):
     """
     Scan all bar ingredient lists for ingredients not found in the schema.
@@ -659,6 +789,7 @@ def main():
     if not args.no_audit:
         print('\nAuditing schema coverage...')
         audit_schema_gaps(df, al, cl)
+        audit_partial_matches(df, al, cl)
 
     # Score all bars
     print('\nScoring...')
