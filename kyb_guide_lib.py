@@ -731,7 +731,10 @@ def findings_html(h2, big_num, big_head, big_detail, insights):
     </div>'''
 
 def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, avoid_note, mixed_note,
-                      avoid_head, avoid_last_head, avoid_last, mixed_head, pick_word='clean pick'):
+                      avoid_head, avoid_last_head, avoid_last, mixed_head, pick_word='clean pick',
+                      consider_all='Clean across its whole lineup',
+                      consider_some='{q} of {total} flavors qualify, close enough to call clean',
+                      pick_head='Clean Pick'):
     """Consider / Avoid / Mixed tables (BRIEFING locked rule, see brand_split).
     Consider shows total flavors; Avoid shows disqualified/total with a
     per-brand 'what disqualifies it' cell; Mixed shows qualifying/total and the
@@ -750,7 +753,7 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
         return min((b for b in r['qual'] if b.get('score_band') == band), key=lambda b: (-P(b), name_key(b)))
     c_rows = '\n'.join(
         f'<tr><td>{jump(r["brand"])}</td>{cells(r, r["total"])}<td>'
-        + ('Clean across its whole lineup' if r['d'] == 0 else f'{r["q"]} of {r["total"]} flavors qualify, close enough to call clean') + '</td></tr>'
+        + (consider_all if r['d'] == 0 else consider_some.format(q=r['q'], total=r['total'])) + '</td></tr>'
         for r in consider)
     a_rows = '\n'.join(
         (f'<tr class="avoid-row brand-row-hidden" style="display:none;">' if i >= 15 else '<tr class="avoid-row">')
@@ -797,7 +800,7 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
 
 {block('con', 'Brands to Avoid', avoid_note, head.format(esc(avoid_head), esc(avoid_last_head)), a_rows, f' id="{table_id}-avoid-table"', more)}
 
-{block('mixed', 'Mixed Lineups, Check the Flavor', mixed_note, head.format(esc(mixed_head), 'Clean Pick'), m_rows)}
+{block('mixed', 'Mixed Lineups, Check the Flavor', mixed_note, head.format(esc(mixed_head), esc(pick_head)), m_rows)}
     </div>'''
 
 def guide_head_regions(*, title, h1, desc, og_desc, url, about, published, faqs, picks):
@@ -1048,3 +1051,19 @@ def keto_expand_html(r):
 def all_n_flavors(t):
     """'All 5 flavors' / 'Both flavors' / 'Its one flavor' for brand-table notes."""
     return 'Its one flavor' if t == 1 else ('Both flavors' if t == 2 else f'All {t} flavors')
+
+
+def social_title_html(og_title, og_desc, url):
+    """OG/Twitter block for guides whose share title is the <title> (not the H1)."""
+    return f'''<meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="{esc(og_title)}">
+  <meta property="og:description" content="{esc(og_desc)}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(og_title)}">
+  <meta name="twitter:description" content="{esc(og_desc)}">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''
