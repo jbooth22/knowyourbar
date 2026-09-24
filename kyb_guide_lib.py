@@ -133,6 +133,7 @@ GUIDE_FILTERS = {
         and (num(b.get('Protein (g)')) or 0) >= 10 and (num(b.get('Total Fat (g)')) or 0) >= 8
         and not has_maltitol_family(b)),
     'caffeine-protein-bars': lambda b: (num(b.get('Caffeine (mg)')) or 0) > 0,
+    'creatine-protein-bars': lambda b: (num(b.get('Creatine (g)')) or 0) > 0,   # any declared amount (live page definition)
     'vegan-protein-bars': _yes('Vegan (Y/N)'),
     'gluten-free-protein-bars': _yes('Gluten Free (Y/N)'),
     'dairy-free-protein-bars': _yes('Dairy Free (Y/N)'),
@@ -430,6 +431,8 @@ def bar_table(bars, all_bars, eager=30, variant=None):
     if variant == 'keto':
         ncv = [net_carbs(x) for x in all_bars if net_carbs(x) is not None]
         row_fn, exp_fn, span = keto_row_html, keto_expand_html, 10
+    elif variant == 'fiber':
+        row_fn, span = fiber_row_html, 10
     rows, lazy = [], []
     for idx, b in enumerate(sort_for_list(bars)):
         rec = lazy_record(b, idx, ranker)
@@ -608,8 +611,9 @@ class Picker:
     broken on a real guide-specific number (never raw ingredient score), no
     bar repeats. A protein floor (default 10g) applies unless nothing in the
     band clears it."""
-    def __init__(self, qualify, floor=10):
+    def __init__(self, qualify, floor=10, diverse=False):
         self.qualify = qualify
+        self.diverse, self.used_brands = diverse, set()
         self.band_grade = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in qualify))
         self.band = [b for b in qualify if b.get('score_band') == self.band_grade]
         self.floor, self.used = floor, set()
@@ -622,9 +626,17 @@ class Picker:
         for pool in bands:
             for floor in (self.floor, 0):
                 c = [b for b in pool if b['Key'] not in self.used and eligible(b) and P(b) >= floor]
+                if c and self.diverse:
+                    # optional: among bars tied on the tile's own number, prefer a
+                    # brand not already shown (never trades away a better value)
+                    k0 = min(tuple(sort_key(x))[0] for x in c)
+                    tied = [b for b in c if tuple(sort_key(b))[0] == k0]
+                    fresh = [b for b in tied if b['Brand Name'] not in self.used_brands]
+                    c = fresh or c
                 if c:
                     b = min(c, key=lambda x: (tuple(sort_key(x)), name_key(x)))
                     self.used.add(b['Key'])
+                    self.used_brands.add(b['Brand Name'])
                     return b
         return None
 
@@ -734,7 +746,7 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
                       avoid_head, avoid_last_head, avoid_last, mixed_head, pick_word='clean pick',
                       consider_all='Clean across its whole lineup',
                       consider_some='{q} of {total} flavors qualify, close enough to call clean',
-                      pick_head='Clean Pick'):
+                      pick_head='Clean Pick', second_avg=('Avg Sugar', 'Sugars (g)'), avoid_label='Brands to Avoid'):
     """Consider / Avoid / Mixed tables (BRIEFING locked rule, see brand_split).
     Consider shows total flavors; Avoid shows disqualified/total with a
     per-brand 'what disqualifies it' cell; Mixed shows qualifying/total and the
@@ -745,7 +757,7 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
         return grade_range_html(best, worst)
     def cells(r, count):
         return (f'<td>{count}</td><td>{gcell(r)}</td><td>{fnum(avg(r["bars"], "Protein (g)"))}g</td>'
-                f'<td>{fnum(avg(r["bars"], "Sugars (g)"))}g</td>')
+                f'<td>{fnum(avg(r["bars"], second_avg[1]))}g</td>')
     def jump(brand):
         return f'<button type="button" class="brand-jump" data-brand="{esc(brand)}">{esc(brand)}</button>'
     def cpick(r):
@@ -776,7 +788,8 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
           }});
         }})();
         </script>'''
-    head = '<thead><tr><th>Brand</th><th>{}</th><th>Ingredient Quality</th><th>Avg Protein</th><th>Avg Sugar</th><th>{}</th></tr></thead>'
+    head = ('<thead><tr><th>Brand</th><th>{}</th><th>Ingredient Quality</th><th>Avg Protein</th><th>'
+            + esc(second_avg[0]) + '</th><th>{}</th></tr></thead>')
     def block(cls, label, note, thead, rows, tid='', extra=''):
         return f'''      <div class="brand-table-block">
         <div class="brand-table-label {cls}">{label}</div>
@@ -798,7 +811,7 @@ def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, a
 
 {block('pro', 'Brands to Consider', consider_note, head.format('Total Flavors', 'Note'), c_rows)}
 
-{block('con', 'Brands to Avoid', avoid_note, head.format(esc(avoid_head), esc(avoid_last_head)), a_rows, f' id="{table_id}-avoid-table"', more)}
+{block('con', esc(avoid_label), avoid_note, head.format(esc(avoid_head), esc(avoid_last_head)), a_rows, f' id="{table_id}-avoid-table"', more)}
 
 {block('mixed', 'Mixed Lineups, Check the Flavor', mixed_note, head.format(esc(mixed_head), esc(pick_head)), m_rows)}
     </div>'''
@@ -837,8 +850,8 @@ def guide_head_regions(*, title, h1, desc, og_desc, url, about, published, faqs,
 def guide_list_regions(qualify, all_bars, *, heading, eager=30, lazy_attr=False, variant=None):
     rows, js = bar_table(qualify, all_bars, eager=eager, variant=variant)
     if lazy_attr:
-        rows = rows.replace(' style="display:none;"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">',
-                            ' style="display:none;" data-lazy="1"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">')
+        rows = re.sub(r' style="display:none;"><td colspan="(\d+)" class="ingr-cell"><div class="expand-content" data-pending="1">',
+                      r' style="display:none;" data-lazy="1"><td colspan="\1" class="ingr-cell"><div class="expand-content" data-pending="1">', rows)
     n = len(qualify)
     return [('list-heading', f'<h2 class="section-title">{esc(heading)}</h2>'),
             ('result-count', f'<div class="gd-result-count" id="gd-result-count">Showing {min(30, n)} of {comma(n)} bars</div>'),
@@ -1067,3 +1080,28 @@ def social_title_html(og_title, og_desc, url):
   <meta name="twitter:title" content="{esc(og_title)}">
   <meta name="twitter:description" content="{esc(og_desc)}">
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''
+
+
+def fiber_row_html(b, idx):
+    """High Fiber page columns: CAL, PROT, P/100, FIBR, FAT, CARB, SGR (no SGR ALC)."""
+    grade = b.get('score_band')
+    sc = score(b) or 0
+    prot, cal = num(b.get('Protein (g)')), num(b.get('Calories'))
+    p = p100(b) or 0
+    search = f"{b['Brand Name']} {b['Flavor Name']}".lower()
+    return f'''<tr class="bar-row" data-idx="{idx}" data-score="{fnum(sc)}" data-grade="{grade}" data-protein="{fnum(prot or 0)}" data-cal="{fnum(cal or 0)}" data-sugar="{fnum(num(b.get('Sugars (g)')) or 0)}" data-p100="{fnum(p)}" data-fiber="{fnum(FIB(b))}" data-search="{esc(search)}" onclick="toggleIngr({idx}, this)">
+  <td class="col-bar">
+    <div class="bar-brand">{esc(b['Brand Name'])}</div>
+    <div class="bar-flavor">{esc(b['Flavor Name'])}</div>
+    <svg class="row-expand-icon" width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </td>
+  <td class="col-num col-hide-mobile">{fnum(cal)}</td>
+  <td class="col-num">{fnum(prot)}</td>
+  <td class="col-num col-hide-mobile">{fnum(p)}</td>
+  <td class="col-num">{fnum(FIB(b))}</td>
+  <td class="col-num col-hide-mobile">{fnum(num(b.get('Total Fat (g)')))}</td>
+  <td class="col-num col-hide-mobile">{fnum(num(b.get('Total Carbohydrates (g)')))}</td>
+  <td class="col-num">{fnum(num(b.get('Sugars (g)')))}</td>
+  <td class="col-certs col-hide-mobile"><div class="cert-badges">{cert_badges_html(b)}</div></td>
+  <td class="col-grade"><span class="table-grade-badge grade-{grade}" title="{grade_word(grade)} &middot; score {fnum(sc)}">{grade}</span></td>
+</tr>'''
