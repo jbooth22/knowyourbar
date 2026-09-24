@@ -77,6 +77,8 @@ def verdict(st):
         rel = 'Below' if st['avg'] < st['db_avg'] else 'Above'
         return f'{rel} the database average', 'var(--muted)'
     word = 'lowest' if d == 'low' else ''
+    if d == 'low' and st['hi'] == 0:
+        return ('Zero, every flavor', GRADE_COLOR['A'])
     top = st['top']
     if top <= 20:
         return (f'Top {top}%{" lowest" if word else ""}, excellent', GRADE_COLOR['A'])
@@ -85,6 +87,8 @@ def verdict(st):
     if st['beats'] <= 20:
         more = 'more than most bars' if d == 'low' else 'less than most bars'
         return (f'Bottom {max(st["beats"], 1)}%, {more}', GRADE_COLOR['F'])
+    if st['beats'] <= 33:
+        return (f'Below average, bottom {st["beats"]}%', GRADE_COLOR['D'])
     return ('Middle of the pack', GRADE_COLOR['C'])
 
 def rng_txt(st, dec=False):
