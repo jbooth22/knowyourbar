@@ -62,7 +62,9 @@ OIL_KEYWORDS   = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
                   'hydrogenated', 'partially hydrogenated', 'palm fruit oil',
                   'sunflower oil', 'safflower oil', 'vegetable oil',
                   'rapeseed oil', 'cottonseed oil', 'corn oil',
-                  'grapeseed oil', 'rice bran oil']
+                  'grapeseed oil', 'rice bran oil',
+                  # 2026-09-24: "palm fat" is palm oil under another name (Love Good, Crave labels)
+                  'palm fat']
 HIGH_OLEIC_EX  = ['high oleic']
 SKIP_PREFIXES  = [
     'organic ', 'natural ', 'pure ', 'raw ', 'whole ', 'roasted ',
@@ -132,8 +134,13 @@ def get_count_adj(n):
 
 
 def get_band(score):
+    # Bands are checked by lower bound only (2026-09-24). The old lo <= score <= hi
+    # test left tiny gaps between bands (e.g. -0.0001 < score < 0), and a score that
+    # fell in one matched nothing and defaulted to F (Aloha Chocolate Caramel Pecan,
+    # score 0.0, graded F). SCORE_BANDS is ordered highest first, so the first lower
+    # bound the score reaches is its band.
     for lo, hi, band, label in SCORE_BANDS:
-        if lo <= score <= hi:
+        if score >= lo:
             return band, label
     return 'F', 'Avoid'
 

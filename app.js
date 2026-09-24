@@ -956,7 +956,7 @@ const SEED_OIL_KEYWORDS = [
   'hydrogenated', 'partially hydrogenated', 'palm fruit oil',
   'sunflower oil', 'safflower oil', 'vegetable oil',
   'rapeseed oil', 'cottonseed oil', 'corn oil',
-  'grapeseed oil', 'rice bran oil',
+  'grapeseed oil', 'rice bran oil', 'palm fat',
 ];
 function hasSeedOil(bar) {
   const ingr = (bar['Ingredients'] || '').toLowerCase();

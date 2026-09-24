@@ -107,14 +107,22 @@ def ingredient_counts(bars=None, path=SCHEMA):
 
 
 def alias_score_conflicts(path=SCHEMA):
-    """Alias_Map rows whose base_score differs from their canonical's score."""
+    """Alias_Map rows that score an ingredient differently from its Canonical_Ingredients
+    row (matched by name), plus rows whose canonical_id points at a different ingredient.
+    Allergen / label-note aliases are skipped: they score 0 on purpose."""
     xl = pd.ExcelFile(path)
     canon, al = pd.read_excel(xl, 'Canonical_Ingredients'), pd.read_excel(xl, 'Alias_Map')
-    cs = dict(zip(canon.canonical_id, canon.base_score))
+    by_name = dict(zip(canon.canonical_name, canon.base_score))
+    by_id = dict(zip(canon.canonical_id, canon.canonical_name))
     out = []
-    for t, cid, n, s in zip(al.alias_text_exact, al.canonical_id, al.canonical_name, al.base_score):
-        if pd.notna(s) and pd.notna(cs.get(cid)) and cs[cid] != s:
-            out.append((str(t), str(n), int(s), int(cs[cid])))
+    for t, cid, n, cat, s in zip(al.alias_text_exact, al.canonical_id, al.canonical_name, al.category, al.base_score):
+        if cat in NOT_INGREDIENTS:
+            continue
+        if pd.notna(s) and pd.notna(by_name.get(n)) and by_name[n] != s:
+            out.append((str(t), str(n), int(s), int(by_name[n])))
+        if pd.notna(cid) and by_id.get(cid) not in (None, n):
+            out.append((str(t), f'{n} (canonical_id {int(cid)} is "{by_id[cid]}")', int(s) if pd.notna(s) else 0,
+                        int(by_name[n]) if pd.notna(by_name.get(n)) else 0))
     return out
 
 

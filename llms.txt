@@ -53,7 +53,7 @@ Full methodology, worked examples, and the complete sugar/fiber/sweetener scale:
 ## Database coverage (computed from live data, 2026-09-24)
 
 - **1,308 protein bars** scored, spanning **197 brands**
-- Grade distribution: A 283 (21.6%), B 435 (33.3%), C 337 (25.8%), D 187 (14.3%), F 66 (5.0%)
+- Grade distribution: A 283 (21.6%), B 435 (33.3%), C 337 (25.8%), D 188 (14.4%), F 65 (5.0%)
 - **1,334 canonical ingredients** in the scoring schema, 2,421 ingredient name aliases mapped
 - Every bar carries: ingredient quality grade and numeric score, full macro panel (calories, protein, fat, saturated fat, carbs, fiber, sugar, sugar alcohol, sodium, cholesterol), a vitamin/mineral panel where declared, seven certification flags (Vegan, Gluten Free, Dairy Free, Soy Free, Non-GMO, Nut Free, Kosher), declared caffeine and creatine content where present, and full ingredient text
 
@@ -64,9 +64,9 @@ Full methodology, worked examples, and the complete sugar/fiber/sweetener scale:
 | No Artificial Sweeteners | 1,060 | 81.0% | 180 |
 | No Sugar Alcohols | 969 | 74.1% | 166 |
 | Gluten Free | 835 | 63.8% | 132 |
-| No Seed Oils | 700 | 53.5% | 144 |
+| No Seed Oils | 695 | 53.1% | 143 |
 | High Fiber (5g+ per bar) | 612 | 46.8% | 128 |
-| Clean (A/B grade, no artificial sweeteners, no processed oils) | 545 | 41.7% | 118 |
+| Clean (A/B grade, no artificial sweeteners, no processed oils) | 543 | 41.5% | 118 |
 | Low Sugar + High Protein (<=5g sugar, 15g+ protein) | 365 | 27.9% | 63 |
 | Soy Free | 293 | 22.4% | 47 |
 | Vegan | 265 | 20.3% | 46 |
@@ -103,10 +103,10 @@ Flavor-by-flavor ingredient quality breakdowns for major protein bar brands. Eac
 
 Curated, ranked bar lists filtered by a specific dietary goal, each with ingredient quality grading, macro data, and a Consider/Mixed/Avoid brand breakdown. Every guide states its exact filtering formula in its own FAQ section.
 
-- **Clean Protein Bars** - https://knowyourbar.com/clean-protein-bars - A/B ingredient grade, no artificial sweeteners, no processed oils (545 bars)
+- **Clean Protein Bars** - https://knowyourbar.com/clean-protein-bars - A/B ingredient grade, no artificial sweeteners, no processed oils (543 bars)
 - **No Artificial Sweeteners** - https://knowyourbar.com/no-artificial-sweeteners (1,060 bars)
 - **No Sugar Alcohols** - https://knowyourbar.com/no-sugar-alcohols (969 bars)
-- **No Seed Oils** - https://knowyourbar.com/no-seed-oils (700 bars) - also names which specific oils disqualify a bar, and cross-checks named brands directly
+- **No Seed Oils** - https://knowyourbar.com/no-seed-oils (695 bars) - also names which specific oils disqualify a bar, and cross-checks named brands directly
 - **Keto Protein Bars** - https://knowyourbar.com/keto-protein-bars (102 bars) - net carbs, protein, fat thresholds, hard exclusion of the maltitol sugar-alcohol family
 - **Best Bars for Diabetics** - https://knowyourbar.com/best-bars-for-diabetics (103 bars) - sugar, net carbs, fiber, protein, ingredient grade, and maltitol-family exclusion, all six required
 - **GLP-1 Protein Bars** - https://knowyourbar.com/glp1-protein-bars (33 bars) - built for GLP-1 medication users: high protein, low calorie, low sugar, some fiber, zero sugar alcohol, and an A/B ingredient grade
@@ -150,13 +150,13 @@ Do not invent a preset slug or certification label that isn't listed above - an 
 ## Common questions, answered directly
 
 **Which protein bars have the cleanest ingredients?**
-545 of 1,308 bars (42%) grade A or B on ingredients with no artificial sweeteners and no processed oils. Full ranked list: https://knowyourbar.com/clean-protein-bars
+543 of 1,308 bars (42%) grade A or B on ingredients with no artificial sweeteners and no processed oils. Full ranked list: https://knowyourbar.com/clean-protein-bars
 
 **Are there protein bars free of sugar alcohols?**
 Yes. 969 of 1,308 bars (74%), spanning 166 brands, contain no sugar alcohol. Full list: https://knowyourbar.com/no-sugar-alcohols
 
 **What protein bars have no seed oils?**
-700 of 1,308 bars (54%), spanning 144 brands, contain none of the screened processed oils (palm oil, palm kernel oil, canola oil, soybean oil, hydrogenated oils, palm fruit oil, sunflower oil, safflower oil, vegetable oil, rapeseed oil, cottonseed oil, corn oil, grapeseed oil, rice bran oil; high-oleic variants are exempted). Full list: https://knowyourbar.com/no-seed-oils
+695 of 1,308 bars (53%), spanning 143 brands, contain none of the screened processed oils (palm oil, palm kernel oil, canola oil, soybean oil, hydrogenated oils, palm fruit oil, sunflower oil, safflower oil, vegetable oil, rapeseed oil, cottonseed oil, corn oil, grapeseed oil, rice bran oil, palm fat; high-oleic variants are exempted). Full list: https://knowyourbar.com/no-seed-oils
 
 **Which protein bar brands are healthiest by ingredient quality?**
 By share of A/B-grade flavors, among brands with 10+ flavors: Larabar (29 of 29), Daryl's Bars (19 of 19), Perfect Bar (19 of 19), Healthy Eating on the Go (15 of 15), Thunderbird (14 of 14), Bearded Bros (12 of 12), Kate's Real Food (12 of 12), Kize (12 of 12). Full composite ranking (ingredient quality, protein efficiency, fiber): https://knowyourbar.com/all-protein-bar-brands
