@@ -32,8 +32,10 @@ gtag('config', 'G-SW4MNP5W7J');
 })();
 </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Protein Bar Flavor Map: 908 Bars Visualized | Know Your Bar</title>
-  <meta name="description" content="How 908 protein bars break down by flavor. Chocolate leads at 35%. Explore every primary flavor and variation, from Choc Chip (83) to PB Chocolate (75).">
+<!-- kyb:head -->
+  <title>Protein Bar Flavor Map: 1,308 Bars Visualized | Know Your Bar</title>
+  <meta name="description" content="How 1,308 protein bars break down by flavor. Chocolate leads at 35%. Explore every primary flavor and variation, from Choc Chip (127) to PB Chocolate (118).">
+<!-- /kyb:head -->
   <link rel="canonical" href="https://knowyourbar.com/flavor-map">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="/style.css">
@@ -148,24 +150,30 @@ gtag('config', 'G-SW4MNP5W7J');
 </nav>
 
 <div class="hero">
-  <div class="eyebrow">Data visualization &middot; 908 bars</div>
+<!-- kyb:hero -->
+  <div class="eyebrow">Data visualization &middot; 1,308 bars</div>
   <h1 class="hero-title">The protein bar <em>flavor map</em></h1>
-  <p class="hero-sub">How 908 protein bars break down by flavor, from primary category into specific variations. Hover any flow to see the exact count.</p>
+  <p class="hero-sub">How 1,308 protein bars break down by flavor, from primary category into specific variations. Hover any flow to see the exact count.</p>
+<!-- /kyb:hero -->
 </div>
 
 <div class="stats">
-  <div class="stat"><span class="stat-n">316</span><span class="stat-l">Chocolate</span></div>
-  <div class="stat"><span class="stat-n">157</span><span class="stat-l">Peanut Butter</span></div>
-  <div class="stat"><span class="stat-n">148</span><span class="stat-l">Fruit</span></div>
-  <div class="stat"><span class="stat-n">83</span><span class="stat-l">Choc Chip   #1 variation</span></div>
-  <div class="stat"><span class="stat-n">75</span><span class="stat-l">PB Choc   #1 combo</span></div>
+<!-- kyb:stats -->
+  <div class="stat"><span class="stat-n">459</span><span class="stat-l">Chocolate</span></div>
+  <div class="stat"><span class="stat-n">250</span><span class="stat-l">Peanut Butter</span></div>
+  <div class="stat"><span class="stat-n">209</span><span class="stat-l">Fruit</span></div>
+  <div class="stat"><span class="stat-n">127</span><span class="stat-l">Choc Chip   #1 variation</span></div>
+  <div class="stat"><span class="stat-n">118</span><span class="stat-l">PB Choc   #1 combo</span></div>
+<!-- /kyb:stats -->
 </div>
 
 <!-- Desktop: Sankey -->
 <div class="sankey-wrap">
   <div class="sankey-inner" id="wrap">
     <div class="tip" id="tip"></div>
-    <svg id="sankey" role="img" aria-label="Sankey diagram: 908 protein bars by flavor. Chocolate 316, Peanut Butter 157, Fruit 148, Other 110, Vanilla 67, Caramel 41, Cinnamon 24.">
+<!-- kyb:sankey-aria -->
+    <svg id="sankey" role="img" aria-label="Sankey diagram: 1,308 protein bars by flavor. Chocolate 459, Peanut Butter 250, Fruit 209, Other 200, Vanilla 93, Caramel 53, Cinnamon 44.">
+<!-- /kyb:sankey-aria -->
       <title>Protein bar flavor map</title>
     </svg>
   </div>
@@ -176,7 +184,9 @@ gtag('config', 'G-SW4MNP5W7J');
 
 <div class="legend" id="legend"></div>
 
-<p class="footnote">Flavors parsed from bar names across 908 bars. <a href="/bar-finder">Search all 1,000+ bars &rarr;</a></p>
+<!-- kyb:footnote -->
+<p class="footnote">Flavors parsed from bar names across 1,308 bars. <a href="/bar-finder">Search all 1,308 bars &rarr;</a></p>
+<!-- /kyb:footnote -->
 <footer class="site-footer">
   <div class="site-footer-inner">
     <div class="site-footer-brand-block">
@@ -217,60 +227,64 @@ gtag('config', 'G-SW4MNP5W7J');
     </nav>
     </details>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated 2026-09-24</div>
   <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
 </footer>
 
+<!-- kyb:flavor-data -->
+<script>
+// Flavor counts (built by build_flavor_map.py from bars.js)
+const L1=[
+  {id:"choc",  label:"Chocolate",      n:459},
+  {id:"pb",    label:"Peanut Butter",  n:250},
+  {id:"fruit", label:"Fruit",          n:209},
+  {id:"other", label:"Other",          n:200},
+  {id:"van",   label:"Vanilla",        n:93},
+  {id:"car",   label:"Caramel",        n:53},
+  {id:"cin",   label:"Cinnamon",       n:44},
+];
+
+const L2=[
+  {p:"choc",  label:"Other Chocolate", n:129},
+  {p:"choc",  label:"Chocolate Chip",  n:127},
+  {p:"choc",  label:"Brownie",         n:58},
+  {p:"choc",  label:"Choc Almond",     n:42},
+  {p:"choc",  label:"Choc Mint",       n:30},
+  {p:"choc",  label:"Dark Chocolate",  n:29},
+  {p:"choc",  label:"Choc Caramel",    n:26},
+  {p:"choc",  label:"Choc Crunch",     n:18},
+  {p:"pb",    label:"PB Chocolate",    n:118},
+  {p:"pb",    label:"Other PB",        n:79},
+  {p:"pb",    label:"PB + Jelly",      n:17},
+  {p:"pb",    label:"PB Crunch",       n:15},
+  {p:"pb",    label:"PB Cup",          n:8},
+  {p:"pb",    label:"PB Banana",       n:5},
+  {p:"pb",    label:"PB Cookie",       n:4},
+  {p:"pb",    label:"PB Honey",        n:4},
+  {p:"fruit", label:"Single Fruit",    n:154},
+  {p:"fruit", label:"Fruit + Other",   n:30},
+  {p:"fruit", label:"Fruit + Almond",  n:17},
+  {p:"fruit", label:"Fruit + Coconut", n:8},
+  {p:"other", label:"Other flavors",   n:200},
+  {p:"van",   label:"Plain Vanilla",   n:51},
+  {p:"van",   label:"Cookies & Cream", n:33},
+  {p:"van",   label:"Vanilla Almond",  n:8},
+  {p:"van",   label:"Vanilla Chai",    n:1},
+  {p:"car",   label:"Salted Caramel",  n:25},
+  {p:"car",   label:"Plain Caramel",   n:15},
+  {p:"car",   label:"Caramel Peanut",  n:10},
+  {p:"car",   label:"Caramel Coconut", n:2},
+  {p:"car",   label:"Caramel Almond",  n:1},
+  {p:"cin",   label:"Cinnamon",        n:44},
+];
+</script>
+<!-- /kyb:flavor-data -->
 <script>
 (function(){
   const COLORS={
     'Chocolate':'#b07040','Peanut Butter':'#c48c28','Fruit':'#4a9e68',
     'Other':'#5a6678','Vanilla':'#9a8c3a','Caramel':'#b87230','Cinnamon':'#9a5428',
   };
-
-  const L1=[
-    {id:'choc', label:'Chocolate',     n:316},
-    {id:'pb',   label:'Peanut Butter', n:157},
-    {id:'fruit',label:'Fruit',         n:148},
-    {id:'other',label:'Other',         n:110},
-    {id:'van',  label:'Vanilla',       n:67},
-    {id:'car',  label:'Caramel',       n:41},
-    {id:'cin',  label:'Cinnamon',      n:24},
-  ];
-
-  const L2=[
-    {p:'choc', label:'Chocolate Chip',  n:83},
-    {p:'choc', label:'Other Chocolate', n:59},
-    {p:'choc', label:'Brownie',         n:33},
-    {p:'choc', label:'Choc Almond',     n:29},
-    {p:'choc', label:'Choc Mint',       n:21},
-    {p:'choc', label:'Dark Chocolate',  n:16},
-    {p:'choc', label:'Choc Caramel',    n:15},
-    {p:'choc', label:'Choc Crunch',     n:15},
-    {p:'pb',   label:'PB Chocolate',    n:75},
-    {p:'pb',   label:'Other PB',        n:46},
-    {p:'pb',   label:'PB Crunch',       n:11},
-    {p:'pb',   label:'PB + Jelly',      n:8},
-    {p:'pb',   label:'PB Cup',          n:7},
-    {p:'pb',   label:'PB Honey',        n:4},
-    {p:'pb',   label:'PB Banana',       n:3},
-    {p:'pb',   label:'PB Cookie',       n:3},
-    {p:'fruit',label:'Single Fruit',    n:108},
-    {p:'fruit',label:'Fruit + Coconut', n:19},
-    {p:'fruit',label:'Fruit + Almond',  n:13},
-    {p:'fruit',label:'Fruit + Other',   n:8},
-    {p:'van',  label:'Plain Vanilla',   n:49},
-    {p:'van',  label:'Cookies & Cream', n:11},
-    {p:'van',  label:'Vanilla Almond',  n:6},
-    {p:'van',  label:'Vanilla Chai',    n:1},
-    {p:'car',  label:'Plain Caramel',   n:23},
-    {p:'car',  label:'Caramel Peanut',  n:7},
-    {p:'car',  label:'Salted Caramel',  n:5},
-    {p:'car',  label:'Caramel Almond',  n:4},
-    {p:'car',  label:'Caramel Coconut', n:2},
-    {p:'other',label:'Other flavors',   n:110},
-    {p:'cin',  label:'Cinnamon',        n:24},
-  ];
 
   const TOTAL=L1.reduce((s,n)=>s+n.n,0);
   L1.forEach(n=>{n.color=COLORS[n.label]||'#666';});
