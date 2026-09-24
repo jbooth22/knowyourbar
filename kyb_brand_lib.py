@@ -508,6 +508,10 @@ def article_jsonld(headline, desc, url, brand_name, brand_url, published='2026-0
          'publisher': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
          'mainEntityOfPage': {'@type': 'WebPage', '@id': url},
          'about': {'@type': 'Brand', 'name': brand_name, 'url': brand_url}}
+    if published is None:
+        del d['datePublished']
+    if brand_name is None:
+        del d['about']
     return '<script type="application/ld+json">\n  ' + _json.dumps(d, indent=2, ensure_ascii=False).replace('\n', '\n  ') + '\n  </script>'
 
 def faq_jsonld_brand(faqs):
