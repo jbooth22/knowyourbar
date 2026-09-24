@@ -456,3 +456,174 @@ def brand_grade_sync(page, brand_bars_list, all_bars):
         if b is None or b.get('score_band') != g:
             probs.append(f'alternative tile: {br} | {fl} grade {g} does not match bars.js')
     return probs, len(rows)
+
+# ---------------------------------------------------------------------------
+# Page plumbing shared by the brand build scripts (added for quest-bars)
+# ---------------------------------------------------------------------------
+import sys, json as _json
+
+class Claims:
+    """Collects copy claims that no longer hold. check() returns the bool so a
+    sentence can be dropped or reworded instead of failing, when that's safe."""
+    def __init__(self):
+        self.failed = []
+    def check(self, ok, claim):
+        if not ok:
+            self.failed.append(claim)
+        return bool(ok)
+    def stop_if_failed(self):
+        if self.failed:
+            print('COPY NEEDS REVIEW, page not written. These claims are no longer true in bars.js:')
+            for c in self.failed:
+                print('  -', c)
+            sys.exit(1)
+
+def names_and(xs):
+    xs = list(xs)
+    if not xs:
+        return ''
+    return xs[0] if len(xs) == 1 else ', '.join(xs[:-1]) + (',' if len(xs) > 2 else '') + ' and ' + xs[-1]
+
+_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
+          'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty']
+def num_word(n):
+    return _WORDS[n] if 0 <= n < len(_WORDS) else str(n)
+
+def P(b): return num(b.get('Protein (g)')) or 0
+def CAL(b): return num(b.get('Calories')) or 0
+def FIB(b): return num(b.get('Dietary Fiber (g)')) or 0
+def SUG(b): return num(b.get('Sugars (g)')) or 0
+def nm(b): return b['Flavor Name']
+def has_ing(b, word): return word in ingr(b).lower()
+def g1(x): return f'{x:.1f}'
+
+def article_jsonld(headline, desc, url, brand_name, brand_url, published='2026-04-01'):
+    d = {'@context': 'https://schema.org', '@type': 'Article', 'headline': headline, 'description': desc, 'url': url,
+         'image': 'https://knowyourbar.com/bar_hero.png', 'datePublished': published, 'dateModified': today_iso(),
+         'author': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
+         'publisher': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
+         'mainEntityOfPage': {'@type': 'WebPage', '@id': url},
+         'about': {'@type': 'Brand', 'name': brand_name, 'url': brand_url}}
+    return '<script type="application/ld+json">\n  ' + _json.dumps(d, indent=2, ensure_ascii=False).replace('\n', '\n  ') + '\n  </script>'
+
+def faq_jsonld_brand(faqs):
+    d = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faqs]}
+    return '<script type="application/ld+json">\n  ' + _json.dumps(d, indent=2, ensure_ascii=False).replace('\n', '\n  ') + '\n  </script>'
+
+def faq_items_brand(faqs):
+    return '\n'.join(f'''
+      <div class="faq-item">
+        <button class="faq-q">{esc(q)}</button>
+        <div class="faq-a">{esc(a)}</div>
+      </div>''' for q, a in faqs) + '\n'
+
+def social_html(title, desc, url):
+    return f'''<meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="{esc(title)}">
+  <meta property="og:description" content="{esc(desc)}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(title)}">
+  <meta name="twitter:description" content="{esc(desc)}">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''
+
+def head_meta_html(title, desc):
+    return f'''  <title>{esc(title)}</title>
+  <meta name="description" content="{esc(desc)}">'''
+
+def p100avg(bars):
+    return avg([dict(x=p100(b)) for b in bars], 'x')
+
+def no_as_sa(bars):
+    return not any(has_tag(b, 'Artificial Sweeteners') or has_tag(b, 'Sugar Alcohols') for b in bars)
+
+def compare_section_html(brand, groups, note_sentences):
+    names = names_and(n for n, _ in groups[1:])
+    return f'''<h2 class="brand-compare-title">How {esc(brand)} compares to {esc(names)}</h2>
+      <div class="brand-compare-sub">All figures are per-brand averages across every flavor we've scored, not a single cherry-picked bar, and grade ranges show the full spread from that brand's best flavor to its worst.</div>
+      <div class="brand-compare-table-wrap">
+        <table class="brand-compare-table">
+          <thead>
+            <tr><th>Bar</th><th class="ctr">Grade range</th><th class="ctr" title="Protein per 100 calories">Protein/100cal</th><th class="ctr col-hide-mobile">Fiber avg</th><th class="ctr col-hide-mobile">Sugar avg</th><th>Sweetener</th></tr>
+          </thead>
+          <tbody>
+{compare_rows(brand, groups)}
+          </tbody>
+        </table>
+      </div>
+      <div class="brand-compare-note">
+        <div class="brand-compare-note-text">{esc(' '.join(note_sentences))}</div>
+      </div>'''
+
+def compare_note(brand, groups):
+    """Data-driven comparison note: F swings, protein-efficiency rank, which
+    brands skip artificial sweeteners and sugar alcohols, most consistent."""
+    ordinal = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth']
+    by_p100 = sorted(groups, key=lambda g: -p100avg(g[1]))
+    rank = [n for n, _ in by_p100].index(brand) + 1
+    out = []
+    f_swing = [n for n, g in groups if grade_range(g)[1] == 'F']
+    if len(f_swing) >= 2:
+        out.append(f"{names_and(f_swing)} {'both' if len(f_swing) == 2 else 'all'} swing down to F depending on flavor, so a single-flavor snapshot overstates {'both' if len(f_swing) == 2 else 'them'}.")
+    elif len(f_swing) == 1:
+        out.append(f"{f_swing[0]} is the only brand here with a flavor that grades F.")
+    out.append(f"{brand} {'leads this group' if rank == 1 else 'ranks ' + ordinal[rank] + ' in this group'} on protein efficiency at "
+               f"{g1(p100avg(dict(groups)[brand]))}g per 100 calories"
+               + ('.' if rank == 1 else f", behind {names_and(n for n, _ in by_p100[:rank - 1])}."))
+    clean = [n for n, g in groups if no_as_sa(g)]
+    if clean:
+        out.append(f"{names_and(clean)} skip{'s' if len(clean) == 1 else ''} both artificial sweeteners and sugar alcohols across every flavor.")
+    narrow = [n for n, g in groups if grade_range(g) in (('A', 'A'), ('A', 'B'))]
+    if narrow:
+        out.append(f"{names_and(narrow)} {'is' if len(narrow) == 1 else 'are'} the most consistent, A down to B with nothing lower.")
+    return out
+
+def pick_alternatives(all_bars, flag, exclude_brands, keyword, rules, cal_window=30):
+    """rules: list of (label, eligible(b), sort_key(b), reason(b)). Candidates
+    are other brands' flavors whose name contains `keyword`, within
+    `cal_window` calories above the flagship, with a buy link. No repeats."""
+    pool = [b for b in all_bars if b['Brand Name'] not in exclude_brands and keyword in b['Flavor Name'].lower()
+            and CAL(b) and CAL(b) <= CAL(flag) + cal_window and (amazon_url(b) or website_url(b))]
+    used, out = set(), []
+    for label, ok, key, reason in rules:
+        c = [b for b in pool if b['Key'] not in used and ok(b)]
+        if not c:
+            continue
+        b = min(c, key=lambda x: tuple(key(x)) + (x['Brand Name'].lower(), nm(x).lower()))
+        used.add(b['Key'])
+        out.append((label if isinstance(label, str) else label(b), b, reason(b)))
+    return out
+
+def cal_delta(flag, b):
+    d = CAL(flag) - CAL(b)
+    return f'{fnum(abs(d))} fewer calories' if d > 0 else (f'{fnum(-d)} more calories' if d < 0 else 'the same calories')
+
+def grade_vs(flag, b):
+    if b['score_band'] == flag['score_band']:
+        return f"Same {b['score_band']} grade as {nm(flag)}."
+    return f"Grades {b['score_band']} instead of {flag['score_band']}."
+
+def build_brand_page(page_path, regions, brand_bars_list, all_bars, claims):
+    """Replace regions, stamp dates, run grade-sync + link QA, write."""
+    claims.stop_if_failed()
+    page = open(page_path, encoding='utf-8').read()
+    for name, content in regions:
+        page = replace_region(page, name, content)
+    page = stamp_dates(page, today_iso())
+    problems, n_rows = brand_grade_sync(page, brand_bars_list, all_bars)
+    for bad in ['href="Yes"', 'href="None"']:
+        if bad in page:
+            problems.append(f'broken link field: {bad}')
+    if '—' in page:
+        problems.append('em dash in page')
+    if problems:
+        print('GRADE-SYNC / QA FAILED, page not written:')
+        for p in problems:
+            print('  ', p)
+        sys.exit(1)
+    open(page_path, 'w', encoding='utf-8').write(page)
+    return n_rows
