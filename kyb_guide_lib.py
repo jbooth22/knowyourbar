@@ -541,3 +541,320 @@ def grade_sync_check(page, all_bars):
         elif b.get('score_band') != gr:
             problems.append(f'pick tile: {brand} | {flavor} grade {gr} vs bars.js {b.get("score_band")}')
     return problems, len(rows)
+
+
+# ===========================================================================
+# Guide page kit (added 2026-09-23 for the free-from guides). Shared pieces
+# every TEMPLATE_GUIDE page build uses, so each page script only holds its
+# own copy and page-specific sections.
+# ===========================================================================
+import sys as _sys
+
+class Claims:
+    """Collects copy claims that no longer hold. check() returns the bool so
+    a sentence can be dropped or reworded instead of failing, when safe."""
+    def __init__(self):
+        self.failed = []
+    def check(self, ok, claim):
+        if not ok:
+            self.failed.append(claim)
+        return bool(ok)
+    def stop_if_failed(self):
+        if self.failed:
+            print('COPY NEEDS REVIEW, page not written. These claims are no longer true in bars.js:')
+            for c in self.failed:
+                print('  -', c)
+            _sys.exit(1)
+
+def names_and(xs):
+    xs = list(xs)
+    if not xs:
+        return ''
+    return xs[0] if len(xs) == 1 else ', '.join(xs[:-1]) + (',' if len(xs) > 2 else '') + ' and ' + xs[-1]
+
+_NUM_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+def num_word(n):
+    return _NUM_WORDS[n] if 0 <= n < len(_NUM_WORDS) else str(n)
+
+def P(b): return num(b.get('Protein (g)')) or 0
+def CAL(b): return num(b.get('Calories')) or 0
+def FIB(b): return num(b.get('Dietary Fiber (g)')) or 0
+def SUG(b): return num(b.get('Sugars (g)')) if num(b.get('Sugars (g)')) is not None else 99
+def SA(b): return num(b.get('Sugar Alcohol (g)')) or 0
+def nm(b): return b['Flavor Name']
+def full(b): return f"{b['Brand Name']} {b['Flavor Name']}"
+def has_ing(b, word): return word in ingr(b).lower()
+def g1(x): return '0.0' if round(x, 1) == 0 else f'{x:.1f}'
+def comma(n): return f'{n:,}'
+def a_an(grade): return 'an' if grade in ('A', 'F') else 'a'
+def name_key(b): return (b['Brand Name'].lower(), b['Flavor Name'].lower())
+
+class Picker:
+    """Top-pick selection per GUIDE_CRITERIA.md 'Top Picks Selection': every
+    tile comes from the best grade band present in the qualifying set, ties
+    broken on a real guide-specific number (never raw ingredient score), no
+    bar repeats. A protein floor (default 10g) applies unless nothing in the
+    band clears it."""
+    def __init__(self, qualify, floor=10):
+        self.band_grade = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in qualify))
+        self.band = [b for b in qualify if b.get('score_band') == self.band_grade]
+        self.floor, self.used = floor, set()
+
+    def pick(self, sort_key, eligible=lambda b: True):
+        for floor in (self.floor, 0):
+            c = [b for b in self.band if b['Key'] not in self.used and eligible(b) and P(b) >= floor]
+            if c:
+                b = min(c, key=lambda x: (tuple(sort_key(x)), name_key(x)))
+                self.used.add(b['Key'])
+                return b
+        return None
+
+    def balanced(self):
+        """15g+ protein, 5g+ fiber, 5g or less sugar; best combined rank."""
+        ok = lambda b: P(b) >= 15 and FIB(b) >= 5 and SUG(b) <= 5
+        pool = [b for b in self.band if ok(b)]
+        if not pool:
+            return self.pick(lambda b: (SUG(b), -P(b)))
+        def rank(vals, v, hi): return 1 + sum(1 for x in vals if (x > v if hi else x < v))
+        key = lambda b: (rank([P(x) for x in pool], P(b), True) + rank([FIB(x) for x in pool], FIB(b), True)
+                         + rank([SUG(x) for x in pool], SUG(b), False), -P(b))
+        return self.pick(key, ok)
+
+    def min_in_band(self, fn):
+        vals = [fn(b) for b in self.band if P(b) >= self.floor]
+        return min(vals) if vals else None
+
+def add_sugar_tradeoff(picks, whole_fruit_label=None):
+    """picks: list of [label, bar, reason]. Appends one tradeoff sentence to
+    the pick with the most sugar (if over 5g), else notes a 15+ ingredient label."""
+    mx = max(SUG(p[1]) for p in picks)
+    for p in picks:
+        b = p[1]
+        n = top_level_ingredient_count(ingr(b))
+        if SUG(b) == mx and SUG(b) > 5:
+            p[2] += f" The tradeoff is sugar: {fnum(SUG(b))}g, the highest of these {num_word(len(picks))} picks" + \
+                    (", all from whole fruit." if whole_fruit_label and p[0] == whole_fruit_label else ".")
+        elif n >= 15:
+            p[2] += f" The tradeoff is a long label: {n} ingredients."
+    return picks
+
+def pick_tile_html(label, b, reason):
+    g = b.get('score_band')
+    return f'''<div class="macro-card pick-tile">
+  <div class="pick-tile-body">
+    <div class="pick-tile-category">{esc(label)}</div>
+    <div class="pick-tile-brand">{esc(b['Brand Name'])}</div>
+    <div class="pick-tile-flavor-name">{esc(b['Flavor Name'])}</div>
+    <p class="pick-tile-reason">{esc(reason)}</p>
+  </div>
+  <div class="pick-tile-footer">
+    <div class="pick-tile-quality">
+      <span class="pick-tile-quality-label">Ingredient Quality</span>
+      <span class="table-grade-badge grade-{g}">{g}</span>
+      <span class="pick-tile-quality-word">{grade_word(g)}</span>
+    </div>
+    <div class="bar-links">{buy_links_html(b)}</div>
+  </div>
+</div>'''
+
+def picks_section_html(h2, intro, picks):
+    tiles = '\n'.join(pick_tile_html(*p) for p in picks)
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <p class="section-body">{esc(intro)}</p>
+      <div class="macro-grid pick-tile-grid top-picks-6">
+{tiles}
+</div>
+    </div>'''
+
+def found_in_html(bars_hit, label='Found in:', empty='No bars in the current database'):
+    names = sorted({b['Brand Name'] for b in bars_hit})
+    if not names:
+        return f'<div class="oil-card-brands"><span class="oil-card-brands-label">{label}</span> {esc(empty)}</div>'
+    first, rest = names[:4], names[4:]
+    out = f'<div class="oil-card-brands"><span class="oil-card-brands-label">{label}</span> {esc(", ".join(first))}'
+    if rest:
+        out += (f' <details class="oil-card-more"><summary><span class="oil-card-more-text">and {len(rest)} more</span>'
+                f'<span class="oil-card-less-text">Hide</span></summary><span class="oil-card-more-list">, {esc(", ".join(rest))}</span></details>')
+    return out + '</div>'
+
+def score_card_html(label, bars_hit, total, desc, found_label='Found in:'):
+    return f'''<div class="score-card">
+          <div class="score-card-label">{esc(label)}</div>
+          <div class="score-card-val">{len(bars_hit)} bars<span class="oil-card-pct">{pct(len(bars_hit), total)}%</span></div>
+          <div class="score-card-desc">{esc(desc)}</div>
+          {found_in_html(bars_hit, found_label)}
+        </div>'''
+
+def findings_html(h2, big_num, big_head, big_detail, insights):
+    items = ''.join(f'<div class="insight-item"><div class="insight-dot"></div><div class="insight-head">{esc(h)}</div>'
+                    f'<div class="insight-detail">{esc(d)}</div></div>' for h, d in insights)
+    return f'''<div class="findings-inner">
+      <h2 class="findings-title">{esc(h2)}</h2>
+      <div class="big-stat">
+        <div class="big-stat-num">{esc(big_num)}</div>
+        <div>
+          <div class="big-stat-head">{esc(big_head)}</div>
+          <div class="big-stat-detail">{esc(big_detail)}</div>
+        </div>
+      </div>
+      <div class="insights-grid">
+        {items}
+      </div>
+    </div>'''
+
+def brand_tables_html(split, qualifies, *, h2, intro, table_id, consider_note, avoid_note, mixed_note,
+                      avoid_head, avoid_last_head, avoid_last, mixed_head, pick_word='clean pick'):
+    """Consider / Avoid / Mixed tables (BRIEFING locked rule, see brand_split).
+    Consider shows total flavors; Avoid shows disqualified/total with a
+    per-brand 'what disqualifies it' cell; Mixed shows qualifying/total and the
+    best qualifying flavor (best band, then most protein)."""
+    consider, mixed, avoid = split
+    def gcell(r):
+        best, worst = grade_range(r['bars'])
+        return grade_range_html(best, worst)
+    def cells(r, count):
+        return (f'<td>{count}</td><td>{gcell(r)}</td><td>{fnum(avg(r["bars"], "Protein (g)"))}g</td>'
+                f'<td>{fnum(avg(r["bars"], "Sugars (g)"))}g</td>')
+    def jump(brand):
+        return f'<button type="button" class="brand-jump" data-brand="{esc(brand)}">{esc(brand)}</button>'
+    def cpick(r):
+        band = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in r['qual']))
+        return min((b for b in r['qual'] if b.get('score_band') == band), key=lambda b: (-P(b), name_key(b)))
+    c_rows = '\n'.join(
+        f'<tr><td>{jump(r["brand"])}</td>{cells(r, r["total"])}<td>'
+        + ('Clean across its whole lineup' if r['d'] == 0 else f'{r["q"]} of {r["total"]} flavors qualify, close enough to call clean') + '</td></tr>'
+        for r in consider)
+    a_rows = '\n'.join(
+        (f'<tr class="avoid-row brand-row-hidden" style="display:none;">' if i >= 15 else '<tr class="avoid-row">')
+        + f'<td><span class="brand-name-static">{esc(r["brand"])}</span></td>' + cells(r, str(r['d']) + '/' + str(r['total']))
+        + f'<td>{esc(avoid_last(r))}</td></tr>' for i, r in enumerate(avoid))
+    m_rows = '\n'.join(
+        f'<tr><td>{jump(r["brand"])}</td>' + cells(r, str(r['q']) + '/' + str(r['total']))
+        + f'<td>{esc(cpick(r)["Flavor Name"])} is the {pick_word}</td></tr>' for r in mixed)
+    hidden = max(0, len(avoid) - 15)
+    more = '' if not hidden else f'''
+        <button type="button" class="brand-table-show-more" id="{table_id}-avoid-show-more" data-hidden-count="{hidden}">Show {hidden} more brands</button>
+        <script>
+        (function() {{
+          var btn = document.getElementById('{table_id}-avoid-show-more');
+          var table = document.getElementById('{table_id}-avoid-table');
+          if (!btn || !table) return;
+          btn.addEventListener('click', function() {{
+            table.querySelectorAll('.brand-row-hidden').forEach(function(row) {{ row.style.display = ''; row.classList.remove('brand-row-hidden'); }});
+            btn.classList.add('is-hidden');
+          }});
+        }})();
+        </script>'''
+    head = '<thead><tr><th>Brand</th><th>{}</th><th>Ingredient Quality</th><th>Avg Protein</th><th>Avg Sugar</th><th>{}</th></tr></thead>'
+    def block(cls, label, note, thead, rows, tid='', extra=''):
+        return f'''      <div class="brand-table-block">
+        <div class="brand-table-label {cls}">{label}</div>
+        <div class="brand-table-note">{esc(note)}</div>
+        <div class="table-scroll">
+          <table class="brand-table"{tid}>
+            {thead}
+            <tbody>
+{rows}
+</tbody>
+          </table>
+        </div>{extra}
+      </div>'''
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <div class="section-body">
+        <p>{esc(intro)}</p>
+      </div>
+
+{block('pro', 'Brands to Consider', consider_note, head.format('Total Flavors', 'Note'), c_rows)}
+
+{block('con', 'Brands to Avoid', avoid_note, head.format(esc(avoid_head), esc(avoid_last_head)), a_rows, f' id="{table_id}-avoid-table"', more)}
+
+{block('mixed', 'Mixed Lineups, Check the Flavor', mixed_note, head.format(esc(mixed_head), 'Clean Pick'), m_rows)}
+    </div>'''
+
+def guide_head_regions(*, title, h1, desc, og_desc, url, about, published, faqs, picks):
+    article = {'@context': 'https://schema.org', '@type': 'Article', 'headline': h1, 'description': desc, 'url': url,
+               'image': 'https://knowyourbar.com/bar_hero.png', 'datePublished': published, 'dateModified': today_iso(),
+               'author': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
+               'publisher': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
+               'mainEntityOfPage': {'@type': 'WebPage', '@id': url}, 'about': {'@type': 'Thing', 'name': about}}
+    crumbs = {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+        {'@type': 'ListItem', 'position': 1, 'name': 'Know Your Bar', 'item': 'https://knowyourbar.com'},
+        {'@type': 'ListItem', 'position': 2, 'name': 'Lifestyle Guides', 'item': 'https://knowyourbar.com'},
+        {'@type': 'ListItem', 'position': 3, 'name': h1, 'item': url}]}
+    items = {'@context': 'https://schema.org', '@type': 'ItemList', 'itemListElement': [
+        {'@type': 'ListItem', 'position': i + 1, 'name': full(p[1])} for i, p in enumerate(picks)]}
+    def ld(d, indent=2):
+        return ('<script type="application/ld+json">\n  ' + json.dumps(d, indent=indent, ensure_ascii=False).replace('\n', '\n  ')
+                + '\n  </script>') if indent else ('<script type="application/ld+json">\n  ' + json.dumps(d, ensure_ascii=False, separators=(',', ':')) + '\n  </script>')
+    social = f'''<meta property="og:type" content="article">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="{esc(h1)}">
+  <meta property="og:description" content="{esc(og_desc)}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(h1)} | Know Your Bar">
+  <meta name="twitter:description" content="{esc(og_desc)}">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''
+    return [('head-meta', f'  <title>{esc(title)}</title>\n  <meta name="description" content="{esc(desc)}">'),
+            ('jsonld-article', ld(article)), ('jsonld-breadcrumb', ld(crumbs)), ('jsonld-faq', faq_jsonld(faqs).strip()),
+            ('jsonld-itemlist', ld(items, None)), ('social', social)]
+
+def guide_list_regions(qualify, all_bars, *, heading, eager=30, lazy_attr=False):
+    rows, js = bar_table(qualify, all_bars, eager=eager)
+    if lazy_attr:
+        rows = rows.replace(' style="display:none;"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">',
+                            ' style="display:none;" data-lazy="1"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">')
+    n = len(qualify)
+    return [('list-heading', f'<h2 class="section-title">{esc(heading)}</h2>'),
+            ('result-count', f'<div class="gd-result-count" id="gd-result-count">Showing {min(30, n)} of {comma(n)} bars</div>'),
+            ('bar-rows', rows),
+            ('bar-data', f'<script id="gd-bar-data" type="application/json">{js}</script>')]
+
+def build_guide_page(page_path, regions, qualify, all_bars, claims):
+    claims.stop_if_failed()
+    page = open(page_path, encoding='utf-8').read()
+    for name, content in regions:
+        page = replace_region(page, name, content)
+    page = stamp_dates(page, today_iso())
+    problems, n_rows = grade_sync_check(page, all_bars)
+    if n_rows != len(qualify):
+        problems.append(f'bar rows on page {n_rows} != qualifying bars {len(qualify)}')
+    for bad in ['href="Yes"', 'href="None"', '"ws":"Yes"', '"ws":"None"', '"az":"None"', '"az":"Yes"', '—']:
+        if bad in page:
+            problems.append(f'forbidden: {bad!r}')
+    if problems:
+        print('GRADE-SYNC / QA FAILED, page not written:')
+        for p in problems[:40]:
+            print('  ', p)
+        _sys.exit(1)
+    open(page_path, 'w', encoding='utf-8').write(page)
+    return n_rows
+
+def top_level_items(text):
+    """Comma-separated ingredients at parenthesis/bracket depth 0, each with
+    its own sub-ingredient list attached (same split as top_level_ingredient_count)."""
+    out, depth, cur = [], 0, ''
+    for ch in text or '':
+        if ch in '([':
+            depth += 1
+        elif ch in ')]':
+            depth = max(0, depth - 1)
+        if ch == ',' and depth == 0:
+            out.append(cur.strip()); cur = ''
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+def pct0(n, d):
+    """Whole-number percent for guide copy; '<1' for a nonzero share under 0.5%."""
+    if not d or not n:
+        return '0'
+    v = 100 * n / d
+    return '<1' if v < 0.5 else str(round(v))
