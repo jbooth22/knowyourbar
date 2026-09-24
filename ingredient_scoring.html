@@ -34,7 +34,9 @@ gtag('config', 'G-SW4MNP5W7J');
 </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How We Score Protein Bars A-F by Ingredient Quality</title>
-  <meta name="description" content="Every protein bar scored ingredient by ingredient. Base scores, position weights, and the full methodology behind each A-F grade across 1,000+ bars.">
+<!-- kyb:meta-desc -->
+  <meta name="description" content="How we grade 1,308 protein bars A-F on ingredient quality: base scores, position weights, and how we score sugars, fibers and artificial sweeteners.">
+<!-- /kyb:meta-desc -->
   <link rel="canonical" href="https://knowyourbar.com/ingredient_scoring">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -424,13 +426,11 @@ gtag('config', 'G-SW4MNP5W7J');
        this page now actually gets the real global nav. */
 
   </style>
+<!-- kyb:faq-jsonld -->
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the Know Your Bar ingredient scoring system work?","acceptedAnswer":{"@type":"Answer","text":"Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,000+ canonicals, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. The total becomes the bar's ingredient quality score."}},
-{"@type":"Question","name":"What do the letter grades mean?","acceptedAnswer":{"@type":"Answer","text":"Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities."}},
-{"@type":"Question","name":"Are you nutritionists or dieticians?","acceptedAnswer":{"@type":"Answer","text":"No. We are not nutritionists, registered dieticians, or medical professionals. We are people who eat a lot of protein bars, got frustrated by vague health claims, and built a data-driven scoring system to make sense of ingredient lists. The system is our best effort at an objective framework, not medical advice."}},
-{"@type":"Question","name":"How often is the scoring system updated?","acceptedAnswer":{"@type":"Answer","text":"We update the scoring schema regularly as we add new bars and refine our understanding of specific ingredients. The current schema covers 1,000+ canonical ingredients. If you think an ingredient is scored incorrectly, we genuinely want to hear about it."}},
-{"@type":"Question","name":"Does ingredient quality score reflect taste or nutrition facts?","acceptedAnswer":{"@type":"Answer","text":"No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall nutritional value. A bar could score high on ingredient quality but be high in calories. We recommend looking at both the ingredient grade and the macro profile when choosing a bar."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the Know Your Bar ingredient scoring system work?","acceptedAnswer":{"@type":"Answer","text":"Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,300+ canonical ingredients, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. Artificial sweeteners are the exception: each one costs a flat 2 points wherever it appears. The total, plus a small adjustment for ingredient count, becomes the bar's ingredient quality score."}},{"@type":"Question","name":"What do the letter grades mean?","acceptedAnswer":{"@type":"Answer","text":"Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities."}},{"@type":"Question","name":"How do you score artificial sweeteners like sucralose?","acceptedAnswer":{"@type":"Answer","text":"Each artificial sweetener (sucralose, acesulfame potassium, aspartame and saccharin) costs a bar a flat 2 points, no matter where it sits on the label. These sweeteners are used in milligrams, so they almost always appear near the end of the list, where position weighting would make them count for almost nothing. 248 of our 1,308 bars contain at least one."}},{"@type":"Question","name":"Why do some added fibers score below zero?","acceptedAnswer":{"@type":"Answer","text":"Soluble corn fiber, resistant dextrin, tapioca fiber, IMO and polydextrose are starches that were rearranged so the body can't fully digest them. That lets the label count them as fiber and lower \"net carbs.\" They aren't harmful, but they are highly processed stand-ins for fiber from food, so they score -1: below neutral, level with honey and maple syrup, and above refined sugars like cane sugar. Fiber from foods and plants, like oat fiber, chicory root fiber and inulin, scores +1."}},{"@type":"Question","name":"Why does honey score higher than brown rice syrup?","acceptedAnswer":{"@type":"Answer","text":"The more a sugar has been processed away from a whole food, the lower it scores. Honey, maple syrup and coconut sugar are lightly processed, single-source foods and score -1. Refined sugars like cane sugar and agave score -2. Syrups made by breaking down starch into sugar, like brown rice syrup, tapioca syrup, dextrose and maltodextrin, score -3. Whole fruit and dates score +2 to +3 because the fiber is still there."}},{"@type":"Question","name":"Are you nutritionists or dieticians?","acceptedAnswer":{"@type":"Answer","text":"No. We are not nutritionists, registered dieticians, or medical professionals. We are people who eat a lot of protein bars, got frustrated by vague health claims, and built a data-driven scoring system to make sense of ingredient lists. The system is our best effort at an objective framework, not medical advice."}},{"@type":"Question","name":"How often is the scoring system updated?","acceptedAnswer":{"@type":"Answer","text":"We update the scoring schema as we add new bars and refine how specific ingredients are scored. The current schema covers 1,300+ canonical ingredients, and every bar is rescored whenever it changes. The most recent change, in September 2026, updated how we score sugars, fibers and artificial sweeteners. If you think an ingredient is scored incorrectly, we want to hear about it."}},{"@type":"Question","name":"Does ingredient quality score reflect taste or nutrition facts?","acceptedAnswer":{"@type":"Answer","text":"No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall nutritional value. A bar could score high on ingredient quality but be high in calories. We recommend looking at both the ingredient grade and the macro profile when choosing a bar."}}]}
 </script>
+<!-- /kyb:faq-jsonld -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
   <meta property="og:title" content="How We Score Protein Bars | Know Your Bar">
@@ -526,11 +526,12 @@ gtag('config', 'G-SW4MNP5W7J');
     <!-- How it works -->
     <section class="content-section">
       <h2>How the score is calculated</h2>
-      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>-4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
+<!-- kyb:calc -->
+      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>&minus;4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
       <p>A final adjustment is applied based on the total number of ingredients. Bars with short, focused lists receive a small bonus. Bars with highly complex formulations receive a small penalty.</p>
 
       <div class="callout">
-        <p><strong>Final Score</strong> = Sum of (base_score × position_weight) for each ingredient + ingredient count adjustment</p>
+        <p><strong>Final Score</strong> = Sum of (base_score &times; position_weight) for each ingredient + &minus;2 for each artificial sweetener + ingredient count adjustment</p>
       </div>
 
       <h3>Position weights</h3>
@@ -555,6 +556,11 @@ gtag('config', 'G-SW4MNP5W7J');
         </tbody>
       </table>
 
+      <h3>Three exceptions to position weighting</h3>
+      <p><strong>Artificial sweeteners count a flat &minus;2 each.</strong> Sucralose, acesulfame potassium, aspartame and saccharin each cost a bar 2 points, wherever they appear on the label. Position weighting assumes that more of an ingredient means more impact. That holds for bulk ingredients, but these sweeteners are hundreds of times sweeter than sugar and are used in milligrams, so they almost always sit near the end of the label, where position weighting made them count for almost nothing. Each sweetener is counted once, even when two are listed together in one phrase.</p>
+      <p><strong>Sub-ingredients count at 60%.</strong> Ingredients inside parentheses or brackets, like the sugar in "chocolate (sugar, cocoa butter)", share their parent's position but carry 0.6 of its weight, because each is only part of that ingredient.</p>
+      <p><strong>Extra protein sources count at 50%.</strong> When a bar lists several protein sources, the best-scoring one counts in full and each additional one counts at half weight, so a long list of proteins can't inflate the score.</p>
+
       <h3>Ingredient count adjustment</h3>
       <table class="score-table">
         <thead>
@@ -562,18 +568,20 @@ gtag('config', 'G-SW4MNP5W7J');
         </thead>
         <tbody>
           <tr><td>8 or fewer</td><td>+0.05</td><td>Short, clean list bonus</td></tr>
-          <tr><td>9 – 12</td><td>0.00</td><td>Neutral</td></tr>
-          <tr><td>13 – 16</td><td>–0.05</td><td>Slightly complex</td></tr>
-          <tr><td>17 – 20</td><td>–0.10</td><td>Complex formulation</td></tr>
-          <tr><td>21 or more</td><td>–0.15</td><td>Highly processed penalty</td></tr>
+          <tr><td>9 &ndash; 12</td><td>0.00</td><td>Neutral</td></tr>
+          <tr><td>13 &ndash; 16</td><td>&ndash;0.05</td><td>Slightly complex</td></tr>
+          <tr><td>17 &ndash; 20</td><td>&ndash;0.10</td><td>Complex formulation</td></tr>
+          <tr><td>21 or more</td><td>&ndash;0.15</td><td>Highly processed penalty</td></tr>
         </tbody>
       </table>
+<!-- /kyb:calc -->
     </section>
 
     <!-- Grade bands -->
     <section class="content-section">
       <h2>Grade bands</h2>
-      <p>The numeric score is converted into a letter grade. The thresholds are designed so roughly the top quarter of bars score A, and the bottom ~10% score F - reflecting the real distribution of protein bar quality.</p>
+<!-- kyb:bands -->
+      <p>The numeric score is converted into a letter grade. The thresholds are fixed and apply to every bar the same way. Across our 1,308 bars, 22% score A, 33% B, 26% C, 14% D and 5% F.</p>
 
       <table class="score-table">
         <colgroup>
@@ -589,40 +597,118 @@ gtag('config', 'G-SW4MNP5W7J');
           <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:#2a7a1f">A</span></div></td>
             <td>Clean</td>
-            <td>≥ 8.0</td>
+            <td>&ge; 8.0</td>
             <td>Predominantly whole foods, quality proteins, minimal additives. The best ingredient profiles in the database.</td>
           </tr>
           <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:#5a8a2f">B</span></div></td>
             <td>Good</td>
-            <td>4.0 – 7.9</td>
+            <td>4.0 &ndash; 7.9</td>
             <td>Solid ingredients with minor concerns. A well-formulated bar that makes reasonable trade-offs.</td>
           </tr>
           <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:#b89a00">C</span></div></td>
             <td>Okay</td>
-            <td>0.0 – 3.9</td>
+            <td>0.0 &ndash; 3.9</td>
             <td>Mixed profile. Some good ingredients, some processed. Acceptable but not exceptional.</td>
           </tr>
           <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:#c87020">D</span></div></td>
             <td>Poor</td>
-            <td>–3.0 to –0.1</td>
+            <td>&ndash;3.0 to &ndash;0.1</td>
             <td>Mostly processed ingredients with limited redeeming qualities. Heavy use of sweeteners or additives.</td>
           </tr>
           <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:#c83020">F</span></div></td>
             <td>Avoid</td>
-            <td>Below –3.0</td>
+            <td>Below &ndash;3.0</td>
             <td>Heavy artificial sweeteners, low-quality processed oils, or minimal real nutrition. We include these bars so you can make informed decisions.</td>
           </tr>
         </tbody>
       </table>
+<!-- /kyb:bands -->
     </section>
+
+<!-- kyb:sweeteners -->
+    <!-- Sugars, fibers and sweeteners -->
+    <section class="content-section" id="sugars-fibers-sweeteners">
+      <h2>How we score sugars, fibers and sweeteners</h2>
+      <p>The rule: <strong>the more a sugar or carbohydrate has been processed away from a whole food, the lower it scores.</strong> Sugar is still sugar to your body, so no added caloric sweetener scores above &minus;1. Fibers follow the same logic: fiber from a food or plant scores +1, while starches engineered to count as fiber score &minus;1.</p>
+
+      <table class="score-table">
+        <colgroup>
+          <col style="width:38%"><col style="width:17%"><col>
+        </colgroup>
+        <thead>
+          <tr><th>Type</th><th>Score</th><th>Examples</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Whole fruit and dates</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Whole food with its fiber intact.</span></td>
+            <td style="white-space:nowrap;">+2 to +3</td>
+            <td>dates (+3), date paste (+3), strawberries (+2), blueberries (+2), apple (+2)</td>
+          </tr>
+          <tr>
+            <td><strong>Lightly processed sweeteners</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Real foods, but still added sugar.</span></td>
+            <td style="white-space:nowrap;">&minus;1</td>
+            <td>honey, maple syrup, coconut sugar, date syrup</td>
+          </tr>
+          <tr>
+            <td><strong>Refined sugars</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Refined or concentrated down to mostly sugar.</span></td>
+            <td style="white-space:nowrap;">&minus;2</td>
+            <td>cane sugar, brown sugar, agave, fructose, molasses, grape sugar, fruit juice concentrates</td>
+          </tr>
+          <tr>
+            <td><strong>Starch-converted sugars</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Starch broken down into sugar. The most processed caloric sweeteners.</span></td>
+            <td style="white-space:nowrap;">&minus;3</td>
+            <td>brown rice syrup, tapioca syrup, corn syrup, glucose syrup, dextrose, maltodextrin, barley malt extract, fiber syrups</td>
+          </tr>
+          <tr>
+            <td><strong>Engineered fibers</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Starches rearranged so the body can&#x27;t fully digest them, so the label can count them as fiber and lower &quot;net carbs.&quot; Not harmful, but highly processed.</span></td>
+            <td style="white-space:nowrap;">&minus;1</td>
+            <td>soluble corn fiber, resistant dextrin, tapioca fiber, IMO (isomalto-oligosaccharides), polydextrose</td>
+          </tr>
+          <tr>
+            <td><strong>Plant-extracted fibers</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Fiber pulled from a plant with little change to what it is.</span></td>
+            <td style="white-space:nowrap;">+1</td>
+            <td>chicory root fiber, inulin, oligofructose, acacia fiber</td>
+          </tr>
+          <tr>
+            <td><strong>Whole-food fibers</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Fiber milled from a food.</span></td>
+            <td style="white-space:nowrap;">+1</td>
+            <td>oat fiber, pea fiber, citrus fiber, beet fiber</td>
+          </tr>
+          <tr>
+            <td><strong>Sugar alcohols</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Bulk sweeteners used by the gram, so label position still reflects how much is in the bar.</span></td>
+            <td style="white-space:nowrap;">&minus;3 to &minus;4</td>
+            <td>erythritol (&minus;3), xylitol (&minus;3), sorbitol (&minus;3), isomalt (&minus;3), maltitol (&minus;4)</td>
+          </tr>
+          <tr>
+            <td><strong>Artificial sweeteners</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">A flat penalty per sweetener, wherever it appears on the label (see above).</span></td>
+            <td style="white-space:nowrap;">&minus;2 each</td>
+            <td>sucralose, acesulfame potassium, aspartame, saccharin</td>
+          </tr>
+          <tr>
+            <td><strong>Low-calorie plant sweeteners</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">Unchanged in v12.</span></td>
+            <td style="white-space:nowrap;">0 to +1</td>
+            <td>stevia (+1), monk fruit (+1), allulose (0)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>248 of our 1,308 bars (19%) contain at least one artificial sweetener. Use the <a href="/no-artificial-sweeteners">No Artificial Sweeteners guide</a> to see the ones that don't.</p>
+
+      <div class="callout">
+        <p><strong>What changed in September 2026 (scoring v12):</strong> sugars now follow the processing scale above (honey and maple syrup went from &minus;2 to &minus;1; dextrose and maltodextrin dropped to &minus;3), soluble corn fiber, resistant dextrin, tapioca fiber and IMO went from 0 or +1 to &minus;1, and artificial sweeteners became a flat &minus;2 each instead of being discounted by label position. The grade bands did not change.</p>
+      </div>
+    </section>
+
+<!-- /kyb:sweeteners -->
 
     <!-- Ingredient examples -->
     <section class="content-section">
       <h2>Ingredient examples</h2>
+<!-- kyb:examples -->
       <p>Here's how the scoring plays out with real ingredients you'll recognize on labels.</p>
 
       <h3>High-scoring ingredients</h3>
@@ -630,19 +716,19 @@ gtag('config', 'G-SW4MNP5W7J');
         <div class="chip-row">
           <span class="chip-sample chip-positive" style="min-width:180px;">Whey Protein Isolate &nbsp;<strong>+4</strong></span>
           <div>
-            <div class="chip-desc">The gold standard protein for bars. Isolate is highly filtered, so it's dense in protein with minimal fat and carbs. A complete amino acid profile makes it excellent for muscle protein synthesis.</div>
+            <div class="chip-desc">The gold standard protein for bars. Isolate is highly filtered, so it&#x27;s dense in protein with minimal fat and carbs. A complete amino acid profile makes it excellent for muscle protein synthesis.</div>
           </div>
         </div>
         <div class="chip-row">
           <span class="chip-sample chip-positive" style="min-width:180px;">Egg Whites &nbsp;<strong>+4</strong></span>
           <div>
-            <div class="chip-desc">A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you're getting real food as the primary ingredient - not a powder or isolate.</div>
+            <div class="chip-desc">A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you&#x27;re getting real food as the primary ingredient - not a powder or isolate.</div>
           </div>
         </div>
         <div class="chip-row">
           <span class="chip-sample chip-positive" style="min-width:180px;">Almonds / Peanuts &nbsp;<strong>+3</strong></span>
           <div>
-            <div class="chip-desc">Whole food ingredients that bring fiber, healthy fats, and natural protein. When nuts appear early in the list, it's a good sign the bar is built around real food rather than processed filler.</div>
+            <div class="chip-desc">Whole food ingredients that bring fiber, healthy fats, and natural protein. When nuts appear early in the list, it&#x27;s a good sign the bar is built around real food rather than processed filler.</div>
           </div>
         </div>
         <div class="chip-row">
@@ -658,7 +744,7 @@ gtag('config', 'G-SW4MNP5W7J');
         <div class="chip-row">
           <span class="chip-sample chip-neutral" style="min-width:180px;">Salt &nbsp;<strong>0</strong></span>
           <div>
-            <div class="chip-desc">Present in almost every bar. At typical quantities it's neither a benefit nor a concern - it scores neutral. Position matters though: if salt somehow led the ingredient list, that would be a different story.</div>
+            <div class="chip-desc">Present in almost every bar. At typical quantities it&#x27;s neither a benefit nor a concern - it scores neutral. Position matters though: if salt somehow led the ingredient list, that would be a different story.</div>
           </div>
         </div>
         <div class="chip-row">
@@ -670,7 +756,7 @@ gtag('config', 'G-SW4MNP5W7J');
         <div class="chip-row">
           <span class="chip-sample chip-neutral" style="min-width:180px;">Tapioca Starch &nbsp;<strong>0</strong></span>
           <div>
-            <div class="chip-desc">A starch used for texture and binding. Common in "cleaner" bars as a more neutral binder compared to some alternatives. It's not a nutritional contributor, but it's not a red flag either.</div>
+            <div class="chip-desc">A starch used for texture and binding. Common in &quot;cleaner&quot; bars as a more neutral binder compared to some alternatives. It&#x27;s not a nutritional contributor, but it&#x27;s not a red flag either.</div>
           </div>
         </div>
       </div>
@@ -678,30 +764,37 @@ gtag('config', 'G-SW4MNP5W7J');
       <h3>Low-scoring ingredients</h3>
       <div class="chips-grid">
         <div class="chip-row">
-          <span class="chip-sample chip-concern" style="min-width:180px;">Sugar / Cane Sugar &nbsp;<strong>–2</strong></span>
+          <span class="chip-sample chip-concern" style="min-width:180px;">Sugar / Cane Sugar &nbsp;<strong>&ndash;2</strong></span>
           <div>
             <div class="chip-desc">Added caloric sweetener with no nutritional upside. Present in a huge share of bars. The position matters: sugar in spot #7 is a minor concern, sugar in spot #2 is a significant drag on the score.</div>
           </div>
         </div>
         <div class="chip-row">
-          <span class="chip-sample chip-concern" style="min-width:180px;">Sucralose &nbsp;<strong>–2</strong></span>
+          <span class="chip-sample chip-concern" style="min-width:180px;">Soluble Corn Fiber &nbsp;<strong>&ndash;1</strong></span>
           <div>
-            <div class="chip-desc">A zero-calorie artificial sweetener. Research on its effects on gut microbiome and metabolic response continues to evolve. We score it negatively - not catastrophically, but it's a real ingredient concern.</div>
+            <div class="chip-desc">An engineered fiber made from corn starch. It lets a label count carbs as fiber and lower &quot;net carbs,&quot; but it is a highly processed stand-in for fiber from food. It scores -1: below neutral, level with honey and maple syrup, and above refined sugars.</div>
           </div>
         </div>
         <div class="chip-row">
-          <span class="chip-sample chip-concern" style="min-width:180px;">Palm Kernel Oil &nbsp;<strong>–3</strong></span>
+          <span class="chip-sample chip-concern" style="min-width:180px;">Sucralose &nbsp;<strong>&ndash;2 flat</strong></span>
+          <div>
+            <div class="chip-desc">A zero-calorie artificial sweetener, roughly 600 times sweeter than sugar. Research on its effects on the gut microbiome and metabolic response is still developing. It costs a bar a flat 2 points wherever it appears on the label, the same as acesulfame potassium, aspartame and saccharin.</div>
+          </div>
+        </div>
+        <div class="chip-row">
+          <span class="chip-sample chip-concern" style="min-width:180px;">Palm Kernel Oil &nbsp;<strong>&ndash;3</strong></span>
           <div>
             <div class="chip-desc">A highly processed industrial fat used for texture and shelf life. High in saturated fat and a poor-quality substitute for whole food fat sources like cocoa butter, nuts, or seeds.</div>
           </div>
         </div>
         <div class="chip-row">
-          <span class="chip-sample chip-concern" style="min-width:180px;">Maltitol &nbsp;<strong>–4</strong></span>
+          <span class="chip-sample chip-concern" style="min-width:180px;">Maltitol &nbsp;<strong>&ndash;4</strong></span>
           <div>
-            <div class="chip-desc">The worst-scoring ingredient in our database. A sugar alcohol with a glycemic index closer to real sugar than to erythritol, often causing digestive distress, and frequently used in large quantities to hit "no sugar added" claims. If you see maltitol leading the list, that's an F-grade bar.</div>
+            <div class="chip-desc">Tied with hydrogenated palm kernel oil for the lowest score in our database. A sugar alcohol with a glycemic index closer to real sugar than to erythritol, often causing digestive distress, and frequently used in large quantities to hit &quot;no sugar added&quot; claims. If you see maltitol leading the list, that&#x27;s an F-grade bar.</div>
           </div>
         </div>
       </div>
+<!-- /kyb:examples -->
     </section>
 
     <!-- Insight chips -->
@@ -841,7 +934,9 @@ gtag('config', 'G-SW4MNP5W7J');
 <section class="faq-section">
   <div class="faq-section-inner">
   <h2>Frequently asked questions</h2>
-  <div class="faq-item"><div class="faq-q">How does the Know Your Bar ingredient scoring system work?</div><div class="faq-a"><p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,000+ canonicals, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. The total becomes the bar's ingredient quality score.</p></div></div><div class="faq-item"><div class="faq-q">What do the letter grades mean?</div><div class="faq-a"><p>Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities.</p></div></div><div class="faq-item"><div class="faq-q">Are you nutritionists or dieticians?</div><div class="faq-a"><p>No. We are not nutritionists, registered dieticians, or medical professionals. We are people who eat a lot of protein bars, got frustrated by vague health claims, and built a data-driven scoring system to make sense of ingredient lists. The system is our best effort at an objective framework, not medical advice.</p></div></div><div class="faq-item"><div class="faq-q">How often is the scoring system updated?</div><div class="faq-a"><p>We update the scoring schema regularly as we add new bars and refine our understanding of specific ingredients. The current schema covers 1,000+ canonical ingredients. If you think an ingredient is scored incorrectly, we genuinely want to hear about it.</p></div></div><div class="faq-item"><div class="faq-q">Does ingredient quality score reflect taste or nutrition facts?</div><div class="faq-a"><p>No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall nutritional value. A bar could score high on ingredient quality but be high in calories. We recommend looking at both the ingredient grade and the macro profile when choosing a bar.</p></div></div>
+<!-- kyb:faq -->
+  <div class="faq-item"><div class="faq-q">How does the Know Your Bar ingredient scoring system work?</div><div class="faq-a"><p>Each bar&#x27;s ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of 1,300+ canonical ingredients, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. Artificial sweeteners are the exception: each one costs a flat 2 points wherever it appears. The total, plus a small adjustment for ingredient count, becomes the bar&#x27;s ingredient quality score.</p></div></div><div class="faq-item"><div class="faq-q">What do the letter grades mean?</div><div class="faq-a"><p>Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is -3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it and in what quantities.</p></div></div><div class="faq-item"><div class="faq-q">How do you score artificial sweeteners like sucralose?</div><div class="faq-a"><p>Each artificial sweetener (sucralose, acesulfame potassium, aspartame and saccharin) costs a bar a flat 2 points, no matter where it sits on the label. These sweeteners are used in milligrams, so they almost always appear near the end of the list, where position weighting would make them count for almost nothing. 248 of our 1,308 bars contain at least one.</p></div></div><div class="faq-item"><div class="faq-q">Why do some added fibers score below zero?</div><div class="faq-a"><p>Soluble corn fiber, resistant dextrin, tapioca fiber, IMO and polydextrose are starches that were rearranged so the body can&#x27;t fully digest them. That lets the label count them as fiber and lower &quot;net carbs.&quot; They aren&#x27;t harmful, but they are highly processed stand-ins for fiber from food, so they score -1: below neutral, level with honey and maple syrup, and above refined sugars like cane sugar. Fiber from foods and plants, like oat fiber, chicory root fiber and inulin, scores +1.</p></div></div><div class="faq-item"><div class="faq-q">Why does honey score higher than brown rice syrup?</div><div class="faq-a"><p>The more a sugar has been processed away from a whole food, the lower it scores. Honey, maple syrup and coconut sugar are lightly processed, single-source foods and score -1. Refined sugars like cane sugar and agave score -2. Syrups made by breaking down starch into sugar, like brown rice syrup, tapioca syrup, dextrose and maltodextrin, score -3. Whole fruit and dates score +2 to +3 because the fiber is still there.</p></div></div><div class="faq-item"><div class="faq-q">Are you nutritionists or dieticians?</div><div class="faq-a"><p>No. We are not nutritionists, registered dieticians, or medical professionals. We are people who eat a lot of protein bars, got frustrated by vague health claims, and built a data-driven scoring system to make sense of ingredient lists. The system is our best effort at an objective framework, not medical advice.</p></div></div><div class="faq-item"><div class="faq-q">How often is the scoring system updated?</div><div class="faq-a"><p>We update the scoring schema as we add new bars and refine how specific ingredients are scored. The current schema covers 1,300+ canonical ingredients, and every bar is rescored whenever it changes. The most recent change, in September 2026, updated how we score sugars, fibers and artificial sweeteners. If you think an ingredient is scored incorrectly, we want to hear about it.</p></div></div><div class="faq-item"><div class="faq-q">Does ingredient quality score reflect taste or nutrition facts?</div><div class="faq-a"><p>No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall nutritional value. A bar could score high on ingredient quality but be high in calories. We recommend looking at both the ingredient grade and the macro profile when choosing a bar.</p></div></div>
+<!-- /kyb:faq -->
   </div>
 </section>
 
@@ -885,7 +980,7 @@ gtag('config', 'G-SW4MNP5W7J');
     </nav>
     </details>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated April 2026</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated 2026-09-24</div>
   <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
 </footer>
 
