@@ -116,3 +116,26 @@ def alias_score_conflicts(path=SCHEMA):
         if pd.notna(s) and pd.notna(cs.get(cid)) and cs[cid] != s:
             out.append((str(t), str(n), int(s), int(cs[cid])))
     return out
+
+
+def bar_ingredients(bars, path=SCHEMA):
+    """Per bar: list of dicts(name, pos, sub, category, subcategory) in label order,
+    matched the same way the scorer matches (label notes excluded)."""
+    canon, al, cl = load_schema(path)
+    subcat = {}
+    for n, s in zip(canon.canonical_name, canon.subcategory):
+        subcat.setdefault(n, '' if pd.isna(s) else str(s))
+    out = []
+    for b in bars:
+        items = []
+        for text, pos, mult in sx.parse_ingredients(b.get('Ingredients') or ''):
+            norm = sx.normalize(text)
+            if not norm or len(norm) < 2:
+                continue
+            r = sx.lookup_ingredient(norm, al, cl)
+            if not r or r.get('skip') or r['category'] in NOT_INGREDIENTS:
+                continue
+            items.append(dict(name=r['canonical_name'], pos=pos, sub=mult < 1.0, category=r['category'],
+                              subcategory=subcat.get(r['canonical_name'], '')))
+        out.append(items)
+    return out

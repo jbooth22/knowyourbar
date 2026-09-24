@@ -54,7 +54,7 @@ def share_words(n, d):
     """'nearly half', 'more than 4 in 5' ... plain words for a share of bars."""
     p = n / d
     for lo, w in [(0.9, 'more than 9 in 10'), (0.8, 'more than 4 in 5'), (0.75, 'about 3 in 4'), (0.66, 'about 2 in 3'),
-                  (0.55, 'more than half'), (0.45, 'nearly half'), (0.38, 'about 2 in 5'), (0.3, 'nearly 1 in 3'),
+                  (0.55, 'more than half of all'), (0.45, 'nearly half of all'), (0.38, 'about 2 in 5'), (0.3, 'nearly 1 in 3'),
                   (0.23, 'about 1 in 4'), (0.18, 'about 1 in 5'), (0.0, None)]:
         if p >= lo:
             return w or f'{pct0(n, d)}%'
