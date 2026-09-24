@@ -419,19 +419,32 @@ def sort_for_list(bars):
     # score 0.0 is a real score: never use `score(b) or -999` here (0.0 is falsy)
     return sorted(bars, key=lambda b: (-(score(b) if score(b) is not None else -999), b['Brand Name'].lower(), b['Flavor Name'].lower()))
 
-def bar_table(bars, all_bars, eager=30):
+def bar_table(bars, all_bars, eager=30, variant=None):
     """Returns (tbody_inner_html, lazy_json_text) for a guide's bar list.
     First `eager` rows get a server-rendered expand panel, the rest load
-    from the gd-bar-data JSON block on first click."""
+    from the gd-bar-data JSON block on first click. variant='keto' uses the
+    Keto page's columns (FAT + NET CARB instead of CAL + SGR) and its
+    Fat / Protein / Net Carbs / Fiber rank grid, matching that page's JS."""
     ranker = Ranker(all_bars)
+    row_fn, exp_fn, span = bar_row_html, expand_html, 11
+    if variant == 'keto':
+        ncv = [net_carbs(x) for x in all_bars if net_carbs(x) is not None]
+        row_fn, exp_fn, span = keto_row_html, keto_expand_html, 10
     rows, lazy = [], []
     for idx, b in enumerate(sort_for_list(bars)):
         rec = lazy_record(b, idx, ranker)
-        rows.append(bar_row_html(b, idx))
+        if variant == 'keto':
+            nc = net_carbs(b)
+            r_ = 1 + sum(1 for x in ncv if x < nc)
+            share = r_ / ranker.total
+            rec['ncv'] = fnum(nc)
+            rec['rk']['nc'] = ([f'#{r_} lowest', 'rank-green'] if share <= 0.10 else
+                               [f'#{r_} lowest', 'rank-amber'] if share <= 0.25 else [f'#{r_} of {ranker.total}', 'rank-gray'])
+        rows.append(row_fn(b, idx))
         if idx < eager:
-            rows.append(f'<tr class="ingr-row" id="ingr-{idx}"><td colspan="11" class="ingr-cell"><div class="expand-content">{expand_html(rec)}</div></td></tr>')
+            rows.append(f'<tr class="ingr-row" id="ingr-{idx}"><td colspan="{span}" class="ingr-cell"><div class="expand-content">{exp_fn(rec)}</div></td></tr>')
         else:
-            rows.append(f'<tr class="ingr-row" id="ingr-{idx}" style="display:none;"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1"></div></td></tr>')
+            rows.append(f'<tr class="ingr-row" id="ingr-{idx}" style="display:none;"><td colspan="{span}" class="ingr-cell"><div class="expand-content" data-pending="1"></div></td></tr>')
             lazy.append(rec)
     js = json.dumps(lazy, separators=(',', ':')).replace('</', '<\\/')
     return '\n'.join(rows), js
@@ -505,7 +518,7 @@ def grade_sync_check(page, all_bars):
         by_name[(esc(b['Brand Name']), esc(b['Flavor Name']))] = b
     problems = []
     rows = re.findall(r'<tr class="bar-row" data-idx="(\d+)" data-score="([^"]*)" data-grade="([^"]*)".*?'
-                      r'<div class="bar-brand">(.*?)</div>\s*<div class="bar-flavor">(.*?)</div>.*?'
+                      r'<div class="(?:bar-brand|bar-flavor)">(.*?)</div>\s*<div class="(?:bar-flavor|bar-flavor-name)">(.*?)</div>.*?'
                       r'title="(\w+) &middot; score ([^"]*)">(\w)</span>', page, re.S)
     idx_to_bar = {}
     for idx, dsc, dgr, brand, flavor, word, tsc, badge in rows:
@@ -596,18 +609,32 @@ class Picker:
     bar repeats. A protein floor (default 10g) applies unless nothing in the
     band clears it."""
     def __init__(self, qualify, floor=10):
+        self.qualify = qualify
         self.band_grade = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in qualify))
         self.band = [b for b in qualify if b.get('score_band') == self.band_grade]
         self.floor, self.used = floor, set()
 
     def pick(self, sort_key, eligible=lambda b: True):
-        for floor in (self.floor, 0):
-            c = [b for b in self.band if b['Key'] not in self.used and eligible(b) and P(b) >= floor]
-            if c:
-                b = min(c, key=lambda x: (tuple(sort_key(x)), name_key(x)))
-                self.used.add(b['Key'])
-                return b
+        # best band first; only when it has nothing eligible left, fall back
+        # to the next band down (GUIDE_CRITERIA: tiny qualifying sets)
+        bands = [self.band] + [[b for b in self.qualify if b.get('score_band') == g]
+                               for g in BAND_ORDER[BAND_ORDER.index(self.band_grade) + 1:]]
+        for pool in bands:
+            for floor in (self.floor, 0):
+                c = [b for b in pool if b['Key'] not in self.used and eligible(b) and P(b) >= floor]
+                if c:
+                    b = min(c, key=lambda x: (tuple(sort_key(x)), name_key(x)))
+                    self.used.add(b['Key'])
+                    return b
         return None
+
+    def rank_sum(self, metrics, eligible=lambda b: True, tiebreak=lambda b: -P(b)):
+        """Balanced pick: lowest summed rank across metrics [(fn, higher_is_better)]
+        within the band's eligible bars."""
+        pool = [b for b in self.band if eligible(b) and b['Key'] not in self.used]
+        def rank(fn, hi, b): return 1 + sum(1 for x in pool if (fn(x) > fn(b) if hi else fn(x) < fn(b)))
+        return self.pick(lambda b: (sum(rank(fn, hi, b) for fn, hi in metrics), tiebreak(b)),
+                         lambda b: b in pool)
 
     def balanced(self):
         """15g+ protein, 5g+ fiber, 5g or less sugar; best combined rank."""
@@ -804,8 +831,8 @@ def guide_head_regions(*, title, h1, desc, og_desc, url, about, published, faqs,
             ('jsonld-article', ld(article)), ('jsonld-breadcrumb', ld(crumbs)), ('jsonld-faq', faq_jsonld(faqs).strip()),
             ('jsonld-itemlist', ld(items, None)), ('social', social)]
 
-def guide_list_regions(qualify, all_bars, *, heading, eager=30, lazy_attr=False):
-    rows, js = bar_table(qualify, all_bars, eager=eager)
+def guide_list_regions(qualify, all_bars, *, heading, eager=30, lazy_attr=False, variant=None):
+    rows, js = bar_table(qualify, all_bars, eager=eager, variant=variant)
     if lazy_attr:
         rows = rows.replace(' style="display:none;"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">',
                             ' style="display:none;" data-lazy="1"><td colspan="11" class="ingr-cell"><div class="expand-content" data-pending="1">')
@@ -858,3 +885,166 @@ def pct0(n, d):
         return '0'
     v = 100 * n / d
     return '<1' if v < 0.5 else str(round(v))
+
+
+class Scoper:
+    """Honest 'the most X of any ...' wording for a top-pick tile. Tries the
+    widest claim first (every qualifying bar), then the pick's own grade band,
+    then that band with the protein floor; if a bar already used on another
+    tile beats it even there, says 'remaining'. Adds 'tied for' when tied."""
+    def __init__(self, qualify, suffix, floor=10):
+        self.q, self.suffix, self.floor = qualify, suffix, floor
+    def __call__(self, fn, b, word, higher=True):
+        g = b.get('score_band')
+        band = [x for x in self.q if x.get('score_band') == g]
+        levels = [(self.q, f'of any bar {self.suffix}'),
+                  (band, f'of any {g}-grade bar {self.suffix}'),
+                  ([x for x in band if P(x) >= self.floor], f'of any {g}-grade bar with {self.floor}g+ protein '
+                   + (f'and {self.suffix[5:]}' if self.suffix.startswith('with ') else self.suffix))]
+        best = max if higher else min
+        for pool, phrase in levels:
+            if pool and fn(b) == best(fn(x) for x in pool):
+                tied = sum(1 for x in pool if fn(x) == fn(b)) > 1
+                return f"{'tied for ' if tied else ''}the {word} {phrase}"
+        return f'the {word} of any {g}-grade bar {self.suffix} not already picked above'
+
+def faq_items_html(faqs):
+    """Live guide FAQ markup. Answers may carry <a> links (then passed through as-is)."""
+    return ''.join(f'''
+        <div class="faq-item">
+          <button class="faq-q">{esc(q)}</button>
+          <div class="faq-a">{a if '<a ' in a else esc(a)}</div>
+        </div>''' for q, a in faqs) + '\n      '
+
+def plain_text(s):
+    import html as _h
+    return _h.unescape(re.sub(r'<[^>]+>', '', s))
+
+def simple_card_html(label, n, total, desc):
+    return f'''<div class="score-card">
+  <div class="score-card-label">{esc(label)}</div>
+  <div class="score-card-val">{comma(n)} bars<span class="oil-card-pct">{g1(100 * n / total)}%</span></div>
+  <div class="score-card-desc">{esc(desc)}</div>
+</div>'''
+
+def picks_with_extra_html(h2, intro, picks, extra):
+    """picks_section_html plus page-specific blocks (disclaimer callout, jump
+    link) after the tile grid, inside the same section-inner."""
+    h = picks_section_html(h2, intro, picks)
+    i = h.rfind('</div>')
+    return h[:i] + extra + '\n    </div>'
+
+class Screen:
+    """A macro guide's criteria as named checks, for fail counts and the
+    per-brand 'misses mainly on ...' notes. checks: [(key, label, fails_fn)]."""
+    def __init__(self, all_bars, checks):
+        self.all, self.checks = all_bars, checks
+        self.fails = {b['Key']: [k for k, _, fn in checks if fn(b)] for b in all_bars}
+        self.label = {k: l for k, l, _ in checks}
+    def count(self, key):
+        return sum(1 for f in self.fails.values() if key in f)
+    def multi(self, bars):
+        return sum(1 for b in bars if len(self.fails[b['Key']]) >= 2)
+    def misses_mainly(self, disq, share=0.5):
+        from collections import Counter
+        c = Counter(k for b in disq for k in self.fails[b['Key']])
+        top = [k for k, n in sorted(c.items(), key=lambda kv: (-kv[1], [x[0] for x in self.checks].index(kv[0])))
+               if n >= share * len(disq)]
+        if not top and c:
+            top = [max(c, key=c.get)]
+        return [self.label[k] for k in top]
+
+def macro_brand_tables_html(split, *, h2, intro_html, table_id, table_class, cols, notes, row_note, note_head='Note',
+                            before_tables='', after_tables=''):
+    """Consider / Mixed / Avoid for the macro guides (keto, diabetics, GLP-1),
+    which show guide-specific averages instead of protein/sugar. cols:
+    [(header, fn(row)->html)]; row_note(row, kind)->plain text."""
+    consider, mixed, avoid = split
+    head = '<thead><tr><th>Brand</th>' + ''.join(f'<th>{esc(h)}</th>' for h, _ in cols) + f'<th>{esc(note_head)}</th></tr></thead>'
+    def cell(r):
+        if r['q']:
+            return f'<button type="button" class="brand-jump" data-brand="{esc(r["brand"])}">{esc(r["brand"])}</button>'
+        return f'<span class="brand-name-static">{esc(r["brand"])}</span>'
+    def row(r, kind, i=0):
+        tr = '<tr>' if kind != 'avoid' else ('<tr class="avoid-row brand-row-hidden" style="display:none;">' if i >= 15 else '<tr class="avoid-row">')
+        return (tr + f'<td>{cell(r)}</td>' + ''.join(f'<td>{fn(r)}</td>' for _, fn in cols)
+                + f'<td class="diab-reason">{esc(row_note(r, kind))}</td></tr>')
+    def block(cls, label, note, rows, tid='', extra=''):
+        return f'''      <div class="brand-table-block">
+        <div class="brand-table-label {cls}">{label}</div>
+        <div class="brand-table-note">{esc(note)}</div>
+        <div class="table-scroll">
+          <table class="brand-table {table_class}"{tid}>
+            {head}
+            <tbody>
+{rows}
+            </tbody>
+          </table>
+        </div>{extra}
+      </div>'''
+    hidden = max(0, len(avoid) - 15)
+    more = '' if not hidden else f'''
+        <button type="button" class="brand-table-show-more" id="{table_id}-avoid-show-more" data-hidden-count="{hidden}">Show {hidden} more brands</button>
+        <script>
+        (function() {{
+          var btn = document.getElementById('{table_id}-avoid-show-more');
+          var table = document.getElementById('{table_id}-avoid-table');
+          if (!btn || !table) return;
+          btn.addEventListener('click', function() {{
+            table.querySelectorAll('.brand-row-hidden').forEach(function(row) {{ row.style.display = ''; row.classList.remove('brand-row-hidden'); }});
+            btn.classList.add('is-hidden');
+          }});
+        }})();
+        </script>'''
+    blocks = [block('pro', 'Brands to Consider', notes['consider'], '\n'.join(row(r, 'consider') for r in consider))]
+    if mixed:
+        blocks.append(block('mixed', 'Mixed Lineups, Check the Flavor', notes['mixed'], '\n'.join(row(r, 'mixed') for r in mixed)))
+    blocks.append(block('con', 'Brands to Avoid', notes['avoid'], '\n'.join(row(r, 'avoid', i) for i, r in enumerate(avoid)),
+                        f' id="{table_id}-avoid-table"', more))
+    return f'''
+    <div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <div class="section-body">
+{intro_html}
+      </div>{before_tables}
+
+''' + '\n\n'.join(blocks) + f'''{after_tables}
+    </div>
+'''
+
+
+def keto_row_html(b, idx):
+    grade = b.get('score_band')
+    sc = score(b) or 0
+    prot, fat, nc = num(b.get('Protein (g)')), num(b.get('Total Fat (g)')), net_carbs(b)
+    p = p100(b) or 0
+    search = f"{b['Brand Name']} {b['Flavor Name']}".lower()
+    return f'''<tr class="bar-row" data-idx="{idx}" data-score="{fnum(sc)}" data-grade="{grade}" data-protein="{fnum(prot or 0)}" data-fat="{fnum(fat or 0)}" data-netcarb="{fnum(nc)}" data-p100="{fnum(p)}" data-search="{esc(search)}" onclick="toggleIngr({idx}, this)">
+  <td class="col-bar"><div class="bar-flavor">{esc(b['Brand Name'])}</div><div class="bar-flavor-name">{esc(b['Flavor Name'])}</div></td>
+  <td class="col-num">{fnum(fat)}</td>
+  <td class="col-num">{fnum(prot)}</td>
+  <td class="col-num col-hide-mobile">{fnum(p)}</td>
+  <td class="col-num">{fnum(nc)}</td>
+  <td class="col-num col-hide-mobile">{fnum(num(b.get('Total Carbohydrates (g)')))}</td>
+  <td class="col-num">{fnum(num(b.get('Dietary Fiber (g)')))}</td>
+  <td class="col-num col-hide-mobile">{fnum(num(b.get('Sugar Alcohol (g)')) or 0)}</td>
+  <td class="col-certs col-hide-mobile"><div class="cert-badges">{cert_badges_html(b)}</div></td>
+  <td class="col-grade"><span class="table-grade-badge grade-{grade}" title="{grade_word(grade)} &middot; score {fnum(sc)}">{grade}</span></td>
+</tr>'''
+
+def keto_expand_html(r):
+    """expand_html with the Keto page's rank grid (mirrors its buildLazyExpand)."""
+    h = expand_html(r)
+    def cell(lbl, val, pair):
+        return (f'<div class="macro-rank-cell"><span class="macro-rank-lbl">{lbl}</span>'
+                f'<span class="macro-rank-val">{val}</span><span class="macro-rank-tag {pair[1]}">{pair[0]}</span></div>')
+    rk = r['rk']
+    grid = (cell('Fat', f'{fnum(r["ftv"])}g', rk['ft']) + cell('Protein', f'{fnum(r["pv"])}g', rk['p'])
+            + cell('Net Carbs', f'{r["ncv"]}g', rk['nc']) + cell('Fiber', f'{r["fv"]}g', rk['f']))
+    i = h.index('<div class="macro-rank-grid">') + len('<div class="macro-rank-grid">')
+    j = h.index('</div><div class="expand-columns">')
+    return h[:i] + grid + h[j:]
+
+def all_n_flavors(t):
+    """'All 5 flavors' / 'Both flavors' / 'Its one flavor' for brand-table notes."""
+    return 'Its one flavor' if t == 1 else ('Both flavors' if t == 2 else f'All {t} flavors')
