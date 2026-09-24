@@ -115,14 +115,38 @@ GRADE_ORDER = {'A': 4, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
 # stops existing in bars.js, this script will KeyError — that's intentional,
 # it forces a human to pick a new example rather than silently going stale.
 # ---------------------------------------------------------------------------
-BEST_PICKS = [
-    ("Best Overall", "Gryp", "Across every brand we've scored on ingredients, macros, and flavor consistency, this is the highest composite score in the database."),
-    ("Best Widely Available", "RXBAR", "The top-scoring brand you can actually grab at a regular grocery store or Target. Smaller lineup than most mass-market bars, but nothing filler."),
-    ("Best Mid-Size / Specialty", "Transparent Labs", "The strongest brand in the specialty-grocery-and-online tier, ahead of far bigger names in that group."),
-    ("Best Protein First", "Jacob", "Leads the protein-efficiency category on grams of protein per 100 calories without giving up ingredient quality to get there."),
-    ("Best Solid Macro Profile", "Healthy Eating on the Go", "Tops the balanced-macro category, and does it across 15 flavors, not just one lucky bar."),
-    ("Best Whole Food / High Fiber", "PEAK Protein", "The highest-scoring fiber-forward brand, built around a shorter, more recognizable ingredient list than most bars in this group."),
+# "Best in category" spotlights are COMPUTED (2026-09-23): the top-ranked
+# brand overall, in each distribution tier and in each category, never
+# repeating a brand. Notes are templated from the numbers so they can't go
+# stale when bars.js changes.
+BEST_PICK_SLOTS = [
+    ("Best Overall", lambda r: True),
+    ("Best Widely Available", lambda r: r['tier'] == 'wide'),
+    ("Best Mid-Size / Specialty", lambda r: r['tier'] == 'mid'),
+    ("Best Protein First", lambda r: r['category'] == 'Protein First'),
+    ("Best Solid Macro Profile", lambda r: r['category'] == 'Solid Macro Profile'),
+    ("Best Whole Food / High Fiber", lambda r: r['category'] == 'Whole Food / High Fiber'),
 ]
+
+def compute_best_picks(rows):
+    used, picks = set(), []
+    for label, ok in BEST_PICK_SLOTS:
+        pool = [r for r in rows if ok(r)]
+        r = next(x for x in pool if x['brand'] not in used)
+        used.add(r['brand'])
+        skipped = [x['brand'] for x in pool[:pool.index(r)]]
+        if label == "Best Overall":
+            note = ("The highest composite score in the database across ingredient quality, protein efficiency and fiber, "
+                    f"from a {r['flavors']}-flavor lineup.")
+        elif label.startswith("Best Widely") or label.startswith("Best Mid"):
+            note = (f"The top-ranked brand in the {TIER_LABEL[r['tier']]} tier, #{r['rank']} overall"
+                    + (f" (after {', '.join(skipped)}, featured above)" if skipped else "") + ".")
+        else:
+            note = (f"#{r['cat_rank']} in the {r['category']} category"
+                    + (f", behind {', '.join(skipped)}, featured above" if skipped else ", the category leader")
+                    + f": {fmt1(r['avg_p100'])}g protein per 100 calories and {fmt1(r['avg_fiber'])}g fiber on average across {r['flavors']} flavor{'s' if r['flavors'] != 1 else ''}.")
+        picks.append((label, r['brand'], note))
+    return picks
 HIGHLIGHT_BRANDS = ["RXBAR", "Quest", "David", "CLIF Bar", "Clif Builders", "Barebells",
                      "KIND", "Healthy Eating on the Go", "Verb", "JiMMYBAR!"]
 
@@ -235,6 +259,9 @@ def compute_brand_stats(bars_js_path):
             "top_pos_tags": pos_tags.most_common(3), "top_con_tags": con_tags.most_common(3),
             "certs": certs, "creatine_flavors": creatine, "caffeine_flavors": caffeine,
             "fortified_flavors": fortified,
+            "tag_counts": dict(pos_tags + con_tags),
+            "grade_counts": dict(Counter(grades)),
+            "caf_and_creatine_flavors": sum(1 for b in bars if num(b.get('Caffeine (mg)')) and num(b.get('Creatine (g)'))),
         })
 
     def minmax(vals):
@@ -289,9 +316,9 @@ def grade_range_html(r):
     if b == w:
         return f'<span class="table-grade-badge grade-{b}">{b}</span>'
     return (f'<span class="brand-compare-grade-pair">'
-            f'<span class="table-grade-badge grade-{w}">{w}</span>'
-            f'<span class="brand-compare-grade-arrow">&rarr;</span>'
             f'<span class="table-grade-badge grade-{b}">{b}</span>'
+            f'<span class="brand-compare-grade-arrow">&rarr;</span>'
+            f'<span class="table-grade-badge grade-{w}">{w}</span>'
             f'</span>')
 
 
@@ -302,7 +329,7 @@ def blurb(r):
           f"{fmt1(r['avg_protein'])}g protein and {fmt1(r['avg_calories'])} calories per bar "
           f"({fmt1(r['avg_p100'])}g protein per 100 calories).")
     grade_s = f"Every flavor grades {r['best_grade']}." if r['best_grade'] == r['worst_grade'] \
-        else f"Ingredient grades run {r['worst_grade']} to {r['best_grade']} across the lineup."
+        else f"Ingredient grades run {r['best_grade']} to {r['worst_grade']} across the lineup."
     pos = r['top_pos_tags'][0][0] if r['top_pos_tags'] else None
     con = r['top_con_tags'][0][0] if r['top_con_tags'] else None
     con_n = r['top_con_tags'][0][1] if r['top_con_tags'] else 0
@@ -398,32 +425,67 @@ def highlight_card(kind, title, body):
     </div>'''
 
 
+HIGHLIGHT_FAILS = []
+
+def _claim(ok, text):
+    if not ok:
+        HIGHLIGHT_FAILS.append(text)
+    return ok
+
+def _ord(n):
+    return f"{n}{'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')}"
+
 def build_highlights(by_name):
+    """Each highlight states claims about the data. Every claim is checked
+    against the freshly computed stats; if one is no longer true the build
+    stops (see __main__) instead of publishing it."""
     rx, qu, dv, cb, cbl, bb, kd, heg, verb, jimmy = (by_name[n] for n in HIGHLIGHT_BRANDS)
+    rows = list(by_name.values())
+    n_all = len(rows)
+    def share(r, tag): return r['tag_counts'].get(tag, 0) / r['flavors']
+    def gr(r): return r['best_grade'] if r['best_grade'] == r['worst_grade'] else f"{r['best_grade']} to {r['worst_grade']}"
+    rx_sh = rx['tag_counts'].get('Sweetener Heavy', 0)
+    _claim(rx['rank'] < qu['rank'], 'RXBAR outranks Quest')
+    _claim(share(qu, 'Artificial Sweeteners') == 1 and share(qu, 'Sugar Alcohols') == 1, 'every Quest flavor has artificial sweeteners and sugar alcohols')
+    _claim(dv['avg_p100'] == max(r['avg_p100'] for r in rows), 'David has the highest protein efficiency of any brand')
+    _claim(share(dv, 'Artificial Sweeteners') >= 0.8 and share(dv, 'Sugar Alcohols') >= 0.8, 'David: artificial sweeteners and sugar alcohols in nearly every flavor')
+    wide = [r for r in rows if r['tier'] == 'wide']
+    wide_rank = {r['brand']: i for i, r in enumerate(sorted(wide, key=lambda r: r['rank']), 1)}
+    _claim(all(wide_rank[x['brand']] > len(wide) / 2 for x in (cb, cbl)), 'CLIF Bar and Clif Builders sit in the bottom half of widely-available brands')
+    _claim(all(share(x, 'Sweetener Heavy') > 0.5 and share(x, 'Processed Oils') > 0.5 for x in (cb, cbl)), 'CLIF Bar and Clif Builders: sweetener-heavy and processed oils in most flavors')
+    all_a = sorted([r for r in rows if r['best_grade'] == 'A' and r['worst_grade'] == 'A'], key=lambda r: (-r['flavors'], r['rank']))
+    top_a = all_a[0]
+    def third(r): return 'top third' if r['rank'] <= n_all / 3 else ('middle third' if r['rank'] <= n_all * 2 / 3 else 'bottom third')
+    same_third = third(bb) == third(kd)
+    _claim(third(bb) != 'top third' and third(kd) != 'top third', 'Barebells and KIND both rank outside the top third')
+    _claim(share(kd, 'Processed Oils') > 0.5, 'KIND has processed oils in most flavors')
+    _claim(verb['caffeine_flavors'] == verb['flavors'], 'Verb has caffeine in every flavor')
+    creatine = sorted([r for r in rows if r['creatine_flavors'] >= 2], key=lambda r: (-r['creatine_flavors'], r['rank']))
     highlights = [
         ("good", "Small lineup, big ingredient discipline",
          f"RXBAR (rank #{rx['rank']}) outranks Quest (rank #{qu['rank']}) despite offering {rx['flavors']} flavors to Quest's {qu['flavors']}. "
-         f"RXBAR's whole lineup grades {rx['worst_grade']} to {rx['best_grade']} with almost no sweetener-heavy flags, while every one of Quest's "
-         f"{qu['flavors']} flavors carries both artificial sweeteners and sugar alcohols. More flavors doesn't mean a better score."),
+         f"RXBAR's whole lineup grades {gr(rx)} with no artificial sweeteners or sugar alcohols"
+         + (f" (Sweetener Heavy flags {rx_sh} of {rx['flavors']})" if rx_sh else "")
+         + f", while every one of Quest's {qu['flavors']} flavors carries both artificial sweeteners and sugar alcohols. More flavors doesn't mean a better score."),
         ("bad", "Protein efficiency isn't the whole story",
          f"David averages {fmt1(dv['avg_p100'])}g of protein per 100 calories, the highest protein efficiency of any brand in the database, "
          f"but its ingredient grades only reach {dv['best_grade']}. Artificial sweeteners and sugar alcohols show up in nearly every flavor. "
          f"Big protein numbers on the label don't guarantee a clean ingredient list."),
         ("bad", "Legacy brands, middling grades",
-         f"CLIF Bar (rank #{cb['rank']}) and Clif Builders (rank #{cbl['rank']}) sit near the bottom of every widely-available brand we've scored, "
+         f"CLIF Bar (rank #{cb['rank']}) and Clif Builders (rank #{cbl['rank']}) rank {_ord(wide_rank[cb['brand']])} and {_ord(wide_rank[cbl['brand']])} of the {len(wide)} widely-available brands we've scored, "
          f"despite decades on grocery shelves. Both lean on sweetener-heavy formulas and processed oils across most flavors, and Clif Builders' "
-         f"worst flavor grades an {cbl['worst_grade']}. Shelf presence and ingredient quality aren't the same thing."),
+         f"worst flavor grades {'an' if cbl['worst_grade'] in 'AF' else 'a'} {cbl['worst_grade']}. Shelf presence and ingredient quality aren't the same thing."),
         ("good", "Consistency at volume",
-         f"Healthy Eating on the Go scores an A on every single one of its {heg['flavors']} flavors, the largest fully-A lineup in the database. "
+         f"{top_a['brand']} scores an A on every single one of its {top_a['flavors']} flavors, the largest fully-A lineup in the database. "
          f"Most brands with that many flavors show at least some spread between their best and worst bar. This one doesn't."),
-        ("bad", "Big names, mid-pack results",
-         f"Barebells (rank #{bb['rank']}) and KIND (rank #{kd['rank']}) both land in the middle third of the full ranking despite being two of the "
-         f"most recognizable names in the category. Barebells' worst flavor drops all the way to an {bb['worst_grade']}, and KIND leans heavily on "
-         f"processed oils across its lineup."),
+        ("bad", "Big names, " + ("mid-pack" if same_third and third(bb) == 'middle third' else "back-of-the-pack" if same_third else "mixed") + " results",
+         f"Barebells (rank #{bb['rank']}) and KIND (rank #{kd['rank']}) " + (f"both land in the {third(bb)}" if same_third else f"land in the {third(bb)} and {third(kd)}") + " of the full ranking despite being two of the "
+         f"most recognizable names in the category. Barebells' worst flavor drops all the way to {'an' if bb['worst_grade'] in 'AF' else 'a'} {bb['worst_grade']}, "
+         f"and KIND leans heavily on processed oils across its lineup."),
         ("good", "Stimulant and creatine patterns worth knowing",
-         f"Verb puts caffeine in all {verb['flavors']} of its flavors, and JiMMYBAR! is one of the only brands in the database combining both "
-         f"caffeine and creatine across multiple flavors. If you're tracking stimulants or timing supplements around a bar, these are the "
-         f"brands to know about."),
+         f"Verb puts caffeine in all {verb['flavors']} of its flavors"
+         + (f", and {creatine[0]['brand']} adds creatine to {creatine[0]['creatine_flavors']} of its {creatine[0]['flavors']}" if creatine else "")
+         + ". If you're tracking stimulants or timing supplements around a bar, these are the brands to know about."),
     ]
     return "\n".join(highlight_card(*h) for h in highlights)
 
@@ -435,7 +497,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
     CAT_COUNTS = Counter(r['category'] for r in rows)
 
     cards_html = "\n".join(render_card(r) for r in rows)
-    best_html = "\n".join(best_card(*p, by_name=by_name) for p in BEST_PICKS)
+    best_html = "\n".join(best_card(*p, by_name=by_name) for p in compute_best_picks(rows))
     highlights_html = build_highlights(by_name)
 
     TITLE = f"{TOTAL_BRANDS} Protein Bar Brands Ranked by Ingredients, Macros & Flavor Quality"
@@ -732,7 +794,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
       <div class="explore-cta-btns">
         <a href="/bar-finder?preset=high_protein" class="explore-cta-btn">Most Protein Per Calorie</a>
         <a href="/bar-finder?preset=clean" class="explore-cta-btn">Clean Ingredients</a>
-        <a href="/bar-finder?preset=skip_sugar" class="explore-cta-btn">Skip the Sugar</a>
+        <a href="/bar-finder?preset=skip_sugar" class="explore-cta-btn">Low Sugar</a>
       </div>
     </div>
     <div class="discover-more">
@@ -922,13 +984,81 @@ def render_page(rows, total_db_brand_count_display="148+"):
     return HEAD + METHODOLOGY + faq_footer
 
 
+# ---------------------------------------------------------------------------
+# Keep the live page's shell (2026-09-23). The nav, footer and font links on
+# the live page get hand-edited sitewide (new guides, font swaps) more often
+# than this script does. So instead of trusting the copies in the template
+# above, the build copies those blocks from the current live page. The rest of
+# the page is regenerated from bars.js.
+# ---------------------------------------------------------------------------
+import re as _re
+import datetime as _dt
+
+SHELL_BLOCKS = [
+    ('font stylesheet link', r'  <link href="https://fonts\.googleapis\.com/css2\?[^"]*" rel="stylesheet">'),
+    ('site nav', r'<nav class="site-nav">.*?</nav>\s*(?=\n)'),
+    ('site footer', r'<footer class="site-footer">.*?</footer>'),
+]
+
+def sync_shell_from_live(new_html, live_html):
+    for label, pat in SHELL_BLOCKS:
+        a = list(_re.finditer(pat, live_html, _re.S))
+        b = list(_re.finditer(pat, new_html, _re.S))
+        if len(a) != 1 or len(b) != 1:
+            raise SystemExit(f'ERROR: expected exactly one {label} in both live page and build output '
+                             f'(live {len(a)}, build {len(b)}). Not writing.')
+        new_html = new_html[:b[0].start()] + a[0].group(0) + new_html[b[0].end():]
+    month = _dt.date.today().strftime('%B %Y')
+    return _re.sub(r'(site-footer-copy">.*?Updated )[A-Z][a-z]+ \d{4}', r'\g<1>' + month, new_html)
+
+def grade_sync(page_html, rows):
+    """Every brand card's rank, grade range and flavor count must match the
+    freshly computed stats. Returns a list of mismatches."""
+    probs = []
+    cards = _re.findall(r'<div class="brk-card"[^>]*data-rank="(\d+)".*?<span class="brk-card-name">(.*?)</span>.*?'
+                        r'<span class="brk-grade-range">(.*?)</span>\s*</div>.*?<b>(\d+)</b>', page_html, _re.S)
+    if len(cards) != len(rows):
+        probs.append(f'{len(cards)} brand cards on page, {len(rows)} brands in bars.js')
+    by_rank = {r['rank']: r for r in rows}
+    for rank, name, grades, flavors in cards:
+        r = by_rank.get(int(rank))
+        if r is None or esc(r['brand']) != name:
+            probs.append(f'rank {rank}: {name} does not match computed ranking')
+            continue
+        want = _re.findall(r'grade-([A-F])"', grade_range_html(r))
+        if _re.findall(r'grade-([A-F])"', grades) != want:
+            probs.append(f'{name}: grade range on card does not match bars.js')
+        if int(flavors) != r['flavors']:
+            probs.append(f'{name}: {flavors} flavors on card vs {r["flavors"]}')
+    return probs
+
+
 if __name__ == '__main__':
     rows = compute_brand_stats(BARS_JS_PATH)
     total_brands = len(rows)
     print(f"Computed stats for {total_brands} brands, {sum(r['flavors'] for r in rows)} flavors.")
     page_html = render_page(rows, total_db_brand_count_display=f"{total_brands}+")
+    if HIGHLIGHT_FAILS:
+        print('COPY NEEDS REVIEW, page not written. These highlight claims are no longer true in bars.js:')
+        for c in HIGHLIGHT_FAILS:
+            print('  -', c)
+        raise SystemExit(1)
+    missing = sorted((WIDE | MID) - {r['brand'] for r in rows})
+    if missing:
+        print(f"Note: tier lists name brands not in bars.js (renamed or dropped?): {', '.join(missing)}")
+    import os
+    if os.path.exists(OUTPUT_PATH):
+        with open(OUTPUT_PATH) as f:
+            page_html = sync_shell_from_live(page_html, f.read())
+    probs = grade_sync(page_html, rows)
+    if probs:
+        print('GRADE-SYNC FAILED, page not written:')
+        for p in probs[:30]:
+            print('  ', p)
+        raise SystemExit(1)
     with open(OUTPUT_PATH, 'w') as f:
         f.write(page_html)
+    print(f"Grade-sync: {len(rows)} brand cards checked against bars.js, 0 mismatches.")
     print(f"Wrote {OUTPUT_PATH} ({len(page_html)} bytes).")
     print("Next steps: (1) update brands_manifest.json's total_db_brand_count if it")
     print("changed, (2) run generate_brand_links.py, (3) run the QA.md checklist,")
