@@ -199,8 +199,24 @@ def _url(v):
         return v
     return ''
 
+AMAZON_BLOCK = set()   # ASINs a page build has chosen not to link (see block_shared_asins)
+
+def _asin(u):
+    m = re.search(r'/dp/([A-Z0-9]{10})', u or '')
+    return m.group(1) if m else None
+
+def block_shared_asins(all_bars):
+    """Opt-in per page: stop linking any Amazon ASIN that bars.js assigns to
+    more than one bar, since it can't be trusted to land on the right flavor.
+    Returns the set of blocked ASINs."""
+    from collections import Counter
+    c = Counter(_asin(b.get('Amazon Affiliate')) for b in all_bars)
+    AMAZON_BLOCK.update(a for a, n in c.items() if a and n > 1)
+    return set(AMAZON_BLOCK)
+
 def amazon_url(b):
-    return _url(b.get('Amazon Affiliate'))
+    u = _url(b.get('Amazon Affiliate'))
+    return '' if u and _asin(u) in AMAZON_BLOCK else u
 
 def website_url(b):
     # Never Custom Referral Link: it is a Y/N flag, not a URL.
@@ -400,7 +416,8 @@ def expand_html(r):
             f'<div class="ingr-block"><div class="ingr-label">Ingredients</div><div class="ingr-text">{esc(r["ing"])}</div></div></div></div>')
 
 def sort_for_list(bars):
-    return sorted(bars, key=lambda b: (-(score(b) or -999), b['Brand Name'].lower(), b['Flavor Name'].lower()))
+    # score 0.0 is a real score: never use `score(b) or -999` here (0.0 is falsy)
+    return sorted(bars, key=lambda b: (-(score(b) if score(b) is not None else -999), b['Brand Name'].lower(), b['Flavor Name'].lower()))
 
 def bar_table(bars, all_bars, eager=30):
     """Returns (tbody_inner_html, lazy_json_text) for a guide's bar list.

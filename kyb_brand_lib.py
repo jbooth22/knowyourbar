@@ -161,7 +161,7 @@ def bchip(name, typ, sev):
         cls += ' elev'
     return f'<span class="bchip {cls}">{esc(name)}</span>'
 
-def bw_card_html(b, best):
+def bw_card_html(b, best, prefix=None):
     g = b.get('score_band')
     chips = chip_list(b)
     good = ''.join(bchip(*c) for c in chips if c[1] == 'positive')
@@ -189,7 +189,7 @@ def bw_card_html(b, best):
           <div class="bw-label">{'Highest' if best else 'Lowest'} ingredient quality</div>
           <span class="grade-badge" style="background:{GRADE_COLOR[g]}" title="{grade_word(g)}">{g}</span>
         </div>
-        <div class="bw-flavor">{esc(b['Flavor Name'])}</div>
+        <div class="bw-flavor">{(esc(prefix) + ' &middot; ') if prefix else ''}{esc(b['Flavor Name'])}</div>
         <div class="bw-score">Score {fnum(score(b))} &middot; Grade {g} ({grade_word(g)})</div>
         <div class="ingr-macros">
             <span><strong>Calories</strong>{fnum(num(b.get('Calories')))}</span>
@@ -328,6 +328,19 @@ def brand_row_html(b, idx, ranker):
             </td>
           </tr>'''
 
+def brand_table_grouped_html(groups, all_bars):
+    """groups: [(header label, bars)]. One header row per group, rows sorted
+    within each group, row indexes continuous. Returns (html, expected order)."""
+    ranker = Ranker(all_bars)
+    out, order, i = [], [], 0
+    for label, bars in groups:
+        out.append(f'<tr class="vs-table-brand-row"><td colspan="11">{esc(label)}</td></tr>')
+        for b in sort_for_list(bars):
+            out.append(brand_row_html(b, i, ranker))
+            order.append(b)
+            i += 1
+    return '\n'.join(out), order
+
 def brand_table_html(bars, all_bars):
     ranker = Ranker(all_bars)
     return '\n'.join(brand_row_html(b, i, ranker) for i, b in enumerate(sort_for_list(bars)))
@@ -383,9 +396,10 @@ def compare_rows(self_name, groups):
 def amazon_btn(b, label='Shop on Amazon'):
     return f'<a href="{esc(amazon_url(b))}" target="_blank" rel="noopener sponsored" class="amazon-link">{esc(label)}</a>' if amazon_url(b) else ''
 
-def brand_pick_tile(label, flavors, text, buy=True):
-    """flavors: list of bars. Buy buttons only for genuine buy recommendations."""
-    names = '<br>'.join(esc(b['Flavor Name']) for b in flavors)
+def brand_pick_tile(label, flavors, text, buy=True, names=None):
+    """flavors: list of bars. Buy buttons only for genuine buy recommendations.
+    names: optional display names (e.g. with a product-line prefix)."""
+    names = '<br>'.join(esc(x) for x in (names or [b['Flavor Name'] for b in flavors]))
     btns = ''
     if buy:
         if len(flavors) == 1:
@@ -428,14 +442,20 @@ def band_rank(b):
 # ---------------------------------------------------------------------------
 # Brand-page grade-sync check
 # ---------------------------------------------------------------------------
-def brand_grade_sync(page, brand_bars_list, all_bars):
+def brand_grade_sync(page, brand_bars_list, all_bars, expected=None, bw_lookup=None):
+    """expected: the exact row order (needed when flavor names repeat across
+    product lines). bw_lookup: display name -> bar for best/worst cards."""
     by = {esc(b['Flavor Name']): b for b in brand_bars_list}
     probs = []
     rows = re.findall(r'<tr class="bar-row" onclick="toggleIngr\((\d+), this\)">\s*<td class="col-bar">\s*<div class="bar-flavor">(.*?)</div>.*?'
                       r'title="(\w+) &middot; score ([^"]*)">(\w)</span>.*?score-band-badge">(\w)</span>.*?score-number">([^<]*)<', page, re.S)
     seen = set()
+    if expected is not None and len(rows) != len(expected):
+        probs.append(f'{len(rows)} rows on page, expected {len(expected)}')
     for idx, fl, word, tsc, badge, eg, esc_ in rows:
-        b = by.get(fl)
+        b = expected[int(idx)] if expected is not None and int(idx) < len(expected) else by.get(fl)
+        if b is not None and esc(b['Flavor Name']) != fl:
+            probs.append(f'row {idx}: {fl} out of order (expected {b["Flavor Name"]})')
         if b is None:
             probs.append(f'row {idx}: {fl} not in bars.js for this brand')
             continue
@@ -450,7 +470,7 @@ def brand_grade_sync(page, brand_bars_list, all_bars):
             probs.append(f'missing row: {fl}')
     # best/worst cards
     for fl, sc, g in re.findall(r'<div class="bw-flavor">(.*?)</div>\s*<div class="bw-score">Score ([^ ]+) &middot; Grade (\w)', page):
-        b = by.get(fl)
+        b = (bw_lookup or {}).get(fl) or by.get(fl)
         if b is None or fnum(score(b)) != sc or b.get('score_band') != g:
             probs.append(f'best/worst card: {fl} {g} {sc} does not match bars.js')
     # cross-brand alternative tiles
@@ -499,7 +519,7 @@ def FIB(b): return num(b.get('Dietary Fiber (g)')) or 0
 def SUG(b): return num(b.get('Sugars (g)')) or 0
 def nm(b): return b['Flavor Name']
 def has_ing(b, word): return word in ingr(b).lower()
-def g1(x): return f'{x:.1f}'
+def g1(x): return f'{x + 0.0:.1f}' if round(x, 1) != 0 else '0.0'
 
 def article_jsonld(headline, desc, url, brand_name, brand_url, published='2026-04-01'):
     d = {'@context': 'https://schema.org', '@type': 'Article', 'headline': headline, 'description': desc, 'url': url,
@@ -615,17 +635,20 @@ def grade_vs(flag, b):
         return f"Same {b['score_band']} grade as {nm(flag)}."
     return f"Grades {b['score_band']} instead of {flag['score_band']}."
 
-def build_brand_page(page_path, regions, brand_bars_list, all_bars, claims):
+def build_brand_page(page_path, regions, brand_bars_list, all_bars, claims, expected=None, bw_lookup=None):
     """Replace regions, stamp dates, run grade-sync + link QA, write."""
     claims.stop_if_failed()
     page = open(page_path, encoding='utf-8').read()
     for name, content in regions:
         page = replace_region(page, name, content)
     page = stamp_dates(page, today_iso())
-    problems, n_rows = brand_grade_sync(page, brand_bars_list, all_bars)
+    problems, n_rows = brand_grade_sync(page, brand_bars_list, all_bars, expected, bw_lookup)
     for bad in ['href="Yes"', 'href="None"']:
         if bad in page:
             problems.append(f'broken link field: {bad}')
+    for a in AMAZON_BLOCK:
+        if f'/dp/{a}' in page:
+            problems.append(f'blocked (shared) Amazon ASIN still linked: {a}')
     if '—' in page:
         problems.append('em dash in page')
     if problems:
