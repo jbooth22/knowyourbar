@@ -329,7 +329,7 @@ REGIONS += [
 </a>
 <a href="/glp1-protein-bars" class="explore-more-card">
   <div class="explore-more-title">GLP-1 Protein Bars</div>
-  <div class="explore-more-desc">15g+ protein, 200 calories or less, low sugar, and 0g sugar alcohol.</div>
+  <div class="explore-more-desc">15g+ protein, 200 calories or less, low sugar, and no sugar alcohols.</div>
 </a>
       '''),
     ('faq', faq_items_html(FAQS)),

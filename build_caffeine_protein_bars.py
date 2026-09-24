@@ -288,7 +288,7 @@ REGIONS += [
 </a>
 <a href="/glp1-protein-bars" class="explore-more-card">
   <div class="explore-more-title">GLP-1 Protein Bars</div>
-  <div class="explore-more-desc">High protein, low calorie, 0g sugar alcohol, A or B grade only.</div>
+  <div class="explore-more-desc">High protein, low calorie, no sugar alcohols, A or B grade only.</div>
 </a>
 <a href="/clean-protein-bars" class="explore-more-card">
   <div class="explore-more-title">Clean Protein Bars</div>

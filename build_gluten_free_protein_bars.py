@@ -40,7 +40,7 @@ BARLEY = [b for b in D if has_g(b, 'barley')]
 NAMED = [b for b in D if any(has_g(b, k) for k in GLUTEN)]
 UNLABELED = [b for b in D if b not in NAMED]
 for b in Q:
-    if any(has_g(b, k) for k in GLUTEN):
+    if any(has_g(b, k) for k in GLUTEN) and not reviewed_ok(b, 'gluten free'):
         print(f'WARNING: {full(b)} is labeled gluten free in bars.js but its ingredients name '
               f'{", ".join(k for k in GLUTEN if has_g(b, k))}. Check the label; the page follows bars.js.')
 C.check(len(WHEAT) > len(BARLEY), 'wheat is named more often than barley or malt')

@@ -8,11 +8,13 @@ footer, fonts, CSS and JS stay as deployed). Every number, pick, brand row and
 bar row comes from bars.js. Copy that depends on a fact is checked; if one
 stops being true the build stops and lists it.
 
-Screen: GUIDE_FILTERS['no-sugar-alcohols'] (no 'Sugar Alcohols' concern tag).
-The six sweeteners in the copy are counted by ingredient text over the bars
-the screen flags. Any qualifying bar whose label still names one of the six is
-printed as a WARNING: that is a tagging gap in bars.js to fix upstream, never
-patched here.
+Screen: GUIDE_FILTERS['no-sugar-alcohols'] = kyb_guide_lib.has_sugar_alcohol():
+the scorer's 'Sugar Alcohols' tag OR IMO named in the ingredients (IMO is a
+fiber, not a sugar alcohol, so the scorer doesn't tag it, but this guide
+screens it). The six sweeteners in the copy are counted by ingredient text over
+the bars the screen flags. Any qualifying bar whose label still names one of
+the six is printed as a WARNING: a tagging gap to fix upstream, never patched
+here.
 """
 import html as _html
 import re

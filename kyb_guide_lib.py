@@ -112,8 +112,31 @@ def top_level_ingredient_count(text):
 def _yes(field):
     return lambda b: b.get(field) == 'Yes'
 
+# Sugar alcohol screen used by No Sugar Alcohols and GLP-1 (2026-09-24): reads the
+# INGREDIENT LIST, not the Sugar Alcohol (g) line, because many labels list a sugar
+# alcohol but declare 0g or leave the line off. A bar counts as containing one if
+# the scorer tagged it (maltitol, erythritol, sorbitol, xylitol, isomalt, ...) or
+# its label names isomalto-oligosaccharides (IMO), which the No Sugar Alcohols
+# guide screens alongside true sugar alcohols.
+IMO_RX = re.compile(r'isomalto|\bimo\b(?!\s+free)', re.I)
+
+def has_sugar_alcohol(b):
+    return has_tag(b, 'Sugar Alcohols') or bool(IMO_RX.search(ingr(b)))
+
+# Label checks Jeff has reviewed and confirmed (KYB_data_worklist, 2026-09-24).
+# The guide builds skip their ingredient-vs-flag WARNING for these, so a
+# confirmed bar doesn't keep showing up as a problem. Key: (brand, flavor, flag).
+REVIEWED_OK = {
+    ('FITCRUNCH', 'Chocolate Peanut Butter', 'gluten free'),   # "The Gluten Free label is correct"
+    ('Fro Pro', 'Sweet Coconut', 'dairy free'),                 # "No change needed"
+    ('Fro Pro', 'Cookies and Cream', 'soy free'),               # "This is correct"
+}
+
+def reviewed_ok(b, flag):
+    return (b['Brand Name'], b['Flavor Name'], flag) in REVIEWED_OK
+
 GUIDE_FILTERS = {
-    'no-sugar-alcohols': lambda b: not has_tag(b, 'Sugar Alcohols'),
+    'no-sugar-alcohols': lambda b: not has_sugar_alcohol(b),
     'no-artificial-sweeteners': lambda b: not has_tag(b, 'Artificial Sweeteners'),
     'no-seed-oils': lambda b: not has_tag(b, 'Processed Oils'),
     'clean-protein-bars': lambda b: b.get('score_band') in ('A', 'B')
@@ -128,7 +151,8 @@ GUIDE_FILTERS = {
         and num(b.get('Calories')) is not None and num(b.get('Calories')) <= 200
         and num(b.get('Sugars (g)')) is not None and num(b.get('Sugars (g)')) <= 4
         and (num(b.get('Dietary Fiber (g)')) or 0) >= 3
-        and (num(b.get('Sugar Alcohol (g)')) or 0) == 0 and b.get('score_band') in ('A', 'B')),
+        and (num(b.get('Sugar Alcohol (g)')) or 0) == 0 and not has_sugar_alcohol(b)
+        and b.get('score_band') in ('A', 'B')),
     'keto-protein-bars': lambda b: (net_carbs(b) is not None and net_carbs(b) <= 8
         and (num(b.get('Protein (g)')) or 0) >= 10 and (num(b.get('Total Fat (g)')) or 0) >= 8
         and not has_maltitol_family(b)),

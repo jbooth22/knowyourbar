@@ -68,7 +68,7 @@ OUTPUT_PATH = 'all-protein-bar-brands.html'
 # real-world availability changes or a new brand needs reclassifying.
 # ---------------------------------------------------------------------------
 WIDE = {
-    "Quest", "CLIF Bar", "Clif Builders", "Clif ZBar", "KIND", "KIND Protein Max",
+    "Quest", "CLIF Bar", "Clif Builders", "Clif ZBar", "KIND",
     "RXBAR", "Barebells", "Larabar", "Pure Protein", "think!", "Atkins", "Fiber One",
     "Nature Valley", "Luna", "Power Crunch", "Gatorade", "MET-Rx", "Lenny & Larry's",
     "FITCRUNCH", "Alani", "Ghost", "Orgain", "Equate", "GNC Total Lean",
@@ -674,7 +674,7 @@ def render_page(rows, total_db_brand_count_display="148+"):
         <p>Two more things worth knowing:</p>
         <ul class="verdict-items">
           <li><strong>A small lineup can beat a huge one.</strong> RXBAR (12 flavors) currently outranks Quest (16 flavors) because its ingredient list stays cleaner across the board, even though Quest has more flavors and a bigger marketing budget.</li>
-          <li><strong>Sub-brands are scored separately.</strong> KIND and KIND Protein Max, or Clif Bar and Clif Builders, land in different spots on this list. Averaging them together would hide real differences, so we don't.</li>
+          <li><strong>Sub-brands are scored separately.</strong> Clif Bar and Clif Builders, for example, land in different spots on this list. Averaging them together would hide real differences, so we don't.</li>
         </ul>
       </div>
     </div>

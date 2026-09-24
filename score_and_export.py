@@ -581,7 +581,10 @@ def score_bar(raw, al, cl):
             m['weighted'] *= PROTEIN_STACK_DISCOUNT
 
     top_level_count = max((m['position'] for m in matched), default=0)
-    final = sum(m['weighted'] for m in matched) + get_count_adj(top_level_count)
+    # Grade on the score as displayed (one decimal), 2026-09-24. Grading the
+    # unrounded score let a bar show 4.0 with a C or 8.0 with a B; "+ 0.0"
+    # turns -0.0 into 0.0 so no bar displays a negative zero.
+    final = round(sum(m['weighted'] for m in matched) + get_count_adj(top_level_count), 1) + 0.0
     band, label = get_band(final)
 
     sm = sorted(matched, key=lambda x: x['weighted'], reverse=True)

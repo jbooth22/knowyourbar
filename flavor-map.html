@@ -50,7 +50,7 @@ gtag('config', 'G-SW4MNP5W7J');
     body{background:var(--bs-paper);color:var(--bs-text-dim);font-family:var(--bs-font-body);font-size:15px;line-height:1.6;min-height:100vh;}
 
     /* Hero */
-    .hero{max-width:860px;margin:0 auto;padding:3rem 1.25rem 2rem;}
+    .hero{max-width:860px;margin:0 auto;padding:3rem 1.25rem 2rem;background:transparent;color:var(--bs-ink);}
     .eyebrow{font-family:var(--bs-font-body);font-size:.85rem;color:var(--bs-text-dim);margin-bottom:.75rem;}
     .hero-title{font-family:var(--bs-font-display);font-size:clamp(1.9rem,5vw,3.4rem);font-weight:800;letter-spacing:-.01em;line-height:1.05;color:var(--bs-ink);margin-bottom:1rem;}
     .hero-title em{font-style:normal;color:#2a7a1f;}
@@ -261,10 +261,10 @@ const L2=[
   {p:"pb",    label:"PB Banana",       n:5},
   {p:"pb",    label:"PB Cookie",       n:4},
   {p:"pb",    label:"PB Honey",        n:4},
-  {p:"fruit", label:"Single Fruit",    n:154},
+  {p:"fruit", label:"Single Fruit",    n:155},
   {p:"fruit", label:"Fruit + Other",   n:30},
   {p:"fruit", label:"Fruit + Almond",  n:17},
-  {p:"fruit", label:"Fruit + Coconut", n:8},
+  {p:"fruit", label:"Fruit + Coconut", n:7},
   {p:"other", label:"Other flavors",   n:200},
   {p:"van",   label:"Plain Vanilla",   n:51},
   {p:"van",   label:"Cookies & Cream", n:33},
@@ -411,7 +411,7 @@ const L2=[
       gL.appendChild(mktxt(n.x-14,mid-(big?8:0),n.label,{
         'text-anchor':'end','dominant-baseline':'middle',
         'font-family':'DM Sans,sans-serif','font-weight':'800',
-        'font-size':'14','letter-spacing':'-0.3','fill':'#f0ede6',
+        'font-size':'14','letter-spacing':'-0.3','fill':'#17140f',
       }));
       if(big){gL.appendChild(mktxt(n.x-14,mid+9,n.n+' bars \u00b7 '+pct+'%',{
         'text-anchor':'end','dominant-baseline':'middle',
@@ -427,7 +427,7 @@ const L2=[
         gL.appendChild(mktxt(n.x+NW+10,mid-(big?7:0),n.label,{
           'text-anchor':'start','dominant-baseline':'middle',
           'font-family':'DM Sans,sans-serif','font-weight':'500',
-          'font-size':'12','fill':'#c0bcb4',
+          'font-size':'12','fill':'#2b271e',
         }));
         if(big){gL.appendChild(mktxt(n.x+NW+10,mid+8,n.n+' bars',{
           'text-anchor':'start','dominant-baseline':'middle',
@@ -439,13 +439,13 @@ const L2=[
     function hdr(x,lbl,anchor){
       gL.appendChild(mktxt(x,PAD.t-14,lbl,{
         'text-anchor':anchor,'font-family':'DM Mono,monospace',
-        'font-size':'9','letter-spacing':'2','fill':'#ffffff18',
+        'font-size':'9','letter-spacing':'2','fill':'#5c584c',
       }));
     }
     hdr(COL1+NW/2,'PRIMARY FLAVOR','middle');
     hdr(COL2+NW/2,'VARIATION','middle');
-    gL.appendChild(mk('line',{x1:COL1-92,y1:PAD.t-4,x2:COL1+92,y2:PAD.t-4,stroke:'#ffffff08','stroke-width':'1'}));
-    gL.appendChild(mk('line',{x1:COL2-60,y1:PAD.t-4,x2:COL2+190,y2:PAD.t-4,stroke:'#ffffff08','stroke-width':'1'}));
+    gL.appendChild(mk('line',{x1:COL1-92,y1:PAD.t-4,x2:COL1+92,y2:PAD.t-4,stroke:'#d8d2c2','stroke-width':'1'}));
+    gL.appendChild(mk('line',{x1:COL2-60,y1:PAD.t-4,x2:COL2+190,y2:PAD.t-4,stroke:'#d8d2c2','stroke-width':'1'}));
   }
 
   draw();

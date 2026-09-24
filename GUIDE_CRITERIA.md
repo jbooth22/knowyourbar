@@ -18,13 +18,13 @@
 
 | Guide | Filter |
 |---|---|
-| No Sugar Alcohols | `score_insights` does NOT contain `Sugar Alcohols` |
+| No Sugar Alcohols | `score_insights` does NOT contain `Sugar Alcohols` AND ingredients do not name IMO (isomalto-oligosaccharides). Code: `has_sugar_alcohol()` in kyb_guide_lib.py (2026-09-24) |
 | No Artificial Sweeteners | `score_insights` does NOT contain `Artificial Sweeteners` |
 | No Seed Oils | `score_insights` does NOT contain `Processed Oils` |
 | Clean Protein Bars | `score_band` in (A, B) AND no `Artificial Sweeteners` tag AND no `Processed Oils` tag |
 | Low Sugar + High Protein | `Sugars (g)` ≤ 5 AND `Protein (g)` ≥ 15 |
 | Best Bars for Diabetics | `Sugars (g)` ≤ 5 AND net carbs ≤ 10 AND `Dietary Fiber (g)` ≥ 5 AND `Protein (g)` ≥ 10 AND `score_band` in (A, B) AND ingredients do not contain the maltitol family (see below) |
-| GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 4 AND `Dietary Fiber (g)` ≥ 3 AND `Sugar Alcohol (g)` = 0 AND `score_band` in (A, B) |
+| GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 4 AND `Dietary Fiber (g)` ≥ 3 AND `Sugar Alcohol (g)` = 0 AND no sugar alcohol in the ingredients (`has_sugar_alcohol()`, same screen as No Sugar Alcohols) AND `score_band` in (A, B) |
 | Keto | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8 AND ingredients do not contain the maltitol family (see below), where net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol |
 | Caffeine | `Caffeine (mg)` > 0 (any declared amount qualifies, no minimum dose or ingredient-quality gate) |
 | Vegan | `Vegan (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate) |
@@ -35,7 +35,7 @@
 
 | Kosher | `Kosher (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate). Structurally different from Vegan/Gluten Free/Dairy Free/Soy Free: kosher is a supervised-process certification, not primarily an ingredient screen, so most ingredients (whey, milk, soy, wheat, sugar, nuts) don't disqualify a bar by their mere presence. Category-explainer section cross-checks the disqualified set for three ingredients that are almost never kosher without their own certification: gelatin (`\bgelatin\b`, 77 bars on the 2026-09-17 build, usually pork- or non-ritually-slaughtered-animal-derived), confectioner's glaze/shellac (`shellac\|confectioner.?s glaze`, 14 bars, an insect-derived coating resin), and a combined Other bucket for carmine/cochineal and rennet (`\bcarmine\b\|cochineal\|\brennet\b`, 5 bars). On the 2026-09-17 build, only ~7.6% of the 1,158 non-kosher bars contain any of these three factors; the other ~92% simply haven't pursued certification, which is the opposite pattern from Dairy Free/Soy Free (where a majority of the disqualified set has an identifiable disqualifying ingredient). Kosher bars do NOT grade meaningfully higher or lower than the database average (54.4% vs. 57.7% A/B rate on the 2026-09-17 build) — don't reuse Soy Free's "grades higher" framing for this guide, the two guides have genuinely different quality-correlation patterns. |
 
-Note on sugar-alcohol screens: Keto and Diabetics exclude the maltitol family specifically (glycemic-index rationale, see below). GLP-1 is stricter and excludes ALL sugar alcohols (`Sugar Alcohol (g)` must equal exactly 0) — the rationale there is GI tolerance (bloating, digestive discomfort), not glycemic index. Do not reuse the maltitol-only check for GLP-1 or vice versa; confirm against `app.js`'s canonical presets before reusing either check on a new guide.
+Note on sugar-alcohol screens: Keto and Diabetics exclude the maltitol family specifically (glycemic-index rationale, see below). GLP-1 is stricter and excludes ALL sugar alcohols (`Sugar Alcohol (g)` must equal exactly 0 AND the ingredient list must not name one; since 2026-09-24 the ingredient check is required because 75 bars named a sugar alcohol while declaring 0g or leaving the line blank) — the rationale there is GI tolerance (bloating, digestive discomfort), not glycemic index. Do not reuse the maltitol-only check for GLP-1 or vice versa; confirm against `app.js`'s canonical presets before reusing either check on a new guide.
 
 ### `score_insights` tag vocabulary (from `bars.js`)
 Used by the tag-based filters above. Current tags in the live export:

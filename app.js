@@ -912,7 +912,7 @@ const PRESETS = {
   glp1: {
     label: 'GLP-1 Friendly',
     tagline: 'High protein, low volume, easy on your stomach',
-    why: 'Appetite suppression means less food volume, so every bite needs to work harder for protein. We filtered to bars with at least 15g of protein under 200 calories, under 4g of sugar, at least 3g of fiber for satiety, and zero sugar alcohols, since GI tolerance is a common concern on GLP-1 medications. Every result earns an A or B on ingredient quality.',
+    why: 'Appetite suppression means less food volume, so every bite needs to work harder for protein. We filtered to bars with at least 15g of protein under 200 calories, under 4g of sugar, at least 3g of fiber for satiety, and no sugar alcohols in the ingredient list, since GI tolerance is a common concern on GLP-1 medications. Every result earns an A or B on ingredient quality.',
     criteria: '15g+ protein &middot; under 200 cal &middot; under 4g sugar &middot; 3g+ fiber &middot; no sugar alcohols &middot; A or B ingredient grade',
     apply: (bar) => {
       const prot = bar['Protein (g)'];
@@ -923,6 +923,7 @@ const PRESETS = {
       const band = bar['score_band'];
       if (!prot || !cal || sug === null || sug === undefined || fib === null || fib === undefined) return false;
       if (sa !== null && sa !== undefined && sa > 0) return false;
+      if (hasSugarAlcohol(bar)) return false;
       return prot >= 15 && cal <= 200 && sug <= 4 && fib >= 3 && (band === 'A' || band === 'B');
     },
     sort: { col: 'Protein (g)', dir: 'desc' }
@@ -930,12 +931,9 @@ const PRESETS = {
   no_sugar_alcohol: {
     label: 'No Sugar Alcohol',
     tagline: 'Zero erythritol, maltitol, xylitol, or any other sugar alcohol',
-    why: 'Sugar alcohols are the most common culprit behind bloating and GI discomfort from protein bars. These results have zero grams of sugar alcohol on the label, full stop, matching our No Sugar Alcohols guide.',
-    criteria: '0g sugar alcohol',
-    apply: (bar) => {
-      const sa = bar['Sugar Alcohol (g)'];
-      return sa === null || sa === undefined || sa === 0;
-    },
+    why: 'Sugar alcohols are the most common culprit behind bloating and GI discomfort from protein bars. These results have no maltitol, erythritol, sorbitol, xylitol, isomalt, or IMO anywhere in the ingredient list, matching our No Sugar Alcohols guide. We check the ingredients, not just the label line, because many labels name a sugar alcohol but show 0g.',
+    criteria: 'No sugar alcohol in the ingredient list',
+    apply: (bar) => !hasSugarAlcohol(bar),
     sort: { col: 'Sugars (g)', dir: 'asc' }
   },
   no_seed_oil: {
@@ -947,6 +945,15 @@ const PRESETS = {
     sort: { col: 'ingredient_score', dir: 'desc' }
   }
 };
+
+// ─── Sugar alcohol screen (mirrors has_sugar_alcohol() in kyb_guide_lib.py) ───
+// Reads the ingredient list, not the Sugar Alcohol (g) line: many labels name a
+// sugar alcohol but show 0g. Uses the scorer's "Sugar Alcohols" tag plus IMO,
+// which the No Sugar Alcohols guide screens alongside true sugar alcohols.
+function hasSugarAlcohol(bar) {
+  if ((bar['score_insights'] || '').split('|').some(t => t.split(':')[0] === 'Sugar Alcohols')) return true;
+  return /isomalto|\bimo\b(?!\s+free)/i.test(bar['Ingredients'] || '');
+}
 
 // ─── Seed oil screen (mirrors OIL_KEYWORDS / HIGH_OLEIC_EX in score_and_export.py) ───
 // Kept in sync with the Python scoring pipeline so the "No Seed Oil" preset

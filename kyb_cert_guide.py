@@ -41,7 +41,7 @@ class CertGuide:
         self.split = brand_split(self.ALL, self.QF)
         for b in self.Q:
             found = [l for l in self.SRC if self.has(b, l)]
-            if found and not c.get('sources_allowed_in_qualifying'):
+            if found and not c.get('sources_allowed_in_qualifying') and not reviewed_ok(b, c['word'].lower()):
                 print(f"WARNING: {full(b)} is labeled {c['word']} in bars.js but its ingredients name "
                       f"{names_and(x.lower() for x in found)}. Check the label; the page follows bars.js.")
 

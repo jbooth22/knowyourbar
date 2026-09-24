@@ -9,10 +9,10 @@ bar row comes from bars.js. Copy that depends on a fact is checked; if one
 stops being true the build stops and lists it.
 
 Screen: GUIDE_FILTERS['glp1-protein-bars'] = protein >= 15, calories <= 200,
-sugar <= 4, fiber >= 3, Sugar Alcohol (g) == 0 on the label, A or B grade.
-The sugar alcohol check is the label gram count (GUIDE_CRITERIA). Qualifying
-bars whose ingredient list still names a sugar alcohol are called out in the
-copy by name rather than hidden.
+sugar <= 4, fiber >= 3, no sugar alcohol, A or B grade. The sugar alcohol check
+reads both the label gram line (must be 0) and the ingredient list
+(kyb_guide_lib.has_sugar_alcohol), because many labels name a sugar alcohol but
+declare 0g (decided 2026-09-24).
 """
 from kyb_guide_lib import *
 
@@ -35,13 +35,12 @@ SCREEN = Screen(ALL, [
     ('cal', 'calories', lambda b: CAL(b) > 200),
     ('sugar', 'sugar', lambda b: SUG(b) > 4),
     ('fiber', 'fiber', lambda b: FIB(b) < 3),
-    ('sa', 'sugar alcohol', lambda b: SA(b) > 0),
+    ('sa', 'sugar alcohol', lambda b: SA(b) > 0 or has_sugar_alcohol(b)),
     ('grade', 'ingredient grade', lambda b: b.get('score_band') not in ('A', 'B')),
 ])
 FAIL = {k: SCREEN.count(k) for k, _, _ in SCREEN.checks}
 MULTI = SCREEN.multi(D)
 C.check(all(SCREEN.fails[b['Key']] for b in D) and not any(SCREEN.fails[b['Key']] for b in Q), 'the six checks match the GLP-1 filter')
-HIDDEN_SA = [b for b in Q if has_tag(b, 'Sugar Alcohols')]
 AVG_CAL, AVG_FIB, AVG_P = avg(Q, 'Calories'), avg(Q, 'Dietary Fiber (g)'), avg(Q, 'Protein (g)')
 AVG_P100 = sum(p100(b) or 0 for b in Q) / N
 
@@ -64,8 +63,8 @@ low_cal = PK.pick(lambda b: (CAL(b), -P(b)), lambda b: CAL(b) <= 160)
 C.check(all([best, low_cal, low_s, top_f, top_r, top_p]), 'six distinct top picks available')
 PICKS = [
     ['Best overall', best,
-     f"{fnum(P(best))}g protein, {fnum(CAL(best))} calories, {fnum(SUG(best))}g sugar, and {fnum(FIB(best))}g fiber, with 0g "
-     "sugar alcohol on the label. It clears all six screening criteria without leaning hard on any single one."],
+     f"{fnum(P(best))}g protein, {fnum(CAL(best))} calories, {fnum(SUG(best))}g sugar, and {fnum(FIB(best))}g fiber, with no "
+     "sugar alcohol in the ingredients. It clears all six screening criteria without leaning hard on any single one."],
     ['Best protein per calorie', top_r,
      f"{fnum(P(top_r))}g protein at {fnum(CAL(top_r))} calories, {fnum(P100(top_r))}g protein per 100 calories, "
      f"{SCO(P100, top_r, 'best ratio')}."],
@@ -78,9 +77,6 @@ PICKS = [
     ['Lowest calorie', low_cal,
      f"{fnum(CAL(low_cal))} calories, {SCO(CAL, low_cal, 'lowest', False)}, without dropping under 15g of protein."],
 ]
-for p in PICKS:
-    if has_tag(p[1], 'Sugar Alcohols'):
-        p[2] += ' The label says 0g sugar alcohol, but the ingredient list does name one.'
 PICKS_EXTRA = '''
       <div class="callout-box"><strong>Heads up:</strong> We are not doctors or dietitians. These are the qualities we see people on GLP-1 medications look for, so that is what we filtered on. This page is not medical advice. Talk to your doctor or a registered dietitian about what actually fits your treatment plan.</div>'''
 PICKS_INTRO = ("Everyone on GLP-1 medications has different tolerances, but if you are on this page you probably already know "
@@ -104,7 +100,7 @@ SCREENED = f'''
         <p>We added three more filters on top:</p>
         <ul class="diab-criteria-list">
           <li><strong>Fiber</strong>: enough to support satiety and slow digestion</li>
-          <li><strong>No sugar alcohols</strong>: 0g on the label, since GI tolerance is a common concern on GLP-1 medications</li>
+          <li><strong>No sugar alcohols</strong>: none in the ingredient list and 0g on the label, since GI tolerance is a common concern on GLP-1 medications</li>
           <li><strong>Ingredient grade</strong>: an A or B ingredient quality grade</li>
         </ul>
         <p>{N} of {comma(NT)} bars, {pct(N, NT)}% of the database, clear all six.</p>
@@ -113,7 +109,7 @@ SCREENED = f'''
 {simple_card_html('Protein Under 15g', FAIL['protein'], NT, 'Less food volume means every bite needs to work harder. We required at least 15g of protein per bar.')}
 {simple_card_html('Calories Over 200', FAIL['cal'], NT, 'A reduced appetite means a smaller calorie budget overall. We capped this list at 200 calories.')}
 {simple_card_html('Sugar Over 4g', FAIL['sugar'], NT, 'Sugar spikes can compound the nausea and GI discomfort some people already experience on GLP-1 medications.')}
-{simple_card_html('Contains Sugar Alcohols', FAIL['sa'], NT, 'Sugar alcohols are a frequent trigger for bloating and GI discomfort, a common concern on GLP-1 medications, so we excluded every bar that lists any sugar alcohol grams on its label.')}
+{simple_card_html('Contains Sugar Alcohols', FAIL['sa'], NT, 'Sugar alcohols are a frequent trigger for bloating and GI discomfort, a common concern on GLP-1 medications, so we excluded every bar that lists a sugar alcohol, whether in the ingredients or as grams on its label.')}
 </div>
     </div>
 '''
@@ -129,7 +125,7 @@ INSIGHTS = [
      f"{comma(FAIL['sugar'])} bars ({pct(FAIL['sugar'], NT)}%) fail on sugar, more than fail on protein ({pct(FAIL['protein'], NT)}%) "
      f"or calories ({pct(FAIL['cal'], NT)}%). Most protein bars are simply not formulated with a 4g sugar ceiling in mind."),
     ('Zero tolerance for sugar alcohols cuts deep.',
-     f"{comma(FAIL['sa'])} bars ({pct(FAIL['sa'], NT)}%) list some amount of sugar alcohol. Unlike our keto and diabetics guides, we "
+     f"{comma(FAIL['sa'])} bars ({pct(FAIL['sa'], NT)}%) contain a sugar alcohol. Unlike our keto and diabetics guides, we "
      'exclude all of them here, not just the higher-glycemic ones, because GI tolerance is the priority on this list.'),
     ('Most disqualified bars fail more than one check.' if MULTI > ND - MULTI else 'Most disqualified bars miss on a single check.',
      f'{comma(MULTI)} of {comma(ND)} disqualified bars fail two or more of the six criteria at once.'),
@@ -143,11 +139,6 @@ INSIGHTS = [
      f"Meeting the macro thresholds and having a clean ingredient list are two different things. {GR['B']} qualifying bars "
      'land at a B, still solid but built with more processed ingredients.'),
 ]
-if HIDDEN_SA:
-    INSIGHTS.append((f"{num_word(len(HIDDEN_SA)).capitalize()} qualifying bar{'s' if len(HIDDEN_SA) > 1 else ''} still list{'' if len(HIDDEN_SA) > 1 else 's'} a sugar alcohol in the ingredients.",
-                     f"{names_and(full(b) for b in HIDDEN_SA)} declare{'' if len(HIDDEN_SA) > 1 else 's'} 0g sugar alcohol on the Nutrition "
-                     'Facts panel, so they pass our label-based screen, but the ingredient list names one. If GI tolerance is '
-                     'the reason you are here, read those labels yourself.'))
 C.check(AVG_FIB > 5, 'qualifying fiber average comfortably above 3g')
 FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for GLP-1 friendly criteria', f'{pct(ND, NT)}%',
                          'of bars fail at least one of our six checks',
@@ -206,7 +197,7 @@ def brand_faq(name):
 FAQS = [
     ("What should I look for in a protein bar if I'm on a GLP-1 medication?",
      'We are not doctors, but here is what we filtered on: at least 15g of protein, 200 calories or less, 4g of sugar or less, '
-     'at least 3g of fiber, 0g sugar alcohol on the label, and an A or B ingredient quality grade. Appetite suppression from '
+     'at least 3g of fiber, no sugar alcohol, and an A or B ingredient quality grade. Appetite suppression from '
      'GLP-1 medications means less food volume overall, so every bite needs to carry more protein relative to its size. '
      f'{N} of {comma(NT)} bars clear all six.'),
     ('Why does calorie count matter more on GLP-1 medications?',
@@ -216,12 +207,10 @@ FAQS = [
     ('Why exclude sugar alcohols entirely instead of just capping net carbs?',
      'GI tolerance is a common concern on GLP-1 medications, and sugar alcohols are a frequent culprit behind bloating, gas, '
      'and digestive discomfort. Rather than trying to weigh which sugar alcohols are better or worse tolerated, we excluded any '
-     'bar that lists sugar alcohol grams on its label. This is a stricter rule than our keto and diabetics guides, which allow '
+     'bar that lists a sugar alcohol, checking the ingredient list as well as the gram line, since many labels name one but '
+     'declare 0g. This is a stricter rule than our keto and diabetics guides, which allow '
      'low-glycemic sugar alcohols like erythritol; here we treat the digestive-tolerance question, not just the blood-sugar '
-     'question, as the priority.'
-     + (f" {num_word(len(HIDDEN_SA)).capitalize()} qualifying bar{'s' if len(HIDDEN_SA) > 1 else ''} declare{'' if len(HIDDEN_SA) > 1 else 's'} 0g "
-        f"but still name{'' if len(HIDDEN_SA) > 1 else 's'} a sugar alcohol in the ingredients: {names_and(full(b) for b in HIDDEN_SA)}."
-        if HIDDEN_SA else '')),
+     'question, as the priority.'),
     ('What does protein per 100 calories mean and why does it matter here?',
      'It is protein divided by calories, scaled to a 100-calorie basis, so you can compare bars of different sizes on equal '
      'footing. A bar with 20g of protein at 250 calories is less efficient than one with 15g at 150 calories, even though the '
@@ -244,7 +233,7 @@ FAQS = [
      'a brand before you go looking.'),
     ('How many protein bars in your database qualify for this list?',
      f'Out of {comma(NT)} bars in our database, {N} meet all six criteria: 15g or more protein, 200 calories or less, 4g or '
-     'less sugar, 3g or more fiber, 0g sugar alcohol, and an A or B ingredient grade. That is about '
+     'less sugar, 3g or more fiber, no sugar alcohol, and an A or B ingredient grade. That is about '
      f'{pct(N, NT)}% of the full database.'),
 ]
 
@@ -253,14 +242,14 @@ FAQS = [
 # ---------------------------------------------------------------------------
 TITLE = f'GLP-1 Protein Bars - {N} Bars Ranked by Ingredient Quality'
 H1 = f'GLP-1 Friendly Protein Bars - We Screened {comma(NT)} Bars, {N} Passed'
-DESC = f'We screened {comma(NT)} bars for protein, calories, sugar, and fiber. {N} pass with 0g sugar alcohol and an A or B grade.'
+DESC = f'We screened {comma(NT)} bars for protein, calories, sugar, and fiber. {N} pass with no sugar alcohol and an A or B grade.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=DESC, url=URL,
                                          about='GLP-1 Medication Eating Guide', published=PUBLISHED,
                                          faqs=[(q, plain_text(a)) for q, a in FAQS], picks=PICKS)
            if r[0] != 'jsonld-itemlist']
 REGIONS += [
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">Appetite suppression from GLP-1 medications means less food volume, so every bite needs to work harder for protein. We are not doctors, so instead of medical advice, here is what we did: we screened every bar in our database against six thresholds people on GLP-1 medications commonly look for: 15g or more protein, 200 calories or less, 4g or less sugar, 3g or more fiber, 0g sugar alcohol, and an A or B ingredient quality grade. {N} of {comma(NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">Appetite suppression from GLP-1 medications means less food volume, so every bite needs to work harder for protein. We are not doctors, so instead of medical advice, here is what we did: we screened every bar in our database against six thresholds people on GLP-1 medications commonly look for: 15g or more protein, 200 calories or less, 4g or less sugar, 3g or more fiber, no sugar alcohol, and an A or B ingredient quality grade. {N} of {comma(NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>
