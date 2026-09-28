@@ -52,3 +52,6 @@
 .tray-label{text-transform:none;letter-spacing:normal}
 .verdict-label{text-transform:none;letter-spacing:normal}
 @media (max-width:640px){.vs-scorecard{grid-template-columns:1fr}.vs-divider{display:none}.explore-more-grid{grid-template-columns:1fr}}
+
+/* Brand-page guide callout links */
+.guide-callout-link{color:var(--black);font-weight:600;text-decoration:underline;text-decoration-color:var(--accent-dark);text-decoration-thickness:2px;text-underline-offset:3px}.guide-callout-link:hover{background:var(--accent)}

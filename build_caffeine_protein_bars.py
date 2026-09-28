@@ -152,9 +152,9 @@ INSIGHTS += [
      '400mg/day guidance for healthy adults, before counting your morning coffee.'),
 ]
 C.check(MAXC >= 200, 'the highest-dose bar is a large share of the daily 400mg guidance')
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for caffeine', f'{pct(NT - N, NT)}%',
+FINDINGS = findings_html('What we found screening 1,000+ bars for caffeine', f'{pct(NT - N, NT)}%',
                          'of protein bars carry zero caffeine',
-                         f'Only {N} of {comma(NT)} bars in our database declare any caffeine at all, from {len(BRANDS_Q)} brands. '
+                         f'Only {N} of 1,000+ bars in our database declare any caffeine at all, from {len(BRANDS_Q)} brands. '
                          'This is a small, deliberate subcategory, not a spectrum most brands dabble in.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -237,7 +237,7 @@ FAQS = [
         'especially stacked on top of your usual coffee or tea.' if N_OVER150 else 'fraction of that.')),
     ('Why do so few protein bars contain caffeine?',
      'Caffeine is a narrow, deliberate formulation choice, not a byproduct of other ingredients, so a brand has to build a bar '
-     f'around it on purpose. Only {N} of {comma(NT)} bars in our database declare any caffeine at all. Most major brands, like '
+     f'around it on purpose. Only {N} of 1,000+ bars in our database declare any caffeine at all. Most major brands, like '
      'Quest and Barebells, skip it entirely and let people pair a regular bar with their own coffee instead.'),
     ('Is Verb good for caffeine?', brand_faq('Verb')),
     ('Is JiMMYBAR! good for caffeine?', brand_faq('JiMMYBAR!')),
@@ -246,7 +246,7 @@ FAQS = [
      'specifically among each brand\'s caffeinated flavors: what share grade A or B on ingredient quality, plus the average dose '
      'across that brand\'s caffeinated lineup.'),
     ('How many protein bars in your database contain caffeine?',
-     f'Out of {comma(NT)} bars in our database, {N} declare any caffeine content at all, about {pct(N, NT)}% of the full database. '
+     f'Out of 1,000+ bars in our database, {N} declare any caffeine content at all, about {pct(N, NT)}% of the full database. '
      'We did not set a minimum dose to qualify, any declared amount counts. This page is not medical advice. Talk to your doctor '
      'if you have questions about caffeine and your health.'),
 ]
@@ -255,10 +255,10 @@ C.check(not any(QF(b) for b in ALL if b['Brand Name'] in ('Quest', 'Barebells'))
 # ---------------------------------------------------------------------------
 # Regions
 # ---------------------------------------------------------------------------
-TITLE = f'Only {N} of {comma(NT)} Protein Bars Have Caffeine, Ranked'
-H1 = f'Protein Bars with Caffeine - We Screened {comma(NT)} Bars, {N} Had Any'
-DESC = (f'We screened {comma(NT)} bars for declared caffeine content. Only {N} qualify, from {mg(MINC)} to {mg(MAXC)}, ranked '
-        'by ingredient quality across four caffeine zones.')
+TITLE = f'Protein Bars With Caffeine: All {N} Caffeinated Bars Ranked'
+H1 = f'Protein Bars with Caffeine: We Screened 1,000+ Bars, {N} Had Any'
+DESC = (f'Looking for caffeinated protein bars? Only {N} of 1,000+ declare caffeine, from {mg(MINC)} to {mg(MAXC)}. All ranked by '
+        'ingredient quality and dose.')
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=DESC, url=URL, about='Caffeinated Protein Bars',
                                          published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] not in ('social', 'jsonld-itemlist')]
 ITEMS = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': 'Protein bars with caffeine ranked by ingredient quality',
@@ -267,7 +267,7 @@ REGIONS += [
     ('jsonld-itemlist', '<script type="application/ld+json">\n  ' + json.dumps(ITEMS, ensure_ascii=False, separators=(',', ':')) + '</script>'),
     ('social', social_title_html(TITLE, DESC, URL).replace('  <meta property="og:site_name" content="Know Your Bar">\n', '')),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We pulled every bar in our {comma(NT)}-bar database with declared caffeine content, no minimum dose required. {N} qualify, ranging from {mg(MINC)}, a tiny fraction of a cup of coffee, up to {mg(MAXC)}. We grouped them into four caffeine zones so you can match the dose to what you actually want, then ranked each zone by ingredient quality. The highest-dose bars are not the best-formulated ones, so it pays to look at both numbers together.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We pulled every bar in our database of 1,000+ bars with declared caffeine content, no minimum dose required. {N} qualify, ranging from {mg(MINC)}, a tiny fraction of a cup of coffee, up to {mg(MAXC)}. We grouped them into four caffeine zones so you can match the dose to what you actually want, then ranked each zone by ingredient quality. The highest-dose bars are not the best-formulated ones, so it pays to look at both numbers together.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{N}</div><div class="snap-label">Bars with caffeine</div></div>
     <div class="snap-item"><div class="snap-value">{len(BRANDS_Q)}</div><div class="snap-label">Brands represented</div></div>

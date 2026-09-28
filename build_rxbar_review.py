@@ -218,6 +218,12 @@ pat = (f"Sweetener Heavy is the only concern chip in the lineup, flagging {SH} o
        f"{num_word(GOH['n'])} oats-and-honey flavors (honey). None of the {GO['n']} date-sweetened originals carries it. "
        "Nothing in the RXBAR lineup contains an artificial sweetener or a sugar alcohol, which is the main reason the grades run as high as they do.")
 C.check([k for k, v in chip_freq(RB).items() if v[1] == 'concern'] == ['Sweetener Heavy'], 'Sweetener Heavy is the only RXBAR concern chip')
+GUIDE_CALLOUT = f'''
+<div class="callout-box guide-callout">
+  <strong>Want more bars built like RXBAR?</strong> RXBAR skips artificial sweeteners and sugar alcohols in every flavor. Our <a href="/clean-protein-bars" class="guide-callout-link">Clean Protein Bars guide</a> and <a href="/no-artificial-sweeteners" class="guide-callout-link">No Artificial Sweeteners guide</a> rank the other brands that do the same.
+</div>'''
+BESTWORST += GUIDE_CALLOUT
+
 PATTERNS = f'''<h2>Ingredient quality patterns across the lineup</h2>
     <p>RXBAR's flavors share a whole-food ingredient base, with variation in which natural sweetener leads the list. Here is what the data shows across all {N} flavors, grouped by whether it helps or hurts the score.</p>
 

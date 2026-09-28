@@ -181,8 +181,9 @@ RELATED = '''
 # ---------------------------------------------------------------------------
 H1_TEXT = f"Are Quest Bars Healthy? What's Really In All {N} Flavors"
 H1_HTML = f"Are <em>Quest</em> Bars Healthy? What's Really In All {N} Flavors"
-DESC = ("Quest bars beat most bars on protein and fiber, but every flavor has sucralose and erythritol. "
-        "See how each flavor scores and what that means for you.")
+TITLE = f"Are Quest Bars Healthy? All {N} Flavors Graded, Best to Worst"
+DESC = (f"Are Quest bars good for you? They beat most bars on protein and fiber, but every flavor has sucralose "
+        f"and erythritol. See how all {N} flavors grade.")
 C.check(PRO['top'] <= 33 and FIBS['top'] <= 33, 'Quest beats most bars on protein and fiber')
 C.check(len(DESC) <= 160, 'meta description length')
 
@@ -238,6 +239,12 @@ if lil_bars:
     lil_g = sorted({b['score_band'] for b in lil_bars}, key=BAND_ORDER.index)
     pat.append(f"A Long Ingredient List flags {len(lil_bars)} of {N} flavors" + (f", all of them in the {lil_g[0]} tier" if len(lil_g) == 1 else '')
                + (", tracking with the same more complex recipes that trip the Processed Oils flag." if all(po(b) for b in lil_bars) else '.'))
+GUIDE_CALLOUT = f'''
+<div class="callout-box guide-callout">
+  <strong>Want the protein without the sweeteners?</strong> Every Quest flavor uses both an artificial sweetener and a sugar alcohol. These guides rank the bars that skip them: <a href="/no-artificial-sweeteners" class="guide-callout-link">No Artificial Sweeteners</a> and <a href="/no-sugar-alcohols" class="guide-callout-link">No Sugar Alcohols</a>.
+</div>'''
+BESTWORST += GUIDE_CALLOUT
+
 PATTERNS = f'''<h2>Ingredient quality patterns across the Quest lineup</h2>
     <p>Every Quest flavor shares a core ingredient profile, with additive load the main thing that changes flavor to flavor. Here is what the data shows across all {N} flavors, split by whether it counts in a bar's favor or against it.</p>
 
@@ -301,10 +308,10 @@ FAQS = [
 ]
 
 regions = [
-    ('head-meta', head_meta_html(H1_TEXT, DESC)),
+    ('head-meta', head_meta_html(TITLE, DESC)),
     ('jsonld-article', article_jsonld(H1_TEXT, DESC, URL, 'Quest Nutrition', 'https://www.questnutrition.com')),
     ('jsonld-faq', faq_jsonld_brand(FAQS)),
-    ('social', social_html(H1_TEXT, DESC, URL)),
+    ('social', social_html(TITLE, DESC, URL)),
     ('hero', f'<h1 class="hero-title">{H1_HTML}</h1>\n    <p class="hero-sub">{esc(HERO_SUB)}</p>'),
     ('macro', MACRO), ('overview', OVERVIEW), ('grades', GRADES), ('bestworst', BESTWORST), ('patterns', PATTERNS),
     ('table-heading', TABLE_HEADING), ('table-rows', brand_table_html(QB, ALL)), ('bottom', BOTTOM), ('picks', PICKS),

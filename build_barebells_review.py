@@ -245,12 +245,12 @@ COMPARE_HTML = f'''<h2 class="brand-compare-title">How Barebells compares to {es
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are Barebells Bars Healthy? We Ranked All {N} Flavors'
 H1_HTML = f'Are <em>Barebells</em> Bars Healthy? We Ranked All {N} Flavors'
-TITLE = f'Are Barebells Protein Bars Healthy? {N} Flavors Ranked | Know Your Bar'
-OG_TITLE = f'Are Barebells Protein Bars Healthy? {N} Flavors Ranked'
+TITLE = f'Are Barebells Healthy? All {N} Flavors Ranked, Best to Worst'
+OG_TITLE = TITLE
 veg_worst_line = check(worst_all in veg_grades and worst_all not in {b['score_band'] for b in DAI},
                        "the vegan line holds the lineup's worst grade")
-DESC = (f"Barebells grades {GR_ALL} across {N} flavors. Bottom {SA_ST['beats']}% for sugar alcohol despite top "
-        f"{SUG_ST['top']}% lowest sugar." + (' The vegan line grades worst of all.' if veg_worst_line else ''))
+DESC = (f"Are Barebells good for you? They grade {GR_ALL} on ingredients: top {SUG_ST['top']}% for low sugar, bottom "
+        f"{SA_ST['beats']}% for sugar alcohol. All {N} flavors ranked with macros.")
 OG_DESC = (f"Barebells scored A-F by ingredient quality. Top {SUG_ST['top']}% for lowest sugar, but bottom {SA_ST['beats']}% "
            f"for sugar alcohol. All {N} flavors ranked.")
 check(len(DESC) <= 155, f'meta description under 155 chars ({len(DESC)})')
@@ -330,6 +330,12 @@ if PO_ALL:
 if SH_ALL:
     pat.append(f"Sweetener Heavy flags {SH_ALL} of {N} flavors for stacking multiple sweetening agents on top of the base maltitol"
                + (f", and a Long Ingredient List shows up in {LIL_ALL} of {N}." if LIL_ALL else '.'))
+GUIDE_CALLOUT = f'''
+<div class="callout-box guide-callout">
+  <strong>Is the sugar alcohol a dealbreaker?</strong> Barebells ranks in the bottom {SA_ST['beats']}% of 1,000+ bars for sugar alcohol. Our <a href="/no-sugar-alcohols" class="guide-callout-link">No Sugar Alcohols guide</a> ranks every bar that skips them entirely.
+</div>'''
+BESTWORST += GUIDE_CALLOUT
+
 PATTERNS = f'''<h2>Ingredient quality patterns across the Barebells lineup</h2>
     <p>Every Barebells flavor shares a core ingredient profile, but the two formulas underneath diverge more than the label lets on. Here's what shows up across all {N} flavors, split by whether it counts in the bar's favor or against it.</p>
 

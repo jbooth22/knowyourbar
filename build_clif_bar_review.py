@@ -189,10 +189,10 @@ RELATED = f'''
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are Clif Bars Healthy? We Ranked All {N} Flavors Across 3 Product Lines'
 H1_HTML = f'Are <em>Clif</em> Bars Healthy? We Ranked All {N} Flavors Across 3 Product Lines'
-TITLE = f'Are Clif Bars Healthy? {N} Flavors Across 3 Lines Ranked | Know Your Bar'
-OG_TITLE = f'Are Clif Bars Healthy? {N} Flavors Across 3 Lines Ranked'
-DESC = (f"Clif Builders swings {range_words(BU)}, CLIF Bar tops out at {gs(CB)[0]}, and Kid ZBar never breaks {gs(ZB)[0]}. "
-        f"We scored all {N} Clif flavors by ingredient quality.")
+TITLE = f'Are Clif Bars Healthy? CLIF Bar vs Builders vs ZBar Ranked'
+OG_TITLE = TITLE
+DESC = (f"CLIF Bar vs Builders vs Kid ZBar: Builders swings {range_words(BU)}, CLIF Bar tops out at {gs(CB)[0]}, "
+        f"ZBar never breaks {gs(ZB)[0]}. All {N} flavors scored.")
 OG_DESC = (f"Clif is 3 different product lines under one name. We scored all {N} flavors across CLIF Bar, Builders, and Kid ZBar by ingredient quality.")
 ART_DESC = (f"Clif protein bars scored A to F by ingredient quality across all {N} flavors spanning CLIF Bar, Clif Builders, and Clif ZBar. "
             "Full macro breakdown, grade distribution, and best vs. worst flavor callouts.")
@@ -236,6 +236,12 @@ PL = [b for b in FAM if has_tag(b, 'Protein Leads')]
 SH_ALL = sum(1 for b in FAM if has_tag(b, 'Sweetener Heavy'))
 PO_ALL = sum(1 for b in FAM if has_tag(b, 'Processed Oils'))
 pl_bu = sum(1 for b in PL if line(b) == 'Clif Builders')
+GUIDE_CALLOUT = f'''
+<div class="callout-box guide-callout">
+  <strong>Like that Clif skips artificial sweeteners?</strong> No Clif flavor uses artificial sweeteners or sugar alcohols. Our <a href="/clean-protein-bars" class="guide-callout-link">Clean Protein Bars guide</a> ranks the bars that do the same and score higher on ingredient quality.
+</div>'''
+BESTWORST += GUIDE_CALLOUT
+
 PATTERNS = f'''<h2>Ingredient quality patterns across the Clif lineup</h2>
     <p>{esc(f"These patterns hold across all {N} flavors from all three lines combined. Every single Clif flavor gets credit for a quality protein source, but that's true broadly across the category. " + (f"Protein Leads, meaning protein shows up before sweeteners in the ingredient list, happens in {len(PL)} of {N} flavors, " + ("every one of them a Clif Builders flavor." if pl_bu == len(PL) else f"{pl_bu} of them in Clif Builders.") if PL else ''))}</p>
 

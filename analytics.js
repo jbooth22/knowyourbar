@@ -169,7 +169,7 @@
       return;
     }
 
-    var moreCard = e.target.closest('.explore-more-card, .goal-card');
+    var moreCard = e.target.closest('.explore-more-card, .goal-card, .guide-callout-link');
     if (moreCard) {
       track('explore_more_click', {
         source_page_type: pageType(),
