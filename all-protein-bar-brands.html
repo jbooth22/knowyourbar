@@ -7028,16 +7028,6 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href*="amazon.com"]').forEach(function(link) {
-      link.addEventListener('click', function() {
-        if (typeof gtag === 'function') {
-          gtag('event', 'affiliate_click', { brand: link.closest('.brk-card') ? link.closest('.brk-card').dataset.name : undefined });
-        }
-      });
-    });
-  });
-
   (function() {
     const list = document.getElementById('brk-list');
     const cards = Array.from(list.querySelectorAll('.brk-card'));

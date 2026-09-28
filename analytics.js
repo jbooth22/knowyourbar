@@ -7,8 +7,9 @@
    free, the same way style.css is the single source of truth for styles.
 
    Covers, via one delegated document click listener (no per-page wiring
-   needed): buy_click, explore_cta_click, explore_more_click, faq_open,
-   bar_expand.
+   needed): buy_click (with a placement param), explore_cta_click,
+   explore_more_click, faq_open, bar_expand. Bar Finder search terms fire
+   as 'search' from app.js.
 
    Preset/filter/compare tracking (preset_apply, filter_change,
    bar_compare_add) is fired directly from app.js at the point those
@@ -130,15 +131,30 @@
   var BUY_SELECTOR = [
     '.amazon-link', '.visit-link', '.cmp-buy-btn', '.cmp-site-btn',
     '.buy-amazon', '.buy-site', '.buy-btn', '.cta-amazon',
-    '.bar-link-amz', '.bar-link-site', '.bar-buy-btn',
+    '.bar-link-amz', '.bar-link-site', '.bar-buy-btn', '.vs-pick-amazon',
   ].join(', ');
   var AMAZON_CLASSES = [
     'amazon-link', 'cmp-buy-btn', 'buy-amazon', 'buy-btn',
-    'cta-amazon', 'bar-link-amz', 'bar-buy-btn',
+    'cta-amazon', 'bar-link-amz', 'bar-buy-btn', 'vs-pick-amazon',
   ];
 
   function isAmazonButton(el) {
     return AMAZON_CLASSES.some(function (c) { return el.classList.contains(c); });
+  }
+
+  // Where on the page a buy button lives, so buy_click can be compared
+  // across placements (top picks vs. table vs. expanded row, etc.).
+  function placementOf(el) {
+    if (el.closest('.cmp-bar-header-cell')) return 'compare';
+    if (el.closest('.top-bar-card')) return 'home_top_card';
+    if (el.closest('.bw-card')) return 'best_worst_card';
+    if (el.closest('.pick-tile')) return pageType() === 'brand' ? 'alternatives' : 'top_picks';
+    if (el.closest('.bar-row')) return 'table_row';
+    var tr = el.closest('tr');
+    if (tr && tr.previousElementSibling && tr.previousElementSibling.classList &&
+        tr.previousElementSibling.classList.contains('bar-row')) return 'expanded_row';
+    if (el.closest('[class*="vs-"]')) return 'vs_pick';
+    return 'other';
   }
 
   document.addEventListener('click', function (e) {
@@ -150,6 +166,7 @@
         bar_brand: ctx.bar_brand,
         bar_flavor: ctx.bar_flavor,
         bar_grade: ctx.bar_grade,
+        placement: placementOf(buyBtn),
         page_type: pageType(),
         page_slug: pageSlug(),
       });

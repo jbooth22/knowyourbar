@@ -814,7 +814,24 @@ function debounce(fn, ms) {
 }
 
 function bindSearch() {
-  document.getElementById('search-input').addEventListener('input', debounce(applyFilters, 150));
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', debounce(applyFilters, 150));
+  // Track the finished search term (once typing pauses 1.5s), with how many
+  // bars it matched, so zero-result searches show up as content gaps.
+  let lastTracked = '';
+  input.addEventListener('input', debounce(() => {
+    const term = input.value.trim().toLowerCase();
+    if (term.length < 3 || term === lastTracked) return;
+    lastTracked = term;
+    const countEl = document.getElementById('result-count');
+    const count = countEl ? parseInt(countEl.textContent.replace(/[^0-9]/g, ''), 10) : NaN;
+    kybTrack('search', {
+      search_term: term.slice(0, 100),
+      result_count: isNaN(count) ? null : count,
+      zero_results: count === 0 ? 'yes' : 'no',
+      active_preset: typeof activePreset !== 'undefined' ? activePreset : null,
+    });
+  }, 1500));
 }
 
 function bindSort() {
