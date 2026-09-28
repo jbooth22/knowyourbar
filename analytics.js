@@ -122,6 +122,20 @@
         bar_grade: text(pickTile.querySelector('.table-grade-badge')),
       };
     }
+    // Compact bar tables on guides (table.brand-table): brand, flavor,
+    // macros, grade badge, Shop link, one bar per row.
+    // Most brand-tables are brand-level (flavor counts), so only read a
+    // flavor when the second column header is literally "Flavor".
+    var btRow = el.closest('table.brand-table tr');
+    if (btRow && btRow.cells.length >= 2) {
+      var th = btRow.closest('table').querySelectorAll('thead th');
+      var perBar = th.length > 1 && text(th[1]).toLowerCase() === 'flavor';
+      return {
+        bar_brand: text(btRow.cells[0]),
+        bar_flavor: perBar ? text(btRow.cells[1]) : null,
+        bar_grade: perBar ? text(btRow.querySelector('.table-grade-badge')) : null,
+      };
+    }
     return { bar_brand: null, bar_flavor: null, bar_grade: null };
   }
 
@@ -149,6 +163,7 @@
     if (el.closest('.top-bar-card')) return 'home_top_card';
     if (el.closest('.bw-card')) return 'best_worst_card';
     if (el.closest('.pick-tile')) return pageType() === 'brand' ? 'alternatives' : 'top_picks';
+    if (el.closest('table.brand-table')) return 'summary_table';
     if (el.closest('.bar-row')) return 'table_row';
     var tr = el.closest('tr');
     if (tr && tr.previousElementSibling && tr.previousElementSibling.classList &&
