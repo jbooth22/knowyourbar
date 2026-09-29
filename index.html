@@ -335,10 +335,13 @@ gtag('config', 'G-SW4MNP5W7J');
     .top-bar-macro-lbl { font-family: var(--bs-font-body); font-size: .68rem; color: var(--bs-text-dim); }
     .top-bar-buy { display: flex; gap: .5rem; padding: .9rem 1rem; border-top: 1px solid var(--bs-line-soft); flex-wrap: wrap; margin-top: auto; }
     .top-bar-buy a { flex: 1; min-width: 110px; text-align: center; font-family: var(--bs-font-body); font-size: .82rem; font-weight: 700; padding: .6rem .75rem; border-radius: var(--bs-radius); text-decoration: none; }
-    .top-bar-buy .buy-amazon { background: var(--bs-ink); color: var(--bs-paper); }
-    .top-bar-buy .buy-amazon:hover { opacity: .88; }
-    .top-bar-buy .buy-site { background: transparent; border: 1.5px solid var(--bs-ink); color: var(--bs-ink); }
-    .top-bar-buy .buy-site:hover { background: var(--bs-cream); }
+    /* Sitewide buy-button rule (2026-09-28): Amazon = outlined ink, Brand Site = solid ink, same box */
+    .top-bar-buy a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 2px solid var(--bs-ink); line-height: 1.2; }
+    .top-bar-buy a::after { content: "\2197"; font-size: .95em; line-height: 1; }
+    .top-bar-buy .buy-amazon { background: var(--bs-paper); color: var(--bs-ink); }
+    .top-bar-buy .buy-amazon:hover { background: var(--bs-ink); color: var(--bs-paper); }
+    .top-bar-buy .buy-site { background: var(--bs-ink); color: var(--bs-paper); }
+    .top-bar-buy .buy-site:hover { background: var(--bs-ink-2); }
     .top-bars-caption { font-family: var(--bs-font-body); font-size: .85rem; color: var(--bs-text-dim); margin-top: 1.75rem; }
     .top-bars-caption a { color: var(--bs-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 

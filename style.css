@@ -55,3 +55,320 @@
 
 /* Brand-page guide callout links */
 .guide-callout-link{color:var(--black);font-weight:600;text-decoration:underline;text-decoration-color:var(--accent-dark);text-decoration-thickness:2px;text-underline-offset:3px}.guide-callout-link:hover{background:var(--accent)}
+
+
+/* ==========================================================================
+   2026-09-28 UI pass: buy buttons, pick tile alignment, mobile tables
+   Appended block. Overrides earlier rules by source order, no edits above.
+   ========================================================================== */
+
+/* ---- Buy buttons -------------------------------------------------------
+   Two styles, same box so they always line up:
+   .amazon-link = outlined ink (paper fill, 2px ink border, ink text)
+   .visit-link  = solid ink (ink fill, 2px ink border, paper text)
+   The earlier .brand-v1 .amazon-link rule set a paper fill with no border,
+   which made Amazon read as plain text. The border fixes that.            */
+.brand-v1 .amazon-link,
+.brand-v1 .visit-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 2px solid var(--bs-ink) !important;
+  border-radius: var(--bs-radius);
+  font-family: var(--bs-font-body) !important;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  text-align: center;
+  white-space: normal;
+  cursor: pointer;
+  opacity: 1;
+  transition: background-color 0.12s, color 0.12s;
+}
+.brand-v1 .amazon-link {
+  background: var(--bs-paper) !important;
+  color: var(--bs-ink) !important;
+}
+.brand-v1 .visit-link {
+  background: var(--bs-ink) !important;
+  color: var(--bs-paper) !important;
+}
+.brand-v1 .amazon-link::after,
+.brand-v1 .visit-link::after {
+  content: "\2197";
+  font-size: 0.95em;
+  line-height: 1;
+}
+.brand-v1 .amazon-link:hover,
+.brand-v1 .amazon-link:focus-visible {
+  background: var(--bs-ink) !important;
+  color: var(--bs-paper) !important;
+  opacity: 1;
+}
+.brand-v1 .visit-link:hover,
+.brand-v1 .visit-link:focus-visible {
+  background: var(--bs-ink-2) !important;
+  opacity: 1;
+}
+.brand-v1 .amazon-link:focus-visible,
+.brand-v1 .visit-link:focus-visible {
+  outline: 2px solid var(--bs-ink);
+  outline-offset: 2px;
+}
+
+/* Other buy-button classes get the same two looks:
+   .cta-amazon / .vs-pick-amazon / .buy-btn (Quest vs RXBAR page) and
+   .cmp-buy-btn (Bar Finder compare panel) = outlined Amazon,
+   .cmp-site-btn = solid ink Brand Site.                                   */
+.brand-v1 .cta-amazon,
+.brand-v1 .vs-pick-amazon,
+.brand-v1 .buy-btn,
+.brand-v1 .cmp-buy-btn,
+.brand-v1 .cmp-site-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  border: 2px solid var(--bs-ink) !important;
+  border-radius: var(--bs-radius) !important;
+  font-family: var(--bs-font-body) !important;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  text-align: center;
+  white-space: normal;
+  box-shadow: none;
+  transform: none;
+  opacity: 1;
+  transition: background-color 0.12s, color 0.12s;
+}
+.brand-v1 .cta-amazon,
+.brand-v1 .vs-pick-amazon,
+.brand-v1 .buy-btn,
+.brand-v1 .cmp-buy-btn {
+  background: var(--bs-paper) !important;
+  color: var(--bs-ink) !important;
+}
+.brand-v1 .cmp-site-btn {
+  background: var(--bs-ink) !important;
+  color: var(--bs-paper) !important;
+}
+.brand-v1 .cta-amazon,
+.brand-v1 .vs-pick-amazon { min-height: 44px; padding: 8px 18px; font-size: 13px; }
+/* Quest vs RXBAR best-flavor cards are narrow on phones: fill the card */
+.brand-v1 .cta-amazon { width: 100%; margin: 4px 0; padding: 8px 12px; }
+.brand-v1 .buy-btn { min-height: 32px; padding: 5px 10px; font-size: 12px; }
+.brand-v1 .cmp-buy-btn,
+.brand-v1 .cmp-site-btn { display: flex; min-height: 36px; padding: 6px 8px; font-size: 12px; }
+.brand-v1 .cta-amazon::after,
+.brand-v1 .vs-pick-amazon::after,
+.brand-v1 .buy-btn::after,
+.brand-v1 a.cmp-buy-btn::after,
+.brand-v1 .cmp-site-btn::after {
+  content: "\2197";
+  font-size: 0.95em;
+  line-height: 1;
+}
+.brand-v1 .cta-amazon:hover,
+.brand-v1 .buy-btn:hover,
+.brand-v1 a.cmp-buy-btn:hover {
+  background: var(--bs-ink) !important;
+  color: var(--bs-paper) !important;
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+}
+/* .vs-pick sits on the dark band, so its hover goes cream, not ink */
+.brand-v1 .vs-pick-amazon { border-color: var(--bs-paper) !important; }
+.brand-v1 .vs-pick-amazon:hover { background: var(--bs-cream) !important; opacity: 1; }
+.brand-v1 .cmp-site-btn:hover { background: var(--bs-ink-2) !important; opacity: 1; }
+.brand-v1 .cmp-buy-placeholder { border-color: transparent !important; background: transparent !important; }
+
+/* ---- Top picks tiles: every tile's footer lines up ---------------------
+   Footer is pinned to the bottom of the tile, and the button area always
+   reserves two button rows. A tile with only a Brand Site link puts it in
+   the bottom row, so Brand Site buttons line up across the whole grid.    */
+.brand-v1 .pick-tile { display: flex; flex-direction: column; }
+.brand-v1 .pick-tile-body { flex: 1 1 auto; padding-bottom: 14px; }
+.brand-v1 .pick-tile-footer { margin-top: auto; }
+.brand-v1 .pick-tile-quality { min-height: 28px; }
+.brand-v1 .pick-tile-footer .bar-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px 40px;
+  gap: 8px;
+  margin-top: 12px;
+}
+.brand-v1 .pick-tile-footer .bar-links > a { width: 100%; flex: none; }
+.brand-v1 .pick-tile-footer .bar-links > a:only-child { grid-row: 2; }
+
+/* Older tile markup on brand pages (.pick-tile-buy, sometimes one Amazon
+   link per flavor): stack full width, pinned to the bottom of the tile.   */
+.brand-v1 .pick-tile-buy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+.brand-v1 .pick-tile-buy > a { width: 100%; }
+
+/* Brand comparison table headers: readable body font instead of 9px mono
+   (BRAND_STANDARDS: no small letter-spaced data-font labels) */
+.brand-v1 .brand-compare-table th {
+  font-family: var(--bs-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bs-ink);
+}
+
+/* Best/worst cards and expanded bar rows: equal-width buttons */
+.brand-v1 .bw-buy-group > a { flex: 1 1 150px; }
+.brand-v1 .expand-buy-row > a { flex: 1 1 0; }
+
+@media (max-width: 640px) {
+  /* Tiles are one column on phones: full-width stacked buttons, and no
+     empty reserved row when a tile only has one link */
+  .brand-v1 .pick-tile-footer .bar-links { grid-template-rows: auto; }
+  .brand-v1 .pick-tile-footer .bar-links > a:only-child { grid-row: auto; }
+  .brand-v1 .amazon-link,
+  .brand-v1 .visit-link { min-height: 44px; }
+}
+
+/* ---- Mobile tables ------------------------------------------------------
+   Headers wrap instead of stretching columns, the first column (brand/bar
+   name) stays pinned while you swipe, a shadow on the right edge shows
+   there is more, and a short "Swipe" hint sits above the table.           */
+@media (max-width: 700px) {
+  .table-scroll:has(> table.brand-table),
+  .brand-compare-table-wrap {
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    background:
+      linear-gradient(to left, var(--bs-paper) 40%, rgba(251, 249, 244, 0)) right center / 32px 100% no-repeat local,
+      radial-gradient(farthest-side at 100% 50%, rgba(23, 20, 15, 0.22), rgba(23, 20, 15, 0)) right center / 14px 100% no-repeat scroll;
+  }
+  .table-scroll:has(> table.brand-table)::before,
+  .brand-compare-table-wrap::before {
+    content: "Swipe to see more columns \2192";
+    display: block;
+    position: sticky;
+    left: 0;
+    width: max-content;
+    margin: 0 0 6px;
+    font-family: var(--bs-font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bs-text-dim);
+  }
+
+  .brand-v1 table.brand-table,
+  .brand-v1 .brand-compare-table {
+    width: auto;
+    min-width: 100%;
+    overflow: visible;
+    background: transparent;
+    border-radius: 0;
+    border-collapse: separate; /* collapsed borders leak scrolled content past the pinned column */
+    border-spacing: 0;
+  }
+  .brand-v1 table.brand-table th,
+  .brand-v1 .brand-compare-table th {
+    white-space: normal !important;
+    vertical-align: bottom;
+    min-width: 0;
+    line-height: 1.25;
+  }
+  .brand-v1 table.brand-table td,
+  .brand-v1 .brand-compare-table td { white-space: nowrap; }
+
+  /* Pinned first column */
+  .brand-v1 table.brand-table th:first-child,
+  .brand-v1 table.brand-table td:first-child,
+  .brand-v1 .brand-compare-table th:first-child,
+  .brand-v1 .brand-compare-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    white-space: normal;
+    min-width: 92px;
+    max-width: 128px;
+    box-shadow: inset -1px 0 0 var(--bs-line-soft), 6px 0 8px -6px rgba(23, 20, 15, 0.28);
+  }
+  .brand-v1 table.brand-table td:first-child,
+  .brand-v1 .brand-compare-table td:first-child { background: var(--bs-paper); }
+  .brand-v1 table.brand-table th:first-child { background: var(--off-white); }
+  .brand-v1 .brand-compare-table th:first-child { background: var(--bs-paper); }
+  .brand-v1 .brand-compare-table tbody tr.self-row td:first-child { background: var(--bs-cream); }
+  .brand-v1 table.brand-table tr:hover td:first-child { background: var(--off-white); }
+
+  /* Long text column (Note, Sugar Alcohols Found, Clean Pick, Shop) */
+  .brand-v1 table.brand-table td:last-child,
+  .brand-v1 table.brand-table th:last-child {
+    white-space: normal;
+    min-width: 180px;
+    max-width: 230px;
+  }
+  .brand-v1 table.brand-table td:last-child .amazon-link,
+  .brand-v1 table.brand-table td:last-child .visit-link { margin: 2px 0; }
+
+  /* Flavor-list tables (last column is a Shop button): the Shop column
+     only needs button width, and the Flavor column wraps instead */
+  .brand-v1 table.brand-table:has(td:last-child > a) td:last-child,
+  .brand-v1 table.brand-table:has(td:last-child > a) th:last-child {
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .brand-v1 table.brand-table:has(td:last-child > a) td:nth-child(2) {
+    white-space: normal;
+    min-width: 120px;
+  }
+}
+
+/* ---- Main bar table on phones -------------------------------------------
+   When the table is wider than the screen (extra columns like Caffeine),
+   pin the bar name column, and keep the expanded row's buttons and macros
+   inside the visible screen instead of running off the right edge.        */
+@media (max-width: 700px) {
+  .brand-v1 .bar-table-wrap .table-scroll { container-type: inline-size; }
+  .brand-v1 .bar-table-wrap .expand-content {
+    position: sticky;
+    left: 0;
+    box-sizing: border-box;
+    max-width: calc(100cqw - 24px);
+  }
+  .brand-v1 .bar-table-wrap thead th:first-child,
+  .brand-v1 .bar-table-wrap tr.bar-row > td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    box-shadow: 6px 0 8px -6px rgba(23, 20, 15, 0.28);
+  }
+  .brand-v1 .bar-table-wrap thead th:first-child { background: var(--bs-cream); }
+  .brand-v1 .bar-table-wrap tr.bar-row > td:first-child { background: var(--bs-paper); }
+  /* Macro rank cards: 2 per row so the "#26 highest of 1308" tags fit */
+  .brand-v1 .expand-content .macro-rank-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px 0 0;
+  }
+  .brand-v1 .expand-content .macro-rank-tag { white-space: normal; }
+}
+
+/* Narrow phones: stack the two buy buttons full width in expanded rows
+   so neither label wraps onto two lines */
+@media (max-width: 480px) {
+  .brand-v1 .expand-buy-row { flex-direction: column; }
+  .brand-v1 .expand-buy-row > a { flex: none; width: 100%; }
+}
+
