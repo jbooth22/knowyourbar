@@ -111,7 +111,7 @@ DISQ = f'''
       <h2 class="section-title">What disqualifies a protein bar from being vegan</h2>
       <div class="section-body">
         <p>We use the Vegan (Y/N) flag on file for every bar, then cross-check ingredient lists ourselves for the {num_word(len(ANIMAL))} animal-derived ingredients below, in order of how often they show up.</p>
-        <p>{comma(ND)} of the {comma(NT)} bars we track, {pct0(ND, NT)}%, are not marked vegan. Whey protein alone accounts for more of them than any other single ingredient. Combined, these {num_word(len(ANIMAL))} ingredients show up in {comma(len(NAMED))} of the {comma(ND)} ({pct(len(NAMED), ND)}%). The other {comma(ND - len(NAMED))} don't name any of them; they either use a less common animal-derived ingredient or simply aren't confirmed vegan by the brand.</p>
+        <p>{pct0(ND, NT)}% of the {DB_PUBLIC} bars we track are not marked vegan. Whey protein alone accounts for more of them than any other single ingredient. Combined, these {num_word(len(ANIMAL))} ingredients show up in {comma(len(NAMED))} of the {comma(ND)} ({pct(len(NAMED), ND)}%). The other {comma(ND - len(NAMED))} don't name any of them; they either use a less common animal-derived ingredient or simply aren't confirmed vegan by the brand.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
 {chr(10).join(card(l, HIT[l], DESC[l]) for l in ORDER)}
@@ -165,8 +165,8 @@ INSIGHTS += [
     (f'{ab(Q)}% of vegan bars grade A or B.',
      f'That beats the database-wide rate of {ab(ALL)}%. Whole-food brands like {BIG2[0]["brand"]} and {BIG2[1]["brand"]} pull the vegan average up.'),
 ]
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars', f'{pct0(ND, NT)}%', 'of protein bars are not vegan',
-                         f'{comma(ND)} of {comma(NT)} bars we track are not marked vegan. Whey protein alone shows up in more '
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars', f'{pct0(ND, NT)}%', 'of protein bars are not vegan',
+                         f'{of_db(ND, NT)} bars we track are not marked vegan. Whey protein alone shows up in more '
                          'bars than any other single animal ingredient we screen for.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -208,7 +208,7 @@ FAQS = [
      'not just a package claim. That means no whey, milk protein, honey, egg whites, collagen peptides, casein, or gelatin '
      'anywhere in the formula.'),
     ('How many vegan protein bars are in your database?',
-     f"{N} of the {comma(NT)} bars we track are vegan, spanning {BRANDS_Q} brands. {GR['A']} of those {N} bars grade A for ingredient quality."),
+     f"{of_db(N, NT, True)} bars we track are vegan, spanning {BRANDS_Q} brands. {GR['A']} of those {N} bars grade A for ingredient quality."),
     ('Are Larabar bars vegan?',
      f"Yes. All {LARA['total']} Larabar flavors we track are vegan. Larabar builds its bars around dates, nuts, and fruit rather "
      'than a dairy or egg-based protein source.'),
@@ -220,7 +220,7 @@ FAQS = [
       'Being vegan and having a clean ingredient list are two different questions here.') if BB else
      f"No. None of Barebells' {len(BB_ALL)} flavors are marked vegan in our data."),
     ('What is the most common non-vegan ingredient in protein bars?',
-     f"Whey protein. It shows up in {len(HIT['Whey protein'])} of the {comma(NT)} bars we track, more than milk protein, honey, "
+     f"Whey protein. It shows up in {of_db(len(HIT['Whey protein']), NT, True)} bars we track, more than milk protein, honey, "
      'collagen, casein, egg whites, and gelatin individually. It is the default protein source for most mainstream bars.'),
     ('Is honey vegan?',
      'No. Honey is produced by bees, not a plant, so any bar listing honey as an ingredient does not qualify as vegan on this '
@@ -232,7 +232,7 @@ FAQS = [
      f'{N} bars across {BRANDS_Q} brands clear our vegan screen, led by whole-food brands like Larabar and GoMacro that '
      'qualify 100% of the time. The full ranked list is in the table below, sorted by ingredient quality.'),
     ('What protein bars are not vegan?',
-     f"{comma(ND)} of the {comma(NT)} bars we track are not marked vegan. Whey protein is the single biggest named reason, "
+     f"{of_db(ND, NT, True)} bars we track are not marked vegan. Whey protein is the single biggest named reason, "
      f"followed by {names_and([l.lower() for l in ORDER[1:4]])}."),
     ('Are vegan protein bars lower quality than whey-based bars?',
      f"No. {ab(Q)}% of vegan bars in our database grade A or B, against {ab(ALL)}% database-wide. What they give up on average "
@@ -248,14 +248,14 @@ FAQS = [
 # ---------------------------------------------------------------------------
 TITLE = f"{pct0(ND, NT)}% of Protein Bars Aren't Vegan. {comma(N)} Are."
 H1 = f'Best Vegan Protein Bars - Ranking {comma(N)} Bars by Ingredient Quality'
-DESC = f'We checked {comma(NT)} protein bars for animal ingredients. {comma(N)} are fully vegan. See every one, ranked by ingredient quality, brand, and macros.'
+DESC = f'We checked {DB_PUBLIC} protein bars for animal ingredients. {comma(N)} are fully vegan. See every one, ranked by ingredient quality, brand, and macros.'
 OG = f'{comma(N)} vegan protein bars with no whey, milk, honey, egg, or gelatin. Ranked by ingredient quality score.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=OG, url=URL, about='Vegan Protein Bars',
                                          published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] != 'social']
 REGIONS += [
     ('social', social_title_html(TITLE, OG, URL)),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We checked {comma(NT)} protein bars available in the US for whey, milk, honey, egg, collagen, casein, and gelatin. The result: {comma(N)} bars, about {pct0(N, NT)}%, are vegan. We rank the best vegan protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We checked {DB_PUBLIC} protein bars available in the US for whey, milk, honey, egg, collagen, casein, and gelatin. The result: {comma(N)} bars, about {pct0(N, NT)}%, are vegan. We rank the best vegan protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

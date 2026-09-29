@@ -22,7 +22,7 @@ and lists any claim that no longer holds.
 Run: python3 build_all_ingredients.py
 """
 import json, re
-from kyb_guide_lib import (esc, comma, replace_region, stamp_dates, today_iso, Claims, names_and, pct0)
+from kyb_guide_lib import (esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso, Claims, names_and, pct0)
 from kyb_ingredients import ingredient_counts, alias_score_conflicts, NOT_INGREDIENTS, INTERNAL
 
 PAGE = 'all-ingredients.html'
@@ -189,11 +189,11 @@ def main():
 
     faqs = [
         ('How many ingredients are in the protein bar encyclopedia?',
-         f'This encyclopedia covers {n_ing} ingredients that each appear in {MIN_BARS} or more of the {comma(N)} protein bars in our '
+         f'This encyclopedia covers {n_ing} ingredients that each appear in {MIN_BARS} or more of the {DB_PUBLIC} protein bars in our '
          f'database. Our full scoring schema has {canon_n} canonical ingredients, but we cut off at {MIN_BARS} bars to keep the '
          f'reference useful rather than exhaustive.'),
         ('What does the bar (meter) next to each ingredient show?',
-         f'The share of all {comma(N)} bars in our database that contain that ingredient anywhere on the label, including inside a '
+         f'The share of all {DB_PUBLIC} bars in our database that contain that ingredient anywhere on the label, including inside a '
          f'compound ingredient like a chocolate coating. Salt, for example, appears in {pc("salt")} of bars. Maltitol appears in '
          f'{pc("maltitol")}. The percentage is out of every bar in the database, not just the category.'),
         ('What do the score numbers mean?',
@@ -231,7 +231,7 @@ def main():
 
     # ---------- regions
     title = f'Protein Bar Ingredients: {n_ing} Ingredients Explained & Scored'
-    desc = (f'Every ingredient found across {comma(N)} protein bars, scored from +4 to -4 and explained. See which appear most, '
+    desc = (f'Every ingredient found across {DB_PUBLIC} protein bars, scored from +4 to -4 and explained. See which appear most, '
             f'score best, and which to avoid on any label.')
     head = (f'  <title>{esc(title)} | Know Your Bar</title>\n'
             f'  <meta name="description" content="{esc(desc)}">')
@@ -248,11 +248,11 @@ def main():
     social = (f'  <meta property="og:title" content="{esc(title)}">\n'
               f'  <meta name="twitter:title" content="{esc(title)}">\n'
               f'  <meta property="og:description" content="{esc(desc)}">')
-    hero = (f'    <p class="hero-sub">Every ingredient that appears in {MIN_BARS} or more of our {comma(N)} protein bars. Scored, '
+    hero = (f'    <p class="hero-sub">Every ingredient that appears in {MIN_BARS} or more of our {DB_PUBLIC} protein bars. Scored, '
             f'explained, and ranked by how many bars it appears in. Use it to read any label.</p>\n'
             f'    <div class="ing-hero-stats">\n'
             f'      <div class="ing-hero-stat"><strong>{n_ing}</strong>ingredients catalogued</div>\n'
-            f'      <div class="ing-hero-stat"><strong>{comma(N)}</strong>bars analyzed</div>\n'
+            f'      <div class="ing-hero-stat"><strong>{DB_PUBLIC}</strong>bars analyzed</div>\n'
             f'      <div class="ing-hero-stat"><strong>{len(cats)}</strong>ingredient categories</div>\n'
             f'    </div>')
     catnav = '\n'.join(f'        <a href="#cat-{c}" class="cat-nav-link">{esc(t)}</a>' for c, t in cats)
@@ -293,9 +293,9 @@ def main():
     </div>
   </section>''')
     sections = '\n\n'.join(secs)
-    cta = (f'    <p class="explore-cta-sub">Filter all {comma(N)} bars by ingredient quality grade, sweeteners, sugar alcohols, seed '
+    cta = (f'    <p class="explore-cta-sub">Filter all {DB_PUBLIC} bars by ingredient quality grade, sweeteners, sugar alcohols, seed '
            f'oils, and more. Every bar scored A-F. No sponsored picks.</p>')
-    card = f'          <div class="explore-more-desc">Patterns, surprises, and the best and worst ingredients across {comma(N)} bars.</div>'
+    card = f'          <div class="explore-more-desc">Patterns, surprises, and the best and worst ingredients across {DB_PUBLIC} bars.</div>'
     faq = '\n\n'.join(f'''      <div class="faq-item">
         <button class="faq-q">{esc(q)}</button>
         <div class="faq-a">{esc(a)}</div>

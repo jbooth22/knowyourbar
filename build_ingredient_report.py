@@ -25,7 +25,7 @@ lists anything that no longer holds.
 Run: python3 build_ingredient_report.py
 """
 import json, re
-from kyb_guide_lib import (load_bars, esc, comma, replace_region, stamp_dates, today_iso, Claims, pct0)
+from kyb_guide_lib import (load_bars, esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso, Claims, pct0)
 from kyb_ingredients import ingredient_counts, bar_ingredients, NOT_INGREDIENTS
 from build_all_ingredients import MIN_BARS, share_words
 
@@ -189,7 +189,7 @@ def main():
         </div>'''
     intro_style = 'color:#4a4a45;font-size:0.92rem;line-height:1.6;margin-bottom:0;'
     worst_html = (f'      <p style="{intro_style}">Ingredients scoring -2 or lower, ranked by score times the number of bars they '
-                  f'show up in. These are the ingredients doing the most damage across our {comma(N)}-bar database.</p>\n\n'
+                  f'show up in. These are the ingredients doing the most damage across our {DB_PUBLIC} bar database.</p>\n\n'
                   '      <div class="ranked-grid" style="margin-top:1.5rem;">\n\n'
                   + '\n\n'.join(card('worst', n, k) for n, k in enumerate(worst, 1)) + '\n\n      </div>')
     best_html = (f'      <p style="{intro_style}">The ingredients that make a bar worth buying: everything scoring +3 or higher, '
@@ -223,7 +223,7 @@ def main():
                                                                    + ', '.join(f'{k.replace("whey protein concentrate", "whey concentrate")} ({comma(B(k))})' for k in plus3[1:3])
                                                                    + f', and {plus3[3].replace("whey protein concentrate", "whey concentrate")} ({comma(B(plus3[3]))}).'),
     ]
-    findings = f'''      <h2 class="findings-title">The most common ingredients across {comma(N)} bars</h2>
+    findings = f'''      <h2 class="findings-title">The most common ingredients across {DB_PUBLIC} bars</h2>
 
       <div class="big-stat">
         <div class="big-stat-num">{comma(B("salt"))}</div>
@@ -234,7 +234,7 @@ def main():
       </div>
 
       <div style="margin-top:2rem;">
-        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888880;margin-bottom:1rem;">% of {comma(N)} bars containing each ingredient</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#888880;margin-bottom:1rem;">% of {DB_PUBLIC} bars containing each ingredient</div>
 
         <div class="prevalence-list">
 {prev}
@@ -371,7 +371,7 @@ def main():
           </div>'''
     predictor = ('      <p class="pattern-body">You do not need to read the whole label. A few signals in the first five '
                  'ingredients tell you most of what you need to know. These are the strongest predictors we found, with how '
-                 f'often each one held across our {comma(N)} bars.</p>\n\n      <div class="predictor-grid">\n'
+                 f'often each one held across our {DB_PUBLIC} bars.</p>\n\n      <div class="predictor-grid">\n'
                  '        <div class="predictor-card signals-good">\n          <div class="predictor-label good">Signals that predict A or B</div>\n'
                  + '\n'.join(item(t, f, 'var(--green-best)', True) for t, f in good)
                  + '\n        </div>\n\n        <div class="predictor-card signals-bad">\n          <div class="predictor-label bad">Signals that predict C, D, or F</div>\n'
@@ -432,7 +432,7 @@ def main():
     ]
 
     # ---------- page text regions
-    desc = (f'We analyzed {comma(N)} protein bars and ranked every ingredient. The 10 best, the 10 worst, hidden ingredient '
+    desc = (f'We analyzed {DB_PUBLIC} protein bars and ranked every ingredient. The 10 best, the 10 worst, hidden ingredient '
             f'patterns, and what to look for on any label.')
     head = ('  <title>What\'s Really in Protein Bars: Ingredients Ranked</title>\n'
             f'  <meta name="description" content="{esc(desc)}">')
@@ -447,7 +447,7 @@ def main():
     jsonld = ('  <script type="application/ld+json">\n  ' + json.dumps(art, ensure_ascii=False, indent=2).replace('\n', '\n  ')
               + '\n  </script>\n  <script type="application/ld+json">\n  ' + json.dumps(faq_ld, ensure_ascii=False, separators=(',', ':'))
               + '\n  </script>')
-    sdesc = (f'We analyzed {comma(N)} protein bars and ranked every ingredient. The 10 best, 10 worst, hidden patterns, and what '
+    sdesc = (f'We analyzed {DB_PUBLIC} protein bars and ranked every ingredient. The 10 best, 10 worst, hidden patterns, and what '
              f'to look for on any label.')
     social = ('  <meta property="og:type" content="article">\n  <meta property="og:site_name" content="Know Your Bar">\n'
               '  <meta property="og:title" content="What&#x27;s Really in Protein Bars: Ingredients Ranked | Know Your Bar">\n'
@@ -457,7 +457,7 @@ def main():
               '  <meta name="twitter:card" content="summary_large_image">\n'
               '  <meta name="twitter:title" content="What&#x27;s Really in Protein Bars: Ingredients Ranked Best to Worst | Know Your Bar">\n'
               f'  <meta name="twitter:description" content="{esc(sdesc)}">')
-    hero = (f'    <p class="hero-sub" style="color:#e8e4dc;">We scored {comma(N)} bars ingredient by ingredient. Here are the '
+    hero = (f'    <p class="hero-sub" style="color:#e8e4dc;">We scored {DB_PUBLIC} bars ingredient by ingredient. Here are the '
             f'patterns: the best, the worst, what travels together, and what the label is hiding.</p>')
     snaps = [(str(len(listed)), 'Ingredients catalogued'), (comma(N), 'Bars analyzed'),
              (f'{pct0(len(caloric), N)}%', 'Bars with added sugar or syrup'), (comma(pko), 'Bars with palm kernel oil'),
@@ -476,7 +476,7 @@ def main():
         </a>
         <a href="/clean-protein-bars" class="explore-more-card">
           <div class="explore-more-title">Clean protein bars</div>
-          <div class="explore-more-desc">The highest-scoring bars by ingredient quality across the full {comma(N)}-bar database.</div>
+          <div class="explore-more-desc">The highest-scoring bars by ingredient quality across the full {DB_PUBLIC} bar database.</div>
         </a>'''
     faq = '\n\n'.join(f'''      <div class="faq-item">
         <button class="faq-q">{esc(q)}</button>

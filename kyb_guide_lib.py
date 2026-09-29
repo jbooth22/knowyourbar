@@ -626,6 +626,15 @@ def full(b): return f"{b['Brand Name']} {b['Flavor Name']}"
 def has_ing(b, word): return word in ingr(b).lower()
 def g1(x): return '0.0' if round(x, 1) == 0 else f'{x:.1f}'
 def comma(n): return f'{n:,}'
+# Public copy never states the exact database size (BRIEFING: always "1,000+"),
+# so it can't go stale or disagree between pages after a monthly bars.js update.
+# Exact counts are still used for every percentage and every sub-count.
+DB_PUBLIC = '1,000+'
+def of_db(n, total, the=False):
+    """'613 of 1,000+' or '613 of the 1,000+'. When n is 1,000 or more,
+    '1,205 of 1,000+' reads wrong, so it becomes a share: '92% of 1,000+'."""
+    lead = f'{round(100 * n / total)}%' if n >= 1000 else comma(n)
+    return f"{lead} of {'the ' if the else ''}{DB_PUBLIC}"
 def a_an(grade): return 'an' if grade in ('A', 'F') else 'a'
 def name_key(b): return (b['Brand Name'].lower(), b['Flavor Name'].lower())
 

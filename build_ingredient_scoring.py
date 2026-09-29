@@ -26,7 +26,7 @@ Run: python3 build_ingredient_scoring.py
 import json, re
 import pandas as pd
 import score_and_export as sx
-from kyb_guide_lib import load_bars, esc, comma, replace_region, stamp_dates, today_iso
+from kyb_guide_lib import load_bars, esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso
 
 PAGE = 'ingredient_scoring.html'
 SCHEMA = 'knowyourbar_scoring_schema_v12.xlsx'
@@ -226,7 +226,7 @@ def main():
             <td>{rng[g]}</td>
             <td>{desc[g]}</td>
           </tr>''' for g in 'ABCDF')
-    bands = f'''      <p>The numeric score is converted into a letter grade. The thresholds are fixed and apply to every bar the same way. Across our {comma(N)} bars, {pct['A']}% score A, {pct['B']}% B, {pct['C']}% C, {pct['D']}% D and {pct['F']}% F.</p>
+    bands = f'''      <p>The numeric score is converted into a letter grade. The thresholds are fixed and apply to every bar the same way. Across our {DB_PUBLIC} bars, {pct['A']}% score A, {pct['B']}% B, {pct['C']}% C, {pct['D']}% D and {pct['F']}% F.</p>
 
       <table class="score-table">
         <colgroup>
@@ -281,7 +281,7 @@ def main():
         </tbody>
       </table>
 
-      <p>{comma(n_as)} of our {comma(N)} bars ({round(100 * n_as / N)}%) contain at least one artificial sweetener. Use the <a href="/no-artificial-sweeteners">No Artificial Sweeteners guide</a> to see the ones that don't.</p>
+      <p>{comma(n_as)} of our {DB_PUBLIC} bars ({round(100 * n_as / N)}%) contain at least one artificial sweetener. Use the <a href="/no-artificial-sweeteners">No Artificial Sweeteners guide</a> to see the ones that don't.</p>
 
       <div class="callout">
         <p><strong>What changed in September 2026 (scoring v12):</strong> sugars now follow the processing scale above (honey and maple syrup went from &minus;2 to &minus;1; dextrose and maltodextrin dropped to &minus;3), soluble corn fiber, resistant dextrin, tapioca fiber and IMO went from 0 or +1 to &minus;1, and artificial sweeteners became a flat &minus;2 each instead of being discounted by label position. The grade bands did not change.</p>
@@ -334,7 +334,7 @@ def main():
         ('How do you score artificial sweeteners like sucralose?',
          f'Each artificial sweetener ({as_list}) costs a bar a flat {abs(int(pen))} points, no matter where it sits on the label. '
          f'These sweeteners are used in milligrams, so they almost always appear near the end of the list, where position weighting '
-         f'would make them count for almost nothing. {comma(n_as)} of our {comma(N)} bars contain at least one.'),
+         f'would make them count for almost nothing. {comma(n_as)} of our {DB_PUBLIC} bars contain at least one.'),
         ('Why do some added fibers score below zero?',
          'Soluble corn fiber, resistant dextrin, tapioca fiber, IMO and polydextrose are starches that were rearranged so the body '
          'can\'t fully digest them. That lets the label count them as fiber and lower "net carbs." They aren\'t harmful, but they are '
@@ -365,7 +365,7 @@ def main():
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faqs]}
     faq_ld = '<script type="application/ld+json">\n' + json.dumps(ld, ensure_ascii=False, separators=(',', ':')) + '\n</script>'
 
-    meta = (f'  <meta name="description" content="How we grade {comma(N)} protein bars A-F on ingredient quality: base scores, '
+    meta = (f'  <meta name="description" content="How we grade {DB_PUBLIC} protein bars A-F on ingredient quality: base scores, '
             f'position weights, and how we score sugars, fibers and artificial sweeteners.">')
 
     page = open(PAGE, encoding='utf-8').read()

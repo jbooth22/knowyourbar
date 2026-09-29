@@ -150,7 +150,7 @@ MEANS = f'''
       <h2 class="section-title">What "no seed oils" actually means</h2>
       <div class="section-body">
         <p>Seed and vegetable oils are some of the most common additives in processed food, and protein bars are no exception. This guide screens every bar for thirteen of them: canola, rapeseed, soybean, palm, palm kernel, palm fruit, sunflower, safflower, cottonseed, corn, grapeseed, and rice bran oil, plus any bar listing generic "vegetable oil" or "hydrogenated"/"partially hydrogenated" fat. High-oleic sunflower and safflower oil are permitted, since their fatty acid profile runs closer to olive oil than to the standard refined version of the same seed.</p>
-        <p>{PCT_D}% of the {comma(NT)} bars in our database still have a seed oil on the label. Here is how often each one shows up, and where it usually hides.</p>
+        <p>{PCT_D}% of the {DB_PUBLIC} bars in our database still have a seed oil on the label. Here is how often each one shows up, and where it usually hides.</p>
       </div>
 
       <div class="score-grid" style="margin-top:1.5rem;">
@@ -267,8 +267,8 @@ INSIGHTS = [
 ]
 C.check(len(TUCK) / len(TOPB) < 0.05, f'under 5% of {TOP} bars list it as a trace amount')
 FINDINGS = findings_html(
-    f'What we found screening {comma(NT)} bars', f'{PCT_D}%', 'of bars contain a seed or vegetable oil',
-    f'{ND} of {comma(NT)} bars contain at least one of the oils we screen for. {TOP} is the most common, ahead of '
+    f'What we found screening {DB_PUBLIC} bars', f'{PCT_D}%', 'of bars contain a seed or vegetable oil',
+    f'{of_db(ND, NT)} bars contain at least one of the oils we screen for. {TOP} is the most common, ahead of '
     f'{lc(SECOND)} and {lc(THIRD)}. It shows up in coatings, crisp layers, and as a base fat across brands.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -356,7 +356,7 @@ FAQS = [
      f"{comma(N)} bars across {BRANDS_Q} brands clear our seed oil screen, led by whole-food brands like "
      f"{names_and(FAQ_WHOLE)} that qualify 100% of the time. The full ranked list is in the table below, sorted by ingredient quality."),
     ('What protein bars have seed oils?',
-     f"{ND} of the {comma(NT)} bars we track contain at least one seed or vegetable oil. {names_and(AV3)} disqualify almost "
+     f"{of_db(ND, NT, True)} bars we track contain at least one seed or vegetable oil. {names_and(AV3)} disqualify almost "
      f"entirely, usually through {lc(TOP)}, {lc(SECOND)}, or {lc(THIRD)}."),
     ('Why does canola oil count as a seed oil to avoid here?',
      'Canola comes from rapeseed, which is a seed. We group it with the other refined seed and vegetable oils on this list '
@@ -382,7 +382,7 @@ OG_DESC = (f'{comma(N)} protein bars with no seed or vegetable oils. No canola, 
            'ingredient quality score.')
 REGIONS = [r for r in guide_head_regions(
     title=TITLE, h1=H1,
-    desc=f'We screened {comma(NT)} protein bars for seed oils. {PCT_Q}% have none. See the {comma(N)} best, ranked by ingredient quality, brand, and macros.',
+    desc=f'We screened {DB_PUBLIC} protein bars for seed oils. {PCT_Q}% have none. See the {comma(N)} best, ranked by ingredient quality, brand, and macros.',
     og_desc=OG_DESC, url=URL, about='Seed Oils', published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] != 'social']
 REGIONS += [
     ('social', f'''<meta property="og:type" content="article">
@@ -398,7 +398,7 @@ REGIONS += [
   <meta name="twitter:description" content="{esc(OG_DESC)}">
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We screened {comma(NT)} protein bars available in the US for seed oils like canola, soybean, palm, sunflower, safflower, and several other seed and vegetable oils. The good news: {PCT_Q}% of protein bars do NOT have a seed oil on their ingredient label. We break down and rank the best protein bars without seed oils by category, brand, and macros. Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We screened {DB_PUBLIC} protein bars available in the US for seed oils like canola, soybean, palm, sunflower, safflower, and several other seed and vegetable oils. The good news: {PCT_Q}% of protein bars do NOT have a seed oil on their ingredient label. We break down and rank the best protein bars without seed oils by category, brand, and macros. Not just us telling you the flavors we like.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{ND}</div><div class="snap-label">Bars disqualified</div></div>

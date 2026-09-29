@@ -96,7 +96,7 @@ SCREENED = f'''
     <div class="section-inner">
       <h2 class="section-title">What we screened for on this page</h2>
       <div class="section-body">
-        <p>People following keto usually care about two things above everything else on a protein bar: how many net carbs it actually delivers once fiber and sugar alcohols are subtracted, and whether it has enough fat to fit the macro pattern instead of just being low-carb. We added two more filters on top: enough protein to be worth eating, and no maltitol or its close relatives (maltitol syrup, polyglycitol, hydrogenated starch hydrolysates), a sugar alcohol that raises blood glucose more than most others and more than labels suggest. {N} of {comma(NT)} bars, {pct(N, NT)}% of the database, clear all four.</p>
+        <p>People following keto usually care about two things above everything else on a protein bar: how many net carbs it actually delivers once fiber and sugar alcohols are subtracted, and whether it has enough fat to fit the macro pattern instead of just being low-carb. We added two more filters on top: enough protein to be worth eating, and no maltitol or its close relatives (maltitol syrup, polyglycitol, hydrogenated starch hydrolysates), a sugar alcohol that raises blood glucose more than most others and more than labels suggest. {of_db(N, NT)} bars, {pct(N, NT)}% of the database, clear all four.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
 {simple_card_html('Net Carbs Over 8g', FAIL['nc'], NT, 'Net carbs (total carbs minus fiber minus sugar alcohols) is the number that actually determines whether a bar fits a ketogenic diet, and it is rarely printed on the label.')}
@@ -153,9 +153,9 @@ INSIGHTS = [
      'against our 8g ceiling.'),
 ]
 C.check(AVG_FAT > 9 and AVG_NC < 7, 'qualifying averages sit comfortably inside the thresholds')
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for keto-friendly criteria', f'{pct(ND, NT)}%',
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars for keto-friendly criteria', f'{pct(ND, NT)}%',
                          'of bars fail at least one of our four checks',
-                         f'{comma(ND)} of {comma(NT)} bars fail on net carbs, protein, fat, maltitol, or some combination. '
+                         f'{of_db(ND, NT)} bars fail on net carbs, protein, fat, maltitol, or some combination. '
                          f'{comma(MULTI)} of those fail more than one check at once.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -251,7 +251,7 @@ FAQS = [
      'across the whole lineup. Use the bar list to find a specific flavor, and the brand table to get a quick read on a brand '
      'before you go looking.'),
     ('How many protein bars in your database qualify for this list?',
-     f'Out of {comma(NT)} bars in our database, {N} meet all four criteria: 8g or less net carbs, 10g or more protein, 8g or '
+     f'Out of {DB_PUBLIC} bars in our database, {N} meet all four criteria: 8g or less net carbs, 10g or more protein, 8g or '
      f'more fat, and no maltitol. That is about {pct(N, NT)}% of the full database.'),
 ]
 
@@ -259,14 +259,14 @@ FAQS = [
 # Regions
 # ---------------------------------------------------------------------------
 TITLE = f'Keto Protein Bars - {N} Bars Ranked by Ingredient Quality'
-H1 = f'Best Keto Protein Bars - We Screened {comma(NT)} Bars, {N} Passed'
-DESC = f'We screened {comma(NT)} bars for net carbs, protein, fat, and maltitol. {N} pass. {LOWS_M}% of low-sugar bars still hide maltitol.'
+H1 = f'Best Keto Protein Bars - We Screened {DB_PUBLIC} Bars, {N} Passed'
+DESC = f'We screened {DB_PUBLIC} bars for net carbs, protein, fat, and maltitol. {N} pass. {LOWS_M}% of low-sugar bars still hide maltitol.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=DESC, url=URL, about='Keto Diet Eating Guide',
                                          published=PUBLISHED, faqs=[(q, plain_text(a)) for q, a in FAQS], picks=PICKS)
            if r[0] != 'jsonld-itemlist']   # this page carries a static Dataset block instead
 REGIONS += [
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">Keto is a macro game, not just a low-sugar game. Here is what we did: we screened every bar in our database against four thresholds people following keto commonly look for: 8g or less net carbs, 10g or more protein, 8g or more fat, and zero maltitol or its high-impact relatives. {N} of {comma(NT)} bars pass all four. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">Keto is a macro game, not just a low-sugar game. Here is what we did: we screened every bar in our database against four thresholds people following keto commonly look for: 8g or less net carbs, 10g or more protein, 8g or more fat, and zero maltitol or its high-impact relatives. {of_db(N, NT)} bars pass all four. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

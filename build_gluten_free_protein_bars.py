@@ -92,7 +92,7 @@ DISQ = f'''
     <div class="section-inner">
       <h2 class="section-title">What disqualifies a protein bar from being gluten free</h2>
       <div class="section-body">
-        <p>We check the Gluten Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for wheat and barley or malt, the two gluten sources that show up by name in our data. {comma(N)} of {comma(NT)} bars, about {pct0(N, NT)}%, carry a gluten free label. The other {comma(ND)}, about {pct0(ND, NT)}%, don't.</p>
+        <p>We check the Gluten Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for wheat and barley or malt, the two gluten sources that show up by name in our data. {of_db(N, NT)} bars, about {pct0(N, NT)}%, carry a gluten free label. The other {comma(ND)}, about {pct0(ND, NT)}%, don't.</p>
         <p>Wheat is the most common named culprit at {len(WHEAT)} bars ({g1(100 * len(WHEAT) / NT)}% of the full database), followed by barley or malt at {len(BARLEY)} bars ({g1(100 * len(BARLEY) / NT)}%). The remaining {len(UNLABELED)} bars, {g1(100 * len(UNLABELED) / NT)}% of the full database, show no wheat or barley in their own ingredient list at all. They just aren't labeled gluten free, which is a different claim from actually containing gluten.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
@@ -147,9 +147,9 @@ INSIGHTS = [
      f"{SPLIT_EX['q']} of the {SPLIT_EX['total']} {SPLIT_EX['brand']} flavors are gluten free, the rest are not."),
 ]
 FINDINGS = findings_html(
-    f'What we found screening {comma(NT)} bars', f'{g1(100 * len(UNLABELED) / NT)}%',
+    f'What we found screening {DB_PUBLIC} bars', f'{g1(100 * len(UNLABELED) / NT)}%',
     "of all protein bars show no wheat or barley, yet still aren't labeled gluten free",
-    f"{len(UNLABELED)} of the {comma(NT)} bars we track have no wheat or barley anywhere in their own ingredient list, but "
+    f"{of_db(len(UNLABELED), NT, True)} bars we track have no wheat or barley anywhere in their own ingredient list, but "
     "the brand hasn't labeled or certified them gluten free. Not being labeled gluten free is not the same as containing gluten.",
     INSIGHTS)
 
@@ -181,10 +181,10 @@ LARA = next((r for r in CONSIDER + MIXED + AVOID if r['brand'] == 'Larabar'), No
 C.check(LARA and LARA['d'] == 0, 'every Larabar flavor is labeled gluten free')
 FAQS = [
     ('What makes a protein bar gluten free on this site?',
-     f'We use the Gluten Free (Y/N) label on file for each bar. {comma(N)} of the {comma(NT)} bars we track carry that label. '
+     f'We use the Gluten Free (Y/N) label on file for each bar. {of_db(N, NT, True)} bars we track carry that label. '
      'We also cross-check ingredient lists ourselves for wheat and barley or malt, the two named gluten sources that show up most in the data.'),
     ('How many gluten free protein bars are in your database?',
-     f"{comma(N)} of the {comma(NT)} bars we track are labeled gluten free, spanning {BRANDS_Q} brands. {GR['A']} of those "
+     f"{of_db(N, NT, True)} bars we track are labeled gluten free, spanning {BRANDS_Q} brands. {GR['A']} of those "
      f"{comma(N)} bars grade A for ingredient quality."),
     ('Is CLIF Bar gluten free?',
      'Not by label. ' + clif_detail() + ' If you need to avoid gluten, look elsewhere.'),
@@ -192,7 +192,7 @@ FAQS = [
      f"Yes. All {LARA['total']} Larabar flavors we track are labeled gluten free. Larabar builds its bars around dates, nuts, "
      'and fruit rather than a wheat-based binder or crisp.'),
     ('What is the most common gluten ingredient in protein bars?',
-     f'Wheat. It shows up by name in {len(WHEAT)} of the {comma(NT)} bars we track'
+     f'Wheat. It shows up by name in {of_db(len(WHEAT), NT, True)} bars we track'
      + (', more than double the count for barley or malt.' if len(WHEAT) >= 2 * len(BARLEY) else ', more than barley or malt.')
      + " Most other non-gluten-free bars simply aren't labeled, without a named gluten ingredient we can find."),
     ('Does not being labeled gluten free mean a bar contains gluten?',
@@ -206,7 +206,7 @@ FAQS = [
      f"{comma(N)} bars across {BRANDS_Q} brands carry a gluten free label, led by brands like {ALLGF[0]['brand']} and "
      f"{ALLGF[1]['brand']} that qualify across their entire lineup. The full ranked list is in the table below, sorted by ingredient quality."),
     ('What protein bars are not gluten free?',
-     f"{comma(ND)} of the {comma(NT)} bars we track don't carry a gluten free label. Wheat is the most common named reason, "
+     f"{of_db(ND, NT, True)} bars we track don't carry a gluten free label. Wheat is the most common named reason, "
      'followed by barley or malt. Most of the remaining bars simply haven\'t been labeled, without an identifiable gluten ingredient in the list.'),
     ('Are gluten free protein bars lower quality than regular bars?',
      f"No. Gluten free bars in our database grade A or B at {'a slightly higher rate than' if better else 'about the same rate as'} "
@@ -223,14 +223,14 @@ C.check(len(ALLGF) >= 4, 'at least four fully gluten free brands')
 # ---------------------------------------------------------------------------
 TITLE = f'{pct0(N, NT)}% of Protein Bars Are Gluten Free. See All {comma(N)}.'
 H1 = f'Best Gluten Free Protein Bars - Ranking {comma(N)} Qualified Bars'
-DESC = f'We checked {comma(NT)} protein bars against their gluten free label. {comma(N)} qualify. See every one, ranked by ingredient quality, brand, and macros.'
+DESC = f'We checked {DB_PUBLIC} protein bars against their gluten free label. {comma(N)} qualify. See every one, ranked by ingredient quality, brand, and macros.'
 OG = f'{comma(N)} gluten free protein bars, checked against the label and the ingredient list. Ranked by ingredient quality score.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=OG, url=URL, about='Gluten Free Protein Bars',
                                          published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] != 'social']
 REGIONS += [
     ('social', social_title_html(TITLE, OG, URL)),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We checked {comma(NT)} protein bars available in the US against their Gluten Free (Y/N) label. The result: {comma(N)} bars, about {pct0(N, NT)}%, are labeled gluten free. We rank the best gluten free protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We checked {DB_PUBLIC} protein bars available in the US against their Gluten Free (Y/N) label. The result: {comma(N)} bars, about {pct0(N, NT)}%, are labeled gluten free. We rank the best gluten free protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

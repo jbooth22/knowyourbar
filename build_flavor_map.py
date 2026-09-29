@@ -17,7 +17,7 @@ Run: python3 build_flavor_map.py
 """
 import json, re
 from collections import Counter
-from kyb_guide_lib import load_bars, esc, comma, replace_region, stamp_dates, today_iso
+from kyb_guide_lib import load_bars, esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso
 
 PAGE = 'flavor-map.html'
 
@@ -112,14 +112,14 @@ def main():
     lead_pct = round(lead_n / total * 100)
     short = lambda v: SHORT.get(v, v)
 
-    title = f'Protein Bar Flavor Map: {comma(total)} Bars Visualized | Know Your Bar'
-    desc = (f'How {comma(total)} protein bars break down by flavor. {lead} leads at {lead_pct}%. Explore every primary '
+    title = f'Protein Bar Flavor Map: {DB_PUBLIC} Bars Visualized | Know Your Bar'
+    desc = (f'How {DB_PUBLIC} protein bars break down by flavor. {lead} leads at {lead_pct}%. Explore every primary '
             f'flavor and variation, from {short(top_var[0])} ({top_var[1]}) to {top_combo[0]} ({top_combo[1]}).')
     head = (f'  <title>{esc(title)}</title>\n'
             f'  <meta name="description" content="{esc(desc)}">')
-    hero = (f'  <div class="eyebrow">Data visualization &middot; {comma(total)} bars</div>\n'
+    hero = (f'  <div class="eyebrow">Data visualization &middot; {DB_PUBLIC} bars</div>\n'
             f'  <h1 class="hero-title">The protein bar <em>flavor map</em></h1>\n'
-            f'  <p class="hero-sub">How {comma(total)} protein bars break down by flavor, from primary category into '
+            f'  <p class="hero-sub">How {DB_PUBLIC} protein bars break down by flavor, from primary category into '
             f'specific variations. Hover any flow to see the exact count.</p>')
     stats = '\n'.join(
         [f'  <div class="stat"><span class="stat-n">{c1[lab]}</span><span class="stat-l">{esc(lab)}</span></div>'
@@ -127,9 +127,9 @@ def main():
         [f'  <div class="stat"><span class="stat-n">{top_var[1]}</span><span class="stat-l">{esc(short(top_var[0]))}   #1 variation</span></div>',
          f'  <div class="stat"><span class="stat-n">{top_combo[1]}</span><span class="stat-l">{esc(short(top_combo[0]))}   #1 combo</span></div>'])
     aria = ', '.join(f'{lab} {c1[lab]}' for _, lab in l1)
-    svg = f'    <svg id="sankey" role="img" aria-label="Sankey diagram: {comma(total)} protein bars by flavor. {esc(aria)}.">'
-    foot = (f'<p class="footnote">Flavors parsed from bar names across {comma(total)} bars. '
-            f'<a href="/bar-finder">Search all {comma(total)} bars &rarr;</a></p>')
+    svg = f'    <svg id="sankey" role="img" aria-label="Sankey diagram: {DB_PUBLIC} protein bars by flavor. {esc(aria)}.">'
+    foot = (f'<p class="footnote">Flavors parsed from bar names across {DB_PUBLIC} bars. '
+            f'<a href="/bar-finder">Search all {DB_PUBLIC} bars &rarr;</a></p>')
 
     page = open(PAGE, encoding='utf-8').read()
     for name, content in [('head', head), ('hero', hero), ('stats', stats), ('sankey-aria', svg),

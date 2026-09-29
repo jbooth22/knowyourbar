@@ -18,7 +18,7 @@ NOT_PLANT_MILK = r'(?<!coconut )(?<!almond )(?<!oat )(?<!rice )(?<!soy )(?<!cash
 
 def disq_intro(g):
     h = {l: len(g.HIT[l]) for l in g.SRC}
-    return f'''        <p>We check the Dairy Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for whey, milk, and casein, the three named dairy sources that show up most in the data. {comma(g.N)} of {comma(g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a dairy free label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
+    return f'''        <p>We check the Dairy Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for whey, milk, and casein, the three named dairy sources that show up most in the data. {of_db(g.N, g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a dairy free label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
         <p>Whey is the most common named source at {comma(h['Whey'])} bars ({g1(100 * h['Whey'] / g.NT)}% of the full database), usually as the bar's main protein. Milk shows up in {comma(h['Milk'])} bars ({g1(100 * h['Milk'] / g.NT)}%), and casein in {comma(h['Casein'])} bars ({g1(100 * h['Casein'] / g.NT)}%). The remaining {comma(len(g.UNLAB))} bars, {g1(100 * len(g.UNLAB) / g.NT)}% of the full database, show no whey, milk, or casein in their own ingredient list at all. They just aren't labeled dairy free, which is a different claim from actually containing dairy.</p>'''
 
 def lead_insights(g):
@@ -50,7 +50,7 @@ CFG = dict(
     hero_extra='Most of the rest lean on whey protein.',
     og_desc='{n} dairy free protein bars with no whey, milk, or casein in the recipe. Ranked by ingredient quality score.',
     big_stat=lambda g: (f'{g1(100 * len(g.UNLAB) / g.NT)}%', "of all protein bars show no whey, milk, or casein, yet still aren't labeled dairy free",
-                        f"{comma(len(g.UNLAB))} of the {comma(g.NT)} bars we track have no whey, milk, or casein anywhere in their own "
+                        f"{of_db(len(g.UNLAB), g.NT, True)} bars we track have no whey, milk, or casein anywhere in their own "
                         "ingredient list, but the brand hasn't labeled or certified them dairy free. Not being labeled dairy free is "
                         'not the same as containing dairy.'),
     lead_insights=lead_insights,
@@ -59,7 +59,7 @@ CFG = dict(
     brands_intro='Some brands build their whole lineup without whey, milk, or casein, others lean on it across the board. Grade columns below show ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.',
     avoid_note='These brands lean on whey, milk, casein, or an unlabeled formula across most or all of their lineup.',
     avoid_head='Flavors Without Dairy Free Label', avoid_last_head='Dairy Source Found',
-    what_makes=lambda g: (f'We use the Dairy Free (Y/N) label on file for each bar. {comma(g.N)} of the {comma(g.NT)} bars we track '
+    what_makes=lambda g: (f'We use the Dairy Free (Y/N) label on file for each bar. {of_db(g.N, g.NT, True)} bars we track '
                           'carry that label. We also cross-check ingredient lists ourselves for whey, milk, and casein, the three '
                           'named dairy sources that show up most in the data.'),
     most_common_q='What is the most common dairy ingredient in protein bars?',

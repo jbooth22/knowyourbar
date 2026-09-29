@@ -15,7 +15,7 @@ from kyb_cert_guide import *
 
 def disq_intro(g):
     h = {l: len(g.HIT[l]) for l in g.SRC}
-    return f'''        <p>We check the Soy Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for soy protein, soy lecithin, and soybean oil, the three named soy sources that show up most in the data. {comma(g.N)} of {comma(g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a soy free label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
+    return f'''        <p>We check the Soy Free (Y/N) label on file for every bar, then cross-check ingredient lists ourselves for soy protein, soy lecithin, and soybean oil, the three named soy sources that show up most in the data. {of_db(g.N, g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a soy free label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
         <p>Soy lecithin is the most common named source at {comma(h['Soy Lecithin'])} bars ({g1(100 * h['Soy Lecithin'] / g.NT)}% of the full database), added as an emulsifier rather than a protein source, which is why it shows up even in bars that don't lean on soy for protein. Soy protein (isolate, concentrate, or flour) appears in {comma(h['Soy Protein'])} bars ({g1(100 * h['Soy Protein'] / g.NT)}%), and soybean oil in {comma(h['Soybean Oil'])} bars ({g1(100 * h['Soybean Oil'] / g.NT)}%). The remaining {comma(len(g.UNLAB))} bars, {g1(100 * len(g.UNLAB) / g.NT)}% of the full database, show no soy protein, soy lecithin, or soybean oil in their own ingredient list at all. They just aren't labeled soy free, which is a different claim from actually containing soy.</p>'''
 
 def rates(g):
@@ -76,7 +76,7 @@ CFG = dict(
     brands_intro='Some brands build their whole lineup without soy protein, soy lecithin, or soybean oil, others lean on it across the board. Grade columns below show ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.',
     avoid_note='These brands lean on soy protein, soy lecithin, soybean oil, or an unlabeled formula across most or all of their lineup.',
     avoid_head='Flavors Without Soy Free Label', avoid_last_head='Soy Source Found',
-    what_makes=lambda g: (f'We use the Soy Free (Y/N) label on file for each bar. {comma(g.N)} of the {comma(g.NT)} bars we track '
+    what_makes=lambda g: (f'We use the Soy Free (Y/N) label on file for each bar. {of_db(g.N, g.NT, True)} bars we track '
                           'carry that label. We also cross-check ingredient lists ourselves for soy protein, soy lecithin, and soybean '
                           'oil, the three named soy sources that show up most in the data.'),
     most_common_q='What is the most common soy ingredient in protein bars?',

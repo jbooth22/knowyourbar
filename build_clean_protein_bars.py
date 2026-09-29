@@ -334,12 +334,12 @@ INSIGHTS.append((f'{len(Q_BRANDS)} of {len(ALL_BRANDS)} brands still clear at le
                  + ('more than half' if len(Q_BRANDS) > len(ALL_BRANDS) / 2 else 'a real share')
                  + ' of the brands we track have at least one bar that passes all three clean criteria.'))
 
-FINDINGS = f'''<h2 class="findings-title">What we found screening {TOTAL} bars for clean criteria</h2>
+FINDINGS = f'''<h2 class="findings-title">What we found screening {DB_PUBLIC} bars for clean criteria</h2>
       <div class="big-stat">
         <div class="big-stat-num">{PCT_FAIL}%</div>
         <div>
           <div class="big-stat-head">of bars fail at least one clean criterion</div>
-          <div class="big-stat-detail">{DN} of {TOTAL} bars fail the ingredient grade, the artificial sweetener screen, the processed oil screen, or some combination of the three. {MULTI} of those fail more than one screen at once.</div>
+          <div class="big-stat-detail">{of_db(DN, TOTAL)} bars fail the ingredient grade, the artificial sweetener screen, the processed oil screen, or some combination of the three. {MULTI} of those fail more than one screen at once.</div>
         </div>
       </div>
       <div class="insights-grid">''' + ''.join(
@@ -359,7 +359,7 @@ def brand_list_html(bars_hit, label):
     return out + '</div>'
 
 SCREENS_INTRO = f'''        <p>Clean is three separate screens stacked together, not one soft label. A bar has to clear all three to make this list: an A or B ingredient quality grade, no artificial sweeteners, and no processed oils.</p>
-        <p>{PCT_FAIL}% of the {TOTAL} bars in our database fail at least one of these. Here&#x27;s how often each screen catches a bar, and where it usually shows up.</p>'''
+        <p>{PCT_FAIL}% of the {DB_PUBLIC} bars in our database fail at least one of these. Here&#x27;s how often each screen catches a bar, and where it usually shows up.</p>'''
 
 SCREENS_CARDS = f'''<div class="score-card">
   <div class="score-card-label">Ingredient Quality Grade C or Below</div>
@@ -387,7 +387,7 @@ if len(LOW) < max(len(AS), len(PO)):
 # Head, hero, snapshot, FAQ, explore cards
 # ---------------------------------------------------------------------------
 TITLE = f'Best Clean Protein Bars - Ranking {QN} Bars by Ingredient Quality'
-DESC = f'We screened {TOTAL} bars for A/B grade, no artificial sweeteners, and no processed oils. {QN} passed all three. See the cleanest bars, ranked.'
+DESC = f'We screened {DB_PUBLIC} bars for A/B grade, no artificial sweeteners, and no processed oils. {QN} passed all three. See the cleanest bars, ranked.'
 assert len(DESC) <= 160, len(DESC)
 
 HEAD_META = f'''  <title>{esc(TITLE)}</title>
@@ -448,7 +448,7 @@ SOCIAL = f'''<meta property="og:type" content="article">
   <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''
 
 HERO = f'''<h1 class="hero-title">{esc(TITLE)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We reviewed {TOTAL} protein bars against three criteria: an A or B ingredient quality grade, no artificial sweeteners (sucralose, acesulfame potassium, aspartame, saccharin), and no processed oils (canola, soybean, palm, or hydrogenated). {PCT_PASS}% clear all three. We rank the cleanest protein bars by category, brand, and macros. Not just us telling you the flavors we like.</p>'''
+    <p class="hero-sub" style="color:#e8e4dc;">We reviewed {DB_PUBLIC} protein bars against three criteria: an A or B ingredient quality grade, no artificial sweeteners (sucralose, acesulfame potassium, aspartame, saccharin), and no processed oils (canola, soybean, palm, or hydrogenated). {PCT_PASS}% clear all three. We rank the cleanest protein bars by category, brand, and macros. Not just us telling you the flavors we like.</p>'''
 
 SNAPSHOT = f'''    <div class="snap-item"><div class="snap-value">{QN}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{DN}</div><div class="snap-label">Bars disqualified</div></div>
@@ -461,7 +461,7 @@ FAQS = [
     ('What makes a protein bar "clean" on this page?',
      'For this guide, clean means three things at once: an A or B ingredient quality grade, no artificial sweeteners '
      '(sucralose, acesulfame potassium, aspartame, saccharin), and no processed oils (canola, soybean, palm, or hydrogenated oils). '
-     f'{QN} of {TOTAL} bars in our database meet all three criteria.'),
+     f'{of_db(QN, TOTAL)} bars in our database meet all three criteria.'),
     ('Are clean protein bars better for you?',
      'Cleaner ingredients generally means fewer synthetic additives, more whole-food protein sources, and less dependence on '
      'ultra-processed fats and sweeteners. That said, macros still matter. A clean bar can still be high in calories or sugar '

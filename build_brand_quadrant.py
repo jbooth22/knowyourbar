@@ -24,7 +24,7 @@ Run: python3 build_brand_quadrant.py
 """
 import json, math, re, statistics as st
 from collections import Counter
-from kyb_guide_lib import (load_bars, num, score, fnum, esc, comma, replace_region,
+from kyb_guide_lib import (load_bars, num, score, fnum, esc, comma, DB_PUBLIC, of_db, replace_region,
                            stamp_dates, today_iso)
 from build_brand_rankings import WIDE
 
@@ -137,7 +137,7 @@ def main():
             f'const ING_MIN={fnum(i0)},ING_MAX={fnum(i1)},MAC_MIN={m0:g},MAC_MAX={m1:g};\n'
             f'const MID_ING={MID_ING},MID_MAC={MID_MAC};\n'
             '</script>')
-    cta = f'    <a href="/bar-finder">Search and filter {comma(total)} bars &rarr;</a>'
+    cta = f'    <a href="/bar-finder">Search and filter {DB_PUBLIC} bars &rarr;</a>'
 
     page = open(PAGE, encoding='utf-8').read()
     for name, content in [('head', head), ('hero', hero), ('view', view), ('quad-data', data), ('cta', cta)]:

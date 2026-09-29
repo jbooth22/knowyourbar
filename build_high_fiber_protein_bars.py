@@ -162,9 +162,9 @@ INSIGHTS = [
      f"{SPLIT_EX['q']} of the {SPLIT_EX['total']} {SPLIT_EX['brand']} flavors clear 11g of fiber, the rest fall short. "
      'Fiber varies flavor to flavor more than most other screens on this site.'),
 ]
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for fiber', f'{pct(N, NT)}%',
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars for fiber', f'{pct(N, NT)}%',
                          'of all protein bars clear 11g of fiber, our Extreme Fiber cutoff',
-                         f"{N} of the {comma(NT)} bars we track carry 11g of fiber or more per bar, {TOP5_N} of them from just five "
+                         f"{of_db(N, NT, True)} bars we track carry 11g of fiber or more per bar, {TOP5_N} of them from just five "
                          f"brands. The rest of the database averages {fnum(round(avg(D, 'Dietary Fiber (g)'), 1))}g of fiber per bar.", INSIGHTS)
 
 BRANDS = brand_tables_html(
@@ -188,11 +188,11 @@ n_most = sum(1 for b in ALL if FIB(b) == FIB(MOSTFIB))
 FAQS = [
     ('How much fiber counts as high fiber in a protein bar?',
      f'We use three tiers. High Fiber is 5g or more, the same cutoff the FDA uses for an "excellent source of fiber" claim '
-     f'({len(TIER[5])} of {comma(NT)} bars, {pct(len(TIER[5]), NT)}%). Very High Fiber is 8g or more ({len(TIER[8])} bars, '
+     f'({of_db(len(TIER[5]), NT)} bars, {pct(len(TIER[5]), NT)}%). Very High Fiber is 8g or more ({len(TIER[8])} bars, '
      f'{pct(len(TIER[8]), NT)}%). Extreme Fiber, the tier this page ranks, is 11g or more ({N} bars, {pct(N, NT)}%).'),
     ('What is the Extreme Fiber 100?',
      f"It's our name for the protein bars in the database that carry 11g or more of dietary fiber per bar, currently {N} of them. "
-     f"That's about {pct(N, NT)}% of the {comma(NT)} bars we track, spanning {BRANDS_Q} brands."),
+     f"That's about {pct(N, NT)}% of the {DB_PUBLIC} bars we track, spanning {BRANDS_Q} brands."),
     ('What protein bar has the most fiber?',
      f"{full(MOSTFIB)}, at {fnum(FIB(MOSTFIB))}g of fiber per bar, "
      + ('the most of any bar in our database.' if n_most == 1 else f'tied for the most of any bar in our database.')),
@@ -224,7 +224,7 @@ FAQS = [
 
 TITLE = 'The Extreme Fiber 100: Protein Bars With 11g+ Fiber, Ranked'
 H1 = 'The Extreme Fiber 100 - Protein Bars With 11g or More Fiber'
-DESC = (f'We checked {comma(NT)} protein bars for fiber. {N} clear 11g per bar, our Extreme Fiber cutoff. See every one, plus '
+DESC = (f'We checked {DB_PUBLIC} protein bars for fiber. {N} clear 11g per bar, our Extreme Fiber cutoff. See every one, plus '
         'the High Fiber and Very High Fiber tiers below it.')
 OG = f'{N} protein bars with 11g or more of fiber per bar, ranked by ingredient quality, protein, and brand.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=OG, url=URL, about='High Fiber Protein Bars',
@@ -232,7 +232,7 @@ REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=
 REGIONS += [
     ('social', social_title_html(TITLE, OG, URL)),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We checked {comma(NT)} protein bars available in the US against their declared Dietary Fiber (g). {N} of them, about {pct(N, NT)}%, clear 11g of fiber per bar, our Extreme Fiber cutoff, and that's the list this page ranks first. Below it we cover two supporting tiers: {len(TIER[5])} bars clear 5g (High Fiber, the FDA's own "excellent source" line) and {len(TIER[8])} clear 8g (Very High Fiber). Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We checked {DB_PUBLIC} protein bars available in the US against their declared Dietary Fiber (g). {N} of them, about {pct(N, NT)}%, clear 11g of fiber per bar, our Extreme Fiber cutoff, and that's the list this page ranks first. Below it we cover two supporting tiers: {len(TIER[5])} bars clear 5g (High Fiber, the FDA's own "excellent source" line) and {len(TIER[8])} clear 8g (Very High Fiber). Not just us telling you the flavors we like.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{N}</div><div class="snap-label">Extreme Fiber bars</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Under 11g fiber</div></div>

@@ -147,7 +147,7 @@ MEANS = f'''
       <h2 class="section-title">What "no sugar alcohols" actually means</h2>
       <div class="section-body">
         <p>Sugar alcohols are the sweeteners bar makers reach for when they want a low sugar number on the label without giving up sweetness. This guide screens every bar for six of them: maltitol, erythritol, sorbitol, xylitol, isomalt, and isomalto-oligosaccharides (IMO), a prebiotic fiber syrup that behaves the same way on a label even though it isn't technically a sugar alcohol.</p>
-        <p>{PCT_D}% of the 1,000+ bars in our database still have a sugar alcohol on the label. Here is how often each one shows up, and where it usually hides.</p>
+        <p>{PCT_D}% of the {DB_PUBLIC} bars in our database still have a sugar alcohol on the label. Here is how often each one shows up, and where it usually hides.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
 {chr(10).join(card(l, HIT[l], NT, SA_DESC[l]) for l in ORDER)}
@@ -281,7 +281,7 @@ ERYTHRITOL = f'''
       <h2 class="section-title">Protein bars without erythritol</h2>
       <div class="section-body">
         <p>Erythritol is a fermented sugar alcohol made by fermenting glucose with a yeast-like fungus, roughly 70% as sweet as table sugar with close to zero calories. It has a glycemic index of 0, the lowest of any sugar alcohol on this page's screen, and is generally well tolerated at typical serving sizes, though some people still report bloating or a cooling aftertaste at higher doses.</p>
-        <p>{len(ERY)} of the 1,000+ bars we track, about {g1(100 * len(ERY) / NT)}%, contain erythritol. Screen for erythritol on its own, ignoring the other five sugar alcohols this page screens for, and the qualifying list gets bigger: {comma(len(EF))} bars across {EF_BRANDS} brands, {GAP} more than the {comma(N)} bars that clear this guide's full six-way sugar alcohol screen. The gap is bars that skip erythritol specifically but still contain something else on this list, most often maltitol or isomalto-oligosaccharides (IMO).</p>
+        <p>{of_db(len(ERY), NT, True)} bars we track, about {g1(100 * len(ERY) / NT)}%, contain erythritol. Screen for erythritol on its own, ignoring the other five sugar alcohols this page screens for, and the qualifying list gets bigger: {comma(len(EF))} bars across {EF_BRANDS} brands, {GAP} more than the {comma(N)} bars that clear this guide's full six-way sugar alcohol screen. The gap is bars that skip erythritol specifically but still contain something else on this list, most often maltitol or isomalto-oligosaccharides (IMO).</p>
         <p><strong>Erythritol and maltitol are not the same thing, and our Keto and Diabetics guides don't treat them the same way.</strong> Both guides exclude the maltitol family (maltitol, polyglycitol, hydrogenated starch hydrolysates) for its meaningfully higher glycemic index, around 35 versus sucrose's 65. Neither guide excludes erythritol, since its glycemic index of 0 already behaves the way their net-carbs formula assumes. A bar with erythritol can still qualify for {link('/keto-protein-bars', 'Keto')} or {link('/best-bars-for-diabetics', 'Best Bars for Diabetics')}. A bar with maltitol cannot, even if that same bar happens to be erythritol-free.</p>
         <p>Here are 10 of the highest ingredient-quality bars that are erythritol-free and clear every sugar alcohol on this page's screen. The complete list of all {comma(N)}, filterable by grade and searchable by brand, is further down this page.</p>
       </div>
@@ -361,8 +361,8 @@ INSIGHTS = [
      f"It shows up in {len(MAL)} bars, " + (f"more than twice as many as {SHORT.get(SECOND, SECOND.lower())}, the next most common."
                                             if twice else f"more than {SHORT.get(SECOND, SECOND.lower())}, the next most common.")),
 ]
-FINDINGS = findings_html(f'What we found screening 1,000+ bars', f'{PCT_D}%', 'of bars contain a sugar alcohol',
-                         f'{ND} of 1,000+ bars contain at least one of the six sugar alcohols we screen for. Maltitol is '
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars', f'{PCT_D}%', 'of bars contain a sugar alcohol',
+                         f'{of_db(ND, NT)} bars contain at least one of the six sugar alcohols we screen for. Maltitol is '
                          'the most common, ahead of every other sweetener on the list. It shows up mostly in low-sugar and '
                          'keto-marketed bars.', INSIGHTS)
 
@@ -403,7 +403,7 @@ FAQS = [
      "serving sizes, but individual sensitivity varies a lot. This guide screens for presence on the label, not tolerance, "
      "since that's the part we can measure."),
     ('Is Maltitol the most common sugar alcohol in protein bars?',
-     f"Yes. Maltitol shows up in {len(MAL)} of the 1,000+ bars we track ({pct0(len(MAL), NT)}%), more than any other "
+     f"Yes. Maltitol shows up in {of_db(len(MAL), NT, True)} bars we track ({pct0(len(MAL), NT)}%), more than any other "
      f"sugar alcohol on our screen. {SECOND} and {THIRD} are next, well behind."),
     ('Is isomalto-oligosaccharide (IMO) a sugar alcohol?',
      "Not technically. IMO is a prebiotic fiber syrup, not a true sugar alcohol, but it behaves the same way on a label and "
@@ -428,7 +428,7 @@ FAQS = [
      f"{comma(N)} bars across {BRANDS_Q} brands clear our sugar alcohol screen, led by whole-food brands like KIND, Larabar, "
      "and Bobo's that qualify at or near 100%. The full ranked list is in the table below, sorted by ingredient quality."),
     ('What protein bars have sugar alcohols?',
-     f"{ND} of the 1,000+ bars we track contain at least one sugar alcohol. Barebells "
+     f"{of_db(ND, NT, True)} bars we track contain at least one sugar alcohol. Barebells "
      + ('disqualifies entirely' if len(BB_D) == len(BB) else 'disqualifies almost entirely')
      + ", usually through maltitol or xylitol used to hit a low-sugar number on the label."),
     ('Why do protein bars use sugar alcohols in the first place?',
@@ -454,7 +454,7 @@ FAQS = [
      f"Yes, plenty. {sum(1 for b in EF if b['score_band'] == 'A')} of the {comma(len(EF))} erythritol-free bars carry an A "
      "ingredient grade, led by whole-food brands that never needed a sugar alcohol to hit a low-sugar number in the first place."),
     ('Which protein bars have erythritol?',
-     f"{len(ERY)} of the 1,000+ bars we track contain erythritol. {ERY_TOP[0]} ({ery_by[ERY_TOP[0]]} flavors), "
+     f"{of_db(len(ERY), NT, True)} bars we track contain erythritol. {ERY_TOP[0]} ({ery_by[ERY_TOP[0]]} flavors), "
      f"{ERY_TOP[1]} ({ery_by[ERY_TOP[1]]}), and {ERY_TOP[2]} ({ery_by[ERY_TOP[2]]}) use it most, usually paired with stevia or "
      "monk fruit to hit a low-sugar, high-fiber number without a maltitol-style GI hit."),
     ('Is erythritol the same as maltitol?',
@@ -478,12 +478,12 @@ def faq_block(faqs):
 H1 = f'Best Protein Bars Without Sugar Alcohols - Ranking {comma(N)} Qualified Bars'
 REGIONS = guide_head_regions(
     title=f'Best Protein Bars Without Sugar Alcohols - Ranking {comma(N)} Bars', h1=H1,
-    desc=f'We checked 1,000+ bars for maltitol, erythritol, and other sugar alcohols. Some labels say 0g and still have one. See the {comma(N)} bars that are actually clear.',
-    og_desc=f'We screened 1,000+ protein bars for sugar alcohols like maltitol, erythritol, and xylitol. About {pct0(N, NT)}% have none. See the {comma(N)} best, ranked by ingredient quality, brand, and macros.',
+    desc=f'We checked {DB_PUBLIC} bars for maltitol, erythritol, and other sugar alcohols. Some labels say 0g and still have one. See the {comma(N)} bars that are actually clear.',
+    og_desc=f'We screened {DB_PUBLIC} protein bars for sugar alcohols like maltitol, erythritol, and xylitol. About {pct0(N, NT)}% have none. See the {comma(N)} best, ranked by ingredient quality, brand, and macros.',
     url=URL, about='Sugar Alcohols', published=PUBLISHED, faqs=[(q, plain(a)) for q, a in FAQS], picks=PICKS)
 REGIONS += [
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We reviewed 1,000+ protein bars available in the US for sugar alcohols like {names_and(ORDER)}. It feels like sugar alcohols are everywhere, but the good news is that only about {PCT_D}% of all protein bars have a sugar alcohol on their ingredient label. We break down and rank the best protein bars without sugar alcohols by category, brand, and macros. Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We reviewed {DB_PUBLIC} protein bars available in the US for sugar alcohols like {names_and(ORDER)}. It feels like sugar alcohols are everywhere, but the good news is that only about {PCT_D}% of all protein bars have a sugar alcohol on their ingredient label. We break down and rank the best protein bars without sugar alcohols by category, brand, and macros. Not just us telling you the flavors we like.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{ND}</div><div class="snap-label">Bars disqualified</div></div>

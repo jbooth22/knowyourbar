@@ -103,7 +103,7 @@ SCREENED = f'''
           <li><strong>No sugar alcohols</strong>: none in the ingredient list and 0g on the label, since GI tolerance is a common concern on GLP-1 medications</li>
           <li><strong>Ingredient grade</strong>: an A or B ingredient quality grade</li>
         </ul>
-        <p>{N} of {comma(NT)} bars, {pct(N, NT)}% of the database, clear all six.</p>
+        <p>{of_db(N, NT)} bars, {pct(N, NT)}% of the database, clear all six.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
 {simple_card_html('Protein Under 15g', FAIL['protein'], NT, 'Less food volume means every bite needs to work harder. We required at least 15g of protein per bar.')}
@@ -140,9 +140,9 @@ INSIGHTS = [
      'land at a B, still solid but built with more processed ingredients.'),
 ]
 C.check(AVG_FIB > 5, 'qualifying fiber average comfortably above 3g')
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for GLP-1 friendly criteria', f'{pct(ND, NT)}%',
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars for GLP-1 friendly criteria', f'{pct(ND, NT)}%',
                          'of bars fail at least one of our six checks',
-                         f'{comma(ND)} of {comma(NT)} bars fail on protein, calories, sugar, fiber, grade, sugar alcohols, or '
+                         f'{of_db(ND, NT)} bars fail on protein, calories, sugar, fiber, grade, sugar alcohols, or '
                          f'some combination. {comma(MULTI)} of those fail more than one check at once.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -199,7 +199,7 @@ FAQS = [
      'We are not doctors, but here is what we filtered on: at least 15g of protein, 200 calories or less, 4g of sugar or less, '
      'at least 3g of fiber, no sugar alcohol, and an A or B ingredient quality grade. Appetite suppression from '
      'GLP-1 medications means less food volume overall, so every bite needs to carry more protein relative to its size. '
-     f'{N} of {comma(NT)} bars clear all six.'),
+     f'{of_db(N, NT)} bars clear all six.'),
     ('Why does calorie count matter more on GLP-1 medications?',
      "Reduced appetite means a smaller daily calorie budget, so a snack that eats up 300 to 400 calories can crowd out an entire "
      "meal's worth of nutrition. We capped this list at 200 calories per bar so the protein-to-calorie ratio stays favorable "
@@ -232,7 +232,7 @@ FAQS = [
      'calories across the whole lineup. Use the bar list to find a specific flavor, and the brand table to get a quick read on '
      'a brand before you go looking.'),
     ('How many protein bars in your database qualify for this list?',
-     f'Out of {comma(NT)} bars in our database, {N} meet all six criteria: 15g or more protein, 200 calories or less, 4g or '
+     f'Out of {DB_PUBLIC} bars in our database, {N} meet all six criteria: 15g or more protein, 200 calories or less, 4g or '
      'less sugar, 3g or more fiber, no sugar alcohol, and an A or B ingredient grade. That is about '
      f'{pct(N, NT)}% of the full database.'),
 ]
@@ -241,15 +241,15 @@ FAQS = [
 # Regions
 # ---------------------------------------------------------------------------
 TITLE = f'GLP-1 Protein Bars - {N} Bars Ranked by Ingredient Quality'
-H1 = f'GLP-1 Friendly Protein Bars - We Screened {comma(NT)} Bars, {N} Passed'
-DESC = f'We screened {comma(NT)} bars for protein, calories, sugar, and fiber. {N} pass with no sugar alcohol and an A or B grade.'
+H1 = f'GLP-1 Friendly Protein Bars - We Screened {DB_PUBLIC} Bars, {N} Passed'
+DESC = f'We screened {DB_PUBLIC} bars for protein, calories, sugar, and fiber. {N} pass with no sugar alcohol and an A or B grade.'
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=DESC, url=URL,
                                          about='GLP-1 Medication Eating Guide', published=PUBLISHED,
                                          faqs=[(q, plain_text(a)) for q, a in FAQS], picks=PICKS)
            if r[0] != 'jsonld-itemlist']
 REGIONS += [
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">Appetite suppression from GLP-1 medications means less food volume, so every bite needs to work harder for protein. We are not doctors, so instead of medical advice, here is what we did: we screened every bar in our database against six thresholds people on GLP-1 medications commonly look for: 15g or more protein, 200 calories or less, 4g or less sugar, 3g or more fiber, no sugar alcohol, and an A or B ingredient quality grade. {N} of {comma(NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">Appetite suppression from GLP-1 medications means less food volume, so every bite needs to work harder for protein. We are not doctors, so instead of medical advice, here is what we did: we screened every bar in our database against six thresholds people on GLP-1 medications commonly look for: 15g or more protein, 200 calories or less, 4g or less sugar, 3g or more fiber, no sugar alcohol, and an A or B ingredient quality grade. {of_db(N, NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

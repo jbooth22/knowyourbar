@@ -23,7 +23,7 @@ Run: python3 build_index.py
 import json, re
 from collections import defaultdict
 import pandas as pd
-from kyb_guide_lib import (load_bars, num, has_tag, score, esc, comma, replace_region, stamp_dates, today_iso,
+from kyb_guide_lib import (load_bars, num, has_tag, score, esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso,
                            Claims, GUIDE_FILTERS, P, CAL, grade_word, amazon_url, website_url, names_and)
 
 PAGE = 'index.html'
@@ -145,7 +145,7 @@ def main():
           <div class="facts-highlight"><span class="facts-highlight-mark down">&minus;</span><span class="facts-highlight-text">Sugar alcohols, starch-based syrups, and processed oils drag it toward a D or F, especially near the top of the ingredient list. Each artificial sweetener costs a flat 2 points wherever it appears.</span></div>
           <div class="facts-highlight"><span class="facts-highlight-mark down">&minus;</span><span class="facts-highlight-text">A long list of isolates and gums with little else usually lands in the C range, technically fine, nothing to write home about.</span></div>'''
     stats = f'''      <div class="dark-stat"><div class="dark-stat-val">$0</div><div class="dark-stat-lbl">Sponsored picks</div></div>
-      <div class="dark-stat"><div class="dark-stat-val">{comma(N)}</div><div class="dark-stat-lbl">Bars scored</div></div>
+      <div class="dark-stat"><div class="dark-stat-val">{DB_PUBLIC}</div><div class="dark-stat-lbl">Bars scored</div></div>
       <div class="dark-stat"><div class="dark-stat-val">{NB}</div><div class="dark-stat-lbl">Brands covered</div></div>
       <div class="dark-stat"><div class="dark-stat-val">{comma(n_canon)}</div><div class="dark-stat-lbl">Ingredients mapped</div></div>'''
 
@@ -168,7 +168,7 @@ def main():
          '<a href="/bar-finder?preset=clean">Grade A bars using the Protein Bar Finder</a>.'),
         ('What protein bar has the cleanest ingredients?',
          f'The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. '
-         f'{comma(n_clean)} of the {comma(N)} bars in our database meet that standard. Brands where every flavor qualifies include '
+         f'{of_db(n_clean, N, True)} bars in our database meet that standard. Brands where every flavor qualifies include '
          f'{names_and(clean_brands)}. See the full <a href="/clean-protein-bars">Clean Protein Bars guide</a> for the ranked list.'),
         ('Are protein bars ultra-processed?',
          'Most protein bars qualify as ultra-processed foods under the NOVA classification system, meaning they contain industrial '
@@ -176,7 +176,7 @@ def main():
          'ingredients and minimal processing. Know Your Bar\'s ingredient scoring system identifies these bars: Grade A and B bars with '
          'short, recognizable ingredient lists represent the least-processed options in the category.'),
         ('Which protein bars have no seed oils?',
-         f'Many protein bars contain canola, soybean, sunflower, or palm oil. {comma(cnt("no-seed-oils"))} of our {comma(N)} bars '
+         f'Many protein bars contain canola, soybean, sunflower, or palm oil. {comma(cnt("no-seed-oils"))} of our {DB_PUBLIC} bars '
          f'contain none. Brands with no processed oils in any flavor include {names_and(no_po)}. Use the '
          f'<a href="/no-seed-oils">No Seed Oils guide</a> to see every qualifying bar.'),
         ('Are protein bars good for weight loss?',
@@ -190,7 +190,7 @@ def main():
          'and contribute more to the final score. Artificial sweeteners are the exception: each one costs a flat 2 points wherever it '
          'appears. See the full methodology on our <a href="/ingredient_scoring">ingredient scoring page</a>.'),
         ('Which protein bars have no artificial sweeteners?',
-         f'{round(100 * n_nas / N)}% of the bars in our database ({comma(n_nas)} of {comma(N)}) contain no artificial sweeteners. '
+         f'{round(100 * n_nas / N)}% of the bars in our database contain no artificial sweeteners. '
          f'Larger brands with none in any flavor include {names_and(no_as)}. See our '
          f'<a href="/no-artificial-sweeteners">No Artificial Sweeteners guide</a> for the ranked list.'),
         ('Are protein bars with sugar alcohols bad for you?',
@@ -206,7 +206,7 @@ def main():
     plain = lambda h: re.sub(r'<[^>]+>', '', h)
     faq_ld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in faqs]}
-    desc = f'Every protein bar scored A-F on ingredient quality. {comma(N)} bars ranked by macros, ingredients, and certifications. No sponsored picks.'
+    desc = f'Every protein bar scored A-F on ingredient quality. {DB_PUBLIC} bars ranked by macros, ingredients, and certifications. No sponsored picks.'
     website = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com',
                'description': desc, 'potentialAction': {'@type': 'SearchAction', 'target': {'@type': 'EntryPoint',
                'urlTemplate': 'https://knowyourbar.com/bar-finder?q={search_term_string}'}, 'query-input': 'required name=search_term_string'}}
@@ -215,7 +215,7 @@ def main():
            'description': 'Independent protein bar rating site. Every bar scored A-F by ingredient quality. No sponsored picks, no affiliate rankings.',
            'sameAs': []}
     dataset = {'@context': 'https://schema.org', '@type': 'Dataset', 'name': 'Know Your Bar Protein Bar Ingredient Quality Database',
-               'description': (f'{comma(N)} protein bars across {NB} brands scored A through F for ingredient quality. Each bar is parsed '
+               'description': (f'{DB_PUBLIC} protein bars across {NB} brands scored A through F for ingredient quality. Each bar is parsed '
                                'ingredient by ingredient against a canonical scoring schema. Data includes macros, certifications, '
                                'ingredient scores, and insight chips for every bar.'),
                'url': 'https://knowyourbar.com', 'creator': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
@@ -230,16 +230,16 @@ def main():
     social = f'''  <meta property="og:type" content="website">
   <meta property="og:site_name" content="Know Your Bar">
   <meta property="og:title" content="Protein Bar Reviews, Rankings &amp; Ingredient Scores">
-  <meta property="og:description" content="Every protein bar scored A-F on ingredient quality. {comma(N)} bars. No sponsored picks. Find yours in 30 seconds.">
+  <meta property="og:description" content="Every protein bar scored A-F on ingredient quality. {DB_PUBLIC} bars. No sponsored picks. Find yours in 30 seconds.">
   <meta property="og:url" content="https://knowyourbar.com/">
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Protein Bar Reviews, Rankings &amp; Ingredient Scores">
-  <meta name="twitter:description" content="Every protein bar scored A-F on ingredient quality. {comma(N)} bars. No sponsored picks.">'''
+  <meta name="twitter:description" content="Every protein bar scored A-F on ingredient quality. {DB_PUBLIC} bars. No sponsored picks.">'''
     hero = (f"    I've eaten a lot of protein bars, and it took me embarrassingly long to realize some hurt more than they helped: more "
-            f"sugar and filler than actual protein. So I scored {comma(N)} bars, ingredient by ingredient, and graded each one A to F. "
+            f"sugar and filler than actual protein. So I scored {DB_PUBLIC} bars, ingredient by ingredient, and graded each one A to F. "
             f"Never based on payment.")
-    finder = f'    <h2 class="finder-hero-heading">Search {NB} brands and {comma(N)} bars to find one that works for you</h2>'
+    finder = f'    <h2 class="finder-hero-heading">Search {NB} brands and {DB_PUBLIC} bars to find one that works for you</h2>'
 
     page = open(PAGE, encoding='utf-8').read()
     for name, content in [('meta', meta), ('social', social), ('jsonld', jsonld), ('hero-sub', hero), ('finder-heading', finder),

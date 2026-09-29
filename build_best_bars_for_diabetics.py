@@ -112,7 +112,7 @@ SCREENED = f'''
           <li><strong>Ingredient grade</strong>: an A or B ingredient quality grade</li>
           <li><strong>No maltitol</strong>: or its close relatives (maltitol syrup, polyglycitol, hydrogenated starch hydrolysates), sugar alcohols that raise blood glucose more than most others and more than labels suggest</li>
         </ul>
-        <p>{N} of {comma(NT)} bars, {pct(N, NT)}% of the database, clear all six.</p>
+        <p>{of_db(N, NT)} bars, {pct(N, NT)}% of the database, clear all six.</p>
       </div>
       <div class="score-grid" style="margin-top:1.5rem;">
 {simple_card_html('Sugar Over 5g', FAIL['sugar'], NT, 'Sugar hits the bloodstream fast. We capped it at 5g, tighter than most "low sugar" marketing claims.')}
@@ -170,9 +170,9 @@ INSIGHTS = [
      'land at a B, still solid but built with more processed ingredients.'),
 ]
 C.check(GR['A'] < GR['B'], 'fewer A than B among qualifying bars')
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for diabetic-friendly criteria', f'{pct(ND, NT)}%',
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars for diabetic-friendly criteria', f'{pct(ND, NT)}%',
                          'of bars fail at least one of our six checks',
-                         f'{comma(ND)} of {comma(NT)} bars fail on sugar, net carbs, fiber, protein, grade, maltitol, or some '
+                         f'{of_db(ND, NT)} bars fail on sugar, net carbs, fiber, protein, grade, maltitol, or some '
                          f'combination. {comma(MULTI)} of those fail more than one check at once.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -286,7 +286,7 @@ FAQS = [
      'and fiber across the whole lineup. Use the bar list to find a specific flavor, and the brand table to get a quick read '
      'on a brand before you go looking.'),
     ('How many protein bars in your database qualify for this list?',
-     f'Out of {comma(NT)} bars in our database, {N} meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more '
+     f'Out of {DB_PUBLIC} bars in our database, {N} meet all six criteria: 5g or less sugar, 10g or less net carbs, 5g or more '
      'fiber, 10g or more protein, an A or B ingredient grade, and no maltitol. That is about '
      f'{pct(N, NT)}% of the full database.'),
 ]
@@ -295,8 +295,8 @@ FAQS = [
 # Regions
 # ---------------------------------------------------------------------------
 TITLE = f'Best Protein Bars for Diabetics - {N} Bars Ranked by Ingredient Quality'
-H1 = f'Best Protein Bars for Diabetics - We Screened {comma(NT)} Bars, {N} Passed'
-DESC = (f'We screened {comma(NT)} bars for sugar, net carbs, fiber, protein, grade, and maltitol. {N} pass. '
+H1 = f'Best Protein Bars for Diabetics - We Screened {DB_PUBLIC} Bars, {N} Passed'
+DESC = (f'We screened {DB_PUBLIC} bars for sugar, net carbs, fiber, protein, grade, and maltitol. {N} pass. '
         f'{LOWS_M}% of low-sugar bars still hide maltitol.')
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=DESC, url=URL,
                                          about='Diabetes-Friendly Eating Guide', published=PUBLISHED,
@@ -304,7 +304,7 @@ REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=
            if r[0] != 'jsonld-itemlist']
 REGIONS += [
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">Diabetes management is personal, and we are not doctors. Here is what we did instead: we screened every bar in our database against six thresholds people managing blood sugar commonly look for: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient quality grade, and zero maltitol or its high-impact relatives. {N} of {comma(NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">Diabetes management is personal, and we are not doctors. Here is what we did instead: we screened every bar in our database against six thresholds people managing blood sugar commonly look for: 5g or less sugar, 10g or less net carbs, 5g or more fiber, 10g or more protein, an A or B ingredient quality grade, and zero maltitol or its high-impact relatives. {of_db(N, NT)} bars pass all six. See exactly how each bar stacks up, then check the brand table below for a quick read on your favorite brand.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

@@ -162,9 +162,9 @@ INSIGHTS += [
      f"Out of {len({b['Brand Name'] for b in ALL})} brands in our database, creatine remains a niche, training-focused "
      'formulation choice. Most major bar brands skip it entirely.'),
 ]
-FINDINGS = findings_html(f'What we found screening {comma(NT)} bars for creatine', f'{pct(NT - N, NT)}%',
+FINDINGS = findings_html(f'What we found screening {DB_PUBLIC} bars for creatine', f'{pct(NT - N, NT)}%',
                          'of protein bars carry zero creatine',
-                         f'Only {N} of {comma(NT)} bars in our database declare any creatine at all, from just {NB} brands. '
+                         f'Only {of_db(N, NT)} bars in our database declare any creatine at all, from just {NB} brands. '
                          'This is a narrow, deliberate formulation choice most brands never touch, not a spectrum.', INSIGHTS)
 
 # ---------------------------------------------------------------------------
@@ -225,12 +225,12 @@ FAQS = [
      'same form used in most creatine research and the powder aisle. A bar just bundles the dose into a snack instead of a scoop.'),
     ('Why do so few protein bars contain creatine?',
      'Creatine is a deliberate supplement-style formulation choice aimed at a training-focused customer, not a byproduct of a '
-     f'typical bar recipe. Only {N} of {comma(NT)} bars in our database declare any creatine at all, from just {NB} brands. '
+     f'typical bar recipe. Only {of_db(N, NT)} bars in our database declare any creatine at all, from just {NB} brands. '
      'Most major bar brands, including Quest and Barebells, skip it entirely.'),
     ('Is JiMMYBAR! good for creatine?', brand_faq('JiMMYBAR!')),
     ('Is Rello good for creatine?', brand_faq('Rello')),
     ('How many protein bars in your database contain creatine?',
-     f'Out of {comma(NT)} bars in our database, {N} declare any creatine content at all, about {pct(N, NT)}% of the full '
+     f'Out of {DB_PUBLIC} bars in our database, {N} declare any creatine content at all, about {pct(N, NT)}% of the full '
      f'database, across just {NB} brands.'),
 ]
 C.check(all('monohydrate' in ingr(b).lower() for b in Q if 'creatine' in ingr(b).lower()), 'bars that name their creatine list monohydrate')
@@ -241,11 +241,11 @@ C.check(not any(QF(b) for b in ALL if b['Brand Name'] in ('Quest', 'Barebells'))
 # ---------------------------------------------------------------------------
 MX = max(CR(b) for b in Q)
 MN = min(CR(b) for b in Q)
-TITLE = f'Only {N} of {comma(NT)} Protein Bars Have Creatine, Ranked'
-H1 = f'Protein Bars with Creatine - We Screened {comma(NT)} Bars, {N} Had Any'
-DESC = (f'We screened {comma(NT)} bars for declared creatine. Only {N} qualify, from a trace {gstr(MN)} dose to a clinical '
+TITLE = f'Only {of_db(N, NT)} Protein Bars Have Creatine, Ranked'
+H1 = f'Protein Bars with Creatine - We Screened {DB_PUBLIC} Bars, {N} Had Any'
+DESC = (f'We screened {DB_PUBLIC} bars for declared creatine. Only {N} qualify, from a trace {gstr(MN)} dose to a clinical '
         f'{gstr(MX)}, across {NB} brands, ranked by ingredient quality.')
-OG = (f'Only {N} of {comma(NT)} bars declare creatine, from a trace {gstr(MN)} dose to a clinical {gstr(MX)}. Ranked by '
+OG = (f'Only {of_db(N, NT)} bars declare creatine, from a trace {gstr(MN)} dose to a clinical {gstr(MX)}. Ranked by '
       'ingredient quality, not marketing claims.')
 REGIONS = [r for r in guide_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=OG, url=URL, about='Creatine Protein Bars',
                                          published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] not in ('social', 'jsonld-itemlist')]
@@ -255,7 +255,7 @@ REGIONS += [
     ('jsonld-itemlist', '<script type="application/ld+json">\n  ' + json.dumps(ITEMS, ensure_ascii=False, separators=(',', ':')) + '</script>'),
     ('social', social_title_html(TITLE, OG, URL).replace('  <meta property="og:site_name" content="Know Your Bar">\n', '')),
     ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We pulled every bar in our {comma(NT)}-bar database with a declared creatine amount, no minimum required. Only {N} qualify, across just {NB} brands, small enough that this comes down to individual formulas, not a genre. The doses split into two real tiers: {len(CLIN)} bars carry {doses_or(CLIN)}, in line with the maintenance range most creatine research studies, while {len(TRACE)} carry a trace {doses_or(TRACE)}, well under that range. We ranked all {N} by ingredient quality{', and dose does not predict the winner: the best-scoring bars on this page carry a trace amount, not a clinical one' if A_TIERS == {'Trace dose'} else ''}.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We pulled every bar in our {DB_PUBLIC} bar database with a declared creatine amount, no minimum required. Only {N} qualify, across just {NB} brands, small enough that this comes down to individual formulas, not a genre. The doses split into two real tiers: {len(CLIN)} bars carry {doses_or(CLIN)}, in line with the maintenance range most creatine research studies, while {len(TRACE)} carry a trace {doses_or(TRACE)}, well under that range. We ranked all {N} by ingredient quality{', and dose does not predict the winner: the best-scoring bars on this page carry a trace amount, not a clinical one' if A_TIERS == {'Trace dose'} else ''}.</p>'''),
     ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{N}</div><div class="snap-label">Bars with creatine</div></div>
     <div class="snap-item"><div class="snap-value">{NB}</div><div class="snap-label">Brands represented</div></div>
@@ -272,7 +272,7 @@ REGIONS += [
     ('explore-more', f'''
 <a href="/caffeine-protein-bars" class="explore-more-card">
   <div class="explore-more-title">Caffeine Protein Bars</div>
-  <div class="explore-more-desc">Only {guide_count(ALL, 'caffeine-protein-bars')} of {comma(NT)} bars declare caffeine, ranked by ingredient quality.</div>
+  <div class="explore-more-desc">Only {of_db(guide_count(ALL, 'caffeine-protein-bars'), NT)} bars declare caffeine, ranked by ingredient quality.</div>
 </a>
 <a href="/clean-protein-bars" class="explore-more-card">
   <div class="explore-more-title">Clean Protein Bars</div>

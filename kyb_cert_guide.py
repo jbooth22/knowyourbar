@@ -202,13 +202,13 @@ class CertGuide:
         faqs = [
             (f'What makes a protein bar {w} on this site?', c['what_makes'](self)),
             (f'How many {w} protein bars are in your database?',
-             f"{comma(self.N)} of the {comma(self.NT)} bars we track are labeled {w}, spanning {brands_q} brands. {a_q} of those "
+             f"{of_db(self.N, self.NT, True)} bars we track are labeled {w}, spanning {brands_q} brands. {a_q} of those "
              f"{comma(self.N)} bars grade A for ingredient quality."),
             (f'Is {ex_name} {w}?',
              f"No. {ex_hits} of {ex_name}'s {ex_total} flavors {c['example_verb']} {ex_src.lower()} directly, and none of "
              f"{ex_name}'s flavors carry a {w} label."),
             (c['most_common_q'],
-             f"{self.PROSE[top][:1].upper() + self.PROSE[top][1:]}. It shows up by name in {len(self.HIT[top])} of the {comma(self.NT)} bars we track, {more_than}. "
+             f"{self.PROSE[top][:1].upper() + self.PROSE[top][1:]}. It shows up by name in {of_db(len(self.HIT[top]), self.NT, True)} bars we track, {more_than}. "
              + c['most_common_tail']),
             (c['not_labeled_q'],
              f"{c['not_labeled_lead']} {comma(len(self.UNLAB))} of the {comma(self.ND)} bars that don't carry our {w} label show no "
@@ -222,7 +222,7 @@ class CertGuide:
              f"and {self.full_brands[1]['brand']} that qualify across their entire lineup. The full ranked list is in the table "
              'below, sorted by ingredient quality.'),
             (f'What protein bars are not {w}?',
-             f"{comma(self.ND)} of the {comma(self.NT)} bars we track don't carry a {w} label. {c['not_what_tail'](self)}"),
+             f"{of_db(self.ND, self.NT, True)} bars we track don't carry a {w} label. {c['not_what_tail'](self)}"),
             (c['quality_q'],
              f"{c['quality_lead'](self)} {c['Cap']} bars in our database grade A or B {s['abq']}% of the time, against {s['aba']}% "
              f"database-wide. {c['quality_tail'](self)}"),
@@ -242,20 +242,20 @@ class CertGuide:
         self.example = self.example_brand()
         picks = self.picks()
         insights = c['lead_insights'](self) + self.generic_insights() + c.get('tail_insights', lambda g: [])(self)
-        findings = findings_html(f'What we found screening {comma(NT)} bars', *c['big_stat'](self), insights)
+        findings = findings_html(f'What we found screening {DB_PUBLIC} bars', *c['big_stat'](self), insights)
         disq = self.disq_section()
         brands = self.brands()
         faqs = self.faqs()
         title = f'{pct0(N, NT)}% of Protein Bars Are {W}. See All {comma(N)}.'
         h1 = f'Best {W} Protein Bars - Ranking {comma(N)} Qualified Bars'
-        desc = f'We checked {comma(NT)} protein bars against their {w} label. {comma(N)} qualify. See every one, ranked by ingredient quality, brand, and macros.'
+        desc = f'We checked {DB_PUBLIC} protein bars against their {w} label. {comma(N)} qualify. See every one, ranked by ingredient quality, brand, and macros.'
         og = c['og_desc'].format(n=comma(N))
         regions = [r for r in guide_head_regions(title=title, h1=h1, desc=desc, og_desc=og, url=c['url'], about=f'{W} Protein Bars',
                                                  published=c['published'], faqs=faqs, picks=picks) if r[0] != 'social']
         regions += [
             ('social', social_title_html(title, og, c['url'])),
             ('hero', f'''<h1 class="hero-title">{esc(h1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We checked {comma(NT)} protein bars available in the US against their {esc(c['flag'])} label. The result: {comma(N)} bars, about {pct0(N, NT)}%, are labeled {esc(w)}. {esc(c['hero_extra'])} We rank the best {esc(w)} protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
+    <p class="hero-sub" style="color:#e8e4dc;">We checked {DB_PUBLIC} protein bars available in the US against their {esc(c['flag'])} label. The result: {comma(N)} bars, about {pct0(N, NT)}%, are labeled {esc(w)}. {esc(c['hero_extra'])} We rank the best {esc(w)} protein bars by ingredient quality, brand, and macros. Not just us telling you the flavors we like.</p>'''),
             ('snapshot', f'''
     <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
     <div class="snap-item"><div class="snap-value">{comma(ND)}</div><div class="snap-label">Bars disqualified</div></div>

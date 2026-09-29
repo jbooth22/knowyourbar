@@ -18,7 +18,7 @@ FLAGGED = "gelatin, confectioner's glaze, carmine, or rennet"
 
 def disq_intro(g):
     h = {l: len(g.HIT[l]) for l in g.SRC}
-    return f'''        <p>We check the Kosher (Y/N) label on file for every bar. Kosher is different from Vegan, Gluten Free, Dairy Free, and Soy Free: it's a supervised-process certification, not primarily an ingredient screen. Whey, milk, soy, wheat, sugar, and nuts can all be kosher when produced and supervised correctly, so an ingredient's mere presence usually doesn't disqualify a bar the way whey disqualifies Dairy Free. {comma(g.N)} of {comma(g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a kosher label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
+    return f'''        <p>We check the Kosher (Y/N) label on file for every bar. Kosher is different from Vegan, Gluten Free, Dairy Free, and Soy Free: it's a supervised-process certification, not primarily an ingredient screen. Whey, milk, soy, wheat, sugar, and nuts can all be kosher when produced and supervised correctly, so an ingredient's mere presence usually doesn't disqualify a bar the way whey disqualifies Dairy Free. {of_db(g.N, g.NT)} bars, about {pct0(g.N, g.NT)}%, carry a kosher label. The other {comma(g.ND)}, about {pct0(g.ND, g.NT)}%, don't.</p>
         <p>We do cross-check ingredient lists for three ingredients that are almost never kosher without their own specific certification: gelatin ({h['Gelatin']} bars, {g1(100 * h['Gelatin'] / g.NT)}%), confectioner's glaze or shellac ({h["Confectioner's Glaze / Shellac"]} bars, {g1(100 * h["Confectioner's Glaze / Shellac"] / g.NT)}%), and carmine or rennet ({h['Other Animal-Derived (Carmine, Rennet)']} bars, {g1(100 * h['Other Animal-Derived (Carmine, Rennet)'] / g.NT)}%). Together those account for only a small share of the {comma(g.ND)} bars that aren't labeled kosher. The remaining {comma(len(g.UNLAB))} bars, {g1(100 * len(g.UNLAB) / g.NT)}% of the full database, show none of those ingredients at all. They simply haven't been through kosher certification, which is a different claim from containing something non-kosher.</p>'''
 
 def lead_insights(g):
@@ -62,7 +62,7 @@ CFG = dict(
     brands_intro="Some brands pursue kosher certification across their whole lineup, others don't have a single kosher flavor. Grade columns below show ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in the table below.",
     avoid_note="These brands aren't kosher-certified across most or all of their lineup, whether or not a specific non-kosher ingredient is identifiable.",
     avoid_head='Flavors Without Kosher Label', avoid_last_head='Likely Reason',
-    what_makes=lambda g: (f'We use the Kosher (Y/N) label on file for each bar. {comma(g.N)} of the {comma(g.NT)} bars we track carry '
+    what_makes=lambda g: (f'We use the Kosher (Y/N) label on file for each bar. {of_db(g.N, g.NT, True)} bars we track carry '
                           "that label. Kosher is a supervised-process certification, not just an ingredient list, so we can't fully "
                           'verify it ourselves the way we can with an ingredient-based screen. We do flag three ingredients that are '
                           "almost never kosher without their own certification: gelatin, confectioner's glaze or shellac, and carmine or rennet."),

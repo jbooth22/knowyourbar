@@ -164,7 +164,7 @@ SUCRALOSE = f'''
       <h2 class="section-title">Protein bars without sucralose</h2>
       <div class="section-body">
         <p>Sucralose, sold under the brand name Splenda, is the artificial sweetener actually driving this guide. It is a chlorinated sugar substitute, roughly 600 times sweeter than table sugar, with zero calories and no effect on blood sugar. People skip it for different reasons: reported digestive discomfort, an aftertaste they don't like, gut microbiome research they've read, or just a preference to avoid synthetic sweeteners entirely.</p>
-        <p>{len(SUC)} of the {comma(NT)} bars we track, about 1 in {ONE_IN}, contain sucralose. We checked whether screening for sucralose on its own produces a different list than screening for all four artificial sweeteners this guide covers. It doesn't. Every bar in our database that contains acesulfame potassium, aspartame, or saccharin also contains sucralose, so protein bars without sucralose and protein bars without artificial sweeteners are the exact same {comma(N)} bars across {BRANDS_Q} brands, already ranked in the full table below.</p>
+        <p>{of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, contain sucralose. We checked whether screening for sucralose on its own produces a different list than screening for all four artificial sweeteners this guide covers. It doesn't. Every bar in our database that contains acesulfame potassium, aspartame, or saccharin also contains sucralose, so protein bars without sucralose and protein bars without artificial sweeteners are the exact same {comma(N)} bars across {BRANDS_Q} brands, already ranked in the full table below.</p>
         <p>Here are 10 of the highest ingredient-quality sucralose-free bars to start with. The complete list, filterable by grade and searchable by brand, is further down this page.</p>
       </div>
       <div class="table-scroll">
@@ -319,7 +319,7 @@ FAQS = [
      f"what you actually want to avoid, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}, "
      f"or use the Bar Finder's {link('/bar-finder?preset=clean', 'Clean Ingredients filter')} to screen out both at once."),
     ('Do protein bars have sucralose?',
-     f"Yes. {len(SUC)} of the {comma(NT)} bars we track, about 1 in {ONE_IN}, list sucralose on the ingredient label. It's "
+     f"Yes. {of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, list sucralose on the ingredient label. It's "
      "the most common artificial sweetener in the category by a wide margin, see the breakdown above."),
     ('What protein bars don\'t have sucralose?',
      f"{comma(N)} bars across {BRANDS_Q} brands are sucralose-free. That's the exact same set as our full "

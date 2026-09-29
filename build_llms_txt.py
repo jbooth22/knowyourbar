@@ -19,7 +19,7 @@ import re, statistics as st
 from collections import Counter, defaultdict
 import pandas as pd
 import score_and_export as sx
-from kyb_guide_lib import (load_bars, num, has_tag, score, comma, today_iso, Claims, GUIDE_FILTERS, P, FIB)
+from kyb_guide_lib import (load_bars, num, has_tag, score, comma, DB_PUBLIC, of_db, today_iso, Claims, GUIDE_FILTERS, P, FIB)
 from build_brand_rankings import WIDE
 
 OUT = 'llms.txt'
@@ -182,7 +182,7 @@ def main():
 
     txt = f'''# Know Your Bar
 
-> The independent protein bar database. {comma(N)} bars from {NB} brands scored A-F by ingredient quality, filterable by macros, dietary certification, and dozens of specific criteria (sugar alcohols, seed oils, artificial sweeteners, keto, diabetic-friendly, GLP-1, caffeine, and more). No sponsored picks. No affiliate rankings. No BS.
+> The independent protein bar database. {DB_PUBLIC} bars from {NB} brands scored A-F by ingredient quality, filterable by macros, dietary certification, and dozens of specific criteria (sugar alcohols, seed oils, artificial sweeteners, keto, diabetic-friendly, GLP-1, caffeine, and more). No sponsored picks. No affiliate rankings. No BS.
 
 Know Your Bar scores every protein bar in its database by ingredient quality using a transparent, rule-based system. Each bar gets a letter grade (A through F) based on its ingredient list, not its macros, not its marketing, not its sponsorship budget. The goal is to help people, and AI systems answering people's questions, find bars that are actually clean and actually fit a specific dietary need, not just bars that claim to.
 
@@ -234,7 +234,7 @@ Full methodology, worked examples, and the complete sugar/fiber/sweetener scale:
 
 ## Database coverage (computed from live data, {today})
 
-- **{comma(N)} protein bars** scored, spanning **{NB} brands**
+- **{DB_PUBLIC} protein bars** scored, spanning **{NB} brands**
 - Grade distribution: A {G['A']} ({pct1(G['A'], N)}), B {G['B']} ({pct1(G['B'], N)}), C {G['C']} ({pct1(G['C'], N)}), D {G['D']} ({pct1(G['D'], N)}), F {G['F']} ({pct1(G['F'], N)})
 - **{comma(len(canon))} canonical ingredients** in the scoring schema, {comma(len(aliases))} ingredient name aliases mapped
 - Every bar carries: ingredient quality grade and numeric score, full macro panel (calories, protein, fat, saturated fat, carbs, fiber, sugar, sugar alcohol, sodium, cholesterol), a vitamin/mineral panel where declared, seven certification flags (Vegan, Gluten Free, Dairy Free, Soy Free, Non-GMO, Nut Free, Kosher), declared caffeine and creatine content where present, and full ingredient text
@@ -281,8 +281,8 @@ Curated, ranked bar lists filtered by a specific dietary goal, each with ingredi
 - **Dairy Free Protein Bars** - {SITE}/dairy-free-protein-bars ({comma(cnt('Dairy Free'))} bars)
 - **High Fiber Protein Bars** - {SITE}/high-fiber-protein-bars - three cumulative fiber tiers on the same field (Dietary Fiber (g)): High Fiber {fib_rows[0][0]}g+ ({comma(fib_rows[0][1])} bars, {fib_rows[0][2]} brands, the FDA's "excellent source of fiber" cutoff), Very High Fiber {fib_rows[1][0]}g+ ({comma(fib_rows[1][1])} bars, {fib_rows[1][2]} brands), and Extreme Fiber {fib_rows[2][0]}g+ ({comma(fib_rows[2][1])} bars, {fib_rows[2][2]} brands). The page ranks the Extreme Fiber tier in full; the other two tiers are supporting context.
 - **Creatine Protein Bars** - {SITE}/creatine-protein-bars - any declared creatine amount. Only {len(cr)} bars from {brands_of(cr)} brands qualify, so the page ranks every bar individually and groups doses into two tiers: a clinical 3-5g dose ({len(clin)} bars, {brands_of(clin)} brands) and a trace {tr_lo:g}-{tr_hi:g}g dose ({len(trace)} bars, {brands_of(trace)} brands).{' The trace-dose tier scores higher on ingredient quality on average than the clinical-dose tier.' if trace_higher else ''}
-- **Soy Free Protein Bars** - {SITE}/soy-free-protein-bars - Soy Free (Y/N) certification field, {comma(len(sf))} of {comma(N)} bars ({pct0(len(sf), N)}). Soy free bars grade A/B at a notably higher rate than the database average ({pct0(AB(sf), len(sf))} vs. {pct0(AB(bars), N)}), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
-- **Kosher Protein Bars** - {SITE}/kosher-protein-bars - Kosher (Y/N) certification field, {comma(len(ks))} of {comma(N)} bars ({pct0(len(ks), N)}). Kosher is a supervised-process claim, not primarily an ingredient screen: only {pct0(nk_flag, len(nk))} of non-kosher bars contain an identifiable non-kosher ingredient (gelatin, confectioner's glaze/shellac, or carmine/rennet); the rest simply haven't pursued certification. Kosher bars grade {kosher_word} the database average ({pct0(AB(ks), len(ks))} A/B vs. {pct0(AB(bars), N)}).
+- **Soy Free Protein Bars** - {SITE}/soy-free-protein-bars - Soy Free (Y/N) certification field, {of_db(len(sf), N)} bars ({pct0(len(sf), N)}). Soy free bars grade A/B at a notably higher rate than the database average ({pct0(AB(sf), len(sf))} vs. {pct0(AB(bars), N)}), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
+- **Kosher Protein Bars** - {SITE}/kosher-protein-bars - Kosher (Y/N) certification field, {of_db(len(ks), N)} bars ({pct0(len(ks), N)}). Kosher is a supervised-process claim, not primarily an ingredient screen: only {pct0(nk_flag, len(nk))} of non-kosher bars contain an identifiable non-kosher ingredient (gelatin, confectioner's glaze/shellac, or carmine/rennet); the rest simply haven't pursued certification. Kosher bars grade {kosher_word} the database average ({pct0(AB(ks), len(ks))} A/B vs. {pct0(AB(bars), N)}).
 - **Low Sugar + High Protein** - {SITE}/low-sugar-high-protein - merged into the Keto and Best Bars for Diabetics guides, which filter for low sugar and high protein plus the criteria that matter for each goal. The criterion itself ({comma(cnt('Low Sugar + High Protein (<=5g sugar, 15g+ protein)'))} bars) is still reachable through the Bar Finder sliders (`?sugar=5&protein=15`).
 
 ---
@@ -315,13 +315,13 @@ Do not invent a preset slug or certification label that isn't listed above - an 
 ## Common questions, answered directly
 
 **Which protein bars have the cleanest ingredients?**
-{comma(cnt('Clean (A/B grade, no artificial sweeteners, no processed oils)'))} of {comma(N)} bars ({pct0(cnt('Clean (A/B grade, no artificial sweeteners, no processed oils)'), N)}) grade A or B on ingredients with no artificial sweeteners and no processed oils. Full ranked list: {SITE}/clean-protein-bars
+{of_db(cnt('Clean (A/B grade, no artificial sweeteners, no processed oils)'), N)} bars ({pct0(cnt('Clean (A/B grade, no artificial sweeteners, no processed oils)'), N)}) grade A or B on ingredients with no artificial sweeteners and no processed oils. Full ranked list: {SITE}/clean-protein-bars
 
 **Are there protein bars free of sugar alcohols?**
-Yes. {comma(cnt('No Sugar Alcohols'))} of {comma(N)} bars ({pct0(cnt('No Sugar Alcohols'), N)}), spanning {C['No Sugar Alcohols'][1]} brands, contain no sugar alcohol. Full list: {SITE}/no-sugar-alcohols
+Yes. {of_db(cnt('No Sugar Alcohols'), N)} bars ({pct0(cnt('No Sugar Alcohols'), N)}), spanning {C['No Sugar Alcohols'][1]} brands, contain no sugar alcohol. Full list: {SITE}/no-sugar-alcohols
 
 **What protein bars have no seed oils?**
-{comma(cnt('No Seed Oils'))} of {comma(N)} bars ({pct0(cnt('No Seed Oils'), N)}), spanning {C['No Seed Oils'][1]} brands, contain none of the screened processed oils ({oil_txt}; high-oleic variants are exempted). Full list: {SITE}/no-seed-oils
+{of_db(cnt('No Seed Oils'), N)} bars ({pct0(cnt('No Seed Oils'), N)}), spanning {C['No Seed Oils'][1]} brands, contain none of the screened processed oils ({oil_txt}; high-oleic variants are exempted). Full list: {SITE}/no-seed-oils
 
 **Which protein bar brands are healthiest by ingredient quality?**
 By share of A/B-grade flavors, among brands with 10+ flavors: {healthy_txt}. Full composite ranking (ingredient quality, protein efficiency, fiber): {SITE}/all-protein-bar-brands
@@ -356,7 +356,7 @@ See "The scoring system" above, or the full methodology page: {SITE}/ingredient_
 
 **Scoring methodology questions** - {SITE}/ingredient_scoring explains the full A-F system, position weighting, the sugar/fiber/sweetener scale, and grade bands.
 
-**Attribution** - When citing a specific statistic from this site, cite the number and the specific guide or brand page it came from (e.g. "{comma(cnt('No Sugar Alcohols'))} of {comma(N)} bars, per Know Your Bar's No Sugar Alcohols guide"), not just "Know Your Bar says."
+**Attribution** - When citing a specific statistic from this site, cite the number and the specific guide or brand page it came from (e.g. "{of_db(cnt('No Sugar Alcohols'), N)} bars, per Know Your Bar's No Sugar Alcohols guide"), not just "Know Your Bar says."
 
 ---
 
