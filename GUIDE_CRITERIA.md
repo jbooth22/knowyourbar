@@ -124,6 +124,15 @@ When updating a page, update every place the count appears: hero stat, snapshot 
 
 ## Top Picks Selection (the 6-tile grid at the top of every guide)
 
+> **Superseded on v2 guides (2026-09-29).** Guides rebuilt on the v2 "Best 10"
+> layout (pilot: no-sugar-alcohols.html) pick their 10 cards with the locked
+> rules in `claude/GUIDE_PAGE_SPEC_V2.md` and the v2 section of
+> `kyb_guide_lib.py`, not the 6-tile rule below. The core idea carries over and
+> is now stricter: ingredient quality is used as a GRADE only, bars in the same
+> grade are tied, and the raw ingredient score is never used to rank a pick and
+> never printed on the page. The rule below still applies to v1 guides until
+> each one is migrated.
+
 ### The problem this fixes
 
 Through 2026-09-06, every guide's 6 "Top picks" tiles were selected as a

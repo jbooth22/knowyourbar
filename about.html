@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Analytics -->
+  <script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SW4MNP5W7J');
+/* Delay loading the GA4 library itself until after the page has finished
+   loading (or after 4s as a fallback), so its ~170KB doesn't compete with
+   first paint on slow connections. dataLayer.push already queues events
+   fired before this loads (via analytics.js / app.js), so nothing is lost
+   -- gtag('config',...) above still fires the pageview once the real
+   script arrives and drains the queue. See PERFORMANCE_AND_BLOAT_AUDIT. */
+(function(){
+  var loaded = false;
+  function loadGtag(){
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SW4MNP5W7J';
+    document.head.appendChild(s);
+  }
+  if (document.readyState === 'complete') {
+    loadGtag();
+  } else {
+    window.addEventListener('load', loadGtag);
+  }
+  setTimeout(loadGtag, 4000);
+})();
+</script>
+
+  <!-- Core meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Know Your Bar: Who's Behind the Protein Bar Grades</title>
+  <meta name="description" content="Know Your Bar is run by Jeff Booth, who eats these bars. No paid placements, one rule-based grade for every bar, commissions never change a rank.">
+  <link rel="canonical" href="https://knowyourbar.com/about">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- JSON-LD: AboutPage + Person + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "AboutPage",
+        "name": "Who's behind Know Your Bar",
+        "url": "https://knowyourbar.com/about",
+        "description": "Who runs Know Your Bar, how the protein bar data and A to F grades are built, and how the site makes money.",
+        "mainEntity": {
+          "@id": "https://knowyourbar.com/about#jeff-booth"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Know Your Bar",
+          "url": "https://knowyourbar.com"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://knowyourbar.com/about#jeff-booth",
+        "name": "Jeff Booth",
+        "url": "https://knowyourbar.com/about",
+        "jobTitle": "Founder",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Know Your Bar",
+          "url": "https://knowyourbar.com"
+        },
+        "description": "Founder of Know Your Bar. A regular protein bar eater, not a dietitian or medical professional."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Know Your Bar",
+            "item": "https://knowyourbar.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About",
+            "item": "https://knowyourbar.com/about"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Know Your Bar">
+  <meta property="og:title" content="Who's behind Know Your Bar">
+  <meta property="og:description" content="Know Your Bar is run by Jeff Booth, who eats these bars. No paid placements, one rule-based grade for every bar, commissions never change a rank.">
+  <meta property="og:url" content="https://knowyourbar.com/about">
+  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Who's behind Know Your Bar">
+  <meta name="twitter:description" content="Know Your Bar is run by Jeff Booth, who eats these bars. No paid placements, one rule-based grade for every bar, commissions never change a rank.">
+  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">
+</head>
+<body class="page-guide brand-v1">
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">Know Your Bar</a>
+  <div class="site-nav-links">
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Brand Reviews</span>
+      <div class="site-nav-dropdown">
+        <a href="/quest-bars">Quest</a>
+        <a href="/rxbar-review">RXBAR</a>
+        <a href="/clif-bar-review">Clif Bar</a>
+        <a href="/barebells-review">Barebells</a>
+        <a href="/kind-bars-review">KIND</a>
+        <a href="/quest-vs-rxbar">Quest vs RXBAR</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Guides</span>
+      <div class="site-nav-dropdown">
+        <a href="/clean-protein-bars">Clean Protein Bars</a>
+        <a href="/no-artificial-sweeteners">No Artificial Sweeteners</a>
+        <a href="/no-sugar-alcohols">No Sugar Alcohols</a>
+        <a href="/no-seed-oils">No Seed Oils</a>
+        <a href="/low-sugar-high-protein">Low Sugar + High Protein</a>
+        <a href="/keto-protein-bars">Keto Protein Bars</a>
+        <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
+        <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+        <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
+        <a href="/vegan-protein-bars">Vegan Protein Bars</a>
+        <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
+        <a href="/dairy-free-protein-bars">Dairy Free Protein Bars</a>
+        <a href="/high-fiber-protein-bars">High Fiber Protein Bars</a>
+        <a href="/creatine-protein-bars">Creatine Protein Bars</a>
+        <a href="/soy-free-protein-bars">Soy Free Protein Bars</a>
+        <a href="/kosher-protein-bars">Kosher Protein Bars</a>
+      </div>
+    </div>
+    <div class="site-nav-group">
+      <span class="site-nav-group-label">Explore</span>
+      <div class="site-nav-dropdown">
+        <a href="/all-protein-bar-brands">All Brands</a>
+        <a href="/flavor-map">Flavor Map</a>
+        <a href="/brand-quadrant">Brand Quadrant</a>
+        <a href="/all-ingredients">All Ingredients</a>
+        <a href="/ingredient-report">Ingredient Report</a>
+        <a href="/scan">Scan Your Bar</a>
+      </div>
+    </div>
+    <a href="/ingredient_scoring" class="site-nav-link">How We Score</a>
+  </div>
+  <button class="site-nav-mobile-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+</nav>
+<script>
+(function() {
+  var navToggle = document.getElementById('nav-toggle');
+  var navLinks = document.querySelector('.site-nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function() { navLinks.classList.toggle('open'); });
+  }
+})();
+</script>
+<section class="hero page-guide">
+  <div class="hero-inner">
+    <h1 class="hero-title">Who's behind Know Your Bar</h1>
+    <p class="hero-sub">I'm Jeff Booth. I eat protein bars, and I got tired of not knowing what was actually in them. Know Your Bar is what came out of that research.</p>
+  </div>
+</section>
+
+<main class="content about-page">
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Who I am, and who I'm not</h2>
+      <div class="section-body">
+        <p>I'm a regular consumer. I buy these bars, eat them, and started reading the labels closely enough that I wanted a better way to compare them. That turned into a database of 1,000+ bars, each graded A to F on ingredient quality.</p>
+        <p>I'm not a dietitian, doctor, or any kind of medical professional. Nothing on this site is medical advice. If you're choosing food around a health condition, like diabetes or a GLP-1 medication, talk to your doctor or a registered dietitian. Our guides show you what's on the label. They can't tell you what's right for your body.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section off">
+    <div class="section-inner">
+      <h2 class="section-title">How the data is built</h2>
+      <div class="section-body">
+        <p>Every bar in the database has its full nutrition facts and ingredient list. I use AI-assisted tools to collect and check that data, and I review what they flag. When we find a label has changed, we update the bar.</p>
+        <p>The A to F grade comes from a rule-based score, not from anyone's opinion. Each ingredient is matched to a scoring table, weighted by where it sits on the label, and the total becomes one letter grade. The same algorithm runs on every bar. Nobody hand-adjusts a grade.</p>
+        <p>The score has limits. It rates ingredient quality, not taste, macros, or how a bar fits your diet. It isn't precise enough to split two bars in the same grade, so when we rank bars we treat everything in the same grade as equal and break ties with real numbers like protein and sugar.</p>
+        <p>The full method is on <a href="/ingredient_scoring">How we score</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">Independence</h2>
+      <div class="section-body">
+        <ul class="criteria-list">
+          <li>No paid placements. No brand can pay to be listed, ranked, or picked.</li>
+          <li>No sponsored picks. Every "best" pick on a guide comes from a rule that's written on that page.</li>
+          <li>One algorithm for every bar. A brand we earn a commission from gets graded exactly like one we don't.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section off">
+    <div class="section-inner">
+      <h2 class="section-title">How the site makes money</h2>
+      <div class="section-body">
+        <p>Some buy buttons are affiliate links. If you buy through one, we may earn a small commission from Amazon or from the brand, at no extra cost to you. That's how the site pays for itself.</p>
+        <p>Commissions never affect a grade or a rank. Brands that pay a higher commission don't score higher, and bars with no affiliate link at all show up in our lists whenever they win on the rules.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section guide-finder-cta">
+    <div class="explore-cta-grid">
+      <div class="explore-cta-main">
+        <h2 class="explore-cta-main-heading">Find your bar</h2>
+        <p class="explore-cta-main-desc">Filter 1,000+ bars by protein, sugar, calories, ingredient grade, certifications, and ingredients to avoid.</p>
+        <a href="/bar-finder" class="finder-cta-btn">Open the Bar Finder &rarr;</a>
+      </div>
+      <div class="explore-cta-side">
+        <a href="/ingredient_scoring" class="explore-cta-side-link">How we score &rarr;</a>
+        <ul class="explore-cta-side-list">
+          <li>Every ingredient is scored individually against a canonical database, not just flagged good or bad</li>
+          <li>Position in the ingredient list matters, earlier ingredients carry more weight</li>
+          <li>Each bar's total becomes a single letter grade, A through F</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-brand-block">
+      <a href="/" class="site-footer-brand">KNOW YOUR BAR</a>
+      <div class="site-footer-tagline">1,000+ bars scored by ingredient quality.<br>No sponsored picks. No BS.</div>
+    </div>
+    <details class="site-footer-links-toggle">
+      <summary class="site-footer-links-summary">More guides &amp; brand reviews</summary>
+      <nav class="site-footer-links">
+      <a href="/bar-finder">Protein Bar Finder</a>
+      <a href="/ingredient_scoring">How We Score</a>
+      <a href="/all-protein-bar-brands">All Brands</a>
+      <a href="/all-ingredients">All Ingredients</a>
+      <a href="/ingredient-report">Ingredient Report</a>
+      <a href="/scan">Scan Your Bar</a>
+      <a href="/quest-bars">Quest</a>
+      <a href="/rxbar-review">RXBAR</a>
+      <a href="/clif-bar-review">Clif Bar</a>
+      <a href="/barebells-review">Barebells</a>
+      <a href="/kind-bars-review">KIND</a>
+      <a href="/quest-vs-rxbar">Quest vs RXBAR</a>
+      <a href="/clean-protein-bars">Clean Bars</a>
+      <a href="/no-artificial-sweeteners">No Artificial Sweeteners</a>
+      <a href="/no-sugar-alcohols">No Sugar Alcohols</a>
+      <a href="/no-seed-oils">No Seed Oils</a>
+      <a href="/low-sugar-high-protein">Low Sugar + High Protein</a>
+      <a href="/keto-protein-bars">Keto Protein Bars</a>
+      <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
+      <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+      <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
+      <a href="/vegan-protein-bars">Vegan Protein Bars</a>
+      <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
+      <a href="/dairy-free-protein-bars">Dairy Free Protein Bars</a>
+        <a href="/high-fiber-protein-bars">High Fiber Protein Bars</a>
+        <a href="/creatine-protein-bars">Creatine Protein Bars</a>
+      <a href="/soy-free-protein-bars">Soy Free Protein Bars</a>
+      <a href="/kosher-protein-bars">Kosher Protein Bars</a>
+    </nav>
+    </details>
+  </div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; <a href="/about">About</a></div>
+  <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
+</footer>
+
+<script src="analytics.js" defer></script>
+</body>
+</html>

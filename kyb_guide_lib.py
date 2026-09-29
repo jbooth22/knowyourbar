@@ -1138,3 +1138,725 @@ def fiber_row_html(b, idx):
   <td class="col-certs col-hide-mobile"><div class="cert-badges">{cert_badges_html(b)}</div></td>
   <td class="col-grade"><span class="table-grade-badge grade-{grade}" title="{grade_word(grade)} &middot; score {fnum(sc)}">{grade}</span></td>
 </tr>'''
+
+
+# ===========================================================================
+# GUIDE PAGE v2 ("Best 10" layout) -- added 2026-09-29.
+# Spec: claude/GUIDE_PAGE_SPEC_V2.md (all decisions there are LOCKED).
+# Pilot: build_no_sugar_alcohols.py. Other guides still use the v1 helpers
+# above until they are migrated one page per session.
+#
+# Locked rules implemented here:
+#   * Ingredient quality is used as a GRADE (A-F) only. Bars in the same grade
+#     are treated as tied. The raw ingredient score is never used to rank a
+#     pick, never printed on a v2 page, and never shown in an expand panel.
+#   * Tie chain inside a slot: better grade, more protein, less sugar, more
+#     fiber, fewer calories, then brand/flavor name (only so builds are stable).
+#   * Best overall: best grade present, then most protein per 100 calories,
+#     15g+ protein. "Best [subset]" slots use the same rule inside the subset.
+#   * No bar appears twice on one guide (repeats are allowed ACROSS guides).
+#     At most 3 slots per brand. A slot with no eligible bar is replaced by the
+#     guide's next fallback slot, so the list is always 10.
+# ===========================================================================
+import hashlib as _hashlib
+
+BIG_BRANDS = ['Quest', 'Barebells', 'RXBAR', 'KIND', 'CLIF Bar', 'Clif Builders', 'One', 'Pure Protein', 'Built',
+              'Nature Valley', 'Atkins', 'think!', 'Larabar', 'Kirkland', 'David', 'Power Crunch', 'FITCRUNCH',
+              "Lenny & Larry's", 'Perfect Bar', 'IQ Bar', 'Aloha', 'GoMacro', 'NuGo']   # LOCKED 2026-09-29
+BRAND_REVIEW_PAGES = {'Quest': '/quest-bars', 'RXBAR': '/rxbar-review', 'CLIF Bar': '/clif-bar-review',
+                      'Clif Builders': '/clif-bar-review', 'Barebells': '/barebells-review', 'KIND': '/kind-bars-review'}
+GRADE_POINTS = {'A': 4, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
+AUTHOR_NAME = 'Jeff Booth'
+ABOUT_URL = 'https://knowyourbar.com/about'
+V2_MAX_BYTES = 400_000        # hard target (spec: under ~400KB, ceiling 1MB)
+V2_FAQ_MAX_OFFSET = 300_000   # FAQ and footer must start inside the first ~300KB
+
+def is_big(b):
+    return b['Brand Name'] in BIG_BRANDS
+
+def gp(b):
+    return GRADE_POINTS.get(b.get('score_band'), -1)
+
+def tie_chain(b):
+    return (-gp(b), -P(b), SUG(b), -FIB(b), CAL(b), name_key(b))
+
+def overall_key(b):
+    return (-gp(b), -(p100(b) or 0)) + tie_chain(b)
+
+def v2_eligible(qualify, floor=10):
+    """Guardrails for every slot: qualifies, grade B or better, protein floor."""
+    return [b for b in qualify if b.get('score_band') in ('A', 'B') and P(b) >= floor]
+
+class Slot:
+    """One Best 10 slot. pool(eligible_bars) -> candidates; key(b) sorts best
+    first; metric(b) is the headline number the slot is about (for tie
+    wording); why(b, ctx) returns the card sentence; rule is the plain-English
+    rule printed in "How we picked these"."""
+    def __init__(self, label, rule, pool, key, why, metric=None, floor=10):
+        self.label, self.rule, self.pool, self.key, self.why = label, rule, pool, key, why
+        self.metric, self.floor = metric, floor
+
+def slot_best_overall(floor=15):
+    return Slot('Best overall',
+                f'The best ingredient grade on the list, then the most protein per 100 calories, with {floor}g+ protein.',
+                lambda E: [b for b in E if P(b) >= floor], overall_key,
+                lambda b, c: (f"{fnum(P(b))}g protein for {fnum(CAL(b))} calories ({fnum(p100(b))}g per 100 calories), "
+                              f"{c['tied']}the most protein per calorie of any {b['score_band']}-grade bar here with {floor}g+ protein."),
+                metric=lambda b: (gp(b), p100(b)), floor=floor)
+
+def slot_cleanest():
+    return Slot('Cleanest ingredients',
+                'An A-grade bar (B if no A qualifies) with the shortest ingredient list. Every bar in the same grade is '
+                'treated as equal on ingredient quality, so the tiebreak is a label you can count.',
+                lambda E: [b for b in E if b['score_band'] == min((x['score_band'] for x in E), default='A')],
+                lambda b: (top_level_ingredient_count(ingr(b)),) + tie_chain(b),
+                lambda b, c: (f"Just {top_level_ingredient_count(ingr(b))} ingredients, {c['tied']}the shortest label of any "
+                              f"{b['score_band']}-grade bar here, with {fnum(P(b))}g protein."),
+                metric=lambda b: top_level_ingredient_count(ingr(b)))
+
+def slot_highest_protein(cal_cap=300):
+    return Slot('Highest protein',
+                f'The most protein per bar, grade B or better, capped at {cal_cap} calories so a large candy-style bar '
+                'cannot win on size alone.',
+                lambda E: [b for b in E if CAL(b) <= cal_cap], lambda b: (-P(b),) + tie_chain(b),
+                lambda b, c: (f"{fnum(P(b))}g protein in {fnum(CAL(b))} calories, {c['tied']}the most of any bar here "
+                              f"at {cal_cap} calories or less. We cap this pick at {cal_cap} calories so a bigger, sugarier "
+                              "bar can't win on size alone."),
+                metric=P)
+
+def slot_protein_per_cal(floor=12):
+    return Slot('Most protein per calorie', f'The most protein per 100 calories, grade B or better, {floor}g+ protein.',
+                lambda E: [b for b in E if P(b) >= floor], lambda b: (-(p100(b) or 0),) + tie_chain(b),
+                lambda b, c: (f"{fnum(p100(b))}g protein per 100 calories ({fnum(P(b))}g in {fnum(CAL(b))} calories), "
+                              f"{c['tied']}the best ratio of any bar here with {floor}g+ protein."),
+                metric=p100)
+
+def slot_lowest_calorie():
+    return Slot('Lowest calorie', 'The fewest calories, grade B or better, 10g+ protein.',
+                lambda E: E, lambda b: (CAL(b),) + tie_chain(b),
+                lambda b, c: (f"{fnum(CAL(b))} calories with {fnum(P(b))}g protein, {c['tied']}the fewest calories of any "
+                              "bar here with 10g+ protein."),
+                metric=CAL)
+
+def slot_big_brand():
+    return Slot('Best from a big brand',
+                'The Best overall rule (best grade, then most protein per 100 calories), limited to brands with national '
+                'grocery, big-box or Costco distribution. 10g+ protein.',
+                lambda E: [b for b in E if is_big(b)], overall_key,
+                lambda b, c: (f"The top pick from a brand you can find in most grocery stores: {b['score_band']}-grade "
+                              f"ingredients, {fnum(P(b))}g protein, {fnum(CAL(b))} calories."),
+                metric=lambda b: (gp(b), p100(b)))
+
+def slot_lowest_sugar():
+    return Slot('Lowest sugar', 'The least sugar, grade B or better, 10g+ protein.',
+                lambda E: E, lambda b: (SUG(b),) + tie_chain(b),
+                lambda b, c: (f"{fnum(SUG(b))}g sugar with {fnum(P(b))}g protein, {c['tied']}the lowest sugar of any bar "
+                              "here with 10g+ protein" + (f", and it wins the tie on {c['tie_on']}." if c['tied'] else ".")),
+                metric=SUG)
+
+def slot_subset(label, rule_subset, test, why_lead, floor=10):
+    """'Best [subset]': the Best overall rule inside a subset of the list."""
+    return Slot(label, f'{rule_subset} Ranked with the Best overall rule (best grade, then most protein per 100 calories), '
+                       f'{floor}g+ protein.',
+                lambda E: [b for b in E if test(b) and P(b) >= floor], overall_key,
+                lambda b, c: why_lead(b) + f" {b['score_band']}-grade ingredients, {fnum(P(b))}g protein, {fnum(CAL(b))} calories.",
+                metric=lambda b: (gp(b), p100(b)), floor=floor)
+
+def _tie_context(slot, pool, b):
+    """'tied for ' when another bar in the slot's pool shares the pick's
+    headline number, plus which tiebreak decided it."""
+    if slot.metric is None:
+        return {'tied': '', 'tie_on': ''}
+    m = slot.metric(b)
+    others = [x for x in pool if x is not b and slot.metric(x) == m]
+    if not others:
+        return {'tied': '', 'tie_on': ''}
+    # which link of the tie chain separated the pick from the nearest tied bar
+    nearest = min(others, key=slot.key)
+    names = ['grade', 'protein', 'sugar', 'fiber', 'calories']
+    tc_b, tc_x = tie_chain(b), tie_chain(nearest)
+    on = next((names[i] for i in range(5) if tc_b[i] != tc_x[i]), 'name')
+    return {'tied': 'tied for ', 'tie_on': on}
+
+def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=3):
+    """Returns [(slot, bar, why, pool_size)]. No bar repeats on the page, at
+    most brand_cap slots per brand, empty slots replaced from fallbacks."""
+    E = v2_eligible(qualify, floor)
+    used, brands, out = set(), defaultdict(int), []
+    queue, fb = list(slots), list(fallbacks)
+    while queue and len(out) < 10:
+        s = queue.pop(0)
+        pool = s.pool(E)
+        cand = [b for b in sorted(pool, key=s.key) if b['Key'] not in used and brands[b['Brand Name']] < brand_cap]
+        if not cand:
+            if fb:
+                queue.insert(0, fb.pop(0))
+            continue
+        b = cand[0]
+        used.add(b['Key']); brands[b['Brand Name']] += 1
+        # tie wording is judged against bars still available to this slot
+        out.append((s, b, s.why(b, _tie_context(s, cand, b)), len(pool)))
+    while len(out) < 10 and fb:
+        s = fb.pop(0)
+        pool = s.pool(E)
+        cand = [b for b in sorted(pool, key=s.key) if b['Key'] not in used and brands[b['Brand Name']] < brand_cap]
+        if cand:
+            b = cand[0]; used.add(b['Key']); brands[b['Brand Name']] += 1
+            out.append((s, b, s.why(b, _tie_context(s, cand, b)), len(pool)))
+    return out
+
+# ---- v2 markup -------------------------------------------------------------
+DEFAULT_CARD_MACROS = [('Protein', lambda b: f'{fnum(P(b))}g'), ('Calories', lambda b: fnum(CAL(b))),
+                       ('Sugar', lambda b: f'{fnum(SUG(b))}g'), ('Fiber', lambda b: f'{fnum(FIB(b))}g')]
+
+def v2_buy_html(b):
+    """Brand link + Amazon, same two button styles as the rest of the site."""
+    out = ''
+    az, ws = amazon_url(b), website_url(b)
+    if ws:
+        out += f'<a href="{esc(ws)}" target="_blank" rel="noopener" class="visit-link">Brand Site</a>'
+    if az:
+        out += f'<a href="{esc(az)}" target="_blank" rel="noopener sponsored" class="amazon-link">Amazon</a>'
+    return out
+
+def best10_html(picks, *, h2, intro, macros=DEFAULT_CARD_MACROS):
+    cards = []
+    for i, (s, b, why, _n) in enumerate(picks, 1):
+        g = b['score_band']
+        mac = ''.join(f'<div class="b10-macro"><span class="b10-macro-val">{f(b)}</span>'
+                      f'<span class="b10-macro-lbl">{esc(l)}</span></div>' for l, f in macros)
+        cards.append(f'''<div class="macro-card pick-tile b10-card" id="pick-{i}">
+  <div class="pick-tile-body">
+    <div class="pick-tile-category"><span class="b10-rank">{i}</span>{esc(s.label)}</div>
+    <div class="pick-tile-brand">{esc(b['Brand Name'])}</div>
+    <div class="pick-tile-flavor-name">{esc(b['Flavor Name'])}</div>
+    <div class="pick-tile-quality"><span class="pick-tile-quality-label">Ingredient Quality</span><span class="table-grade-badge grade-{g}">{g}</span><span class="pick-tile-quality-word">{grade_word(g)}</span></div>
+    <div class="b10-macros">{mac}</div>
+    <p class="pick-tile-reason">{esc(why)}</p>
+  </div>
+  <div class="pick-tile-footer"><div class="bar-links">{v2_buy_html(b)}</div></div>
+</div>''')
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <p class="section-body">{esc(intro)} <a href="#how-we-picked" class="b10-how">How we picked these &rarr;</a></p>
+      <div class="b10-grid">
+{chr(10).join(cards)}
+      </div>
+    </div>'''
+
+def glance_html(picks, *, h2='Best 10 at a glance', cols=None):
+    cols = cols or [('Protein', lambda b: f'{fnum(P(b))}g'), ('Cal', lambda b: fnum(CAL(b))),
+                    ('Sugar', lambda b: f'{fnum(SUG(b))}g'), ('Fiber', lambda b: f'{fnum(FIB(b))}g')]
+    head = ''.join(f'<th>{esc(h)}</th>' for h, _ in cols)
+    rows = '\n'.join(
+        f'<tr><td>{esc(b["Brand Name"])}</td><td>{esc(b["Flavor Name"])}</td><td><a href="#pick-{i}">{esc(s.label)}</a></td>'
+        f'<td>{grade_badge(b["score_band"])}</td>' + ''.join(f'<td>{f(b)}</td>' for _, f in cols) + '</tr>'
+        for i, (s, b, _w, _n) in enumerate(picks, 1))
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <div class="table-scroll">
+        <table class="brand-table b10-v2 b10-glance">
+          <thead><tr><th>Brand</th><th>Flavor</th><th>Pick</th><th>Grade</th>{head}</tr></thead>
+          <tbody>
+{rows}
+          </tbody>
+        </table>
+      </div>
+    </div>'''
+
+def brands_well_rows(all_bars, qualifies, n=8, min_big=2, min_small=2):
+    """Eligible: 3+ bars in the DB and at least one qualifying. Rank: share of
+    the brand's bars that qualify x average grade points of its qualifying
+    bars (A=4 ... F=0, grades only, never raw scores); ties -> bigger lineup.
+    Top n, then swap in big / small brands until the minimums are met."""
+    by = defaultdict(list)
+    for b in all_bars:
+        by[b['Brand Name']].append(b)
+    rows = []
+    for brand, bars in by.items():
+        if len(bars) < 3:
+            continue
+        q = [b for b in bars if qualifies(b)]
+        if not q:
+            continue
+        share = len(q) / len(bars)
+        avg_gp = sum(gp(b) for b in q) / len(q)
+        rows.append(dict(brand=brand, bars=bars, qual=q, total=len(bars), q=len(q), share=share,
+                         rank=share * avg_gp / 4, big=brand in BIG_BRANDS,
+                         grades=Counter_(b['score_band'] for b in q)))
+    rows.sort(key=lambda r: (-r['rank'], -r['total'], r['brand'].lower()))
+    top = rows[:n]
+    for need_big in (True, False):
+        need = min_big if need_big else min_small
+        have = [r for r in top if r['big'] == need_big]
+        extra = [r for r in rows if r['big'] == need_big and r not in top]
+        while len(have) < need and extra:
+            drop = next(r for r in reversed(top) if r['big'] != need_big)
+            top.remove(drop); add = extra.pop(0); top.append(add); have.append(add)
+    top.sort(key=lambda r: (-r['rank'], -r['total'], r['brand'].lower()))
+    return top
+
+from collections import Counter as Counter_
+
+def grade_mix_text(counter):
+    parts = [f"{counter[g]} {g}" for g in BAND_ORDER if counter.get(g)]
+    return names_and(parts)
+
+def brands_well_html(rows, why, *, h2, intro):
+    items = '\n'.join(
+        f'''<tr><td>{esc(r["brand"])}{' <span class="b10-tag">Big brand</span>' if r['big'] else ''}</td><td>{r["q"]} of {r["total"]}</td>'''
+        f'''<td>{grade_range_html(*grade_range(r["qual"]))}</td><td>{esc(why(r))}</td></tr>''' for r in rows)
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <p class="section-body">{esc(intro)}</p>
+      <div class="table-scroll">
+        <table class="brand-table b10-v2 b10-brands">
+          <thead><tr><th>Brand</th><th>Flavors that qualify</th><th>Grades</th><th>Why</th></tr></thead>
+          <tbody>
+{items}
+          </tbody>
+        </table>
+      </div>
+    </div>'''
+
+def avg_grade(bars):
+    """Average grade as a letter (mean of grade points, rounded)."""
+    if not bars:
+        return None
+    m = sum(gp(b) for b in bars) / len(bars)
+    return {4: 'A', 3: 'B', 2: 'C', 1: 'D', 0: 'F'}[int(m + 0.5)]
+
+def big_brands_html(all_bars, qualifies, verdict, *, h2, intro, qual_word='qualify'):
+    by = defaultdict(list)
+    for b in all_bars:
+        by[b['Brand Name']].append(b)
+    rows = []
+    for brand in BIG_BRANDS:
+        bars = by.get(brand)
+        if not bars:
+            continue
+        q = [b for b in bars if qualifies(b)]
+        rows.append(dict(brand=brand, bars=bars, qual=q, total=len(bars), q=len(q)))
+    rows.sort(key=lambda r: (-r['q'] / r['total'], -r['q'], r['brand'].lower()))
+    def name(r):
+        u = BRAND_REVIEW_PAGES.get(r['brand'])
+        return f'<a href="{u}">{esc(r["brand"])}</a>' if u else esc(r['brand'])
+    body = '\n'.join(
+        f'<tr><td>{name(r)}</td><td>{r["total"]}</td><td>{r["q"]}</td><td>{round(100 * r["q"] / r["total"])}%</td>'
+        f'<td>{grade_badge(avg_grade(r["qual"])) if r["qual"] else "n/a"}</td><td>{esc(verdict(r))}</td></tr>' for r in rows)
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <p class="section-body">{intro}</p>
+      <div class="table-scroll">
+        <table class="brand-table b10-v2 b10-big">
+          <thead><tr><th>Brand</th><th>Bars in database</th><th>{esc(qual_word.capitalize())}</th><th>% {esc(qual_word)}</th><th>Avg grade (qualifying)</th><th>Verdict</th></tr></thead>
+          <tbody>
+{body}
+          </tbody>
+        </table>
+      </div>
+    </div>''', rows
+
+def top50_rows(qualify, n=50):
+    """Top 50 order: best grade, then most protein per 100 calories, then the
+    tie chain. Grades only, never raw score."""
+    return sorted(qualify, key=overall_key)[:n]
+
+def top50_html(bars, *, h2, intro):
+    rows = []
+    for b in bars:
+        g = b['score_band']
+        buy = ''
+        az, ws = amazon_url(b), website_url(b)
+        if az:
+            buy = f'<a href="{esc(az)}" target="_blank" rel="noopener sponsored" class="amazon-link t50-buy">Amazon</a>'
+        elif ws:
+            buy = f'<a href="{esc(ws)}" target="_blank" rel="noopener" class="visit-link t50-buy">Brand Site</a>'
+        rows.append(
+            f'<tr class="bar-row t50-row" data-key="{esc(b["Key"])}" data-grade="{g}" tabindex="0" aria-expanded="false">'
+            f'<td class="col-bar"><div class="bar-brand">{esc(b["Brand Name"])}</div><div class="bar-flavor">{esc(b["Flavor Name"])}</div>'
+            + (f'<div class="t50-buy-inline">{buy}</div>' if buy else '') + '</td>'
+            f'<td class="col-grade"><span class="table-grade-badge grade-{g}" title="{grade_word(g)}">{g}</span></td>'
+            f'<td class="col-num">{fnum(P(b))}</td><td class="col-num">{fnum(CAL(b))}</td><td class="col-num">{fnum(SUG(b))}</td>'
+            f'<td class="col-num col-hide-mobile">{fnum(FIB(b))}</td><td class="t50-buy-cell col-hide-mobile">{buy}</td></tr>'
+            f'<tr class="t50-exp" hidden><td colspan="7"><div class="expand-content"></div></td></tr>')
+    return f'''<div class="section-inner">
+      <h2 class="section-title">{esc(h2)}</h2>
+      <p class="section-body">{esc(intro)}</p>
+      <div class="bar-table-wrap">
+        <div class="table-scroll">
+          <table class="t50-table">
+            <thead><tr><th class="col-bar">Bar</th><th class="col-grade">Grade</th><th class="col-num">Protein</th><th class="col-num">Cal</th><th class="col-num">Sugar</th><th class="col-num col-hide-mobile">Fiber</th><th class="t50-buy-cell col-hide-mobile">Buy</th></tr></thead>
+            <tbody id="t50-body">
+{chr(10).join(rows)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>'''
+
+def finder_cta_html(n, href, *, desc):
+    return f'''<div class="explore-cta-grid">
+      <div class="explore-cta-main">
+        <h2 class="explore-cta-main-heading">See all {comma(n)} in the Bar Finder &rarr;</h2>
+        <p class="explore-cta-main-desc">{esc(desc)}</p>
+        <a href="{esc(href)}" class="finder-cta-btn b10-finder-btn">See all {comma(n)} in the Bar Finder &rarr;</a>
+      </div>
+      <div class="explore-cta-side">
+        <a href="/ingredient_scoring" class="explore-cta-side-link">How we score &rarr;</a>
+        <ul class="explore-cta-side-list">
+          <li>Every ingredient is scored individually against a canonical database, not just flagged good or bad</li>
+          <li>Position in the ingredient list matters, earlier ingredients carry more weight</li>
+          <li>Each bar's total becomes a single letter grade, A through F</li>
+        </ul>
+      </div>
+    </div>'''
+
+def criteria_html(*, qualify_rule, picks, extra_rules=()):
+    slot_rules = '\n'.join(f'<li><strong>{esc(s.label)}:</strong> {esc(s.rule)}</li>' for s, _b, _w, _n in picks)
+    extras = ''.join(f'<li>{esc(x)}</li>' for x in extra_rules)
+    return f'''<div class="section-inner">
+      <h2 class="section-title">How we picked these</h2>
+      <div class="section-body">
+        <p><strong>What qualifies:</strong> {qualify_rule}</p>
+        <p><strong>Rules for every pick:</strong></p>
+        <ul class="criteria-list">
+          <li>The bar has to qualify for this guide, carry an A or B ingredient grade, and have at least 10g of protein.</li>
+          <li>We rank ingredient quality by grade only. Two bars with the same grade count as equal, because our scoring isn't precise enough to split them. Ties go to more protein, then less sugar, then more fiber, then fewer calories.</li>
+          <li>No bar appears twice in the Best 10, and no brand gets more than 3 of the 10 spots.</li>
+          <li>If a pick's rule finds no eligible bar, that spot goes to the next rule on this guide's backup list, so there are always 10.</li>
+          <li>Nobody pays for a spot. Every bar goes through the same rules. Buy links may earn us a commission, and that never changes the order.</li>{extras}
+        </ul>
+        <p><strong>How each pick was chosen:</strong></p>
+        <ul class="criteria-list">
+{slot_rules}
+        </ul>
+        <p>How the A to F grades themselves are calculated: <a href="/ingredient_scoring">our scoring methodology</a>. Who built this and why: <a href="/about">About Know Your Bar</a>.</p>
+      </div>
+    </div>'''
+
+def byline_html():
+    return (f'<p class="guide-byline">By <a href="/about" rel="author">{AUTHOR_NAME}</a> &middot; '
+            f'<a href="/about">About</a> &middot; <a href="/ingredient_scoring">How we rate</a></p>')
+
+def related_html(cards):
+    return '\n'.join(f'''        <a href="{h}" class="explore-more-card">
+          <div class="explore-more-title">{esc(t)}</div>
+          <div class="explore-more-desc">{esc(d)}</div>
+        </a>''' for h, t, d in cards)
+
+def grade_share_chart_html(rows, *, title, note):
+    """Horizontal bar chart, one bar per grade (grade colors = identity), each
+    labeled with its value in text ink. rows: [(grade, hit, total)]."""
+    bars = ''.join(
+        f'<div class="gchart-row" title="{g} grade: {h} of {t} bars ({round(100 * h / t)}%)">'
+        f'<span class="table-grade-badge grade-{g}">{g}</span>'
+        f'<span class="gchart-track"><span class="gchart-fill grade-{g}" style="width:{max(1, round(100 * h / t))}%"></span></span>'
+        f'<span class="gchart-val">{round(100 * h / t)}%</span></div>' for g, h, t in rows)
+    return (f'<figure class="gchart"><figcaption class="gchart-title">{esc(title)}</figcaption>{bars}'
+            f'<div class="gchart-note">{esc(note)}</div></figure>')
+
+def findings_v2_html(h2, insights, chart_html):
+    items = ''.join(f'<div class="insight-item"><div class="insight-dot"></div><div class="insight-head">{esc(h)}</div>'
+                    f'<div class="insight-detail">{esc(d)}</div></div>' for h, d in insights)
+    return f'''<div class="findings-inner">
+      <h2 class="findings-title">{esc(h2)}</h2>
+      <div class="insights-grid">
+        {items}
+      </div>
+      {chart_html}
+    </div>'''
+
+def article_jsonld_v2(*, h1, desc, url, about, published, date_modified):
+    d = {'@context': 'https://schema.org', '@type': 'Article', 'headline': h1, 'description': desc, 'url': url,
+         'image': 'https://knowyourbar.com/bar_hero.png', 'datePublished': published, 'dateModified': date_modified,
+         'author': {'@type': 'Person', 'name': AUTHOR_NAME, 'url': ABOUT_URL},
+         'publisher': {'@type': 'Organization', 'name': 'Know Your Bar', 'url': 'https://knowyourbar.com'},
+         'mainEntityOfPage': {'@type': 'WebPage', '@id': url}, 'about': {'@type': 'Thing', 'name': about}}
+    return '<script type="application/ld+json">\n  ' + json.dumps(d, indent=2, ensure_ascii=False).replace('\n', '\n  ') + '\n  </script>'
+
+def v2_head_regions(*, title, h1, desc, og_desc, url, about, published, faqs, picks):
+    """Same regions as guide_head_regions (Article, Breadcrumb, FAQPage,
+    ItemList, social); Article gets a Person author and a placeholder
+    dateModified that build_guide_page_v2 fills. ItemList = the Best 10."""
+    regs = guide_head_regions(title=title, h1=h1, desc=desc, og_desc=og_desc, url=url, about=about,
+                              published=published, faqs=faqs, picks=[(s.label, b) for s, b, _w, _n in picks])
+    regs = [(n, c) for n, c in regs if n != 'jsonld-article']
+    items = {'@context': 'https://schema.org', '@type': 'ItemList', 'name': h1, 'itemListOrder': 'https://schema.org/ItemListOrderAscending',
+             'numberOfItems': len(picks), 'itemListElement': [
+                 {'@type': 'ListItem', 'position': i + 1, 'name': f'{s.label}: {full(b)}', 'url': f'{url}#pick-{i + 1}'}
+                 for i, (s, b, _w, _n) in enumerate(picks)]}
+    regs = [(n, c) if n != 'jsonld-itemlist' else
+            (n, '<script type="application/ld+json">\n  ' + json.dumps(items, ensure_ascii=False, separators=(',', ':')) + '\n  </script>')
+            for n, c in regs]
+    regs.insert(1, ('jsonld-article', article_jsonld_v2(h1=h1, desc=desc, url=url, about=about, published=published,
+                                                        date_modified='__KYB_DATE_MODIFIED__')))
+    return regs
+
+# ---- v2 page shell ------------------------------------------------------------
+V2_BODY = '''<section class="hero page-guide">
+  <div class="hero-inner">
+    <!-- kyb:hero -->
+<!-- /kyb:hero -->
+  </div>
+</section>
+
+<main class="content guide-v2">
+  <section class="section" id="best-10">
+<!-- kyb:best10 -->
+<!-- /kyb:best10 -->
+  </section>
+  <section class="section off" id="at-a-glance">
+<!-- kyb:glance -->
+<!-- /kyb:glance -->
+  </section>
+<!-- kyb:editorial -->
+<!-- /kyb:editorial -->
+  <section class="findings" id="what-we-found">
+<!-- kyb:findings -->
+<!-- /kyb:findings -->
+  </section>
+  <section class="section" id="brands-that-do-it-well">
+<!-- kyb:brands-well -->
+<!-- /kyb:brands-well -->
+  </section>
+  <section class="section off" id="big-brands">
+<!-- kyb:big-brands -->
+<!-- /kyb:big-brands -->
+  </section>
+  <section class="section" id="top-50">
+<!-- kyb:top50 -->
+<!-- /kyb:top50 -->
+  </section>
+  <section class="section guide-finder-cta">
+<!-- kyb:finder-cta -->
+<!-- /kyb:finder-cta -->
+  </section>
+  <section class="section off" id="how-we-picked">
+<!-- kyb:criteria -->
+<!-- /kyb:criteria -->
+  </section>
+  <section class="guide-faq" id="faq">
+    <div class="guide-faq-inner">
+      <h2 class="section-title">Frequently asked questions</h2>
+      <div class="faq-items"><!-- kyb:faq -->
+<!-- /kyb:faq --></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-inner">
+      <div class="explore-more-label">Related guides</div>
+      <div class="explore-more-grid"><!-- kyb:explore-more -->
+<!-- /kyb:explore-more --></div>
+    </div>
+  </section>
+</main><!-- /content -->
+'''
+
+V2_SCRIPT = r'''<script>
+/* Guide v2 (kyb_guide_lib.py). Top 50 rows expand on tap; the detail comes
+   from /bars.js, loaded once on the first tap (the Bar Finder caches the same
+   file). Ingredient quality shows as a grade only, never a score. */
+(function () {
+  var body = document.getElementById('t50-body');
+  var loading = null, byKey = null;
+  function loadBars() {
+    if (byKey) return Promise.resolve(byKey);
+    if (loading) return loading;
+    loading = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = '/bars.js';
+      s.onload = function () {
+        byKey = {};
+        try { BARS.forEach(function (b) { byKey[b.Key] = b; }); } catch (e) {}
+        resolve(byKey);
+      };
+      s.onerror = function () { loading = null; reject(); };
+      document.head.appendChild(s);
+    });
+    return loading;
+  }
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function n(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var x = parseFloat(v); if (isNaN(x)) return null;
+    return Math.round(x * 10) / 10;
+  }
+  var WORD = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Poor', F: 'Avoid' };
+  var CHIP = { positive: 'chip-positive', concern: 'chip-concern', neutral: 'chip-neutral' };
+  var NUTR = [['Calories', 'Calories', ''], ['Protein (g)', 'Protein', 'g'], ['Total Fat (g)', 'Total Fat', 'g'],
+    ['Saturated Fat (g)', 'Saturated Fat', 'g'], ['Sodium (mg)', 'Sodium', 'mg'], ['Total Carbohydrates (g)', 'Total Carbs', 'g'],
+    ['Dietary Fiber (g)', 'Dietary Fiber', 'g'], ['Sugars (g)', 'Sugars', 'g'], ['Sugar Alcohol (g)', 'Sugar Alcohol', 'g']];
+  function url(v) { return (typeof v === 'string' && v.indexOf('http') === 0) ? v : ''; }
+  function panel(b) {
+    var buy = '';
+    if (url(b['Website'])) buy += '<a href="' + esc(b['Website']) + '" target="_blank" rel="noopener" class="visit-link">Shop on Brand Site</a>';
+    if (url(b['Amazon Affiliate'])) buy += '<a href="' + esc(b['Amazon Affiliate']) + '" target="_blank" rel="noopener sponsored" class="amazon-link">Shop on Amazon</a>';
+    var nutr = NUTR.map(function (f) {
+      var v = n(b[f[0]]);
+      return '<div class="nutr-row"><span class="nutr-label">' + f[1] + '</span><span class="nutr-val">' + (v === null ? 'n/a' : v + f[2]) + '</span></div>';
+    }).join('');
+    var chips = String(b['score_insights'] || '').split('|').filter(function (p) { return p.trim(); }).map(function (p) {
+      var bits = p.split(':');
+      return '<span class="insight-chip ' + (CHIP[(bits[1] || '').trim()] || 'chip-neutral') + '">' + esc(bits[0].trim()) + '</span>';
+    }).join('');
+    var g = b['score_band'];
+    var sv = n(b['Serving Size (g)']);
+    return '<div class="expand-meta">' + esc(b['Size'] || 'Standard') + ' &middot; ' + esc(b['Type'] || 'Bar') + (sv ? ' &middot; ' + sv + 'g serving' : '') + '</div>' +
+      '<div class="expand-buy-row">' + buy + '</div>' +
+      '<div class="expand-columns">' +
+        '<div class="nutr-panel"><div class="nutr-panel-title">Nutrition Facts</div>' + nutr + '</div>' +
+        '<div class="expand-right">' +
+          '<div class="score-tile score-band-' + esc(g) + '"><div class="score-tile-header"><div class="score-grade-block">' +
+            '<div class="score-header-label">Ingredient Quality Grade</div>' +
+            '<div class="score-grade-row"><span class="score-band-badge">' + esc(g) + '</span><span class="score-band-label">' + (WORD[g] || '') + '</span></div>' +
+          '</div></div>' + (chips ? '<div class="score-chips">' + chips + '</div>' : '') + '</div>' +
+          '<div class="ingr-block"><div class="ingr-label">Ingredients</div><div class="ingr-text">' + esc(b['Ingredients']) + '</div></div>' +
+        '</div>' +
+      '</div>';
+  }
+  function toggle(row) {
+    var exp = row.nextElementSibling;
+    if (!exp) return;
+    var open = !exp.hidden;
+    if (open) { exp.hidden = true; row.classList.remove('row-open'); row.setAttribute('aria-expanded', 'false'); return; }
+    exp.hidden = false; row.classList.add('row-open'); row.setAttribute('aria-expanded', 'true');
+    var box = exp.querySelector('.expand-content');
+    if (box.getAttribute('data-done')) return;
+    box.innerHTML = '<div class="expand-meta">Loading&hellip;</div>';
+    loadBars().then(function (m) {
+      var b = m[row.getAttribute('data-key')];
+      box.innerHTML = b ? panel(b) : '<div class="expand-meta">Details are in the <a href="/bar-finder">Bar Finder</a>.</div>';
+      if (b) box.setAttribute('data-done', '1');
+    }, function () {
+      box.innerHTML = '<div class="expand-meta">Could not load details. Try the <a href="/bar-finder">Bar Finder</a>.</div>';
+    });
+  }
+  if (body) {
+    body.addEventListener('click', function (e) {
+      if (e.target.closest('a')) return;
+      var row = e.target.closest('tr.t50-row');
+      if (row) toggle(row);
+    });
+    body.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var row = e.target.closest('tr.t50-row');
+      if (row) { e.preventDefault(); toggle(row); }
+    });
+  }
+  document.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+})();
+</script>'''
+
+def v2_shell(page):
+    """One-time migration of a v1 guide page to the v2 body. Keeps the <head>
+    (and its kyb regions), the nav, and the footer exactly as deployed.
+    Drops the v1 body (snapshot, v1 tables, gd-bar-data JSON, v1 inline JS)
+    and the visible footer 'Updated' date (spec: no visible date).
+    Idempotent: a page that already has the v2 marker is returned unchanged."""
+    if '<!-- kyb:v2 -->' in page:
+        return page
+    a = page.index('<section class="hero page-guide">')
+    f0 = page.index('<footer class="site-footer">')
+    f1 = page.index('</footer>', f0) + len('</footer>')
+    footer = page[f0:f1]
+    footer = re.sub(r'<div class="site-footer-copy">knowyourbar\.com\s*&nbsp;&middot;&nbsp;\s*Updated \d{4}-\d{2}-\d{2}</div>',
+                    '<div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; <a href="/about">About</a></div>', footer)
+    tail = page[f1:]
+    k = tail.find('<script src="analytics.js"')
+    if k == -1:
+        raise SystemExit('ERROR: analytics.js tag not found after footer')
+    tail = tail[k:]
+    head = page[:a].replace('<head>', '<head>\n  <!-- kyb:v2 -->', 1)
+    return (head + V2_BODY + footer + '\n<!-- kyb:v2-script -->\n<!-- /kyb:v2-script -->\n\n' + tail)
+
+def v2_qa(page, *, n_faq=None):
+    """File-size and FAQ-position checks (QA.md section 1b) plus v2 invariants.
+    Returns a list of problems (empty = pass)."""
+    problems = []
+    raw = page.encode('utf-8')
+    size = len(raw)
+    if size >= V2_MAX_BYTES:
+        problems.append(f'HTML is {size:,} bytes, limit {V2_MAX_BYTES:,}')
+    for label, needle in (('FAQ', '<section class="guide-faq"'), ('footer', '<footer class="site-footer"')):
+        i = page.find(needle)
+        off = len(page[:i].encode('utf-8')) if i != -1 else None
+        if off is None:
+            problems.append(f'{label} section missing')
+        elif off >= V2_FAQ_MAX_OFFSET:
+            problems.append(f'{label} starts at byte {off:,}, must be under {V2_FAQ_MAX_OFFSET:,}')
+    if 'gd-bar-data' in page:
+        problems.append('v1 gd-bar-data JSON blob still present')
+    types = re.findall(r'"@type":\s*"(Article|Dataset|BreadcrumbList|FAQPage|ItemList)"', page)
+    for t in ('Article', 'Dataset', 'BreadcrumbList', 'FAQPage', 'ItemList'):
+        if t not in types:
+            problems.append(f'missing {t} schema')
+    for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>', page, re.S):
+        try:
+            json.loads(m.group(1))
+        except ValueError as e:
+            problems.append(f'invalid JSON-LD: {e}')
+    if 'Ingredient Quality Score' in page or 'score-number' in page or re.search(r'data-score="', page):
+        problems.append('an ingredient quality SCORE is printed on a v2 page (grades only)')
+    if re.search(r'Updated \d{4}-\d{2}-\d{2}', re.sub(r'<script.*?</script>', '', page, flags=re.S)):
+        problems.append('visible "Updated" date on a v2 page')
+    # FAQPage JSON-LD must match the visible FAQ word for word
+    m = re.search(r'"@type":"FAQPage","mainEntity":(\[.*?\])\}\s*</script>', page, re.S)
+    vis = [(plain_text(q), plain_text(a)) for q, a in re.findall(
+        r'<button class="faq-q">(.*?)</button>\s*<div class="faq-a">(.*?)</div>', page, re.S)]
+    if m:
+        ld = [(x['name'], x['acceptedAnswer']['text']) for x in json.loads(m.group(1))]
+        if ld != vis:
+            problems.append('FAQPage JSON-LD does not match visible FAQ text')
+    else:
+        problems.append('FAQPage JSON-LD not found')
+    return problems
+
+def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks):
+    """Migrate (first run) then fill the v2 regions. dateModified only moves
+    when the generated content actually changes (content hash), never
+    artificially on a rebuild."""
+    claims.stop_if_failed()
+    page = v2_shell(open(page_path, encoding='utf-8').read())
+    regions = list(regions) + [('v2-script', V2_SCRIPT)]
+    digest = _hashlib.sha256('\n'.join(f'{n}\n{c}' for n, c in regions).encode('utf-8')).hexdigest()[:16]
+    old = re.search(r'<!-- kyb:content-hash ([0-9a-f]+) -->', page)
+    old_mod = re.search(r'"@type": "Article".*?"dateModified": "(\d{4}-\d{2}-\d{2})"', page, re.S)
+    if old and old.group(1) == digest and old_mod:
+        date_mod = old_mod.group(1)
+    else:
+        date_mod = today_iso()
+    for name, content in regions:
+        page = replace_region(page, name, content.replace('__KYB_DATE_MODIFIED__', date_mod))
+    page = re.sub(r'[ \t]*<!-- kyb:content-hash [0-9a-f]+ -->\n', '', page)
+    page = page.replace('<!-- kyb:v2 -->', f'<!-- kyb:v2 -->\n  <!-- kyb:content-hash {digest} -->', 1)
+    problems = v2_qa(page)
+    # Best 10 cards: grade badges must match bars.js
+    by_name = {(esc(b['Brand Name']), esc(b['Flavor Name'])): b for b in all_bars}
+    for brand, flavor, gr in re.findall(r'<div class="pick-tile-brand">(.*?)</div>\s*<div class="pick-tile-flavor-name">(.*?)</div>.*?table-grade-badge grade-(\w)"', page, re.S):
+        b = by_name.get((brand, flavor))
+        if b is None or b.get('score_band') != gr:
+            problems.append(f'pick card grade mismatch: {brand} | {flavor}')
+    for bad in ['href="Yes"', 'href="None"', '—', '&mdash;']:
+        if bad in page:
+            problems.append(f'forbidden: {bad!r}')
+    if len(picks) != 10 or len({b['Key'] for _s, b, _w, _n in picks}) != 10:
+        problems.append('Best 10 is not 10 distinct bars')
+    if problems:
+        print('V2 QA FAILED, page not written:')
+        for p in problems:
+            print('  ', p)
+        _sys.exit(1)
+    open(page_path, 'w', encoding='utf-8').write(page)
+    return page

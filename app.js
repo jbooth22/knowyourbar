@@ -1201,12 +1201,16 @@ function applyFilters() {
 
     // Sliders
     for (const cfg of SLIDERS_CFG) {
+      // A max slider left at the top of its range means "no limit". Without
+      // this, bars above the range (e.g. 420+ cal, 51g carbs) were silently
+      // hidden from every Bar Finder view (fixed 2026-09-29).
+      if (cfg.dir === 'max' && sliderValues[cfg.key] >= cfg.max) continue;
       // _netCarbs is a computed field, not a direct bar property
       if (cfg.key === '_netCarbs') {
         const carbs = bar['Total Carbohydrates (g)'] || 0;
         const fiber = bar['Dietary Fiber (g)'] || 0;
         const sa    = bar['Sugar Alcohol (g)'] || 0;
-        const nc    = carbs - fiber - (sa / 2);
+        const nc    = carbs - fiber - sa;   // full subtraction, never halved (GUIDE_CRITERIA net carbs rule; fixed 2026-09-29)
         if (nc > sliderValues['_netCarbs']) return false;
         continue;
       }

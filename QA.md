@@ -1,5 +1,5 @@
 # KnowYourBar.com — QA Checklist
-*Last updated: August 2026*
+*Last updated: 2026-09-29 (added section 1b: page weight + FAQ position)*
 
 Run this before every upload to GitHub. If any check fails, fix it before deploying.
 
@@ -100,6 +100,32 @@ for filename in sorted(f for f in os.listdir(pages_dir) if f.endswith('.html')):
 
 print('\nPASS — zero broken link-field values' if all_clean else '\nFAIL — fix before uploading')
 ```
+
+---
+
+## 1b. Page weight + FAQ position (added 2026-09-29)
+
+Googlebot only processes the first 2MB of a page's HTML. Anything past that
+(FAQ, footer, internal links) is never seen. Guide pages on the v2 "Best 10"
+layout (claude/GUIDE_PAGE_SPEC_V2.md) have tighter, hard targets:
+
+- [ ] HTML under **400,000 bytes**
+- [ ] The FAQ section (`<section class="guide-faq"`) and the footer both start inside the **first 300,000 bytes**
+- [ ] No v1 `gd-bar-data` JSON blob
+- [ ] All five schema types present and valid JSON: Article, Dataset, BreadcrumbList, FAQPage, ItemList
+- [ ] FAQPage JSON-LD matches the visible FAQ word for word
+- [ ] No ingredient quality SCORE printed anywhere on the page (grades only), no visible "Updated" date
+
+All of the above run in one script (`qa_page_weight.py`, which calls `v2_qa()` in kyb_guide_lib.py). Every v2 build also runs the same checks and refuses to write the page if one fails.
+
+```bash
+python3 qa_page_weight.py                          # every page in the repo
+python3 qa_page_weight.py no-sugar-alcohols.html   # the pages you changed (hard gate)
+```
+
+On a repo-wide run, v1 guides that are still over 2MB print as `OVER` but don't fail the run, since the v2 rollout is what fixes them. Any page you name on the command line (or `--strict`) fails at 2MB. `kyb_scatter_interactive.html` is exempt (standalone data-viz share page).
+
+**Bar Finder deep link:** every guide's "See all [N] in the Bar Finder" button must show the same N in the Bar Finder. Open the link in a headless browser and read `#result-count`. It must equal the guide's qualifying count.
 
 ---
 
