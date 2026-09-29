@@ -1402,22 +1402,35 @@ def grade_mix_text(counter):
     parts = [f"{counter[g]} {g}" for g in BAND_ORDER if counter.get(g)]
     return names_and(parts)
 
+def best_pick(bars):
+    """Best bar in a list by the Best overall rule (grade, then protein per calorie)."""
+    return min(bars, key=overall_key) if bars else None
+
 def brands_well_html(rows, why, *, h2, intro):
     items = '\n'.join(
-        f'''<tr><td>{esc(r["brand"])}{' <span class="b10-tag">Big brand</span>' if r['big'] else ''}</td><td>{r["q"]} of {r["total"]}</td>'''
-        f'''<td>{grade_range_html(*grade_range(r["qual"]))}</td><td>{esc(why(r))}</td></tr>''' for r in rows)
-    return f'''<div class="section-inner">
-      <h2 class="section-title">{esc(h2)}</h2>
-      <p class="section-body">{esc(intro)}</p>
-      <div class="table-scroll">
-        <table class="brand-table b10-v2 b10-brands">
-          <thead><tr><th>Brand</th><th>Flavors that qualify</th><th>Grades</th><th>Why</th></tr></thead>
-          <tbody>
-{items}
-          </tbody>
-        </table>
-      </div>
-    </div>'''
+        f'<tr><td class="kt-brand">{esc(r["brand"])}</td><td class="kt-num">{r["q"]}/{r["total"]}</td>'
+        f'<td class="kt-num">{grade_range_html(*grade_range(r["qual"]))}</td>'
+        f'<td class="kt-num">{fnum(avg(r["qual"], "Protein (g)"))}g</td><td class="kt-num">{fnum(avg(r["qual"], "Sugars (g)"))}g</td>'
+        f'<td class="kt-text">{esc(why(r))}</td></tr>' for r in rows)
+    return ('<div class="section-inner">\n      <h2 class="section-title">' + esc(h2) + '</h2>\n'
+            '      <p class="section-body">' + esc(intro) + '</p>\n      <div class="kt-wrap">\n        <table class="kt-table kt-brands">\n'
+            '          <thead><tr><th class="kt-brand">Brand</th><th class="kt-num">Qualify</th><th class="kt-num">Grades</th>'
+            '<th class="kt-num">Avg protein</th><th class="kt-num">Avg sugar</th><th class="kt-text">Why</th></tr></thead>\n'
+            '          <tbody>\n' + items + '\n          </tbody>\n        </table>\n      </div>\n    </div>')
+
+def more_list_html(names, label='Found in:', first=4, empty='No bars in the current database'):
+    """v2 'Found in' list. Collapsed: 'A, B, C, D and 25 more'. Expanded, the
+    rest of the list appears inline and the toggle moves to the END of the list
+    as 'Show less' (the v1 <details> version left 'Hide' stuck mid-list)."""
+    names = list(names)
+    if not names:
+        return f'<div class="oil-card-brands"><span class="oil-card-brands-label">{label}</span> {esc(empty)}</div>'
+    head, rest = names[:first], names[first:]
+    out = f'<div class="oil-card-brands more-list"><span class="oil-card-brands-label">{label}</span> {esc(", ".join(head))}'
+    if rest:
+        out += (f'<span class="more-rest" hidden>, {esc(", ".join(rest))}</span> '
+                f'<button type="button" class="more-toggle" aria-expanded="false" data-more="and {len(rest)} more">and {len(rest)} more</button>')
+    return out + '</div>'
 
 def avg_grade(bars):
     """Average grade as a letter (mean of grade points, rounded)."""
@@ -1441,59 +1454,75 @@ def big_brands_html(all_bars, qualifies, verdict, *, h2, intro, qual_word='quali
     def name(r):
         u = BRAND_REVIEW_PAGES.get(r['brand'])
         return f'<a href="{u}">{esc(r["brand"])}</a>' if u else esc(r['brand'])
+    def gcell(r):
+        return grade_badge(avg_grade(r['qual'])) if r['qual'] else '<span class="kt-sub">n/a</span>'
     body = '\n'.join(
-        f'<tr><td>{name(r)}</td><td>{r["total"]}</td><td>{r["q"]}</td><td>{round(100 * r["q"] / r["total"])}%</td>'
-        f'<td>{grade_badge(avg_grade(r["qual"])) if r["qual"] else "n/a"}</td><td>{esc(verdict(r))}</td></tr>' for r in rows)
-    return f'''<div class="section-inner">
-      <h2 class="section-title">{esc(h2)}</h2>
-      <p class="section-body">{intro}</p>
-      <div class="table-scroll">
-        <table class="brand-table b10-v2 b10-big">
-          <thead><tr><th>Brand</th><th>Bars in database</th><th>{esc(qual_word.capitalize())}</th><th>% {esc(qual_word)}</th><th>Avg grade (qualifying)</th><th>Verdict</th></tr></thead>
-          <tbody>
-{body}
-          </tbody>
-        </table>
-      </div>
-    </div>''', rows
+        f'<tr><td class="kt-brand">{name(r)}</td>'
+        f'<td class="kt-num"><span class="kt-strong">{r["q"]}/{r["total"]}</span><span class="kt-sub">{round(100 * r["q"] / r["total"])}%</span></td>'
+        f'<td class="kt-num">{gcell(r)}</td><td class="kt-text">{esc(verdict(r))}</td></tr>' for r in rows)
+    html = ('<div class="section-inner">\n      <h2 class="section-title">' + esc(h2) + '</h2>\n'
+            '      <p class="section-body">' + intro + '</p>\n      <div class="kt-wrap">\n        <table class="kt-table kt-big">\n'
+            '          <thead><tr><th class="kt-brand">Brand</th><th class="kt-num">' + esc(qual_word.capitalize()) + '</th>'
+            '<th class="kt-num">Avg grade</th><th class="kt-text">Verdict</th></tr></thead>\n'
+            '          <tbody>\n' + body + '\n          </tbody>\n        </table>\n      </div>\n    </div>')
+    return html, rows
 
 def top50_rows(qualify, n=50):
     """Top 50 order: best grade, then most protein per 100 calories, then the
     tie chain. Grades only, never raw score."""
     return sorted(qualify, key=overall_key)[:n]
 
-def top50_html(bars, *, h2, intro):
+def buy_pair_html(b, cls='kt-buy'):
+    """Both buy links, short labels, side by side: Amazon (outlined) + Brand (solid)."""
+    out = ''
+    az, ws = amazon_url(b), website_url(b)
+    if az:
+        out += f'<a href="{esc(az)}" target="_blank" rel="noopener sponsored" class="amazon-link {cls}">Amazon</a>'
+    if ws:
+        out += f'<a href="{esc(ws)}" target="_blank" rel="noopener" class="visit-link {cls}">Brand</a>'
+    return out
+
+KT_COLS = {  # key -> (header, fn)
+    'grade': ('Grade', lambda b: f'<span class="table-grade-badge grade-{b["score_band"]}" title="{grade_word(b["score_band"])}">{b["score_band"]}</span>'),
+    'protein': ('Protein', lambda b: f'{fnum(P(b))}g'),
+    'cal': ('Cal', lambda b: fnum(CAL(b))),
+    'sugar': ('Sugar', lambda b: f'{fnum(SUG(b))}g'),
+    'fiber': ('Fiber', lambda b: f'{fnum(FIB(b))}g'),
+}
+
+def compact_bar_table_html(bars, *, cols=('grade', 'protein', 'cal', 'sugar', 'fiber'), extra=None, hide_mobile=('fiber',)):
+    """Compact bar list used by v2 guides (Top 50 and any short bar table).
+    One Bar cell (brand over flavor), centered numbers, both buy links.
+    extra=(header, fn(b)->html) adds a text column after Bar. Rows expand
+    on tap (nutrition + ingredients, loaded from /bars.js). On phones the
+    buy links move under the flavor name."""
+    heads = ['<th class="kt-bar">Bar</th>']
+    if extra:
+        heads.append(f'<th class="kt-extra kt-hide-m">{esc(extra[0])}</th>')
+    for c in cols:
+        heads.append(f'<th class="kt-num{" kt-hide-m" if c in hide_mobile else ""}">{KT_COLS[c][0]}</th>')
+    heads.append('<th class="kt-buy-col kt-hide-m">Buy</th>')
+    span = len(heads)
     rows = []
     for b in bars:
-        g = b['score_band']
-        buy = ''
-        az, ws = amazon_url(b), website_url(b)
-        if az:
-            buy = f'<a href="{esc(az)}" target="_blank" rel="noopener sponsored" class="amazon-link t50-buy">Amazon</a>'
-        elif ws:
-            buy = f'<a href="{esc(ws)}" target="_blank" rel="noopener" class="visit-link t50-buy">Brand Site</a>'
-        rows.append(
-            f'<tr class="bar-row t50-row" data-key="{esc(b["Key"])}" data-grade="{g}" tabindex="0" aria-expanded="false">'
-            f'<td class="col-bar"><div class="bar-brand">{esc(b["Brand Name"])}</div><div class="bar-flavor">{esc(b["Flavor Name"])}</div>'
-            + (f'<div class="t50-buy-inline">{buy}</div>' if buy else '') + '</td>'
-            f'<td class="col-grade"><span class="table-grade-badge grade-{g}" title="{grade_word(g)}">{g}</span></td>'
-            f'<td class="col-num">{fnum(P(b))}</td><td class="col-num">{fnum(CAL(b))}</td><td class="col-num">{fnum(SUG(b))}</td>'
-            f'<td class="col-num col-hide-mobile">{fnum(FIB(b))}</td><td class="t50-buy-cell col-hide-mobile">{buy}</td></tr>'
-            f'<tr class="t50-exp" hidden><td colspan="7"><div class="expand-content"></div></td></tr>')
-    return f'''<div class="section-inner">
-      <h2 class="section-title">{esc(h2)}</h2>
-      <p class="section-body">{esc(intro)}</p>
-      <div class="bar-table-wrap">
-        <div class="table-scroll">
-          <table class="t50-table">
-            <thead><tr><th class="col-bar">Bar</th><th class="col-grade">Grade</th><th class="col-num">Protein</th><th class="col-num">Cal</th><th class="col-num">Sugar</th><th class="col-num col-hide-mobile">Fiber</th><th class="t50-buy-cell col-hide-mobile">Buy</th></tr></thead>
-            <tbody id="t50-body">
-{chr(10).join(rows)}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>'''
+        buy = buy_pair_html(b)
+        cells = [f'<td class="kt-bar"><div class="bar-brand">{esc(b["Brand Name"])}</div><div class="bar-flavor">{esc(b["Flavor Name"])}</div>'
+                 + (f'<div class="kt-extra-inline">{esc(extra[0])}: {extra[1](b)}</div>' if extra else '')
+                 + (f'<div class="kt-buy-inline">{buy}</div>' if buy else '') + '</td>']
+        if extra:
+            cells.append(f'<td class="kt-extra kt-hide-m">{extra[1](b)}</td>')
+        for c in cols:
+            cells.append(f'<td class="kt-num{" kt-hide-m" if c in hide_mobile else ""}">{KT_COLS[c][1](b)}</td>')
+        cells.append(f'<td class="kt-buy-col kt-hide-m"><div class="kt-buy-pair">{buy}</div></td>')
+        rows.append(f'<tr class="bar-row t50-row" data-key="{esc(b["Key"])}" data-grade="{b["score_band"]}" tabindex="0" aria-expanded="false">'
+                    + ''.join(cells) + '</tr>'
+                    + f'<tr class="t50-exp" hidden><td colspan="{span}"><div class="expand-content"></div></td></tr>')
+    return ('<div class="kt-wrap">\n        <table class="kt-table">\n          <thead><tr>' + ''.join(heads) + '</tr></thead>\n'
+            '          <tbody class="kt-body">\n' + '\n'.join(rows) + '\n          </tbody>\n        </table>\n      </div>')
+
+def top50_html(bars, *, h2, intro):
+    return ('<div class="section-inner">\n      <h2 class="section-title">' + esc(h2) + '</h2>\n'
+            '      <p class="section-body">' + esc(intro) + '</p>\n      ' + compact_bar_table_html(bars, hide_mobile=('fiber', 'cal')) + '\n    </div>')
 
 def finder_cta_html(n, href, *, desc):
     return f'''<div class="explore-cta-grid">
@@ -1536,8 +1565,10 @@ def criteria_html(*, qualify_rule, picks, extra_rules=()):
     </div>'''
 
 def byline_html():
-    return (f'<p class="guide-byline">By <a href="/about" rel="author">{AUTHOR_NAME}</a> &middot; '
-            f'<a href="/about">About</a> &middot; <a href="/ingredient_scoring">How we rate</a></p>')
+    """Quiet author line at the very bottom of the page (Jeff, 2026-09-29: not
+    in the hero). Article schema still names Jeff Booth as author."""
+    return (f'<p class="guide-author">Know Your Bar is built by <a href="/about" rel="author">{AUTHOR_NAME}</a>. '
+            f'<a href="/about">About us</a> &middot; <a href="/ingredient_scoring">How we rate bars</a></p>')
 
 def related_html(cards):
     return '\n'.join(f'''        <a href="{h}" class="explore-more-card">
@@ -1606,10 +1637,6 @@ V2_BODY = '''<section class="hero page-guide">
 <!-- kyb:best10 -->
 <!-- /kyb:best10 -->
   </section>
-  <section class="section off" id="at-a-glance">
-<!-- kyb:glance -->
-<!-- /kyb:glance -->
-  </section>
 <!-- kyb:editorial -->
 <!-- /kyb:editorial -->
   <section class="findings" id="what-we-found">
@@ -1650,6 +1677,10 @@ V2_BODY = '''<section class="hero page-guide">
 <!-- /kyb:explore-more --></div>
     </div>
   </section>
+  <section class="section guide-author-section">
+    <div class="section-inner"><!-- kyb:author -->
+<!-- /kyb:author --></div>
+  </section>
 </main><!-- /content -->
 '''
 
@@ -1658,7 +1689,7 @@ V2_SCRIPT = r'''<script>
    from /bars.js, loaded once on the first tap (the Bar Finder caches the same
    file). Ingredient quality shows as a grade only, never a score. */
 (function () {
-  var body = document.getElementById('t50-body');
+  var bodies = document.querySelectorAll('.kt-body');
   var loading = null, byKey = null;
   function loadBars() {
     if (byKey) return Promise.resolve(byKey);
@@ -1736,7 +1767,7 @@ V2_SCRIPT = r'''<script>
       box.innerHTML = '<div class="expand-meta">Could not load details. Try the <a href="/bar-finder">Bar Finder</a>.</div>';
     });
   }
-  if (body) {
+  Array.prototype.forEach.call(bodies, function (body) {
     body.addEventListener('click', function (e) {
       if (e.target.closest('a')) return;
       var row = e.target.closest('tr.t50-row');
@@ -1744,10 +1775,23 @@ V2_SCRIPT = r'''<script>
     });
     body.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (e.target.closest('a')) return;
       var row = e.target.closest('tr.t50-row');
       if (row) { e.preventDefault(); toggle(row); }
     });
-  }
+  });
+  /* "and 25 more" lists: reveal the rest inline; the button sits after the
+     list, so it ends up at the END of the list as "Show less". */
+  document.querySelectorAll('.more-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var rest = btn.previousElementSibling;
+      if (!rest) return;
+      var open = rest.hidden;
+      rest.hidden = !open;
+      btn.textContent = open ? 'Show less' : btn.getAttribute('data-more');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
   document.querySelectorAll('.faq-q').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var item = btn.closest('.faq-item');
@@ -1780,6 +1824,22 @@ def v2_shell(page):
     tail = tail[k:]
     head = page[:a].replace('<head>', '<head>\n  <!-- kyb:v2 -->', 1)
     return (head + V2_BODY + footer + '\n<!-- kyb:v2-script -->\n<!-- /kyb:v2-script -->\n\n' + tail)
+
+def v2_shell_upgrade(page):
+    """Bring an already-migrated v2 page up to the current V2_BODY (2026-09-29
+    QA pass): drop the 'Best 10 at a glance' section, add the bottom author
+    region. Idempotent."""
+    page = re.sub(r'  <section class="section off" id="at-a-glance">\n<!-- kyb:glance -->.*?<!-- /kyb:glance -->\n  </section>\n',
+                  '', page, flags=re.S)
+    if '<!-- kyb:author -->' not in page:
+        page = page.replace('</main><!-- /content -->', AUTHOR_SECTION + '</main><!-- /content -->', 1)
+    return page
+
+AUTHOR_SECTION = '''  <section class="section guide-author-section">
+    <div class="section-inner"><!-- kyb:author -->
+<!-- /kyb:author --></div>
+  </section>
+'''
 
 def v2_qa(page, *, n_faq=None):
     """File-size and FAQ-position checks (QA.md section 1b) plus v2 invariants.
@@ -1828,7 +1888,7 @@ def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks):
     when the generated content actually changes (content hash), never
     artificially on a rebuild."""
     claims.stop_if_failed()
-    page = v2_shell(open(page_path, encoding='utf-8').read())
+    page = v2_shell_upgrade(v2_shell(open(page_path, encoding='utf-8').read()))
     regions = list(regions) + [('v2-script', V2_SCRIPT)]
     digest = _hashlib.sha256('\n'.join(f'{n}\n{c}' for n, c in regions).encode('utf-8')).hexdigest()[:16]
     old = re.search(r'<!-- kyb:content-hash ([0-9a-f]+) -->', page)

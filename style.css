@@ -441,3 +441,68 @@ table.brand-table.b10-v2 th, table.brand-table.b10-v2 td { width: auto !importan
    section heading (.section-inner is 820px of content). Widen the hero box by
    the padding so both text columns share the same left edge at every width. */
 .page-guide .hero-inner { max-width: calc(820px + 3rem); }
+
+/* ==========================================================================
+   2026-09-29 Guide v2, QA pass 2 (Jeff's review): compact data tables,
+   inline "and N more" lists, section CTA button, bottom author line.
+   ========================================================================== */
+/* Compact tables (.kt-table): Top 50, erythritol list, brand tables */
+.kt-wrap { margin-top: 1rem; border: 1.5px solid var(--bs-ink); border-radius: var(--bs-radius); overflow: hidden; background: var(--bs-paper); }
+.kt-table { width: 100%; border-collapse: collapse; font-family: var(--bs-font-body); font-size: 14px; color: var(--bs-ink); }
+.kt-table th { padding: 9px 10px; background: var(--bs-cream); font-size: 12px; font-weight: 700; line-height: 1.25; text-align: left; vertical-align: bottom; }
+.kt-table td { padding: 9px 10px; border-top: 1px solid var(--bs-line-soft); vertical-align: middle; line-height: 1.4; }
+.kt-table .kt-num { text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kt-table th.kt-num { white-space: normal; min-width: 52px; }
+.kt-table .kt-bar { width: 38%; }
+.kt-table .kt-bar .bar-brand { font-size: 12px; color: var(--bs-text-dim); }
+.kt-table .kt-bar .bar-flavor { font-weight: 700; color: var(--bs-ink); }
+.kt-table .kt-extra { font-size: 13px; color: var(--bs-text-dim); }
+.kt-table .kt-brand { font-weight: 700; white-space: nowrap; }
+.kt-table .kt-brand a { color: var(--bs-ink); text-decoration: underline; text-decoration-color: var(--bs-line-soft); text-underline-offset: 2px; }
+.kt-table .kt-text { font-size: 13px; color: var(--bs-text-dim); min-width: 220px; }
+.kt-table .kt-strong { display: block; font-weight: 700; }
+.kt-table .kt-sub { display: block; font-size: 12px; color: var(--bs-text-dim); }
+.kt-table .kt-buy-col { text-align: right; white-space: nowrap; width: 1%; }
+.kt-buy-pair { display: inline-flex; gap: 6px; }
+.brand-v1 .kt-table a.kt-buy { min-height: 30px; min-width: 0; padding: 4px 10px; font-size: 12px; white-space: nowrap; }
+.kt-buy-inline { display: none; }
+.kt-table tr.t50-row { cursor: pointer; }
+.kt-table tr.t50-row:hover td, .kt-table tr.t50-row.row-open td { background: var(--off-white); }
+.kt-table tr.t50-row:focus-visible { outline: 2px solid var(--bs-ink); outline-offset: -2px; }
+.kt-table .t50-exp > td { padding: 0 10px 12px; background: var(--bs-paper); border-top: 0; }
+.kt-h3 { font-family: var(--bs-font-display); font-weight: 700; font-size: 1.15rem; color: var(--bs-ink); margin: 1.75rem 0 .5rem; }
+@media (max-width: 700px) {
+  .kt-table { font-size: 13px; }
+  .kt-table th, .kt-table td { padding: 8px 6px; }
+  .kt-table .kt-hide-m { display: none; }
+  .kt-table .kt-bar { width: auto; }
+  .kt-buy-inline { display: flex; gap: 6px; margin-top: 6px; }
+  .kt-table .kt-text { min-width: 0; }
+  .kt-brands .kt-num:nth-child(4), .kt-brands .kt-num:nth-child(5) { display: none; }
+}
+
+/* Inline "and N more" / "Show less" toggle */
+.more-toggle { display: inline; margin: 0; padding: 0; border: 0; background: none; font: inherit; font-weight: 700; color: var(--bs-ink); text-decoration: underline; text-decoration-color: var(--bs-line-soft); text-underline-offset: 2px; cursor: pointer; }
+
+/* Big CTA button inside a content section */
+.section-cta { margin-top: 1.5rem; }
+.section-cta-note { margin-top: .6rem; font-size: .9rem; color: var(--bs-text-dim); }
+@media (max-width: 600px) { .section-cta-btn { display: flex; justify-content: center; text-align: center; padding: 1rem 1.25rem; } }
+
+/* Author line at the very bottom of v2 guides */
+.guide-author-section { padding-top: 1.25rem !important; padding-bottom: 1.25rem !important; }
+.guide-author { margin: 0; font-size: .85rem; color: var(--bs-text-dim); }
+.guide-author a { color: var(--bs-ink); text-decoration: underline; text-decoration-color: var(--bs-line-soft); text-underline-offset: 2px; }
+.kt-wrap { overflow-x: auto; }
+.kt-table td.kt-text, .kt-table td.kt-extra, .kt-table td.kt-bar { white-space: normal; }
+@media (max-width: 700px) { .kt-table .kt-hide-m2 { display: none; } }
+.kt-extra-inline { display: none; }
+@media (max-width: 700px) {
+  .kt-extra-inline { display: block; margin-top: 3px; font-size: 12px; color: var(--bs-text-dim); }
+  .kt-table .kt-brand { white-space: normal; }
+}
+@media (max-width: 400px) {
+  .kt-table th, .kt-table td { padding: 7px 4px; }
+  .kt-table th.kt-num { min-width: 0; }
+  .brand-v1 .kt-table a.kt-buy { padding: 4px 7px; font-size: 11px; }
+}

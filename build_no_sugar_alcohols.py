@@ -124,7 +124,7 @@ def card(label, bars_hit, total, desc, found=True):
           <div class="score-card-label">{esc(label)}</div>
           <div class="score-card-val">{n} bar{"" if n == 1 else "s"}<span class="oil-card-pct">{esc(pct0(n, total))}%</span></div>
           <div class="score-card-desc">{esc(desc)}</div>''' + (f'''
-          {found_in_html(bars_hit)}''' if found else '') + '''
+          {more_list_html(sorted({b['Brand Name'] for b in bars_hit}, key=str.lower))}''' if found else '') + '''
         </div>'''
 SA_DESC = {
     'Maltitol': 'The most common sugar alcohol on the list, used for bulk and sweetness in low-sugar bars. Well known for causing GI distress at typical serving sizes.',
@@ -176,10 +176,6 @@ for b in Q:
 GLY_ALL = sorted((k.strip() for k, v in qby.items() if all(re.search(r'glycerin|glycerol', ingr(b), re.I) for b in v)), key=str.lower)
 C.check(len(GLY) > max(len(HIT[l]) for l in SA_RX), 'glycerin appears in more qualifying bars than any single screened sugar alcohol shows up in')
 C.check(len(GLY_ALL) > 4, 'more than four brands use glycerin across their whole qualifying lineup')
-gly_more = (f'<details class="oil-card-more"><summary><span class="oil-card-more-text">and {len(GLY_ALL) - 4} more</span></summary>'
-            f'<span class="oil-card-more-list">, {esc(", ".join(GLY_ALL[4:]))}</span></span> <a href="#" class="oil-card-hide-link" '
-            'style="font-weight:600; text-decoration:underline; text-decoration-color:var(--bs-line-soft); text-underline-offset:2px; '
-            'color:var(--bs-ink); cursor:pointer;" onclick="this.closest(\'details\').open=false; return false;">Hide</a></details>')
 H3 = 'style="font-family:var(--bs-font-display); font-weight:700; font-size:1.15rem; color:var(--bs-ink); margin:{m};"'
 THEN_WHAT = f'''
     <div class="section-inner">
@@ -219,10 +215,7 @@ THEN_WHAT = f'''
 
       <div class="score-card" style="margin-top:1rem;">
         <div class="score-card-label">Brands using glycerin across their entire qualifying lineup</div>
-        <div class="oil-card-brands" style="margin-top:.5rem;">
-          <span class="oil-card-brands-label">Found in:</span> {esc(", ".join(GLY_ALL[:4]))}
-          {gly_more}
-        </div>
+        <div style="margin-top:.5rem;">{more_list_html(GLY_ALL)}</div>
       </div>
     </div>
 '''
@@ -244,31 +237,15 @@ C.check(not any(has_maltitol_family(b) for b in ALL if GUIDE_FILTERS['keto-prote
 C.check(any(has_sa(b, 'Erythritol') for b in ALL if GUIDE_FILTERS['keto-protein-bars'](b) or GUIDE_FILTERS['best-bars-for-diabetics'](b)),
         'an erythritol bar can still qualify for keto or diabetics')
 
-def shop_cell(b):
-    az, ws = amazon_url(b), website_url(b)
-    if az:
-        return f'<a href="{esc(az)}" target="_blank" rel="noopener sponsored" class="amazon-link">Shop</a>'
-    if ws:
-        return f'<a href="{esc(ws)}" target="_blank" rel="noopener" class="visit-link">Shop</a>'
-    return ''
-def mini_row(b, note=''):
-    tag = f' <span style="color:var(--muted);font-size:12px;">({esc(note)})</span>' if note else ''
-    return (f'          <tr><td>{esc(b["Brand Name"])}</td><td>{esc(b["Flavor Name"])}{tag}</td><td>{fnum(P(b))}g</td>'
-            f'<td>{fnum(SUG(b))}g</td><td>{grade_badge(b["score_band"])}</td><td>{shop_cell(b)}</td></tr>')
 OTHERS, _seen = [], set()
-for b in sorted(EF_D, key=overall_key):  # best-graded flavor (grade, then protein per calorie) from each of 8 brands
+for b in sorted(EF_D, key=overall_key):  # best bar (grade, then protein per calorie) from each of 8 brands
     if b['Brand Name'] not in _seen and len(OTHERS) < 8:
         OTHERS.append(b); _seen.add(b['Brand Name'])
 OTHERS_A = sum(1 for b in EF_D if b['score_band'] == 'A')
 C.check(OTHERS_A >= 3, 'several erythritol-free-but-flagged bars are A grade')
-TABLE = '''      <div class="table-scroll">
-        <table class="brand-table">
-          <thead><tr><th>Brand</th><th>Flavor</th><th>Protein</th><th>Sugar</th><th>Ingredient Quality</th><th>Shop</th></tr></thead>
-          <tbody>
-{}
-          </tbody>
-        </table>
-      </div>'''
+OTHERS_TABLE = compact_bar_table_html(OTHERS, cols=('grade', 'protein', 'cal', 'sugar'),
+                                      extra=('Uses instead', lambda b: esc(sa_names([b], lower=False))), hide_mobile=('cal',))
+ERY_HREF = '/bar-finder?excl=erythritol'
 ERYTHRITOL = f'''
     <div class="section-inner">
       <h2 class="section-title">Protein bars without erythritol</h2>
@@ -276,11 +253,16 @@ ERYTHRITOL = f'''
         <p>Erythritol is a fermented sugar alcohol made by fermenting glucose with a yeast-like fungus, roughly 70% as sweet as table sugar with close to zero calories. It has a glycemic index of 0, the lowest of any sugar alcohol on this page's screen, and is generally well tolerated at typical serving sizes, though some people still report bloating or a cooling aftertaste at higher doses.</p>
         <p>{of_db(len(ERY), NT, True)} bars we track, about {g1(100 * len(ERY) / NT)}%, contain erythritol. Screen for erythritol on its own, ignoring the other five sugar alcohols this page screens for, and the qualifying list gets bigger: {comma(len(EF))} bars across {EF_BRANDS} brands, {GAP} more than the {comma(N)} bars that clear this guide's full six-way sugar alcohol screen. The gap is bars that skip erythritol specifically but still contain something else on this list, most often maltitol or isomalto-oligosaccharides (IMO).</p>
         <p><strong>Erythritol and maltitol are not the same thing, and our Keto and Diabetics guides don't treat them the same way.</strong> Both guides exclude the maltitol family (maltitol, polyglycitol, hydrogenated starch hydrolysates) for its meaningfully higher glycemic index, around 35 versus sucrose's 65. Neither guide excludes erythritol, since its glycemic index of 0 already behaves the way their net-carbs formula assumes. A bar with erythritol can still qualify for {link('/keto-protein-bars', 'Keto')} or {link('/best-bars-for-diabetics', 'Best Bars for Diabetics')}. A bar with maltitol cannot, even if that same bar happens to be erythritol-free.</p>
-        <p>Every bar in our <a href="#best-10">Best 10</a> and <a href="#top-50">Top 50</a> is erythritol-free, since they clear all six. The <a href="/bar-finder?preset=no_sugar_alcohol">Bar Finder</a> has all {comma(N)}.</p>
-        <p>If erythritol is the only sugar alcohol you're avoiding and you don't mind maltitol, sorbitol, xylitol, isomalt, or IMO, these {len(EF_D)} bars are erythritol-free but do contain one of the others. {OTHERS_A} of them still rank as A-grade bars in their own right. Here is the best-graded flavor from {num_word(len(OTHERS))} of those brands.</p>
+        <p>Every bar in our <a href="#best-10">Best 10</a> and <a href="#top-50">Top 50</a> is erythritol-free, since they clear all six.</p>
       </div>
-{TABLE.format(chr(10).join(mini_row(b, 'contains ' + sa_names([b])) for b in OTHERS))}
-      <p class="section-body" style="margin-top:1rem;">Want to skip every sugar alcohol on this page's screen, not just erythritol? Start with the <a href="#top-50">Top 50</a>, or see all {comma(N)} in the <a href="/bar-finder?preset=no_sugar_alcohol">Bar Finder</a>. Prefer to check for sucralose and other artificial sweeteners too? See our {link('/no-artificial-sweeteners#no-sucralose', 'protein bars without sucralose')} section, or use the Bar Finder's {link('/bar-finder?preset=clean', 'Clean Ingredients filter')} to screen out both categories at once.</p>
+      <h3 class="kt-h3">Only avoiding erythritol? These bars skip it but use a different sugar alcohol</h3>
+      <p class="section-body">{len(EF_D)} bars are erythritol-free but still contain maltitol, sorbitol, xylitol, isomalt, or IMO. {OTHERS_A} of them are A grade. Here is the best one from each of {num_word(len(OTHERS))} brands, and what it uses instead. Tap a row for the full label.</p>
+      {OTHERS_TABLE}
+      <div class="section-cta">
+        <a href="{ERY_HREF}" class="finder-cta-btn section-cta-btn">See all {comma(len(EF))} erythritol-free bars in the Bar Finder &rarr;</a>
+        <p class="section-cta-note">Opens the Bar Finder with erythritol excluded. Add your own filters for protein, sugar, calories, grade, or brand.</p>
+      </div>
+      <p class="section-body" style="margin-top:1.25rem;">Avoiding sucralose and other artificial sweeteners too? See our {link('/no-artificial-sweeteners#no-sucralose', 'protein bars without sucralose')}.</p>
     </div>
 '''
 
@@ -372,7 +354,9 @@ def well_why(r):
     g = r['grades']
     grades = f"all {next(iter(g))} grade" if len(g) == 1 else grade_mix_text(g) + ' grade'
     sw = brand_sweetener(r['qual'])
-    return f"{lead}, {grades}." + (f" Mostly sweetened with {sw}." if sw else '')
+    bp = best_pick(r['qual'])
+    return (f"{lead}, {grades}." + (f" Mostly sweetened with {sw}." if sw else '')
+            + f" Best pick: {bp['Flavor Name']} ({bp['score_band']}, {fnum(P(bp))}g protein, {fnum(CAL(bp))} cal).")
 BRANDS_WELL = brands_well_html(WELL, well_why, h2='Brands that do it well',
                                intro='Brands with at least 3 bars in our database, ranked by how much of their lineup qualifies '
                                      'and how well those bars grade. We made sure to include both brands you can find at most '
@@ -383,17 +367,21 @@ BRANDS_WELL = brands_well_html(WELL, well_why, h2='Brands that do it well',
 # ---------------------------------------------------------------------------
 def big_verdict(r):
     disq = [b for b in r['bars'] if not QF(b)]
+    bp = best_pick(r['qual'])
+    pick = f" Best pick: {bp['Flavor Name']} ({bp['score_band']}, {fnum(P(bp))}g protein)." if bp else ''
     if r['q'] == r['total']:
         ag = avg_grade(r['qual'])
-        return 'Every flavor qualifies.' + (f' Most grade {ag} on ingredients, though.' if ag in ('C', 'D', 'F') else '')
+        sw = brand_sweetener(r['qual'])
+        return ('Every flavor is free of sugar alcohols' + (f', mostly sweetened with {sw}.' if sw else '.')
+                + (f' Most grade {ag} on ingredients, so check the label.' if ag in ('C', 'D', 'F') else '') + pick)
     found = [l for l in ORDER if any(has_sa(b, l) for b in disq)]
     every = [l for l in found if all(has_sa(b, l) for b in disq)]
     main = every[0] if every else max(found, key=lambda l: sum(1 for b in disq if has_sa(b, l))) if found else None
     main_s = SHORT.get(main, main.lower()) if main else 'a sugar alcohol'
     if r['q'] == 0:
-        return (f"0 of {r['total']} qualify, {main_s} in every flavor." if every
-                else f"0 of {r['total']} qualify. Most flavors use {main_s}.")
-    return f"{r['q']} of {r['total']} qualify. The rest mostly use {main_s}."
+        return (f"None qualify: every flavor has {main_s}." if every
+                else f"None qualify. Most flavors use {main_s}.")
+    return f"Only {r['q']} of {r['total']} qualify. The rest mostly use {main_s}." + pick
 BIG_HTML, BIG_ROWS = big_brands_html(
     ALL, QF, big_verdict, h2='How do the big brands fare on sugar alcohols?',
     intro=('Every brand with national grocery, big-box or Costco distribution, with how many of its bars skip sugar '
@@ -516,15 +504,15 @@ EDITORIAL = (f'  <section class="section off" id="what-it-means">{MEANS}  </sect
              f'  <section class="section off" id="if-not-sugar-alcohols">{THEN_WHAT}  </section>\n'
              f'  <section class="section" id="no-erythritol">{ERYTHRITOL}  </section>')
 HERO = (f'<h1 class="hero-title">{esc(H1)}</h1>\n'
-        f'    <p class="hero-sub" style="color:#e8e4dc;">{esc(full(BEST))} is our best overall: {a_an(G)} {G}-grade ingredient list, '
-        f'{fnum(P(BEST))}g protein and {fnum(CAL(BEST))} calories, with no sugar alcohol anywhere on the label.</p>\n'
-        f'    <div class="hero-stat"><span class="hero-stat-num">{comma(N)}</span><span class="hero-stat-label">bars qualify out of '
-        f'the {DB_PUBLIC} we checked. {PCT_D}% of protein bars have a sugar alcohol on the label.</span></div>\n'
-        f'    {byline_html()}')
+        f'    <p class="hero-sub">Sugar alcohols like maltitol, erythritol, sorbitol and xylitol are how most "low sugar" protein '
+        f'bars keep the sugar number down. For some people, they also cause bloating and stomach trouble. We screen for five of them, '
+        f'plus IMO, a fiber syrup that works the same way on a label.</p>\n'
+        f'    <p class="hero-sub">Of the {DB_PUBLIC} bars we track, {comma(N)} have none of them anywhere in the ingredient list. '
+        f'The other {PCT_D}% do, and {len(ZERO)} of those still show 0g sugar alcohol on the nutrition label. That is why we check '
+        f'the ingredients, not just the label line.</p>')
 REGIONS += [
     ('hero', HERO),
     ('best10', best10_html(PICKS, h2='Best 10 protein bars without sugar alcohols', intro=B10_INTRO)),
-    ('glance', glance_html(PICKS)),
     ('editorial', EDITORIAL),
     ('findings', FINDINGS),
     ('brands-well', BRANDS_WELL),
@@ -533,6 +521,7 @@ REGIONS += [
     ('finder-cta', FINDER),
     ('criteria', CRITERIA),
     ('faq', faq_items_html(FAQS)),
+    ('author', byline_html()),
     ('explore-more', related_html([
         ('/no-artificial-sweeteners', 'No Artificial Sweeteners', 'Bars that skip sucralose, ace-K, and other artificial sweeteners entirely.'),
         ('/keto-protein-bars', 'Keto Protein Bars', 'Ranked by net carbs, not just marketing claims on the wrapper.'),
