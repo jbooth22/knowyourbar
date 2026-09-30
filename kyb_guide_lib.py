@@ -129,7 +129,7 @@ def has_sugar_alcohol(b):
 REVIEWED_OK = {
     ('FITCRUNCH', 'Chocolate Peanut Butter', 'gluten free'),   # "The Gluten Free label is correct"
     ('Fro Pro', 'Sweet Coconut', 'dairy free'),                 # "No change needed"
-    ('Fro Pro', 'Cookies and Cream', 'soy free'),               # "This is correct"
+    # ('Fro Pro', 'Cookies and Cream', 'soy free') removed 2026-09-30: Jeff took the Soy Free label off in the database.
 }
 
 def reviewed_ok(b, flag):

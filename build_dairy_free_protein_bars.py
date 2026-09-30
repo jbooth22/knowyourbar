@@ -63,7 +63,7 @@ ORDER = sorted(RX, key=lambda l: -len(HIT[l]))
 NAMED = [b for b in D if any_d(b)]
 UNLAB = [b for b in D if not any_d(b)]
 for b in Q:
-    if any_d(b):
+    if any_d(b) and not reviewed_ok(b, 'dairy free'):
         print(f'WARNING: {full(b)} is labeled dairy free in bars.js but its ingredients name '
               f'{", ".join(l.lower() for l in RX if has_d(b, l))}. Check the label; the page follows bars.js.')
 C.check(ORDER[0] == 'Whey', 'whey is the most common named dairy source')
@@ -232,7 +232,7 @@ BIG_HTML, BIG_ROWS = big_brands_html(
 # Top 50 + Bar Finder CTA + criteria
 # ---------------------------------------------------------------------------
 T50 = top50_rows(Q, 50)
-C.check(not any(any_d(b) for b in T50), 'no Top 50 bar names whey, milk or casein (a mislabeled bar would need a HOLD)')
+C.check(not any(any_d(b) and not reviewed_ok(b, 'dairy free') for b in T50), 'no Top 50 bar names whey, milk or casein (a mislabeled bar would need a HOLD)')
 TOP50 = top50_html(T50, h2='Top 50 dairy free protein bars',
                    intro='Ranked by ingredient grade first, then by protein per calorie. Tap any row for nutrition facts and '
                          'the full ingredient list.')

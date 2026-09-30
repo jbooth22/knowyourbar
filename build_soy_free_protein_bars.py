@@ -65,7 +65,7 @@ ORDER = sorted(RX, key=lambda l: -len(HIT[l]))
 NAMED = [b for b in D if any_s(b)]
 UNLAB = [b for b in D if not any_s(b)]
 for b in Q:
-    if any_s(b):
+    if any_s(b) and not reviewed_ok(b, 'soy free'):
         print(f'WARNING: {full(b)} is labeled soy free in bars.js but its ingredients name '
               f'{", ".join(l.lower() for l in RX if has_s(b, l))}. Check the label; the page follows bars.js.')
 C.check(ORDER[0] == 'Soy lecithin', 'soy lecithin is the most common named soy source')
@@ -217,7 +217,7 @@ BIG_HTML, BIG_ROWS = big_brands_html(
 # Top 50 + Bar Finder CTA + criteria
 # ---------------------------------------------------------------------------
 T50 = top50_rows(Q, 50)
-C.check(not any(any_s(b) for b in T50), 'no Top 50 bar names a soy source (a mislabeled bar would need a HOLD)')
+C.check(not any(any_s(b) and not reviewed_ok(b, 'soy free') for b in T50), 'no Top 50 bar names a soy source (a mislabeled bar would need a HOLD)')
 TOP50 = top50_html(T50, h2='Top 50 soy free protein bars',
                    intro='Ranked by ingredient grade first, then by protein per calorie. Tap any row for nutrition facts and '
                          'the full ingredient list.')
