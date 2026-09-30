@@ -1232,11 +1232,13 @@ def slot_protein_per_cal(floor=12):
                 metric=p100)
 
 def slot_lowest_calorie():
-    return Slot('Lowest calorie', 'The fewest calories, grade B or better, 10g+ protein.',
-                lambda E: E, lambda b: (CAL(b),) + tie_chain(b),
+    # Best grade first, then fewest calories (Jeff, 2026-09-29: a B-grade bar
+    # was winning this slot on every guide because calories came before grade).
+    return Slot('Lowest calorie', 'The best ingredient grade on the list, then the fewest calories, 10g+ protein.',
+                lambda E: E, lambda b: (-gp(b), CAL(b)) + tie_chain(b),
                 lambda b, c: (f"{fnum(CAL(b))} calories with {fnum(P(b))}g protein, {c['tied']}the fewest calories of any "
-                              "bar here with 10g+ protein."),
-                metric=CAL)
+                              f"{b['score_band']}-grade bar here with 10g+ protein."),
+                metric=lambda b: (gp(b), CAL(b)))
 
 def slot_big_brand():
     return Slot('Best from a big brand',
@@ -1251,7 +1253,7 @@ def slot_lowest_sugar():
     return Slot('Lowest sugar', 'The least sugar, grade B or better, 10g+ protein.',
                 lambda E: E, lambda b: (SUG(b),) + tie_chain(b),
                 lambda b, c: (f"{fnum(SUG(b))}g sugar with {fnum(P(b))}g protein, {c['tied']}the lowest sugar of any bar "
-                              "here with 10g+ protein" + (f", and it wins the tie on {c['tie_on']}." if c['tied'] else ".")),
+                              "here with 10g+ protein" + (f", and it wins the tie on {c['tie_on']}." if c['tied'] and c['tie_on'] != 'name' else ".")),
                 metric=SUG)
 
 def slot_subset(label, rule_subset, test, why_lead, floor=10):
@@ -1278,7 +1280,24 @@ def _tie_context(slot, pool, b):
     on = next((names[i] for i in range(5) if tc_b[i] != tc_x[i]), 'name')
     return {'tied': 'tied for ', 'tie_on': on}
 
-def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=3):
+def _why_honest(slot, pool, b, cand, used, brands, brand_cap):
+    """Card sentence for a pick. If a bar that ranks above it in this slot was
+    skipped (already on the list, or its brand is at the cap), the superlative
+    is scoped to the remaining bars and the card says who ranked higher, so a
+    card never claims 'the fewest calories of any bar here' when an earlier
+    card holds a bar with fewer (2026-09-29)."""
+    why = slot.why(b, _tie_context(slot, cand, b))
+    top = min(pool, key=slot.key)
+    if top is b or slot.key(top) == slot.key(b):
+        return why
+    why = re.sub(r'(the (?:most|fewest|lowest|best|shortest|highest)\b[^.]*?) of any ', r'\1 of any remaining ', why, count=1)
+    if top['Key'] in used:
+        return why + f" {full(top)} ranks higher but is already on this list."
+    return why + f" {full(top)} ranks higher, but {top['Brand Name']} already has {brand_cap} picks here."
+
+V2_BRAND_CAP = 2   # max Best 10 slots per brand (Jeff, 2026-09-29: was 3; Fello took 3 near-identical cards)
+
+def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=V2_BRAND_CAP):
     """Returns [(slot, bar, why, pool_size)]. No bar repeats on the page, at
     most brand_cap slots per brand, empty slots replaced from fallbacks."""
     E = v2_eligible(qualify, floor)
@@ -1293,16 +1312,17 @@ def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=3):
                 queue.insert(0, fb.pop(0))
             continue
         b = cand[0]
-        used.add(b['Key']); brands[b['Brand Name']] += 1
         # tie wording is judged against bars still available to this slot
-        out.append((s, b, s.why(b, _tie_context(s, cand, b)), len(pool)))
+        out.append((s, b, _why_honest(s, pool, b, cand, used, brands, brand_cap), len(pool)))
+        used.add(b['Key']); brands[b['Brand Name']] += 1
     while len(out) < 10 and fb:
         s = fb.pop(0)
         pool = s.pool(E)
         cand = [b for b in sorted(pool, key=s.key) if b['Key'] not in used and brands[b['Brand Name']] < brand_cap]
         if cand:
-            b = cand[0]; used.add(b['Key']); brands[b['Brand Name']] += 1
-            out.append((s, b, s.why(b, _tie_context(s, cand, b)), len(pool)))
+            b = cand[0]
+            out.append((s, b, _why_honest(s, pool, b, cand, used, brands, brand_cap), len(pool)))
+            used.add(b['Key']); brands[b['Brand Name']] += 1
     return out
 
 # ---- v2 markup -------------------------------------------------------------
@@ -1552,7 +1572,7 @@ def criteria_html(*, qualify_rule, picks, extra_rules=()):
         <ul class="criteria-list">
           <li>The bar has to qualify for this guide, carry an A or B ingredient grade, and have at least 10g of protein.</li>
           <li>We rank ingredient quality by grade only. Two bars with the same grade count as equal, because our scoring isn't precise enough to split them. Ties go to more protein, then less sugar, then more fiber, then fewer calories.</li>
-          <li>No bar appears twice in the Best 10, and no brand gets more than 3 of the 10 spots.</li>
+          <li>No bar appears twice in the Best 10, and no brand gets more than {V2_BRAND_CAP} of the 10 spots.</li>
           <li>If a pick's rule finds no eligible bar, that spot goes to the next rule on this guide's backup list, so there are always 10.</li>
           <li>Nobody pays for a spot. Every bar goes through the same rules. Buy links may earn us a commission, and that never changes the order.</li>{extras}
         </ul>
@@ -1920,3 +1940,48 @@ def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks):
         _sys.exit(1)
     open(page_path, 'w', encoding='utf-8').write(page)
     return page
+
+# ---- v2 shared helpers added with the 2026-09-29 rollout (no-artificial-
+# sweeteners, gluten-free, no-seed-oils). Page structure is unchanged; these
+# only factor out pieces the pilot builder wrote inline. ----------------------
+V2_SWEETENERS = [('dates', r'\bdates?\b'), ('honey', r'\bhoney\b'), ('maple syrup', r'maple syrup'),
+                 ('cane sugar', r'cane sugar'), ('coconut sugar', r'coconut sugar'), ('allulose', r'allulose'),
+                 ('monk fruit', r'monk ?fruit|luo han'), ('stevia', r'stevia|reb ?a\b|rebaudioside'),
+                 ('brown rice syrup', r'brown rice syrup'), ('agave', r'agave'), ('tapioca syrup', r'tapioca syrup'),
+                 ('sucralose', r'sucralose'), ('erythritol', r'erythritol'), ('maltitol', r'maltitol'),
+                 ('fruit', r'\b(?:raisins?|figs?|apricots?|cherries|cranberries|apples?|bananas?)\b')]
+
+def lead_sweetener(b, sweeteners=V2_SWEETENERS):
+    """The sweetener named earliest on the label (None if none of the list)."""
+    t, best = ingr(b), None
+    for name, rx in sweeteners:
+        m = re.search(rx, t, re.I)
+        if m and (best is None or m.start() < best[1]):
+            best = (name, m.start())
+    return best[0] if best else None
+
+def brand_sweetener(bars, sweeteners=V2_SWEETENERS):
+    """Most common lead sweetener across a brand's bars."""
+    c = Counter_(x for x in (lead_sweetener(b, sweeteners) for b in bars) if x)
+    return c.most_common(1)[0][0] if c else None
+
+def section_cta_html(href, label, note):
+    """Big Bar Finder button inside a section (spec v2: never an inline text link)."""
+    return (f'<div class="section-cta">\n        <a href="{esc(href)}" class="finder-cta-btn section-cta-btn">{label}</a>\n'
+            f'        <p class="section-cta-note">{esc(note)}</p>\n      </div>')
+
+def v2_count_card_html(label, bars_hit, total, desc, names=None):
+    """Editorial count card (N bars, share of total, description, optional
+    'Found in' brand list that expands inline)."""
+    n = len(bars_hit)
+    names = sorted({b['Brand Name'] for b in bars_hit}, key=str.lower) if names is None else names
+    return (f'<div class="score-card">\n          <div class="score-card-label">{esc(label)}</div>\n'
+            f'          <div class="score-card-val">{comma(n)} bar{"" if n == 1 else "s"}<span class="oil-card-pct">{esc(pct0(n, total))}%</span></div>\n'
+            f'          <div class="score-card-desc">{esc(desc)}</div>'
+            + (f'\n          {more_list_html(names)}' if names else '') + '\n        </div>')
+
+def slot_highest_fiber():
+    return Slot('Highest fiber', 'The most fiber, grade B or better, 10g+ protein.', lambda E: E,
+                lambda b: (-FIB(b),) + tie_chain(b),
+                lambda b, c: f"{fnum(FIB(b))}g fiber, {c['tied']}the most of any bar here, with {fnum(P(b))}g protein.",
+                metric=FIB)

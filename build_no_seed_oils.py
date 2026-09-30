@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
-"""Rebuild no-seed-oils.html from bars.js.
+"""Rebuild no-seed-oils.html from bars.js. GUIDE PAGE v2 ("Best 10").
 
 Run from the repo root:  python3 build_no_seed_oils.py
 
-Opens the LIVE page and rewrites only the <!-- kyb:NAME --> regions (nav,
-footer, fonts, CSS and JS stay as deployed). Every number, pick, brand row and
-bar row comes from bars.js. Copy that depends on a fact is checked; if one
-stops being true the build stops and lists it.
+Layout and every rule: claude/GUIDE_PAGE_SPEC_V2.md (locked 2026-09-29) and
+the v2 section of kyb_guide_lib.py, built the same way as the pilot
+(build_no_sugar_alcohols.py). The first run migrated the live v1 page to the v2
+body (head, nav and footer kept as deployed); later runs rewrite only the
+<!-- kyb:NAME --> regions. Every number, pick and brand row comes from bars.js.
+Copy that depends on a fact is checked; if one stops being true the build
+stops and lists it. Ingredient quality is shown and ranked as a GRADE only.
 
 Screen: GUIDE_FILTERS['no-seed-oils'] (no 'Processed Oils' concern tag).
-Oil cards are counted by ingredient text over the bars the screen flags.
-High-oleic sunflower/safflower are permitted. Any qualifying bar whose label
-still names a screened oil is printed as a WARNING: a tagging gap in bars.js to
-fix upstream, never patched here.
+Bar Finder: /bar-finder?preset=no_seed_oil (app.js hasSeedOil(); the same set
+key for key, checked below). Oil cards are counted by ingredient text over the
+bars the screen flags. High-oleic sunflower/safflower are permitted. Any
+qualifying bar whose label still names a screened oil is printed as a WARNING:
+a tagging gap in bars.js to fix upstream, never patched here.
+
+Guide slots (locked with Jeff 2026-09-29): No added oil at all, Lowest sugar
+(among bars with no sugar alcohol), Best date-sweetened, Best snack size.
+Fallbacks: Best plant-based (15g+), then Highest fiber.
 """
-import html as _html
 import re
 from collections import Counter
 from kyb_guide_lib import *
@@ -29,7 +36,6 @@ Q = [b for b in ALL if QF(b)]
 D = [b for b in ALL if not QF(b)]
 N, ND, NT = len(Q), len(D), len(ALL)
 BRANDS_Q = len({b['Brand Name'] for b in Q})
-A_Q = sum(1 for b in Q if b.get('score_band') == 'A')
 PCT_D, PCT_Q = pct0(ND, NT), pct0(N, NT)
 C = Claims()
 
@@ -62,62 +68,78 @@ for b in Q:
               f'({", ".join(l for l in OILS if has_oil(b, l)) or "hydrogenated"}). Fix upstream in scoring; the page follows bars.js.')
 C.check(all(any_oil(b) for b in D), 'every flagged bar names a screened oil')
 
+# Bar Finder parity: app.js hasSeedOil() (SEED_OIL_KEYWORDS + 20-char high-oleic lookback)
+FINDER_KW = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil', 'hydrogenated', 'partially hydrogenated',
+             'palm fruit oil', 'sunflower oil', 'safflower oil', 'vegetable oil', 'rapeseed oil', 'cottonseed oil',
+             'corn oil', 'grapeseed oil', 'rice bran oil', 'palm fat']
+def finder_has_seed_oil(b):
+    t = (b.get('Ingredients') or '').lower()
+    for kw in FINDER_KW:
+        i = t.find(kw)
+        if i == -1:
+            continue
+        if 'high oleic' in t[max(0, i - 20):i + len(kw)]:
+            continue
+        return True
+    return False
+C.check({b['Key'] for b in ALL if not finder_has_seed_oil(b)} == {b['Key'] for b in Q},
+        'Bar Finder no_seed_oil preset returns exactly the guide set')
+
 def link(href, text): return f'<a href="{href}">{text}</a>'
 def by_brand(brand, bars=ALL): return [b for b in bars if b['Brand Name'] == brand]
 def oil_counts(bars):
     c = Counter(l for b in bars for l in OILS if has_oil(b, l))
     return sorted(c.items(), key=lambda kv: (-kv[1], ORDER.index(kv[0]) if kv[0] in ORDER else 99))
 def lc(label): return label[0].lower() + label[1:]
-
-# ---------------------------------------------------------------------------
-# Top picks
-# ---------------------------------------------------------------------------
-PK = Picker(Q)
-G = PK.band_grade
-CALK = lambda b: num(b.get('Calories')) or 9999
-def scope(fn, b, higher=True):
-    best = (max if higher else min)
-    if fn(b) == best(fn(x) for x in Q):
-        return 'of any bar with no seed oils'
-    if fn(b) == best(fn(x) for x in PK.band):
-        return f'of any {G}-grade bar with no seed oils'
-    return f'of any {G}-grade bar with {PK.floor}g+ protein and no seed oils'
-def tied(fn, b):
-    return sum(1 for x in PK.band if P(x) >= PK.floor and fn(x) == fn(b)) > 1
-def no_added_oil(b): return not re.search(r'\boils?\b|\bfat\b|shortening|\bmct\b|margarine', ingr(b), re.I)
 NI = lambda b: top_level_ingredient_count(ingr(b))
 
-best = PK.balanced()
-top_p = PK.pick(lambda b: (-P(b), CALK(b)))
-top_r = PK.pick(lambda b: (-(p100(b) or 0), -P(b)))
-low_s = PK.pick(lambda b: (SUG(b), -P(b)))
-top_f = PK.pick(lambda b: (-FIB(b), -P(b)))
-no_oil = PK.pick(lambda b: (NI(b), -P(b)), no_added_oil)
-PICKS = [
-    ['Best overall', best,
-     f"{fnum(P(best))}g protein, {fnum(FIB(best))}g fiber, and just {fnum(SUG(best))}g sugar with no seed oil on the label. "
-     "Solid across the board rather than an extreme on one metric."],
-    ['Highest protein', top_p, f"{fnum(P(top_p))}g protein, the most {scope(P, top_p)}."],
-    ['Best protein per calorie', top_r,
-     f"{fnum(P(top_r))}g protein at just {fnum(CAL(top_r))} calories, {fnum(p100(top_r))}g protein per 100 calories, "
-     f"the best ratio {scope(lambda b: p100(b) or 0, top_r)}."],
-    ['Lowest sugar', low_s,
-     f"{fnum(SUG(low_s))}g of sugar, {'tied for ' if tied(SUG, low_s) else ''}the lowest {scope(SUG, low_s, False)}, "
-     f"alongside {fnum(P(low_s))}g of protein and {fnum(FIB(low_s))}g of fiber."],
-    ['Most fiber', top_f,
-     f"{fnum(FIB(top_f))}g of fiber, {'tied for ' if tied(FIB, top_f) else ''}the most {scope(FIB, top_f)}, "
-     f"alongside {fnum(P(top_f))}g of protein."],
-    ['No added oil at all', no_oil,
-     "No oil of any kind anywhere on the label. Not just free of seed oil, free of any added oil, seed or otherwise."],
+# ---------------------------------------------------------------------------
+# Best 10 (spec v2; guide slots locked with Jeff 2026-09-29)
+# ---------------------------------------------------------------------------
+def no_added_oil(b): return not re.search(r'\boils?\b|\bfat\b|shortening|\bmct\b|margarine', ingr(b), re.I)
+def plant_based(b): return b.get('Vegan (Y/N)') == 'Yes'
+SUBSTITUTE = re.compile(r'allulose|monk ?fruit|luo han|stevia|reb ?a\b|rebaudioside|sucralose|acesulfame|aspartame|'
+                        r'saccharin|erythritol|xylitol|sorbitol|maltitol|isomalt|tagatose', re.I)
+ADDED_SUGAR = re.compile(r'cane sugar|\bsugar\b|honey|syrup|agave|coconut sugar|molasses|nectar|dextrose|fructose|'
+                         r'sucrose|juice concentrate|tapioca', re.I)
+def date_sweetened(b):
+    t = ingr(b)
+    return bool(re.search(r'\bdates?\b|date paste', t, re.I)) and not SUBSTITUTE.search(t) and not ADDED_SUGAR.search(t)
+
+LOW_SUGAR = Slot('Lowest sugar', 'The least sugar among bars with no sugar alcohol, grade B or better, 10g+ protein.',
+                 lambda E: [b for b in E if not has_sugar_alcohol(b)], lambda b: (SUG(b),) + tie_chain(b),
+                 lambda b, c: (f"{fnum(SUG(b))}g sugar with {fnum(P(b))}g protein and no sugar alcohol, {c['tied']}the lowest "
+                               "sugar of any bar here without one" + (f", and it wins the tie on {c['tie_on']}." if c['tied'] and c['tie_on'] != 'name' else ".")),
+                 metric=SUG)
+SLOTS = [
+    slot_best_overall(15),
+    slot_cleanest(),
+    slot_highest_protein(300),
+    slot_protein_per_cal(12),
+    slot_lowest_calorie(),
+    slot_big_brand(),
+    slot_subset('No added oil at all', 'No oil, fat, shortening or MCT of any kind on the label, seed or otherwise.', no_added_oil,
+                lambda b: 'No added oil of any kind on the label. The fat comes from whole foods like nut or seed butters.'),
+    LOW_SUGAR,
+    slot_subset('Best date-sweetened', 'Dates on the label, and no added sugar, syrup or sugar substitute.', date_sweetened,
+                lambda b: f"Sweetened only with dates, in {NI(b)} ingredients. Its {fnum(SUG(b))}g of sugar all comes from fruit."),
+    slot_subset('Best snack size', 'Under 150 calories.', lambda b: CAL(b) < 150,
+                lambda b: 'The top pick under 150 calories (best grade, then most protein per calorie), for when you want a snack, not a meal.'),
 ]
-C.check(all(p[1] for p in PICKS), 'six distinct top picks available')
-C.check(P(best) >= 15 and FIB(best) >= 5 and SUG(best) <= 5, 'best overall meets the balanced bar')
-add_sugar_tradeoff(PICKS)
-if P(no_oil) < 10:
-    PICKS[5][2] += f" The tradeoff is protein: just {fnum(P(no_oil))}g, closer to a whole-food snack than a protein bar."
-PICKS_INTRO = ("Everyone has their own reason for wanting a protein bar, but if you're on this page, you already know you want "
-               "one without seed oils. Here are the best bars for what people typically look for, all without seed oils. "
-               "Grades below reflect ingredient quality only, not an overall bar rating.")
+FALLBACKS = [
+    slot_subset('Best plant-based', 'Vegan-labeled bars.', plant_based,
+                lambda b: 'Vegan, and free of every seed oil we screen for.', floor=15),
+    slot_highest_fiber(),
+]
+PICKS = pick_best10(Q, SLOTS, FALLBACKS)
+C.check(len(PICKS) == 10, 'ten Best 10 picks available')
+C.check([s.label for s, *_ in PICKS] == [s.label for s in SLOTS], 'all ten planned slots filled without fallbacks')
+C.check(not any(re.search(r'score \d|scored? \d', w) for _s, _b, w, _n in PICKS), 'no ingredient score printed in a pick')
+C.check(all(not any_oil(b) for _s, b, _w, _n in PICKS), 'no pick names a screened oil')
+NO_OIL_PICK = next(b for s, b, _w, _n in PICKS if s.label == 'No added oil at all')
+C.check(re.search(r'butter', ingr(NO_OIL_PICK), re.I), 'the no-added-oil pick gets its fat from a nut, seed or cocoa butter')
+B10_INTRO = ("Ten bars with no seed oils, each the winner of one thing people shop for. Every pick has an A or B ingredient "
+             "grade and at least 10g of protein, and no bar appears twice.")
 
 # ---------------------------------------------------------------------------
 # What it means: one card per oil that shows up
@@ -137,14 +159,9 @@ OIL_DESC = {
     'Corn oil': 'Rare in bars, usually part of a vegetable oil blend.',
     'Grapeseed oil': 'Rare in bars, occasionally used in baked-style formats.',
 }
-def card(label, bars_hit, total, desc):
-    n = len(bars_hit)
-    return f'''<div class="score-card">
-          <div class="score-card-label">{esc(label)}</div>
-          <div class="score-card-val">{n} bar{"" if n == 1 else "s"}<span class="oil-card-pct">{esc(pct0(n, total))}%</span></div>
-          <div class="score-card-desc">{esc(desc)}</div>
-          {found_in_html(bars_hit)}
-        </div>'''
+COCO_Q = [b for b in Q if re.search(r'coconut oil|coconut butter', ingr(b), re.I)]
+HO_Q = [b for b in Q if re.search(r'high[- ]oleic', ingr(b), re.I)]
+C.check(COCO_Q and HO_Q, 'some qualifying bars use coconut oil and some use a high-oleic oil')
 MEANS = f'''
     <div class="section-inner">
       <h2 class="section-title">What "no seed oils" actually means</h2>
@@ -152,28 +169,26 @@ MEANS = f'''
         <p>Seed and vegetable oils are some of the most common additives in processed food, and protein bars are no exception. This guide screens every bar for thirteen of them: canola, rapeseed, soybean, palm, palm kernel, palm fruit, sunflower, safflower, cottonseed, corn, grapeseed, and rice bran oil, plus any bar listing generic "vegetable oil" or "hydrogenated"/"partially hydrogenated" fat. High-oleic sunflower and safflower oil are permitted, since their fatty acid profile runs closer to olive oil than to the standard refined version of the same seed.</p>
         <p>{PCT_D}% of the {DB_PUBLIC} bars in our database still have a seed oil on the label. Here is how often each one shows up, and where it usually hides.</p>
       </div>
-
       <div class="score-grid" style="margin-top:1.5rem;">
-{chr(10).join(card(l, HIT[l], NT, OIL_DESC[l]) for l in ORDER)}
+{chr(10).join(v2_count_card_html(l, HIT[l], NT, OIL_DESC[l]) for l in ORDER)}
+      </div>
+      <h3 class="kt-h3">What still counts as no seed oil</h3>
+      <div class="section-body">
+        <p>Coconut oil comes from coconut flesh, not a seed, so it doesn't count against a bar here. {len(COCO_Q)} of the {comma(N)} bars on this page use coconut oil or coconut butter, and {len(HO_Q)} use a high-oleic oil. Nut and seed butters, like peanut, almond or sunflower butter, are whole foods, not refined oils, so they don't count either.</p>
       </div>
     </div>
 '''
 
 # ---------------------------------------------------------------------------
-# Do Pure Protein, Perfect Bar, Built Bar, and IQBAR use seed oils?
+# Do Pure Protein, Perfect Bar, Built Bar, and IQBAR use seed oils? (anchor #brand-seed-oil-check)
 # ---------------------------------------------------------------------------
 BRAND4 = [('Pure Protein', 'Pure Protein'), ('Perfect Bar', 'Perfect Bar'), ('Built', 'Built Bar'), ('IQ Bar', 'IQBAR')]
 C.check(all(by_brand(k) for k, _ in BRAND4), 'Pure Protein, Perfect Bar, Built and IQ Bar are all in bars.js')
 def brand4(key, name):
     bs = by_brand(key)
     oily = [b for b in bs if not QF(b)]
-    oc = oil_counts(oily)
-    return dict(key=key, name=name, bars=bs, t=len(bs), d=len(oily), q=len(bs) - len(oily), oc=oc)
+    return dict(key=key, name=name, bars=bs, t=len(bs), d=len(oily), q=len(bs) - len(oily), oc=oil_counts(oily))
 B4 = [brand4(k, n) for k, n in BRAND4]
-def b4_cell(r):
-    if r['q']:
-        return f'<button type="button" class="brand-jump" data-brand="{esc(r["key"])}">{esc(r["name"])}</button>'
-    return f'<span class="brand-name-static">{esc(r["name"])}</span>'
 def b4_para(r):
     if r['d'] == 0:
         return (f"None of the {r['t']} flavors use canola oil, sunflower oil, or any other seed or vegetable oil. The fat comes "
@@ -195,34 +210,18 @@ if none:
     intro.append(f"{names_and(none)} use{'s' if len(none) == 1 else ''} none.")
 for r in some:
     intro.append(f"{r['name']} uses one in {r['d']} of {r['t']} flavors.")
-b4_rows = '\n'.join(
-    f"<tr><td>{b4_cell(r)}</td><td>{r['t']}</td><td>{r['d']}/{r['t']}</td>"
-    f"<td>{esc(', '.join(f'{l} ({c})' for l, c in r['oc']) or 'None')}</td>"
-    f"<td>{grade_range_html(*grade_range(r['bars']))}</td></tr>" for r in B4)
 BRAND4_HTML = f'''
     <div class="section-inner">
       <h2 class="section-title">Do Pure Protein, Perfect Bar, Built Bar, and IQBAR use seed oils?</h2>
       <div class="section-body">
-        <p>{esc(' '.join(intro))} Here is exactly which oils each brand lists, pulled straight from the ingredient label of every flavor in our database.</p>
-      </div>
-
-      <div class="table-scroll">
-        <table class="brand-table">
-          <thead><tr><th>Brand</th><th>Flavors Checked</th><th>Use a Seed Oil</th><th>Oils Found</th><th>Ingredient Quality</th></tr></thead>
-          <tbody>
-{b4_rows}
-          </tbody>
-        </table>
-      </div>
-
-      <div class="section-body" style="margin-top:1.5rem;">
+        <p>{esc(' '.join(intro))} Here is exactly which oils each brand lists, pulled straight from the ingredient label of every flavor in our database. Every other big brand is in the <a href="#big-brands">big brands table</a> below.</p>
 {chr(10).join(f'        <p><strong>{esc(r["name"])}:</strong> {esc(b4_para(r))}</p>' for r in B4)}
       </div>
     </div>
 '''
 
 # ---------------------------------------------------------------------------
-# Findings
+# Findings: three data findings + one chart
 # ---------------------------------------------------------------------------
 TOPB = HIT[TOP]
 def tucked(b, rx):
@@ -235,84 +234,105 @@ COAT = re.compile(r'coating|chocolate|compound|crisp|drizzle|layer|icing|confect
 def in_coating(b):
     return any(re.search(OILS[TOP], it, re.I) and COAT.search(it) for it in top_level_items(masked(b)))
 coat_share = sum(1 for b in TOPB if in_coating(b)) / len(TOPB)
+C.check(len(TUCK) / len(TOPB) < 0.05, f'under 5% of {TOP} bars list it as a trace amount')
 BB = by_brand('Barebells'); BB_D = [b for b in BB if not QF(b)]
 C.check(len(BB_D) / len(BB) >= 0.8, 'Barebells fails the seed oil screen in 80%+ of flavors')
-bb_head = 'Barebells disqualifies entirely.' if len(BB_D) == len(BB) else 'Barebells disqualifies almost entirely.'
-WHOLE = ['RXBAR', 'Larabar', 'Thunderbird', 'Off the Farm', 'Healthy Eating on the Go']
-C.check(all(by_brand(w) and len(by_brand(w, Q)) / len(by_brand(w)) >= 0.85 for w in WHOLE), 'whole-food brands qualify at 85%+')
-
-CONSIDER, MIXED, AVOID = brand_split(ALL, QF)
-BIG_MIX = MIXED[0]  # most flavors
-SPLIT_EX = min(MIXED, key=lambda r: (abs(r['q'] / r['total'] - 0.5), -r['total'], r['brand']))
-def clean_pick(r):
-    band = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in r['qual']))
-    return min((b for b in r['qual'] if b.get('score_band') == band), key=lambda b: (-P(b), name_key(b)))
-
+GRADE_ROWS = [(g, sum(1 for b in D if b['score_band'] == g), sum(1 for b in ALL if b['score_band'] == g)) for g in BAND_ORDER]
+GR = {g: round(100 * h / t) for g, h, t in GRADE_ROWS}
+C.check(GR['A'] < GR['B'] < GR['C'] < GR['D'] < GR['F'], 'seed oil share rises with every step down in grade')
 INSIGHTS = [
-    (f'{TOP} is the single most common offender.',
+    (f'{TOP} is the most common offender, and rarely a trace.',
      f'{len(TOPB)} bars ({g1(100 * len(TOPB) / NT)}% of the database) list it'
-     + (', most often in a coating or crisp layer.' if coat_share >= 0.5 else '.')),
-    (f'Only {g1(100 * len(TUCK) / len(TOPB))}% list it as a trace amount.',
-     f'Just {len(TUCK)} of the {len(TOPB)} bars containing {lc(TOP)} list it inside a "contains 2% or less" clause. In the '
-     'rest, it\'s a real component of the recipe, not a rounding error.'),
-    (bb_head, f'{len(BB_D)} of {len(BB)} flavors fail.'),
-    ('Whole-food bars dominate the qualifying pool.',
-     f'{names_and(WHOLE)} all qualify at or near 100%. Their fat comes from nuts, seeds, dates, or coconut rather than a refined oil.'),
-    ('A mixed lineup is common, not rare.',
-     f"{len(MIXED)} brands we checked split meaningfully between qualifying and disqualified flavors within the same lineup. "
-     f"{BIG_MIX['brand']} is the biggest example: {BIG_MIX['q']} of {BIG_MIX['total']} flavors qualify."),
-    (f'{BRANDS_Q} brands still represented.',
-     f'Even with {PCT_D}% of the database disqualified, the qualifying pool covers a wide range of protein levels, price '
-     'points, and grades.'),
+     + (', most often in a coating or crisp layer. ' if coat_share >= 0.5 else '. ')
+     + f'Only {len(TUCK)} of them tuck it into a "contains 2% or less" clause.'),
+    ('Barebells disqualifies entirely.' if len(BB_D) == len(BB) else 'Barebells disqualifies almost entirely.',
+     f'{len(BB_D)} of {len(BB)} Barebells flavors contain a seed oil, most often {lc(oil_counts(BB_D)[0][0])}.'),
+    ('Seed oils cluster in lower-graded bars.',
+     f"{GR['A']}% of A-grade bars contain one, against {GR['F']}% of F-grade bars. Skipping seed oils tends to land you on "
+     'a cleaner label overall.'),
 ]
-C.check(len(TUCK) / len(TOPB) < 0.05, f'under 5% of {TOP} bars list it as a trace amount')
-FINDINGS = findings_html(
-    f'What we found screening {DB_PUBLIC} bars', f'{PCT_D}%', 'of bars contain a seed or vegetable oil',
-    f'{of_db(ND, NT)} bars contain at least one of the oils we screen for. {TOP} is the most common, ahead of '
-    f'{lc(SECOND)} and {lc(THIRD)}. It shows up in coatings, crisp layers, and as a base fat across brands.', INSIGHTS)
+FINDINGS = findings_v2_html(f'What we found screening {DB_PUBLIC} bars', INSIGHTS,
+                            grade_share_chart_html(GRADE_ROWS, title='Share of bars with a seed oil, by ingredient grade',
+                                                   note=f'Out of the {DB_PUBLIC} bars in our database.'))
 
 # ---------------------------------------------------------------------------
-# Brand tables
+# Brands that do it well + big brands
 # ---------------------------------------------------------------------------
-def oils_found(r):
-    oc = [l for l, _ in oil_counts(r['disq'])]
-    oc = oc[:1] + [lc(l) for l in oc[1:]]
-    if len(oc) <= 3:
-        return names_and(oc)
-    return f"{oc[0]}, {lc(oc[1])}, and {len(oc) - 2} others"
-BRANDS = brand_tables_html(
-    (CONSIDER, MIXED, AVOID), QF,
-    h2='Best Brands of Protein Bars for No Seed Oils',
-    intro='Seed oils turn up in brands you would not expect, and stay out of a few you might not guess either. Grade columns '
-          'below show ingredient quality only, not an overall bar rating. Click any brand name to jump to its flavors in '
-          'the table below.',
-    table_id='nso',
-    consider_note='These brands clear our seed oil screen almost or entirely across the board.',
-    avoid_note='These brands lean on seed oils across most or all of their lineup.',
-    mixed_note="Some flavors qualify, some don't. Check the specific flavor before buying.",
-    avoid_head='Flavors with Seed Oils', avoid_last_head='Oils Found', avoid_last=oils_found,
-    mixed_head='Flavors without Seed Oils')
+WELL = brands_well_rows(ALL, QF, n=8)
+C.check(sum(r['big'] for r in WELL) >= 2 and sum(not r['big'] for r in WELL) >= 2, 'brands-well has 2+ big and 2+ small brands')
+def well_why(r):
+    lead = f"All {r['total']} flavors qualify" if r['q'] == r['total'] else f"{r['q']} of {r['total']} flavors qualify"
+    g = r['grades']
+    grades = f"all {next(iter(g))} grade" if len(g) == 1 else grade_mix_text(g) + ' grade'
+    bp = best_pick(r['qual'])
+    return (f"{lead}, {grades}." + f" Best pick: {bp['Flavor Name']} ({bp['score_band']}, {fnum(P(bp))}g protein, "
+                                   f"{fnum(CAL(bp))} cal).")
+BRANDS_WELL = brands_well_html(WELL, well_why, h2='Brands that do it well',
+                               intro='Brands with at least 3 bars in our database, ranked by how much of their lineup qualifies '
+                                     'and how well those bars grade. We made sure to include both brands you can find at most '
+                                     'grocery stores and smaller independents.')
+
+def big_verdict(r):
+    disq = [b for b in r['bars'] if not QF(b)]
+    bp = best_pick(r['qual'])
+    pick = f" Best pick: {bp['Flavor Name']} ({bp['score_band']}, {fnum(P(bp))}g protein)." if bp else ''
+    if r['q'] == r['total']:
+        ag = avg_grade(r['qual'])
+        return ('Every flavor is free of seed oils.' + (f' Most grade {ag} on ingredients, so check the label.'
+                                                        if ag in ('C', 'D', 'F') else '') + pick)
+    oc = oil_counts(disq)
+    every = [l for l, c in oc if c == len(disq)]
+    main = lc(every[0] if every else oc[0][0]) if oc else 'a hydrogenated fat'
+    if r['q'] == 0:
+        return f"None qualify: every flavor has {main}." if every else f"None qualify. Most flavors use {main}."
+    return f"{'Only ' if r['q'] * 2 < r['total'] else ''}{r['q']} of {r['total']} qualify. The rest mostly use {main}." + pick
+BIG_HTML, BIG_ROWS = big_brands_html(
+    ALL, QF, big_verdict, h2='How do the big brands fare on seed oils?',
+    intro=('Every brand with national grocery, big-box or Costco distribution, with how many of its bars skip seed oils '
+           'entirely. Brand names link to our full reviews where we have one.'))
+
+# ---------------------------------------------------------------------------
+# Top 50 + Bar Finder CTA + criteria
+# ---------------------------------------------------------------------------
+T50 = top50_rows(Q, 50)
+TOP50 = top50_html(T50, h2='Top 50 protein bars without seed oils',
+                   intro='Ranked by ingredient grade first, then by protein per calorie. Tap any row for nutrition facts and '
+                         'the full ingredient list.')
+FINDER_HREF = '/bar-finder?preset=no_seed_oil'
+FINDER = finder_cta_html(N, FINDER_HREF, desc=('The Bar Finder opens with this same screen already applied: no seed or '
+                                               'vegetable oil anywhere in the ingredient list. Add your own filters for '
+                                               'protein, sugar, calories, grade, brand, certifications, or ingredients to exclude.'))
+CRITERIA = criteria_html(
+    qualify_rule=('No canola, rapeseed, soybean, palm, palm kernel, palm fruit, sunflower, safflower, cottonseed, corn, grapeseed, '
+                  'rice bran or generic vegetable oil, and no hydrogenated fat, anywhere in the ingredient list. High-oleic '
+                  'sunflower and safflower oil, coconut oil, and nut or seed butters do not count against a bar. '
+                  f'{comma(N)} of the {DB_PUBLIC} bars we track qualify.'),
+    picks=PICKS)
 
 # ---------------------------------------------------------------------------
 # FAQ
 # ---------------------------------------------------------------------------
+CONSIDER, MIXED, AVOID = brand_split(ALL, QF)
+SPLIT_EX = min(MIXED, key=lambda r: (abs(r['q'] / r['total'] - 0.5), -r['total'], r['brand']))
+def clean_pick(r):
+    band = next(g for g in BAND_ORDER if any(b.get('score_band') == g for b in r['qual']))
+    return min((b for b in r['qual'] if b.get('score_band') == band), key=lambda b: (-P(b), name_key(b)))
 RX = by_brand('RXBAR'); RX_Q = by_brand('RXBAR', Q)
 RX_HO = [b for b in RX if re.search(r'high[- ]oleic', ingr(b), re.I)]
 LARA = by_brand('Larabar'); LARA_Q = by_brand('Larabar', Q)
 lara_med = sorted(NI(b) for b in LARA)[len(LARA) // 2]
 KIND = next(r for r in CONSIDER + MIXED + AVOID if r['brand'] == 'KIND')
 kind_oils = [lc(l) for l, _ in oil_counts(KIND['disq'])[:2]]
-COCO_Q = [b for b in Q if re.search(r'coconut oil|coconut butter', ingr(b), re.I)]
-C.check(len(COCO_Q) > 0, 'some qualifying bars use coconut oil or coconut butter')
 C.check(len(RX_Q) == len(RX), 'every RXBAR flavor qualifies')
 C.check(LARA_Q and len(LARA_Q) < len(LARA), 'Larabar: most but not all flavors qualify')
 C.check(KIND['q'] < KIND['d'], 'KIND: only some flavors qualify')
+C.check(not any(has_tag(b, 'Artificial Sweeteners') for b in RX), 'RXBAR has no artificial sweeteners')
 FAQ_WHOLE = ['RXBAR', 'Healthy Eating on the Go', 'Thunderbird']
 C.check(all(len(by_brand(w, Q)) == len(by_brand(w)) for w in FAQ_WHOLE), 'RXBAR, Healthy Eating on the Go and Thunderbird qualify 100%')
 AV3 = [r['brand'] for r in AVOID[:3]]
+C.check(all(r['d'] / r['total'] >= 0.8 for r in AVOID[:3]), 'top three avoid brands disqualify 80%+')
 b4 = {r['name']: r for r in B4}
-def b4_q(name, oils):
-    return f"Does {name} have {oils}?"
+def b4_q(name, oils): return f"Does {name} have {oils}?"
 FAQS = [
     ('What counts as a seed oil in this guide?',
      'We screen for canola oil, rapeseed oil, soybean oil, palm oil, palm kernel oil, palm fruit oil, sunflower oil, safflower '
@@ -351,10 +371,11 @@ FAQS = [
      "source than the rest of the line. Always check the specific flavor, not just the brand."),
     ('How often is this list updated?',
      'We update the database whenever new bars are added or a brand reformulates. Manufacturers do change their ingredient '
-     f'lists over time, so always confirm against the packaging in front of you. This page reflects the database as of {today_iso()}.'),
+     'lists over time, so always confirm against the packaging in front of you.'),
     ("What protein bars don't have seed oils?",
      f"{comma(N)} bars across {BRANDS_Q} brands clear our seed oil screen, led by whole-food brands like "
-     f"{names_and(FAQ_WHOLE)} that qualify 100% of the time. The full ranked list is in the table below, sorted by ingredient quality."),
+     f"{names_and(FAQ_WHOLE)} that qualify 100% of the time. Our Best 10 picks are at the top of this page, the Top 50 is "
+     "further down, and the Bar Finder has all of them."),
     ('What protein bars have seed oils?',
      f"{of_db(ND, NT, True)} bars we track contain at least one seed or vegetable oil. {names_and(AV3)} disqualify almost "
      f"entirely, usually through {lc(TOP)}, {lc(SECOND)}, or {lc(THIRD)}."),
@@ -363,76 +384,53 @@ FAQS = [
      'for the same reason: a highly processed extraction method and a fatty acid profile heavier in omega-6 than whole-food '
      'fat sources like nuts, seeds, or dairy.'),
 ]
-C.check(all(r['d'] / r['total'] >= 0.8 for r in AVOID[:3]), 'top three avoid brands disqualify 80%+')
-
-def plain(s): return _html.unescape(re.sub(r'<[^>]+>', '', s))
-def faq_block(faqs):
-    return ''.join(f'''
-        <div class="faq-item">
-          <button class="faq-q">{esc(q)}</button>
-          <div class="faq-a">{esc(a)}</div>
-        </div>''' for q, a in faqs) + '\n      '
 
 # ---------------------------------------------------------------------------
 # Regions
 # ---------------------------------------------------------------------------
-TITLE = f"{PCT_D}% of Protein Bars Have Seed Oils. {comma(N)} Don't."
-H1 = f'Best Protein Bars Without Seed Oils - Ranking {comma(N)} Bars by Ingredient Quality'
-OG_DESC = (f'{comma(N)} protein bars with no seed or vegetable oils. No canola, soybean, palm, or sunflower oil. Ranked by '
-           'ingredient quality score.')
-REGIONS = [r for r in guide_head_regions(
-    title=TITLE, h1=H1,
-    desc=f'We screened {DB_PUBLIC} protein bars for seed oils. {PCT_Q}% have none. See the {comma(N)} best, ranked by ingredient quality, brand, and macros.',
-    og_desc=OG_DESC, url=URL, about='Seed Oils', published=PUBLISHED, faqs=FAQS, picks=PICKS) if r[0] != 'social']
+H1 = 'The 10 Best Protein Bars Without Seed Oils'
+TITLE = f'10 Best Protein Bars Without Seed Oils ({DB_PUBLIC} Checked)'
+DESC = (f'{PCT_D}% of protein bars contain a seed oil like palm kernel, canola or sunflower. Our 10 best without any, from '
+        f'{comma(N)} that qualify.')
+OG_DESC = (f'We screened {DB_PUBLIC} protein bars for canola, soybean, palm, sunflower and other seed oils. {comma(N)} have none. '
+           'Here are the 10 best, each picked by a published rule.')
+C.check(len(DESC) <= 155, f'meta description under 155 characters ({len(DESC)})')
+FAQS_PLAIN = [(q, plain_text(a)) for q, a in FAQS]
+REGIONS = v2_head_regions(title=TITLE, h1=H1, desc=DESC, og_desc=OG_DESC, url=URL, about='Seed Oils',
+                          published=PUBLISHED, faqs=FAQS_PLAIN, picks=PICKS)
+EDITORIAL = (f'  <section class="section off" id="what-it-means">{MEANS}  </section>\n'
+             f'  <section class="section" id="brand-seed-oil-check">{BRAND4_HTML}  </section>')
+HERO = (f'<h1 class="hero-title">{esc(H1)}</h1>\n'
+        f'    <p class="hero-sub">Seed oils are refined oils pressed from seeds, like canola, soybean, sunflower and palm kernel. '
+        f'Protein bars use them in coatings, crisps and fillings because they are cheap and shelf-stable. Some people avoid them for '
+        f'how heavily they are processed or for their omega-6 content. We screen every bar for thirteen of them.</p>\n'
+        f'    <p class="hero-sub">Of the {DB_PUBLIC} bars we track, {comma(N)} have none anywhere in the ingredient list. The other '
+        f'{PCT_D}% do, most often {lc(TOP)}. High-oleic oils, coconut oil and nut '
+        f'butters don\'t count against a bar here.</p>')
 REGIONS += [
-    ('social', f'''<meta property="og:type" content="article">
-  <meta property="og:site_name" content="Know Your Bar">
-  <meta property="og:title" content="{esc(TITLE)}">
-  <meta property="og:description" content="{esc(OG_DESC)}">
-  <meta property="og:url" content="{URL}">
-  <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
-
-  <!-- Twitter card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{esc(TITLE)}">
-  <meta name="twitter:description" content="{esc(OG_DESC)}">
-  <meta name="twitter:image" content="https://knowyourbar.com/bar_hero.png">'''),
-    ('hero', f'''<h1 class="hero-title">{esc(H1)}</h1>
-    <p class="hero-sub" style="color:#e8e4dc;">We screened {DB_PUBLIC} protein bars available in the US for seed oils like canola, soybean, palm, sunflower, safflower, and several other seed and vegetable oils. The good news: {PCT_Q}% of protein bars do NOT have a seed oil on their ingredient label. We break down and rank the best protein bars without seed oils by category, brand, and macros. Not just us telling you the flavors we like.</p>'''),
-    ('snapshot', f'''
-    <div class="snap-item"><div class="snap-value">{comma(N)}</div><div class="snap-label">Bars qualify</div></div>
-    <div class="snap-item"><div class="snap-value">{ND}</div><div class="snap-label">Bars disqualified</div></div>
-    <div class="snap-item"><div class="snap-value">{A_Q}</div><div class="snap-label">A-grade bars</div></div>
-    <div class="snap-item"><div class="snap-value">{BRANDS_Q}</div><div class="snap-label">Brands represented</div></div>
-    <div class="snap-item"><div class="snap-value">{avg(Q, 'Protein (g)'):.1f}g</div><div class="snap-label">Avg protein</div></div>
-  '''),
-    ('picks', picks_section_html('Top picks for no seed oils', PICKS_INTRO, PICKS)),
-    ('means', MEANS),
-    ('do-pure-protein-perfect-bar-built-bar-an', BRAND4_HTML),
+    ('hero', HERO),
+    ('best10', best10_html(PICKS, h2='Best 10 protein bars without seed oils', intro=B10_INTRO)),
+    ('editorial', EDITORIAL),
     ('findings', FINDINGS),
-    ('brands', BRANDS),
-    ('cta-heading', f'<h2 class="explore-cta-main-heading">See every bar that fits, not just the {comma(N)} on this page</h2>'),
-    ('explore-more', f'''
-        <a href="/clean-protein-bars" class="explore-more-card">
-          <div class="explore-more-title">Clean Protein Bars</div>
-          <div class="explore-more-desc">A or B grade bars with no artificial sweeteners and no processed oils.</div>
-        </a>
-        <a href="/no-artificial-sweeteners" class="explore-more-card">
-          <div class="explore-more-title">No Artificial Sweeteners</div>
-          <div class="explore-more-desc">Bars with zero sucralose, aspartame, or acesulfame potassium, ranked by ingredient quality.</div>
-        </a>
-        <a href="/rxbar-review" class="explore-more-card">
-          <div class="explore-more-title">RXBAR Review</div>
-          <div class="explore-more-desc">All {len(RX)} RXBAR flavors scored. No seed oils, no artificial sweeteners, short ingredient lists.</div>
-        </a>
-      '''),
-    ('faq', faq_block(FAQS)),
+    ('brands-well', BRANDS_WELL),
+    ('big-brands', BIG_HTML),
+    ('top50', TOP50),
+    ('finder-cta', FINDER),
+    ('criteria', CRITERIA),
+    ('faq', faq_items_html(FAQS)),
+    ('author', byline_html()),
+    ('explore-more', related_html([
+        ('/clean-protein-bars', 'Clean Protein Bars', 'A or B grade bars with no artificial sweeteners and no processed oils.'),
+        ('/no-artificial-sweeteners', 'No Artificial Sweeteners', 'Bars with zero sucralose, aspartame, or acesulfame potassium.'),
+        ('/rxbar-review', 'RXBAR Review', f'All {len(RX)} RXBAR flavors checked. No seed oils, no artificial sweeteners, short ingredient lists.'),
+    ])),
 ]
-C.check(not any(has_tag(b, 'Artificial Sweeteners') for b in RX), 'RXBAR has no artificial sweeteners')
-REGIONS += guide_list_regions(Q, ALL, heading=f'{comma(N)} bars with no seed oils, ranked by ingredient quality', lazy_attr=True)
 
 if __name__ == '__main__':
-    n = build_guide_page(PAGE, REGIONS, Q, ALL, C)
-    print(f'{PAGE}: {N} qualify, {ND} disqualified, {n} rows, grade-sync 0 mismatches')
-    for label, b, why in PICKS:
-        print(f'  {label}: {full(b)} ({b["score_band"]})')
+    page = build_guide_page_v2(PAGE, REGIONS, ALL, C, picks=PICKS)
+    size = len(page.encode('utf-8'))
+    faq_at = len(page[:page.find('<section class="guide-faq"')].encode('utf-8'))
+    print(f'{PAGE}: {N} qualify, {ND} disqualified, {size:,} bytes, FAQ at byte {faq_at:,}')
+    for i, (s_, b, why, n) in enumerate(PICKS, 1):
+        print(f'  {i:2d}. {s_.label}: {full(b)} ({b["score_band"]}) [pool {n}]')
+        print(f'      {why}')

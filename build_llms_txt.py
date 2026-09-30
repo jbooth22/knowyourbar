@@ -212,8 +212,9 @@ Every bar is scored with the same ingredient-quality algorithm:
 - **Artificial sweeteners** (sucralose, acesulfame potassium, aspartame, saccharin) are the exception: each one costs a bar a flat **{int(pen)}**, wherever it appears on the label. They are used in milligrams, so label position says nothing about their effect.
 - **Sugars and carbohydrates** are scored by how far they are processed from a whole food: whole fruit and dates +2 to +3; lightly processed sweeteners (honey, maple syrup, coconut sugar) -1; refined sugars (cane sugar, agave, fruit juice concentrates) -2; starch-converted sugars (brown rice syrup, tapioca syrup, corn syrup, dextrose, maltodextrin) -3; sugar alcohols -3 to -4 (maltitol -4).
 - **Fibers:** fiber from foods and plants (oat fiber, chicory root fiber, inulin) scores +1; engineered starch fibers (soluble corn fiber, tapioca fiber, resistant dextrin, IMO, polydextrose) score -1.
-- Sub-ingredients inside parentheses or brackets receive 60% weight of their parent.
-- Each additional top-level protein ingredient beyond the single best-scoring one is discounted to {sx.PROTEIN_STACK_DISCOUNT}x weight (prevents a blend of five mediocre proteins from outscoring one excellent one).
+- Clean-label floor: if no ingredient on a bar's label scores below zero, the bar grades at least A (8.0), so short whole-food labels aren't penalized for being short.
+- Sub-ingredients inside parentheses or brackets receive 60% weight of their parent. Within one parenthetical, the best-scoring positive ingredient counts in full and each further positive one counts half the one before.
+- Each additional protein source beyond the single best-scoring one, including proteins listed inside a blend, is discounted to {sx.PROTEIN_STACK_DISCOUNT}x weight (prevents a blend of five mediocre proteins from outscoring one excellent one). An ingredient repeated inside the same parentheses counts once.
 - Allergen and facility statements ("contains:", "may contain", "manufactured in") are excluded from scoring. Ingredients listed after "contains less than 2% of" are real ingredients and are scored.
 - **Count adjustment:** bars with {cadj[0][1]} or fewer ingredients get a small bonus (+{cadj[0][2]:.2f}). Bars with {cadj[-1][0]}+ ingredients get a penalty ({cadj[-1][2]:.2f}).
 

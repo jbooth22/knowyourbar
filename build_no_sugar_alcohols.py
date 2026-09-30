@@ -312,7 +312,7 @@ C.check(len(MAL) > len(HIT[SECOND]), 'maltitol leads the next sugar alcohol')
 # Findings: three data findings + one chart (spec v2 section 5)
 GRADE_ROWS = [(g, sum(1 for b in D if b['score_band'] == g), sum(1 for b in ALL if b['score_band'] == g)) for g in BAND_ORDER]
 GR = {g: round(100 * h / t) for g, h, t in GRADE_ROWS}
-C.check(GR['A'] < GR['B'] < GR['C'] < GR['D'] < GR['F'], 'sugar alcohol share rises with every step down in grade')
+C.check(GR['A'] <= GR['B'] <= GR['C'] <= GR['D'] <= GR['F'] and GR['A'] < GR['F'], 'sugar alcohol share never falls with a step down in grade, and F is well above A')
 INSIGHTS = [
     (f'{len(ZERO)} of {ND} flagged bars show 0g sugar alcohol on the label anyway.',
      f'They list a sugar alcohol in the ingredients but declare 0g, or leave the line blank, on the Nutrition Facts panel, '

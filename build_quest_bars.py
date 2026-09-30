@@ -212,7 +212,7 @@ ov2 = (f"Where flavors actually differ is additive load, not protein or sweetene
        f"skip it and land at the top of the lineup."
        + (f" {names_and(nm(b) for b in nopo_rest)} skip{'s' if len(nopo_rest) == 1 else ''} it too but still grade{'s' if len(nopo_rest) == 1 else ''} "
           f"{nopo_rest[0]['score_band']}." if nopo_rest else '')
-       + f" That split shows up in the grade distribution: {GC[best_g]} flavors grade {best_g}, the other {len(REST)} sit at "
+       + f" That split shows up in the grade distribution: {GC[best_g]} flavor{'s' if GC[best_g] != 1 else ''} grade{'s' if GC[best_g] == 1 else ''} {best_g}, the other {len(REST)} sit at "
        f"{' or '.join(g for g in GRADES_PRESENT if g != best_g)}" + (', and none currently reach an A.' if NO_A else '.'))
 C.check(all(band_rank(b) >= band_rank(REST[0]) for b in PO_BARS), 'every processed-oil flavor grades below the top tier')
 OVERVIEW = f'''<h2>What the data shows across all {N} Quest flavors</h2>
@@ -233,7 +233,7 @@ pat = ["Quality Protein Source shows up in all {N} flavors, since the milk prote
        f"On the concern side, Artificial Sweeteners and Sugar Alcohols hit every flavor, though sugar alcohol severity varies: "
        f"{sa_sev['minor']} flavors carry it at a minor level and {sa_sev['elevated']} at elevated."]
 pat.append(f"Processed Oils flags {len(PO_BARS)} of {N} flavors, all of them "
-           f"{' or '.join(sorted({b['score_band'] for b in PO_BARS}, key=BAND_ORDER.index))}-grade, and none of the {len(TOP_BAND)} {best_g}-grade flavors carries it.")
+           f"{' or '.join(sorted({b['score_band'] for b in PO_BARS}, key=BAND_ORDER.index))}-grade, and " + (f"the one {best_g}-grade flavor doesn't carry it." if len(TOP_BAND) == 1 else f"none of the {len(TOP_BAND)} {best_g}-grade flavors carries it."))
 lil_bars = [b for b in QB if lil(b)]
 if lil_bars:
     lil_g = sorted({b['score_band'] for b in lil_bars}, key=BAND_ORDER.index)
@@ -257,7 +257,7 @@ TABLE_HEADING = f'''<h2>All {N} Quest flavors ranked by ingredient quality</h2>
 
 bl1 = (f"Quest earns its reputation as a high-protein, low-sugar bar. Averaging {g1(FIBS['avg'])}g of fiber per bar is a genuine standout "
        f"in any category, ranking in the top {FIBS['top']}% of bars we track. But the ingredient quality grades tell a more mixed story than "
-       f"the marketing suggests: {GC[best_g]} of {N} flavors land at {best_g}, the other {len(REST)} at "
+       f"the marketing suggests: {GC[best_g]} of {N} flavors land{'s' if GC[best_g] == 1 else ''} at {best_g}, the other {len(REST)} at "
        f"{' or '.join(g for g in GRADES_PRESENT if g != best_g)}" + (', and none currently reach an A.' if NO_A else '.'))
 bl2 = ("The limitation is just as consistent: artificial sweeteners and sugar alcohols in every flavor, no exceptions. If those ingredients "
        "are a dealbreaker, Quest is not your bar regardless of which flavor you pick. If you are fine with sucralose and erythritol and you "

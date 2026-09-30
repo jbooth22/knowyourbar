@@ -89,6 +89,21 @@ SKIP_CLAUSES   = [
 # level items), so a second or third source no longer adds nearly as much
 # credit as the first just by being listed.
 PROTEIN_STACK_DISCOUNT = 0.5
+# Scoring v13 (2026-09-29, Jeff approved): the discount above now ALSO applies
+# to proteins inside a blend. The v7 reasoning below the original comment (a
+# blend is "already down-weighted via the 0.6 multiplier") did not hold: every
+# sub-ingredient got 0.6 of the slot's weight with no cap on the group, so a
+# 6- to 12-protein "Protein Blend (...)" at position 1 earned 4 to 7 full
+# position-1 slots and carried bars with sucralose, erythritol and palm oil to
+# an A (Pure Protein Cookies and Cream 10.8, MyProtein Chocolate Peanut Butter
+# 9.6). Audit: claude/SCORING_BLEND_AUDIT_2026-09-29.md.
+# Oil-blend parents whose bare plant-name subs are oils, not whole foods (v13).
+VEG_OIL_PARENT_RE = re.compile(r'\bvegetable (?:oils?|fats?)\b')
+VEG_OIL_REMAP_CATEGORIES = {'whole_food', 'starch_flour', 'protein', 'cocoa_chocolate'}
+# Each further positive non-protein member of one blend counts at this fraction of the one before (v13).
+BLEND_DIMINISH = 0.5
+# A label with no ingredient scoring below 0 grades at least A (v13 clean-label floor).
+CLEAN_LABEL_FLOOR = 8.0
 # "Contains less than 2% of the following: X, Y, Z" (and variants: "and less
 # than 2% of X", "Water and Less than 2%: X", "Less than 2% of each of the
 # following: X") is standard FDA labeling for real minor ingredients — NOT
@@ -517,16 +532,48 @@ def score_bar(raw, al, cl):
         return None, None, None, '', '', None, None, ''
 
     matched = []
+    unmatched = 0      # ingredients the schema doesn't know (blocks the clean-label floor)
+    parent_norm = {}   # top_pos -> normalized text of the top-level item that owns the parenthetical
+    group_seen = {}    # top_pos -> canonicals already counted in that label slot (scoring v13)
     for ing_text, top_pos, weight_mult in parsed:
         norm = normalize(ing_text)
         if not norm or len(norm) < 2:
             continue
+        is_sub = weight_mult < 1.0
+        if not is_sub:
+            parent_norm[top_pos] = norm
         res = lookup_ingredient(norm, al, cl)
         if res and res.get('skip'):
             # Allergen "contains"/qualifier-note fragment (schema v11) —
             # not a real ingredient. Excluded from matched entirely so it
             # can't inflate top_level_count or appear in the encyclopedia.
             continue
+        # Oil blends (scoring v13, 2026-09-29): inside "Vegetable Oil (Palm
+        # Kernel, Palm, Shea, Peanut)" or "Vegetable Oil (Sunflower)" a bare
+        # plant name is that plant's OIL, not the whole food. Before v13 the
+        # lookup matched "peanut" -> peanuts (+3) and "sunflower" -> sunflower
+        # seeds (+2), crediting an oil blend with whole-food points. Look the
+        # sub up as "<name> oil"; if the schema has no fat_oil entry for it,
+        # count it as a neutral oil.
+        if (res and is_sub and VEG_OIL_PARENT_RE.search(parent_norm.get(top_pos, ''))
+                and res['category'] in VEG_OIL_REMAP_CATEGORIES):
+            oil = lookup_ingredient(normalize(f'{norm} oil'), al, cl)
+            if oil and not oil.get('skip') and oil['category'] == 'fat_oil':
+                res = oil
+            else:
+                res = {'canonical_name': f'{norm} oil', 'category': 'fat_oil', 'base_score': 0}
+        # One label slot counts each ingredient once (scoring v13, 2026-09-29):
+        # a repeat inside the same parenthetical ("Protein Blend (Whey Protein
+        # Isolate, ... Whey Protein Cocoa Crisps [Whey Protein Isolate, ...])")
+        # or a sub that restates its parent ("Isomalto-oligosaccharides (IMO)")
+        # is not counted again.
+        if res:
+            seen = group_seen.setdefault(top_pos, set())
+            if is_sub and res['canonical_name'] in seen:
+                continue
+            seen.add(res['canonical_name'])
+        if not res:
+            unmatched += 1
         if res:
             pw = position_weight(top_pos) * weight_mult
             matched.append({
@@ -572,11 +619,28 @@ def score_bar(raw, al, cl):
                     'position': max((m['position'] for m in matched), default=1), 'is_sub': True,
                 })
 
+    # Diminishing credit inside any blend (scoring v13, 2026-09-29, Jeff approved).
+    # A parenthetical is one label position, but every member used to earn its
+    # own 0.6 share, so "Dried Whole Food Powders (kale, flax, rose hips, ...
+    # 14 items)" or "Whole Grains (oats, teff, millet, quinoa, sorghum, chia)"
+    # earned 7 to 10 points for trace or one-slot ingredients. Now the positive
+    # non-protein members of one parenthetical count 1x, 0.5x, 0.25x ... (best
+    # first). Proteins in a blend are handled by the stacking discount below.
+    # Negative members (sugar, palm oil inside a coating) are unchanged.
+    blend_pos = {}
+    for m in matched:
+        if m['is_sub'] and m['weighted'] > 0 and m['category'] != 'protein':
+            blend_pos.setdefault(m['position'], []).append(m)
+    for members in blend_pos.values():
+        for i, m in enumerate(sorted(members, key=lambda x: -x['weighted'])):
+            m['weighted'] *= BLEND_DIMINISH ** i
+
     # Diminishing returns on stacked protein sources (schema v7) — see
-    # PROTEIN_STACK_DISCOUNT above. Only top-level (non-sub) protein-category
-    # matches are eligible; the single best-scoring one keeps full weight.
-    prot_top = [m for m in matched if m['category'] == 'protein' and not m['is_sub']]
-    for i, m in enumerate(sorted(prot_top, key=lambda x: x['weighted'], reverse=True)):
+    # PROTEIN_STACK_DISCOUNT above. Scoring v13 (2026-09-29): applies to every
+    # protein-category match, including proteins listed inside a blend. The
+    # single best-scoring one keeps full weight.
+    prot_all = [m for m in matched if m['category'] == 'protein']
+    for i, m in enumerate(sorted(prot_all, key=lambda x: x['weighted'], reverse=True)):
         if i > 0:
             m['weighted'] *= PROTEIN_STACK_DISCOUNT
 
@@ -585,6 +649,15 @@ def score_bar(raw, al, cl):
     # unrounded score let a bar show 4.0 with a C or 8.0 with a B; "+ 0.0"
     # turns -0.0 into 0.0 so no bar displays a negative zero.
     final = round(sum(m['weighted'] for m in matched) + get_count_adj(top_level_count), 1) + 0.0
+    # Clean-label floor (scoring v13, 2026-09-29, Jeff approved). The score is
+    # a sum, so a short label of only top-scoring whole foods ("Cashews, Dates")
+    # couldn't add up to an A (5.6) while a longer label with a concern
+    # ingredient could. If every ingredient on the label scores 0 or better
+    # (no sweetener, oil or additive penalty anywhere, artificial sweeteners
+    # included) and the schema knows every ingredient, the bar is at least an
+    # A. The displayed score is lifted to the A line so score and grade agree.
+    if unmatched == 0 and all(m['score'] >= 0 and m['weighted'] >= 0 for m in matched):
+        final = max(final, CLEAN_LABEL_FLOOR)
     band, label = get_band(final)
 
     sm = sorted(matched, key=lambda x: x['weighted'], reverse=True)
