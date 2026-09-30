@@ -1536,6 +1536,7 @@ KT_COLS = {  # key -> (header, fn)
     'cal': ('Cal', lambda b: fnum(CAL(b))),
     'sugar': ('Sugar', lambda b: f'{fnum(SUG(b))}g'),
     'fiber': ('Fiber', lambda b: f'{fnum(FIB(b))}g'),
+    'netcarbs': ('Net carbs', lambda b: f'{fnum(net_carbs(b))}g'),   # diabetics v2 (2026-09-30)
 }
 
 def compact_bar_table_html(bars, *, cols=('grade', 'protein', 'cal', 'sugar', 'fiber'), extra=None, hide_mobile=('fiber',)):
@@ -1568,9 +1569,9 @@ def compact_bar_table_html(bars, *, cols=('grade', 'protein', 'cal', 'sugar', 'f
     return ('<div class="kt-wrap">\n        <table class="kt-table">\n          <thead><tr>' + ''.join(heads) + '</tr></thead>\n'
             '          <tbody class="kt-body">\n' + '\n'.join(rows) + '\n          </tbody>\n        </table>\n      </div>')
 
-def top50_html(bars, *, h2, intro):
+def top50_html(bars, *, h2, intro, cols=('grade', 'protein', 'cal', 'sugar', 'fiber'), hide_mobile=('fiber', 'cal')):
     return ('<div class="section-inner">\n      <h2 class="section-title">' + esc(h2) + '</h2>\n'
-            '      <p class="section-body">' + esc(intro) + '</p>\n      ' + compact_bar_table_html(bars, hide_mobile=('fiber', 'cal')) + '\n    </div>')
+            '      <p class="section-body">' + esc(intro) + '</p>\n      ' + compact_bar_table_html(bars, cols=cols, hide_mobile=hide_mobile) + '\n    </div>')
 
 def finder_cta_html(n, href, *, desc):
     return f'''<div class="explore-cta-grid">
