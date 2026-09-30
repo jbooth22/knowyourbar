@@ -198,6 +198,14 @@ BRANDS_WELL = brands_well_html(WELL, well_why, h2='Brands that do it well',
                                      'and how well those bars grade. We made sure to include both brands you can find at most '
                                      'grocery stores and smaller independents.')
 
+# CLIF Bar (Jeff, 2026-09-30): no flavor names an animal ingredient, but Clif doesn't
+# call its bars vegan because they may be made in bakeries that also use
+# animal-based ingredients. Said plainly instead of "not marked vegan in our data".
+CLIF = by_brand('CLIF Bar')
+CLIF_NOTE = (not any(QF(b) for b in CLIF)) and not any(any_a(b) for b in CLIF)
+C.check(CLIF_NOTE, 'no CLIF Bar flavor is marked vegan and none names an animal ingredient')
+CLIF_WHY = ("none name an animal ingredient, but Clif doesn't call its bars vegan because they may be made in bakeries "
+            "that also use animal-based ingredients")
 def animal_top(disq):
     c = Counter(l for b in disq for l in RX if has_a(b, l))
     return sorted(c.items(), key=lambda kv: (-kv[1], ORDER.index(kv[0])))
@@ -211,7 +219,9 @@ def big_verdict(r):
     if r['q'] == r['total']:
         return 'Every flavor is vegan.' + (low_txt.replace(' of the vegan ones', '') if low_txt else pick)
     top = animal_top(disq)
-    if not top:
+    if r['brand'] == 'CLIF Bar' and CLIF_NOTE:
+        why = CLIF_WHY
+    elif not top:
         why = "none name an animal ingredient, they just aren't marked vegan in our data"
     elif top[0][1] == len(disq):
         why = f'every one has {top[0][0].lower()}'
@@ -275,6 +285,10 @@ FAQS = [
       + (f' to {bb_hi}' if bb_hi != bb_lo else '') + " for ingredient quality, worse than the brand's non-vegan lineup. "
       'Being vegan and having a clean ingredient list are two different questions here.') if BB else
      f"No. None of Barebells' {len(BB_ALL)} flavors are marked vegan in our data."),
+    ('Are CLIF Bars vegan?',
+     f"Not by our screen. None of the {len(CLIF)} CLIF Bar flavors we track name an animal ingredient, but Clif doesn't call "
+     "its bars vegan, because they may be made in bakeries that also use animal-based ingredients. We only count a bar as "
+     "vegan when it's marked vegan, so CLIF Bar isn't on this list."),
     ('What is the most common non-vegan ingredient in protein bars?',
      f"Whey protein. It shows up in {of_db(len(HIT['Whey protein']), NT, True)} bars we track, more than milk protein, honey, "
      'collagen, casein, egg whites, and gelatin individually. It is the default protein source for most mainstream bars.'),
