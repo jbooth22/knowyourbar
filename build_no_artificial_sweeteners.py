@@ -29,6 +29,7 @@ from kyb_guide_lib import *
 PAGE = 'no-artificial-sweeteners.html'
 URL = 'https://knowyourbar.com/no-artificial-sweeteners'
 PUBLISHED = '2026-04-08'
+set_tie_seed('no-artificial-sweeteners')   # per-guide shuffle for exact ties (kyb_guide_lib, 2026-09-30)
 
 ALL = load_bars()
 QF = GUIDE_FILTERS['no-artificial-sweeteners']

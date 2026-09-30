@@ -27,6 +27,7 @@ from kyb_guide_lib import *
 PAGE = 'no-sugar-alcohols.html'
 URL = 'https://knowyourbar.com/no-sugar-alcohols'
 PUBLISHED = '2026-04-08'
+set_tie_seed('no-sugar-alcohols')   # per-guide shuffle for exact ties (kyb_guide_lib, 2026-09-30)
 
 ALL = load_bars()
 QF = GUIDE_FILTERS['no-sugar-alcohols']

@@ -1150,8 +1150,10 @@ def fiber_row_html(b, idx):
 #   * Ingredient quality is used as a GRADE (A-F) only. Bars in the same grade
 #     are treated as tied. The raw ingredient score is never used to rank a
 #     pick, never printed on a v2 page, and never shown in an expand panel.
-#   * Tie chain inside a slot: better grade, more protein, less sugar, more
-#     fiber, fewer calories, then brand/flavor name (only so builds are stable).
+#   * Tie chain inside a slot: better grade, buy link (brand referral, then
+#     Amazon, then brand site only; 2026-09-30), more protein, less sugar, more
+#     fiber, fewer calories, a per-guide shuffle (set_tie_seed), then
+#     brand/flavor name (only so builds are stable).
 #   * Best overall: best grade present, then most protein per 100 calories,
 #     15g+ protein. "Best [subset]" slots use the same rule inside the subset.
 #   * No bar appears twice on one guide (repeats are allowed ACROSS guides).
@@ -1177,8 +1179,32 @@ def is_big(b):
 def gp(b):
     return GRADE_POINTS.get(b.get('score_band'), -1)
 
+# Buy-link tiebreak (Jeff, 2026-09-30): right after grade, a bar with one of
+# our brand referral links (Custom Referral Link = Yes, URL in Website) wins,
+# then a bar with an Amazon link, then a bar with a brand site only. It only
+# decides between bars already tied on the slot's own number and on grade.
+def buy_rank(b):
+    if b.get('Custom Referral Link') == 'Yes' and website_url(b):
+        return 0
+    return 1 if amazon_url(b) else 2
+
+# Per-guide shuffle for exact ties (Jeff, 2026-09-30). Bars tied on every step
+# of the chain (e.g. three Fello flavors with identical macros) used to fall to
+# alphabetical order, so the same flavor won on every guide. Each v2 builder
+# calls set_tie_seed(<page slug>) before picking: the last step is then a
+# stable hash of (slug, bar key), different per guide, identical on every
+# rebuild. Name stays as the final step so the order is always total.
+TIE_SEED = ''
+def set_tie_seed(seed):
+    global TIE_SEED
+    TIE_SEED = seed or ''
+def tie_shuffle(b):
+    if not TIE_SEED:
+        return ''
+    return _hashlib.md5(f'{TIE_SEED}|{b["Key"]}'.encode('utf-8')).hexdigest()
+
 def tie_chain(b):
-    return (-gp(b), -P(b), SUG(b), -FIB(b), CAL(b), name_key(b))
+    return (-gp(b), buy_rank(b), -P(b), SUG(b), -FIB(b), CAL(b), tie_shuffle(b), name_key(b))
 
 def overall_key(b):
     return (-gp(b), -(p100(b) or 0)) + tie_chain(b)
@@ -1275,9 +1301,11 @@ def _tie_context(slot, pool, b):
         return {'tied': '', 'tie_on': ''}
     # which link of the tie chain separated the pick from the nearest tied bar
     nearest = min(others, key=slot.key)
-    names = ['grade', 'protein', 'sugar', 'fiber', 'calories']
+    # 'buy link' and the per-guide shuffle print no "wins the tie on" clause
+    # (treated like the name step): the card just says "tied for".
+    names = ['grade', 'name', 'protein', 'sugar', 'fiber', 'calories']
     tc_b, tc_x = tie_chain(b), tie_chain(nearest)
-    on = next((names[i] for i in range(5) if tc_b[i] != tc_x[i]), 'name')
+    on = next((names[i] for i in range(6) if tc_b[i] != tc_x[i]), 'name')
     return {'tied': 'tied for ', 'tie_on': on}
 
 def _why_honest(slot, pool, b, cand, used, brands, brand_cap):
@@ -1571,10 +1599,10 @@ def criteria_html(*, qualify_rule, picks, extra_rules=()):
         <p><strong>Rules for every pick:</strong></p>
         <ul class="criteria-list">
           <li>The bar has to qualify for this guide, carry an A or B ingredient grade, and have at least 10g of protein.</li>
-          <li>We rank ingredient quality by grade only. Two bars with the same grade count as equal, because our scoring isn't precise enough to split them. Ties go to more protein, then less sugar, then more fiber, then fewer calories.</li>
+          <li>We rank ingredient quality by grade only. Two bars with the same grade count as equal, because our scoring isn't precise enough to split them. When two bars tie on a pick's own number and grade, the one you can buy through a link on this page goes first (a brand's own partner link, then Amazon). After that, ties go to more protein, then less sugar, then more fiber, then fewer calories.</li>
           <li>No bar appears twice in the Best 10, and no brand gets more than {V2_BRAND_CAP} of the 10 spots.</li>
           <li>If a pick's rule finds no eligible bar, that spot goes to the next rule on this guide's backup list, so there are always 10.</li>
-          <li>Nobody pays for a spot. Every bar goes through the same rules. Buy links may earn us a commission, and that never changes the order.</li>{extras}
+          <li>Nobody pays for a spot. Every bar goes through the same rules. Buy links may earn us a commission. A link only ever decides between bars that are already tied, and never lifts a bar over one with a better grade or a better number.</li>{extras}
         </ul>
         <p><strong>How each pick was chosen:</strong></p>
         <ul class="criteria-list">

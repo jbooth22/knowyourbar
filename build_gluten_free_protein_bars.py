@@ -32,6 +32,7 @@ from kyb_guide_lib import *
 PAGE = 'gluten-free-protein-bars.html'
 URL = 'https://knowyourbar.com/gluten-free-protein-bars'
 PUBLISHED = '2026-08-26'
+set_tie_seed('gluten-free-protein-bars')   # per-guide shuffle for exact ties (kyb_guide_lib, 2026-09-30)
 
 ALL = load_bars()
 QF = GUIDE_FILTERS['gluten-free-protein-bars']
