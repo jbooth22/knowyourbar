@@ -389,7 +389,7 @@ Page 479KB → ~127KB, FAQ at ~113KB. Card macros: Fiber, Protein, Calories, Sug
 7 of 10 have an Amazon link. New on any guide: #5, #7, #8. The two Daryl's picks get part of their fiber from IMO; the editorial says so, and the IMO card now carries the same "partly digested like sugar" note as diabetics and keto.
 Editorial kept and trimmed: "What actually pushes a bar past 11g of fiber" (five added-fiber cards + whole-food card), "The three tiers" folded in as a list with an A/B example per tier (Best overall rule) and the bloating note, and the Bar Finder slider link turned into a button. Findings: fiber drops off fast (613 → 243 → 103), 90% of 11g+ bars use an added fiber (tapioca fiber leads), high fiber isn't niche (13 of 16 Quest; five brands = 49 of 103) but 59 of 103 grade C or below. Chart = share with 11g+ fiber by grade (A 3, B 10, C 12, D 9, F 1).
 Fixed: v1 decimals, OG "ranked by ingredient quality", "reflects the database as of [date]", the FAQ that called its pick "the highest ingredient quality score" (scores are never cited), the inline Bar Finder link (now a button), v1 tiles. New FAQs: "What is the best high fiber protein bar?", "Is Quest high in fiber?".
-Data note: all 13 Built bars have 0g fiber in the database. Worth a label check (the big-brands row says "averages 0g of fiber").
+Data note: all 13 Built bars have 0g fiber. Jeff confirmed this is accurate (2026-09-30).
 
 ### Cross-guide notes
 - **Overlap:** slots 1–6 go to nearly the same bars on the free-from v2 guides (the same clean bars win every screen). Diabetics' narrower screen gives a mostly different core six (only Gryp, Simply Protein Cocoa Raspberry and Kirkland repeat). Repeats across guides are allowed; guide slots are chosen to reduce overlap.

@@ -69,7 +69,7 @@ Full methodology, worked examples, and the complete sugar/fiber/sweetener scale:
 | High Fiber (5g+ per bar) | 613 | 46.9% | 128 |
 | Clean (A/B grade, no artificial sweeteners, no processed oils) | 514 | 39.3% | 115 |
 | Low Sugar + High Protein (<=5g sugar, 15g+ protein) | 365 | 27.9% | 63 |
-| Soy Free | 292 | 22.3% | 47 |
+| Soy Free | 291 | 22.2% | 47 |
 | Vegan | 281 | 21.5% | 47 |
 | Dairy Free | 247 | 18.9% | 45 |
 | Very High Fiber (8g+ per bar) | 243 | 18.6% | 62 |
@@ -117,7 +117,7 @@ Curated, ranked bar lists filtered by a specific dietary goal, each with ingredi
 - **Dairy Free Protein Bars** - https://knowyourbar.com/dairy-free-protein-bars (247 bars)
 - **High Fiber Protein Bars** - https://knowyourbar.com/high-fiber-protein-bars - three cumulative fiber tiers on the same field (Dietary Fiber (g)): High Fiber 5g+ (613 bars, 128 brands, the FDA's "excellent source of fiber" cutoff), Very High Fiber 8g+ (243 bars, 62 brands), and Extreme Fiber 11g+ (103 bars, 24 brands). The page ranks the Extreme Fiber tier in full; the other two tiers are supporting context.
 - **Creatine Protein Bars** - https://knowyourbar.com/creatine-protein-bars - any declared creatine amount. Only 14 bars from 6 brands qualify, so the page ranks every bar individually and groups doses into two tiers: a clinical 3-5g dose (9 bars, 4 brands) and a trace 1-1.2g dose (5 bars, 2 brands). The trace-dose tier scores higher on ingredient quality on average than the clinical-dose tier.
-- **Soy Free Protein Bars** - https://knowyourbar.com/soy-free-protein-bars - Soy Free (Y/N) certification field, 292 of 1,000+ bars (22%). Soy free bars grade A/B at a notably higher rate than the database average (65% vs. 48%), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
+- **Soy Free Protein Bars** - https://knowyourbar.com/soy-free-protein-bars - Soy Free (Y/N) certification field, 291 of 1,000+ bars (22%). Soy free bars grade A/B at a notably higher rate than the database average (66% vs. 48%), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
 - **Kosher Protein Bars** - https://knowyourbar.com/kosher-protein-bars - Kosher (Y/N) certification field, 154 of 1,000+ bars (12%). Kosher is a supervised-process claim, not primarily an ingredient screen: only 8% of non-kosher bars contain an identifiable non-kosher ingredient (gelatin, confectioner's glaze/shellac, or carmine/rennet); the rest simply haven't pursued certification. Kosher bars grade about the same as the database average (45% A/B vs. 48%).
 - **Low Sugar + High Protein** - https://knowyourbar.com/low-sugar-high-protein - merged into the Keto and Best Bars for Diabetics guides, which filter for low sugar and high protein plus the criteria that matter for each goal. The criterion itself (365 bars) is still reachable through the Bar Finder sliders (`?sugar=5&protein=15`).
 
