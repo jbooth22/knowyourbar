@@ -1537,6 +1537,7 @@ KT_COLS = {  # key -> (header, fn)
     'sugar': ('Sugar', lambda b: f'{fnum(SUG(b))}g'),
     'fiber': ('Fiber', lambda b: f'{fnum(FIB(b))}g'),
     'netcarbs': ('Net carbs', lambda b: f'{fnum(net_carbs(b))}g'),   # diabetics v2 (2026-09-30)
+    'fat': ('Fat', lambda b: f'{fnum(num(b.get("Total Fat (g)")) or 0)}g'),   # keto v2 (2026-09-30)
 }
 
 def compact_bar_table_html(bars, *, cols=('grade', 'protein', 'cal', 'sugar', 'fiber'), extra=None, hide_mobile=('fiber',)):
