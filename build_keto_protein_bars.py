@@ -188,7 +188,7 @@ MEANS = f'''
       </div>
       <h3 class="kt-h3">One more gotcha: IMO counted as fiber</h3>
       <div class="section-body">
-        <p>{len(IMO_Q)} of the {comma(N)} keto bars here list isomalto-oligosaccharides (IMO), a syrup sold as a prebiotic fiber, all from {names_and(IMO_BRANDS)}. {imo_list()}. Our scoring treats IMO as a fiber, so it comes off the net carb count like any other fiber. Some research suggests your body digests much of it like a sugar, so a bar whose fiber comes partly from IMO may carry more usable carbs than its net carbs suggest. Check the label if you're counting closely.</p>
+        <p>{len(IMO_Q)} of the {comma(N)} keto bars here list isomalto-oligosaccharides (IMO), a syrup sold as a prebiotic fiber, all from {names_and(IMO_BRANDS)}. {imo_list()}. The label counts IMO as fiber, so it comes off the net carb count like any other fiber. Some research suggests your body digests much of it like a sugar, so a bar whose fiber comes partly from IMO may carry more usable carbs than its net carbs suggest. Check the label if you're counting closely.</p>
         <p><strong>Four questions worth asking before you buy a bar for keto:</strong></p>
         <ul class="criteria-list">
           <li>What are the net carbs, not just the sugar grams on the front of the label?</li>

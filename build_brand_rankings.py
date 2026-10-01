@@ -278,7 +278,7 @@ def compute_brand_stats(bars_js_path):
         f_n = min((r['avg_fiber'] - f_lo) / f_rng * 100, 100)
         r['kyb_score'] = round(0.60 * s_n + 0.25 * p_n + 0.15 * f_n, 1)
 
-    rows.sort(key=lambda r: -r['kyb_score'])
+    rows.sort(key=lambda r: (-r['kyb_score'], r['brand'].lower()))  # name breaks ties so rebuilds don't reshuffle (2026-10-01)
     for i, r in enumerate(rows, 1):
         r['rank'] = i
 
@@ -286,7 +286,7 @@ def compute_brand_stats(bars_js_path):
     for r in rows:
         cat_groups[r['category']].append(r)
     for group in cat_groups.values():
-        group.sort(key=lambda r: -r['kyb_score'])
+        group.sort(key=lambda r: (-r['kyb_score'], r['brand'].lower()))
         for i, r in enumerate(group, 1):
             r['cat_rank'] = i
 

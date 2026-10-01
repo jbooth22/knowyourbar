@@ -320,8 +320,14 @@ BESTWORST = f'''<h2>Best and worst flavors by ingredient quality</h2>
 pat = []
 pat.append(f"Quality Protein Source shows up in {'every flavor' if QPS_ALL == N else f'{QPS_ALL} of {N} flavors'}, dairy and vegan alike, "
            "since both protein systems clear the bar for a genuine protein source, even though the grams of actual protein differ sharply between the two lines.")
+COLL_ING_D = sum(1 for b in DAI if 'collagen' in (b.get('Ingredients') or '').lower())
+COLL_ING_V = sum(1 for b in VEG if 'collagen' in (b.get('Ingredients') or '').lower())
 if COLL_V == 0 and COLL_D == len(DAI):
     pat.append(f"Collagen Protein is present in {COLL_D} of {N} flavors (the entire dairy line) but absent from all {num_word(len(VEG))} vegan flavors, since collagen is animal-derived.")
+elif COLL_V == 0 and COLL_D == 0 and COLL_ING_D == len(DAI) and COLL_ING_V == 0:
+    # 2026-10-01: the chip now looks at the first protein including blends, and the
+    # milk protein blend comes first, so the dairy line no longer carries it.
+    pat.append(f"Every dairy flavor also lists collagen, but after the milk protein blend, so collagen isn't the main protein and the Collagen Protein flag doesn't apply. The {num_word(len(VEG))} vegan flavors have no collagen, since it's animal-derived.")
 else:
     pat.append(f"Collagen Protein shows up in {COLL_D + COLL_V} of {N} flavors.")
 if PO_ALL:
@@ -429,8 +435,8 @@ FAQS = [
      f"The {num_word(len(VEG))} vegan flavors swap this for a plant protein blend, mostly hydrolyzed wheat gluten and soy protein isolate, "
      "a more processed combination that scores noticeably worse in our system."),
     ('Are Barebells vegan bars different from the regular bars?',
-     "Significantly. " + veg_desc + " They swap the milk protein blend for a plant protein blend and lose the Collagen Protein ingredient entirely, "
-     "but the loss of that one concern chip isn't enough to offset the rest of the formula. If you're buying Barebells specifically for ingredient "
+     "Significantly. " + veg_desc + " They swap the milk protein blend for a plant protein blend and drop the collagen, "
+     "but that isn't enough to offset the rest of the formula. If you're buying Barebells specifically for ingredient "
      "quality, stick to the core dairy line."),
 ]
 wg = sum(1 for b in VEG if has(b, 'wheat gluten'))

@@ -97,7 +97,8 @@ NI = lambda b: top_level_ingredient_count(ingr(b))
 # ---------------------------------------------------------------------------
 # Best 10 (spec v2; guide slots locked with Jeff 2026-09-29)
 # ---------------------------------------------------------------------------
-def no_added_oil(b): return not re.search(r'\boils?\b|\bfat\b|shortening|\bmct\b|margarine', ingr(b), re.I)
+# tallow, lard and ghee are added fats too (2026-10-01: Jacob Berry, with beef tallow, had won this slot)
+def no_added_oil(b): return not re.search(r'\boils?\b|\bfat\b|shortening|\bmct\b|margarine|\btallow\b|\blard\b|\bghee\b', ingr(b), re.I)
 def plant_based(b): return b.get('Vegan (Y/N)') == 'Yes'
 SUBSTITUTE = re.compile(r'allulose|monk ?fruit|luo han|stevia|reb ?a\b|rebaudioside|sucralose|acesulfame|aspartame|'
                         r'saccharin|erythritol|xylitol|sorbitol|maltitol|isomalt|tagatose', re.I)

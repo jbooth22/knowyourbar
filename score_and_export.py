@@ -6,7 +6,7 @@ Scores all bars from raw ingredient text and exports bars.js.
 Usage:
     python score_and_export.py \
         --db "KYB - New Protein Bar Database (2026).xlsx" \
-        --schema "knowyourbar_scoring_schema_v8.xlsx"
+        --schema "knowyourbar_scoring_schema_v12.xlsx"
 
 Output:
     bars.js  (written to current directory)
@@ -32,6 +32,7 @@ import re
 import sys
 import unicodedata
 from collections import Counter
+from decimal import Decimal, ROUND_HALF_UP
 
 import pandas as pd
 
@@ -58,6 +59,13 @@ ARTIFICIAL_SW  = ['sucralose', 'acesulfame', 'aspartame', 'saccharin']
 ARTIFICIAL_SW_PENALTY = -2.0
 SA_KEYWORDS    = ['erythritol', 'maltitol', 'xylitol', 'sorbitol',
                   'mannitol', 'isomalt', 'lactitol']
+# Sugar alcohol test (2026-10-01). A plain substring test on 'isomalt' also
+# matched "isomalto-oligosaccharide" (IMO), so 34 IMO-only bars carried a
+# "Sugar Alcohols" chip although IMO is scored as a fiber (schema v10). The
+# guide screens and the Bar Finder still treat IMO as a sugar alcohol on
+# purpose, but they check for IMO by name themselves (IMO_RX in
+# kyb_guide_lib.py, hasSugarAlcohol() in app.js), so their results don't change.
+SA_RE          = re.compile(r'erythritol|maltitol|xylitol|sorbitol|mannitol|lactitol|isomalt(?!o)')
 OIL_KEYWORDS   = ['palm oil', 'palm kernel oil', 'canola oil', 'soybean oil',
                   'hydrogenated', 'partially hydrogenated', 'palm fruit oil',
                   'sunflower oil', 'safflower oil', 'vegetable oil',
@@ -158,6 +166,11 @@ def get_band(score):
         if score >= lo:
             return band, label
     return 'F', 'Avoid'
+
+
+def round_score(x):
+    """One decimal, half up, after clearing float noise. Never returns -0.0."""
+    return float(Decimal(repr(round(x, 6))).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP)) + 0.0
 
 
 def position_weight(pos):
@@ -307,6 +320,36 @@ def lookup_ingredient(norm, al, cl):
         if key in norm and len(key) > best_len and len(key) > 4:
             best, best_len = val, len(key)
     return best
+
+
+# Compound label phrases (2026-10-01). Labels sometimes join two ingredients
+# in one comma slot: "roasted peanuts and sea salt", "whey concentrate and
+# sunflower lecithin", "salt and sucralose", "palm and/or canola oil". Before
+# this, the partial-match fallback scored only ONE of them (in the whey example
+# the whey was never scored). When a phrase has no exact or variant match, it is
+# split on these words, and if every part is a known ingredient each part is
+# scored in the same label slot. "X and/or Y" and "X or Y" mean the bar has one
+# of them, so only the lower-scoring one counts (the conservative reading).
+COMPOUND_SPLIT_RE = re.compile(r'\s+(and or|and|or|with)\s+')
+
+
+def split_compound(norm, al, cl):
+    """Return (parts, is_alternative) if `norm` splits into known ingredients
+    on and / or / and/or / with, else None. Only used when `norm` itself has
+    no exact or variant match."""
+    text = re.sub(r'^(and or|and|or|with)\s+', '', norm)
+    pieces = COMPOUND_SPLIT_RE.split(text)
+    if len(pieces) < 3 and text == norm:
+        return None
+    parts = [p.strip() for p in pieces[0::2] if p.strip()]
+    joins = pieces[1::2]
+    if not parts:
+        return None
+    for p in parts:
+        if len(p) < 2 or lookup_ingredient(p, al, cl) is None or match_method(p, al, cl) == 'partial':
+            return None
+    alternative = any(j in ('or', 'and or') for j in joins)
+    return parts, alternative
 
 
 def strip_disclaimer_clause(text, clause):
@@ -486,7 +529,9 @@ def parse_ingredients(raw):
                         if sub_part:
                             items.append((sub_part, top_pos, 0.6))
                 current_sub = []
-        elif ch == ',' and depth == 0:
+        elif ch in ',;' and depth == 0:
+            # ';' separates top-level items too (EU-style labels, 2026-10-01):
+            # "sucrose esters of fatty acids; sweetener: sucralose" was one item.
             top_text = ''.join(current_top).strip()
             if top_text:
                 top_pos += 1
@@ -543,6 +588,26 @@ def score_bar(raw, al, cl):
         if not is_sub:
             parent_norm[top_pos] = norm
         res = lookup_ingredient(norm, al, cl)
+        if res is None or match_method(norm, al, cl) == 'partial':
+            comp = split_compound(norm, al, cl)
+            if comp:
+                parts, alternative = comp
+                cands = [(p, lookup_ingredient(p, al, cl)) for p in parts]
+                cands = [(p, r) for p, r in cands if not r.get('skip')]
+                if alternative and cands:
+                    cands = [min(cands, key=lambda c: c[1]['base_score'])]
+                for p, r in cands:
+                    seen = group_seen.setdefault(top_pos, set())
+                    if r['canonical_name'] in seen and (is_sub or len(cands) > 1):
+                        continue
+                    seen.add(r['canonical_name'])
+                    pw = position_weight(top_pos) * weight_mult
+                    matched.append({
+                        'canonical': r['canonical_name'], 'category': r['category'],
+                        'score': r['base_score'], 'weighted': r['base_score'] * pw,
+                        'position': top_pos, 'is_sub': is_sub, 'compound': True,
+                    })
+                continue
         if res and res.get('skip'):
             # Allergen "contains"/qualifier-note fragment (schema v11) —
             # not a real ingredient. Excluded from matched entirely so it
@@ -629,8 +694,10 @@ def score_bar(raw, al, cl):
     # Negative members (sugar, palm oil inside a coating) are unchanged.
     blend_pos = {}
     for m in matched:
-        if m['is_sub'] and m['weighted'] > 0 and m['category'] != 'protein':
-            blend_pos.setdefault(m['position'], []).append(m)
+        if (m['is_sub'] or m.get('compound')) and m['weighted'] > 0 and m['category'] != 'protein':
+            # Parts of a compound phrase ("rolled oats and oat flour") share one
+            # label slot, so they diminish like members of a blend (2026-10-01).
+            blend_pos.setdefault((m['position'], m['is_sub']), []).append(m)
     for members in blend_pos.values():
         for i, m in enumerate(sorted(members, key=lambda x: -x['weighted'])):
             m['weighted'] *= BLEND_DIMINISH ** i
@@ -648,7 +715,10 @@ def score_bar(raw, al, cl):
     # Grade on the score as displayed (one decimal), 2026-09-24. Grading the
     # unrounded score let a bar show 4.0 with a C or 8.0 with a B; "+ 0.0"
     # turns -0.0 into 0.0 so no bar displays a negative zero.
-    final = round(sum(m['weighted'] for m in matched) + get_count_adj(top_level_count), 1) + 0.0
+    # Rounded half up on a cleaned value (2026-10-01): float sums like 7.9499999
+    # vs 7.95 made a bar sitting exactly on a grade line round differently from
+    # run to run (Jacob Berry 7.95, Kirkland Chocolate Chip Cookie Dough 3.95).
+    final = round_score(sum(m['weighted'] for m in matched) + get_count_adj(top_level_count))
     # Clean-label floor (scoring v13, 2026-09-29, Jeff approved). The score is
     # a sum, so a short label of only top-scoring whole foods ("Cashews, Dates")
     # couldn't add up to an A (5.6) while a longer label with a concern
@@ -663,13 +733,13 @@ def score_bar(raw, al, cl):
     sm = sorted(matched, key=lambda x: x['weighted'], reverse=True)
     pos_items = [m['canonical'] for m in sm if m['weighted'] > 0.3][:3]
     neg_items = [m['canonical'] for m in sm if m['weighted'] < -0.3][-3:]
-    pos_total = round(sum(m['weighted'] for m in matched if m['weighted'] > 0), 1)
-    neg_total = round(sum(m['weighted'] for m in matched if m['weighted'] < 0), 1)
+    pos_total = round_score(sum(m['weighted'] for m in matched if m['weighted'] > 0))
+    neg_total = round_score(sum(m['weighted'] for m in matched if m['weighted'] < 0))
 
     insight_str = generate_insights(matched, full_lower, top_level_count)
 
     return (
-        round(final, 1), band, label,
+        final, band, label,
         ', '.join(pos_items), ', '.join(neg_items),
         pos_total, neg_total, insight_str,
     )
@@ -711,8 +781,8 @@ def generate_insights(matched, full_lower, top_level_count):
         sw_top5 = any(m['category'] == 'sweetener' and m['position'] <= 5 for m in matched)
         severity['Artificial Sweeteners'] = 'elevated' if (sw_top5 or sw_drag > 2.0) else 'minor'
 
-    if any(kw in full_lower for kw in SA_KEYWORDS):
-        sa_m = [m for m in matched if any(kw in m['canonical'].lower() for kw in SA_KEYWORDS)]
+    if SA_RE.search(full_lower):
+        sa_m = [m for m in matched if SA_RE.search(m['canonical'].lower())]
         sa_drag = abs(sum(m['weighted'] for m in sa_m))
         sa_min  = min((m['position'] for m in sa_m), default=99)
         insights.append(('Sugar Alcohols', 'concern'))
@@ -740,9 +810,12 @@ def generate_insights(matched, full_lower, top_level_count):
         insights.append(('Sweetener Heavy', 'concern'))
         severity['Sweetener Heavy'] = 'elevated'
 
-    prot_top = [m for m in top_only if m['category'] == 'protein']
-    if prot_top:
-        first_prot = min(prot_top, key=lambda x: x['position'])
+    # First protein on the label, including proteins inside a blend (2026-10-01).
+    # Looking at top-level items only meant "Protein Blend (whey protein isolate,
+    # ...), ..., hydrolyzed gelatin" reported collagen as the main protein.
+    prot_any = [m for m in matched if m['category'] == 'protein']
+    if prot_any:
+        first_prot = min(prot_any, key=lambda x: x['position'])
         if 'collagen' in first_prot['canonical'].lower():
             insights.append(('Collagen Protein', 'concern'))
             severity['Collagen Protein'] = 'elevated'
@@ -803,6 +876,8 @@ def audit_partial_matches(df, al, cl):
             res = lookup_ingredient(norm, al, cl)
             if not res or res.get('skip') or match_method(norm, al, cl) != 'partial':
                 continue
+            if split_compound(norm, al, cl):
+                continue   # scored as its separate parts (2026-10-01)
             words = set(norm.split())
             signals = [w for w in PARTIAL_MATCH_SIGNALS if w in words]
             if not signals:

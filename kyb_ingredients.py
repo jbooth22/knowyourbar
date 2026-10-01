@@ -76,6 +76,10 @@ def load_schema(path=SCHEMA):
     return canon, al, cl
 
 
+AS_CANON = {'sucralose': 'sucralose', 'acesulfame': 'acesulfame potassium',
+            'aspartame': 'aspartame', 'saccharin': 'saccharin'}
+
+
 def ingredient_counts(bars=None, path=SCHEMA):
     """Returns (rows, n_bars, canon_df). rows: {canonical_name: dict(bars, top, score, category, desc)}."""
     bars = bars if bars is not None else load_bars()
@@ -92,13 +96,30 @@ def ingredient_counts(bars=None, path=SCHEMA):
             if not norm or len(norm) < 2:
                 continue
             r = sx.lookup_ingredient(norm, al, cl)
-            if not r or r.get('skip'):
-                continue
-            k = r['canonical_name']
-            seen.add(k)
-            meta[k] = (r['category'], r['base_score'])
-            if mult == 1.0:
-                tp.add(k)
+            found = [r]
+            # Same compound handling as the scorer (2026-10-01): "salt and sucralose"
+            # is two ingredients; "X and/or Y" counts as the lower-scoring one.
+            if r is None or sx.match_method(norm, al, cl) == 'partial':
+                comp = sx.split_compound(norm, al, cl)
+                if comp:
+                    found = [sx.lookup_ingredient(p, al, cl) for p in comp[0]]
+                    if comp[1]:
+                        found = [min(found, key=lambda x: x['base_score'])]
+            for r in found:
+                if not r or r.get('skip'):
+                    continue
+                k = r['canonical_name']
+                seen.add(k)
+                meta[k] = (r['category'], r['base_score'])
+                if mult == 1.0:
+                    tp.add(k)
+        # Artificial sweeteners are counted from the raw text, as the scorer does,
+        # so "sucralose & acesulfame-potassium" counts both (2026-10-01).
+        low = (b.get('Ingredients') or '').lower()
+        for kw, k in AS_CANON.items():
+            if kw in low and k in base:
+                seen.add(k)
+                meta.setdefault(k, ('sweetener', base[k]))
         cnt.update(seen)
         top.update(tp)
     rows = {k: dict(bars=cnt[k], top=top[k], category=meta[k][0], score=int(base[k] if k in base and pd.notna(base[k]) else meta[k][1]),
@@ -141,9 +162,17 @@ def bar_ingredients(bars, path=SCHEMA):
             if not norm or len(norm) < 2:
                 continue
             r = sx.lookup_ingredient(norm, al, cl)
-            if not r or r.get('skip') or r['category'] in NOT_INGREDIENTS:
-                continue
-            items.append(dict(name=r['canonical_name'], pos=pos, sub=mult < 1.0, category=r['category'],
-                              subcategory=subcat.get(r['canonical_name'], '')))
+            found = [r]
+            if r is None or sx.match_method(norm, al, cl) == 'partial':   # same as the scorer (2026-10-01)
+                comp = sx.split_compound(norm, al, cl)
+                if comp:
+                    found = [sx.lookup_ingredient(p, al, cl) for p in comp[0]]
+                    if comp[1]:
+                        found = [min(found, key=lambda x: x['base_score'])]
+            for r in found:
+                if not r or r.get('skip') or r['category'] in NOT_INGREDIENTS:
+                    continue
+                items.append(dict(name=r['canonical_name'], pos=pos, sub=mult < 1.0, category=r['category'],
+                                  subcategory=subcat.get(r['canonical_name'], '')))
         out.append(items)
     return out

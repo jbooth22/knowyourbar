@@ -4,8 +4,9 @@ Opens the LIVE page and rewrites only the <!-- kyb:NAME --> regions:
   meta-desc    meta description
   faq-jsonld   FAQPage JSON-LD (built from the same list as the visible FAQ)
   calc         how the score is calculated: position weights, the three
-               exceptions (flat artificial sweetener penalty, sub-ingredients,
-               stacked proteins) and the ingredient-count adjustment
+               exceptions (flat artificial sweetener penalty, clean-label floor,
+               sub-ingredients and compound phrases, stacked proteins) and the
+               ingredient-count adjustment
   bands        grade bands table and the share of bars in each band
   sweeteners   the v12 sugar / fiber / sweetener scale
   examples     example ingredients with their scores
@@ -82,13 +83,13 @@ TIERS = [
       ('polydextrose', 'polydextrose')]),
     ('Plant-extracted fibers', 'Fiber pulled from a plant with little change to what it is.', {1},
      [('chicory root fiber', 'chicory root fiber'), ('inulin', 'inulin'), ('oligofructose', 'oligofructose'),
-      ('acacia fiber', 'acacia fiber')]),
+      ('acacia fiber (gum acacia, gum arabic)', 'acacia fiber')]),
     ('Whole-food fibers', 'Fiber milled from a food.', {1},
      [('oat fiber', 'oat fiber'), ('pea fiber', 'pea fiber'), ('citrus fiber', 'citrus fiber'), ('beet fiber', 'beet fiber')]),
     ('Sugar alcohols', 'Bulk sweeteners used by the gram, so label position still reflects how much is in the bar.',
      {-3, -4}, [('erythritol', 'erythritol'), ('xylitol', 'xylitol'), ('sorbitol', 'sorbitol'),
                 ('isomalt', 'isomalt'), ('maltitol', 'maltitol')]),
-    ('Low-calorie plant sweeteners', 'Unchanged in v12.', {0, 1},
+    ('Low-calorie plant sweeteners', 'Plant-derived sweeteners with little or no sugar.', {0, 1},
      [('stevia', 'stevia'), ('monk fruit', 'monk fruit'), ('allulose', 'allulose')]),
 ]
 AS_NAMES = {'sucralose': 'sucralose', 'acesulfame': 'acesulfame potassium',
@@ -98,7 +99,7 @@ AS_NAMES = {'sucralose': 'sucralose', 'acesulfame': 'acesulfame potassium',
 EXAMPLES = [
     ('High-scoring ingredients', [
         ('Whey Protein Isolate', ['whey protein isolate'], 'positive',
-         "The gold standard protein for bars. Isolate is highly filtered, so it's dense in protein with minimal fat and carbs. A complete amino acid profile makes it excellent for muscle protein synthesis."),
+         "The gold standard protein for bars. Isolate is highly filtered, so it's dense in protein with minimal fat and carbs. A complete amino acid profile makes it excellent for muscle protein synthesis. Proteins are scored on protein quality, not on how processed they are, which is why a filtered isolate sits at the top while refined sugars sit at the bottom."),
         ('Egg Whites', ['egg whites'], 'positive',
          "A whole-food complete protein source with an exceptional amino acid profile. When it leads the ingredient list, you're getting real food as the primary ingredient - not a powder or isolate."),
         ('Almonds / Peanuts', ['almonds', 'peanuts'], 'positive',
@@ -171,10 +172,10 @@ def main():
 
     # ---- calc
     calc = f'''      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>&minus;4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
-      <p>A final adjustment is applied based on the total number of ingredients. Bars with short, focused lists receive a small bonus. Bars with highly complex formulations receive a small penalty.</p>
+      <p>A final, very small adjustment is applied based on the total number of ingredients: at most {max(abs(a) for _, _, a in sx.COUNT_BANDS):.2f} points either way. A grade spans 4 points, so this only matters for a bar sitting right on a grade line.</p>
 
       <div class="callout">
-        <p><strong>Final Score</strong> = Sum of (base_score &times; position_weight) for each ingredient + {signed(int(pen))} for each artificial sweetener + ingredient count adjustment</p>
+        <p><strong>Final Score</strong> = Sum of (base_score &times; position_weight) for each ingredient + {signed(int(pen))} for each artificial sweetener + ingredient count adjustment. A bar with no ingredient scoring below zero is lifted to at least {sx.CLEAN_LABEL_FLOOR:.1f} (an A).</p>
       </div>
 
       <h3>Position weights</h3>
@@ -192,10 +193,10 @@ def main():
         </tbody>
       </table>
 
-      <h3>Three exceptions to position weighting</h3>
+      <h3>Four exceptions to plain position weighting</h3>
       <p><strong>Artificial sweeteners count a flat {signed(int(pen))} each.</strong> Sucralose, acesulfame potassium, aspartame and saccharin each cost a bar {abs(int(pen))} points, wherever they appear on the label. Position weighting assumes that more of an ingredient means more impact. That holds for bulk ingredients, but these sweeteners are hundreds of times sweeter than sugar and are used in milligrams, so they almost always sit near the end of the label, where position weighting made them count for almost nothing. Each sweetener is counted once, even when two are listed together in one phrase.</p>
       <p><strong>A fully clean label is at least an A.</strong> Because the score adds up every ingredient, a short label like "cashews, dates" can't add up as high as a longer one. So if no ingredient on a bar's label scores below zero, the bar grades at least an A (8.0), however short its list.</p>
-      <p><strong>Sub-ingredients count at {round(sm * 100)}%.</strong> Ingredients inside parentheses or brackets, like the sugar in "chocolate (sugar, cocoa butter)", share their parent's position but carry {sm:g} of its weight, because each is only part of that ingredient. Inside one set of parentheses, the best-scoring ingredient counts in full and each further good one counts half the one before, so a blend like "whole food powders (kale, flax, rose hips, ...)" can't earn points for every trace item. An ingredient repeated inside the same parentheses counts once, and inside a "vegetable oil (...)" blend a plant name like peanut or sunflower counts as that plant's oil, not the whole food.</p>
+      <p><strong>Sub-ingredients count at {round(sm * 100)}%.</strong> Ingredients inside parentheses or brackets, like the sugar in "chocolate (sugar, cocoa butter)", share their parent's position but carry {sm:g} of its weight, because each is only part of that ingredient. Inside one set of parentheses, the best-scoring ingredient counts in full and each further good one counts half the one before, so a blend like "whole food powders (kale, flax, rose hips, ...)" can't earn points for every trace item. An ingredient repeated inside the same parentheses counts once, and inside a "vegetable oil (...)" blend a plant name like peanut or sunflower counts as that plant's oil, not the whole food. When a label joins two ingredients in one slot, like "roasted peanuts and sea salt", each one is scored in that slot; "X and/or Y" means the bar has one or the other, so only the lower-scoring one counts.</p>
       <p><strong>Extra protein sources count at {round(stack * 100)}%.</strong> When a bar lists several protein sources, whether separately or inside a blend like "Protein Blend (whey protein isolate, milk protein isolate, ...)", the best-scoring one counts in full and each additional one counts at {'half' if stack == 0.5 else f'{round(stack * 100)}%'} weight, so a long list of proteins can't inflate the score.</p>
 
       <h3>Ingredient count adjustment</h3>
@@ -286,6 +287,8 @@ def main():
 
       <div class="callout">
         <p><strong>What changed in September 2026 (scoring v12):</strong> sugars now follow the processing scale above (honey and maple syrup went from &minus;2 to &minus;1; dextrose and maltodextrin dropped to &minus;3), soluble corn fiber, resistant dextrin, tapioca fiber and IMO went from 0 or +1 to &minus;1, and artificial sweeteners became a flat &minus;2 each instead of being discounted by label position. The grade bands did not change.</p>
+        <p style="margin-top:.6rem;"><strong>Later in September 2026:</strong> blends can no longer earn points for every trace item inside them, extra proteins inside a blend count at half weight like any other extra protein, and a label with no ingredient below zero grades at least an A.</p>
+        <p style="margin-top:.6rem;"><strong>October 2026:</strong> consistency fixes. The same ingredient now scores the same under every spelling (for example gum acacia and acacia fiber, monk fruit and monkfruit), ingredients joined by "and" in one label slot are each scored, and IMO no longer shows a Sugar Alcohols chip.</p>
       </div>
     </section>
 '''
@@ -326,8 +329,10 @@ def main():
          f'Each bar\'s ingredient list is parsed into individual ingredients. Every ingredient is mapped to our database of {canon} '
          f'canonical ingredients, each assigned a quality score from +4 (excellent) to -4 (harmful). Scores are then weighted by '
          f'ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. '
-         f'Artificial sweeteners are the exception: each one costs a flat {abs(int(pen))} points wherever it appears. The total, plus a '
-         f'small adjustment for ingredient count, becomes the bar\'s ingredient quality score.'),
+         f'Artificial sweeteners are the exception: each one costs a flat {abs(int(pen))} points wherever it appears. Ingredients inside '
+         f'parentheses count for less, a blend can\'t earn points for every trace item in it, and extra protein sources count at half '
+         f'weight. The total, plus a very small adjustment for ingredient count, becomes the bar\'s ingredient quality score, and a '
+         f'label with no ingredient scoring below zero grades at least an A.'),
         ('What do the letter grades mean?',
          'Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is '
          '-3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it '
@@ -352,8 +357,9 @@ def main():
          'is our best effort at an objective framework, not medical advice.'),
         ('How often is the scoring system updated?',
          f'We update the scoring schema as we add new bars and refine how specific ingredients are scored. The current schema covers '
-         f'{canon} canonical ingredients, and every bar is rescored whenever it changes. The most recent change, in September 2026, '
-         f'updated how we score sugars, fibers and artificial sweeteners. If you think an ingredient is scored incorrectly, we want '
+         f'{canon} canonical ingredients, and every bar is rescored whenever it changes. In September 2026 we changed how we score '
+         f'sugars, fibers, artificial sweeteners and blends, and in October 2026 we made the same ingredient score the same under '
+         f'every spelling. If you think an ingredient is scored incorrectly, we want '
          f'to hear about it.'),
         ('Does ingredient quality score reflect taste or nutrition facts?',
          'No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall '
@@ -370,6 +376,13 @@ def main():
             f'position weights, and how we score sugars, fibers and artificial sweeteners.">')
 
     page = open(PAGE, encoding='utf-8').read()
+    # The insight chip section is static HTML. Stop if its rules drift from the scorer.
+    oil_rule = re.search(r'Processed Oils</span>.*?<div class="chip-rule">(.*?)</div>', page, re.S).group(1)
+    missing = [k for k in sx.OIL_KEYWORDS if k not in oil_rule]
+    if missing:
+        raise SystemExit(f'ERROR: Processed Oils chip rule on the page is missing {missing}. Update the chip section. Not writing.')
+    if 'Sugar Alcohol Early' in page:
+        raise SystemExit('ERROR: the page documents a "Sugar Alcohol Early" chip that the site never shows. Not writing.')
     for name, content in [('meta-desc', meta), ('faq-jsonld', faq_ld), ('calc', calc), ('bands', bands),
                           ('sweeteners', sweeteners), ('examples', examples), ('faq', '  ' + faq_vis)]:
         page = replace_region(page, name, content)

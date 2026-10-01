@@ -141,7 +141,7 @@ def main():
     grades = '\n'.join(f'        <div class="facts-row"><div class="facts-grade"><span class="facts-swatch" style="background:{GCOL[g]}"></span>'
                        f'{g} &middot; {grade_word(g)}</div><div class="facts-count">{comma(G[g])} bars &middot; '
                        f'<span class="facts-pct">{round(100 * G[g] / N)}%</span></div></div>' for g in 'ABCDF')
-    highlights = '''          <div class="facts-highlight"><span class="facts-highlight-mark up">+</span><span class="facts-highlight-text">Whey isolate, nut butters, oats, and other whole-food proteins push a bar toward an A or B.</span></div>
+    highlights = '''          <div class="facts-highlight"><span class="facts-highlight-mark up">+</span><span class="facts-highlight-text">Whey isolate, egg whites, nuts, oats and other whole foods push a bar toward an A or B.</span></div>
           <div class="facts-highlight"><span class="facts-highlight-mark down">&minus;</span><span class="facts-highlight-text">Sugar alcohols, starch-based syrups, and processed oils drag it toward a D or F, especially near the top of the ingredient list. Each artificial sweetener costs a flat 2 points wherever it appears.</span></div>
           <div class="facts-highlight"><span class="facts-highlight-mark down">&minus;</span><span class="facts-highlight-text">A long list of isolates and gums with little else usually lands in the C range, technically fine, nothing to write home about.</span></div>'''
     stats = f'''      <div class="dark-stat"><div class="dark-stat-val">$0</div><div class="dark-stat-lbl">Sponsored picks</div></div>
