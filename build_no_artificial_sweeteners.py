@@ -34,6 +34,10 @@ set_tie_seed('no-artificial-sweeteners')   # per-guide shuffle for exact ties (k
 ALL = load_bars()
 QF = GUIDE_FILTERS['no-artificial-sweeteners']
 Q = [b for b in ALL if QF(b)]
+# Bars with neither an artificial sweetener nor a sugar alcohol. Bar Finder:
+# ?preset=no_sugar_alcohol&excl=sucralose (app.js hasSugarAlcohol mirrors has_sugar_alcohol;
+# every artificial-sweetener bar contains sucralose, checked below).
+NEITHER = [b for b in ALL if not has_sugar_alcohol(b) and 'sucralose' not in (b.get('Ingredients') or '').lower()]
 D = [b for b in ALL if not QF(b)]
 N, ND, NT = len(Q), len(D), len(ALL)
 BRANDS_Q = len({b['Brand Name'] for b in Q})
@@ -61,6 +65,7 @@ C.check(all(any(has_sw(b, l) for l, _ in SWEETENERS) for b in D) and not any(any
         'the four named sweeteners match the Artificial Sweeteners screen exactly')
 C.check(all(has_sw(b, 'Sucralose') for b in NON_SUC), 'every ace-K / aspartame / saccharin bar also contains sucralose')
 C.check({b['Key'] for b in SUC_FREE} == {b['Key'] for b in Q}, 'sucralose-free set == no-artificial-sweetener set (Bar Finder excl=sucralose)')
+C.check({b['Key'] for b in NEITHER} == {b['Key'] for b in Q if not has_sugar_alcohol(b)}, 'no_sugar_alcohol + excl=sucralose == bars with neither')
 C.check(len(SUC) == ND, 'sucralose is in every disqualified bar')
 C.check(not HIT['Aspartame'] and not HIT['Saccharin'], 'no aspartame or saccharin bars in the database')
 C.check(len(ACE_BRANDS) == 2, 'exactly two brands use acesulfame potassium')
@@ -152,10 +157,10 @@ MEANS = f'''
       <h3 class="kt-h3">Stevia and monk fruit are not on this screen</h3>
       <div class="section-body">
         <p>Stevia leaf extract and monk fruit (luo han guo) extract are plant-derived, not synthetic, so they don't count against a bar here. {len([b for b in Q if stevia_mf(b)])} of the {comma(N)} qualifying bars use one of them. If you want to avoid every non-sugar sweetener, including plant-derived ones, check the ingredient list yourself.</p>
-        <p>Artificial sweeteners are not the same thing as sugar alcohols either. Erythritol, maltitol, and xylitol are sugar alcohols, a different category with their own digestive tradeoffs, and they show up on a different screen. {len([b for b in Q if not no_sa(b)])} bars on this page skip artificial sweeteners but still contain a sugar alcohol. If that's what you want to avoid, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. The Bar Finder's Clean Ingredients filter screens out both at once, but it also only shows A-grade bars with 12g+ protein.</p>
+        <p>Artificial sweeteners are not the same thing as sugar alcohols either. Erythritol, maltitol, and xylitol are sugar alcohols, a different category with their own digestive tradeoffs, and they show up on a different screen. {len([b for b in Q if not no_sa(b)])} bars on this page skip artificial sweeteners but still contain a sugar alcohol. If that's what you want to avoid, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. {comma(len(NEITHER))} bars in our database have neither.</p>
       </div>
-      {section_cta_html('/bar-finder?preset=clean', 'Open the Clean Ingredients filter &rarr;',
-                        'Opens the Bar Finder with the Clean Ingredients preset: A grade, 12g+ protein, no artificial sweeteners and no sugar alcohols.')}
+      {section_cta_html('/bar-finder?preset=no_sugar_alcohol&excl=sucralose', f'See all {comma(len(NEITHER))} bars with neither &rarr;',
+                        'Opens the Bar Finder with the No Sugar Alcohols filter on and sucralose excluded (every artificial-sweetener bar we track contains it).')}
     </div>
 '''
 
@@ -330,7 +335,7 @@ FAQS = [
      'and acesulfame potassium, the four screened on this page. Sugar alcohols, like erythritol, maltitol, and xylitol, are '
      'a separate category with their own digestive tradeoffs and a different scoring screen. If erythritol or maltitol is '
      f"what you actually want to avoid, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. "
-     "The Bar Finder's Clean Ingredients filter screens out both at once, limited to A-grade bars with 12g+ protein."),
+     f"{comma(len(NEITHER))} bars in our database have neither."),
     ('Do protein bars have sucralose?',
      f"Yes. {of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, list sucralose on the ingredient label. It's "
      "the most common artificial sweetener in the category by a wide margin, see the breakdown above."),

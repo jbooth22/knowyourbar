@@ -39,6 +39,13 @@ CATS = [('protein', 'Protein Sources'), ('sweetener', 'Sweeteners'), ('whole_foo
         ('ingredient_group', 'Compound Ingredients')]
 COLOR = {4: '#2a7a1f', 3: '#5a8a2f', 2: '#7a9a3f', 1: '#b89a00', 0: '#888880',
          -1: '#c87020', -2: '#c85020', -3: '#c83020', -4: '#8b0000'}
+# Score colors as classes, not inline styles (2026-10-01 page-weight pass: the
+# page was 427KB with the FAQ at ~417KB). Same colors as before.
+def sc_class(v):
+    return f'sc-p{v}' if v > 0 else ('sc-0' if v == 0 else f'sc-m{abs(v)}')
+SC_CSS_MARK = '/* kyb:score-colors */'
+SC_CSS = (SC_CSS_MARK + ' ' + ' '.join(f'.{sc_class(v)}{{background:{c};color:#fff;}}' for v, c in sorted(COLOR.items(), reverse=True))
+          + ' /* /kyb:score-colors */')
 
 
 def sgn(v):
@@ -258,22 +265,13 @@ def main():
     catnav = '\n'.join(f'        <a href="#cat-{c}" class="cat-nav-link">{esc(t)}</a>' for c, t in cats)
 
     def row(k):
-        s, col = S(k), COLOR[S(k)]
+        s, cc = S(k), sc_class(S(k))
         p = f'{100 * B(k) / N:.1f}'
-        return f'''          <div class="ing-row">
-            <div class="ing-meta">
-              <span class="ing-score-badge" style="background:{col};color:#fff;">{sgn(s)}</span>
-              <div class="ing-info">
-                <div class="ing-name">{esc(k)}</div>
-                <div class="ing-desc">{esc(rows[k]['desc'])}</div>
-              </div>
-              <div class="ing-bars-label">{comma(B(k))} bars</div>
-            </div>
-            <div class="ing-bar-track">
-              <div class="ing-bar-fill" style="width:{p}%;background:{col};"></div>
-              <span class="ing-bar-pct">{p}%</span>
-            </div>
-          </div>'''
+        # one line per ingredient, no indentation, colors via class (page weight; renders the same)
+        return (f'<div class="ing-row"><div class="ing-meta"><span class="ing-score-badge {cc}">{sgn(s)}</span>'
+                f'<div class="ing-info"><div class="ing-name">{esc(k)}</div><div class="ing-desc">{esc(rows[k]["desc"])}</div></div>'
+                f'<div class="ing-bars-label">{comma(B(k))} bars</div></div><div class="ing-bar-track">'
+                f'<div class="ing-bar-fill {cc}" style="width:{p}%"></div><span class="ing-bar-pct">{p}%</span></div></div>')
 
     secs = []
     for c, t in cats:
@@ -302,10 +300,21 @@ def main():
       </div>''' for q, a in faqs)
 
     page = open(PAGE, encoding='utf-8').read()
+    if SC_CSS_MARK not in page:   # one-time literal insert into the page's own <style> block (idempotent)
+        i = page.index('</style>')
+        page = page[:i] + '  ' + SC_CSS + '\n  ' + page[i:]
+    else:
+        page = re.sub(re.escape(SC_CSS_MARK) + r'.*?/\* /kyb:score-colors \*/', lambda m: SC_CSS, page, count=1)
     for name, content in [('head', head), ('jsonld', jsonld), ('social', social), ('hero', hero), ('cat-nav', catnav),
                           ('sections', sections), ('cta-sub', cta), ('report-card', card), ('faq', faq)]:
         page = replace_region(page, name, content)
     page = stamp_dates(page, today_iso())
+    size = len(page.encode('utf-8'))
+    faq_at = len(page[:page.find('class="faq-item"')].encode('utf-8'))
+    footer_at = len(page[:page.find('<footer')].encode('utf-8'))
+    if size > 400_000 or faq_at > 300_000 or footer_at > 300_000:
+        raise SystemExit(f'ERROR: page weight {size:,} bytes (FAQ at {faq_at:,}, footer at {footer_at:,}); targets are '
+                         '400,000 / 300,000 / 300,000. Not writing.')
     visible = re.sub(r'<style.*?</style>', '', page, flags=re.S)  # a CSS comment on the live page uses an em dash
     for bad in ('\u2014', 'href="Yes"', 'href="None"'):
         if bad in visible:

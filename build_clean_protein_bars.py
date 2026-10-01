@@ -13,11 +13,11 @@ build stops and lists it. Ingredient quality is shown and ranked as a GRADE only
 
 Screen: GUIDE_FILTERS['clean-protein-bars'] (A or B grade, no 'Artificial
 Sweeteners' tag, no 'Processed Oils' tag).
-Bar Finder: /bar-finder?preset=no_seed_oil&grade=A,B&excl=sucralose. No single
-preset matches (the Clean Ingredients preset is A only, 12g+ protein, no sugar
-alcohols). Sucralose-free is the no-artificial-sweetener set and the
-no_seed_oil preset is the no-processed-oil set, key for key, so the three
-together are exactly this guide. Checked below on every build.
+Bar Finder: /bar-finder?preset=clean. The Clean Ingredients preset was
+redefined on 2026-10-01 to this guide's screen (app.js PRESETS.clean reads the
+same scorer tags). The build also checks the keyword route the old link used
+(no_seed_oil + grade A,B + excl=sucralose) still gives the same set, so the
+tags and the Bar Finder's keyword screens can't drift apart unnoticed.
 
 Guide slots (locked with Jeff 2026-09-30): Best whey protein, Lowest net carbs,
 Best non-GMO, Best soy-free. Fallbacks: Best dairy-free, then Highest fiber.
@@ -77,16 +77,14 @@ def finder_match(b):
             and 'sucralose' not in (b.get('Ingredients') or '').lower())
 C.check({b['Key'] for b in ALL if finder_match(b)} == {b['Key'] for b in Q},
         'Bar Finder no_seed_oil + grade A,B + excl=sucralose returns exactly the guide set')
-FINDER_HREF = '/bar-finder?preset=no_seed_oil&grade=A,B&excl=sucralose'
-
-# The Clean Ingredients preset (app.js PRESETS.clean), described honestly on the page
-CLEAN_PRESET_BAD = ['sucralose', 'acesulfame', 'aspartame', 'saccharin', 'erythritol', 'maltitol', 'xylitol', 'sorbitol',
-                    'mannitol', 'isomalt']
+# The Clean Ingredients preset (app.js PRESETS.clean, 2026-10-01): A or B grade, no
+# 'Artificial Sweeteners' tag, no 'Processed Oils' tag, read from score_insights
 def clean_preset(b):
-    t = ingr(b).lower()
-    return b.get('score_band') == 'A' and P(b) >= 12 and not any(s in t for s in CLEAN_PRESET_BAD)
-PRESET_SET = [b for b in ALL if clean_preset(b)]
-C.check(len(PRESET_SET) < N, 'the Clean Ingredients preset is stricter (smaller) than this guide')
+    t = {p.split(':')[0].strip() for p in (b.get('score_insights') or '').split('|')}
+    return b.get('score_band') in ('A', 'B') and 'Artificial Sweeteners' not in t and 'Processed Oils' not in t
+C.check({b['Key'] for b in ALL if clean_preset(b)} == {b['Key'] for b in Q},
+        'Bar Finder preset=clean returns exactly the guide set')
+FINDER_HREF = '/bar-finder?preset=clean'
 
 def link(href, text): return f'<a href="{href}">{text}</a>'
 def by_brand(brand, bars=ALL): return [b for b in bars if b['Brand Name'] == brand]
@@ -186,10 +184,8 @@ MEANS = f'''
       </div>
       <h3 class="kt-h3">What clean doesn't cover</h3>
       <div class="section-body">
-        <p>Clean and healthy aren't the same claim. None of the three checks look at macros, so a clean bar can still run high in calories or sugar. Clean also doesn't screen out sugar alcohols: {len(SA_Q)} of the {comma(N)} bars here contain one, like erythritol or IMO. If you want to skip those too, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. The Bar Finder's Clean Ingredients filter is stricter than this page: A grade only, 12g+ protein, and no sugar alcohols, which leaves {len(PRESET_SET)} bars.</p>
+        <p>Clean and healthy aren't the same claim. None of the three checks look at macros, so a clean bar can still run high in calories or sugar. Clean also doesn't screen out sugar alcohols: {len(SA_Q)} of the {comma(N)} bars here contain one, like erythritol or IMO. If you want to skip those too, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}.</p>
       </div>
-      {section_cta_html('/bar-finder?preset=clean', 'Open the stricter Clean Ingredients filter &rarr;',
-                        'Opens the Bar Finder with the Clean Ingredients preset: A grade, 12g+ protein, no artificial sweeteners and no sugar alcohols.')}
     </div>
 '''
 
@@ -270,10 +266,10 @@ T50 = top50_rows(Q, 50)
 TOP50 = top50_html(T50, h2='Top 50 clean protein bars',
                    intro='Ranked by ingredient grade first, then by protein per calorie. Tap any row for nutrition facts and '
                          'the full ingredient list.')
-FINDER = finder_cta_html(N, FINDER_HREF, desc=('The Bar Finder opens with this same screen applied: A or B grade, sucralose '
-                                               'excluded (every artificial-sweetener bar we track contains it) and the No Seed '
-                                               'Oil filter on. Add your own filters for protein, sugar, calories, brand, '
-                                               'certifications, or ingredients to exclude.'))
+FINDER = finder_cta_html(N, FINDER_HREF, desc=('The Bar Finder opens with its Clean Ingredients filter on, the same screen as '
+                                               'this page: A or B grade, no artificial sweeteners, no processed seed oils. Add '
+                                               'your own filters for protein, sugar, calories, brand, certifications, or '
+                                               'ingredients to exclude.'))
 CRITERIA = criteria_html(
     qualify_rule=('An A or B ingredient grade, no artificial sweeteners (sucralose, acesulfame potassium, aspartame, '
                   'saccharin), and no processed oils (canola, soybean, palm, palm kernel, sunflower and other refined seed '
@@ -321,8 +317,7 @@ FAQS = [
     ('Do clean protein bars have sugar alcohols?',
      f"Some do. This guide screens out artificial sweeteners and processed oils, not sugar alcohols, so {len(SA_Q)} of the "
      f"{comma(N)} clean bars contain one, like erythritol or IMO. If you want to skip them too, see our "
-     f"{link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. The Bar Finder's Clean Ingredients filter "
-     "is stricter than this page: A grade only, 12g+ protein, and no sugar alcohols."),
+     f"{link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}."),
     ('Is erythritol considered a clean ingredient?',
      "It depends on your standard. Erythritol is a sugar alcohol, usually made by fermenting glucose from corn. Our scoring "
      "counts it as a concern, so it pulls a bar's grade down, but it doesn't disqualify a bar from this guide on its own. "

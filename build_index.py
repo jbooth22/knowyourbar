@@ -164,8 +164,9 @@ def main():
         ('What is the healthiest protein bar?',
          'There is no single healthiest protein bar because it depends on your goals. RXBAR and Perfect Bar are the most consistent '
          'larger brands, every flavor in each lineup scores B or higher. A few smaller names do too, Gryp is one worth knowing before '
-         'it shows up in stores. For pure ingredient quality with no artificial sweeteners or sugar alcohols, filter to '
-         '<a href="/bar-finder?preset=clean">Grade A bars using the Protein Bar Finder</a>.'),
+         'it shows up in stores. To put ingredient quality first, use the '
+         '<a href="/bar-finder?preset=clean">Clean Ingredients filter in the Protein Bar Finder</a>: A or B grade, no '
+         'artificial sweeteners and no seed oils.'),
         ('What protein bar has the cleanest ingredients?',
          f'The cleanest protein bars score an A or B on ingredient quality and contain no artificial sweeteners and no processed oils. '
          f'{of_db(n_clean, N, True)} bars in our database meet that standard. Brands where every flavor qualifies include '

@@ -864,16 +864,16 @@ const PRESETS = {
   },
   clean: {
     label: 'Clean Ingredients',
-    tagline: 'No artificial sweeteners, no sugar alcohols',
-    why: 'About 65% of protein bars contain artificial sweeteners or sugar alcohols. These bars contain neither. Every result here earns an A (Clean) ingredient grade with at least 12g of protein and no sucralose, acesulfame, aspartame, erythritol, maltitol, or xylitol anywhere in the ingredient list.',
-    criteria: 'A ingredient grade &middot; 12g+ protein &middot; no artificial sweeteners &middot; no sugar alcohols',
+    tagline: 'A or B grade, no artificial sweeteners, no seed oils',
+    why: 'The same screen as our Clean Protein Bars guide. Every result earns an A or B ingredient grade and has no artificial sweeteners (sucralose, acesulfame potassium, aspartame, saccharin) and no processed seed oils (canola, soybean, palm, sunflower and other refined oils, or hydrogenated fat). Sugar alcohols, stevia, monk fruit, coconut oil and high-oleic oils are allowed.',
+    criteria: 'A or B ingredient grade &middot; no artificial sweeteners &middot; no processed seed oils',
+    // Mirrors GUIDE_FILTERS['clean-protein-bars'] in kyb_guide_lib.py: the scorer's
+    // "Artificial Sweeteners" and "Processed Oils" tags (2026-10-01; was A only,
+    // 12g+ protein, no sugar alcohols).
     apply: (bar) => {
-      if (bar['score_band'] !== 'A') return false;
-      const prot = bar['Protein (g)'];
-      if (!prot || prot < 12) return false;
-      const ingr = (bar['Ingredients'] || '').toLowerCase();
-      const bad = ['sucralose','acesulfame','aspartame','saccharin','erythritol','maltitol','xylitol','sorbitol','mannitol','isomalt'];
-      return !bad.some(s => ingr.includes(s));
+      if (bar['score_band'] !== 'A' && bar['score_band'] !== 'B') return false;
+      const tags = (bar['score_insights'] || '').split('|').map(t => t.split(':')[0].trim());
+      return !tags.includes('Artificial Sweeteners') && !tags.includes('Processed Oils');
     },
     sort: { col: 'ingredient_score', dir: 'desc' }
   },
