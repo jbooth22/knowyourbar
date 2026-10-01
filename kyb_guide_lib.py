@@ -1538,6 +1538,8 @@ KT_COLS = {  # key -> (header, fn)
     'fiber': ('Fiber', lambda b: f'{fnum(FIB(b))}g'),
     'netcarbs': ('Net carbs', lambda b: f'{fnum(net_carbs(b))}g'),   # diabetics v2 (2026-09-30)
     'fat': ('Fat', lambda b: f'{fnum(num(b.get("Total Fat (g)")) or 0)}g'),   # keto v2 (2026-09-30)
+    'caffeine': ('Caffeine', lambda b: f'{fnum(num(b.get("Caffeine (mg)")) or 0)}mg'),   # caffeine v2 (2026-09-30)
+    'creatine': ('Creatine', lambda b: f'{fnum(num(b.get("Creatine (g)")) or 0)}g'),     # creatine v2 (2026-09-30)
 }
 
 def compact_bar_table_html(bars, *, cols=('grade', 'protein', 'cal', 'sugar', 'fiber'), extra=None, hide_mobile=('fiber',)):
@@ -1591,7 +1593,18 @@ def finder_cta_html(n, href, *, desc):
       </div>
     </div>'''
 
-def criteria_html(*, qualify_rule, picks, extra_rules=()):
+def _spots_rules(n):
+    """Criteria bullets on pick count. n=10 is every full guide (text unchanged).
+    Small guides (caffeine, creatine, 2026-09-30) can't reach 10 without
+    breaking the grade, protein or brand-cap rules, so they show fewer."""
+    if n == 10:
+        return (f'<li>No bar appears twice in the Best 10, and no brand gets more than {V2_BRAND_CAP} of the 10 spots.</li>\n'
+                "          <li>If a pick's rule finds no eligible bar, that spot goes to the next rule on this guide's backup list, so there are always 10.</li>")
+    return (f'<li>No bar appears twice in the list, and no brand gets more than {V2_BRAND_CAP} spots.</li>\n'
+            f"          <li>This list has {n} picks, not 10. Only a few brands make these bars, and with at most {V2_BRAND_CAP} "
+            f"per brand and the grade and protein rules above, {n} is as many as qualify. We don't lower the bar to fill 10 spots.</li>")
+
+def criteria_html(*, qualify_rule, picks, extra_rules=(), n_spots=10):
     slot_rules = '\n'.join(f'<li><strong>{esc(s.label)}:</strong> {esc(s.rule)}</li>' for s, _b, _w, _n in picks)
     extras = ''.join(f'<li>{esc(x)}</li>' for x in extra_rules)
     return f'''<div class="section-inner">
@@ -1602,8 +1615,7 @@ def criteria_html(*, qualify_rule, picks, extra_rules=()):
         <ul class="criteria-list">
           <li>The bar has to qualify for this guide, carry an A or B ingredient grade, and have at least 10g of protein.</li>
           <li>We rank ingredient quality by grade only. Two bars with the same grade count as equal, because our scoring isn't precise enough to split them. When two bars tie on a pick's own number and grade, the one you can buy through a link on this page goes first (a brand's own partner link, then Amazon). After that, ties go to more protein, then less sugar, then more fiber, then fewer calories.</li>
-          <li>No bar appears twice in the Best 10, and no brand gets more than {V2_BRAND_CAP} of the 10 spots.</li>
-          <li>If a pick's rule finds no eligible bar, that spot goes to the next rule on this guide's backup list, so there are always 10.</li>
+          {_spots_rules(n_spots)}
           <li>Nobody pays for a spot. Every bar goes through the same rules. Buy links may earn us a commission. A link only ever decides between bars that are already tied, and never lifts a bar over one with a better grade or a better number.</li>{extras}
         </ul>
         <p><strong>How each pick was chosen:</strong></p>
@@ -1933,7 +1945,7 @@ def v2_qa(page, *, n_faq=None):
         problems.append('FAQPage JSON-LD not found')
     return problems
 
-def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks):
+def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks, n_picks=10):
     """Migrate (first run) then fill the v2 regions. dateModified only moves
     when the generated content actually changes (content hash), never
     artificially on a rebuild."""
@@ -1961,8 +1973,8 @@ def build_guide_page_v2(page_path, regions, all_bars, claims, *, picks):
     for bad in ['href="Yes"', 'href="None"', '—', '&mdash;']:
         if bad in page:
             problems.append(f'forbidden: {bad!r}')
-    if len(picks) != 10 or len({b['Key'] for _s, b, _w, _n in picks}) != 10:
-        problems.append('Best 10 is not 10 distinct bars')
+    if len(picks) != n_picks or len({b['Key'] for _s, b, _w, _n in picks}) != n_picks:
+        problems.append(f'Best list is not {n_picks} distinct bars')
     if problems:
         print('V2 QA FAILED, page not written:')
         for p in problems:

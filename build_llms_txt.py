@@ -154,7 +154,8 @@ def main():
     trace = [b for b in cr if num(b['Creatine (g)']) < 3]
     cl.check(len(clin) + len(trace) == len(cr), 'every creatine bar falls in the clinical (3-5g) or trace (<3g) tier')
     tr_lo, tr_hi = min(num(b['Creatine (g)']) for b in trace), max(num(b['Creatine (g)']) for b in trace)
-    trace_higher = avg(trace) > avg(clin)
+    _a = [b for b in cr if b.get('score_band') == 'A']
+    trace_higher = bool(_a) and all(b in trace for b in _a)   # v2 wording: grades, not scores
     brands_of = lambda bs: len({b['Brand Name'] for b in bs})
 
     # soy free / kosher context
@@ -281,7 +282,7 @@ Curated, ranked bar lists filtered by a specific dietary goal, each with ingredi
 - **Gluten Free Protein Bars** - {SITE}/gluten-free-protein-bars ({comma(cnt('Gluten Free'))} bars)
 - **Dairy Free Protein Bars** - {SITE}/dairy-free-protein-bars ({comma(cnt('Dairy Free'))} bars)
 - **High Fiber Protein Bars** - {SITE}/high-fiber-protein-bars - three cumulative fiber tiers on the same field (Dietary Fiber (g)): High Fiber {fib_rows[0][0]}g+ ({comma(fib_rows[0][1])} bars, {fib_rows[0][2]} brands, the FDA's "excellent source of fiber" cutoff), Very High Fiber {fib_rows[1][0]}g+ ({comma(fib_rows[1][1])} bars, {fib_rows[1][2]} brands), and Extreme Fiber {fib_rows[2][0]}g+ ({comma(fib_rows[2][1])} bars, {fib_rows[2][2]} brands). The page ranks the Extreme Fiber tier in full; the other two tiers are supporting context.
-- **Creatine Protein Bars** - {SITE}/creatine-protein-bars - any declared creatine amount. Only {len(cr)} bars from {brands_of(cr)} brands qualify, so the page ranks every bar individually and groups doses into two tiers: a clinical 3-5g dose ({len(clin)} bars, {brands_of(clin)} brands) and a trace {tr_lo:g}-{tr_hi:g}g dose ({len(trace)} bars, {brands_of(trace)} brands).{' The trace-dose tier scores higher on ingredient quality on average than the clinical-dose tier.' if trace_higher else ''}
+- **Creatine Protein Bars** - {SITE}/creatine-protein-bars - any declared creatine amount. Only {len(cr)} bars from {brands_of(cr)} brands qualify, so the page picks the best of them (A or B grade, 10g+ protein), lists every one, and groups doses into two tiers: a clinical 3-5g dose ({len(clin)} bars, {brands_of(clin)} brands) and a trace {tr_lo:g}-{tr_hi:g}g dose ({len(trace)} bars, {brands_of(trace)} brands).{' The only A-grade creatine bars carry a trace dose.' if trace_higher else ''}
 - **Soy Free Protein Bars** - {SITE}/soy-free-protein-bars - Soy Free (Y/N) certification field, {of_db(len(sf), N)} bars ({pct0(len(sf), N)}). Soy free bars grade A/B at a notably higher rate than the database average ({pct0(AB(sf), len(sf))} vs. {pct0(AB(bars), N)}), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
 - **Kosher Protein Bars** - {SITE}/kosher-protein-bars - Kosher (Y/N) certification field, {of_db(len(ks), N)} bars ({pct0(len(ks), N)}). Kosher is a supervised-process claim, not primarily an ingredient screen: only {pct0(nk_flag, len(nk))} of non-kosher bars contain an identifiable non-kosher ingredient (gelatin, confectioner's glaze/shellac, or carmine/rennet); the rest simply haven't pursued certification. Kosher bars grade {kosher_word} the database average ({pct0(AB(ks), len(ks))} A/B vs. {pct0(AB(bars), N)}).
 - **Low Sugar + High Protein** - {SITE}/low-sugar-high-protein - merged into the Keto and Best Bars for Diabetics guides, which filter for low sugar and high protein plus the criteria that matter for each goal. The criterion itself ({comma(cnt('Low Sugar + High Protein (<=5g sugar, 15g+ protein)'))} bars) is still reachable through the Bar Finder sliders (`?sugar=5&protein=15`).

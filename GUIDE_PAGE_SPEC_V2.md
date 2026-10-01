@@ -1,6 +1,6 @@
 # Guide Page Spec v2 — "Best 10" rebuild
 
-Status: **LOCKED 2026-09-29.** Pilot shipped the same day: `no-sugar-alcohols.html`, built by `build_no_sugar_alcohols.py` with the v2 section of `kyb_guide_lib.py`. **Also on v2 (2026-09-29, second session): `no-artificial-sweeteners.html`, `gluten-free-protein-bars.html`, `no-seed-oils.html`. (2026-09-30): `clean-protein-bars.html`, `best-bars-for-diabetics.html`, `keto-protein-bars.html`, `glp1-protein-bars.html`, `vegan-protein-bars.html`, `dairy-free-protein-bars.html`, `soy-free-protein-bars.html`, `kosher-protein-bars.html`, then `high-fiber-protein-bars.html`** (locked slots and picks below). Roll out the rest one guide per session through the same lib.
+Status: **LOCKED 2026-09-29.** Pilot shipped the same day: `no-sugar-alcohols.html`, built by `build_no_sugar_alcohols.py` with the v2 section of `kyb_guide_lib.py`. **Also on v2 (2026-09-29, second session): `no-artificial-sweeteners.html`, `gluten-free-protein-bars.html`, `no-seed-oils.html`. (2026-09-30): `clean-protein-bars.html`, `best-bars-for-diabetics.html`, `keto-protein-bars.html`, `glp1-protein-bars.html`, `vegan-protein-bars.html`, `dairy-free-protein-bars.html`, `soy-free-protein-bars.html`, `kosher-protein-bars.html`, `high-fiber-protein-bars.html`, then `caffeine-protein-bars.html` and `creatine-protein-bars.html`** (locked slots and picks below). Every guide is now on v2. Roll out the rest one guide per session through the same lib.
 Background and data: `claude/SEARCH_DEMAND_ANALYSIS_2026-09.md`.
 
 Everything marked **LOCKED** below was decided with Jeff. Don't change it without asking him.
@@ -16,7 +16,7 @@ Everything marked **LOCKED** below was decided with Jeff. Don't change it withou
 - The FAQ section and the footer both start inside the **first 300,000 bytes**.
 - Keep all existing schema: Article, Dataset, BreadcrumbList, FAQPage, ItemList. ItemList = the Best 10 (each item links to `#pick-N`). ItemList is now on every v2 guide (the lib always emits it). Diabetics, keto and glp1 had no ItemList region in their heads; each builder inserts the `kyb:jsonld-itemlist` marker once, after the FAQPage region (literal insert, idempotent). Copy `ensure_itemlist_marker()` from build_glp1_protein_bars.py for any later guide whose head lacks the region.
 - Checked by `qa_page_weight.py` / `v2_qa()` (QA.md section 1b), and every v2 build refuses to write a page that fails.
-- Results: no-sugar-alcohols 154KB (FAQ ~136KB), no-artificial-sweeteners 130KB (FAQ ~114KB), gluten-free 122KB (FAQ ~108KB), no-seed-oils 133KB (FAQ ~116KB), clean 125KB (FAQ ~111KB), diabetics 134KB (FAQ ~118KB; was 456KB), keto 134KB (FAQ ~118KB; was 474KB), glp1 91KB (FAQ ~76KB; was 249KB), vegan 131KB (FAQ ~116KB; was 889KB), dairy-free 129KB (FAQ ~114KB; was 843KB), soy-free 129KB (FAQ ~114KB; was 969KB), kosher 130KB (FAQ ~116KB; was 612KB), high-fiber 127KB (FAQ ~113KB; was 479KB).
+- Results: no-sugar-alcohols 154KB (FAQ ~136KB), no-artificial-sweeteners 130KB (FAQ ~114KB), gluten-free 122KB (FAQ ~108KB), no-seed-oils 133KB (FAQ ~116KB), clean 125KB (FAQ ~111KB), diabetics 134KB (FAQ ~118KB; was 456KB), keto 134KB (FAQ ~118KB; was 474KB), glp1 91KB (FAQ ~76KB; was 249KB), vegan 131KB (FAQ ~116KB; was 889KB), dairy-free 129KB (FAQ ~114KB; was 843KB), soy-free 129KB (FAQ ~114KB; was 969KB), kosher 130KB (FAQ ~116KB; was 612KB), high-fiber 127KB (FAQ ~113KB; was 479KB), caffeine 109KB (FAQ ~95KB; was 290KB), creatine 68KB (FAQ ~54KB; was 124KB).
 
 ## The grades-only rule — LOCKED (Jeff, 2026-09-29)
 - Ingredient quality is shown and ranked by **GRADE (A to F) only**. Two bars in the same grade are treated as equal. The scoring isn't precise enough to separate them, so we leave a margin for error.
@@ -391,6 +391,42 @@ Editorial kept and trimmed: "What actually pushes a bar past 11g of fiber" (five
 Fixed: v1 decimals, OG "ranked by ingredient quality", "reflects the database as of [date]", the FAQ that called its pick "the highest ingredient quality score" (scores are never cited), the inline Bar Finder link (now a button), v1 tiles. New FAQs: "What is the best high fiber protein bar?", "Is Quest high in fiber?".
 Data note: all 13 Built bars have 0g fiber. Jeff confirmed this is accurate (2026-09-30).
 
+### caffeine-protein-bars and creatine-protein-bars — "small guides", 2026-09-30
+Jeff asked for the best picks delivered without an approval round. These two categories are too small for a Best 10 under the locked guardrails (A/B grade, 10g+ protein, max 2 per brand), so each page shows **as many picks as the rules allow** instead of lowering the bar: caffeine **8** (13 eligible bars from 6 brands), creatine **6** (6 eligible from 3 brands). Title/H1 are "8 Best ..." / "The 6 Best ...". The criteria section says why (lib: `criteria_html(n_spots=)`; QA: `build_guide_page_v2(n_picks=)`; both default to 10, so the other thirteen guides are byte-identical). The builds check the count equals the maximum the rules allow.
+- **Pick order vs card order:** the dose slots pick right after Best overall (`PICK_ORDER`), so they get first claim on the bars they're about; the cards still show the core slots first (`DISPLAY`). Card copy stays honest ("X ranks higher but is already on this list").
+- **Bar Finder exception:** the Bar Finder has no caffeine or creatine filter, so no link can match. The CTA reads "Compare bars in the Bar Finder" / "Open the Bar Finder" (`/bar-finder`) and says the filter doesn't exist yet; both pages list every qualifying bar in an "All N" table (the Top 50 slot; `KT_COLS['caffeine']` / `['creatine']`). A "Has caffeine / Has creatine" toggle in the Bar Finder is parked (like Min Fat).
+- **Big brands:** caffeine's table lists only the 3 big brands with a caffeinated bar (CLIF Bar, Clif Builders, Aloha) plus one line for the other 20; creatine has no big-brand bar, so the section is one paragraph.
+- **Brands section, creatine:** every creatine brand (6), not only brands with 3+ bars; the usual rule would drop Rello and Daily Bar.
+- **Chart:** grade mix of the qualifying bars (share of the N bars in each grade), since caffeine/creatine is 1–3% of every grade.
+
+Caffeine (42 qualify, 24 A/B; screen = any caffeine; zones Light <50, Moderate 50–94, High 95–149, Very High 150+ mg). Guide slots: Most caffeine, Closest to a cup of coffee (50–94mg), Caffeine from coffee or tea (no isolated caffeine), Lowest sugar (no sugar alcohol). Empty: Most protein per calorie (every 12g+ bar already picked), Best from a big brand.
+
+| # | Slot | Pick | Data | Link |
+|---|---|---|---|---|
+| 1 | Best overall | The Feel Bar Matcha Latte | B · 65mg · 15g · 180 cal | brand only |
+| 2 | Cleanest ingredients | Quantum Peanut Butter Dark Chocolate | A · 100mg · 10g · 210 cal | Amazon |
+| 3 | Highest protein | Real Food Bar Espresso Chip | B · 65mg · 15g · 210 cal | referral + Amazon |
+| 4 | Lowest calorie | Verb Chocolate Chip Peanut Butter | B · 80mg · 10g · 190 cal | Amazon |
+| 5 | Most caffeine | Quantum Salted Peanut Butter Crunch | A · 100mg · 10g · 200 cal | Amazon |
+| 6 | Closest to a cup of coffee | Unhinged Chocolate and Coffee | A · 75mg · 11g · 190 cal | Amazon |
+| 7 | Caffeine from coffee or tea | G2G Almond Mocha | B · 20mg (espresso) · 18g · 300 cal | Amazon |
+| 8 | Lowest sugar | Verb Birthday Cake | B · 80mg · 10g · 10g sugar | Amazon |
+
+Findings: ~3% of bars have caffeine (16 brands); the 150mg+ bars (Jesse's WAKEUP!, all F, under 3g protein; top 350mg = 88% of the FDA's 400mg); 19 of 42 have under 10g protein (8 of Verb's 11). Data note: Real Food Bar Espresso Chip lists 65mg caffeine but no coffee/caffeine ingredient (ask Jeff).
+
+Creatine (14 qualify, 6 A/B; tiers Clinical 3g+ / Trace under 3g). Guide slot: Highest creatine dose. Empty: Best from a big brand.
+
+| # | Slot | Pick | Data | Link |
+|---|---|---|---|---|
+| 1 | Best overall | Rello Vanilla Crisp | A · 1.2g · 20g · 260 cal | Amazon |
+| 2 | Cleanest ingredients | Rello Chocolate Crunch | A · 1.2g · 20g · 260 cal | Amazon |
+| 3 | Highest protein | JiMMYBAR! Strawberry | B · 5g · 20g · 220 cal | Amazon |
+| 4 | Most protein per calorie | Daily Bar Cookie Dough Dazzler | B · 3g · 20g · 240 cal | Amazon |
+| 5 | Lowest calorie | Daily Bar Chocolate Peanut Butter Banger | B · 3g · 20g · 260 cal | Amazon |
+| 6 | Highest creatine dose | JiMMYBAR! Blueberry Lemon | B · 5g · 20g · 210 cal (maltitol, said on the card) | Amazon |
+
+Findings: ~1% of bars (6 brands, no big brand); the only A-grade bars (Rello) carry 1.2g while the 3g+ bars grade B to F; every 5g bar uses a sugar alcohol. Editorial kept and trimmed: caffeine zones + where caffeine comes from + FDA 400mg; creatine two tiers + monohydrate + research dose. Fixed: v1 printed average ingredient scores (zones, tiers, findings); "brand table below" FAQ dropped; v1 snapshot/picks/dose tables gone. Data note: JiMMYBAR! Double Fudge Brownie's ingredient text has an unclosed parenthesis (counts as 1 top-level ingredient; it grades F either way).
+
 ### Cross-guide notes
 - **Overlap:** slots 1–6 go to nearly the same bars on the free-from v2 guides (the same clean bars win every screen). Diabetics' narrower screen gives a mostly different core six (only Gryp, Simply Protein Cocoa Raspberry and Kirkland repeat). Repeats across guides are allowed; guide slots are chosen to reduce overlap.
 - **Lowest sugar, tightened variant:** on NAS, GF, NSO and diabetics the slot only considers bars with no sugar alcohol (`has_sugar_alcohol()`), so a maltitol bar can't win on a 0g sugar line. no-sugar-alcohols is unaffected (every bar there already qualifies).
@@ -399,7 +435,7 @@ Data note: all 13 Built bars have 0g fiber. Jeff confirmed this is accurate (202
 - **Shared helpers in kyb_guide_lib.py** (after the v2 section): `lead_sweetener()` / `brand_sweetener()` (V2_SWEETENERS), `section_cta_html()`, `v2_count_card_html()`, `slot_highest_fiber()`, and (2026-09-30) `buy_rank()`, `set_tie_seed()`, `tie_shuffle()`, `KT_COLS['netcarbs']`, `KT_COLS['fat']`, `top50_html(cols=, hide_mobile=)`.
 
 ### Suggested picks for the other guides (confirm at each guide's build session)
-- caffeine / creatine: decide at build time from the preferred list above (certification guides: copy build_dairy_free_protein_bars.py or build_vegan_protein_bars.py).
+- caffeine / creatine: done 2026-09-30 (see their section above).
 
 ## Brands that do it well (section 6) — LOCKED
 - Eligible: ≥ 3 bars in the DB and at least one qualifying.
@@ -433,7 +469,8 @@ No Cow stays off the list (smaller distribution). It's eligible as a small/indep
 - Done 2026-09-30: clean on v2; buy-link tiebreak + per-guide shuffle; database 41 (Jacked Granny reformulation); diabetics, keto, glp1, vegan and dairy-free on v2; database 42 (Aloha marked vegan); soy-free, kosher and high-fiber on v2.
 - **Min Fat slider** in the Bar Finder (parked, Jeff 2026-09-30): add a min-fat slider entry to `SLIDERS_CFG` and a key to both `sliderMap`s, then switch keto's button to an exact link (`...&fatmin=8`).
 - **Clean Ingredients preset** (Jeff wants it fixed): redefine `PRESETS.clean` in app.js to match the clean guide (A or B, no artificial sweeteners, no seed oils via `hasSeedOil()`), then update the ~10 pages whose link labels describe the old behavior ("Browse A-Grade bars" on ingredient_scoring, "A-grade bars only" on quest-vs-rxbar, the homepage FAQ via build_index.py, KIND's "No Sugar Alcohols or Artificial Sweeteners", rxbar/clif/barebells/quest discover links, ingredient-report, all-protein-bar-brands via build_brand_rankings.py, and the no-artificial-sweeteners and clean "stricter filter" buttons). One session, sitewide, with Jeff's sign-off. After it, clean's finder link can become `?preset=clean`.
-- Roll out to the remaining guides, one per session. Next: the remaining v1 guides (caffeine, creatine). kyb_cert_guide.py has no users left.
+- **Rollout complete (2026-09-30):** all fifteen guides are on v2 (caffeine and creatine last). kyb_cert_guide.py and kyb_dose_guide.py have no users left.
+- **Caffeine / creatine Bar Finder toggles** (parked): a "Has caffeine" / "Has creatine" filter would let both pages link to an exact list.
 - "Best from a big brand" card copy says "most grocery stores", which doesn't fit Kirkland (Costco); on gluten-free and diabetics. Ask Jeff before changing the lib wording (it changes both pages).
 - Add the About link to the shared footer on every other page (the thirteen v2 guides and about.html have it). Hand-edit or propagate carefully: never a regex across all pages.
 - Add /about and the byline to llms.txt (build_llms_txt.py). While there: llms.txt still says "Full list:" for the v2 guides, which now show a Best 10 + Top 50.
