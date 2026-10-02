@@ -76,11 +76,13 @@ Full methodology, worked examples, and the complete sugar/fiber/sweetener scale:
 | High Fiber (5g+ per bar) | 613 | 46.9% | 128 |
 | Clean (A/B grade, no artificial sweeteners, no processed oils) | 506 | 38.7% | 113 |
 | Low Sugar + High Protein (<=5g sugar, 15g+ protein) | 365 | 27.9% | 63 |
+| High Protein (20g+ per bar) | 301 | 23.0% | 60 |
 | Soy Free | 291 | 22.2% | 47 |
 | Vegan | 281 | 21.5% | 47 |
 | Dairy Free | 247 | 18.9% | 45 |
 | Very High Fiber (8g+ per bar) | 243 | 18.6% | 62 |
 | Kosher | 154 | 11.8% | 17 |
+| Weight Loss (15g+ protein, <=200 cal, <=5g sugar, 3g+ fiber) | 154 | 11.8% | 30 |
 | Keto (net carbs, protein, fat, no maltitol family) | 104 | 8.0% | 26 |
 | Extreme Fiber (11g+ per bar) | 103 | 7.9% | 24 |
 | Best Bars for Diabetics (full 6-criteria screen) | 83 | 6.3% | 29 |
@@ -118,6 +120,8 @@ Curated bar lists filtered by a specific dietary goal. Each guide leads with a B
 - [Keto Protein Bars](https://knowyourbar.com/keto-protein-bars): (104 bars) - net carbs, protein, fat thresholds, hard exclusion of the maltitol sugar-alcohol family
 - [Best Bars for Diabetics](https://knowyourbar.com/best-bars-for-diabetics): (83 bars) - sugar, net carbs, fiber, protein, ingredient grade, and maltitol-family exclusion, all six required
 - [GLP-1 Protein Bars](https://knowyourbar.com/glp1-protein-bars): (15 bars) - built for GLP-1 medication users: high protein, low calorie, low sugar, some fiber, zero sugar alcohol, and an A/B ingredient grade
+- [Protein Bars for Weight Loss](https://knowyourbar.com/weight-loss-protein-bars): (154 bars) - 15g+ protein, 200 calories or less, 5g or less sugar and 3g+ fiber; no grade or sugar alcohol check on the list, Best 10 picks are A/B
+- [High Protein Bars](https://knowyourbar.com/high-protein-bars): (301 bars) - 20g or more protein per bar; most grade C or below, Best 10 picks are A/B
 - [Caffeine Protein Bars](https://knowyourbar.com/caffeine-protein-bars): (42 bars) - any declared caffeine amount, no minimum dose
 - [Vegan Protein Bars](https://knowyourbar.com/vegan-protein-bars): (281 bars)
 - [Gluten Free Protein Bars](https://knowyourbar.com/gluten-free-protein-bars): (835 bars)

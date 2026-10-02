@@ -1,6 +1,6 @@
 # Guide Page Spec v2 — "Best 10" rebuild
 
-Status: **LOCKED 2026-09-29.** Pilot shipped the same day: `no-sugar-alcohols.html`, built by `build_no_sugar_alcohols.py` with the v2 section of `kyb_guide_lib.py`. **Also on v2 (2026-09-29, second session): `no-artificial-sweeteners.html`, `gluten-free-protein-bars.html`, `no-seed-oils.html`. (2026-09-30): `clean-protein-bars.html`, `best-bars-for-diabetics.html`, `keto-protein-bars.html`, `glp1-protein-bars.html`, `vegan-protein-bars.html`, `dairy-free-protein-bars.html`, `soy-free-protein-bars.html`, `kosher-protein-bars.html`, `high-fiber-protein-bars.html`, then `caffeine-protein-bars.html` and `creatine-protein-bars.html`** (locked slots and picks below). Every guide is now on v2. Roll out the rest one guide per session through the same lib.
+Status: **LOCKED 2026-09-29.** Pilot shipped the same day: `no-sugar-alcohols.html`, built by `build_no_sugar_alcohols.py` with the v2 section of `kyb_guide_lib.py`. **Also on v2 (2026-09-29, second session): `no-artificial-sweeteners.html`, `gluten-free-protein-bars.html`, `no-seed-oils.html`. (2026-09-30): `clean-protein-bars.html`, `best-bars-for-diabetics.html`, `keto-protein-bars.html`, `glp1-protein-bars.html`, `vegan-protein-bars.html`, `dairy-free-protein-bars.html`, `soy-free-protein-bars.html`, `kosher-protein-bars.html`, `high-fiber-protein-bars.html`, then `caffeine-protein-bars.html` and `creatine-protein-bars.html`** (locked slots and picks below). Every guide is now on v2. Roll out the rest one guide per session through the same lib. **New guides built directly on v2 (2026-10-02): `weight-loss-protein-bars.html`, `high-protein-bars.html`.**
 Background and data: `claude/SEARCH_DEMAND_ANALYSIS_2026-09.md`.
 
 Everything marked **LOCKED** below was decided with Jeff. Don't change it without asking him.
@@ -426,6 +426,48 @@ Creatine (14 qualify, 6 A/B; tiers Clinical 3g+ / Trace under 3g). Guide slot: H
 | 6 | Highest creatine dose | JiMMYBAR! Blueberry Lemon | B · 5g · 20g · 210 cal (maltitol, said on the card) | Amazon |
 
 Findings: ~1% of bars (6 brands, no big brand); the only A-grade bars (Rello) carry 1.2g while the 3g+ bars grade B to F; every 5g bar uses a sugar alcohol. Editorial kept and trimmed: caffeine zones + where caffeine comes from + FDA 400mg; creatine two tiers + monohydrate + research dose. Fixed: v1 printed average ingredient scores (zones, tiers, findings); "brand table below" FAQ dropped; v1 snapshot/picks/dose tables gone. Data note: JiMMYBAR! Double Fudge Brownie's ingredient text has an unclosed parenthesis (counts as 1 top-level ingredient; it grades F either way).
+
+### weight-loss-protein-bars — NEW 2026-10-02
+Screen (GUIDE_CRITERIA.md): protein ≥ 15g, calories ≤ 200, sugar ≤ 5g, fiber ≥ 3g. No grade gate, sugar alcohols allowed. Database 44: **154 qualify** (35 A/B; 102 use a sugar alcohol), 1154 fail. New page (started from a copy of the GLP-1 page's head, nav and footer; canonical changed, GLP-1 inline styles dropped). Builder: `build_weight_loss_protein_bars.py`.
+Guide slots (picked by Claude 2026-10-02, no approval round): **Best whey protein**, **Lowest sugar** (no sugar alcohol), **Best dairy-free**, **Best non-GMO**. Fallbacks: **Highest fiber**, then **Lowest net carbs**. The screen is close to GLP-1's, so most of the core six repeat GLP-1 picks; dairy-free and non-GMO add the two Stars and Honey picks (new on any guide, both with Amazon).
+Bar Finder: **`/bar-finder?protein=15&cal=200&sugar=5&fiber=3`** (154 = 154 headless, key for key; ported slider logic checked every build). The Bar Finder's Lose Weight preset is a different, narrower screen and is not used.
+Page ~123KB, FAQ at ~109KB. Disclaimer: the standard wording, in the hero and as a callout.
+
+| # | Slot | Pick | Data | Buy link |
+|---|---|---|---|---|
+| 1 | Best overall | Gryp Peanut Butter Choco Chunk | A · 25g · 195 cal · 2g sugar · 6g fiber | referral + Amazon |
+| 2 | Cleanest ingredients | Fello Everything Bagel | A · 15g · 190 cal · 1g sugar · 5g fiber | brand only |
+| 3 | Highest protein | Gryp Rocky Road and Sea Salt | B · 25g · 170 cal · 1g sugar · 7g fiber | referral |
+| 4 | Most protein per calorie | Ration Toasted Oat Sea Salt | B · 25g · 170 cal · 1g sugar · 8g fiber | brand only |
+| 5 | Lowest calorie | Fello Zesty BBQ | A · 15g · 190 cal · 1g sugar · 5g fiber | brand only |
+| 6 | Best from a big brand | Quest Oatmeal Chocolate Chip | B · 20g · 180 cal · 1g sugar · 14g fiber | Amazon |
+| 7 | Best whey protein | Ration Jalapeno Cheddar | B · 25g · 190 cal · 1g sugar · 9g fiber | brand only |
+| 8 | Lowest sugar | Julian Bakery Peanut Butter | B · 20g · 200 cal · 1g sugar · 17g fiber | brand only |
+| 9 | Best dairy-free | Stars and Honey Peanut Butter Blackberry | B · 15g · 170 cal · 2g sugar · 6g fiber | Amazon |
+| 10 | Best non-GMO | Stars and Honey Mint Cookies and Cream | B · 15g · 170 cal · 2g sugar · 5g fiber | Amazon |
+
+Editorial: four count cards (calories / protein / sugar / fiber), "Sugar alcohols are allowed here" (with the count), "Weight loss doesn't screen on ingredient grade", "A bar is still food". Findings: sugar is the most common miss (then protein, then calories), 70% of 20g+ protein bars are over 200 calories, only 2% of A-grade bars pass (most miss on protein). Chart = share that passes, by grade. FAQs include Quest and Barebells.
+
+### high-protein-bars — NEW 2026-10-02
+Screen: protein ≥ 20g. No grade gate. Database 44: **301 qualify** (85 A/B), 1007 under 20g. Builder: `build_high_protein_bars.py` (same starting copy as weight loss). Top 50 is all A/B (checked).
+Guide slots (picked by Claude 2026-10-02): **Best whey protein**, **Best plant-based**, **Lowest sugar** (no sugar alcohol), **Best gluten-free**. Fallbacks: **Highest fiber**, then **Best dairy-free**. Subset slots use a 20g floor.
+Bar Finder: **`/bar-finder?protein=20`** (301 = 301 headless).
+Page ~123KB, FAQ at ~109KB.
+
+| # | Slot | Pick | Data | Buy link |
+|---|---|---|---|---|
+| 1 | Best overall | Gryp Peanut Butter Choco Chunk | A · 25g · 195 cal · 2g sugar · 6g fiber | referral + Amazon |
+| 2 | Cleanest ingredients | Off the Farm Peanut Butter | A · 24g · 430 cal · 12g sugar · 4g fiber | referral |
+| 3 | Highest protein | Tilt Chocolate Sea Salt | B · 28g · 240 cal · 2g sugar · 6g fiber | Amazon |
+| 4 | Most protein per calorie | Gryp Rocky Road and Sea Salt | B · 25g · 170 cal · 1g sugar · 7g fiber | referral |
+| 5 | Lowest calorie | Myo Peanut Butter Blueberry Swirl | A · 22g · 190 cal · 1g sugar · 1g fiber | brand only |
+| 6 | Best from a big brand | Quest Oatmeal Chocolate Chip | B · 20g · 180 cal · 1g sugar · 14g fiber | Amazon |
+| 7 | Best whey protein | Myo Chocolate Macadamia Nut | A · 21g · 210 cal · 1g sugar · 2g fiber | brand only |
+| 8 | Best plant-based | Posana Matcha Latte | B · 20g · 220 cal · 3g sugar · 9g fiber | brand only |
+| 9 | Lowest sugar | Atlas Dark Chocolate Almond | B · 20g · 210 cal · 1g sugar · 10g fiber | Amazon |
+| 10 | Best gluten-free | Rello Chocolate Crunch | A · 20g · 260 cal · 12g sugar · 9g fiber | Amazon |
+
+Editorial: "What counts as a high protein bar" (20g line; the median bar has 13g), four count cards out of the 301 (over 250 calories / sugar alcohol / artificial sweetener, always sucralose / collagen as the main protein), "Where the protein comes from" (first protein named: milk protein or casein leads, then whey, soy), the collagen note (incomplete protein; schema scores collagen +1 vs whey isolate and egg whites +4), "High protein doesn't screen on ingredient grade". Findings: more protein, lower grades (28% A/B vs 46% of the database), extra calories (240 vs 199 average), every 30g+ bar grades C or below (most protein: Musashi, 46g, D). Chart = share with 20g+ protein by grade (A 12 … F 51). FAQs include Quest, Barebells and David.
 
 ### Cross-guide notes
 - **Overlap:** slots 1–6 go to nearly the same bars on the free-from v2 guides (the same clean bars win every screen). Diabetics' narrower screen gives a mostly different core six (only Gryp, Simply Protein Cocoa Raspberry and Kirkland repeat). Repeats across guides are allowed; guide slots are chosen to reduce overlap.

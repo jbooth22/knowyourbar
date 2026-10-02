@@ -39,9 +39,9 @@ gtag('config', 'G-SW4MNP5W7J');
   <link rel="canonical" href="https://knowyourbar.com/flavor-map">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="/style.css">
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --fmap-surface: var(--bs-cream);
@@ -122,6 +122,8 @@ gtag('config', 'G-SW4MNP5W7J');
         <a href="/keto-protein-bars">Keto Protein Bars</a>
         <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
         <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+        <a href="/weight-loss-protein-bars">Protein Bars for Weight Loss</a>
+        <a href="/high-protein-bars">High Protein Bars</a>
         <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
         <a href="/vegan-protein-bars">Vegan Protein Bars</a>
         <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
@@ -214,6 +216,8 @@ gtag('config', 'G-SW4MNP5W7J');
       <a href="/keto-protein-bars">Keto Protein Bars</a>
       <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
       <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+      <a href="/weight-loss-protein-bars">Protein Bars for Weight Loss</a>
+      <a href="/high-protein-bars">High Protein Bars</a>
       <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
       <a href="/vegan-protein-bars">Vegan Protein Bars</a>
       <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
@@ -225,7 +229,7 @@ gtag('config', 'G-SW4MNP5W7J');
     </nav>
     </details>
   </div>
-  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated 2026-09-29</div>
+  <div class="site-footer-copy">knowyourbar.com &nbsp;&middot;&nbsp; Updated 2026-10-02</div>
   <div class="site-footer-disclosure">As an Amazon Associate and affiliate partner, we earn from qualifying purchases through the links on this site.</div>
 </footer>
 
@@ -408,12 +412,12 @@ const L2=[
       const big=n.h>22;
       gL.appendChild(mktxt(n.x-14,mid-(big?8:0),n.label,{
         'text-anchor':'end','dominant-baseline':'middle',
-        'font-family':'DM Sans,sans-serif','font-weight':'800',
+        'font-family':'Archivo,sans-serif','font-weight':'800',
         'font-size':'14','letter-spacing':'-0.3','fill':'#17140f',
       }));
       if(big){gL.appendChild(mktxt(n.x-14,mid+9,n.n+' bars \u00b7 '+pct+'%',{
         'text-anchor':'end','dominant-baseline':'middle',
-        'font-family':'DM Mono,monospace','font-size':'10','fill':'#5e5e58',
+        'font-family':'Archivo,sans-serif','font-size':'10','fill':'#5e5e58',
       }));}
     });
 
@@ -424,19 +428,19 @@ const L2=[
         const mid=n.y+n.h/2;const big=n.h>=18;
         gL.appendChild(mktxt(n.x+NW+10,mid-(big?7:0),n.label,{
           'text-anchor':'start','dominant-baseline':'middle',
-          'font-family':'DM Sans,sans-serif','font-weight':'500',
+          'font-family':'Archivo,sans-serif','font-weight':'500',
           'font-size':'12','fill':'#2b271e',
         }));
         if(big){gL.appendChild(mktxt(n.x+NW+10,mid+8,n.n+' bars',{
           'text-anchor':'start','dominant-baseline':'middle',
-          'font-family':'DM Mono,monospace','font-size':'10','fill':'#424240',
+          'font-family':'Archivo,sans-serif','font-size':'10','fill':'#424240',
         }));}
       }
     });
 
     function hdr(x,lbl,anchor){
       gL.appendChild(mktxt(x,PAD.t-14,lbl,{
-        'text-anchor':anchor,'font-family':'DM Mono,monospace',
+        'text-anchor':anchor,'font-family':'Archivo,sans-serif',
         'font-size':'9','letter-spacing':'2','fill':'#5c584c',
       }));
     }

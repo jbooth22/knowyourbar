@@ -15,9 +15,9 @@
   <meta property="og:image" content="https://knowyourbar.com/bar_hero.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="/style.css">
   <style>
     :root { --quad-bg: var(--bs-cream); }
@@ -161,6 +161,8 @@ gtag('config', 'G-SW4MNP5W7J');
         <a href="/keto-protein-bars">Keto Protein Bars</a>
         <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
         <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+        <a href="/weight-loss-protein-bars">Protein Bars for Weight Loss</a>
+        <a href="/high-protein-bars">High Protein Bars</a>
         <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
         <a href="/vegan-protein-bars">Vegan Protein Bars</a>
         <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>
@@ -368,7 +370,7 @@ function draw(){
   // ── Quadrant label boxes (Gartner style) ─────────────────────────────
   const PAD=8,LH=15;
   ctx.save();
-  ctx.font='700 '+(isMobile()?'9':'11')+'px DM Sans, sans-serif';
+  ctx.font='700 '+(isMobile()?'9':'11')+'px Archivo, sans-serif';
 
   const qlabels=[
     {lines:['PRINCIPLED,','NOT PERFORMANCE'],x:PA.x+PAD,y:PA.y+PAD,ax:'left',ay:'top',color:'#236818',bg:'rgba(42,122,31,0.13)'},
@@ -396,17 +398,17 @@ function draw(){
 
   // ── Axis labels ──────────────────────────────────────────────────────
   ctx.save();
-  ctx.font='500 11px DM Sans, sans-serif';
+  ctx.font='500 11px Archivo, sans-serif';
   ctx.fillStyle='#555'; ctx.textAlign='center';
   ctx.fillText('Macro Efficiency',PA.x+PA.w/2,PA.y+PA.h+36);
-  ctx.font='400 10px DM Sans, sans-serif'; ctx.fillStyle='#aaa';
+  ctx.font='400 10px Archivo, sans-serif'; ctx.fillStyle='#aaa';
   ctx.textAlign='left';  ctx.fillText('Low',PA.x,PA.y+PA.h+36);
   ctx.textAlign='right'; ctx.fillText('High',PA.x+PA.w,PA.y+PA.h+36);
-  ctx.fillStyle='#555'; ctx.font='500 11px DM Sans, sans-serif';
+  ctx.fillStyle='#555'; ctx.font='500 11px Archivo, sans-serif';
   ctx.textAlign='center';
   ctx.save(); ctx.translate(13,PA.y+PA.h/2); ctx.rotate(-Math.PI/2);
   ctx.fillText('Ingredient Quality',0,0); ctx.restore();
-  ctx.fillStyle='#aaa'; ctx.font='400 10px DM Sans, sans-serif';
+  ctx.fillStyle='#aaa'; ctx.font='400 10px Archivo, sans-serif';
   ctx.save(); ctx.translate(13,PA.y+16); ctx.rotate(-Math.PI/2);
   ctx.fillText('High',0,0); ctx.restore();
   ctx.save(); ctx.translate(13,PA.y+PA.h-8); ctx.rotate(-Math.PI/2);
@@ -438,7 +440,7 @@ function draw(){
     const r=Math.max(4,3.2+Math.sqrt(b.flavor_count)*1.35);
     const isH=hov&&hov.brand===b.brand;
     const fontSize=isMobile()?(isH?10:8.5):(isH?11.5:10);
-    ctx.font=(isH?'600 ':'500 ')+fontSize+'px DM Sans, sans-serif';
+    ctx.font=(isH?'600 ':'500 ')+fontSize+'px Archivo, sans-serif';
     ctx.textAlign='left';
     const lx=x+r+3.5,ly=y+3.5;
     const tw=ctx.measureText(b.brand).width;
@@ -609,6 +611,8 @@ resize();
       <a href="/keto-protein-bars">Keto Protein Bars</a>
       <a href="/best-bars-for-diabetics">Best Bars for Diabetics</a>
       <a href="/glp1-protein-bars">GLP-1 Protein Bars</a>
+      <a href="/weight-loss-protein-bars">Protein Bars for Weight Loss</a>
+      <a href="/high-protein-bars">High Protein Bars</a>
       <a href="/caffeine-protein-bars">Caffeine Protein Bars</a>
       <a href="/vegan-protein-bars">Vegan Protein Bars</a>
       <a href="/gluten-free-protein-bars">Gluten Free Protein Bars</a>

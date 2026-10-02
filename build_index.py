@@ -116,13 +116,13 @@ def main():
 
     # ---------- goal cards (criteria match the page or preset each card opens)
     goals = [
-        ('/bar-finder?preset=lose_weight', 'Lose weight', '20g+ protein, under 200 calories, 3g sugar or less, grade A or B'),
+        ('/weight-loss-protein-bars', 'Lose weight', '15g+ protein, 200 calories or less, 5g sugar or less, 3g+ fiber'),
         ('/clean-protein-bars', 'Clean ingredients', 'Grade A or B, no artificial sweeteners, no processed oils'),
         ('/bar-finder?preset=skip_sugar', 'Skip the sugar', 'Under 2g sugar, no maltitol or sorbitol, grade A or B'),
         ('/no-artificial-sweeteners', 'No artificial sweeteners', 'Sucralose, ace-K, and the rest, filtered out entirely'),
         ('/no-seed-oils', 'No seed oils', 'No canola, soybean, sunflower, palm, or other processed oils'),
         ('/keto-protein-bars', 'Keto friendly', '8g or less net carbs, 10g+ protein, 8g+ fat, no maltitol'),
-        ('/bar-finder?preset=high_protein', 'High protein', 'Ranked by protein per calorie, 15g+ protein, A&ndash;C grade'),
+        ('/high-protein-bars', 'High protein', '20g+ protein, the 10 best picked by grade'),
         ('/glp1-protein-bars', 'GLP-1 friendly', '15g+ protein, 200 calories or less, zero sugar alcohols, grade A or B'),
         ('/best-bars-for-diabetics', 'Diabetic-friendly', '5g or less sugar, 10g or less net carbs, 5g+ fiber, grade A or B'),
         ('/caffeine-protein-bars', 'Need a caffeine boost', 'Protein and caffeine in one bar'),
@@ -133,8 +133,7 @@ def main():
         <div class="goal-card-desc">{d}</div>
       </a>''' for h, n, d in goals)
     app = open('app.js', encoding='utf-8').read()
-    for slug, must in [('lose_weight', 'prot >= 20 && cal <= 200 && sug <= 3'), ('skip_sugar', 'sug > 2'),
-                       ('high_protein', 'prot >= 15')]:
+    for slug, must in [('skip_sugar', 'sug > 2')]:
         cl.check(must in app, f'Bar Finder preset {slug} still uses the criteria the card states')
 
     # ---------- grades box, highlights, stats
@@ -157,8 +156,7 @@ def main():
     no_po = sorted((k for k, v in big.items() if not any(PO(b) for b in v)), key=lambda k: (-len(by[k]), k))[:5]
     no_as = sorted((k for k, v in by.items() if len(v) >= 15 and not any(AS(b) for b in v)), key=lambda k: (-len(by[k]), k))[:6]
     n_clean, n_nas = cnt('clean-protein-bars'), cnt('no-artificial-sweeteners')
-    lw = sum(1 for b in bars if P(b) >= 20 and CAL(b) and CAL(b) <= 200 and num(b.get('Sugars (g)')) is not None
-             and num(b['Sugars (g)']) <= 3 and b['score_band'] in ('A', 'B'))
+    lw = cnt('weight-loss-protein-bars')
     cl.stop_if_failed()
     faqs = [
         ('What is the healthiest protein bar?',
@@ -183,8 +181,8 @@ def main():
         ('Are protein bars good for weight loss?',
          f'Protein bars can support weight loss when they are high in protein, moderate in calories, and low in added sugar, and when '
          f'they replace less nutritious snacks rather than adding calories on top of a full diet. Our '
-         f'<a href="/bar-finder?preset=lose_weight">Lose Weight preset</a> in the Bar Finder shows bars with at least 20g of protein, '
-         f'under 200 calories, 3g of sugar or less, and an A or B ingredient grade ({lw} bars today).'),
+         f'<a href="/weight-loss-protein-bars">weight loss guide</a> covers the {lw} bars with at least 15g of protein, '
+         f'200 calories or less, 5g of sugar or less and 3g+ fiber, and picks the 10 best.'),
         ('How does Know Your Bar score protein bars?',
          'Every bar receives an A-F ingredient quality grade. Each ingredient is mapped to a quality score from +4 (excellent) to -4 '
          '(harmful), weighted by position in the ingredient list. Ingredients that appear earlier are present in larger quantities '

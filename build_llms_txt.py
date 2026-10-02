@@ -98,6 +98,8 @@ def main():
         ('Keto (net carbs, protein, fat, no maltitol family)', GUIDE_FILTERS['keto-protein-bars']),
         ('Caffeine (any declared amount)', GUIDE_FILTERS['caffeine-protein-bars']),
         ('GLP-1 Friendly (full 6-criteria screen)', GUIDE_FILTERS['glp1-protein-bars']),
+        ('Weight Loss (15g+ protein, <=200 cal, <=5g sugar, 3g+ fiber)', GUIDE_FILTERS['weight-loss-protein-bars']),
+        ('High Protein (20g+ per bar)', GUIDE_FILTERS['high-protein-bars']),
         ('Creatine (any declared amount)', GUIDE_FILTERS['creatine-protein-bars']),
     ]
     C = {name: crit(f) for name, f in rows}
@@ -290,6 +292,8 @@ Curated bar lists filtered by a specific dietary goal. Each guide leads with a B
 - [Keto Protein Bars]({SITE}/keto-protein-bars): ({comma(cnt('Keto (net carbs, protein, fat, no maltitol family)'))} bars) - net carbs, protein, fat thresholds, hard exclusion of the maltitol sugar-alcohol family
 - [Best Bars for Diabetics]({SITE}/best-bars-for-diabetics): ({comma(cnt('Best Bars for Diabetics (full 6-criteria screen)'))} bars) - sugar, net carbs, fiber, protein, ingredient grade, and maltitol-family exclusion, all six required
 - [GLP-1 Protein Bars]({SITE}/glp1-protein-bars): ({comma(cnt('GLP-1 Friendly (full 6-criteria screen)'))} bars) - built for GLP-1 medication users: high protein, low calorie, low sugar, some fiber, zero sugar alcohol, and an A/B ingredient grade
+- [Protein Bars for Weight Loss]({SITE}/weight-loss-protein-bars): ({comma(cnt('Weight Loss (15g+ protein, <=200 cal, <=5g sugar, 3g+ fiber)'))} bars) - 15g+ protein, 200 calories or less, 5g or less sugar and 3g+ fiber; no grade or sugar alcohol check on the list, Best 10 picks are A/B
+- [High Protein Bars]({SITE}/high-protein-bars): ({comma(cnt('High Protein (20g+ per bar)'))} bars) - 20g or more protein per bar; most grade C or below, Best 10 picks are A/B
 - [Caffeine Protein Bars]({SITE}/caffeine-protein-bars): ({comma(cnt('Caffeine (any declared amount)'))} bars) - any declared caffeine amount, no minimum dose
 - [Vegan Protein Bars]({SITE}/vegan-protein-bars): ({comma(cnt('Vegan'))} bars)
 - [Gluten Free Protein Bars]({SITE}/gluten-free-protein-bars): ({comma(cnt('Gluten Free'))} bars)

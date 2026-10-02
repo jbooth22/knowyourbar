@@ -2027,3 +2027,11 @@ def slot_highest_fiber():
                 lambda b: (-FIB(b),) + tie_chain(b),
                 lambda b, c: f"{fnum(FIB(b))}g fiber, {c['tied']}the most of any bar here, with {fnum(P(b))}g protein.",
                 metric=FIB)
+
+# ---- New guides, 2026-10-02 (weight loss, high protein). Appended, so every
+# existing guide filter above is unchanged. --------------------------------
+GUIDE_FILTERS['weight-loss-protein-bars'] = lambda b: ((num(b.get('Protein (g)')) or 0) >= 15
+    and num(b.get('Calories')) is not None and num(b.get('Calories')) <= 200
+    and num(b.get('Sugars (g)')) is not None and num(b.get('Sugars (g)')) <= 5
+    and (num(b.get('Dietary Fiber (g)')) or 0) >= 3)
+GUIDE_FILTERS['high-protein-bars'] = lambda b: (num(b.get('Protein (g)')) or 0) >= 20

@@ -22,9 +22,11 @@
 | No Artificial Sweeteners | `score_insights` does NOT contain `Artificial Sweeteners` |
 | No Seed Oils | `score_insights` does NOT contain `Processed Oils` |
 | Clean Protein Bars | `score_band` in (A, B) AND no `Artificial Sweeteners` tag AND no `Processed Oils` tag |
-| Low Sugar + High Protein | `Sugars (g)` ≤ 5 AND `Protein (g)` ≥ 15 |
+| Low Sugar + High Protein (retired router page; unlinked 2026-10-02) | `Sugars (g)` ≤ 5 AND `Protein (g)` ≥ 15 |
 | Best Bars for Diabetics | `Sugars (g)` ≤ 5 AND net carbs ≤ 10 AND `Dietary Fiber (g)` ≥ 5 AND `Protein (g)` ≥ 10 AND `score_band` in (A, B) AND ingredients do not contain the maltitol family (see below) |
 | GLP-1 Bars | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 4 AND `Dietary Fiber (g)` ≥ 3 AND `Sugar Alcohol (g)` = 0 AND no sugar alcohol in the ingredients (`has_sugar_alcohol()`, same screen as No Sugar Alcohols) AND `score_band` in (A, B) |
+| Protein Bars for Weight Loss (added 2026-10-02) | `Protein (g)` ≥ 15 AND `Calories` ≤ 200 AND `Sugars (g)` ≤ 5 AND `Dietary Fiber (g)` ≥ 3. No grade gate and no sugar alcohol screen on the list itself (the v2 Best 10 still requires A or B, and its Lowest sugar slot skips sugar alcohols). Bars with an empty Calories or Sugars field do not qualify. Code: `GUIDE_FILTERS['weight-loss-protein-bars']`. Bar Finder: `?protein=15&cal=200&sugar=5&fiber=3` (same set, checked every build). Not the same as the Bar Finder's Lose Weight preset (20g+ protein, 200 calories or less, 3g sugar or less, A/B), which is too narrow for a Best 10. |
+| High Protein Bars (added 2026-10-02) | `Protein (g)` ≥ 20. No grade gate (the v2 Best 10 still requires A or B). Code: `GUIDE_FILTERS['high-protein-bars']`. Bar Finder: `?protein=20`. |
 | Keto | net carbs ≤ 8 AND `Protein (g)` ≥ 10 AND `Total Fat (g)` ≥ 8 AND ingredients do not contain the maltitol family (see below), where net carbs = Total Carbohydrates − Dietary Fiber − Sugar Alcohol |
 | Caffeine | `Caffeine (mg)` > 0 (any declared amount qualifies, no minimum dose or ingredient-quality gate) |
 | Vegan | `Vegan (Y/N)` = Yes (the bars.js certification field, not a computed screen, no macro or ingredient-quality gate) |
