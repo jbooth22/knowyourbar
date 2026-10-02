@@ -247,8 +247,8 @@ H1_TEXT = f'Are Barebells Bars Healthy? We Ranked All {N} Flavors'
 H1_HTML = f'Are <em>Barebells</em> Bars Healthy? We Ranked All {N} Flavors'
 TITLE = f'Are Barebells Healthy? All {N} Flavors Ranked, Best to Worst'
 OG_TITLE = TITLE
-veg_worst_line = check(worst_all in veg_grades and worst_all not in {b['score_band'] for b in DAI},
-                       "the vegan line holds the lineup's worst grade")
+# Optional phrase, not a hard claim (2026-10-02: Birthday Cake, a dairy flavor, now shares the F).
+veg_worst_line = worst_all in veg_grades and worst_all not in {b['score_band'] for b in DAI}
 DESC = (f"Are Barebells good for you? They grade {GR_ALL} on ingredients: top {SUG_ST['top']}% for low sugar, bottom "
         f"{SA_ST['beats']}% for sugar alcohol. All {N} flavors ranked with macros.")
 OG_DESC = (f"Barebells scored A-F by ingredient quality. Top {SUG_ST['top']}% for lowest sugar, but bottom {SA_ST['beats']}% "

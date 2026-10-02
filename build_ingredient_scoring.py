@@ -29,6 +29,9 @@ import pandas as pd
 import score_and_export as sx
 from kyb_guide_lib import load_bars, esc, comma, DB_PUBLIC, of_db, replace_region, stamp_dates, today_iso
 
+NUM_WORDS = {2: 'two', 3: 'three', 4: 'four', 5: 'five'}
+num_word = lambda n: NUM_WORDS.get(n, str(n))
+
 PAGE = 'ingredient_scoring.html'
 SCHEMA = 'knowyourbar_scoring_schema_v12.xlsx'
 
@@ -91,6 +94,23 @@ TIERS = [
                 ('isomalt', 'isomalt'), ('maltitol', 'maltitol')]),
     ('Low-calorie plant sweeteners', 'Plant-derived sweeteners with little or no sugar.', {0, 1},
      [('stevia', 'stevia'), ('monk fruit', 'monk fruit'), ('allulose', 'allulose')]),
+]
+# Fat scale (scoring v14): processing, like sugars.
+FAT_TIERS = [
+    ('Nuts and seeds', 'Whole foods, fat and all.', {2, 3},
+     [('almonds', 'almonds'), ('peanuts', 'peanuts'), ('cashews', 'cashews'), ('peanut butter', 'peanut butter'), ('pumpkin seeds', 'pumpkin seeds')]),
+    ('Pressed or churned fats', 'Pressed or churned from a single food, little else done to it.', {1},
+     [('cocoa butter', 'cocoa butter'), ('olive oil', 'olive oil'), ('butter', 'butter'), ('virgin coconut oil', 'virgin coconut oil'),
+      ('cold-pressed flax and sesame seed oil', 'flax seed oil')]),
+    ('Refined oils', 'Extracted and refined, usually bleached and deodorized.', {-1},
+     [('canola oil', 'canola oil'), ('sunflower oil', 'sunflower oil'), ('soybean oil', 'soybean oil'), ('safflower oil', 'safflower oil'),
+      ('coconut oil', 'coconut oil'), ('peanut oil', 'peanut oil')]),
+    ('Fractionated or modified fats', 'Split or reworked to change how the fat behaves.', {-2},
+     [('palm oil', 'palm oil'), ('MCT oil', 'mct oil'), ('margarine', 'margarine')]),
+    ('Palm kernel oil', 'Refined, usually fractionated, and the most saturated of the common bar fats.', {-3},
+     [('palm kernel oil', 'palm kernel oil'), ('palm and palm kernel oil blends', 'palm and palm kernel oil')]),
+    ('Hydrogenated fats', 'Chemically hardened.', {-4},
+     [('hydrogenated palm kernel oil', 'hydrogenated palm kernel oil'), ('hydrogenated vegetable oil', 'hydrogenated vegetable oil')]),
 ]
 AS_NAMES = {'sucralose': 'sucralose', 'acesulfame': 'acesulfame potassium',
             'aspartame': 'aspartame', 'saccharin': 'saccharin'}
@@ -160,6 +180,7 @@ def main():
     AS = sx.ARTIFICIAL_SW
     pen = sx.ARTIFICIAL_SW_PENALTY
     n_as = sum(1 for b in bars if any(k in (b.get('Ingredients') or '').lower() for k in AS))
+    n_rx = sum(1 for b in bars if 'Restricted Additives' in (b.get('score_insights') or ''))
     sm = sub_mult()
     stack = sx.PROTEIN_STACK_DISCOUNT
     canon = f'{sch.n // 100 * 100:,}+'
@@ -171,11 +192,17 @@ def main():
             raise SystemExit(f'ERROR: {nm} base score {sch(nm)} differs from the flat penalty {pen}. Not writing.')
 
     # ---- calc
-    calc = f'''      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>&minus;4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
+    calc = f'''      <h3>What the grade measures</h3>
+      <p><strong>The grade measures what a bar is made of, not how much protein, sugar or fat it has.</strong> It answers one question: is this bar built from real food and quality protein, or from processed stand-ins? Grams of protein, sugar and fat are a separate question, and the <a href="/bar-finder">Bar Finder</a> and our guides answer that one.</p>
+      <p>An A means a bar made mostly of whole foods and quality protein, where nothing processed or added for sweetness is doing the main work. The grade sits next to the macros, not on top of them: a date-sweetened bar can earn an A and still carry plenty of sugar, which is why we show both.</p>
+      <p>Three ideas drive every rule below. The order of the label shows what a bar is made of. The more an ingredient has been processed away from a whole food, the lower it scores, for sugars, fibers and fats alike. And a few guardrails stop one strong ingredient from hiding a weak one.</p>
+
+      <h3>How the score adds up</h3>
+      <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>&minus;4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
       <p>A final, very small adjustment is applied based on the total number of ingredients: at most {max(abs(a) for _, _, a in sx.COUNT_BANDS):.2f} points either way. A grade spans 4 points, so this only matters for a bar sitting right on a grade line.</p>
 
       <div class="callout">
-        <p><strong>Final Score</strong> = Sum of (base_score &times; position_weight) for each ingredient + {signed(int(pen))} for each artificial sweetener + ingredient count adjustment. A bar with no ingredient scoring below zero is lifted to at least {sx.CLEAN_LABEL_FLOOR:.1f} (an A).</p>
+        <p><strong>Final Score</strong> = good ingredients (base_score &times; position_weight, capped at +{int(sx.CREDIT_CAP)}) + every penalty (base_score &times; position_weight, plus a flat {signed(int(pen))} for each artificial sweetener and each restricted additive) + ingredient count adjustment. Two grade guardrails then apply (see below).</p>
       </div>
 
       <h3>Position weights</h3>
@@ -193,11 +220,16 @@ def main():
         </tbody>
       </table>
 
-      <h3>Four exceptions to plain position weighting</h3>
+      <h3>Rules on top of position weighting</h3>
       <p><strong>Artificial sweeteners count a flat {signed(int(pen))} each.</strong> Sucralose, acesulfame potassium, aspartame and saccharin each cost a bar {abs(int(pen))} points, wherever they appear on the label. Position weighting assumes that more of an ingredient means more impact. That holds for bulk ingredients, but these sweeteners are hundreds of times sweeter than sugar and are used in milligrams, so they almost always sit near the end of the label, where position weighting made them count for almost nothing. Each sweetener is counted once, even when two are listed together in one phrase.</p>
-      <p><strong>A fully clean label is at least an A.</strong> Because the score adds up every ingredient, a short label like "cashews, dates" can't add up as high as a longer one. So if no ingredient on a bar's label scores below zero, the bar grades at least an A (8.0), however short its list.</p>
+      <p><strong>Restricted additives count a flat {signed(int(sx.RESTRICTED_PENALTY))} each.</strong> Synthetic dyes (Red 40, Red 3, Yellow 5, Yellow 6, Blue 1, Blue 2 and the like), titanium dioxide, and a short list of other additives that are banned or not authorized in the EU, or that the FDA is revoking or phasing out, each cost a bar {abs(int(sx.RESTRICTED_PENALTY))} points wherever they appear. Like artificial sweeteners, they are used in tiny amounts, so their place on the label says nothing about their effect. Dyes count once per bar, however many are listed. {comma(n_rx)} of our {DB_PUBLIC} bars carry at least one.</p>
+      <p><strong>Good ingredients can add at most +{int(sx.CREDIT_CAP)}.</strong> Penalties always count in full. Without a cap, a long list of nuts, seeds and proteins could cancel out a syrup or a processed oil, and a bar built on tapioca syrup could still earn an A.</p>
       <p><strong>Sub-ingredients count at {round(sm * 100)}%.</strong> Ingredients inside parentheses or brackets, like the sugar in "chocolate (sugar, cocoa butter)", share their parent's position but carry {sm:g} of its weight, because each is only part of that ingredient. Inside one set of parentheses, the best-scoring ingredient counts in full and each further good one counts half the one before, so a blend like "whole food powders (kale, flax, rose hips, ...)" can't earn points for every trace item. An ingredient repeated inside the same parentheses counts once, and inside a "vegetable oil (...)" blend a plant name like peanut or sunflower counts as that plant's oil, not the whole food. When a label joins two ingredients in one slot, like "roasted peanuts and sea salt", each one is scored in that slot; "X and/or Y" means the bar has one or the other, so only the lower-scoring one counts.</p>
       <p><strong>Extra protein sources count at {round(stack * 100)}%.</strong> When a bar lists several protein sources, whether separately or inside a blend like "Protein Blend (whey protein isolate, milk protein isolate, ...)", the best-scoring one counts in full and each additional one counts at {'half' if stack == 0.5 else f'{round(stack * 100)}%'} weight, so a long list of proteins can't inflate the score.</p>
+
+      <h3>Two grade guardrails</h3>
+      <p><strong>A clean label is at least an A.</strong> Because the score adds up every ingredient, a short label like "cashews, dates" can't add up as high as a longer one. So if no ingredient on a bar's label scores below zero, the bar grades at least an A ({sx.CLEAN_LABEL_FLOOR:.1f}), however short its list. A trace of a minor concern near the end of the label, like natural flavor or a gum adding up to no more than {sx.FLOOR_TOLERANCE:.1f} points, doesn't block it.</p>
+      <p><strong>An added sugar in the first {num_word(sx.ADDED_SUGAR_TOP)} ingredients caps a bar at B.</strong> If a sugar, syrup, honey, maple syrup or fruit juice concentrate is one of the first {num_word(sx.ADDED_SUGAR_TOP)} ingredients, the bar is built on added sugar and can't earn an A. We use the FDA's definition of added sugar, which counts honey and maple syrup when they go into a food, but not dates, whole fruit, sugar alcohols or zero-calorie sweeteners.</p>
 
       <h3>Ingredient count adjustment</h3>
       <table class="score-table">
@@ -213,7 +245,7 @@ def main():
     B = {band: lo for lo, hi, band, lab in sx.SCORE_BANDS}
     assert (B['A'], B['B'], B['C'], B['D']) == (8, 4, 0, -3), 'grade bands changed: update the copy'
     desc = {
-        'A': 'Predominantly whole foods, quality proteins, minimal additives. The best ingredient profiles in the database.',
+        'A': 'Made mostly of whole foods and quality protein, with nothing processed or added for sweetness doing the main work.',
         'B': 'Solid ingredients with minor concerns. A well-formulated bar that makes reasonable trade-offs.',
         'C': 'Mixed profile. Some good ingredients, some processed. Acceptable but not exceptional.',
         'D': 'Mostly processed ingredients with limited redeeming qualities. Heavy use of sweeteners or additives.',
@@ -266,6 +298,20 @@ def main():
             <td style="white-space:nowrap;">{s}</td>
             <td>{n}</td>
           </tr>''' for t, w, s, n in rows)
+    frows = []
+    for tier, why, allowed, ex in FAT_TIERS:
+        sc = [sch(n) for _, n in ex]
+        bad = [(l, v) for (l, _), v in zip(ex, sc) if v not in allowed]
+        if bad:
+            raise SystemExit(f'ERROR: {tier}: schema scores {bad} fall outside {sorted(allowed)}. Update the copy. Not writing.')
+        lo, hi = min(sc), max(sc)
+        cell = signed(lo) if lo == hi else f'{signed(lo)} to {signed(hi)}'
+        frows.append(f'''          <tr>
+            <td><strong>{esc(tier)}</strong><br><span style="color:var(--bs-text-dim);font-size:.85em;">{esc(why)}</span></td>
+            <td style="white-space:nowrap;">{cell}</td>
+            <td>{', '.join(l for l, _ in ex)}</td>
+          </tr>''')
+    fat_rows = '\n'.join(frows)
     sweeteners = f'''    <!-- Sugars, fibers and sweeteners -->
     <section class="content-section" id="sugars-fibers-sweeteners">
       <h2>How we score sugars, fibers and sweeteners</h2>
@@ -288,8 +334,27 @@ def main():
       <div class="callout">
         <p><strong>What changed in September 2026 (scoring v12):</strong> sugars now follow the processing scale above (honey and maple syrup went from &minus;2 to &minus;1; dextrose and maltodextrin dropped to &minus;3), soluble corn fiber, resistant dextrin, tapioca fiber and IMO went from 0 or +1 to &minus;1, and artificial sweeteners became a flat &minus;2 each instead of being discounted by label position. The grade bands did not change.</p>
         <p style="margin-top:.6rem;"><strong>Later in September 2026:</strong> blends can no longer earn points for every trace item inside them, extra proteins inside a blend count at half weight like any other extra protein, and a label with no ingredient below zero grades at least an A.</p>
-        <p style="margin-top:.6rem;"><strong>October 2026:</strong> consistency fixes. The same ingredient now scores the same under every spelling (for example gum acacia and acacia fiber, monk fruit and monkfruit), ingredients joined by "and" in one label slot are each scored, and IMO no longer shows a Sugar Alcohols chip.</p>
+        <p style="margin-top:.6rem;"><strong>October 2, 2026:</strong> the grade now follows one stated idea, what a bar is made of. Good ingredients can add at most +{int(sx.CREDIT_CAP)}, an added sugar in the first three ingredients caps a bar at B, fats are scored by processing like sugars, restricted additives such as synthetic dyes and titanium dioxide cost a flat {abs(int(sx.RESTRICTED_PENALTY))} points, and a trace of natural flavor no longer blocks an A.</p>
+        <p style="margin-top:.6rem;"><strong>October 1, 2026:</strong> consistency fixes. The same ingredient now scores the same under every spelling (for example gum acacia and acacia fiber, monk fruit and monkfruit), ingredients joined by "and" in one label slot are each scored, and IMO no longer shows a Sugar Alcohols chip.</p>
       </div>
+    </section>
+
+    <!-- Fats and oils -->
+    <section class="content-section" id="fats-oils">
+      <h2>How we score fats and oils</h2>
+      <p>Fats follow the same rule as sugars: <strong>the closer to the whole food, the higher the score.</strong> Nuts and seeds score best. A fat pressed or churned from a single food comes next. Refined oils score below zero, and fats that were fractionated or chemically changed score lowest.</p>
+
+      <table class="score-table">
+        <colgroup>
+          <col style="width:38%"><col style="width:17%"><col>
+        </colgroup>
+        <thead>
+          <tr><th>Type</th><th>Score</th><th>Examples</th></tr>
+        </thead>
+        <tbody>
+{fat_rows}
+        </tbody>
+      </table>
     </section>
 '''
 
@@ -311,7 +376,7 @@ def main():
             if label == 'Maltitol':
                 others = [n for n in sch.lowest if 'maltitol' not in n]
                 assert s == sch.min and 'hydrogenated palm kernel oil' in others
-                d = ('Tied with hydrogenated palm kernel oil for the lowest score in our database. A sugar alcohol with a glycemic '
+                d = ('Tied with hydrogenated oils for the lowest score in our database. A sugar alcohol with a glycemic '
                      'index closer to real sugar than to erythritol, often causing digestive distress, and frequently used in large '
                      'quantities to hit "no sugar added" claims. If you see maltitol leading the list, that\'s an F-grade bar.')
             chips.append(f'''        <div class="chip-row">
@@ -331,8 +396,26 @@ def main():
          f'ingredient position: earlier ingredients are present in larger quantities and contribute more to the final score. '
          f'Artificial sweeteners are the exception: each one costs a flat {abs(int(pen))} points wherever it appears. Ingredients inside '
          f'parentheses count for less, a blend can\'t earn points for every trace item in it, and extra protein sources count at half '
-         f'weight. The total, plus a very small adjustment for ingredient count, becomes the bar\'s ingredient quality score, and a '
-         f'label with no ingredient scoring below zero grades at least an A.'),
+         f'weight. Good ingredients can add at most {int(sx.CREDIT_CAP)} points, while every penalty counts in full. The total, plus a very '
+         f'small adjustment for ingredient count, becomes the bar\'s ingredient quality score. A label with no ingredient scoring below '
+         f'zero grades at least an A, and a bar with an added sugar in its first three ingredients can\'t grade above B.'),
+        ('What does the grade actually measure?',
+         'What a bar is made of, not how much protein, sugar or fat it has. It asks whether a bar is built from real food and quality '
+         'protein or from processed stand-ins. An A means a bar made mostly of whole foods and quality protein, where nothing processed '
+         'or added for sweetness is doing the main work. Use the macro filters in the Bar Finder alongside the grade.'),
+        ('Why can\'t a bar with honey near the top of the label get an A?',
+         'If honey, maple syrup or any other added sugar is one of the first three ingredients, the bar is built on added sugar, so it '
+         'caps at B. Honey still scores better than cane sugar (-1 vs -2) because it is less processed. We follow the FDA\'s definition of '
+         'added sugar, which counts honey and maple syrup when they go into a food, but not dates or whole fruit.'),
+        ('How do you score fats and oils?',
+         'By how processed they are, the same way we score sugars. Nuts and seeds score +2 to +3. Fats pressed or churned from a single '
+         'food, like cocoa butter, olive oil and butter, score +1. Refined oils like canola, sunflower and soybean score -1. Fractionated '
+         'fats like palm oil and MCT oil score -2, palm kernel oil -3, and hydrogenated fats -4.'),
+        ('Which additives get a flat penalty?',
+         f'Artificial sweeteners and restricted additives each cost a bar a flat {abs(int(sx.RESTRICTED_PENALTY))} points, wherever they sit on the '
+         'label. Restricted additives are ones banned or not authorized in the EU, or being revoked or phased out by the FDA: synthetic dyes '
+         'like Red 40, Yellow 5 and Blue 1 (counted once per bar), titanium dioxide, and a few others such as brominated vegetable oil and '
+         'potassium bromate.'),
         ('What do the letter grades mean?',
          'Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is '
          '-3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it '
@@ -359,7 +442,8 @@ def main():
          f'We update the scoring schema as we add new bars and refine how specific ingredients are scored. The current schema covers '
          f'{canon} canonical ingredients, and every bar is rescored whenever it changes. In September 2026 we changed how we score '
          f'sugars, fibers, artificial sweeteners and blends, and in October 2026 we made the same ingredient score the same under '
-         f'every spelling. If you think an ingredient is scored incorrectly, we want '
+         f'every spelling, capped how much good ingredients can add, scored fats by processing, and added the added-sugar and restricted '
+         f'additive rules. If you think an ingredient is scored incorrectly, we want '
          f'to hear about it.'),
         ('Does ingredient quality score reflect taste or nutrition facts?',
          'No. The ingredient quality score reflects only the quality of the ingredients themselves, not macros, taste, or overall '

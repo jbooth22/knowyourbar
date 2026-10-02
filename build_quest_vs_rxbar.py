@@ -88,8 +88,15 @@ SCORECARD = f'''<h2>Quest vs RXBAR at a glance</h2>
 # ---------------------------------------------------------------------------
 P_GAP = round(100 * (SQ['p'] - SR['p']) / SQ['p'])
 HP = [b for b in RB if has_ing(b, 'pea protein')]
-C.check(all(b['score_band'] != 'A' for b in HP) and all(b['score_band'] == 'A' for b in RB if b not in HP),
-        "RXBAR's non-A flavors are exactly the pea-protein (high-protein) flavors")
+# Oats-and-honey flavors: honey is one of the first three ingredients, which caps a bar at B (scoring v14).
+OH = [b for b in RB if b not in HP and has_ing(b, 'honey') and has_ing(b, 'oats')]
+NON_A = HP + OH
+C.check(all(b['score_band'] != 'A' for b in NON_A) and all(b['score_band'] == 'A' for b in RB if b not in NON_A),
+        "RXBAR's non-A flavors are exactly the pea-protein and oats-and-honey flavors")
+NON_A_TXT = (f"The {num_word(len(NON_A))} {grades_slash(NON_A)}-grade flavors are the newer lines: the high-protein flavors add pea protein "
+             f"and agave nectar, and the oats-and-honey flavors have honey as their second ingredient, which caps a bar at B."
+             if OH else
+             f"The {num_word(len(HP))} {grades_slash(HP)}-grade flavors are the newer high-protein line, which adds pea protein and agave nectar.")
 C.check(all(has_ing(b, 'polydextrose') for b in QA_), 'every Quest flavor has polydextrose')
 OVERVIEW = f'''<h2>What makes these two bars different</h2>
     <p>{esc(f"Quest and RXBAR are built on different philosophies. Quest engineers its macros: high protein, very low sugar, and minimal net carbs by using artificial sweeteners and sugar alcohols. That lets it hit {g1(SQ['p'])}g protein at {fnum(round(SQ['cal']))} calories with {g1(SQ['nc'])}g net carbs. The trade-off is ingredient quality, which sits at {grades_slash(QA_).replace(' / ', ' or ')} across all {NQ} flavors.")}</p>
@@ -101,7 +108,7 @@ OVERVIEW = f'''<h2>What makes these two bars different</h2>
     </div>
     <div class="vs-callout brand-b">
       <div class="vs-callout-label">RXBAR</div>
-      {esc(f"RXBAR's classic ingredient list is simple: egg whites, dates, nuts, and not much else. That is why {A_COUNT_R} of {NR} flavors earn an A. The {num_word(len(HP))} {grades_slash(HP)}-grade flavors are the newer high-protein line, which adds pea protein and agave nectar. The cost of the whole-food approach is macros. Dates are high in natural sugar, which is why RXBARs average {g1(SR['sug'])}g sugar and {g1(SR['nc'])}g net carbs. That is fine if you are not tracking net carbs, but it rules them out for keto entirely.")}
+      {esc(f"RXBAR's classic ingredient list is simple: egg whites, dates, nuts, and not much else. That is why {A_COUNT_R} of {NR} flavors earn an A. {NON_A_TXT} The cost of the whole-food approach is macros. Dates are high in natural sugar, which is why RXBARs average {g1(SR['sug'])}g sugar and {g1(SR['nc'])}g net carbs. That is fine if you are not tracking net carbs, but it rules them out for keto entirely.")}
     </div>'''
 
 # ---------------------------------------------------------------------------

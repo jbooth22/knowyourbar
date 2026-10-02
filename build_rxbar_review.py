@@ -60,6 +60,9 @@ def g(bars):
                 ptxt=f'{fnum(ps[0])}g' if len(ps) == 1 else f'{fnum(ps[0])} to {fnum(ps[-1])}g',
                 sh=sum(1 for b in bars if has_tag(b, 'Sweetener Heavy')))
 GO, GH, GOH = g(OR), g(HP), g(OH)
+# Scoring v14: honey in the first three ingredients caps a bar at B.
+OH_CAPPED = all(b['score_band'] == 'B' for b in OH) and all(
+    'honey' in [x.strip().lower() for x in re.split(r',(?![^(]*\))', b['Ingredients'])[:3]][1] for b in OH)
 strongest = max([('original', GO), ('oats', GOH), ('hp', GH)], key=lambda x: x[1]['hi'])[0]
 C.check(GO['sh'] == 0 and GH['sh'] == GH['n'] and GOH['sh'] == GOH['n'],
         'Sweetener Heavy hits every high-protein and oats flavor and none of the originals')
@@ -197,8 +200,10 @@ ov2 = (f"The lineup splits into three groups by protein source, even though RXBA
        f"A higher-protein pair ({names_and(nm(b) for b in HP)}) swaps in pea protein and agave nectar to push protein up to {GH['ptxt']}, "
        f"the highest in the lineup, but that agave shows up early enough in the ingredient list to trip our Sweetener Heavy check, and both grade "
        f"{GH['rng']}. A third group of {GOH['n']} oats-and-honey flavors ({names_and(nm(b) for b in OH)}) carries the least protein at "
-       f"{GOH['ptxt']} and also trips Sweetener Heavy, this time on honey, yet scores {sc_rng(GOH)}"
-       + (", the highest in the lineup." if strongest == 'oats' else ", right alongside the original bars."))
+       f"{GOH['ptxt']} and also trips Sweetener Heavy, this time on honey"
+       + (". Honey is their second ingredient, and an added sugar that high on the label caps a bar at B, so all "
+          f"{num_word(GOH['n'])} grade B." if OH_CAPPED else
+          f", yet scores {sc_rng(GOH)}" + (", the highest in the lineup." if strongest == 'oats' else ", right alongside the original bars.")))
 OVERVIEW = f'''<h2>What the data shows across all {N} RXBAR flavors</h2>
     <p>{esc(ov1)}</p>
     <p>{esc(ov2)}</p>'''
@@ -288,8 +293,9 @@ FAQS = [
      f"original whole-food bars: dates, egg whites, a short ingredient list, and scores of {sc_rng(GO)}. {GH['n']} flavors "
      f"({names_and(nm(b) for b in HP)}) are a high-protein pair built around pea protein and agave nectar, trading a grade step down to "
      f"{GH['rng']} for {fnum(max(GH['p']) - max(GO['p']))}g more protein per bar. The remaining {GOH['n']} flavors are an oats-and-honey group "
-     f"with the lowest protein in the lineup at {GOH['ptxt']}, but they score {sc_rng(GOH)}"
-     + (", the highest in the lineup." if strongest == 'oats' else ", right alongside the original bars.")),
+     f"with the lowest protein in the lineup at {GOH['ptxt']}"
+     + (". Honey is their second ingredient, which caps them at B under our added-sugar rule." if OH_CAPPED else
+        f", but they score {sc_rng(GOH)}" + (", the highest in the lineup." if strongest == 'oats' else ", right alongside the original bars."))),
 ]
 C.check(all(b in HP for b in RB[-2:]), 'the two lowest-graded flavors are the high-protein pair')
 

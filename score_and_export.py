@@ -112,6 +112,42 @@ VEG_OIL_REMAP_CATEGORIES = {'whole_food', 'starch_flour', 'protein', 'cocoa_choc
 BLEND_DIMINISH = 0.5
 # A label with no ingredient scoring below 0 grades at least A (v13 clean-label floor).
 CLEAN_LABEL_FLOOR = 8.0
+
+# ── Scoring v14 (2026-10-02, Jeff approved the thesis) ─────────────────────────
+# What the grade measures: what a bar is made of, not how much of each macro it
+# has. See claude/SCORING_V14_THESIS.md.
+# 1. Good ingredients can add at most CREDIT_CAP points. Penalties always count
+#    in full, so a pile of nuts and seeds can't cancel out a syrup.
+CREDIT_CAP = 10.0
+# 2. The clean-label floor tolerates trace minor concerns: ingredients scored -1
+#    (natural flavors, glycerin, gums...) adding up to no more than this. A
+#    trace "natural flavor" no longer costs a whole grade.
+FLOOR_TOLERANCE = 0.5
+# 3. An added sugar (FDA definition: sugars, syrups, honey, maple syrup, juice
+#    concentrates; not whole fruit or dates, not sugar alcohols or zero-calorie
+#    sweeteners) among the first ADDED_SUGAR_TOP top-level ingredients caps the
+#    grade at B.
+ADDED_SUGAR_TOP = 3
+ADDED_SUGAR_EXCLUDE_SUBCATS = {'sugar_alcohol', 'artificial_sweetener', 'low_calorie_sweetener'}
+CEILING_SCORE = 7.9
+# 4. Restricted additives: banned or not authorized in the EU, or being revoked /
+#    phased out by the FDA. Like artificial sweeteners they are used in
+#    milligrams, so each group costs a flat RESTRICTED_PENALTY wherever it sits.
+RESTRICTED_PENALTY = -2.0
+RESTRICTED_GROUPS = {
+    # FDA phase-out of petroleum-based dyes (2025-2027) and Red No. 3 revocation;
+    # EU requires a hyperactivity warning on most of them. One penalty per bar.
+    'synthetic dyes': re.compile(
+        r'\b(?:fd&c\s*)?(?:red|yellow|blue|green)\s*(?:lake\s*)?(?:no\.?\s*|#\s*)?(?:40|3|5|6|1|2)\b'
+        r'|allura red|tartrazine|sunset yellow|brilliant blue|indigo carmine|erythrosine|citrus red|orange b\b'
+        r'|artificial colou?r'),
+    'titanium dioxide': re.compile(r'titanium dioxide'),                # EU ban 2022
+    'brominated vegetable oil': re.compile(r'brominated vegetable oil'), # FDA revoked 2024
+    'potassium bromate': re.compile(r'potassium bromate'),               # not authorized in the EU
+    'azodicarbonamide': re.compile(r'azodicarbonamide'),                 # not authorized in the EU
+    'propylparaben': re.compile(r'propylparaben'),                       # EU revoked
+    'partially hydrogenated oil': re.compile(r'partially hydrogenated'), # FDA ban (PHOs), 2018
+}
 # "Contains less than 2% of the following: X, Y, Z" (and variants: "and less
 # than 2% of X", "Water and Less than 2%: X", "Less than 2% of each of the
 # following: X") is standard FDA labeling for real minor ingredients — NOT
@@ -223,6 +259,7 @@ def build_lookup(alias_map, canonical):
                 'category': str(row.get('category', 'other')),
                 'base_score': float(row['base_score']) if pd.notna(row['base_score']) else 0,
                 'skip': str(row.get('score_method', '')) in SKIP_METHODS,
+                'subcategory': str(row.get('subcategory', '')),
             }
     for _, row in canonical.iterrows():
         key = normalize(str(row['canonical_name']))
@@ -232,6 +269,7 @@ def build_lookup(alias_map, canonical):
                 'category': str(row.get('category', 'other')),
                 'base_score': float(row['base_score']) if pd.notna(row['base_score']) else 0,
                 'skip': str(row.get('score_method_default', '')) in SKIP_METHODS,
+                'subcategory': str(row.get('subcategory', '')),
             }
     # Duplicate-alias guard (schema v12, 2026-09-23): when the same label
     # name appears on more than one Alias_Map row, only the FIRST row is
@@ -606,6 +644,7 @@ def score_bar(raw, al, cl):
                         'canonical': r['canonical_name'], 'category': r['category'],
                         'score': r['base_score'], 'weighted': r['base_score'] * pw,
                         'position': top_pos, 'is_sub': is_sub, 'compound': True,
+                        'subcategory': r.get('subcategory', ''),
                     })
                 continue
         if res and res.get('skip'):
@@ -619,14 +658,14 @@ def score_bar(raw, al, cl):
         # lookup matched "peanut" -> peanuts (+3) and "sunflower" -> sunflower
         # seeds (+2), crediting an oil blend with whole-food points. Look the
         # sub up as "<name> oil"; if the schema has no fat_oil entry for it,
-        # count it as a neutral oil.
+        # count it as a refined oil (-1 since v14; was a neutral 0).
         if (res and is_sub and VEG_OIL_PARENT_RE.search(parent_norm.get(top_pos, ''))
                 and res['category'] in VEG_OIL_REMAP_CATEGORIES):
             oil = lookup_ingredient(normalize(f'{norm} oil'), al, cl)
             if oil and not oil.get('skip') and oil['category'] == 'fat_oil':
                 res = oil
             else:
-                res = {'canonical_name': f'{norm} oil', 'category': 'fat_oil', 'base_score': 0}
+                res = {'canonical_name': f'{norm} oil', 'category': 'fat_oil', 'base_score': -1}  # v14: an unnamed refined oil
         # One label slot counts each ingredient once (scoring v13, 2026-09-29):
         # a repeat inside the same parenthetical ("Protein Blend (Whey Protein
         # Isolate, ... Whey Protein Cocoa Crisps [Whey Protein Isolate, ...])")
@@ -648,6 +687,7 @@ def score_bar(raw, al, cl):
                 'weighted':  res['base_score'] * pw,
                 'position':  top_pos,
                 'is_sub':    weight_mult < 1.0,
+                'subcategory': res.get('subcategory', ''),
             })
 
     if not matched:
@@ -684,6 +724,20 @@ def score_bar(raw, al, cl):
                     'position': max((m['position'] for m in matched), default=1), 'is_sub': True,
                 })
 
+    # Restricted additives (scoring v14): one flat penalty per group found in the
+    # raw text, regardless of position; their own position-weighted entries are
+    # zeroed so they aren't counted twice.
+    restricted = [g for g, rx in RESTRICTED_GROUPS.items() if rx.search(full_lower)]
+    for m in matched:
+        if any(rx.search(m['canonical'].lower()) for rx in RESTRICTED_GROUPS.values()):
+            m['weighted'] = 0.0
+    for g in restricted:
+        matched.append({
+            'canonical': g, 'category': 'restricted_additive', 'score': RESTRICTED_PENALTY,
+            'weighted': RESTRICTED_PENALTY, 'is_sub': True, 'subcategory': '',
+            'position': max((m['position'] for m in matched), default=1),
+        })
+
     # Diminishing credit inside any blend (scoring v13, 2026-09-29, Jeff approved).
     # A parenthetical is one label position, but every member used to earn its
     # own 0.6 share, so "Dried Whole Food Powders (kale, flax, rose hips, ...
@@ -718,7 +772,9 @@ def score_bar(raw, al, cl):
     # Rounded half up on a cleaned value (2026-10-01): float sums like 7.9499999
     # vs 7.95 made a bar sitting exactly on a grade line round differently from
     # run to run (Jacob Berry 7.95, Kirkland Chocolate Chip Cookie Dough 3.95).
-    final = round_score(sum(m['weighted'] for m in matched) + get_count_adj(top_level_count))
+    credit = min(sum(m['weighted'] for m in matched if m['weighted'] > 0), CREDIT_CAP)
+    penalty = sum(m['weighted'] for m in matched if m['weighted'] < 0)
+    final = round_score(credit + penalty + get_count_adj(top_level_count))
     # Clean-label floor (scoring v13, 2026-09-29, Jeff approved). The score is
     # a sum, so a short label of only top-scoring whole foods ("Cashews, Dates")
     # couldn't add up to an A (5.6) while a longer label with a concern
@@ -726,14 +782,26 @@ def score_bar(raw, al, cl):
     # (no sweetener, oil or additive penalty anywhere, artificial sweeteners
     # included) and the schema knows every ingredient, the bar is at least an
     # A. The displayed score is lifted to the A line so score and grade agree.
-    if unmatched == 0 and all(m['score'] >= 0 and m['weighted'] >= 0 for m in matched):
+    # v14: the floor also tolerates trace minor concerns (only -1 ingredients,
+    # adding up to no more than FLOOR_TOLERANCE).
+    negs = [m for m in matched if m['score'] < 0 or m['weighted'] < 0]
+    minor_only = all(m['score'] == -1 and m['category'] not in ('sweetener', 'restricted_additive') for m in negs)
+    if unmatched == 0 and (not negs or (minor_only and -sum(m['weighted'] for m in negs) <= FLOOR_TOLERANCE)):
         final = max(final, CLEAN_LABEL_FLOOR)
+    # v14: an added sugar among the first three ingredients caps the grade at B.
+    added_sugar_top = [m for m in matched if not m['is_sub'] and m['position'] <= ADDED_SUGAR_TOP
+                       and m['category'] == 'sweetener' and m['score'] <= -1
+                       and m.get('subcategory', '') not in ADDED_SUGAR_EXCLUDE_SUBCATS
+                       and not SA_RE.search(m['canonical'].lower())
+                       and not any(k in m['canonical'].lower() for k in ARTIFICIAL_SW)]
+    if added_sugar_top and final >= CLEAN_LABEL_FLOOR:
+        final = CEILING_SCORE
     band, label = get_band(final)
 
     sm = sorted(matched, key=lambda x: x['weighted'], reverse=True)
     pos_items = [m['canonical'] for m in sm if m['weighted'] > 0.3][:3]
     neg_items = [m['canonical'] for m in sm if m['weighted'] < -0.3][-3:]
-    pos_total = round_score(sum(m['weighted'] for m in matched if m['weighted'] > 0))
+    pos_total = round_score(min(sum(m['weighted'] for m in matched if m['weighted'] > 0), CREDIT_CAP))
     neg_total = round_score(sum(m['weighted'] for m in matched if m['weighted'] < 0))
 
     insight_str = generate_insights(matched, full_lower, top_level_count)
@@ -804,6 +872,11 @@ def generate_insights(matched, full_lower, top_level_count):
     if has_oil:
         insights.append(('Processed Oils', 'concern'))
         severity['Processed Oils'] = 'elevated' if oil_drag > 0.5 else 'minor'
+
+    restricted = [m['canonical'] for m in matched if m['category'] == 'restricted_additive']
+    if restricted:
+        insights.append(('Restricted Additives', 'concern'))
+        severity['Restricted Additives'] = 'elevated'
 
     top3_cats = [m['category'] for m in top_only if m['position'] <= 3]
     if 'sweetener' in top3_cats:

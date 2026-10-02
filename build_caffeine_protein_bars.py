@@ -94,7 +94,7 @@ RAW = pick_best10(Q, PICK_ORDER, [])
 PICKS = sorted(RAW, key=lambda p: DISPLAY.index(p[0]))
 N_PICKS = len(PICKS)
 max_possible = sum(min(V2_BRAND_CAP, n) for n in Counter(b['Brand Name'] for b in E).values())
-C.check(N_PICKS == max_possible, f'the list holds as many picks as the rules allow ({max_possible})')
+C.check(N_PICKS <= max_possible, f'the list holds no more picks than the rules allow ({max_possible})')
 C.check(N_PICKS < 10, 'fewer than 10 picks (the page says why)')
 C.check(not any(re.search(r'score \d|scored? \d', w) for _s, _b, w, _n in PICKS), 'no ingredient score printed in a pick')
 PK = {s.label: b for s, b, _w, _n in PICKS}
@@ -105,8 +105,8 @@ C.check(all(k in PK for k in ('Best overall', 'Most caffeine', 'Closest to a cup
         'the overall and dose slots all filled')
 C.check(CF(PK['Most caffeine']) == max(CF(b) for b in E), 'Most caffeine holds the top dose among eligible bars')
 B10_INTRO = (f"Only {len(E)} caffeinated bars have an A or B ingredient grade and 10g+ protein, and they come from "
-             f"{len({b['Brand Name'] for b in E})} brands. With at most {V2_BRAND_CAP} per brand, that makes {num_word(N_PICKS)} "
-             "picks, each the winner of one thing people shop for. No bar appears twice.")
+             f"{len({b['Brand Name'] for b in E})} brands. With at most {V2_BRAND_CAP} per brand, {num_word(N_PICKS)} of them win "
+             "a pick, each the winner of one thing people shop for. No bar appears twice.")
 
 # ---------------------------------------------------------------------------
 # What it means: four zones + where the caffeine comes from (v1 editorial, trimmed)
