@@ -174,7 +174,7 @@ def guide_count(bars, slug):
 # Grades, certs, links
 # ---------------------------------------------------------------------------
 BAND_ORDER = ['A', 'B', 'C', 'D', 'F']
-GRADE_WORD = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Poor', 'F': 'Avoid'}
+GRADE_WORD = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Mostly Processed', 'F': 'Highly Processed'}
 
 def grade_word(band):
     return GRADE_WORD.get(band, '')
@@ -1779,7 +1779,7 @@ V2_SCRIPT = r'''<script>
     var x = parseFloat(v); if (isNaN(x)) return null;
     return Math.round(x * 10) / 10;
   }
-  var WORD = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Poor', F: 'Avoid' };
+  var WORD = { A: 'Clean', B: 'Good', C: 'Okay', D: 'Mostly Processed', F: 'Highly Processed' };
   var CHIP = { positive: 'chip-positive', concern: 'chip-concern', neutral: 'chip-neutral' };
   var NUTR = [['Calories', 'Calories', ''], ['Protein (g)', 'Protein', 'g'], ['Total Fat (g)', 'Total Fat', 'g'],
     ['Saturated Fat (g)', 'Saturated Fat', 'g'], ['Sodium (mg)', 'Sodium', 'mg'], ['Total Carbohydrates (g)', 'Total Carbs', 'g'],

@@ -1867,7 +1867,7 @@ function openCompareOverlay() {
   history.replaceState(null, '', url.toString());
 
   const BAND_COLORS = { A:'#2a7a1f', B:'#5a8a2f', C:'#b89a00', D:'#c87020', F:'#c83020' };
-  const BAND_LABELS = { A:'Clean', B:'Good', C:'Okay', D:'Poor', F:'Avoid' };
+  const BAND_LABELS = { A:'Clean', B:'Good', C:'Okay', D:'Mostly Processed', F:'Highly Processed' };
   const colCount = bars.length;
 
   // Calculate column width — tighter on mobile

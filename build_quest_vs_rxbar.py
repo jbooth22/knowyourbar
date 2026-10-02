@@ -431,7 +431,7 @@ page = stamp_dates(page, today_iso())
 problems = []
 expected = QA_ + RB
 rows = re.findall(r'toggleIngr\((\d+), this\)">\s*<td class="bar-name-cell">\s*<div class="bar-flavor">(.*?)(?: <span class="top-pick-badge">Top Pick</span>)?</div>.*?'
-                  r'title="(\w+)">(\w)</span></td>\s*<td class="num-cell">([^<]*)</td>', page, re.S)
+                  r'title="([\w ]+)">(\w)</span></td>\s*<td class="num-cell">([^<]*)</td>', page, re.S)
 if len(rows) != len(expected):
     problems.append(f'{len(rows)} flavor rows on page, expected {len(expected)}')
 for idx, fl, word, g, sc in rows:

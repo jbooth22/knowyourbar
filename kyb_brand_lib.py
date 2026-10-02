@@ -448,7 +448,7 @@ def brand_grade_sync(page, brand_bars_list, all_bars, expected=None, bw_lookup=N
     by = {esc(b['Flavor Name']): b for b in brand_bars_list}
     probs = []
     rows = re.findall(r'<tr class="bar-row" onclick="toggleIngr\((\d+), this\)">\s*<td class="col-bar">\s*<div class="bar-flavor">(.*?)</div>.*?'
-                      r'title="(\w+) &middot; score ([^"]*)">(\w)</span>.*?score-band-badge">(\w)</span>.*?score-number">([^<]*)<', page, re.S)
+                      r'title="([\w ]+) &middot; score ([^"]*)">(\w)</span>.*?score-band-badge">(\w)</span>.*?score-number">([^<]*)<', page, re.S)
     seen = set()
     if expected is not None and len(rows) != len(expected):
         probs.append(f'{len(rows)} rows on page, expected {len(expected)}')

@@ -115,7 +115,7 @@ CERT_FIELDS = ['Vegan (Y/N)', 'Gluten Free (Y/N)', 'Dairy Free (Y/N)',
                'Soy Free (Y/N)', 'Non-GMO (Y/N)', 'Nut Free (Y/N)', 'Kosher (Y/N)']
 BOOST_FIELDS = ['Caffeine (mg)', 'Creatine (g)', 'Melatonin (mg)']
 GRADE_ORDER = ['A', 'B', 'C', 'D', 'F']
-GRADE_LABEL = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Poor', 'F': 'Avoid'}
+GRADE_LABEL = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Mostly Processed', 'F': 'Highly Processed'}
 
 
 def report(brand_query, bars_path='bars.js', include_subbrands=False, as_json=False):

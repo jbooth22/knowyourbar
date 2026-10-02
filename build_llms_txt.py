@@ -238,8 +238,8 @@ Every bar is scored with the same ingredient-quality algorithm:
 | A | Clean | >= {bands['A']:.1f} |
 | B | Good | {bands['B']:.1f} to {bands['A'] - 0.1:.1f} |
 | C | Okay | {bands['C']:.1f} to {bands['B'] - 0.1:.1f} |
-| D | Poor | {bands['D']:.1f} to -0.1 |
-| F | Avoid | < {bands['D']:.1f} |
+| D | Mostly Processed | {bands['D']:.1f} to -0.1 |
+| F | Highly Processed | < {bands['D']:.1f} |
 
 **Insight chips** flag specific quality signals on every bar: Quality Protein Source, Whole Food Forward, Short Clean List, Artificial Sweeteners, Sugar Alcohols, Processed Oils, Collagen Protein, Sweetener Heavy, Fortified, Long Ingredient List, Protein Leads.
 
@@ -281,7 +281,7 @@ Flavor-by-flavor ingredient quality breakdowns for major protein bar brands. Eac
 
 ## Guide pages (dietary and lifestyle filters)
 
-Curated bar lists filtered by a specific dietary goal. Each guide leads with a Best 10 (picks for different shoppers) and a ranked Top 50, with ingredient quality grading, macro data, and a Consider/Mixed/Avoid brand breakdown. Every guide states its exact filtering formula in its own FAQ section.
+Curated bar lists filtered by a specific dietary goal. Each guide leads with a Best 10 (picks for different shoppers) and a ranked Top 50, with ingredient quality grading, macro data, and a look at which brands do it well. Every guide states its exact filtering formula in its own FAQ section.
 
 - [Clean Protein Bars]({SITE}/clean-protein-bars): A/B ingredient grade, no artificial sweeteners, no processed oils ({comma(cnt('Clean (A/B grade, no artificial sweeteners, no processed oils)'))} bars)
 - [No Artificial Sweeteners]({SITE}/no-artificial-sweeteners): ({comma(cnt('No Artificial Sweeteners'))} bars)

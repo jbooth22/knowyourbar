@@ -33,7 +33,7 @@ PAGE = 'ingredient-report.html'
 PUBLISHED = '2026-05-01'
 VAR = {4: 'var(--green-best)', 3: 'var(--green-clean)', 2: 'var(--green-good)', 1: 'var(--yellow-okay)', 0: '#888880',
        -1: 'var(--orange-minor)', -2: 'var(--red-concern)', -3: 'var(--red-avoid)', -4: 'var(--red-worst)'}
-VERDICT = {4: 'Best', 3: 'Clean', 2: 'Good', 1: 'Okay', 0: 'Neutral', -1: 'Minor', -2: 'Concern', -3: 'Avoid', -4: 'Worst'}
+VERDICT = {4: 'Best', 3: 'Clean', 2: 'Good', 1: 'Okay', 0: 'Neutral', -1: 'Minor', -2: 'Concern', -3: 'Major concern', -4: 'Worst'}
 WPI = {'whey protein isolate', 'grass-fed whey protein isolate', 'partially hydrolyzed whey protein isolate'}
 EGG = {'egg whites', 'egg white', 'dried egg white', 'egg white protein'}
 NUT_WORDS = ('almond', 'peanut', 'cashew', 'walnut', 'pecan', 'pistachio', 'hazelnut', 'macadamia')

@@ -252,7 +252,7 @@ def main():
         'F': 'Heavy artificial sweeteners, low-quality processed oils, or minimal real nutrition. We include these bars so you can make informed decisions.',
     }
     rng = {'A': '&ge; 8.0', 'B': '4.0 &ndash; 7.9', 'C': '0.0 &ndash; 3.9', 'D': '&ndash;3.0 to &ndash;0.1', 'F': 'Below &ndash;3.0'}
-    lab = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Poor', 'F': 'Avoid'}
+    lab = {'A': 'Clean', 'B': 'Good', 'C': 'Okay', 'D': 'Mostly Processed', 'F': 'Highly Processed'}
     col = {'A': '#2a7a1f', 'B': '#5a8a2f', 'C': '#b89a00', 'D': '#c87020', 'F': '#c83020'}
     band_rows = '\n'.join(f'''          <tr>
             <td><div class="band-pill"><span class="band-dot" style="background:{col[g]}">{g}</span></div></td>
@@ -342,7 +342,7 @@ def main():
     <!-- Fats and oils -->
     <section class="content-section" id="fats-oils">
       <h2>How we score fats and oils</h2>
-      <p>Fats follow the same rule as sugars: <strong>the closer to the whole food, the higher the score.</strong> Nuts and seeds score best. A fat pressed or churned from a single food comes next. Refined oils score below zero, and fats that were fractionated or chemically changed score lowest.</p>
+      <p>Fats follow the same rule as sugars: <strong>the closer to the whole food, the higher the score.</strong> Nuts and seeds score best. A fat pressed or churned from a single food comes next. Refined oils score below zero, and fats that were fractionated or chemically changed score lowest. A positive score means a real-food fat, not that more fat is better: how much fat a bar has is a macro question, and the <a href="/bar-finder">Bar Finder</a> answers that one.</p>
 
       <table class="score-table">
         <colgroup>
@@ -417,8 +417,8 @@ def main():
          'like Red 40, Yellow 5 and Blue 1 (counted once per bar), titanium dioxide, and a few others such as brominated vegetable oil and '
          'potassium bromate.'),
         ('What do the letter grades mean?',
-         'Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Poor) is '
-         '-3 to -0.1, and F (Avoid) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it '
+         'Grades run A through F: A (Clean) means a score of 8 or higher, B (Good) is 4 to 7.9, C (Okay) is 0 to 3.9, D (Mostly Processed) is '
+         '-3 to -0.1, and F (Highly Processed) is below -3. The grades reflect the overall ingredient quality of the bar based on what is in it '
          'and in what quantities.'),
         ('How do you score artificial sweeteners like sucralose?',
          f'Each artificial sweetener ({as_list}) costs a bar a flat {abs(int(pen))} points, no matter where it sits on the label. '

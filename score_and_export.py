@@ -49,8 +49,8 @@ SCORE_BANDS = [
     (8,    float('inf'), 'A', 'Clean'),
     (4,    7.9999,       'B', 'Good'),
     (0,    3.9999,       'C', 'Okay'),
-    (-3,  -0.0001,       'D', 'Poor'),
-    (float('-inf'), -3.0001, 'F', 'Avoid'),
+    (-3,  -0.0001,       'D', 'Mostly Processed'),   # was 'Poor' (2026-10-02)
+    (float('-inf'), -3.0001, 'F', 'Highly Processed'),  # was 'Avoid' (2026-10-02): describe, don't prescribe
 ]
 
 # ── Ingredient signals ────────────────────────────────────────────────────────
@@ -201,7 +201,7 @@ def get_band(score):
     for lo, hi, band, label in SCORE_BANDS:
         if score >= lo:
             return band, label
-    return 'F', 'Avoid'
+    return 'F', 'Highly Processed'
 
 
 def round_score(x):
