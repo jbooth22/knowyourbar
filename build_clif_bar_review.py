@@ -178,9 +178,9 @@ RELATED = f'''
           <div class="explore-more-title">Full Quest Review</div>
           <div class="explore-more-desc">All {counts['Quest']} flavors scored with full ingredient breakdowns and macro data.</div>
         </a>
-        <a href="/low-sugar-high-protein" class="explore-more-card">
-          <div class="explore-more-title">Low Sugar + High Protein Bars</div>
-          <div class="explore-more-desc">Bars ranked for the best protein-to-sugar ratio across our full database.</div>
+        <a href="/clean-protein-bars" class="explore-more-card">
+          <div class="explore-more-title">Clean Protein Bars</div>
+          <div class="explore-more-desc">The best bars with no artificial sweeteners or processed oils, graded B or better.</div>
         </a>
       '''
 
