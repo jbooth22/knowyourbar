@@ -17,6 +17,8 @@ Structural claims go through claims.check(); the build stops if one fails.
 from collections import defaultdict
 from kyb_brand_lib import *
 
+def LINK(href, text): return f'<a href="{href}" class="guide-callout-link">{text}</a>'
+
 PAGE = 'rxbar-review.html'
 BRAND = 'RXBAR'
 URL = 'https://knowyourbar.com/rxbar-review'
@@ -172,8 +174,14 @@ RELATED = '''
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are RXBAR Bars Actually Healthy? We Checked All {N} Flavors'
 H1_HTML = f'Are <em>RXBAR</em> Bars Actually Healthy? We Checked All {N} Flavors'
-DESC = ("We checked the ingredient label on every RXBAR flavor. Most come back an A, real food, no artificial sweeteners or "
-        "sugar alcohol. See how each one scores.")
+# Separate <title> (2026-10-06): the searched question + a plain hook. Article headline stays = H1.
+SUG_AVG_R = round(sum(num(b.get('Sugars (g)')) or 0 for b in RB) / N)
+TITLE = f"Are RX Bars Healthy? Mostly Yes: Real Food, but {SUG_AVG_R}g of Sugar"
+DESC = (f"Mostly yes. Every RXBAR flavor grades an A or B on our A to F ingredient grade, with no artificial sweeteners or "
+        f"sugar alcohol, but sugar averages {SUG_AVG_R}g.")
+C.check(all(b['score_band'] in ('A', 'B') for b in RB), 'meta: every RXBAR flavor grades A or B')
+C.check(no_as_sa(RB), 'meta: no artificial sweeteners or sugar alcohols in any RXBAR flavor')
+C.check(len(DESC) <= 155, f'meta description length {len(DESC)}')
 C.check(GC['A'] > N / 2, 'most RXBAR flavors grade A')
 
 grade_line = f"{GC['A']} of {N} flavors earn an A" + (f", and the other {N - GC['A']} land at {' or '.join(g for g in GRADES_PRESENT if g != 'A')}" if N > GC['A'] else '')
@@ -246,9 +254,22 @@ bl2 = (f"The tradeoff is macros, not ingredients. At {g1(PRO['avg'])}g protein a
        f"the middle of our database on both, well behind protein-forward brands like Quest. Sugar averages {g1(SUGS['avg'])}g per bar, mostly "
        f"from dates, honey, or agave, which ranks in the bottom {SUGS['beats']}% of bars we track for sugar content. Which flavor makes sense for "
        "you depends more on which of RXBAR's three flavor groups fits your goal than on any single \"best\" bar. See the picks below.")
+HP_N = guide_count(ALL, 'high-protein-bars')
+WL_ALL = [b for b in ALL if GUIDE_FILTERS['weight-loss-protein-bars'](b)]
+WL_OK = [b for b in WL_ALL if b['score_band'] in ('A', 'B') and not has_sugar_alcohol(b)]
+MAXP_R = max(num(b.get('Protein (g)')) or 0 for b in RB)
+MINS_R = min(num(b.get('Sugars (g)')) or 0 for b in RB)
+C.check(MAXP_R < 20 and MINS_R > 5, 'no RXBAR reaches 20g protein; every RXBAR has over 5g sugar')
+C.check(not any(GUIDE_FILTERS['weight-loss-protein-bars'](b) or GUIDE_FILTERS['high-protein-bars'](b) for b in RB),
+        'no RXBAR qualifies for the weight loss or high protein guide')
+bl3 = (f"RXBAR tops out at {fnum(MAXP_R)}g of protein, so no flavor reaches the 20g line in our "
+       f"{LINK('/high-protein-bars', 'High Protein guide')} ({comma(HP_N)} bars). And with {fnum(MINS_R)}g of sugar or more in every flavor, "
+       f"none passes the 5g sugar cap in our {LINK('/weight-loss-protein-bars', 'Weight Loss guide')}, where {len(WL_OK)} of the "
+       f"{len(WL_ALL)} bars grade A or B with no sugar alcohol.")
 BOTTOM = f'''<h2>Bottom line on RXBAR</h2>
     <p>{esc(bl1)}</p>
-    <p>{esc(bl2)}</p>'''
+    <p>{esc(bl2)}</p>
+    <p>{bl3}</p>'''
 
 PICKS = f'''<h2>Which RXBAR flavor should you actually buy</h2>
     <p>Since the {N} flavors split across three flavor groups, "best" depends on what you're optimizing for. Here's how the data points by goal.</p>
@@ -300,10 +321,10 @@ FAQS = [
 C.check(all(b in HP for b in RB[-2:]), 'the two lowest-graded flavors are the high-protein pair')
 
 regions = [
-    ('head-meta', head_meta_html(H1_TEXT, DESC)),
+    ('head-meta', head_meta_html(TITLE, DESC)),
     ('jsonld-article', article_jsonld(H1_TEXT, DESC, URL, 'RXBAR', 'https://www.rxbar.com', published=None)),
     ('jsonld-faq', faq_jsonld_brand(FAQS)),
-    ('social', social_html(H1_TEXT, DESC, URL)),
+    ('social', social_html(TITLE, DESC, URL)),
     ('hero', f'<h1 class="hero-title">{H1_HTML}</h1>\n    <p class="hero-sub">{esc(HERO_SUB)}</p>'),
     ('macro', MACRO), ('overview', OVERVIEW), ('grades', GRADES), ('bestworst', BESTWORST), ('patterns', PATTERNS),
     ('table-heading', TABLE_HEADING), ('table-rows', brand_table_html(RB, ALL)), ('bottom', BOTTOM), ('picks', PICKS),

@@ -19,6 +19,8 @@ Structural claims go through claims.check(); the build stops if one fails.
 """
 from kyb_brand_lib import *
 
+def LINK(href, text): return f'<a href="{href}" class="guide-callout-link">{text}</a>'
+
 PAGE = 'kind-bars-review.html'
 BRAND = 'KIND'
 URL = 'https://knowyourbar.com/kind-bars-review'
@@ -161,10 +163,11 @@ RELATED = f'''
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are KIND Bars Healthy? We Ranked All {N} Flavors'
 H1_HTML = f'Are <em>KIND</em> Bars Healthy? We Ranked All {N} Flavors'
-TITLE = f'Are KIND Bars Healthy? {N} Flavors Ranked | Know Your Bar'
-OG_TITLE = f'Are KIND Bars Healthy? {N} Flavors Ranked'
-DESC = (f"KIND grades {GR} across {N} flavors with zero artificial sweeteners or sugar alcohols, but protein averages just "
-        f"{g1(PRO['avg'])}g. Every flavor ranked.")
+TITLE = f"Are KIND Bars Healthy? No Artificial Sweeteners, Just {g1(PRO['avg'])}g Protein"   # title rule 2026-10-06
+OG_TITLE = TITLE
+C.check(no_as_sa(KB), 'title: no artificial sweeteners (or sugar alcohols) in any KIND flavor')
+DESC = (f"Somewhat. KIND skips artificial sweeteners and sugar alcohols and grades {GR} on our A to F ingredient grade, "
+        f"but protein averages just {g1(PRO['avg'])}g.")
 OG_DESC = (f"KIND scored A-F by ingredient quality: {GR} across {N} flavors, no artificial sweeteners, no sugar alcohols. "
            f"Only {num_word(len(AL_BIG))} flavors reach {fnum(MAXP)}g protein.")
 C.check(len(DESC) <= 155, f'meta description length {len(DESC)}')
@@ -241,9 +244,20 @@ bl1 = (f"KIND's real strength is what it leaves out. Every one of the {N} flavor
        f"{SC_['n']} classic nut bars average {g1(SC_['p'])}g and are closer to a snack bar than a protein bar.")
 bl2 = (f"If you're buying KIND for protein, the {fnum(MAXP)}g allulose bars are where that case actually holds up. Start with {nm(pick_best)} if "
        f"ingredient quality is the deciding factor, or {nm(pick_big)} if you want the full {fnum(MAXP)}g protein format at the best available grade.")
+SF_N = guide_count(ALL, 'soy-free-protein-bars')
+WL_N = guide_count(ALL, 'weight-loss-protein-bars')
+K15 = [b for b in KB if P(b) >= 15]
+C.check(all(has_ing(b, 'soy') for b in KB) and not any(GUIDE_FILTERS['soy-free-protein-bars'](b) for b in KB),
+        'every KIND flavor lists soy; none is labeled soy free')
+C.check(not any(GUIDE_FILTERS['weight-loss-protein-bars'](b) for b in KB), 'no KIND flavor passes the weight loss guide')
+bl3 = (f"Every KIND flavor lists soy on the label, so none is soy free; our {LINK('/soy-free-protein-bars', 'Soy Free guide')} ranks the "
+       f"{comma(SF_N)} bars that are. If you want more protein for the calories, our "
+       f"{LINK('/weight-loss-protein-bars', 'Weight Loss guide')} ranks {WL_N} bars with 15g or more in 200 calories or less. "
+       + (f"Only {num_word(len(K15))} KIND flavors reach 15g, and none of them makes that cut." if K15 else "No KIND flavor reaches 15g."))
 BOTTOM = f'''<h2>Bottom line on KIND</h2>
     <p>{esc(bl1)}</p>
-    <p>{esc(bl2)}</p>'''
+    <p>{esc(bl2)}</p>
+    <p>{bl3}</p>'''
 
 PICKS = f'''<h2>Which KIND flavor should you actually buy</h2>
     <p>With a {N}-flavor lineup spanning three different formulas, there isn't one answer to "which KIND bar." Here's how we'd sort it depending on your goals, based on what's actually in the data above rather than the best- or worst-flavor snapshot alone.</p>

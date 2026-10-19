@@ -20,10 +20,12 @@ processed oils), never as a soy penalty.
 Bar Finder: /bar-finder?certs=Soy%20Free (checked key for key below).
 
 Guide slots (picked 2026-09-30; Jeff asked for the best picks delivered without
-an approval round): Best dairy-free, Best gluten-free, Best plant-based, Best
-non-GMO. Fallbacks: Best whey protein, then Highest fiber. Soy-free shoppers are
-mostly allergy shoppers, so the other big allergen labels come first; lowest
-sugar / net carbs / fiber would repeat bars already on 3-4 guides.
+an approval round): Best whey protein, Best gluten-free, Best plant-based, Best
+non-GMO. Fallback: Highest fiber. 2026-10-06 differentiation pass: Best whey
+protein replaced Best dairy-free (Soy Free and Dairy Free read as twins, and the
+old pick was the same B.T.R. bar as dairy-free's Best soy-free; whey is the one
+pick a dairy free guide can never share). Also new: "Soy on the label" and "The
+lecithin swap" sections, a vegan-vs-soy-free finding and three FAQs.
 """
 import re
 from collections import Counter
@@ -93,8 +95,8 @@ SLOTS = [
     slot_protein_per_cal(12),
     slot_lowest_calorie(),
     slot_big_brand(),
-    slot_subset('Best dairy-free', 'Labeled dairy free by the brand.', yes('Dairy Free (Y/N)'),
-                lambda b: 'Labeled soy free and dairy free, the two allergens most protein bars lean on.'),
+    slot_subset('Best whey protein', 'Whey protein on the label.', whey,
+                lambda b: f"Labeled soy free and built on {whey_name(b)}, a complete dairy protein our scoring rates highly."),
     slot_subset('Best gluten-free', 'Labeled gluten free by the brand.', yes('Gluten Free (Y/N)'),
                 lambda b: 'Labeled soy free and gluten free, for anyone avoiding both.'),
     slot_subset('Best plant-based', 'Labeled vegan by the brand.', yes('Vegan (Y/N)'),
@@ -103,8 +105,6 @@ SLOTS = [
                 lambda b: 'Labeled soy free and Non-GMO.'),
 ]
 FALLBACKS = [
-    slot_subset('Best whey protein', 'Whey protein on the label.', whey,
-                lambda b: f"Built on {whey_name(b)}, a complete dairy protein and one of the protein sources our scoring rates highly."),
     slot_highest_fiber(),
 ]
 PICKS = pick_best10(Q, SLOTS, FALLBACKS)
@@ -115,6 +115,51 @@ PK = {s.label: b for s, b, _w, _n in PICKS}
 C.check(not any(any_s(b) or re.search(r'\bsoy', ingr(b), re.I) for _s, b, _w, _n in PICKS), 'no Best 10 pick names any soy ingredient')
 B10_INTRO = ("Ten soy free bars, each the winner of one thing people shop for. Every pick is labeled soy free, has an A or B "
              "ingredient grade and at least 10g of protein, and no bar appears twice.")
+
+# ---------------------------------------------------------------------------
+# Soy on the label (2026-10-06): every named form, database-wide
+# ---------------------------------------------------------------------------
+FORMS = [  # label, regex on the label text (before any "may contain" line)
+    ('Soy lecithin', r'soy lecithin|lecithins?\s*\(soy\)|soya lecithin'),
+    ('Soy protein isolate', r'soy protein isolate|isolated soy protein|soy isolate'),
+    ('Soy crisps or nuggets', r'soy (?:protein )?(?:crisps?|nuggets?)|crisp[^,]{0,25}\(soy|nuggets?[^,]{0,25}\(soy'),
+    ('Soy inside a "protein blend"', r'blend\s*[\(\[][^\)\]]*\bsoy'),
+    ('Soybean oil', r'soybean oil|soy oil'),
+    ('Soy flour', r'soy flour'),
+    ('Roasted soybeans or edamame', r'roasted soy ?beans?|soy ?nuts?|edamame'),
+]
+FORM_HIT = {l: [b for b in ALL if re.search(r, label_text(b), re.I)] for l, r in FORMS}
+C.check(not any(QF(b) and not reviewed_ok(b, 'soy free') for l in FORM_HIT for b in FORM_HIT[l]),
+        'no bar labeled soy free names any soy form in the table')
+C.check(max(FORM_HIT, key=lambda l: len(FORM_HIT[l])) == 'Soy lecithin', 'soy lecithin is the most common form on the label')
+def top_brands(bars, k=2):
+    return names_and([b for b, _ in Counter(x['Brand Name'] for x in bars).most_common(k)])
+FORM_ROWS = '\n'.join(
+    f'<tr><td class="kt-brand">{esc(l)}</td><td class="kt-num">{comma(len(FORM_HIT[l]))}</td>'
+    f'<td class="kt-text">{esc(top_brands(FORM_HIT[l]))}</td></tr>'
+    for l, _ in sorted(FORMS, key=lambda x: -len(FORM_HIT[x[0]])))
+FORM_TABLE = ('<div class="kt-wrap">\n        <table class="kt-table">\n          <thead><tr><th class="kt-brand">On the label</th>'
+              '<th class="kt-num">Bars</th><th class="kt-text">Most often in</th></tr></thead>\n          <tbody>\n'
+              + FORM_ROWS + '\n          </tbody>\n        </table>\n      </div>')
+LEC_RX = r'lecithin'
+SUN_RX = r'sunflower lecithin|lecithins?\s*\(sunflower\)'
+Q_LEC = [b for b in Q if re.search(LEC_RX, label_text(b), re.I)]
+Q_SUN = [b for b in Q_LEC if re.search(SUN_RX, label_text(b), re.I)]
+C.check(Q_LEC and len(Q_SUN) == len(Q_LEC), 'every soy free bar that lists a lecithin uses sunflower lecithin')
+OTHER_SOY = r'soy protein|soy flour|soybean|soy oil|soy crisp|soy nugget|edamame|soy isolate|textured soy|\(soy\b|soy,|soya protein|soy ?nuts?'
+ONLY_LEC = [b for b in D if re.search(FORMS[0][1], label_text(b), re.I)
+            and not re.search(OTHER_SOY, re.sub(FORMS[0][1], '', label_text(b), flags=re.I), re.I)]
+C.check(len(ONLY_LEC) > 50, 'many unlabeled bars have soy lecithin as their only named soy')
+LABEL_HTML = f'''
+      <h3 class="kt-h3" id="soy-on-the-label">Soy on the label: every form we found</h3>
+      <div class="section-body">
+        <p>Soy goes by more names than the three cards above. These are the forms we found by name across the {DB_PUBLIC} bars we track, and how many bars list each one. A bar can list more than one, and none of these shows up on a bar labeled soy free.</p>
+      </div>
+      {FORM_TABLE}
+      <h3 class="kt-h3" id="sunflower-lecithin">The lecithin swap</h3>
+      <div class="section-body">
+        <p>Lecithin is the soy that's easiest to miss: a small amount of emulsifier, often in the coating. Soy free brands don't drop it, they swap it. All {len(Q_LEC)} soy free bars that list a lecithin use sunflower lecithin. On the other side, {len(ONLY_LEC)} bars without the soy free label name soy lecithin as their only soy ingredient, so that one line on the label is what keeps them out.</p>
+      </div>'''
 
 # ---------------------------------------------------------------------------
 # What disqualifies a bar (carried over from v1, trimmed)
@@ -130,6 +175,7 @@ DISQ = f'''
 {chr(10).join(v2_count_card_html(l, HIT[l], NT, DESC_S[l]) for l in ORDER)}
 {v2_count_card_html('Not labeled soy free', UNLAB, NT, "No soy protein, soy lecithin or soybean oil shows up anywhere in the ingredient list we can find, but the brand hasn't labeled the bar soy free either. That is a labeling gap, not proof the bar contains soy.", names=[])}
       </div>
+{LABEL_HTML}
       <h3 class="kt-h3">Is soy bad for you?</h3>
       <div class="section-body">
         <p>Not in our scoring. Soy protein isolate rates as a solid protein source and soy lecithin is neutral, so skipping soy doesn't raise a bar's grade by itself. This guide is for people who avoid soy, usually for an allergy, not a verdict on soy as an ingredient.</p>
@@ -149,6 +195,10 @@ C.check(int(ASQ) < int(ASA) and int(POQ) < int(POA), 'soy free bars carry artifi
 C.check(sum(1 for b in Q if b['score_band'] in 'AB') / N > sum(1 for b in ALL if b['score_band'] in 'AB') / NT,
         'soy free bars grade A or B more often than the database')
 LEC = len(HIT['Soy lecithin'])
+VEG = [b for b in ALL if b.get('Vegan (Y/N)') == 'Yes']
+V_SF = [b for b in VEG if QF(b)]
+V_SP = [b for b in VEG if re.search(r'soy protein|soy isolate|isolated soy|soy crisps?|soy nuggets?|soy flour|textured soy', label_text(b), re.I)]
+C.check(len(V_SF) * 2 < len(VEG) and len(V_SP) >= 20, 'most vegan bars are not labeled soy free; 20+ vegan bars use soy protein')
 INSIGHTS = [
     ('Soy lecithin is the most common soy source, not soy protein.',
      f"{comma(LEC)} bars ({pct0(LEC, NT)}% of the database) name soy lecithin, against {comma(len(HIT['Soy protein']))} with soy "
@@ -156,8 +206,9 @@ INSIGHTS = [
     ('Soy free bars grade better, but not because of the soy.',
      f"{ab(Q)}% of soy free bars grade A or B, against {ab(ALL)}% database-wide. Soy isn't penalized in our scoring. Brands that "
      f"skip soy also tend to skip artificial sweeteners ({ASQ}% vs. {ASA}%) and processed oils ({POQ}% vs. {POA}%)."),
-    ('Many bars without the label have no soy we can find.',
-     f"{comma(len(UNLAB))} of the {comma(ND)} bars without a soy free label name no soy protein, soy lecithin or soybean oil."),
+    ('Plant-based is not the same as soy free.',
+     f"Only {len(V_SF)} of the {len(VEG)} bars labeled vegan are also labeled soy free. {len(V_SP)} vegan bars use soy for their "
+     f"protein, led by {top_brands(V_SP, 3)}."),
 ]
 GRADE_ROWS = [(g, sum(1 for b in Q if b['score_band'] == g), sum(1 for b in ALL if b['score_band'] == g)) for g in BAND_ORDER]
 GRV = {g: round(100 * h / t) for g, h, t in GRADE_ROWS}
@@ -239,6 +290,7 @@ C.check(len(ALLSF) >= 2, 'at least two fully soy free brands')
 SPLIT_EX = min((r for r in CONSIDER + MIXED + AVOID if r['q'] and r['d'] and r['total'] >= 10),
                key=lambda r: (abs(r['q'] / r['total'] - 0.5), -r['total'], r['brand']))
 BEST = PK['Best overall']
+Q_WHEY = [b for b in Q if whey(b)]
 FAQS = [
     ('What makes a protein bar soy free on this site?',
      f'We use the Soy Free (Y/N) label on file for each bar. {of_db(N, NT, True)} bars we track carry that label. We also '
@@ -273,6 +325,17 @@ FAQS = [
      f'to skip artificial sweeteners ({ASQ}% of soy free bars vs. {ASA}% database-wide) and processed oils ({POQ}% vs. {POA}%). '
      f"What soy free bars give up on average is protein: {fnum(round(avg(Q, 'Protein (g)'), 1))}g against "
      f"{fnum(round(avg(ALL, 'Protein (g)'), 1))}g."),
+    ('Are vegan protein bars soy free?',
+     f"Not always. Only {len(V_SF)} of the {len(VEG)} vegan-labeled bars we track are labeled soy free, and {len(V_SP)} use soy "
+     f"for their protein, led by {top_brands(V_SP, 3)}. Plant-based bars lean on soy protein isolate and soy crisps, so check "
+     'the label even when the bar is vegan.'),
+    ('Is sunflower lecithin soy free?',
+     'Yes. Sunflower lecithin comes from sunflower seeds and does the same job as soy lecithin, keeping the bar from separating. '
+     f"All {len(Q_LEC)} soy free bars in our database that list a lecithin use sunflower lecithin."),
+    ('Are there soy free protein bars with whey?',
+     f"Yes. {len(Q_WHEY)} soy free bars use whey, {sum(1 for b in Q_WHEY if b['score_band'] in ('A', 'B'))} of them with an A or "
+     f"B grade. Our pick is {full(PK['Best whey protein'])}: {PK['Best whey protein']['score_band']}-grade ingredients and "
+     f"{fnum(P(PK['Best whey protein']))}g protein."),
     ('Is soy free the same as vegan?',
      'No. A soy free bar just has no soy protein, soy lecithin, or soybean oil. It can still contain whey, milk, honey, egg, or '
      "collagen. Check our Vegan Protein Bars guide separately if that's what you need."),
@@ -287,8 +350,8 @@ C.check(avg(Q, 'Protein (g)') < avg(ALL, 'Protein (g)'), 'soy free bars average 
 # ---------------------------------------------------------------------------
 H1 = 'The 10 Best Soy Free Protein Bars'
 TITLE = f'10 Best Soy Free Protein Bars ({DB_PUBLIC} Checked)'
-DESC = (f'Only {pct0(N, NT)}% of protein bars are labeled soy free. We checked {DB_PUBLIC} for soy protein, soy lecithin and '
-        f'soybean oil. Our 10 best.')
+DESC = (f"Plant-based isn't soy free: {len(V_SP)} vegan protein bars use soy protein. We checked {DB_PUBLIC} bars for every form "
+        "of soy. Our 10 best soy free picks.")
 OG_DESC = (f'{comma(N)} soy free protein bars, checked against the label and the ingredient list. Here are the 10 best, each '
            'picked by a published rule.')
 C.check(len(DESC) <= 155, f'meta description under 155 characters ({len(DESC)})')

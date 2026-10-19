@@ -125,6 +125,8 @@ def main():
         ('/high-protein-bars', 'High protein', '20g+ protein, the 10 best picked by grade'),
         ('/glp1-protein-bars', 'GLP-1 friendly', '15g+ protein, 200 calories or less, zero sugar alcohols, grade A or B'),
         ('/best-bars-for-diabetics', 'Diabetic-friendly', '5g or less sugar, 10g or less net carbs, 5g+ fiber, grade A or B'),
+        ('/dairy-free-protein-bars', 'Dairy free', 'Labeled dairy free, checked for whey, milk and casein'),   # 2026-10-06
+        ('/soy-free-protein-bars', 'Soy free', 'Labeled soy free, checked for soy protein, soy lecithin and soybean oil'),   # 2026-10-06
         ('/caffeine-protein-bars', 'Need a caffeine boost', 'Protein and caffeine in one bar'),
         ('/bar-finder?grade=A', 'Show me the best bars by ingredient quality', f'{comma(G["A"])} A-rated bars, ranked highest first, no filters needed'),
     ]

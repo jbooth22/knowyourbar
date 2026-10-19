@@ -15,6 +15,8 @@ claim listed if a future bars.js makes one false.
 """
 from kyb_brand_lib import *
 
+def LINK(href, text): return f'<a href="{href}" class="guide-callout-link">{text}</a>'
+
 PAGE = 'quest-bars.html'
 BRAND = 'Quest'
 URL = 'https://knowyourbar.com/quest-bars'
@@ -181,9 +183,12 @@ RELATED = '''
 # ---------------------------------------------------------------------------
 H1_TEXT = f"Are Quest Bars Healthy? What's Really In All {N} Flavors"
 H1_HTML = f"Are <em>Quest</em> Bars Healthy? What's Really In All {N} Flavors"
-TITLE = f"Are Quest Bars Healthy? All {N} Flavors Graded, Best to Worst"
-DESC = (f"Are Quest bars good for you? They beat most bars on protein and fiber, but every flavor has sucralose "
-        f"and erythritol. See how all {N} flavors grade.")
+TITLE = f"Are Quest Bars Healthy? High Protein, but Sucralose in All {N}"   # title rule 2026-10-06
+C.check(all(has_ing(b, 'sucralose') for b in QB), 'title: sucralose in every Quest flavor')
+C.check(PRO['top'] <= 33, 'title: Quest is high protein (top third)')
+DESC = (f"Partly. Quest beats most bars on protein and fiber, but all {N} flavors use sucralose and erythritol and grade "
+        f"{range_words(QB)} on our A to F ingredient grade.")
+C.check(all(has_ing(b, 'sucralose') and has_ing(b, 'erythritol') for b in QB), 'meta: sucralose and erythritol in every flavor')
 C.check(PRO['top'] <= 33 and FIBS['top'] <= 33, 'Quest beats most bars on protein and fiber')
 C.check(len(DESC) <= 160, 'meta description length')
 
@@ -264,9 +269,18 @@ bl2 = ("The limitation is just as consistent: artificial sweeteners and sugar al
        "are prioritizing protein and fiber per calorie, Quest is still one of the more macro-efficient options in our database. "
        f"Start with {names_and(nm(b) for b in TOP_BAND)}. {'These ' + num_word(len(TOP_BAND)) + ' score' if len(TOP_BAND) > 1 else 'It scores'} "
        f"highest in the lineup, and none of them carries a processed oil.")
+DF_N = guide_count(ALL, 'dairy-free-protein-bars')
+HP_ALL = [b for b in ALL if GUIDE_FILTERS['high-protein-bars'](b)]
+HP_OK = [b for b in HP_ALL if b['score_band'] in ('A', 'B') and not has_tag(b, 'Artificial Sweeteners')]
+C.check(all(has_ing(b, 'whey') for b in QB), 'every Quest flavor lists whey')
+C.check(not any(GUIDE_FILTERS['dairy-free-protein-bars'](b) for b in QB), 'no Quest flavor is labeled dairy free')
+bl3 = (f"Every Quest flavor lists whey, so none is dairy free; our {LINK('/dairy-free-protein-bars', 'Dairy Free guide')} ranks the "
+       f"{comma(DF_N)} bars that are. If you want Quest-level protein without sucralose, {len(HP_OK)} of the {comma(len(HP_ALL))} bars in "
+       f"our {LINK('/high-protein-bars', 'High Protein guide')} have 20g or more, an A or B grade and no artificial sweetener.")
 BOTTOM = f'''<h2>Bottom line on Quest</h2>
     <p>{esc(bl1)}</p>
-    <p>{esc(bl2)}</p>'''
+    <p>{esc(bl2)}</p>
+    <p>{bl3}</p>'''
 
 PICKS = f'''<h2>Which Quest flavor should you actually buy</h2>
     <p>Every flavor here clears the bar for a genuine protein source and shares the same {GR_OR} ceiling, so these picks come down to secondary tradeoffs: sugar alcohol load, protein ceiling, fiber, and what to skip outright.</p>

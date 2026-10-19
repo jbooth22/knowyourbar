@@ -347,7 +347,7 @@ REGIONS += [
     ('faq', faq_items_html(FAQS)),
     ('author', byline_html()),
     ('explore-more', related_html([
-        ('/clean-protein-bars', 'Clean Protein Bars', 'A or B grade bars with no artificial sweeteners and no processed oils.'),
+        ('/soy-free-protein-bars', 'Soy Free Protein Bars', 'Plant-based isn\'t always soy free. These bars are labeled soy free.'),   # 2026-10-06 (was Clean)
         ('/gluten-free-protein-bars', 'Gluten Free Protein Bars', 'Bars labeled gluten free, checked against the ingredient list.'),
         ('/dairy-free-protein-bars', 'Dairy Free Protein Bars', 'Bars with no whey, milk protein, or other dairy.'),
     ])),

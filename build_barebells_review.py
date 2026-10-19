@@ -20,6 +20,8 @@ is every flavor with Vegan (Y/N) != Yes, the vegan line is Vegan (Y/N) = Yes.
 import re, sys, json
 from kyb_brand_lib import *
 
+def LINK(href, text): return f'<a href="{href}" class="guide-callout-link">{text}</a>'
+
 PAGE = 'barebells-review.html'
 BRAND = 'Barebells'
 URL = 'https://knowyourbar.com/barebells-review'
@@ -245,12 +247,17 @@ COMPARE_HTML = f'''<h2 class="brand-compare-title">How Barebells compares to {es
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are Barebells Bars Healthy? We Ranked All {N} Flavors'
 H1_HTML = f'Are <em>Barebells</em> Bars Healthy? We Ranked All {N} Flavors'
-TITLE = f'Are Barebells Healthy? All {N} Flavors Ranked, Best to Worst'
+# Title rule (Jeff, 2026-10-06): lead with the question people search, then a hook a stranger
+# understands (an ingredient or a number), never our letter grades. Grades go in the meta, with context.
+TITLE = f'Are Barebells Healthy? All {N} Flavors Ranked, Maltitol in Every One'
+check(all(has(b, 'maltitol') for b in BB), 'title: maltitol in every Barebells flavor')
 OG_TITLE = TITLE
 # Optional phrase, not a hard claim (2026-10-02: Birthday Cake, a dairy flavor, now shares the F).
 veg_worst_line = worst_all in veg_grades and worst_all not in {b['score_band'] for b in DAI}
-DESC = (f"Are Barebells good for you? They grade {GR_ALL} on ingredients: top {SUG_ST['top']}% for low sugar, bottom "
-        f"{SA_ST['beats']}% for sugar alcohol. All {N} flavors ranked with macros.")
+DESC = (f"Not really. Barebells keeps sugar low, but every flavor uses maltitol and sucralose, and all {N} grade "
+        f"{GR_ALL} on our A to F ingredient grade.")
+check(all(has(b, 'maltitol') and has(b, 'sucralose') for b in BB), 'meta: maltitol and sucralose in every flavor')
+check(SUG_ST['top'] <= 25, 'meta: Barebells sugar is low (top quarter)')
 OG_DESC = (f"Barebells scored A-F by ingredient quality. Top {SUG_ST['top']}% for lowest sugar, but bottom {SA_ST['beats']}% "
            f"for sugar alcohol. All {N} flavors ranked.")
 check(len(DESC) <= 155, f'meta description under 155 chars ({len(DESC)})')
@@ -362,9 +369,21 @@ bl2 = (f"The bigger decision is which line you're buying. The vegan flavors, {na
        f"If you want Barebells' protein numbers without that gap, start with {nm(BEST)} or {nm(second)}. {nm(BEST)} leads the lineup at "
        f"{BEST['score_band']} grade, and {nm(second)} follows{', also at ' + second['score_band'] if second['score_band'] == BEST['score_band'] else ' at ' + second['score_band']}.")
 check(BEST in DAI and second in DAI, 'the two best flavors are both from the dairy line')
+# Third paragraph (2026-10-06): in-body links to guides Google hadn't indexed, counts from GUIDE_FILTERS.
+SF_N = guide_count(ALL, 'soy-free-protein-bars')
+HP_ALL = [b for b in ALL if GUIDE_FILTERS['high-protein-bars'](b)]
+HP_OK = [b for b in HP_ALL if b['score_band'] in ('A', 'B') and not has_sugar_alcohol(b)]
+BB_SOY = [b for b in BB if has(b, 'soy')]
+check(not any(GUIDE_FILTERS['soy-free-protein-bars'](b) for b in BB), 'no Barebells flavor is labeled soy free')
+check(len(BB_SOY) > N / 2, 'most Barebells flavors list soy')
+bl3 = (f"Shopping around Barebells? None of its {N} flavors is labeled soy free ({len(BB_SOY)} list soy on the label), and our "
+       f"{LINK('/soy-free-protein-bars', 'Soy Free guide')} ranks the {comma(SF_N)} bars that are. If protein is the draw, "
+       f"{len(HP_OK)} of the {comma(len(HP_ALL))} bars in our {LINK('/high-protein-bars', 'High Protein guide')} have 20g or more, "
+       "an A or B grade and no sugar alcohol.")
 BOTTOM = f'''<h2>Bottom line on Barebells</h2>
     <p>{esc(bl1)}</p>
-    <p>{esc(bl2)}</p>'''
+    <p>{esc(bl2)}</p>
+    <p>{bl3}</p>'''
 
 PICKS = f'''<h2>Which Barebells flavor should you actually buy</h2>
     <p>With a {N}-flavor lineup spanning {best_all} to {worst_all}, there isn't one answer to "which Barebells bar." Here's how we'd sort it depending on your goals, based on what's actually in the data above rather than the best- or worst-flavor snapshot alone.</p>

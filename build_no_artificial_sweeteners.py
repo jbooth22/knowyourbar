@@ -386,7 +386,7 @@ REGIONS += [
     ('explore-more', related_html([
         ('/no-sugar-alcohols', 'No Sugar Alcohols', 'Bars that skip maltitol, erythritol, and other sugar alcohols entirely.'),
         ('/clean-protein-bars', 'Clean Protein Bars', 'A or B grade bars with no artificial sweeteners and no processed oils.'),
-        ('/no-seed-oils', 'No Seed Oils', 'Every bar screened for canola, palm, soybean, and other refined oils.'),
+        ('/high-protein-bars', 'High Protein Bars', '20g+ protein bars, with the 10 best picked by grade.'),   # 2026-10-06 (was No Seed Oils)
     ])),
 ]
 

@@ -20,6 +20,8 @@ Structural claims go through claims.check(); the build stops if one fails.
 """
 from kyb_brand_lib import *
 
+def LINK(href, text): return f'<a href="{href}" class="guide-callout-link">{text}</a>'
+
 PAGE = 'clif-bar-review.html'
 URL = 'https://knowyourbar.com/clif-bar-review'
 LINES = ['Clif Builders', 'CLIF Bar', 'Clif ZBar']
@@ -189,10 +191,12 @@ RELATED = f'''
 # ---------------------------------------------------------------------------
 H1_TEXT = f'Are Clif Bars Healthy? We Ranked All {N} Flavors Across 3 Product Lines'
 H1_HTML = f'Are <em>Clif</em> Bars Healthy? We Ranked All {N} Flavors Across 3 Product Lines'
-TITLE = f'Are Clif Bars Healthy? CLIF Bar vs Builders vs ZBar Ranked'
+TITLE = f'Clif Bar vs Z Bar vs Builders: Which Is Healthiest? All {N} Ranked'   # Clif searchers compare lines (2026-10-06)
 OG_TITLE = TITLE
-DESC = (f"CLIF Bar vs Builders vs Kid ZBar: Builders swings {range_words(BU)}, CLIF Bar tops out at {gs(CB)[0]}, "
-        f"ZBar never breaks {gs(ZB)[0]}. All {N} flavors scored.")
+DESC = (f"Mostly not. CLIF Bar grades {range_words(CB)} and Z Bar {range_words(ZB)} on our A to F ingredient grade. Builders is "
+        f"the best line, at {range_words(BU)}. All {N} ranked.")
+C.check(BAND_ORDER.index(gs(BU)[0]) < min(BAND_ORDER.index(gs(CB)[0]), BAND_ORDER.index(gs(ZB)[0])),
+        'meta: Builders has the best top grade of the three lines')
 OG_DESC = (f"Clif is 3 different product lines under one name. We scored all {N} flavors across CLIF Bar, Builders, and Kid ZBar by ingredient quality.")
 ART_DESC = (f"Clif protein bars scored A to F by ingredient quality across all {N} flavors spanning CLIF Bar, Clif Builders, and Clif ZBar. "
             "Full macro breakdown, grade distribution, and best vs. worst flavor callouts.")
@@ -265,9 +269,21 @@ bl2 = ("If you're shopping the Clif lineup specifically for a protein bar, go st
        + (", since the gap between its best and worst flavor is the widest of any brand we've reviewed." if widest else
           f", since its flavors run all the way from {gs(BU)[0]} to {gs(BU)[1]}.")
        + " Don't assume \"Clif\" on the label means the bar you're holding is anything like the others.")
+SF_N = guide_count(ALL, 'soy-free-protein-bars')
+WL_N = guide_count(ALL, 'weight-loss-protein-bars')
+SOYP = [b for b in FAM if has_ing(b, 'soy protein')]
+C200 = [b for b in FAM if (num(b.get('Calories')) or 999) <= 200]
+C.check(all(has_ing(b, 'soy') for b in FAM) and not any(GUIDE_FILTERS['soy-free-protein-bars'](b) for b in FAM),
+        'every Clif flavor lists soy; none is labeled soy free')
+C.check(not any(GUIDE_FILTERS['weight-loss-protein-bars'](b) for b in FAM), 'no Clif flavor passes the weight loss guide')
+bl3 = (f"Every Clif flavor we track lists soy, {len(SOYP)} of {N} as soy protein, so none is soy free; our "
+       f"{LINK('/soy-free-protein-bars', 'Soy Free guide')} ranks the {comma(SF_N)} bars that are. None of the {N} passes our "
+       f"{LINK('/weight-loss-protein-bars', 'Weight Loss guide')} ({WL_N} bars with 15g+ protein in 200 calories or less) either: "
+       f"only {num_word(len(C200))} come in at 200 calories or less.")
 BOTTOM = f'''<h2>Bottom line</h2>
     <p>{esc(bl1)}</p>
-    <p>{esc(bl2)}</p>'''
+    <p>{esc(bl2)}</p>
+    <p>{bl3}</p>'''
 C.check(gs(ZB)[1] == worst_g or band_rank(min(ZB, key=band_rank)) >= band_rank(min(CB, key=band_rank)), 'ZBar is the weakest line')
 
 PICKS = f'''<h2>Which Clif flavor should you actually buy</h2>

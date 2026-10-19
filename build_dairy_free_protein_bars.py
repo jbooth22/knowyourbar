@@ -24,6 +24,12 @@ Guide slots (picked 2026-09-30; Jeff asked for the best picks delivered without
 an approval round): Best soy-free, Best non-GMO, Best gluten-free, Highest
 fiber. Fallbacks: Lowest sugar, then Lowest net carbs. Whey is impossible here;
 lowest sugar / net carbs would repeat IQ Bar Chocolate Mint Chip (on 3 guides).
+
+2026-10-06 differentiation pass (Soy Free and Dairy Free read as twins and
+Google wasn't indexing either): Best 10 unchanged. New editorial: "Dairy on the
+label" table, "Dairy outside the protein" (Perfect Bar), "Is dairy free the same
+as vegan?" with data, finding #2 "Most dairy free bars are not vegan", two FAQs,
+and a meta description led by the not-vegan share.
 """
 import re
 from collections import Counter
@@ -124,6 +130,57 @@ B10_INTRO = ("Ten dairy free bars, each the winner of one thing people shop for.
              "or B ingredient grade and at least 10g of protein, and no bar appears twice.")
 
 # ---------------------------------------------------------------------------
+# Dairy on the label (2026-10-06): every named form, over bars without the label
+# ---------------------------------------------------------------------------
+NB = ''.join(f'(?<!{w} )' for w in ['peanut', 'almond', 'cashew', 'nut', 'seed', 'cocoa', 'cacao', 'coconut', 'shea', 'sunflower',
+                                    'pecan', 'walnut', 'hazelnut', 'macadamia', 'pistachio', 'pumpkin', 'sesame', 'soy', 'apple', 'free', 'vegan'])
+NPM = NOT_PLANT_MILK + r'(?<!free )(?<!vegan )'
+FORMS = [
+    ('Whey', r'\bwhey\b'),
+    ('Milk protein isolate or concentrate', r'milk protein (?:isolate|concentrate)'),
+    ('Casein or caseinate', r'casein'),
+    ('Milk powder or nonfat dry milk', NPM + r'(?:milk powder|dry milk|dried milk|powdered milk|milk solids|(?:nonfat|non-fat|skim|whole) milk)'),
+    ('Butter, cream or milkfat', NB + r'\bbutter\b(?!milk)|' + NPM + r'\bcream\b(?! of tartar)(?! ?flavou?r)|milkfat|milk fat|butterfat|\bghee\b'),
+    ('Yogurt', r'yogh?urt'),
+    ('Milk or white chocolate', NPM + r'milk chocolate|' + NPM + r'white chocolate'),
+    ('Lactose', r'lactose'),
+]
+FORM_HIT = {l: [b for b in D if re.search(r, label_text(b), re.I)] for l, r in FORMS}
+C.check(max(FORM_HIT, key=lambda l: len(FORM_HIT[l])) == 'Whey', 'whey is the most common dairy form on the label')
+def top_brands(bars, k=2):
+    return names_and([b for b, _ in Counter(x['Brand Name'] for x in bars).most_common(k)])
+FORM_TABLE = ('<div class="kt-wrap">\n        <table class="kt-table">\n          <thead><tr><th class="kt-brand">On the label</th>'
+              '<th class="kt-num">Bars</th><th class="kt-text">Most often in</th></tr></thead>\n          <tbody>\n'
+              + '\n'.join(f'<tr><td class="kt-brand">{esc(l)}</td><td class="kt-num">{comma(len(FORM_HIT[l]))}</td>'
+                          f'<td class="kt-text">{esc(top_brands(FORM_HIT[l]))}</td></tr>'
+                          for l, _ in sorted(FORMS, key=lambda x: -len(FORM_HIT[x[0]])))
+              + '\n          </tbody>\n        </table>\n      </div>')
+PROT_RX = r'\bwhey\b|casein|milk protein'
+ANY_DAIRY = '|'.join(r for _l, r in FORMS)
+OUTSIDE = [b for b in D if re.search(ANY_DAIRY, label_text(b), re.I) and not re.search(PROT_RX, label_text(b), re.I)]
+PERFECT = by_brand('Perfect Bar')
+PERFECT_NDM = [b for b in PERFECT if re.search(r'non-?fat dry milk', label_text(b), re.I)]
+C.check(PERFECT and len(PERFECT_NDM) == len(PERFECT) and not any(QF(b) for b in PERFECT),
+        'every Perfect Bar flavor lists nonfat dry milk and none is labeled dairy free')
+C.check(len(OUTSIDE) >= 25, 'a meaningful number of bars carry dairy outside a dairy protein')
+NV = [b for b in Q if b.get('Vegan (Y/N)') != 'Yes']
+NV_WHY = [(l, [b for b in NV if re.search(r, label_text(b), re.I)]) for l, r in [
+    ('honey', r'honey'), ('collagen or gelatin', r'collagen|gelatin'), ('egg', r'\begg'),
+    ('meat', r'beef|chicken|turkey|pork|bison|\bmeat|jerky|bone broth|salmon|tallow')]]
+C.check(len(NV) * 2 > N, 'most dairy free bars are not labeled vegan')
+NV_TXT = names_and([f"{len(NV_WHY[0][1])} list {NV_WHY[0][0]}"] + [f"{len(bs)} {l}" for l, bs in NV_WHY[1:]])
+LABEL_HTML = f'''
+      <h3 class="kt-h3" id="dairy-on-the-label">Dairy on the label: every form we found</h3>
+      <div class="section-body">
+        <p>Dairy goes by more names than whey, milk and casein. These are the forms we found by name in the {comma(ND)} bars without a dairy free label, and how many bars list each one. A bar can list more than one.</p>
+      </div>
+      {FORM_TABLE}
+      <h3 class="kt-h3" id="dairy-outside-the-protein">Dairy outside the protein</h3>
+      <div class="section-body">
+        <p>A bar doesn't need a dairy protein to have dairy in it. {len(OUTSIDE)} bars without the label use no whey, casein or milk protein at all, but still list milk powder, butter, cream, yogurt or a milk chocolate coating. Perfect Bar is the clearest example: all {len(PERFECT)} flavors list nonfat dry milk, so none of them is dairy free.</p>
+      </div>'''
+
+# ---------------------------------------------------------------------------
 # What disqualifies a bar (carried over from v1, trimmed)
 # ---------------------------------------------------------------------------
 VB = names_and(br for br, _n in VEGAN_UNLAB_BRANDS[:3])
@@ -138,13 +195,14 @@ DISQ = f'''
 {chr(10).join(v2_count_card_html(l, HIT[l], NT, DESC_S[l]) for l in ORDER)}
 {v2_count_card_html('Not labeled dairy free', UNLAB, NT, "No whey, milk or casein shows up anywhere in the ingredient list we can find, but the brand hasn't labeled the bar dairy free either. That is a labeling gap, not proof the bar contains dairy.", names=[])}
       </div>
+{LABEL_HTML}
       <h3 class="kt-h3">What about vegan bars?</h3>
       <div class="section-body">
         <p>A vegan bar has no dairy ingredients, but {len(VEGAN_UNLAB)} vegan-labeled bars don't carry a dairy free label, including flavors from {VB}. A brand may skip the dairy free claim because of shared equipment, so we only count the label here. If you avoid dairy as an ingredient rather than for an allergy, our <a href="/vegan-protein-bars">vegan protein bars guide</a> adds those.</p>
       </div>
-      <h3 class="kt-h3">Is dairy free the same as vegan?</h3>
+      <h3 class="kt-h3" id="dairy-free-not-vegan">Is dairy free the same as vegan?</h3>
       <div class="section-body">
-        <p>No. A dairy free bar just has no whey, milk or casein. It can still contain honey, egg white protein, collagen or gelatin, none of which are vegan.</p>
+        <p>No. A dairy free bar just has no dairy. {len(NV)} of the {N} bars labeled dairy free, about {pct0(len(NV), N)}%, aren't labeled vegan. Among those, {NV_TXT}. If you need the bar to be fully plant-based, use our <a href="/vegan-protein-bars">vegan protein bars guide</a>.</p>
       </div>
     </div>
 '''
@@ -164,9 +222,9 @@ INSIGHTS = [
      f"{comma(W)} bars ({pct0(W, NT)}% of the database) name whey directly"
      + (', more than milk or casein on its own.' if W > max(len(HIT['Milk']), len(HIT['Casein'])) else '.')
      + f" Quest is the pattern: all {len(QU)} flavors use whey."),
-    ('Many bars without the label have no dairy we can find.',
-     f"{comma(len(UNLAB))} of the {comma(ND)} bars without a dairy free label name no whey, milk or casein, and "
-     f"{len(VEGAN_UNLAB)} of those are labeled vegan."),
+    ('Most dairy free bars are not vegan.',
+     f"{len(NV)} of the {N} bars labeled dairy free ({pct0(len(NV), N)}%) aren't labeled vegan. Honey, collagen and egg are "
+     f"the usual reasons: {NV_TXT}."),
     ('Dairy free bars grade better but carry less protein.',
      f"{ab(Q)}% of dairy free bars grade A or B, against {ab(ALL)}% database-wide. They average "
      f"{fnum(round(avg(Q, 'Protein (g)'), 1))}g of protein against {fnum(round(avg(ALL, 'Protein (g)'), 1))}g, since most "
@@ -289,8 +347,14 @@ FAQS = [
      f"No. {ab(Q)}% of dairy free bars in our database grade A or B, against {ab(ALL)}% database-wide. What they give up on "
      f"average is protein: dairy free bars average {fnum(round(avg(Q, 'Protein (g)'), 1))}g against a database-wide average "
      f"of {fnum(round(avg(ALL, 'Protein (g)'), 1))}g, since most whey-based bars are built to maximize protein per calorie."),
+    ('Are Perfect Bars dairy free?',
+     f"No. All {len(PERFECT)} Perfect Bar flavors we track list nonfat dry milk, and none carries a dairy free label. Dairy "
+     'in a bar is not always the protein: it can be milk powder, butter, cream or a milk chocolate coating.'),
+    ('Is milk protein isolate dairy?',
+     "Yes. Milk protein isolate and concentrate are made from cow's milk and contain both casein and whey. "
+     f"{len(FORM_HIT['Milk protein isolate or concentrate'])} bars in our database list one, and none of them is labeled dairy free."),
     ('Is dairy free the same as vegan?',
-     'No. A dairy free bar just has no whey, milk, or casein. It can still contain honey, egg white protein, collagen, or '
+     f'No. {len(NV)} of the {N} dairy free bars we track aren\'t labeled vegan. A dairy free bar just has no whey, milk, or casein. It can still contain honey, egg white protein, collagen, or '
      "gelatin, none of which are vegan. Check our Vegan Protein Bars guide separately if that's what you need."),
     ('How often is this list updated?',
      'We update the database whenever new bars are added or a brand reformulates. Manufacturers do change their ingredient '
@@ -302,8 +366,8 @@ FAQS = [
 # ---------------------------------------------------------------------------
 H1 = 'The 10 Best Dairy Free Protein Bars'
 TITLE = f'10 Best Dairy Free Protein Bars ({DB_PUBLIC} Checked)'
-DESC = (f'Only {pct0(N, NT)}% of protein bars are labeled dairy free. We checked {DB_PUBLIC} for whey, milk and casein and '
-        f'picked the 10 best of {comma(N)}.')
+DESC = (f"{pct0(len(NV), N)}% of dairy free protein bars aren't vegan: honey, collagen and egg are common. We checked {DB_PUBLIC} "
+        "bars for every form of dairy. Our 10 best.")
 OG_DESC = (f'{comma(N)} dairy free protein bars, checked against the label and the ingredient list. Here are the 10 best, '
            'each picked by a published rule.')
 C.check(len(DESC) <= 155, f'meta description under 155 characters ({len(DESC)})')

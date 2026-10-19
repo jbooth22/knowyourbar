@@ -525,7 +525,7 @@ REGIONS += [
     ('author', byline_html()),
     ('explore-more', related_html([
         ('/no-artificial-sweeteners', 'No Artificial Sweeteners', 'Bars that skip sucralose, ace-K, and other artificial sweeteners entirely.'),
-        ('/keto-protein-bars', 'Keto Protein Bars', 'Ranked by net carbs, not just marketing claims on the wrapper.'),
+        ('/weight-loss-protein-bars', 'Protein Bars for Weight Loss', '15g+ protein in 200 calories or less, with low sugar and real fiber.'),   # 2026-10-06 (was Keto)
         ('/clean-protein-bars', 'Clean Protein Bars', 'A and B grade bars with no artificial sweeteners and no processed oils.'),
     ])),
 ]

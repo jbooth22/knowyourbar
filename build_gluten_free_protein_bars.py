@@ -330,7 +330,7 @@ REGIONS += [
     ('explore-more', related_html([
         ('/vegan-protein-bars', 'Vegan Protein Bars',
          f"{comma(guide_count(ALL, 'vegan-protein-bars'))} bars with no whey, milk, honey, egg, or gelatin."),
-        ('/no-seed-oils', 'No Seed Oils', 'Bars that skip canola, soybean, and sunflower oil.'),
+        ('/soy-free-protein-bars', 'Soy Free Protein Bars', 'Bars labeled soy free, checked for soy protein, soy lecithin and soybean oil.'),   # 2026-10-06 (was No Seed Oils)
         ('/clean-protein-bars', 'Clean Protein Bars', 'A or B grade bars with no artificial sweeteners and no processed oils.'),
     ])),
 ]
