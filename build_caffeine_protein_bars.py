@@ -153,7 +153,7 @@ VERB_LOWP = [b for b in VERB if P(b) < 10]
 C.check(len(VERB) == max(Counter(b['Brand Name'] for b in Q).values()), 'Verb is the largest caffeinated lineup')
 C.check(len({CF(b) for b in VERB}) == 1, 'every Verb flavor has the same caffeine dose')
 INSIGHTS = [
-    ('Only about 3% of protein bars have any caffeine.',
+    (f'Only about {round(100 * N / NT)}% of protein bars have any caffeine.',
      f"{N} of the {DB_PUBLIC} bars we track list caffeine, from {len(BRANDS_Q)} brands. Most big brands, including Quest and "
      "Barebells, skip it entirely."),
     ('The biggest doses come with the worst ingredients.',
@@ -164,7 +164,7 @@ INSIGHTS = [
      f"{len(LOWP)} of the {N} have under 10g of protein, including {len(VERB_LOWP)} of Verb's {len(VERB)} flavors (all "
      f"{mg(CF(VERB[0]))}). That's why only {len(E)} bars could make our list."),
 ]
-C.check(round(100 * N / NT) == 3, 'caffeinated bars are about 3% of the database')
+C.check(round(100 * N / NT) <= 5, 'caffeinated bars are still a small share of the database ("only about N%")')
 GRADE_ROWS = [(g, GR[g], N) for g in BAND_ORDER]
 C.check(GR['B'] == max(GR.values()), 'B is the most common grade among caffeinated bars')
 FINDINGS = findings_v2_html(f'What we found screening {DB_PUBLIC} bars for caffeine', INSIGHTS,
@@ -210,7 +210,7 @@ C.check(f'The other {len(NONE_BIG)} big brands' in BIG_HTML, 'big-brands note ad
 # ---------------------------------------------------------------------------
 # All N + Bar Finder CTA + criteria
 # ---------------------------------------------------------------------------
-TOP = top50_rows(Q, 50)
+TOP = top50_rows(Q, N)   # every caffeinated bar (51 since database 45, past the old 50 cap)
 C.check(len(TOP) == N, 'the list below shows every caffeinated bar')
 ALL_LIST = top50_html(TOP, h2=f'All {N} protein bars with caffeine',
                       intro='Every bar in our database that lists caffeine. Ranked by ingredient grade first, then by protein '

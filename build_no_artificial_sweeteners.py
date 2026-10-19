@@ -13,8 +13,10 @@ stops and lists it. Ingredient quality is shown and ranked as a GRADE only.
 
 Screen: GUIDE_FILTERS['no-artificial-sweeteners'] (no 'Artificial Sweeteners'
 concern tag). The four sweeteners in the copy are counted by ingredient text.
-Every artificial-sweetener bar in bars.js contains sucralose, so the Bar Finder
-link is /bar-finder?excl=sucralose (same set, checked below).
+Since database 45 (2026-10-19) one bar, Grab1 Chocolate Oat, uses acesulfame
+potassium without sucralose, so the Bar Finder link is
+/bar-finder?excl=sucralose,acesulfame (same set, checked below). The copy names
+the bars that use ace-K alone (ACE_ALONE) instead of saying there are none.
 
 Guide slots (locked with Jeff 2026-09-29): Best stevia or monk fruit (the only
 sweetener: no allulose, no sugar alcohol, no added sugar or syrup), Lowest
@@ -35,9 +37,10 @@ ALL = load_bars()
 QF = GUIDE_FILTERS['no-artificial-sweeteners']
 Q = [b for b in ALL if QF(b)]
 # Bars with neither an artificial sweetener nor a sugar alcohol. Bar Finder:
-# ?preset=no_sugar_alcohol&excl=sucralose (app.js hasSugarAlcohol mirrors has_sugar_alcohol;
-# every artificial-sweetener bar contains sucralose, checked below).
-NEITHER = [b for b in ALL if not has_sugar_alcohol(b) and 'sucralose' not in (b.get('Ingredients') or '').lower()]
+# ?preset=no_sugar_alcohol&excl=sucralose,acesulfame (app.js hasSugarAlcohol mirrors has_sugar_alcohol;
+# no bar uses aspartame or saccharin, checked below).
+NEITHER = [b for b in ALL if not has_sugar_alcohol(b)
+           and not any(w in (b.get('Ingredients') or '').lower() for w in ('sucralose', 'acesulfame'))]
 D = [b for b in ALL if not QF(b)]
 N, ND, NT = len(Q), len(D), len(ALL)
 BRANDS_Q = len({b['Brand Name'] for b in Q})
@@ -60,15 +63,22 @@ SUC_FREE = [b for b in ALL if not has_sw(b, 'Sucralose')]
 PCT_D = pct0(ND, NT)
 ONE_IN = round(NT / len(SUC)) if SUC else 0
 ACE_BRANDS = sorted({b['Brand Name'] for b in ACE})
+ACE_ALONE = [b for b in NON_SUC if not has_sw(b, 'Sucralose')]       # ace-K without sucralose (database 45: Grab1 Chocolate Oat)
+ACE_STACKED = [b for b in ACE if has_sw(b, 'Sucralose')]
+STACK_BRANDS = sorted({b['Brand Name'] for b in ACE_STACKED})
+AS_HREF = '/bar-finder?excl=sucralose,acesulfame'
+AS_FREE = [b for b in ALL if not has_sw(b, 'Sucralose') and not has_sw(b, 'Acesulfame Potassium')]
+SUC_FREE_BRANDS = len({b['Brand Name'] for b in SUC_FREE})
 
 C.check(all(any(has_sw(b, l) for l, _ in SWEETENERS) for b in D) and not any(any(has_sw(b, l) for l, _ in SWEETENERS) for b in Q),
         'the four named sweeteners match the Artificial Sweeteners screen exactly')
-C.check(all(has_sw(b, 'Sucralose') for b in NON_SUC), 'every ace-K / aspartame / saccharin bar also contains sucralose')
-C.check({b['Key'] for b in SUC_FREE} == {b['Key'] for b in Q}, 'sucralose-free set == no-artificial-sweetener set (Bar Finder excl=sucralose)')
-C.check({b['Key'] for b in NEITHER} == {b['Key'] for b in Q if not has_sugar_alcohol(b)}, 'no_sugar_alcohol + excl=sucralose == bars with neither')
-C.check(len(SUC) == ND, 'sucralose is in every disqualified bar')
+C.check(len(ACE_ALONE) == 1 and has_sw(ACE_ALONE[0], 'Acesulfame Potassium'), 'exactly one bar uses acesulfame potassium without sucralose')
+C.check({b['Key'] for b in AS_FREE} == {b['Key'] for b in Q}, 'Bar Finder excl=sucralose,acesulfame == no-artificial-sweetener set')
+C.check(len(SUC_FREE) == N + len(ACE_ALONE), 'sucralose-free bars = guide bars + the ace-K-only bars')
+C.check({b['Key'] for b in NEITHER} == {b['Key'] for b in Q if not has_sugar_alcohol(b)}, 'no_sugar_alcohol + excl=sucralose,acesulfame == bars with neither')
+C.check(len(SUC) == ND - len(ACE_ALONE), 'sucralose is in every disqualified bar except the ace-K-only ones')
 C.check(not HIT['Aspartame'] and not HIT['Saccharin'], 'no aspartame or saccharin bars in the database')
-C.check(len(ACE_BRANDS) == 2, 'exactly two brands use acesulfame potassium')
+C.check(len(ACE_BRANDS) == 3 and len(STACK_BRANDS) == 2, 'three brands use acesulfame potassium, two of them stack it on sucralose')
 
 def link(href, text): return f'<a href="{href}">{text}</a>'
 def by_brand(brand, bars=ALL): return [b for b in bars if b['Brand Name'] == brand]
@@ -159,8 +169,8 @@ MEANS = f'''
         <p>Stevia leaf extract and monk fruit (luo han guo) extract are plant-derived, not synthetic, so they don't count against a bar here. {len([b for b in Q if stevia_mf(b)])} of the {comma(N)} qualifying bars use one of them. If you want to avoid every non-sugar sweetener, including plant-derived ones, check the ingredient list yourself.</p>
         <p>Artificial sweeteners are not the same thing as sugar alcohols either. Erythritol, maltitol, and xylitol are sugar alcohols, a different category with their own digestive tradeoffs, and they show up on a different screen. {len([b for b in Q if not no_sa(b)])} bars on this page skip artificial sweeteners but still contain a sugar alcohol. If that's what you want to avoid, see our {link('/no-sugar-alcohols', 'protein bars without sugar alcohols guide')}. {comma(len(NEITHER))} bars in our database have neither.</p>
       </div>
-      {section_cta_html('/bar-finder?preset=no_sugar_alcohol&excl=sucralose', f'See all {comma(len(NEITHER))} bars with neither &rarr;',
-                        'Opens the Bar Finder with the No Sugar Alcohols filter on and sucralose excluded (every artificial-sweetener bar we track contains it).')}
+      {section_cta_html('/bar-finder?preset=no_sugar_alcohol&excl=sucralose,acesulfame', f'See all {comma(len(NEITHER))} bars with neither &rarr;',
+                        'Opens the Bar Finder with the No Sugar Alcohols filter on and sucralose and acesulfame potassium excluded (no bar we track uses aspartame or saccharin).')}
     </div>
 '''
 
@@ -173,7 +183,7 @@ SUCRALOSE = f'''
       <h2 class="section-title">Protein bars without sucralose</h2>
       <div class="section-body">
         <p>Sucralose, sold under the brand name Splenda, is the artificial sweetener actually driving this guide. It is a chlorinated sugar substitute, roughly 600 times sweeter than table sugar, with zero calories and no effect on blood sugar. People skip it for different reasons: reported digestive discomfort, an aftertaste they don't like, gut microbiome research they've read, or just a preference to avoid synthetic sweeteners entirely.</p>
-        <p>{of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, contain sucralose. We checked whether screening for sucralose on its own produces a different list than screening for all four artificial sweeteners this guide covers. It doesn't. Every bar in our database that contains acesulfame potassium also contains sucralose, and none contain aspartame or saccharin, so protein bars without sucralose and protein bars without artificial sweeteners are the exact same {comma(N)} bars across {BRANDS_Q} brands. The <a href="#best-10">Best 10</a> and <a href="#top-50">Top 50</a> on this page are all sucralose-free.</p>
+        <p>{of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, contain sucralose. We checked whether screening for sucralose on its own produces a different list than screening for all four artificial sweeteners this guide covers. It barely does. {comma(len(SUC_FREE))} bars are sucralose-free: the {comma(N)} bars on this guide plus {full(ACE_ALONE[0])}, the only bar we track that uses acesulfame potassium without sucralose. None contain aspartame or saccharin. The <a href="#best-10">Best 10</a> and <a href="#top-50">Top 50</a> on this page are all sucralose-free.</p>
       </div>
       {section_cta_html(SUC_HREF, f'See all {comma(len(SUC_FREE))} sucralose-free bars in the Bar Finder &rarr;',
                         'Opens the Bar Finder with sucralose excluded. Add your own filters for protein, sugar, calories, grade, or brand.')}
@@ -203,9 +213,10 @@ GRADE_ROWS = [(g, sum(1 for b in D if b['score_band'] == g), sum(1 for b in ALL 
 GR = {g: round(100 * h / t) for g, h, t in GRADE_ROWS}
 C.check(GR['A'] <= GR['B'] <= GR['C'] <= GR['D'] <= GR['F'] and GR['A'] < GR['F'], 'artificial sweetener share never falls with a step down in grade, and F is well above A')
 INSIGHTS = [
-    ('Sucralose is behind every one of them.',
-     f'All {ND} bars that fail this screen contain sucralose. The {len(ACE)} bars with acesulfame potassium, from just '
-     f'{names_and(ACE_BRANDS)}, stack it on top of sucralose, never on its own, and no bar we track uses aspartame or saccharin.'),
+    ('Sucralose is behind nearly every one of them.',
+     f'{len(SUC)} of the {ND} bars that fail this screen contain sucralose. {len(ACE_STACKED)} of the {len(ACE)} bars with '
+     f'acesulfame potassium, from {names_and(STACK_BRANDS)}, stack it on top of sucralose. The one exception is '
+     f'{full(ACE_ALONE[0])}, which uses acesulfame potassium on its own. No bar we track uses aspartame or saccharin.'),
     ('It is usually a named ingredient, not a trace.',
      f'Only {len(TUCKED)} of the {len(SUC)} sucralose bars tuck it into a "contains 2% or less" clause near the end of the '
      f'label. The other {len(NAMED)}, including {full(EXAMPLES[0])} and {full(EXAMPLES[1])}, list it without that qualifier.'),
@@ -267,8 +278,8 @@ T50 = top50_rows(Q, 50)
 TOP50 = top50_html(T50, h2='Top 50 protein bars without artificial sweeteners',
                    intro='Ranked by ingredient grade first, then by protein per calorie. Tap any row for nutrition facts and '
                          'the full ingredient list.')
-FINDER = finder_cta_html(N, SUC_HREF, desc=('The Bar Finder opens with sucralose excluded, which gives the same list as this '
-                                            'guide, since every artificial-sweetener bar we track contains sucralose. Add your '
+FINDER = finder_cta_html(N, AS_HREF, desc=('The Bar Finder opens with sucralose and acesulfame potassium excluded, which gives '
+                                            'the same list as this guide, since no bar we track uses aspartame or saccharin. Add your '
                                             'own filters for protein, sugar, calories, grade, brand, certifications, or '
                                             'ingredients to exclude.'))
 CRITERIA = criteria_html(
@@ -321,7 +332,8 @@ FAQS = [
      "down, and the Bar Finder has all of them."),
     ('Is acesulfame potassium common in protein bars?',
      f"Not especially. It shows up in {len(ACE)} bars, about {g1(100 * len(ACE) / NT)}% of our database, concentrated in "
-     f"just {num_word(len(ACE_BRANDS))} brands, {names_and(ACE_BRANDS)}, and always stacked alongside sucralose rather than used alone."),
+     f"just {num_word(len(ACE_BRANDS))} brands, {names_and(ACE_BRANDS)}. It is almost always stacked alongside sucralose: "
+     f"{full(ACE_ALONE[0])} is the only bar that uses it alone."),
     ('Can a brand have some flavors with artificial sweeteners and some without?',
      f"Yes, and it's common. {MOSTLY_CLEAN['brand']} splits mostly clean: {MOSTLY_CLEAN['q']} of {MOSTLY_CLEAN['total']} "
      f"flavors qualify. {MOSTLY_DISQ['brand']} splits the other way, with {MOSTLY_DISQ['d']} of its {MOSTLY_DISQ['total']} "
@@ -340,9 +352,9 @@ FAQS = [
      f"Yes. {of_db(len(SUC), NT, True)} bars we track, about 1 in {ONE_IN}, list sucralose on the ingredient label. It's "
      "the most common artificial sweetener in the category by a wide margin, see the breakdown above."),
     ("What protein bars don't have sucralose?",
-     f"{comma(N)} bars across {BRANDS_Q} brands are sucralose-free. That's the exact same set as our full "
-     "no-artificial-sweeteners list, since every bar in our database containing acesulfame potassium also contains "
-     "sucralose, and none contain aspartame or saccharin. The Best 10 and Top 50 on this page are all sucralose-free."),
+     f"{comma(len(SUC_FREE))} bars across {SUC_FREE_BRANDS} brands are sucralose-free. That's our full "
+     f"no-artificial-sweeteners list plus {full(ACE_ALONE[0])}, which skips sucralose but uses acesulfame potassium. "
+     "None contain aspartame or saccharin. The Best 10 and Top 50 on this page are all sucralose-free."),
     ('Which brands use sucralose the most?',
      names_and([f"{k} ({len(bybrand_suc[k])} of {len(by_brand(k))} flavors)" for k in TOP_SUC])
      + " lead the list, all using it to hit a low-sugar or high-fiber number across most or all of their lineup."),

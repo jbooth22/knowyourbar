@@ -145,7 +145,7 @@ B10_INTRO = ("Ten clean bars, each the winner of one thing people shop for. Ever
 SA_Q = [b for b in Q if has_sugar_alcohol(b)]
 ERY_Q = [b for b in Q if 'erythritol' in ingr(b).lower()]
 C.check(SA_Q and ERY_Q, 'some clean bars contain a sugar alcohol / erythritol')
-C.check(all(b['score_band'] == 'B' for b in ERY_Q), 'every clean bar with erythritol grades B')
+C.check(all(b['score_band'] in ('A', 'B') for b in ERY_Q), 'every clean bar with erythritol grades B or better')
 LOW_BRANDS = {b['Brand Name'] for b in LOW}
 CARDS = '\n'.join([
     v2_count_card_html('Ingredient grade C or below', LOW, NT,
@@ -321,7 +321,7 @@ FAQS = [
     ('Is erythritol considered a clean ingredient?',
      "It depends on your standard. Erythritol is a sugar alcohol, usually made by fermenting glucose from corn. Our scoring "
      "counts it as a concern, so it pulls a bar's grade down, but it doesn't disqualify a bar from this guide on its own. "
-     f"{len(ERY_Q)} bars with erythritol still earn a B and make this list."),
+     f"{len(ERY_Q)} bars with erythritol still earn a B or better and make this list."),
     ('What protein sources score best?',
      'Egg whites and whey protein isolate rate highest in our scoring, with whey protein concentrate, casein and milk protein '
      'close behind. Plant proteins like pea and brown rice protein rate a step lower but still count in a bar\'s favor. '
