@@ -64,7 +64,12 @@ def main():
         if not b:
             used = {p['Brand Name'] for p in picks} | {f[0] for f in FEATURED}
             b = max((x for x in bars if x['score_band'] == 'A' and x.get('Custom Referral Link') == 'Yes'
-                     and x['Brand Name'] not in used), key=score)
+                     and x['Brand Name'] not in used), key=score, default=None)
+            if b is None:
+                # 2026-10-20: no other referral brand has an A (Gryp lost its only A to the
+                # allulose cap), so fall back to the best A bar with any buy link.
+                b = max((x for x in bars if x['score_band'] == 'A' and partner(x)
+                         and x['Brand Name'] not in used), key=score)
             print(f'NOTE: featured {brand} has no A flavor; showing {b["Brand Name"]} {b["Flavor Name"]} instead')
         picks.append(b)
     picks.sort(key=lambda b: -score(b))

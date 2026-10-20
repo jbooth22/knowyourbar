@@ -130,6 +130,12 @@ FLOOR_TOLERANCE = 0.5
 ADDED_SUGAR_TOP = 3
 ADDED_SUGAR_EXCLUDE_SUBCATS = {'sugar_alcohol', 'artificial_sweetener', 'low_calorie_sweetener'}
 CEILING_SCORE = 7.9
+# 3b. Allulose (2026-10-20, Jeff approved): not an added sugar under the FDA
+#     definition and still scored 0, but when it is one of the first
+#     ADDED_SUGAR_TOP top-level ingredients it is the sweetener doing the main
+#     work, so it caps the grade at B exactly like an added sugar does.
+#     Allulose further down the label is unaffected.
+MAIN_SWEETENER_CAP_RE = re.compile(r'allulose')
 # 4. Restricted additives: banned or not authorized in the EU, or being revoked /
 #    phased out by the FDA. Like artificial sweeteners they are used in
 #    milligrams, so each group costs a flat RESTRICTED_PENALTY wherever it sits.
@@ -794,6 +800,9 @@ def score_bar(raw, al, cl):
                        and m.get('subcategory', '') not in ADDED_SUGAR_EXCLUDE_SUBCATS
                        and not SA_RE.search(m['canonical'].lower())
                        and not any(k in m['canonical'].lower() for k in ARTIFICIAL_SW)]
+    # v14b (2026-10-20): allulose in the first three ingredients caps at B too.
+    added_sugar_top += [m for m in matched if not m['is_sub'] and m['position'] <= ADDED_SUGAR_TOP
+                        and MAIN_SWEETENER_CAP_RE.search(m['canonical'].lower())]
     if added_sugar_top and final >= CLEAN_LABEL_FLOOR:
         final = CEILING_SCORE
     band, label = get_band(final)
@@ -938,6 +947,7 @@ def audit_partial_matches(df, al, cl):
     matched. Each one should get an explicit Alias_Map row. Run on every
     database update; an empty list is the goal."""
     suspects = Counter()
+    guessed = Counter()   # every phrase still scored by a guess (2026-10-20 lock-in: goal is 0)
     for _, row in df.iterrows():
         raw = str(row.get('Ingredients', ''))
         if not raw or raw == 'nan':
@@ -951,6 +961,7 @@ def audit_partial_matches(df, al, cl):
                 continue
             if split_compound(norm, al, cl):
                 continue   # scored as its separate parts (2026-10-01)
+            guessed[(norm, res['canonical_name'], res['base_score'])] += 1
             words = set(norm.split())
             signals = [w for w in PARTIAL_MATCH_SIGNALS if w in words]
             if not signals:
@@ -959,6 +970,16 @@ def audit_partial_matches(df, al, cl):
             if res['category'] in allowed or any(w in res['canonical_name'].lower() for w in signals):
                 continue
             suspects[(norm, res['canonical_name'], res['base_score'])] += 1
+    # Since the 2026-10-20 lock-in every reviewed phrase is an explicit
+    # Alias_Map row, so anything listed here is NEW in this database: review
+    # each one and add a row (keep the guess or correct it).
+    if guessed:
+        print(f'  Guess audit: {len(guessed)} label phrases are new to the schema and scored by a '
+              f'partial-match guess. Review each and add an Alias_Map row:')
+        for (norm, canon, score), n in guessed.most_common():
+            print(f'    {n:3d}x  {norm!r} -> {canon} ({score:+g})')
+    else:
+        print('  Guess audit: every label phrase is in the schema (no guesses).')
     if not suspects:
         print('  Partial-match audit: no suspicious guesses found.')
         return

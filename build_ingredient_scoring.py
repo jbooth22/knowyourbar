@@ -195,7 +195,7 @@ def main():
     calc = f'''      <h3>What the grade measures</h3>
       <p><strong>The grade measures what a bar is made of, not how much protein, sugar or fat it has.</strong> It answers one question: is this bar built from real food and quality protein, or from processed stand-ins? Grams of protein, sugar and fat are a separate question, and the <a href="/bar-finder">Bar Finder</a> and our guides answer that one.</p>
       <p>An A means a bar made mostly of whole foods and quality protein, where nothing processed or added for sweetness is doing the main work. The grade sits next to the macros, not on top of them: a date-sweetened bar can earn an A and still carry plenty of sugar, which is why we show both.</p>
-      <p>Three ideas drive every rule below. The order of the label shows what a bar is made of. The more an ingredient has been processed away from a whole food, the lower it scores, for sugars, fibers and fats alike. And a few guardrails stop one strong ingredient from hiding a weak one.</p>
+      <p>Three ideas drive every rule below. The order of the label shows what a bar is made of. The more an ingredient has been processed away from a whole food, the lower it scores, for sugars, fibers and fats alike. Proteins are the one exception: they are scored on protein quality, how complete and digestible the protein is, which is why a filtered whey isolate or egg whites score higher than nuts. And a few guardrails stop one strong ingredient from hiding a weak one.</p>
 
       <h3>How the score adds up</h3>
       <p>Each bar's ingredient list is parsed into individual ingredients. Every ingredient is mapped to a canonical name and assigned a base score from <strong>&minus;4</strong> (harmful) to <strong>+4</strong> (excellent). The base score is then weighted by ingredient position - ingredients listed first are present in greater quantities, so they contribute more to the final score.</p>
@@ -230,6 +230,7 @@ def main():
       <h3>Two grade guardrails</h3>
       <p><strong>A clean label is at least an A.</strong> Because the score adds up every ingredient, a short label like "cashews, dates" can't add up as high as a longer one. So if no ingredient on a bar's label scores below zero, the bar grades at least an A ({sx.CLEAN_LABEL_FLOOR:.1f}), however short its list. A trace of a minor concern near the end of the label, like natural flavor or a gum adding up to no more than {sx.FLOOR_TOLERANCE:.1f} points, doesn't block it.</p>
       <p><strong>An added sugar in the first {num_word(sx.ADDED_SUGAR_TOP)} ingredients caps a bar at B.</strong> If a sugar, syrup, honey, maple syrup or fruit juice concentrate is one of the first {num_word(sx.ADDED_SUGAR_TOP)} ingredients, the bar is built on added sugar and can't earn an A. We use the FDA's definition of added sugar, which counts honey and maple syrup when they go into a food, but not dates, whole fruit, sugar alcohols or zero-calorie sweeteners.</p>
+      <p><strong>Allulose follows the same rule.</strong> Allulose is a rare sugar the FDA doesn't count as added sugar, and on its own it scores 0. But when it is one of the first {num_word(sx.ADDED_SUGAR_TOP)} ingredients, it is the sweetener doing the main work, so the bar caps at B, the same as one built on added sugar. Allulose further down the label doesn't change the grade.</p>
 
       <h3>Ingredient count adjustment</h3>
       <table class="score-table">
@@ -335,6 +336,7 @@ def main():
         <p><strong>What changed in September 2026 (scoring v12):</strong> sugars now follow the processing scale above (honey and maple syrup went from &minus;2 to &minus;1; dextrose and maltodextrin dropped to &minus;3), soluble corn fiber, resistant dextrin, tapioca fiber and IMO went from 0 or +1 to &minus;1, and artificial sweeteners became a flat &minus;2 each instead of being discounted by label position. The grade bands did not change.</p>
         <p style="margin-top:.6rem;"><strong>Later in September 2026:</strong> blends can no longer earn points for every trace item inside them, extra proteins inside a blend count at half weight like any other extra protein, and a label with no ingredient below zero grades at least an A.</p>
         <p style="margin-top:.6rem;"><strong>October 2, 2026:</strong> the grade now follows one stated idea, what a bar is made of. Good ingredients can add at most +{int(sx.CREDIT_CAP)}, an added sugar in the first three ingredients caps a bar at B, fats are scored by processing like sugars, restricted additives such as synthetic dyes and titanium dioxide cost a flat {abs(int(sx.RESTRICTED_PENALTY))} points, and a trace of natural flavor no longer blocks an A.</p>
+        <p style="margin-top:.6rem;"><strong>October 20, 2026:</strong> allulose in the first three ingredients now caps a bar at B, the same as an added sugar. Every ingredient name on our labels is now written into the scoring list with its own score, so no ingredient is scored by a best guess from a similar name.</p>
         <p style="margin-top:.6rem;"><strong>October 1, 2026:</strong> consistency fixes. The same ingredient now scores the same under every spelling (for example gum acacia and acacia fiber, monk fruit and monkfruit), ingredients joined by "and" in one label slot are each scored, and IMO no longer shows a Sugar Alcohols chip.</p>
       </div>
     </section>
@@ -398,7 +400,7 @@ def main():
          f'parentheses count for less, a blend can\'t earn points for every trace item in it, and extra protein sources count at half '
          f'weight. Good ingredients can add at most {int(sx.CREDIT_CAP)} points, while every penalty counts in full. The total, plus a very '
          f'small adjustment for ingredient count, becomes the bar\'s ingredient quality score. A label with no ingredient scoring below '
-         f'zero grades at least an A, and a bar with an added sugar in its first three ingredients can\'t grade above B.'),
+         f'zero grades at least an A, and a bar with an added sugar or allulose in its first three ingredients can\'t grade above B.'),
         ('What does the grade actually measure?',
          'What a bar is made of, not how much protein, sugar or fat it has. It asks whether a bar is built from real food and quality '
          'protein or from processed stand-ins. An A means a bar made mostly of whole foods and quality protein, where nothing processed '
@@ -407,6 +409,12 @@ def main():
          'If honey, maple syrup or any other added sugar is one of the first three ingredients, the bar is built on added sugar, so it '
          'caps at B. Honey still scores better than cane sugar (-1 vs -2) because it is less processed. We follow the FDA\'s definition of '
          'added sugar, which counts honey and maple syrup when they go into a food, but not dates or whole fruit.'),
+        ('How do you score allulose?',
+         'Allulose is a rare sugar that occurs in tiny amounts in foods like figs, and the allulose in bars is made from corn. It has '
+         'almost no calories, and the FDA doesn\'t count it as sugar or added sugar on the label. On its own it scores 0, neutral, like '
+         'other low-calorie sweeteners. But when allulose is one of the first three ingredients, it is the main sweetener in the bar, so '
+         'the bar can\'t grade above B, the same rule we use for added sugar. A bar that uses a little allulose further down the label '
+         'isn\'t affected.'),
         ('How do you score fats and oils?',
          'By how processed they are, the same way we score sugars. Nuts and seeds score +2 to +3. Fats pressed or churned from a single '
          'food, like cocoa butter, olive oil and butter, score +1. Refined oils like canola, sunflower and soybean score -1. Fractionated '
