@@ -6,7 +6,7 @@ Opens the LIVE page and rewrites only the <!-- kyb:NAME --> regions:
   hero-sub, finder-heading   bar and brand counts
   goals                  goal cards (criteria copied from the guide filters and
                          Bar Finder presets they link to)
-  top-bars               featured A-rated bar cards
+  top-bars               featured example bar cards (any grade)
   grades, highlights     grade distribution box and "what moves the grade"
   stats                  dark-band stats
   faq                    visible FAQ (JSON-LD FAQ is built from the same list)
@@ -16,7 +16,8 @@ Featured bars: FEATURED lists the bars to show (editorial, e.g. referral
 partners). A featured bar is only shown while bars.js grades it A. If it
 isn't A any more, the same brand's highest-scoring A flavor takes its place;
 if the brand has none, the highest-scoring A bar from another referral
-partner brand does. Cards are ordered by ingredient score.
+partner brand does. Cards are ordered by ingredient score. Since 2026-10-20 a
+featured bar is shown at whatever grade it has (the cards are examples).
 
 Run: python3 build_index.py
 """
@@ -28,8 +29,10 @@ from kyb_guide_lib import (load_bars, num, has_tag, score, esc, comma, DB_PUBLIC
 
 PAGE = 'index.html'
 SCHEMA = 'knowyourbar_scoring_schema_v12.xlsx'
-FEATURED = [('Off the Farm', 'Peanut Butter and Jelly'), ('Gryp', 'Rocky Road and Sea Salt'),
-            ('B.T.R. Nation', 'Peanut Butter Crunch')]
+FEATURED = [('Off the Farm', 'Peanut Butter and Jelly'), ('Gryp', 'Peanut Butter Choco Chunk'),
+            ('B.T.R. Nation', 'Cinnamon Cashew Crunch')]
+# 2026-10-20 (Jeff): the cards are examples of what a grade looks like, not an
+# "A list", so a featured bar is shown at whatever grade it has (Gryp is a B).
 GCOL = {'A': '#2a7a1f', 'B': '#5a8a2f', 'C': '#b89a00', 'D': '#c87020', 'F': '#c83020'}
 
 
@@ -57,10 +60,10 @@ def main():
     picks = []
     for brand, flavor in FEATURED:
         b = next((x for x in bars if x['Brand Name'] == brand and x['Flavor Name'] == flavor), None)
-        if not b or b['score_band'] != 'A':
+        if not b:
             b = max((x for x in by.get(brand, []) if x['score_band'] == 'A' and partner(x)), key=score, default=None)
             if b:
-                print(f'NOTE: featured {brand} {flavor} is no longer A; showing {brand} {b["Flavor Name"]} ({score(b):.1f}) instead')
+                print(f'NOTE: featured {brand} {flavor} is not in bars.js; showing {brand} {b["Flavor Name"]} ({score(b):.1f}) instead')
         if not b:
             used = {p['Brand Name'] for p in picks} | {f[0] for f in FEATURED}
             b = max((x for x in bars if x['score_band'] == 'A' and x.get('Custom Referral Link') == 'Yes'
@@ -114,7 +117,7 @@ def main():
         </div>
       </div>'''
     for b in picks:
-        cl.check(b['score_band'] == 'A', f'featured {b["Brand Name"]} {b["Flavor Name"]} is A')
+        cl.check(b['score_band'] in ('A', 'B'), f'featured {b["Brand Name"]} {b["Flavor Name"]} is B or better')
     top_bars = ('    <div class="top-bars-grid">\n\n' + '\n\n'.join(card(n, b) for n, b in enumerate(picks, 1))
                 + f'\n\n    </div>\n    <div class="top-bars-caption">Ordered by ingredient score. '
                   f'<a href="/bar-finder?grade=A">See all {comma(G["A"])} A-rated bars &rarr;</a></div>')
