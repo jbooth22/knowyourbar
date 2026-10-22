@@ -202,7 +202,10 @@ def main():
     cl.check(ranked[0] == 'salt', 'salt is the most common ingredient')
     cl.check(pko > B('sucralose'), 'palm kernel oil is in more bars than sucralose')
     plus3 = sorted((k for k in listed if S(k) >= 3), key=lambda k: -B(k))
-    cl.check(plus3[0] == 'whey protein isolate', 'whey isolate is the most common +3-or-better ingredient')
+    cl.check(len(plus3) >= 4, 'at least four +3-or-better ingredients for the top-rated finding')
+    def _nm(k):
+        return k.replace('whey protein concentrate', 'whey concentrate').replace('whey protein isolate', 'whey isolate')
+    _lead = _nm(plus3[0]); _pl = plus3[0].endswith('s')
     prev = '\n'.join(f'''          <div class="prev-row">
             <div class="prev-name">{esc(k[:1].upper() + k[1:])}</div>
             <div class="prev-track"><div class="prev-fill" style="width:{pc(B(k))}%;background:{VAR[S(k)]};"></div></div>
@@ -218,8 +221,8 @@ def main():
                                                             f'sucralose (-2) at {comma(B("sucralose"))}. The difference is visibility: '
                                                             f'sucralose is listed directly, while in {comma(pko_sub)} of the palm kernel '
                                                             f'oil bars it only shows up inside a compound ingredient.'),
-        ('Whey isolate is the most common top-rated ingredient.', 'Among ingredients scoring +3 or better, whey protein isolate '
-                                                                   f'appears most often: {comma(B(plus3[0]))} bars, followed by '
+        (f'{_lead[:1].upper() + _lead[1:]} {"are" if _pl else "is"} the most common top-rated ingredient.',
+         f'Among ingredients scoring +3 or better, {_lead} {"appear" if _pl else "appears"} most often: {comma(B(plus3[0]))} bars, followed by '
                                                                    + ', '.join(f'{k.replace("whey protein concentrate", "whey concentrate")} ({comma(B(k))})' for k in plus3[1:3])
                                                                    + f', and {plus3[3].replace("whey protein concentrate", "whey concentrate")} ({comma(B(plus3[3]))}).'),
     ]

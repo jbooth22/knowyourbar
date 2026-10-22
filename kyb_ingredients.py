@@ -50,6 +50,7 @@ PUBLIC_DESC = {
     'oligofructose': 'Plant-extracted fiber from chicory or inulin, scored the same as fructooligosaccharides',
     'agave inulin': 'Inulin fiber extracted from agave, scored the same as inulin',
     'acesulfame potassium': 'Artificial sweetener; every artificial sweetener carries the same flat -2',
+    'tart cherries': 'Whole fruit, scored the same as tart cherry',
 }
 INTERNAL = re.compile(r'\[|\bv1\d|\b20\d\d-\d\d|misfil|\bwas\b|\bwere\b|corrected|schema|alias|canonical|unclassified|'
                       r'plural of|set to|database update|matched to', re.I)
