@@ -380,10 +380,28 @@ bl3 = (f"Shopping around Barebells? None of its {N} flavors is labeled soy free 
        f"{LINK('/soy-free-protein-bars', 'Soy Free guide')} ranks the {comma(SF_N)} bars that are. If protein is the draw, "
        f"{len(HP_OK)} of the {comma(len(HP_ALL))} bars in our {LINK('/high-protein-bars', 'High Protein guide')} have 20g or more, "
        "an A or B grade and no sugar alcohol.")
+# Diet and allergy answers (2026-10-23): GSC shows "are barebells keto friendly"
+# and "are barebells good for diabetics" impressions; answer them here with
+# in-body links to the guides that need them. Every count from GUIDE_FILTERS.
+def _gn(slug): return guide_count(ALL, slug)
+BB_NC = [net_carbs(b) for b in BB if net_carbs(b) is not None]
+BB_MALT = [b for b in BB if has(b, 'maltitol')]
+BB_NUTS = [b for b in BB if re.search(r'peanut|almond|cashew|hazelnut|walnut|pecan|pistachio|macadamia', ingr(b), re.I)]
+BB_WL = [b for b in BB if GUIDE_FILTERS['weight-loss-protein-bars'](b)]
+for _slug in ('keto-protein-bars', 'best-bars-for-diabetics', 'gluten-free-protein-bars', 'dairy-free-protein-bars', 'nut-free-protein-bars'):
+    check(not any(GUIDE_FILTERS[_slug](b) for b in BB), f'no Barebells flavor passes {_slug}')
+check(len(BB_MALT) == N, 'every Barebells flavor uses maltitol')
+check(len(BB_NC) == N and BB_WL, 'net carbs known for every flavor; some pass weight loss')
+DIET = f'''<h3 id="barebells-diets">Is Barebells keto, gluten free or good for diabetics?</h3>
+    <p><strong>Keto:</strong> no. Barebells flavors run {fnum(min(BB_NC))} to {fnum(max(BB_NC))}g net carbs (with sugar alcohol fully subtracted), and every one uses maltitol, which our {LINK('/keto-protein-bars', 'Keto guide')} screens out. That guide ranks the {comma(_gn('keto-protein-bars'))} bars that pass.</p>
+    <p><strong>Diabetes:</strong> none pass our screen, for the same reason: maltitol raises blood sugar more than most other sugar alcohols. Our {LINK('/best-bars-for-diabetics', 'guide for diabetics')} ranks the {comma(_gn('best-bars-for-diabetics'))} bars that pass on sugar, net carbs, fiber, protein and grade.</p>
+    <p><strong>Allergies and labels:</strong> none of the {N} flavors is labeled gluten free, dairy free or nut free, and {len(BB_NUTS)} list peanuts or tree nuts. See our {LINK('/gluten-free-protein-bars', 'Gluten Free')} ({comma(_gn('gluten-free-protein-bars'))} bars), {LINK('/dairy-free-protein-bars', 'Dairy Free')} ({comma(_gn('dairy-free-protein-bars'))} bars) and {LINK('/nut-free-protein-bars', 'Nut Free')} ({comma(_gn('nut-free-protein-bars'))} bars) guides.</p>
+    <p><strong>Weight loss:</strong> {len(BB_WL)} of the {N} flavors pass our {LINK('/weight-loss-protein-bars', 'Weight Loss guide')}'s screen: 15g+ protein in 200 calories or less, with 5g of sugar or less and 3g+ fiber. {'Most' if sum(1 for b in BB if b not in BB_WL and CAL(b) > 200) * 2 > N - len(BB_WL) else 'Some'} of the rest are over 200 calories.</p>'''
 BOTTOM = f'''<h2>Bottom line on Barebells</h2>
     <p>{esc(bl1)}</p>
     <p>{esc(bl2)}</p>
-    <p>{bl3}</p>'''
+    <p>{bl3}</p>
+    {DIET}'''
 
 PICKS = f'''<h2>Which Barebells flavor should you actually buy</h2>
     <p>With a {N}-flavor lineup spanning {best_all} to {worst_all}, there isn't one answer to "which Barebells bar." Here's how we'd sort it depending on your goals, based on what's actually in the data above rather than the best- or worst-flavor snapshot alone.</p>

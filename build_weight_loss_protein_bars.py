@@ -307,6 +307,11 @@ FAQS = [
      + (f" (it uses a sugar alcohol, {fnum(SA(BEST))}g on the label)" if sa_any(BEST) else '') + '. '
      f"For the most protein, {full(HP)} has {fnum(P(HP))}g in {fnum(CAL(HP))} calories. Every bar in our Best 10 passes all "
      "four checks with an A or B grade."),
+    ('What is the best protein bar under 200 calories?',
+     f"Every bar in this guide has 200 calories or less. By our rules the best is {full(BEST)}: {fnum(CAL(BEST))} calories, "
+     f"{fnum(P(BEST))}g protein and {BEST['score_band']}-grade ingredients. For the most protein under 200 calories, {full(HP)} "
+     f"has {fnum(P(HP))}g in {fnum(CAL(HP))} calories. {of_db(N, NT)} bars have 15g+ protein in 200 calories or less with 5g of "
+     "sugar or less and 3g+ fiber."),
     ('Are protein bars good for weight loss?',
      'They can be, when a bar replaces a snack or a meal you would have eaten anyway and it is filling for its calories. Many '
      f"are not: {pct0(FAIL['cal'], NT)}% of the bars we track are over 200 calories, and the average bar has "
@@ -336,8 +341,10 @@ FAQS = [
 # ---------------------------------------------------------------------------
 # Regions
 # ---------------------------------------------------------------------------
-H1 = 'The 10 Best Protein Bars for Weight Loss'
-TITLE = f'10 Best Protein Bars for Weight Loss ({DB_PUBLIC} Checked)'
+H1 = 'The 10 Best Protein Bars for Weight Loss, All 200 Calories or Less'
+TITLE = '10 Best Protein Bars for Weight Loss (200 Calories or Less)'   # 2026-10-23: under-200 angle
+C.check(len(TITLE) <= 60, f'title under 60 characters ({len(TITLE)})')
+C.check(all(CAL(b) <= 200 for b in Q), 'every qualifying bar is 200 calories or less')
 DESC = (f'Only {N} of {DB_PUBLIC} protein bars have 15g+ protein in 200 calories or less with low sugar and real fiber. '
         'Our 10 best for weight loss.')
 OG_DESC = (f'We screened {DB_PUBLIC} protein bars for protein, calories, sugar and fiber. {comma(N)} pass all four. Here are '

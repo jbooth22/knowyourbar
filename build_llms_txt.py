@@ -101,6 +101,7 @@ def main():
         ('Weight Loss (15g+ protein, <=200 cal, <=5g sugar, 3g+ fiber)', GUIDE_FILTERS['weight-loss-protein-bars']),
         ('High Protein (20g+ per bar)', GUIDE_FILTERS['high-protein-bars']),
         ('Creatine (any declared amount)', GUIDE_FILTERS['creatine-protein-bars']),
+        ('Nut Free', GUIDE_FILTERS['nut-free-protein-bars']),
     ]
     C = {name: crit(f) for name, f in rows}
     table = '\n'.join(f'| {name} | {comma(C[name][0])} | {pct1(C[name][0], N)} | {C[name][1]} |'
@@ -302,6 +303,7 @@ Curated bar lists filtered by a specific dietary goal. Each guide leads with a B
 - [Creatine Protein Bars]({SITE}/creatine-protein-bars): any declared creatine amount. Only {len(cr)} bars from {brands_of(cr)} brands qualify, so the page picks the best of them (A or B grade, 10g+ protein), lists every one, and groups doses into two tiers: a clinical 3-5g dose ({len(clin)} bars, {brands_of(clin)} brands) and a trace {tr_lo:g}-{tr_hi:g}g dose ({len(trace)} bars, {brands_of(trace)} brands).{' The only A-grade creatine bars carry a trace dose.' if trace_higher else ''}
 - [Soy Free Protein Bars]({SITE}/soy-free-protein-bars): Soy Free (Y/N) certification field, {of_db(len(sf), N)} bars ({pct0(len(sf), N)}). Soy free bars grade A/B at a notably higher rate than the database average ({pct0(AB(sf), len(sf))} vs. {pct0(AB(bars), N)}), driven by fewer artificial sweeteners and processed oils, not by soy itself being penalized (soy protein isolate scores positively).
 - [Kosher Protein Bars]({SITE}/kosher-protein-bars): Kosher (Y/N) certification field, {of_db(len(ks), N)} bars ({pct0(len(ks), N)}). Kosher is a supervised-process claim, not primarily an ingredient screen: only {pct0(nk_flag, len(nk))} of non-kosher bars contain an identifiable non-kosher ingredient (gelatin, confectioner's glaze/shellac, or carmine/rennet); the rest simply haven't pursued certification. Kosher bars grade {kosher_word} the database average ({pct0(AB(ks), len(ks))} A/B vs. {pct0(AB(bars), N)}).
+- [Nut Free Protein Bars]({SITE}/nut-free-protein-bars): ({comma(cnt('Nut Free'))} bars) - Nut Free (Y/N) label, cross-checked so no qualifying bar names a peanut or tree nut; coconut is not counted as a tree nut
 - [Low Sugar + High Protein]({SITE}/low-sugar-high-protein): merged into the Keto and Best Bars for Diabetics guides, which filter for low sugar and high protein plus the criteria that matter for each goal. The criterion itself ({comma(cnt('Low Sugar + High Protein (<=5g sugar, 15g+ protein)'))} bars) is still reachable through the Bar Finder sliders (`?sugar=5&protein=15`).
 
 ---

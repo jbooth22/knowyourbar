@@ -162,6 +162,7 @@
     if (el.closest('.cmp-bar-header-cell')) return 'compare';
     if (el.closest('.top-bar-card')) return 'home_top_card';
     if (el.closest('.bw-card')) return 'best_worst_card';
+    if (el.closest('.b10-amazon')) return 'best_on_amazon';
     if (el.closest('.pick-tile')) return pageType() === 'brand' ? 'alternatives' : 'top_picks';
     if (el.closest('table.brand-table')) return 'summary_table';
     if (el.closest('.bar-row')) return 'table_row';

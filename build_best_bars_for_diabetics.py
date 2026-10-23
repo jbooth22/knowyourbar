@@ -380,7 +380,8 @@ FAQS = [
 # Regions
 # ---------------------------------------------------------------------------
 H1 = 'The 10 Best Protein Bars for Diabetics'
-TITLE = f'10 Best Protein Bars for Diabetics ({DB_PUBLIC} Checked)'
+TITLE = f'Best Protein Bars for Diabetics: Only {comma(N)} of {DB_PUBLIC} Passed'   # 2026-10-23: count back in (CTR fell after it was dropped 9/30)
+C.check(len(TITLE) <= 60, f'title under 60 characters ({len(TITLE)})')
 DESC = (f'{LOWS_M}% of low-sugar protein bars still hide maltitol. We screened {DB_PUBLIC} for sugar, net carbs, fiber and '
         f'more. Our 10 best from {comma(N)} that pass.')
 OG_DESC = (f'We screened {DB_PUBLIC} protein bars for sugar, net carbs, fiber, protein, ingredient grade and maltitol. '

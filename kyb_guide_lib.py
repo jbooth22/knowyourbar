@@ -1328,6 +1328,8 @@ V2_BRAND_CAP = 2   # max Best 10 slots per brand (Jeff, 2026-09-29: was 3; Fello
 def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=V2_BRAND_CAP):
     """Returns [(slot, bar, why, pool_size)]. No bar repeats on the page, at
     most brand_cap slots per brand, empty slots replaced from fallbacks."""
+    global AMAZON_ALT
+    AMAZON_ALT = None
     E = v2_eligible(qualify, floor)
     used, brands, out = set(), defaultdict(int), []
     queue, fb = list(slots), list(fallbacks)
@@ -1351,7 +1353,47 @@ def pick_best10(qualify, slots, fallbacks=(), floor=10, brand_cap=V2_BRAND_CAP):
             b = cand[0]
             out.append((s, b, _why_honest(s, pool, b, cand, used, brands, brand_cap), len(pool)))
             used.add(b['Key']); brands[b['Brand Name']] += 1
+    # Best on Amazon (Jeff, 2026-10-23): when the Best overall pick has no
+    # Amazon listing, the page also shows the best bar you can order there,
+    # by the same Best overall rule. It sits outside the numbered list and
+    # never replaces a pick (best10_html / criteria_html render it).
+    if out and out[0][0].label == 'Best overall' and not amazon_url(out[0][1]):
+        bo = out[0][0]
+        az_pool = [b for b in bo.pool(E) if amazon_url(b)]
+        if az_pool:
+            AMAZON_ALT = {'bar': min(az_pool, key=bo.key), 'over': out[0][1], 'pool': len(az_pool)}
     return out
+
+AMAZON_ALT = None   # set by pick_best10(); read by best10_html() and criteria_html()
+
+def amazon_alt_card_html(picks):
+    """The 'Best on Amazon' card shown right after Best overall, or a one-line
+    pointer inside the Best overall card when that bar is already a numbered pick."""
+    alt = AMAZON_ALT
+    if not alt:
+        return '', ''
+    b, over = alt['bar'], alt['over']
+    for i, (_s, pb, _w, _n) in enumerate(picks, 1):
+        if pb['Key'] == b['Key']:
+            return '', (f'<p class="pick-tile-reason b10-amz-note">No Amazon listing for this bar. The best pick here you can '
+                        f'order on Amazon is <a href="#pick-{i}">#{i}, {esc(full(b))}</a>.</p>')
+    g = b['score_band']
+    why = (f"{full(over)} has no Amazon listing. This is the best bar here you can order on Amazon, by the same rule: "
+           f"{g}-grade ingredients, {fnum(P(b))}g protein for {fnum(CAL(b))} calories ({fnum(p100(b))}g per 100 calories).")
+    mac = ''.join(f'<div class="b10-macro"><span class="b10-macro-val">{f(b)}</span>'
+                  f'<span class="b10-macro-lbl">{esc(l)}</span></div>' for l, f in DEFAULT_CARD_MACROS)
+    card = f'''<div class="macro-card pick-tile b10-card b10-amazon" id="pick-amazon">
+  <div class="pick-tile-body">
+    <div class="pick-tile-category">Best on Amazon</div>
+    <div class="pick-tile-brand">{esc(b['Brand Name'])}</div>
+    <div class="pick-tile-flavor-name">{esc(b['Flavor Name'])}</div>
+    <div class="pick-tile-quality"><span class="pick-tile-quality-label">Ingredient Quality</span><span class="table-grade-badge grade-{g}">{g}</span><span class="pick-tile-quality-word">{grade_word(g)}</span></div>
+    <div class="b10-macros">{mac}</div>
+    <p class="pick-tile-reason">{esc(why)}</p>
+  </div>
+  <div class="pick-tile-footer"><div class="bar-links">{v2_buy_html(b)}</div></div>
+</div>'''
+    return card, ''
 
 # ---- v2 markup -------------------------------------------------------------
 DEFAULT_CARD_MACROS = [('Protein', lambda b: f'{fnum(P(b))}g'), ('Calories', lambda b: fnum(CAL(b))),
@@ -1369,6 +1411,7 @@ def v2_buy_html(b):
 
 def best10_html(picks, *, h2, intro, macros=DEFAULT_CARD_MACROS):
     cards = []
+    amz_card, amz_note = amazon_alt_card_html(picks)
     for i, (s, b, why, _n) in enumerate(picks, 1):
         g = b['score_band']
         mac = ''.join(f'<div class="b10-macro"><span class="b10-macro-val">{f(b)}</span>'
@@ -1380,10 +1423,12 @@ def best10_html(picks, *, h2, intro, macros=DEFAULT_CARD_MACROS):
     <div class="pick-tile-flavor-name">{esc(b['Flavor Name'])}</div>
     <div class="pick-tile-quality"><span class="pick-tile-quality-label">Ingredient Quality</span><span class="table-grade-badge grade-{g}">{g}</span><span class="pick-tile-quality-word">{grade_word(g)}</span></div>
     <div class="b10-macros">{mac}</div>
-    <p class="pick-tile-reason">{esc(why)}</p>
+    <p class="pick-tile-reason">{esc(why)}</p>{amz_note if i == 1 else ''}
   </div>
   <div class="pick-tile-footer"><div class="bar-links">{v2_buy_html(b)}</div></div>
 </div>''')
+        if i == 1 and amz_card:
+            cards.append(amz_card)
     return f'''<div class="section-inner">
       <h2 class="section-title">{esc(h2)}</h2>
       <p class="section-body">{esc(intro)} <a href="#how-we-picked" class="b10-how">How we picked these &rarr;</a></p>
@@ -1606,6 +1651,10 @@ def _spots_rules(n):
 
 def criteria_html(*, qualify_rule, picks, extra_rules=(), n_spots=10):
     slot_rules = '\n'.join(f'<li><strong>{esc(s.label)}:</strong> {esc(s.rule)}</li>' for s, _b, _w, _n in picks)
+    if AMAZON_ALT and picks and picks[0][0].label == 'Best overall':
+        slot_rules += ('\n<li><strong>Best on Amazon:</strong> Shown only when our Best overall pick has no Amazon listing. '
+                       'The same Best overall rule, limited to bars with an Amazon listing. It sits outside the numbered list, '
+                       'so it never takes a spot from another bar.</li>')
     extras = ''.join(f'<li>{esc(x)}</li>' for x in extra_rules)
     return f'''<div class="section-inner">
       <h2 class="section-title">How we picked these</h2>
@@ -2035,3 +2084,6 @@ GUIDE_FILTERS['weight-loss-protein-bars'] = lambda b: ((num(b.get('Protein (g)')
     and num(b.get('Sugars (g)')) is not None and num(b.get('Sugars (g)')) <= 5
     and (num(b.get('Dietary Fiber (g)')) or 0) >= 3)
 GUIDE_FILTERS['high-protein-bars'] = lambda b: (num(b.get('Protein (g)')) or 0) >= 20
+
+# ---- New guide, 2026-10-23 (nut free). Appended; existing filters unchanged.
+GUIDE_FILTERS['nut-free-protein-bars'] = lambda b: b.get('Nut Free (Y/N)') == 'Yes'
